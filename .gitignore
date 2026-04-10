@@ -13,8 +13,12 @@
 # testing
 /coverage
 
-# next.js
-/.next/
+# next.js — pasta de build incluída para deploy sem build no servidor
+# Apenas dev/cache excluídos (são grandes e desnecessários em produção)
+/.next/dev/
+/.next/cache/
+/.next/trace
+/.next/trace-build
 /out/
 
 # production
