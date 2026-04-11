@@ -277,6 +277,11 @@ exports.Prisma.NullableJsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'

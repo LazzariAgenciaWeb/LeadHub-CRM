@@ -1,0 +1,34 @@
+services:
+  app:
+    image: ghcr.io/lazzariagenciaweb/leadhub-crm:latest
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://leadhub:leadhub123@db:5432/leadhub
+      DIRECT_URL: postgresql://leadhub:leadhub123@db:5432/leadhub
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: leadhub
+      POSTGRES_PASSWORD: leadhub123
+      POSTGRES_DB: leadhub
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U leadhub -d leadhub"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
