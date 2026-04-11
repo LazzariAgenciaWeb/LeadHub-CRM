@@ -1,0 +1,3 @@
+{
+  "/api/webhook/whatsapp/route": "app/api/webhook/whatsapp/route.js"
+}
