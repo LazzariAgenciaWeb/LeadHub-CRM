@@ -1,3 +1,0 @@
-module.exports=[91075,a=>{"use strict";var b=a.i(87924),c=a.i(50944),d=a.i(72131);a.s(["default",0,function({id:a,name:e}){let f=(0,c.useRouter)(),[g,h]=(0,d.useState)(!1);async function i(){confirm(`Tem certeza que deseja excluir "${e}"? Todos os dados ser\xe3o apagados.`)&&(h(!0),await fetch(`/api/companies/${a}`,{method:"DELETE"}),h(!1),f.push("/empresas"),f.refresh())}return(0,b.jsx)("button",{onClick:i,disabled:g,className:"text-red-400 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 font-semibold text-sm px-3 py-2 rounded-lg transition-colors disabled:opacity-50",children:g?"Excluindo...":"Excluir"})}])}];
-
-//# sourceMappingURL=src_app_%28admin%29_empresas_%5Bid%5D_DeleteCompanyButton_tsx_0ufthh8._.js.map
