@@ -13,13 +13,8 @@
 # testing
 /coverage
 
-# next.js — standalone commitado para deploy sem build no servidor
-/.next/cache/
-/.next/server/
-/.next/static/
-/.next/trace
-/.next/trace-build
-/.next/dev/
+# next.js
+/.next/
 /out/
 
 # production

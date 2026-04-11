@@ -1,3 +1,0 @@
-{
-  "/api/admin/impersonate/[companyId]/route": "app/api/admin/impersonate/[companyId]/route.js"
-}
