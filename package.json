@@ -12,7 +12,7 @@
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio",
     "setup": "npm run db:push && npm run db:seed",
-    "postinstall": "prisma generate"
+    "postinstall": "next build"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
