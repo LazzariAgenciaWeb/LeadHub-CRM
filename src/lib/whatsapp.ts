@@ -53,8 +53,9 @@ export async function processInboundMessage(payload: {
   body: string;
   externalId?: string;
   rawPayload?: unknown;
+  contactName?: string | null;
 }) {
-  const { instanceName, phone, body, externalId, rawPayload } = payload;
+  const { instanceName, phone, body, externalId, rawPayload, contactName } = payload;
 
   // Achar a instância WhatsApp pelo nome
   const instance = await prisma.whatsappInstance.findFirst({
@@ -139,6 +140,7 @@ export async function processInboundMessage(payload: {
     lead = await prisma.lead.create({
       data: {
         phone,
+        name: contactName ?? null,
         companyId,
         campaignId: campaignId ?? undefined,
         source: campaignSource ?? "whatsapp",
@@ -147,15 +149,21 @@ export async function processInboundMessage(payload: {
         pipelineStage: firstLeadStage?.name ?? null,
       },
     });
-  } else if (shouldUpgradeStatus(lead.status, identifiedAs)) {
-    lead = await prisma.lead.update({
-      where: { id: lead.id },
-      data: {
-        status: identifiedAs,
-        // Se encontrou campanha numa mensagem posterior, vincula
-        ...(campaignId && !lead.campaignId ? { campaignId } : {}),
-      },
-    });
+  } else {
+    // Lead já existe — atualiza nome se ainda não tem e chegou um nome do WhatsApp
+    const needsNameUpdate = !lead.name && contactName;
+    const needsStatusUpdate = shouldUpgradeStatus(lead.status, identifiedAs);
+
+    if (needsNameUpdate || needsStatusUpdate || (campaignId && !lead.campaignId)) {
+      lead = await prisma.lead.update({
+        where: { id: lead.id },
+        data: {
+          ...(needsStatusUpdate ? { status: identifiedAs } : {}),
+          ...(needsNameUpdate ? { name: contactName } : {}),
+          ...(campaignId && !lead.campaignId ? { campaignId } : {}),
+        },
+      });
+    }
   }
 
   // Salvar a mensagem

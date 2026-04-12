@@ -39,6 +39,9 @@ export async function POST(request: NextRequest) {
     const rawPhone = key?.remoteJid ?? "";
     const phone = rawPhone.replace("@s.whatsapp.net", "").replace("@g.us", "");
 
+    // Nome do contato no WhatsApp (pushName vem da Evolution API)
+    const contactName: string | null = data?.pushName ?? data?.verifiedBizName ?? null;
+
     if (!phone || rawPhone.includes("@g.us")) {
       // Ignorar mensagens de grupos por enquanto
       return NextResponse.json({ ok: true, skipped: "group" });
@@ -89,6 +92,7 @@ export async function POST(request: NextRequest) {
       body: body_text,
       externalId: key?.id,
       rawPayload: body,
+      contactName,
     });
 
     return NextResponse.json({
