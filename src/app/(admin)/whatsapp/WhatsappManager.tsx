@@ -82,10 +82,35 @@ export default function WhatsappManager({
   const [search, setSearch] = useState("");
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const selectedConvRef = useRef<Conversation | null>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [convMessages]);
+
+  // Auto-refresh: atualiza mensagens e lista de conversas a cada 5 segundos
+  useEffect(() => {
+    selectedConvRef.current = selectedConv;
+  }, [selectedConv]);
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      // Atualiza a página para recarregar a lista de conversas
+      router.refresh();
+
+      // Atualiza mensagens da conversa selecionada
+      const conv = selectedConvRef.current;
+      if (!conv) return;
+      const params = new URLSearchParams({ phone: conv.phone });
+      if (conv.companyId) params.set("companyId", conv.companyId);
+      const res = await fetch(`/api/whatsapp/messages?${params}`);
+      if (res.ok) {
+        const msgs = await res.json();
+        setConvMessages(msgs);
+      }
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [router]);
 
   const filteredConvs = conversations.filter((c) => {
     if (!search) return true;
