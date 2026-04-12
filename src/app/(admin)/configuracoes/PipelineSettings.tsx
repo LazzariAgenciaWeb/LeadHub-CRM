@@ -43,6 +43,7 @@ export default function PipelineSettings({
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editName, setEditName] = useState("");
   const [editColor, setEditColor] = useState("");
+  const [seeding, setSeeding] = useState<string | null>(null);
 
   const byPipeline = (p: string) =>
     stages.filter((s) => s.pipeline === p).sort((a, b) => a.order - b.order);
@@ -114,6 +115,25 @@ export default function PipelineSettings({
     }
   }
 
+  async function handleSeedStages(pipeline: string, force = false) {
+    if (force && !confirm(`Isso vai apagar as etapas atuais de ${pipeline} e recriar as padrão. Confirma?`)) return;
+    setSeeding(pipeline);
+    const res = await fetch("/api/pipeline/stages/seed", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pipeline, companyId, force }),
+    });
+    if (res.ok) {
+      const { stages: newStages } = await res.json();
+      setStages((prev) => [
+        ...prev.filter((s) => s.pipeline !== pipeline),
+        ...newStages,
+      ]);
+      router.refresh();
+    }
+    setSeeding(null);
+  }
+
   async function handleMoveUp(stage: Stage) {
     const list = byPipeline(stage.pipeline);
     const idx = list.findIndex((s) => s.id === stage.id);
@@ -169,10 +189,30 @@ export default function PipelineSettings({
         const pStages = byPipeline(p.key);
         return (
           <div key={p.key}>
+            {pStages.length > 0 && (
+              <div className="flex justify-end mb-3">
+                <button
+                  onClick={() => handleSeedStages(p.key, true)}
+                  disabled={seeding === p.key}
+                  className="text-slate-600 hover:text-slate-400 text-xs disabled:opacity-50 transition-colors"
+                  title="Apagar etapas atuais e restaurar as padrão"
+                >
+                  {seeding === p.key ? "Restaurando..." : "↺ Restaurar padrão"}
+                </button>
+              </div>
+            )}
             <div className="space-y-2 mb-4">
               {pStages.length === 0 && (
-                <div className="text-center py-6 text-slate-600 text-sm border border-dashed border-[#1e2d45] rounded-xl">
-                  Nenhuma etapa ainda. Adicione abaixo.
+                <div className="text-center py-8 border border-dashed border-[#1e2d45] rounded-xl">
+                  <div className="text-2xl mb-2">🫧</div>
+                  <div className="text-slate-500 text-sm mb-3">Nenhuma etapa configurada.</div>
+                  <button
+                    onClick={() => handleSeedStages(p.key)}
+                    disabled={seeding === p.key}
+                    className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium disabled:opacity-50 transition-colors"
+                  >
+                    {seeding === p.key ? "Criando..." : "✨ Criar etapas padrão"}
+                  </button>
                 </div>
               )}
               {pStages.map((stage, idx) => (
