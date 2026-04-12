@@ -117,6 +117,13 @@ export default function WhatsappManager({
   const [search, setSearch] = useState("");
   const [instanceFilter, setInstanceFilter] = useState("");
 
+  // Vincular prospect
+  const [showLinkProspect, setShowLinkProspect] = useState(false);
+  const [prospectSearch, setProspectSearch] = useState("");
+  const [prospectResults, setProspectResults] = useState<{ id: string; name: string | null; phone: string; pipelineStage: string | null }[]>([]);
+  const [searchingProspect, setSearchingProspect] = useState(false);
+  const [linkingProspect, setLinkingProspect] = useState(false);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const selectedConvRef = useRef<Conversation | null>(null);
 
@@ -324,6 +331,49 @@ export default function WhatsappManager({
       ]);
       setReplyText("");
     }
+  }
+
+  async function searchProspects(q: string) {
+    if (!q.trim() || !selectedConv) return;
+    setSearchingProspect(true);
+    const params = new URLSearchParams({
+      pipeline: "PROSPECCAO",
+      search: q.trim(),
+      companyId: selectedConv.companyId,
+      limit: "8",
+    });
+    const res = await fetch(`/api/leads?${params}`);
+    if (res.ok) {
+      const data = await res.json();
+      setProspectResults(data.leads ?? []);
+    }
+    setSearchingProspect(false);
+  }
+
+  async function handleLinkProspect(prospectId: string) {
+    if (!selectedConv) return;
+    setLinkingProspect(true);
+    // Atualiza o prospect: adiciona o telefone da conversa e vincula as mensagens
+    await fetch(`/api/leads/${prospectId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone: selectedConv.phone }),
+    });
+    // Vincula as mensagens desse telefone ao prospect
+    await fetch("/api/whatsapp/link-prospect", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        phone: selectedConv.phone,
+        companyId: selectedConv.companyId,
+        leadId: prospectId,
+      }),
+    });
+    setLinkingProspect(false);
+    setShowLinkProspect(false);
+    setProspectSearch("");
+    setProspectResults([]);
+    router.refresh();
   }
 
   function formatTime(dt: string) {
@@ -576,18 +626,33 @@ export default function WhatsappManager({
                 <div className="flex items-center gap-2 flex-shrink-0 flex-wrap justify-end">
                   {selectedConv.lead ? (
                     <>
-                      <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${LEAD_STATUS_COLOR[selectedConv.lead.status] ?? ""}`}>
-                        🎯 Lead — {LEAD_STATUS_LABEL[selectedConv.lead.status] ?? selectedConv.lead.status}
+                      <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${
+                        selectedConv.lead.status === "PROSPECCAO" || !LEAD_STATUS_COLOR[selectedConv.lead.status]
+                          ? "text-violet-400 bg-violet-500/15"
+                          : LEAD_STATUS_COLOR[selectedConv.lead.status]
+                      }`}>
+                        {selectedConv.lead.status === "PROSPECCAO" ? "🔎 Prospect" : `🎯 Lead — ${LEAD_STATUS_LABEL[selectedConv.lead.status] ?? selectedConv.lead.status}`}
                       </span>
-                      <Link href={`/leads`} className="text-indigo-400 text-xs hover:underline">
-                        Ver lead →
+                      <Link href="/crm/leads" className="text-indigo-400 text-xs hover:underline">
+                        Ver CRM →
                       </Link>
                     </>
                   ) : (
                     <>
+                      {/* Vincular a prospect existente */}
+                      <button
+                        onClick={() => { setShowLinkProspect(!showLinkProspect); setShowConvertForm(false); setShowTicketForm(false); setProspectSearch(""); setProspectResults([]); }}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                          showLinkProspect
+                            ? "bg-violet-500/20 text-violet-300 border border-violet-500/30"
+                            : "bg-[#0f1623] border border-[#1e2d45] text-slate-300 hover:text-white hover:border-violet-500/50"
+                        }`}
+                      >
+                        🔎 Vincular Prospect
+                      </button>
                       {/* Botão criar lead */}
                       <button
-                        onClick={() => { setShowConvertForm(!showConvertForm); setShowTicketForm(false); }}
+                        onClick={() => { setShowConvertForm(!showConvertForm); setShowTicketForm(false); setShowLinkProspect(false); }}
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                           showConvertForm
                             ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"
@@ -598,7 +663,7 @@ export default function WhatsappManager({
                       </button>
                       {/* Botão abrir chamado */}
                       <button
-                        onClick={() => { setShowTicketForm(!showTicketForm); setShowConvertForm(false); }}
+                        onClick={() => { setShowTicketForm(!showTicketForm); setShowConvertForm(false); setShowLinkProspect(false); }}
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                           showTicketForm
                             ? "bg-orange-500/20 text-orange-300 border border-orange-500/30"
@@ -629,6 +694,56 @@ export default function WhatsappManager({
                   )}
                 </div>
               </div>
+
+              {/* Painel: Vincular Prospect */}
+              {showLinkProspect && !selectedConv.lead && (
+                <div className="px-5 py-3.5 border-b border-[#1e2d45] bg-violet-500/5 flex-shrink-0">
+                  <p className="text-violet-400 text-xs font-semibold mb-3">🔎 Vincular a um Prospect existente</p>
+                  <div className="flex gap-2 mb-3">
+                    <input
+                      autoFocus
+                      type="text"
+                      value={prospectSearch}
+                      onChange={(e) => setProspectSearch(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && searchProspects(prospectSearch)}
+                      placeholder="Buscar por nome ou telefone..."
+                      className="flex-1 bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-violet-500"
+                    />
+                    <button
+                      onClick={() => searchProspects(prospectSearch)}
+                      disabled={searchingProspect}
+                      className="px-3 py-1.5 rounded-lg bg-violet-600 text-white text-xs font-medium hover:bg-violet-500 disabled:opacity-50"
+                    >
+                      {searchingProspect ? "..." : "Buscar"}
+                    </button>
+                  </div>
+                  {prospectResults.length > 0 && (
+                    <div className="space-y-1.5 max-h-48 overflow-y-auto">
+                      {prospectResults.map((p) => (
+                        <div key={p.id} className="flex items-center justify-between bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2">
+                          <div>
+                            <div className="text-white text-xs font-semibold">{p.name ?? "Sem nome"}</div>
+                            <div className="text-slate-500 text-[10px]">{p.phone} {p.pipelineStage ? `· ${p.pipelineStage}` : ""}</div>
+                          </div>
+                          <button
+                            onClick={() => handleLinkProspect(p.id)}
+                            disabled={linkingProspect}
+                            className="px-3 py-1 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-xs font-medium disabled:opacity-50 transition-colors"
+                          >
+                            {linkingProspect ? "..." : "Vincular"}
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {prospectSearch && !searchingProspect && prospectResults.length === 0 && (
+                    <p className="text-slate-600 text-xs text-center py-2">Nenhum prospect encontrado. Tente outro termo.</p>
+                  )}
+                  <p className="text-slate-600 text-[10px] mt-2">
+                    Ao vincular, o telefone da conversa será associado ao prospect e as mensagens ficarão vinculadas.
+                  </p>
+                </div>
+              )}
 
               {/* Form: Criar Lead */}
               {showConvertForm && !selectedConv.lead && (

@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-// GET /api/leads?companyId=&status=&campaignId=&search=&page=&limit=
+// GET /api/leads?companyId=&status=&campaignId=&pipeline=&search=&page=&limit=
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -17,6 +17,7 @@ export async function GET(req: NextRequest) {
   const companyId = searchParams.get("companyId");
   const status = searchParams.get("status");
   const campaignId = searchParams.get("campaignId");
+  const pipeline = searchParams.get("pipeline");
   const search = searchParams.get("search");
   const page = parseInt(searchParams.get("page") ?? "1");
   const limit = parseInt(searchParams.get("limit") ?? "50");
@@ -29,6 +30,7 @@ export async function GET(req: NextRequest) {
   if (effectiveCompanyId) where.companyId = effectiveCompanyId;
   if (status) where.status = status;
   if (campaignId) where.campaignId = campaignId;
+  if (pipeline) where.pipeline = pipeline;
   if (search) {
     where.OR = [
       { name: { contains: search } },
