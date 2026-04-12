@@ -36,12 +36,14 @@ export async function GET(
     if (!code) return;
     try {
       var body = JSON.stringify({ linkCode: code, targetUrl: targetUrl, targetLabel: targetLabel });
-      // Usa text/plain no sendBeacon para evitar preflight CORS cross-origin
-      if (navigator.sendBeacon) {
-        navigator.sendBeacon(ENDPOINT, new Blob([body], { type: 'text/plain' }));
-      } else {
-        fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, keepalive: true }).catch(function(){});
-      }
+      // credentials:'omit' evita o erro "wildcard + credentials" no CORS
+      fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: body,
+        keepalive: true,
+        credentials: 'omit'
+      }).catch(function(){});
     } catch(e) {}
   }
 
