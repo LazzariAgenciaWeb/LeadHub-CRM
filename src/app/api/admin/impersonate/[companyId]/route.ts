@@ -15,7 +15,8 @@ export async function GET(
 
   const { companyId } = await params;
 
-  const res = NextResponse.redirect(new URL("/dashboard", _req.url));
+  const baseUrl = process.env.NEXTAUTH_URL ?? `https://${_req.headers.get("host")}`;
+  const res = NextResponse.redirect(new URL("/dashboard", baseUrl));
   res.cookies.set(IMPERSONATE_COOKIE, companyId, {
     httpOnly: true,
     sameSite: "lax",
