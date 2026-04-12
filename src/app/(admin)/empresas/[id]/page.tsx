@@ -29,22 +29,28 @@ export default async function EmpresaDetailPage({
 
   if (!company) notFound();
 
-  const leads = await prisma.lead.groupBy({
-    by: ["status"],
-    where: { companyId: id },
-    _count: true,
+  const [prospeccaoCount, leadsCount, oportunidadesCount, totalLeads] = await Promise.all([
+    prisma.lead.count({ where: { companyId: id, pipeline: "PROSPECCAO" } }),
+    prisma.lead.count({ where: { companyId: id, pipeline: "LEADS" } }),
+    prisma.lead.count({ where: { companyId: id, pipeline: "OPORTUNIDADES" } }),
+    prisma.lead.count({ where: { companyId: id } }),
+  ]);
+
+  // Vendas = oportunidades em etapas finais positivas
+  const wonStages = await prisma.pipelineStageConfig.findMany({
+    where: { companyId: id, pipeline: "OPORTUNIDADES", isFinal: true, NOT: [{ name: { contains: "Perdido" } }, { name: { contains: "❌" } }] },
+    select: { name: true },
   });
+  const vendas = wonStages.length > 0
+    ? await prisma.lead.count({ where: { companyId: id, pipeline: "OPORTUNIDADES", pipelineStage: { in: wonStages.map(s => s.name) } } })
+    : 0;
 
-  const statusMap: Record<string, number> = {};
-  leads.forEach((l) => { statusMap[l.status] = l._count; });
-
-  const statusLabel: Record<string, { label: string; color: string }> = {
-    NEW: { label: "Novos", color: "text-indigo-400" },
-    CONTACTED: { label: "Em Contato", color: "text-blue-400" },
-    PROPOSAL: { label: "Proposta", color: "text-yellow-400" },
-    CLOSED: { label: "Fechados", color: "text-green-400" },
-    LOST: { label: "Perdidos", color: "text-red-400" },
-  };
+  const pipelineFunnel = [
+    { label: "Prospectos",    value: prospeccaoCount,    color: "text-violet-400" },
+    { label: "Leads",         value: leadsCount,          color: "text-indigo-400" },
+    { label: "Oportunidades", value: oportunidadesCount,  color: "text-amber-400"  },
+    { label: "Vendas",        value: vendas,              color: "text-green-400"  },
+  ];
 
   const sourceIcon: Record<string, string> = {
     WHATSAPP: "💬",
@@ -136,23 +142,21 @@ export default async function EmpresaDetailPage({
           </div>
         </div>
 
-        {/* Lead Funnel */}
+        {/* Funil CRM */}
         <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-4">
           <h3 className="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-3">
-            Funil de Leads
+            Funil CRM
           </h3>
           <div className="flex flex-col gap-2">
-            {Object.entries(statusLabel).map(([key, s]) => (
-              <div key={key} className="flex items-center justify-between">
-                <span className="text-slate-400 text-xs">{s.label}</span>
-                <span className={`font-bold text-sm ${s.color}`}>
-                  {statusMap[key] ?? 0}
-                </span>
+            {pipelineFunnel.map((row) => (
+              <div key={row.label} className="flex items-center justify-between">
+                <span className="text-slate-400 text-xs">{row.label}</span>
+                <span className={`font-bold text-sm ${row.color}`}>{row.value}</span>
               </div>
             ))}
             <div className="border-t border-[#1e2d45] pt-2 mt-1 flex items-center justify-between">
               <span className="text-slate-400 text-xs font-semibold">Total</span>
-              <span className="text-white font-bold text-sm">{company._count.leads}</span>
+              <span className="text-white font-bold text-sm">{totalLeads}</span>
             </div>
           </div>
         </div>

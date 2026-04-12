@@ -2,6 +2,7 @@
 
 import { useState, useTransition, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import ImportExcel from "./ImportExcel";
 
 export interface PipelineStage {
   id: string;
@@ -282,6 +283,7 @@ export default function CRMBoard({
               )}
             </div>
           )}
+          <ImportExcel pipeline={pipeline} />
           <button
             onClick={() => { setShowAddModal(true); setAddError(""); }}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors flex-shrink-0"
