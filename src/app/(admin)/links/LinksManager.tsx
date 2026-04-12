@@ -518,28 +518,39 @@ export default function LinksManager({
                     {isExpanded && link.clickEvents.length > 0 && (
                       <div className="border-t border-[#1e2d45]/50 bg-[#080b12] px-4 py-3">
                         <p className="text-amber-400 text-[10px] font-semibold uppercase tracking-wide mb-2">
-                          Cliques internos ({link._count.clickEvents})
+                          Cliques internos ({link._count.clickEvents}) — mais recentes primeiro
                         </p>
-                        <div className="space-y-1.5">
-                          {(() => {
-                            const grouped: Record<string, { url: string; label: string | null; count: number }> = {};
-                            link.clickEvents.forEach(ev => {
-                              const key = ev.targetUrl;
-                              if (!grouped[key]) grouped[key] = { url: ev.targetUrl, label: ev.targetLabel, count: 0 };
-                              grouped[key].count++;
-                            });
-                            return Object.values(grouped)
-                              .sort((a, b) => b.count - a.count)
-                              .map((item, i) => (
-                                <div key={i} className="flex items-center justify-between gap-3">
+                        <div className="space-y-0">
+                          {[...link.clickEvents]
+                            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                            .map((ev, i) => {
+                              const dt = new Date(ev.createdAt);
+                              const date = dt.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" });
+                              const time = dt.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+                              const isWa = ev.targetLabel?.startsWith("WhatsApp");
+                              return (
+                                <div key={ev.id} className={`flex items-start gap-3 py-2 ${i < link.clickEvents.length - 1 ? "border-b border-[#1e2d45]/30" : ""}`}>
+                                  {/* Ícone */}
+                                  <span className="flex-shrink-0 text-sm mt-0.5">{isWa ? "💬" : "🖱️"}</span>
+                                  {/* Info */}
                                   <div className="flex-1 min-w-0">
-                                    {item.label && <span className="text-slate-300 text-[11px] font-medium mr-1.5">{item.label}</span>}
-                                    <span className="text-slate-600 text-[10px] truncate block max-w-[400px]">{item.url}</span>
+                                    {ev.targetLabel && (
+                                      <p className={`text-[11px] font-medium leading-tight ${isWa ? "text-green-400" : "text-slate-200"}`}>
+                                        {ev.targetLabel}
+                                      </p>
+                                    )}
+                                    {ev.targetUrl && ev.targetUrl !== window?.location?.href && (
+                                      <p className="text-slate-600 text-[10px] truncate max-w-[380px] mt-0.5">{ev.targetUrl}</p>
+                                    )}
                                   </div>
-                                  <span className="flex-shrink-0 text-amber-400 font-bold text-xs">{item.count}×</span>
+                                  {/* Data e hora */}
+                                  <div className="flex-shrink-0 text-right">
+                                    <p className="text-amber-400 text-[11px] font-mono">{time}</p>
+                                    <p className="text-slate-600 text-[10px]">{date}</p>
+                                  </div>
                                 </div>
-                              ));
-                          })()}
+                              );
+                            })}
                         </div>
                       </div>
                     )}
