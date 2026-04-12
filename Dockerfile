@@ -1,5 +1,6 @@
 FROM node:20-alpine AS base
-RUN apk add --no-cache libc6-compat openssl
+RUN apk update && apk add --no-cache libc6-compat openssl openssl-dev || \
+    apk add --no-cache libc6-compat
 
 # ─── Instalar dependências ─────────────────────────────────────────────────────
 FROM base AS deps
