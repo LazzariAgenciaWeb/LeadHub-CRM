@@ -1,6 +1,7 @@
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import CRMCharts from "./CRMCharts";
 
 export default async function DashboardPage() {
   const session = await getEffectiveSession();
@@ -23,6 +24,43 @@ export default async function DashboardPage() {
     : null;
 
   const conversionRate = leads > 0 ? ((converted / leads) * 100).toFixed(1) : "0";
+
+  // Dados CRM — funil e gráfico de linha
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 29);
+  thirtyDaysAgo.setHours(0, 0, 0, 0);
+
+  const [prospeccaoCount, leadsCount, oportunidadesCount, crmDailyRaw] = await Promise.all([
+    prisma.lead.count({ where: { ...where, pipeline: "PROSPECCAO" } }),
+    prisma.lead.count({ where: { ...where, pipeline: "LEADS" } }),
+    prisma.lead.count({ where: { ...where, pipeline: "OPORTUNIDADES" } }),
+    prisma.lead.findMany({
+      where: {
+        ...where,
+        pipeline: { in: ["PROSPECCAO", "LEADS", "OPORTUNIDADES"] },
+        createdAt: { gte: thirtyDaysAgo },
+      },
+      select: { createdAt: true, pipeline: true },
+      orderBy: { createdAt: "asc" },
+    }),
+  ]);
+
+  // Monta série diária dos últimos 30 dias
+  const dayMap: Record<string, { prospeccao: number; leads: number; oportunidades: number }> = {};
+  for (let i = 0; i < 30; i++) {
+    const d = new Date(thirtyDaysAgo);
+    d.setDate(d.getDate() + i);
+    const key = d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
+    dayMap[key] = { prospeccao: 0, leads: 0, oportunidades: 0 };
+  }
+  for (const row of crmDailyRaw) {
+    const key = new Date(row.createdAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
+    if (!dayMap[key]) continue;
+    if (row.pipeline === "PROSPECCAO") dayMap[key].prospeccao++;
+    else if (row.pipeline === "LEADS") dayMap[key].leads++;
+    else if (row.pipeline === "OPORTUNIDADES") dayMap[key].oportunidades++;
+  }
+  const dailyData = Object.entries(dayMap).map(([date, v]) => ({ date, ...v }));
 
   // Últimos leads
   const recentLeads = await prisma.lead.findMany({
@@ -145,6 +183,12 @@ export default async function DashboardPage() {
           <div className="text-[11px] text-orange-400 mt-1">Todos os links</div>
         </div>
       </div>
+
+      {/* Funil CRM + Gráfico de linha */}
+      <CRMCharts
+        funnel={{ prospeccao: prospeccaoCount, leads: leadsCount, oportunidades: oportunidadesCount }}
+        dailyData={dailyData}
+      />
 
       {/* Segunda linha: Links + Mensagens recentes */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
