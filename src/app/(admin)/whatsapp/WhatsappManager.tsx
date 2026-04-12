@@ -439,13 +439,33 @@ export default function WhatsappManager({
       : d.toLocaleDateString("pt-BR");
   }
 
-  // Borda de urgência baseada em tempo sem resposta (só quando última msg é INBOUND)
-  function getUrgencyBorder(conv: Conversation): string {
-    if (conv.lastMsg?.direction !== "INBOUND") return "";
-    const mins = Math.floor((Date.now() - new Date(conv.lastMsg.receivedAt).getTime()) / 60_000);
-    if (mins >= 20) return "border-l-2 border-l-red-500";
-    if (mins >= 5)  return "border-l-2 border-l-yellow-500";
-    return "border-l-2 border-l-green-500";
+  // Anel de urgência no avatar — cor por tempo sem resposta + prioridade do pipeline
+  function getUrgencyRing(conv: Conversation): { ring: string; icon: string; pulse: boolean } {
+    const isInbound = conv.lastMsg?.direction === "INBOUND";
+    const pipeline  = conv.lead?.pipeline;
+    const status    = conv.lead?.attendanceStatus;
+
+    // Resolvido / Em Atendimento / Agendado → anel de status, sem urgência
+    if (status === "RESOLVED")    return { ring: "ring-1 ring-green-600/50",  icon: "✅", pulse: false };
+    if (status === "IN_PROGRESS") return { ring: "ring-2 ring-blue-500",      icon: "💬", pulse: false };
+    if (status === "SCHEDULED")   return { ring: "ring-2 ring-purple-500/70", icon: "📅", pulse: false };
+
+    // Prospecção: nós quem contactamos — só urgente se ELE respondeu (INBOUND)
+    if (pipeline === "PROSPECCAO" && !isInbound) return { ring: "ring-1 ring-white/5", icon: "", pulse: false };
+
+    // Sem mensagem recebida = sem urgência
+    if (!isInbound) return { ring: "ring-1 ring-white/5", icon: "", pulse: false };
+
+    // Calcula minutos aguardando
+    const mins = Math.floor((Date.now() - new Date(conv.lastMsg!.receivedAt).getTime()) / 60_000);
+
+    // Oportunidades: thresholds mais curtos (mais urgente)
+    const yellowAt = pipeline === "OPORTUNIDADES" ? 3 : 5;
+    const redAt    = pipeline === "OPORTUNIDADES" ? 10 : 20;
+
+    if (mins >= redAt)    return { ring: "ring-2 ring-red-500",    icon: "⏳", pulse: true  };
+    if (mins >= yellowAt) return { ring: "ring-2 ring-yellow-500", icon: "⏳", pulse: false };
+    return                       { ring: "ring-2 ring-green-500",  icon: "⏳", pulse: false };
   }
 
   // Parse notes into individual entries for display
@@ -571,84 +591,68 @@ export default function WhatsappManager({
               {filteredConvs.map((conv) => {
                 const instanceName = conv.lastMsg?.instance?.instanceName;
                 const isSelected = selectedConv?.phone === conv.phone;
+                const { ring, icon, pulse } = getUrgencyRing(conv);
                 return (
                   <button
                     key={conv.phone}
                     onClick={() => loadConversation(conv)}
                     className={`w-full text-left px-4 py-3 hover:bg-white/[0.03] transition-colors ${
-                      isSelected
-                        ? "bg-indigo-500/10 border-l-2 border-l-indigo-500"
-                        : getUrgencyBorder(conv)
+                      isSelected ? "bg-indigo-500/10" : ""
                     }`}
-                  >
-                    {/* Linha 1: avatar + nome + horário */}
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="flex items-center gap-2 min-w-0">
-                        {/* Avatar com dot de não lido */}
-                        <div className="relative w-8 h-8 flex-shrink-0">
-                          <div className="w-8 h-8 rounded-full bg-[#1e2d45] flex items-center justify-center text-xs font-bold text-slate-400">
-                            {conv.phone.slice(-2)}
-                          </div>
-                          {conv.lastMsg?.direction === "INBOUND" && (
-                            <span className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-red-500 border-2 border-[#0c1220] animate-pulse" title="Aguardando resposta" />
-                          )}
-                        </div>
-                        <div className="min-w-0">
-                          <div className="text-white text-[13px] font-semibold truncate">
-                            {conv.lead?.name ?? conv.phone}
-                          </div>
-                          {conv.lead?.name && (
-                            <div className="text-slate-600 text-[10px]">{conv.phone}</div>
-                          )}
-                        </div>
-                      </div>
-                      <span className="text-slate-600 text-[10px] flex-shrink-0 ml-2">
-                        {conv.lastMsg ? formatTime(conv.lastMsg.receivedAt) : ""}
-                      </span>
-                    </div>
+                      >
+                        {/* Linha 1: avatar-col + nome + horário */}
+                        <div className="flex items-start justify-between mb-1">
+                          <div className="flex items-start gap-2.5 min-w-0">
 
-                    {/* Linha 2: prévia da mensagem */}
-                    {conv.lastMsg && (
-                      <div className="text-slate-500 text-[11px] truncate pl-10">
-                        {conv.lastMsg.direction === "OUTBOUND" ? "→ " : ""}{conv.lastMsg.body}
-                      </div>
-                    )}
+                            {/* Avatar: anel colorido de urgência + ícone de status abaixo */}
+                            <div className="flex flex-col items-center gap-0.5 flex-shrink-0 w-8">
+                              <div className={`w-8 h-8 rounded-full bg-[#1e2d45] flex items-center justify-center text-[11px] font-bold text-slate-300 ${ring} ${pulse ? "animate-pulse" : ""}`}>
+                                {conv.phone.slice(-2)}
+                              </div>
+                              {icon && (
+                                <span className="text-[11px] leading-none select-none">{icon}</span>
+                              )}
+                            </div>
 
-                    {/* Linha 3: pipeline badge + instância */}
-                    <div className="flex items-center gap-2 mt-1.5 pl-10 flex-wrap">
-                      {conv.lead?.pipeline ? (
-                        <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${PIPELINE_BADGE[conv.lead.pipeline] ?? "text-slate-400 bg-white/5"}`}>
-                          {PIPELINE_LABEL[conv.lead.pipeline] ?? conv.lead.pipeline}
-                          {conv.lead.pipelineStage ? ` · ${conv.lead.pipelineStage}` : ""}
-                        </span>
-                      ) : conv.lead ? (
-                        <span className="text-[10px] text-slate-500 bg-white/5 px-1.5 py-0.5 rounded-full">🎯 Lead</span>
-                      ) : (
-                        <span className="text-[10px] text-slate-600 bg-white/5 px-1.5 py-0.5 rounded-full">Sem tipo</span>
-                      )}
-                      {/* Badge de atendimento — sempre mostra se há lead ou msg inbound */}
-                      {(() => {
-                        const status = conv.lead?.attendanceStatus
-                          ?? (conv.lastMsg?.direction === "INBOUND" ? "WAITING" : null);
-                        if (!status) return null;
-                        const a = ATTENDANCE[status];
-                        const color =
-                          status === "WAITING"     ? "text-yellow-400 bg-yellow-500/15 border border-yellow-500/20" :
-                          status === "IN_PROGRESS" ? "text-blue-400 bg-blue-500/15 border border-blue-500/20" :
-                          status === "RESOLVED"    ? "text-green-400 bg-green-500/15 border border-green-500/20" :
-                                                    "text-purple-400 bg-purple-500/15 border border-purple-500/20";
-                        return (
-                          <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-semibold ${color}`}>
-                            {a?.icon} {a?.label}
+                            {/* Nome + telefone */}
+                            <div className="min-w-0 pt-0.5">
+                              <div className="text-white text-[13px] font-semibold truncate leading-tight">
+                                {conv.lead?.name ?? conv.phone}
+                              </div>
+                              {conv.lead?.name && (
+                                <div className="text-slate-600 text-[10px] leading-tight">{conv.phone}</div>
+                              )}
+                            </div>
+                          </div>
+
+                          <span className="text-slate-600 text-[10px] flex-shrink-0 ml-2 pt-0.5">
+                            {conv.lastMsg ? formatTime(conv.lastMsg.receivedAt) : ""}
                           </span>
-                        );
-                      })()}
-                      {instanceName && (
-                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full border font-medium ${getInstanceBadgeColor(instanceName)}`}>
-                          {instanceName}
-                        </span>
-                      )}
-                    </div>
+                        </div>
+
+                        {/* Linha 2: prévia da mensagem */}
+                        {conv.lastMsg && (
+                          <div className="text-slate-500 text-[11px] truncate pl-[42px]">
+                            {conv.lastMsg.direction === "OUTBOUND" ? "→ " : ""}{conv.lastMsg.body}
+                          </div>
+                        )}
+
+                        {/* Linha 3: pipeline + instância (sem badge de atendimento — está no ícone do avatar) */}
+                        <div className="flex items-center gap-1.5 mt-1.5 pl-[42px] flex-wrap">
+                          {conv.lead?.pipeline ? (
+                            <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${PIPELINE_BADGE[conv.lead.pipeline] ?? "text-slate-400 bg-white/5"}`}>
+                              {PIPELINE_LABEL[conv.lead.pipeline] ?? conv.lead.pipeline}
+                              {conv.lead.pipelineStage ? ` · ${conv.lead.pipelineStage}` : ""}
+                            </span>
+                          ) : (
+                            <span className="text-[10px] text-slate-600 bg-white/5 px-1.5 py-0.5 rounded-full">Sem tipo</span>
+                          )}
+                          {instanceName && (
+                            <span className={`text-[10px] px-1.5 py-0.5 rounded-full border font-medium ${getInstanceBadgeColor(instanceName)}`}>
+                              {instanceName}
+                            </span>
+                          )}
+                        </div>
                   </button>
                 );
               })}
