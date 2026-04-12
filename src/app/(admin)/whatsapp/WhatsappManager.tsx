@@ -143,6 +143,13 @@ export default function WhatsappManager({
   const [expectedReturn, setExpectedReturn] = useState<string>("");
   const [savingAttendance, setSavingAttendance] = useState(false);
 
+  // Tick a cada 30s para atualizar as bordas de urgência sem aguardar o router.refresh
+  const [, setTick] = useState(0);
+  useEffect(() => {
+    const iv = setInterval(() => setTick((t) => t + 1), 30_000);
+    return () => clearInterval(iv);
+  }, []);
+
   // Vincular prospect
   const [showLinkProspect, setShowLinkProspect] = useState(false);
   const [prospectSearch, setProspectSearch] = useState("");
@@ -432,6 +439,15 @@ export default function WhatsappManager({
       : d.toLocaleDateString("pt-BR");
   }
 
+  // Borda de urgência baseada em tempo sem resposta (só quando última msg é INBOUND)
+  function getUrgencyBorder(conv: Conversation): string {
+    if (conv.lastMsg?.direction !== "INBOUND") return "";
+    const mins = Math.floor((Date.now() - new Date(conv.lastMsg.receivedAt).getTime()) / 60_000);
+    if (mins >= 20) return "border-l-2 border-l-red-500";
+    if (mins >= 5)  return "border-l-2 border-l-yellow-500";
+    return "border-l-2 border-l-green-500";
+  }
+
   // Parse notes into individual entries for display
   const parsedNotes = useMemo(() => {
     if (!leadNotes) return [];
@@ -560,7 +576,9 @@ export default function WhatsappManager({
                     key={conv.phone}
                     onClick={() => loadConversation(conv)}
                     className={`w-full text-left px-4 py-3 hover:bg-white/[0.03] transition-colors ${
-                      isSelected ? "bg-indigo-500/10 border-l-2 border-l-indigo-500" : ""
+                      isSelected
+                        ? "bg-indigo-500/10 border-l-2 border-l-indigo-500"
+                        : getUrgencyBorder(conv)
                     }`}
                   >
                     {/* Linha 1: avatar + nome + horário */}
@@ -608,16 +626,23 @@ export default function WhatsappManager({
                       ) : (
                         <span className="text-[10px] text-slate-600 bg-white/5 px-1.5 py-0.5 rounded-full">Sem tipo</span>
                       )}
-                      {conv.lead?.attendanceStatus && (
-                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${
-                          conv.lead.attendanceStatus === "WAITING"     ? "text-yellow-400 bg-yellow-500/15" :
-                          conv.lead.attendanceStatus === "IN_PROGRESS" ? "text-blue-400 bg-blue-500/15" :
-                          conv.lead.attendanceStatus === "RESOLVED"    ? "text-green-400 bg-green-500/15" :
-                          "text-purple-400 bg-purple-500/15"
-                        }`}>
-                          {ATTENDANCE[conv.lead.attendanceStatus]?.icon} {ATTENDANCE[conv.lead.attendanceStatus]?.label}
-                        </span>
-                      )}
+                      {/* Badge de atendimento — sempre mostra se há lead ou msg inbound */}
+                      {(() => {
+                        const status = conv.lead?.attendanceStatus
+                          ?? (conv.lastMsg?.direction === "INBOUND" ? "WAITING" : null);
+                        if (!status) return null;
+                        const a = ATTENDANCE[status];
+                        const color =
+                          status === "WAITING"     ? "text-yellow-400 bg-yellow-500/15 border border-yellow-500/20" :
+                          status === "IN_PROGRESS" ? "text-blue-400 bg-blue-500/15 border border-blue-500/20" :
+                          status === "RESOLVED"    ? "text-green-400 bg-green-500/15 border border-green-500/20" :
+                                                    "text-purple-400 bg-purple-500/15 border border-purple-500/20";
+                        return (
+                          <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-semibold ${color}`}>
+                            {a?.icon} {a?.label}
+                          </span>
+                        );
+                      })()}
                       {instanceName && (
                         <span className={`text-[10px] px-1.5 py-0.5 rounded-full border font-medium ${getInstanceBadgeColor(instanceName)}`}>
                           {instanceName}
