@@ -17,6 +17,7 @@ export interface CRMLead {
   name: string | null;
   phone: string;
   email: string | null;
+  notes: string | null;
   source: string | null;
   pipeline: string | null;
   pipelineStage: string | null;
@@ -79,6 +80,10 @@ export default function CRMBoard({
   const [addForm, setAddForm] = useState({ name: "", phone: "", notes: "", value: "" });
   const [addSaving, setAddSaving] = useState(false);
   const [addError, setAddError] = useState("");
+
+  // BDR Sync
+  const [syncing, setSyncing] = useState(false);
+  const [syncResult, setSyncResult] = useState<{ imported: number; skipped: number; total: number } | null>(null);
 
   const pipelineInfo = PIPELINE_LABELS[pipeline] ?? { label: pipeline, icon: "🫧", color: "#6366f1" };
 
@@ -207,6 +212,20 @@ export default function CRMBoard({
     setAddSaving(false);
   }
 
+  async function handleBdrSync() {
+    setSyncing(true);
+    setSyncResult(null);
+    const res = await fetch("/api/sync/bdr", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({}),
+    });
+    const data = await res.json();
+    setSyncResult(data);
+    if (data.imported > 0) startTransition(() => router.refresh());
+    setSyncing(false);
+  }
+
   function onDrop(e: React.DragEvent, stageName: string) {
     e.preventDefault();
     setDragOverStage(null);
@@ -245,6 +264,24 @@ export default function CRMBoard({
             placeholder="Buscar..."
             className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 w-48"
           />
+          {pipeline === "PROSPECCAO" && (
+            <div className="flex flex-col items-end gap-1">
+              <button
+                onClick={handleBdrSync}
+                disabled={syncing}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors flex-shrink-0 disabled:opacity-60"
+              >
+                {syncing ? "⏳ Importando..." : "☁️ Importar Supabase"}
+              </button>
+              {syncResult && (
+                <span className="text-[10px] text-slate-400">
+                  {syncResult.imported > 0
+                    ? `✅ ${syncResult.imported} importados`
+                    : `ℹ️ Nenhum novo (${syncResult.skipped} já existiam)`}
+                </span>
+              )}
+            </div>
+          )}
           <button
             onClick={() => { setShowAddModal(true); setAddError(""); }}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors flex-shrink-0"
@@ -493,6 +530,48 @@ export default function CRMBoard({
                   </div>
                 )}
               </div>
+
+              {/* Notas do BDR / informações do prospect */}
+              {selected.notes && (
+                <div className="bg-violet-500/5 border border-violet-500/20 rounded-xl p-4 space-y-3">
+                  <div className="text-violet-400 text-[10px] font-semibold uppercase tracking-wide">
+                    📋 Informações do Prospect
+                  </div>
+                  {selected.notes.split("\n\n").map((block, i) => {
+                    const lines = block.split("\n");
+                    return (
+                      <div key={i} className="space-y-1">
+                        {lines.map((line, j) => {
+                          // Links clicáveis para site e instagram
+                          const urlMatch = line.match(/(https?:\/\/[^\s]+)/);
+                          const isInstagram = line.startsWith("📸");
+                          const isSite = line.startsWith("🌐");
+                          const isMensagem = line.startsWith("📨");
+                          return (
+                            <div key={j} className={`text-xs leading-relaxed ${isMensagem ? "text-slate-300 bg-[#0a0f1a] rounded p-2 italic" : "text-slate-400"}`}>
+                              {urlMatch ? (
+                                <>
+                                  {line.substring(0, line.indexOf(urlMatch[0]))}
+                                  <a
+                                    href={urlMatch[0]}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={`underline ${isSite ? "text-cyan-400 hover:text-cyan-300" : isInstagram ? "text-pink-400 hover:text-pink-300" : "text-indigo-400"}`}
+                                  >
+                                    {urlMatch[0]}
+                                  </a>
+                                </>
+                              ) : (
+                                line
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
 
               {/* Valor (só em Oportunidades) */}
               {pipeline === "OPORTUNIDADES" && (
