@@ -7907,6 +7907,8 @@ export namespace Prisma {
     pipeline: string | null
     pipelineStage: string | null
     externalId: string | null
+    attendanceStatus: string | null
+    expectedReturnAt: Date | null
     companyId: string | null
     campaignId: string | null
     trackingLinkId: string | null
@@ -7926,6 +7928,8 @@ export namespace Prisma {
     pipeline: string | null
     pipelineStage: string | null
     externalId: string | null
+    attendanceStatus: string | null
+    expectedReturnAt: Date | null
     companyId: string | null
     campaignId: string | null
     trackingLinkId: string | null
@@ -7945,6 +7949,8 @@ export namespace Prisma {
     pipeline: number
     pipelineStage: number
     externalId: number
+    attendanceStatus: number
+    expectedReturnAt: number
     companyId: number
     campaignId: number
     trackingLinkId: number
@@ -7974,6 +7980,8 @@ export namespace Prisma {
     pipeline?: true
     pipelineStage?: true
     externalId?: true
+    attendanceStatus?: true
+    expectedReturnAt?: true
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
@@ -7993,6 +8001,8 @@ export namespace Prisma {
     pipeline?: true
     pipelineStage?: true
     externalId?: true
+    attendanceStatus?: true
+    expectedReturnAt?: true
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
@@ -8012,6 +8022,8 @@ export namespace Prisma {
     pipeline?: true
     pipelineStage?: true
     externalId?: true
+    attendanceStatus?: true
+    expectedReturnAt?: true
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
@@ -8118,6 +8130,8 @@ export namespace Prisma {
     pipeline: string | null
     pipelineStage: string | null
     externalId: string | null
+    attendanceStatus: string | null
+    expectedReturnAt: Date | null
     companyId: string
     campaignId: string | null
     trackingLinkId: string | null
@@ -8156,6 +8170,8 @@ export namespace Prisma {
     pipeline?: boolean
     pipelineStage?: boolean
     externalId?: boolean
+    attendanceStatus?: boolean
+    expectedReturnAt?: boolean
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
@@ -8181,6 +8197,8 @@ export namespace Prisma {
     pipeline?: boolean
     pipelineStage?: boolean
     externalId?: boolean
+    attendanceStatus?: boolean
+    expectedReturnAt?: boolean
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
@@ -8203,6 +8221,8 @@ export namespace Prisma {
     pipeline?: boolean
     pipelineStage?: boolean
     externalId?: boolean
+    attendanceStatus?: boolean
+    expectedReturnAt?: boolean
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
@@ -8245,6 +8265,8 @@ export namespace Prisma {
       pipeline: string | null
       pipelineStage: string | null
       externalId: string | null
+      attendanceStatus: string | null
+      expectedReturnAt: Date | null
       companyId: string
       campaignId: string | null
       trackingLinkId: string | null
@@ -8659,6 +8681,8 @@ export namespace Prisma {
     readonly pipeline: FieldRef<"Lead", 'String'>
     readonly pipelineStage: FieldRef<"Lead", 'String'>
     readonly externalId: FieldRef<"Lead", 'String'>
+    readonly attendanceStatus: FieldRef<"Lead", 'String'>
+    readonly expectedReturnAt: FieldRef<"Lead", 'DateTime'>
     readonly companyId: FieldRef<"Lead", 'String'>
     readonly campaignId: FieldRef<"Lead", 'String'>
     readonly trackingLinkId: FieldRef<"Lead", 'String'>
@@ -17044,6 +17068,8 @@ export namespace Prisma {
     pipeline: 'pipeline',
     pipelineStage: 'pipelineStage',
     externalId: 'externalId',
+    attendanceStatus: 'attendanceStatus',
+    expectedReturnAt: 'expectedReturnAt',
     companyId: 'companyId',
     campaignId: 'campaignId',
     trackingLinkId: 'trackingLinkId'
@@ -17869,6 +17895,8 @@ export namespace Prisma {
     pipeline?: StringNullableFilter<"Lead"> | string | null
     pipelineStage?: StringNullableFilter<"Lead"> | string | null
     externalId?: StringNullableFilter<"Lead"> | string | null
+    attendanceStatus?: StringNullableFilter<"Lead"> | string | null
+    expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
@@ -17893,6 +17921,8 @@ export namespace Prisma {
     pipeline?: SortOrderInput | SortOrder
     pipelineStage?: SortOrderInput | SortOrder
     externalId?: SortOrderInput | SortOrder
+    attendanceStatus?: SortOrderInput | SortOrder
+    expectedReturnAt?: SortOrderInput | SortOrder
     companyId?: SortOrder
     campaignId?: SortOrderInput | SortOrder
     trackingLinkId?: SortOrderInput | SortOrder
@@ -17920,6 +17950,8 @@ export namespace Prisma {
     pipeline?: StringNullableFilter<"Lead"> | string | null
     pipelineStage?: StringNullableFilter<"Lead"> | string | null
     externalId?: StringNullableFilter<"Lead"> | string | null
+    attendanceStatus?: StringNullableFilter<"Lead"> | string | null
+    expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
@@ -17944,6 +17976,8 @@ export namespace Prisma {
     pipeline?: SortOrderInput | SortOrder
     pipelineStage?: SortOrderInput | SortOrder
     externalId?: SortOrderInput | SortOrder
+    attendanceStatus?: SortOrderInput | SortOrder
+    expectedReturnAt?: SortOrderInput | SortOrder
     companyId?: SortOrder
     campaignId?: SortOrderInput | SortOrder
     trackingLinkId?: SortOrderInput | SortOrder
@@ -17971,6 +18005,8 @@ export namespace Prisma {
     pipeline?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     pipelineStage?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     externalId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    attendanceStatus?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    expectedReturnAt?: DateTimeNullableWithAggregatesFilter<"Lead"> | Date | string | null
     companyId?: StringWithAggregatesFilter<"Lead"> | string
     campaignId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
@@ -19054,6 +19090,8 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
@@ -19075,6 +19113,8 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
@@ -19096,6 +19136,8 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
@@ -19117,6 +19159,8 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19138,6 +19182,8 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
@@ -19157,6 +19203,8 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type LeadUncheckedUpdateManyInput = {
@@ -19173,6 +19221,8 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20380,6 +20430,8 @@ export namespace Prisma {
     pipeline?: SortOrder
     pipelineStage?: SortOrder
     externalId?: SortOrder
+    attendanceStatus?: SortOrder
+    expectedReturnAt?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
@@ -20403,6 +20455,8 @@ export namespace Prisma {
     pipeline?: SortOrder
     pipelineStage?: SortOrder
     externalId?: SortOrder
+    attendanceStatus?: SortOrder
+    expectedReturnAt?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
@@ -20422,6 +20476,8 @@ export namespace Prisma {
     pipeline?: SortOrder
     pipelineStage?: SortOrder
     externalId?: SortOrder
+    attendanceStatus?: SortOrder
+    expectedReturnAt?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
@@ -22750,6 +22806,8 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
@@ -22770,6 +22828,8 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
     campaignId?: string | null
     trackingLinkId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
@@ -23089,6 +23149,8 @@ export namespace Prisma {
     pipeline?: StringNullableFilter<"Lead"> | string | null
     pipelineStage?: StringNullableFilter<"Lead"> | string | null
     externalId?: StringNullableFilter<"Lead"> | string | null
+    attendanceStatus?: StringNullableFilter<"Lead"> | string | null
+    expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
@@ -23332,6 +23394,8 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
@@ -23352,6 +23416,8 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
     companyId: string
     trackingLinkId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
@@ -23705,6 +23771,8 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
@@ -23725,6 +23793,8 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
     companyId: string
     campaignId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
@@ -24389,6 +24459,8 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
@@ -24409,6 +24481,8 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
@@ -24445,6 +24519,8 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
@@ -24465,6 +24541,8 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24876,6 +24954,8 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
@@ -24896,6 +24976,8 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
@@ -25069,6 +25151,8 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
@@ -25089,6 +25173,8 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25672,6 +25758,8 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
     campaignId?: string | null
     trackingLinkId?: string | null
   }
@@ -25841,6 +25929,8 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
@@ -25861,6 +25951,8 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
@@ -25881,6 +25973,8 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -26114,6 +26208,8 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
     companyId: string
     trackingLinkId?: string | null
   }
@@ -26170,6 +26266,8 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
@@ -26190,6 +26288,8 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
@@ -26210,6 +26310,8 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -26346,6 +26448,8 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
     companyId: string
     campaignId?: string | null
   }
@@ -26371,6 +26475,8 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
@@ -26391,6 +26497,8 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
@@ -26411,6 +26519,8 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
   }

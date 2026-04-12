@@ -165,6 +165,10 @@ model Lead {
   pipelineStage String?  // nome da etapa configurável
   externalId    String?  // ID externo (ex: id do Supabase BDR para evitar duplicatas)
 
+  // Atendimento WhatsApp
+  attendanceStatus  String?   // "WAITING" | "IN_PROGRESS" | "RESOLVED" | "SCHEDULED"
+  expectedReturnAt  DateTime? // previsão de retorno quando agendado
+
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
 

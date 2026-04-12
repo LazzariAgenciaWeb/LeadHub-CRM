@@ -166,6 +166,15 @@ export async function processInboundMessage(payload: {
     }
   }
 
+  // Marcar atendimento como "aguardando" quando chega mensagem nova
+  // (não faz regress de RESOLVED para WAITING — fica WAITING apenas se estava em outro estado)
+  if (lead.attendanceStatus !== "WAITING") {
+    await prisma.lead.update({
+      where: { id: lead.id },
+      data: { attendanceStatus: "WAITING" },
+    });
+  }
+
   // Salvar a mensagem
   const message = await prisma.message.create({
     data: {

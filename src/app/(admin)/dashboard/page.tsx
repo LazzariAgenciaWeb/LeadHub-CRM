@@ -2,6 +2,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import CRMCharts from "./CRMCharts";
+import UnansweredWidget from "./UnansweredWidget";
 
 export default async function DashboardPage() {
   const session = await getEffectiveSession();
@@ -124,6 +125,50 @@ export default async function DashboardPage() {
     include: { company: { select: { name: true } } },
   });
 
+  // Conversas aguardando resposta (última mensagem é INBOUND)
+  // Pega conversas agrupadas por phone+companyId ordenadas pela mais recente
+  const phoneGroups = await prisma.message.groupBy({
+    by: ["phone", "companyId"],
+    where: { ...where },
+    _max: { receivedAt: true },
+    orderBy: { _max: { receivedAt: "desc" } },
+    take: 100,
+  });
+  // Para cada conversa, pega a última mensagem e verifica se é INBOUND
+  const unansweredConvs: Array<{
+    phone: string; companyId: string; companyName: string | null;
+    leadName: string | null; leadId: string | null;
+    pipeline: string | null; pipelineStage: string | null; attendanceStatus: string | null;
+    lastMsgBody: string; lastMsgAt: string; instanceName: string | null;
+  }> = [];
+  for (const g of phoneGroups) {
+    if (unansweredConvs.length >= 10) break;
+    const lastMsg = await prisma.message.findFirst({
+      where: { phone: g.phone, companyId: g.companyId },
+      orderBy: { receivedAt: "desc" },
+      include: {
+        instance: { select: { instanceName: true } },
+        lead: { select: { id: true, name: true, pipeline: true, pipelineStage: true, attendanceStatus: true } },
+        company: { select: { name: true } },
+      },
+    });
+    if (lastMsg?.direction === "INBOUND") {
+      unansweredConvs.push({
+        phone: g.phone,
+        companyId: g.companyId,
+        companyName: lastMsg.company?.name ?? null,
+        leadName: lastMsg.lead?.name ?? null,
+        leadId: lastMsg.lead?.id ?? null,
+        pipeline: lastMsg.lead?.pipeline ?? null,
+        pipelineStage: lastMsg.lead?.pipelineStage ?? null,
+        attendanceStatus: lastMsg.lead?.attendanceStatus ?? null,
+        lastMsgBody: lastMsg.body,
+        lastMsgAt: lastMsg.receivedAt.toISOString(),
+        instanceName: lastMsg.instance?.instanceName ?? null,
+      });
+    }
+  }
+
   const pipelineLabel: Record<string, { label: string; color: string }> = {
     PROSPECCAO:    { label: "Prospect",    color: "text-violet-400 bg-violet-500/15" },
     LEADS:         { label: "Lead",        color: "text-indigo-400 bg-indigo-500/15" },
@@ -177,6 +222,11 @@ export default async function DashboardPage() {
         <KPI label="Campanhas"    value={campaigns}          sub="Ativas"          subColor="text-amber-400"  barColor="bg-amber-500"    href="/campanhas"       icon="📣" />
         <KPI label="Cliques"      value={totalClicksNum}     sub="Em todos os links" subColor="text-orange-400" barColor="bg-orange-500" href="/links"           icon="🔗" />
       </div>
+
+      {/* Conversas aguardando resposta */}
+      {unansweredConvs.length > 0 && (
+        <UnansweredWidget convs={unansweredConvs} />
+      )}
 
       {/* Funil + Gráfico */}
       <CRMCharts

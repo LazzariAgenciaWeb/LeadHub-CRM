@@ -49,6 +49,11 @@ export default async function WhatsappPage({
         prisma.lead.findFirst({
           where: { phone: p.phone, companyId: p.companyId },
           orderBy: { createdAt: "desc" },
+          select: {
+            id: true, name: true, status: true, notes: true,
+            pipeline: true, pipelineStage: true,
+            attendanceStatus: true, expectedReturnAt: true,
+          },
         }),
         prisma.message.count({ where: { phone: p.phone, companyId: p.companyId, direction: "INBOUND" } }),
         prisma.message.count({ where: { phone: p.phone, companyId: p.companyId, direction: "OUTBOUND" } }),

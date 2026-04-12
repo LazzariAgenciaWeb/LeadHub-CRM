@@ -200,6 +200,8 @@ exports.Prisma.LeadScalarFieldEnum = {
   pipeline: 'pipeline',
   pipelineStage: 'pipelineStage',
   externalId: 'externalId',
+  attendanceStatus: 'attendanceStatus',
+  expectedReturnAt: 'expectedReturnAt',
   companyId: 'companyId',
   campaignId: 'campaignId',
   trackingLinkId: 'trackingLinkId'

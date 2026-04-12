@@ -17,7 +17,11 @@ interface Conversation {
   totalMessages: number;
   inboundCount: number;
   outboundCount: number;
-  lead: { id: string; name: string | null; status: string; notes: string | null } | null;
+  lead: {
+    id: string; name: string | null; status: string; notes: string | null;
+    pipeline: string | null; pipelineStage: string | null;
+    attendanceStatus: string | null; expectedReturnAt: string | null;
+  } | null;
   lastMsg: {
     body: string;
     direction: string;
@@ -68,6 +72,23 @@ function getInstanceBadgeColor(instanceName: string) {
   return INSTANCE_BADGE_COLORS[Math.abs(hash) % INSTANCE_BADGE_COLORS.length];
 }
 
+const PIPELINE_BADGE: Record<string, string> = {
+  PROSPECCAO:    "text-violet-400 bg-violet-500/15",
+  LEADS:         "text-blue-400 bg-blue-500/15",
+  OPORTUNIDADES: "text-amber-400 bg-amber-500/15",
+};
+const PIPELINE_LABEL: Record<string, string> = {
+  PROSPECCAO:    "🔎 Prospecção",
+  LEADS:         "💬 Lead",
+  OPORTUNIDADES: "💰 Oportunidade",
+};
+const ATTENDANCE: Record<string, { label: string; icon: string; ring: string; btn: string }> = {
+  WAITING:     { label: "Aguardando",      icon: "⏳", ring: "border-yellow-500/40 bg-yellow-500/5",  btn: "bg-yellow-500/20 text-yellow-300 border-yellow-500/30" },
+  IN_PROGRESS: { label: "Em Atendimento",  icon: "💬", ring: "border-blue-500/40 bg-blue-500/5",     btn: "bg-blue-500/20 text-blue-300 border-blue-500/30" },
+  RESOLVED:    { label: "Resolvido",       icon: "✅", ring: "border-green-500/40 bg-green-500/5",   btn: "bg-green-500/20 text-green-300 border-green-500/30" },
+  SCHEDULED:   { label: "Agendado",        icon: "📅", ring: "border-purple-500/40 bg-purple-500/5", btn: "bg-purple-500/20 text-purple-300 border-purple-500/30" },
+};
+
 export default function WhatsappManager({
   instances,
   isSuperAdmin,
@@ -116,6 +137,11 @@ export default function WhatsappManager({
   // Filters
   const [search, setSearch] = useState("");
   const [instanceFilter, setInstanceFilter] = useState("");
+
+  // Atendimento
+  const [attendanceStatus, setAttendanceStatus] = useState<string | null>(null);
+  const [expectedReturn, setExpectedReturn] = useState<string>("");
+  const [savingAttendance, setSavingAttendance] = useState(false);
 
   // Vincular prospect
   const [showLinkProspect, setShowLinkProspect] = useState(false);
@@ -189,6 +215,7 @@ export default function WhatsappManager({
     setShowConvertForm(false);
     setShowTicketForm(false);
     setTicketCreated(false);
+    setShowLinkProspect(false);
     setConvMessages([]);
     setReplyText("");
     setReplyError(null);
@@ -197,6 +224,8 @@ export default function WhatsappManager({
     setLeadNotes(conv.lead?.notes ?? "");
     setShowNotesPanel(false);
     setNewNote("");
+    setAttendanceStatus(conv.lead?.attendanceStatus ?? null);
+    setExpectedReturn(conv.lead?.expectedReturnAt ? new Date(conv.lead.expectedReturnAt).toISOString().slice(0, 16) : "");
     setLoadingMsgs(true);
 
     const params = new URLSearchParams({ phone: conv.phone });
@@ -376,6 +405,25 @@ export default function WhatsappManager({
     router.refresh();
   }
 
+  async function handleSetAttendance(status: string) {
+    if (!selectedConv?.lead) return;
+    setSavingAttendance(true);
+    setAttendanceStatus(status);
+    const body: any = { attendanceStatus: status };
+    if (status === "SCHEDULED" && expectedReturn) {
+      body.expectedReturnAt = new Date(expectedReturn).toISOString();
+    } else if (status !== "SCHEDULED") {
+      body.expectedReturnAt = null;
+    }
+    await fetch(`/api/leads/${selectedConv.lead.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    setSavingAttendance(false);
+    router.refresh();
+  }
+
   function formatTime(dt: string) {
     const d = new Date(dt);
     const now = new Date();
@@ -518,8 +566,14 @@ export default function WhatsappManager({
                     {/* Linha 1: avatar + nome + horário */}
                     <div className="flex items-center justify-between mb-1">
                       <div className="flex items-center gap-2 min-w-0">
-                        <div className="w-8 h-8 rounded-full bg-[#1e2d45] flex items-center justify-center text-xs font-bold text-slate-400 flex-shrink-0">
-                          {conv.phone.slice(-2)}
+                        {/* Avatar com dot de não lido */}
+                        <div className="relative w-8 h-8 flex-shrink-0">
+                          <div className="w-8 h-8 rounded-full bg-[#1e2d45] flex items-center justify-center text-xs font-bold text-slate-400">
+                            {conv.phone.slice(-2)}
+                          </div>
+                          {conv.lastMsg?.direction === "INBOUND" && (
+                            <span className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-red-500 border-2 border-[#0c1220] animate-pulse" title="Aguardando resposta" />
+                          )}
                         </div>
                         <div className="min-w-0">
                           <div className="text-white text-[13px] font-semibold truncate">
@@ -542,15 +596,26 @@ export default function WhatsappManager({
                       </div>
                     )}
 
-                    {/* Linha 3: status lead + badge instância */}
+                    {/* Linha 3: pipeline badge + instância */}
                     <div className="flex items-center gap-2 mt-1.5 pl-10 flex-wrap">
-                      {conv.lead ? (
-                        <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${LEAD_STATUS_COLOR[conv.lead.status] ?? ""}`}>
-                          🎯 {LEAD_STATUS_LABEL[conv.lead.status] ?? conv.lead.status}
+                      {conv.lead?.pipeline ? (
+                        <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${PIPELINE_BADGE[conv.lead.pipeline] ?? "text-slate-400 bg-white/5"}`}>
+                          {PIPELINE_LABEL[conv.lead.pipeline] ?? conv.lead.pipeline}
+                          {conv.lead.pipelineStage ? ` · ${conv.lead.pipelineStage}` : ""}
                         </span>
+                      ) : conv.lead ? (
+                        <span className="text-[10px] text-slate-500 bg-white/5 px-1.5 py-0.5 rounded-full">🎯 Lead</span>
                       ) : (
-                        <span className="text-[10px] text-slate-600 bg-white/5 px-1.5 py-0.5 rounded-full">
-                          Sem tipo
+                        <span className="text-[10px] text-slate-600 bg-white/5 px-1.5 py-0.5 rounded-full">Sem tipo</span>
+                      )}
+                      {conv.lead?.attendanceStatus && (
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${
+                          conv.lead.attendanceStatus === "WAITING"     ? "text-yellow-400 bg-yellow-500/15" :
+                          conv.lead.attendanceStatus === "IN_PROGRESS" ? "text-blue-400 bg-blue-500/15" :
+                          conv.lead.attendanceStatus === "RESOLVED"    ? "text-green-400 bg-green-500/15" :
+                          "text-purple-400 bg-purple-500/15"
+                        }`}>
+                          {ATTENDANCE[conv.lead.attendanceStatus]?.icon} {ATTENDANCE[conv.lead.attendanceStatus]?.label}
                         </span>
                       )}
                       {instanceName && (
@@ -626,13 +691,16 @@ export default function WhatsappManager({
                 <div className="flex items-center gap-2 flex-shrink-0 flex-wrap justify-end">
                   {selectedConv.lead ? (
                     <>
-                      <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${
-                        selectedConv.lead.status === "PROSPECCAO" || !LEAD_STATUS_COLOR[selectedConv.lead.status]
-                          ? "text-violet-400 bg-violet-500/15"
-                          : LEAD_STATUS_COLOR[selectedConv.lead.status]
-                      }`}>
-                        {selectedConv.lead.status === "PROSPECCAO" ? "🔎 Prospect" : `🎯 Lead — ${LEAD_STATUS_LABEL[selectedConv.lead.status] ?? selectedConv.lead.status}`}
-                      </span>
+                      {selectedConv.lead.pipeline ? (
+                        <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${PIPELINE_BADGE[selectedConv.lead.pipeline] ?? "text-slate-400 bg-white/5"}`}>
+                          {PIPELINE_LABEL[selectedConv.lead.pipeline] ?? selectedConv.lead.pipeline}
+                          {selectedConv.lead.pipelineStage ? ` · ${selectedConv.lead.pipelineStage}` : ""}
+                        </span>
+                      ) : (
+                        <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full text-slate-400 bg-white/5">
+                          🎯 Lead
+                        </span>
+                      )}
                       <Link href="/crm/leads" className="text-indigo-400 text-xs hover:underline">
                         Ver CRM →
                       </Link>
@@ -694,6 +762,53 @@ export default function WhatsappManager({
                   )}
                 </div>
               </div>
+
+              {/* Painel de Atendimento */}
+              {selectedConv.lead && (
+                <div className={`px-5 py-3 border-b border-[#1e2d45] flex-shrink-0 ${ATTENDANCE[attendanceStatus ?? ""]?.ring ?? "bg-[#0a0f1a]"}`}>
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <span className="text-slate-400 text-[11px] font-semibold uppercase tracking-wide flex-shrink-0">Atendimento:</span>
+                    {(["WAITING", "IN_PROGRESS", "RESOLVED", "SCHEDULED"] as const).map((s) => {
+                      const a = ATTENDANCE[s];
+                      const isActive = attendanceStatus === s;
+                      return (
+                        <button
+                          key={s}
+                          onClick={() => handleSetAttendance(s)}
+                          disabled={savingAttendance}
+                          className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border transition-all disabled:opacity-50 ${
+                            isActive ? a.btn + " scale-105 shadow-sm" : "border-[#1e2d45] text-slate-500 hover:text-slate-300 hover:border-slate-600"
+                          }`}
+                        >
+                          {a.icon} {a.label}
+                        </button>
+                      );
+                    })}
+                    {attendanceStatus === "SCHEDULED" && (
+                      <div className="flex items-center gap-2 ml-auto">
+                        <input
+                          type="datetime-local"
+                          value={expectedReturn}
+                          onChange={(e) => setExpectedReturn(e.target.value)}
+                          className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2 py-1 text-xs text-white focus:outline-none focus:border-purple-500"
+                        />
+                        <button
+                          onClick={() => handleSetAttendance("SCHEDULED")}
+                          disabled={savingAttendance || !expectedReturn}
+                          className="px-2.5 py-1 rounded-lg bg-purple-600 text-white text-xs font-medium hover:bg-purple-500 disabled:opacity-50"
+                        >
+                          Salvar
+                        </button>
+                      </div>
+                    )}
+                    {selectedConv.lead.expectedReturnAt && attendanceStatus === "SCHEDULED" && !expectedReturn && (
+                      <span className="text-purple-400 text-[11px] ml-auto">
+                        📅 {new Date(selectedConv.lead.expectedReturnAt).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
 
               {/* Painel: Vincular Prospect */}
               {showLinkProspect && !selectedConv.lead && (
