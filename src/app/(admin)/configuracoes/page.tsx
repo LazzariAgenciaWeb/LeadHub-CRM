@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import SettingsLayout from "./SettingsLayout";
 import SettingsForm from "./SettingsForm";
 import InstancesSection from "./InstancesSection";
+import PipelineSettings from "./PipelineSettings";
 
 export default async function ConfiguracoesPage({
   searchParams,
@@ -15,6 +16,7 @@ export default async function ConfiguracoesPage({
 
   const sp = await searchParams;
   const secao = sp.secao ?? "instancias";
+  const effectiveCompanyId = isSuperAdmin ? undefined : userCompanyId;
 
   const webhookBaseUrl = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
 
@@ -72,6 +74,19 @@ export default async function ConfiguracoesPage({
           <SettingsForm isSuperAdmin={isSuperAdmin} settings={settings} company={null} onlyIntegrations />
         )}
       </div>
+    );
+  }
+
+  if (secao === "pipeline") {
+    const pipelineStages = await prisma.pipelineStageConfig.findMany({
+      where: effectiveCompanyId ? { companyId: effectiveCompanyId } : {},
+      orderBy: [{ pipeline: "asc" }, { order: "asc" }],
+    });
+    content = (
+      <PipelineSettings
+        initialStages={pipelineStages}
+        companyId={userCompanyId ?? ""}
+      />
     );
   }
 

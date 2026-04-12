@@ -6,10 +6,7 @@ const SECTIONS = [
   { key: "instancias", icon: "💬", label: "Instâncias WhatsApp", desc: "Números conectados" },
   { key: "empresa", icon: "🏢", label: "Empresa", desc: "Dados e perfil" },
   { key: "integracoes", icon: "⚡", label: "Integrações", desc: "Evolution API e outros" },
-  // futuro:
-  // { key: "equipes", icon: "👥", label: "Equipes", desc: "Setores e atendentes" },
-  // { key: "horarios", icon: "🕐", label: "Horários", desc: "Atendimento e ausência" },
-  // { key: "notificacoes", icon: "🔔", label: "Notificações", desc: "Alertas e avisos" },
+  { key: "pipeline", icon: "🫧", label: "CRM / Pipeline", desc: "Etapas e configurações" },
 ];
 
 export default function SettingsLayout({

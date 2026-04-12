@@ -57,6 +57,7 @@ model Company {
   keywordRules      KeywordRule[]
   tickets           Ticket[]
   trackingLinks     TrackingLink[]
+  pipelineStages    PipelineStageConfig[]
   triggerOnly       Boolean @default(false)
 }
 
@@ -159,6 +160,11 @@ model Lead {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 
+  // CRM Pipeline
+  pipeline      String?  // "PROSPECCAO" | "LEADS" | "OPORTUNIDADES"
+  pipelineStage String?  // nome da etapa configurável
+  externalId    String?  // ID externo (ex: id do Supabase BDR para evitar duplicatas)
+
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
 
@@ -169,10 +175,13 @@ model Lead {
   trackingLinkId String?
 
   messages Message[]
+  comments LeadComment[]
 
   @@index([companyId])
   @@index([campaignId])
   @@index([phone, companyId])
+  @@index([pipeline, companyId])
+  @@index([externalId])
 }
 
 enum LeadStatus {
@@ -181,6 +190,36 @@ enum LeadStatus {
   PROPOSAL
   CLOSED
   LOST
+}
+
+// ─── Comentários de Lead ──────────────────────────────────────────────────────
+
+model LeadComment {
+  id         String   @id @default(cuid())
+  body       String   @db.Text
+  authorName String   @default("Usuário")
+  createdAt  DateTime @default(now())
+
+  lead   Lead   @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  leadId String
+
+  @@index([leadId])
+}
+
+// ─── Etapas de Pipeline Configuráveis ────────────────────────────────────────
+
+model PipelineStageConfig {
+  id        String  @id @default(cuid())
+  pipeline  String  // "PROSPECCAO" | "LEADS" | "OPORTUNIDADES"
+  name      String
+  color     String  @default("#6366f1")
+  order     Int     @default(0)
+  isFinal   Boolean @default(false) // FECHADO / PERDIDO — etapas de encerramento
+
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  @@index([companyId, pipeline])
 }
 
 // ─── Instâncias WhatsApp ──────────────────────────────────────────────────────

@@ -30,7 +30,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ lead: existing, alreadyExists: true });
   }
 
-  // Cria o lead
+  // Cria o lead — entra automaticamente no pipeline LEADS com primeira etapa
+  const firstLeadStage = await prisma.pipelineStageConfig.findFirst({
+    where: { companyId: effectiveCompanyId, pipeline: "LEADS" },
+    orderBy: { order: "asc" },
+  });
+
   const lead = await prisma.lead.create({
     data: {
       phone,
@@ -39,6 +44,8 @@ export async function POST(req: NextRequest) {
       campaignId: campaignId || null,
       source: "whatsapp",
       status: status ?? "NEW",
+      pipeline: "LEADS",
+      pipelineStage: firstLeadStage?.name ?? null,
     },
   });
 

@@ -3,46 +3,45 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
+import { useState } from "react";
 import { Session } from "next-auth";
 
 interface SidebarProps {
   session: Session;
 }
 
+const CRM_ROUTES = ["/crm/prospeccao", "/crm/leads", "/crm/oportunidades"];
+
 export default function Sidebar({ session }: SidebarProps) {
   const pathname = usePathname();
   const isSuperAdmin = (session.user as any)?.role === "SUPER_ADMIN";
 
-  const adminLinks = [
-    { href: "/dashboard", icon: "🏠", label: "Dashboard" },
-    { href: "/whatsapp", icon: "📥", label: "Mensagens" },
-    { href: "/empresas", icon: "🏢", label: "Empresas" },
-    { href: "/leads", icon: "🎯", label: "Leads" },
-    { href: "/pipeline", icon: "🗂", label: "Pipeline" },
-    { href: "/campanhas", icon: "📣", label: "Campanhas" },
-    { href: "/chamados", icon: "🎫", label: "Chamados" },
-    { href: "/links", icon: "🔗", label: "Links" },
-    { href: "/relatorios", icon: "📈", label: "Relatórios" },
-    { href: "/configuracoes", icon: "⚙️", label: "Configurações" },
-  ];
-
-  const clientLinks = [
-    { href: "/dashboard", icon: "🏠", label: "Dashboard" },
-    { href: "/whatsapp", icon: "📥", label: "Mensagens" },
-    { href: "/leads", icon: "🎯", label: "Leads" },
-    { href: "/pipeline", icon: "🗂", label: "Pipeline" },
-    { href: "/campanhas", icon: "📣", label: "Campanhas" },
-    { href: "/chamados", icon: "🎫", label: "Chamados" },
-    { href: "/links", icon: "🔗", label: "Links" },
-    { href: "/relatorios", icon: "📈", label: "Relatórios" },
-    { href: "/configuracoes", icon: "⚙️", label: "Configurações" },
-  ];
-
-  const links = isSuperAdmin ? adminLinks : clientLinks;
+  const isCrmActive = CRM_ROUTES.some((r) => pathname.startsWith(r));
+  const [crmOpen, setCrmOpen] = useState(isCrmActive);
 
   function isActive(href: string) {
     return pathname === href || pathname.startsWith(href + "/");
   }
+
+  const topLinks = [
+    { href: "/dashboard", icon: "🏠", label: "Dashboard" },
+    { href: "/whatsapp", icon: "🗨️", label: "Mensagens" },
+    ...(isSuperAdmin ? [{ href: "/empresas", icon: "🏢", label: "Empresas" }] : []),
+  ];
+
+  const bottomLinks = [
+    { href: "/campanhas", icon: "📣", label: "Campanhas" },
+    { href: "/chamados", icon: "🎫", label: "Chamados" },
+    { href: "/links", icon: "🔗", label: "Links" },
+    { href: "/relatorios", icon: "📈", label: "Relatórios" },
+    { href: "/configuracoes", icon: "⚙️", label: "Configurações" },
+  ];
+
+  const crmSubItems = [
+    { href: "/crm/prospeccao", icon: "🔎", label: "Prospecção" },
+    { href: "/crm/leads", icon: "🎯", label: "Leads" },
+    { href: "/crm/oportunidades", icon: "💡", label: "Oportunidades" },
+  ];
 
   return (
     <aside className="w-[220px] min-w-[220px] bg-[#0f1623] border-r border-[#1e2d45] flex flex-col">
@@ -60,11 +59,64 @@ export default function Sidebar({ session }: SidebarProps) {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 p-2.5 pt-3">
+      <nav className="flex-1 p-2.5 pt-3 overflow-y-auto">
         <div className="text-[10px] font-semibold text-slate-600 uppercase tracking-wider px-2 mb-2">
           {isSuperAdmin ? "Administração" : "Menu"}
         </div>
-        {links.map((link) => (
+
+        {/* Links do topo */}
+        {topLinks.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className={`flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium mb-0.5 transition-all ${
+              isActive(link.href)
+                ? "bg-indigo-500/15 text-indigo-400 border-l-2 border-indigo-500"
+                : "text-slate-400 hover:bg-[#161f30] hover:text-white"
+            }`}
+          >
+            <span className="text-[15px] w-5 text-center">{link.icon}</span>
+            {link.label}
+          </Link>
+        ))}
+
+        {/* CRM — grupo expansível */}
+        <div className="mb-0.5">
+          <button
+            onClick={() => setCrmOpen(!crmOpen)}
+            className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium transition-all ${
+              isCrmActive
+                ? "bg-indigo-500/15 text-indigo-400"
+                : "text-slate-400 hover:bg-[#161f30] hover:text-white"
+            }`}
+          >
+            <span className="text-[15px] w-5 text-center">🫧</span>
+            <span className="flex-1 text-left">CRM</span>
+            <span className={`text-[10px] transition-transform ${crmOpen ? "rotate-90" : ""}`}>▶</span>
+          </button>
+
+          {crmOpen && (
+            <div className="ml-3 mt-0.5 pl-3 border-l border-[#1e2d45] space-y-0.5">
+              {crmSubItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[12px] font-medium transition-all ${
+                    isActive(item.href)
+                      ? "bg-indigo-500/15 text-indigo-400 border-l-2 border-indigo-500"
+                      : "text-slate-500 hover:bg-[#161f30] hover:text-white"
+                  }`}
+                >
+                  <span className="text-[13px] w-4 text-center">{item.icon}</span>
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Links do fundo */}
+        {bottomLinks.map((link) => (
           <Link
             key={link.href}
             href={link.href}

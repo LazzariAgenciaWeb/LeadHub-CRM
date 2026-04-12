@@ -131,6 +131,11 @@ export async function processInboundMessage(payload: {
       }
     }
 
+    const firstLeadStage = await prisma.pipelineStageConfig.findFirst({
+      where: { companyId, pipeline: "LEADS" },
+      orderBy: { order: "asc" },
+    });
+
     lead = await prisma.lead.create({
       data: {
         phone,
@@ -138,6 +143,8 @@ export async function processInboundMessage(payload: {
         campaignId: campaignId ?? undefined,
         source: campaignSource ?? "whatsapp",
         status: identifiedAs,
+        pipeline: "LEADS",
+        pipelineStage: firstLeadStage?.name ?? null,
       },
     });
   } else if (shouldUpgradeStatus(lead.status, identifiedAs)) {
