@@ -36,8 +36,9 @@ export async function GET(
     if (!code) return;
     try {
       var body = JSON.stringify({ linkCode: code, targetUrl: targetUrl, targetLabel: targetLabel });
+      // Usa text/plain no sendBeacon para evitar preflight CORS cross-origin
       if (navigator.sendBeacon) {
-        navigator.sendBeacon(ENDPOINT, new Blob([body], { type: 'application/json' }));
+        navigator.sendBeacon(ENDPOINT, new Blob([body], { type: 'text/plain' }));
       } else {
         fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, keepalive: true }).catch(function(){});
       }
@@ -100,18 +101,28 @@ export async function GET(
   }
 
   function attach() {
-    document.querySelectorAll('a[href], button, [role="button"]').forEach(function(el) {
+    var root = document.body || document.documentElement;
+    root.querySelectorAll('a[href], button, [role="button"]').forEach(function(el) {
       if (el.dataset.lhTracked) return;
       el.dataset.lhTracked = '1';
       el.addEventListener('click', handleClick, { passive: true });
     });
   }
 
-  attach();
-  if (window.MutationObserver) {
-    new MutationObserver(attach).observe(document.body, { childList: true, subtree: true });
+  function init() {
+    getOrStoreCode();
+    attach();
+    if (window.MutationObserver && document.body) {
+      new MutationObserver(function() { attach(); }).observe(document.body, { childList: true, subtree: true });
+    }
   }
-  getOrStoreCode();
+
+  // Aguarda o DOM estar pronto antes de anexar listeners
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();
 `.trim();
 

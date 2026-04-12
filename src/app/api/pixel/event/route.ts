@@ -16,9 +16,11 @@ export async function OPTIONS() {
 
 // POST /api/pixel/event — público, sem auth
 // Body: { linkCode, targetUrl, targetLabel }
+// Aceita application/json e text/plain (sendBeacon cross-origin usa text/plain)
 export async function POST(req: NextRequest) {
   try {
-    const { linkCode, targetUrl, targetLabel } = await req.json();
+    const text = await req.text();
+    const { linkCode, targetUrl, targetLabel } = JSON.parse(text);
     if (!linkCode || !targetUrl) {
       return NextResponse.json({ ok: false }, { status: 400, headers: corsHeaders() });
     }
