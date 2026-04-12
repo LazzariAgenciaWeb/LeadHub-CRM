@@ -53,6 +53,22 @@ const INSTANCE_STATUS: Record<string, { dot: string; label: string }> = {
   CONNECTING: { dot: "bg-yellow-400 animate-pulse", label: "Conectando" },
 };
 
+// Cores para badges de instância (rotaciona por nome)
+const INSTANCE_BADGE_COLORS = [
+  "bg-violet-500/20 text-violet-300",
+  "bg-cyan-500/20 text-cyan-300",
+  "bg-emerald-500/20 text-emerald-300",
+  "bg-orange-500/20 text-orange-300",
+  "bg-pink-500/20 text-pink-300",
+  "bg-yellow-500/20 text-yellow-300",
+];
+
+function getInstanceBadgeColor(instanceName: string) {
+  let hash = 0;
+  for (let i = 0; i < instanceName.length; i++) hash = instanceName.charCodeAt(i) + ((hash << 5) - hash);
+  return INSTANCE_BADGE_COLORS[Math.abs(hash) % INSTANCE_BADGE_COLORS.length];
+}
+
 export default function WhatsappManager({
   instances,
   isSuperAdmin,
@@ -78,6 +94,9 @@ export default function WhatsappManager({
   const [replyText, setReplyText] = useState("");
   const [sendingReply, setSendingReply] = useState(false);
   const [replyError, setReplyError] = useState<string | null>(null);
+  const [editingName, setEditingName] = useState(false);
+  const [leadName, setLeadName] = useState("");
+  const [savingName, setSavingName] = useState(false);
 
   const [search, setSearch] = useState("");
 
@@ -118,12 +137,29 @@ export default function WhatsappManager({
     return c.phone.includes(q) || c.lead?.name?.toLowerCase().includes(q);
   });
 
+  async function handleSaveName(e: React.FormEvent) {
+    e.preventDefault();
+    if (!selectedConv?.lead || !leadName.trim()) return;
+    setSavingName(true);
+    await fetch(`/api/leads/${selectedConv.lead.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: leadName.trim() }),
+    });
+    setSavingName(false);
+    setEditingName(false);
+    setSelectedConv({ ...selectedConv, lead: { ...selectedConv.lead, name: leadName.trim() } });
+    router.refresh();
+  }
+
   async function loadConversation(conv: Conversation) {
     setSelectedConv(conv);
     setShowConvertForm(false);
     setConvMessages([]);
     setReplyText("");
     setReplyError(null);
+    setEditingName(false);
+    setLeadName(conv.lead?.name ?? "");
     setLoadingMsgs(true);
 
     const params = new URLSearchParams({ phone: conv.phone });
@@ -171,9 +207,16 @@ export default function WhatsappManager({
     e.preventDefault();
     if (!selectedConv || !replyText.trim()) return;
 
-    const inst = instances.find(
-      (i) => i.status === "CONNECTED" && (isSuperAdmin || i.company?.id === selectedConv.companyId)
-    ) ?? instances.find((i) => i.company?.id === selectedConv.companyId);
+    // Usar a instância que recebeu/enviou a última mensagem da conversa
+    const lastInstanceName = convMessages.length > 0
+      ? convMessages[convMessages.length - 1].instance?.instanceName
+      : null;
+
+    const inst = (lastInstanceName
+      ? instances.find((i) => i.instanceName === lastInstanceName)
+      : null)
+      ?? instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId)
+      ?? instances.find((i) => i.company?.id === selectedConv.companyId);
 
     if (!inst) {
       setReplyError("Nenhuma instância conectada. Configure em Configurações → Instâncias WhatsApp.");
@@ -357,11 +400,39 @@ export default function WhatsappManager({
             <>
               {/* Conv header */}
               <div className="px-5 py-3.5 border-b border-[#1e2d45] flex items-center justify-between flex-shrink-0">
-                <div>
-                  <div className="text-white font-semibold">{selectedConv.lead?.name ?? selectedConv.phone}</div>
-                  {selectedConv.lead?.name && <div className="text-slate-500 text-xs">{selectedConv.phone}</div>}
+                <div className="flex items-center gap-3 min-w-0">
+                  {editingName ? (
+                    <form onSubmit={handleSaveName} className="flex items-center gap-2">
+                      <input
+                        autoFocus
+                        type="text"
+                        value={leadName}
+                        onChange={(e) => setLeadName(e.target.value)}
+                        placeholder="Nome do lead..."
+                        className="bg-[#0f1623] border border-indigo-500 rounded-lg px-3 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none"
+                      />
+                      <button type="submit" disabled={savingName} className="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-medium hover:bg-indigo-500 disabled:opacity-50">
+                        {savingName ? "..." : "Salvar"}
+                      </button>
+                      <button type="button" onClick={() => setEditingName(false)} className="text-slate-500 text-xs hover:text-white">Cancelar</button>
+                    </form>
+                  ) : (
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="text-white font-semibold truncate">{selectedConv.lead?.name ?? selectedConv.phone}</span>
+                        {selectedConv.lead && (
+                          <button
+                            onClick={() => { setLeadName(selectedConv.lead?.name ?? ""); setEditingName(true); }}
+                            className="text-slate-600 hover:text-slate-400 text-xs flex-shrink-0"
+                            title="Editar nome"
+                          >✏️</button>
+                        )}
+                      </div>
+                      {selectedConv.lead?.name && <div className="text-slate-500 text-xs">{selectedConv.phone}</div>}
+                    </div>
+                  )}
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-shrink-0">
                   {selectedConv.lead ? (
                     <>
                       <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${LEAD_STATUS_COLOR[selectedConv.lead.status] ?? ""}`}>
@@ -445,12 +516,14 @@ export default function WhatsappManager({
                       <div key={msg.id} className={`flex ${isOut ? "justify-end" : "justify-start"}`}>
                         <div className={`max-w-[75%] rounded-2xl px-4 py-2.5 ${isOut ? "bg-indigo-600 text-white rounded-tr-none" : "bg-[#0f1623] border border-[#1e2d45] text-slate-200 rounded-tl-none"}`}>
                           <p className="text-sm whitespace-pre-wrap break-words">{msg.body}</p>
-                          <div className={`flex items-center gap-2 mt-1 ${isOut ? "justify-end" : "justify-start"}`}>
+                          <div className={`flex items-center gap-2 mt-1 flex-wrap ${isOut ? "justify-end" : "justify-start"}`}>
                             <span className={`text-[10px] ${isOut ? "text-indigo-200/60" : "text-slate-600"}`}>
                               {new Date(msg.receivedAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
                             </span>
-                            {msg.instance && !isOut && (
-                              <span className="text-[10px] text-slate-700">via {msg.instance.instanceName}</span>
+                            {msg.instance && (
+                              <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${getInstanceBadgeColor(msg.instance.instanceName)}`}>
+                                {msg.instance.instanceName}
+                              </span>
                             )}
                             {msg.campaign && (
                               <span className="text-[10px] text-indigo-400/70">📣 {msg.campaign.name}</span>
