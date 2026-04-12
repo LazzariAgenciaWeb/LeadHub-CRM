@@ -118,18 +118,41 @@ export default function PipelineSettings({
   async function handleSeedStages(pipeline: string, force = false) {
     if (force && !confirm(`Isso vai apagar as etapas atuais de ${pipeline} e recriar as padrão. Confirma?`)) return;
     setSeeding(pipeline);
-    const res = await fetch("/api/pipeline/stages/seed", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ pipeline, companyId, force }),
-    });
-    if (res.ok) {
-      const { stages: newStages } = await res.json();
-      setStages((prev) => [
-        ...prev.filter((s) => s.pipeline !== pipeline),
-        ...newStages,
-      ]);
+    try {
+      const res = await fetch("/api/pipeline/stages/seed", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pipeline, companyId, force }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        alert(`Erro ao criar etapas: ${data.error ?? res.status}`);
+        setSeeding(null);
+        return;
+      }
+      if (data.stages && data.stages.length > 0) {
+        setStages((prev) => [
+          ...prev.filter((s) => s.pipeline !== pipeline),
+          ...data.stages,
+        ]);
+      } else if (data.created === 0) {
+        // Já existiam — força recriação
+        const res2 = await fetch("/api/pipeline/stages/seed", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ pipeline, companyId, force: true }),
+        });
+        const data2 = await res2.json();
+        if (data2.stages) {
+          setStages((prev) => [
+            ...prev.filter((s) => s.pipeline !== pipeline),
+            ...data2.stages,
+          ]);
+        }
+      }
       router.refresh();
+    } catch (err) {
+      alert(`Erro inesperado: ${err}`);
     }
     setSeeding(null);
   }

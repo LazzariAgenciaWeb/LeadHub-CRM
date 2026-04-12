@@ -78,14 +78,24 @@ export default async function ConfiguracoesPage({
   }
 
   if (secao === "pipeline") {
-    const pipelineStages = await prisma.pipelineStageConfig.findMany({
-      where: effectiveCompanyId ? { companyId: effectiveCompanyId } : {},
-      orderBy: [{ pipeline: "asc" }, { order: "asc" }],
-    });
+    // Para SUPER_ADMIN sem companyId próprio, usa a primeira empresa do sistema
+    let pipelineCompanyId = userCompanyId;
+    if (!pipelineCompanyId) {
+      const firstCompany = await prisma.company.findFirst({ orderBy: { createdAt: "asc" }, select: { id: true } });
+      pipelineCompanyId = firstCompany?.id;
+    }
+
+    const pipelineStages = pipelineCompanyId
+      ? await prisma.pipelineStageConfig.findMany({
+          where: { companyId: pipelineCompanyId },
+          orderBy: [{ pipeline: "asc" }, { order: "asc" }],
+        })
+      : [];
+
     content = (
       <PipelineSettings
         initialStages={pipelineStages}
-        companyId={userCompanyId ?? ""}
+        companyId={pipelineCompanyId ?? ""}
       />
     );
   }
