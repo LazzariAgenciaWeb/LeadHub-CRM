@@ -25,7 +25,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Processar apenas mensagens recebidas
-    if (event !== "messages.upsert") {
+    // A Evolution pode enviar como "messages.upsert" ou "MESSAGES_UPSERT" (webhookByEvents=true)
+    const normalizedEvent = event.toLowerCase().replace(/_/g, ".");
+    if (normalizedEvent !== "messages.upsert") {
       return NextResponse.json({ ok: true, skipped: true });
     }
 
