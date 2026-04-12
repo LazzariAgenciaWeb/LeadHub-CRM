@@ -33,13 +33,9 @@ export async function POST(request: NextRequest) {
 
     const message = data?.message;
     const key = data?.key;
+    const fromMe = key?.fromMe === true;
 
-    // Ignorar mensagens enviadas por nós
-    if (key?.fromMe === true) {
-      return NextResponse.json({ ok: true, skipped: "outbound" });
-    }
-
-    // Extrair telefone do remetente
+    // Extrair telefone do contato (sempre o remoteJid)
     const rawPhone = key?.remoteJid ?? "";
     const phone = rawPhone.replace("@s.whatsapp.net", "").replace("@g.us", "");
 
@@ -58,6 +54,33 @@ export async function POST(request: NextRequest) {
 
     if (!body_text) {
       return NextResponse.json({ ok: true, skipped: "no_text" });
+    }
+
+    // Mensagem enviada pelo celular da instância (fromMe=true) → salvar como OUTBOUND
+    if (fromMe) {
+      const { prisma } = await import("@/lib/prisma");
+      const waInstance = await prisma.whatsappInstance.findFirst({
+        where: { instanceName: instance },
+      });
+      if (waInstance && key?.id) {
+        // Evitar duplicatas checando se já existe
+        const exists = await prisma.message.findUnique({ where: { externalId: key.id } });
+        if (!exists) {
+          await prisma.message.create({
+            data: {
+              externalId: key.id,
+              phone,
+              body: body_text,
+              direction: "OUTBOUND",
+              processed: true,
+              rawPayload: body,
+              companyId: waInstance.companyId,
+              instanceId: waInstance.id,
+            },
+          });
+        }
+      }
+      return NextResponse.json({ ok: true, saved: "outbound" });
     }
 
     const result = await processInboundMessage({
