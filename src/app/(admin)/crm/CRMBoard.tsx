@@ -74,6 +74,12 @@ export default function CRMBoard({
   const [editingValue, setEditingValue] = useState(false);
   const [valueInput, setValueInput] = useState("");
 
+  // Adicionar novo lead/prospect manualmente
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [addForm, setAddForm] = useState({ name: "", phone: "", notes: "", value: "" });
+  const [addSaving, setAddSaving] = useState(false);
+  const [addError, setAddError] = useState("");
+
   const pipelineInfo = PIPELINE_LABELS[pipeline] ?? { label: pipeline, icon: "🫧", color: "#6366f1" };
 
   // Filtro de busca
@@ -171,6 +177,36 @@ export default function CRMBoard({
     e.dataTransfer.setData("leadId", leadId);
   }
 
+  async function handleAddLead(e: React.FormEvent) {
+    e.preventDefault();
+    setAddError("");
+    if (!addForm.phone.trim()) { setAddError("Telefone é obrigatório"); return; }
+    setAddSaving(true);
+    const res = await fetch("/api/leads", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: addForm.name.trim() || null,
+        phone: addForm.phone.trim(),
+        notes: addForm.notes.trim() || null,
+        value: pipeline === "OPORTUNIDADES" && addForm.value ? parseFloat(addForm.value.replace(",", ".")) : null,
+        pipeline,
+        source: pipeline === "PROSPECCAO" ? "bdr" : "manual",
+      }),
+    });
+    if (res.ok) {
+      const newLead = await res.json();
+      setLeads((prev) => [newLead, ...prev]);
+      setAddForm({ name: "", phone: "", notes: "", value: "" });
+      setShowAddModal(false);
+      startTransition(() => router.refresh());
+    } else {
+      const err = await res.json();
+      setAddError(err.error ?? "Erro ao criar");
+    }
+    setAddSaving(false);
+  }
+
   function onDrop(e: React.DragEvent, stageName: string) {
     e.preventDefault();
     setDragOverStage(null);
@@ -209,6 +245,12 @@ export default function CRMBoard({
             placeholder="Buscar..."
             className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 w-48"
           />
+          <button
+            onClick={() => { setShowAddModal(true); setAddError(""); }}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors flex-shrink-0"
+          >
+            + Adicionar
+          </button>
         </div>
       </div>
 
@@ -316,6 +358,99 @@ export default function CRMBoard({
                 </div>
               );
             })}
+          </div>
+        </div>
+      )}
+
+      {/* Modal de adicionar manualmente */}
+      {showAddModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/70" onClick={() => setShowAddModal(false)} />
+          <div className="relative bg-[#0c1220] border border-[#1e2d45] rounded-2xl w-full max-w-md mx-4 shadow-2xl overflow-hidden">
+            <div className="px-6 py-4 border-b border-[#1e2d45] flex items-center justify-between">
+              <div>
+                <h2 className="text-white font-bold text-base">
+                  {pipelineInfo.icon} Adicionar em {pipelineInfo.label}
+                </h2>
+                <p className="text-slate-500 text-xs mt-0.5">Cadastro manual de contato</p>
+              </div>
+              <button onClick={() => setShowAddModal(false)} className="text-slate-500 hover:text-white text-2xl leading-none">×</button>
+            </div>
+
+            <form onSubmit={handleAddLead} className="p-6 space-y-4">
+              <div>
+                <label className="block text-slate-400 text-xs font-medium mb-1.5">
+                  {pipeline === "PROSPECCAO" ? "Empresa / Nome" : "Nome"}
+                </label>
+                <input
+                  type="text"
+                  value={addForm.name}
+                  onChange={(e) => setAddForm((f) => ({ ...f, name: e.target.value }))}
+                  placeholder={pipeline === "PROSPECCAO" ? "Ex: Clínica Saúde Total" : "Ex: João Silva"}
+                  className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-slate-400 text-xs font-medium mb-1.5">
+                  Telefone <span className="text-red-400">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={addForm.phone}
+                  onChange={(e) => setAddForm((f) => ({ ...f, phone: e.target.value }))}
+                  placeholder="Ex: 5511999999999"
+                  className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                />
+              </div>
+
+              {pipeline === "OPORTUNIDADES" && (
+                <div>
+                  <label className="block text-slate-400 text-xs font-medium mb-1.5">Valor estimado (R$)</label>
+                  <input
+                    type="text"
+                    value={addForm.value}
+                    onChange={(e) => setAddForm((f) => ({ ...f, value: e.target.value }))}
+                    placeholder="Ex: 3500,00"
+                    className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                  />
+                </div>
+              )}
+
+              <div>
+                <label className="block text-slate-400 text-xs font-medium mb-1.5">Notas / Observações</label>
+                <textarea
+                  value={addForm.notes}
+                  onChange={(e) => setAddForm((f) => ({ ...f, notes: e.target.value }))}
+                  placeholder="Informações relevantes sobre este contato..."
+                  rows={3}
+                  className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
+                />
+              </div>
+
+              {addError && (
+                <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-xs rounded-lg px-3 py-2">
+                  {addError}
+                </div>
+              )}
+
+              <div className="flex gap-2 pt-1">
+                <button
+                  type="submit"
+                  disabled={addSaving}
+                  className="flex-1 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium disabled:opacity-50 transition-colors"
+                >
+                  {addSaving ? "Salvando..." : "Adicionar"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowAddModal(false)}
+                  className="px-4 py-2.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white text-sm transition-colors"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

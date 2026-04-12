@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
   const userRole = (session.user as any).role;
   const userCompanyId = (session.user as any).companyId;
   const body = await req.json();
-  const { name, phone, email, source, status, notes, value, companyId, campaignId } = body;
+  const { name, phone, email, source, status, notes, value, companyId, campaignId, pipeline, pipelineStage } = body;
 
   if (!phone) {
     return NextResponse.json({ error: "Telefone é obrigatório" }, { status: 400 });
@@ -75,6 +75,16 @@ export async function POST(req: NextRequest) {
 
   if (!effectiveCompanyId) {
     return NextResponse.json({ error: "Empresa não informada" }, { status: 400 });
+  }
+
+  // Se informou pipeline mas não informou etapa, busca a primeira
+  let resolvedStage = pipelineStage ?? null;
+  if (pipeline && !resolvedStage) {
+    const firstStage = await prisma.pipelineStageConfig.findFirst({
+      where: { companyId: effectiveCompanyId, pipeline },
+      orderBy: { order: "asc" },
+    });
+    resolvedStage = firstStage?.name ?? null;
   }
 
   const lead = await prisma.lead.create({
@@ -88,6 +98,8 @@ export async function POST(req: NextRequest) {
       value,
       companyId: effectiveCompanyId,
       campaignId: campaignId || null,
+      pipeline: pipeline ?? null,
+      pipelineStage: resolvedStage,
     },
     include: {
       company: { select: { id: true, name: true } },
