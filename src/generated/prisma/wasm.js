@@ -197,9 +197,30 @@ exports.Prisma.LeadScalarFieldEnum = {
   value: 'value',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  pipeline: 'pipeline',
+  pipelineStage: 'pipelineStage',
+  externalId: 'externalId',
   companyId: 'companyId',
   campaignId: 'campaignId',
   trackingLinkId: 'trackingLinkId'
+};
+
+exports.Prisma.LeadCommentScalarFieldEnum = {
+  id: 'id',
+  body: 'body',
+  authorName: 'authorName',
+  createdAt: 'createdAt',
+  leadId: 'leadId'
+};
+
+exports.Prisma.PipelineStageConfigScalarFieldEnum = {
+  id: 'id',
+  pipeline: 'pipeline',
+  name: 'name',
+  color: 'color',
+  order: 'order',
+  isFinal: 'isFinal',
+  companyId: 'companyId'
 };
 
 exports.Prisma.WhatsappInstanceScalarFieldEnum = {
@@ -357,6 +378,8 @@ exports.Prisma.ModelName = {
   TrackingLink: 'TrackingLink',
   ClickEvent: 'ClickEvent',
   Lead: 'Lead',
+  LeadComment: 'LeadComment',
+  PipelineStageConfig: 'PipelineStageConfig',
   WhatsappInstance: 'WhatsappInstance',
   Message: 'Message',
   KeywordRule: 'KeywordRule',

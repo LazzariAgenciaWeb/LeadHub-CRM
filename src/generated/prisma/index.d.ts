@@ -44,6 +44,16 @@ export type ClickEvent = $Result.DefaultSelection<Prisma.$ClickEventPayload>
  */
 export type Lead = $Result.DefaultSelection<Prisma.$LeadPayload>
 /**
+ * Model LeadComment
+ * 
+ */
+export type LeadComment = $Result.DefaultSelection<Prisma.$LeadCommentPayload>
+/**
+ * Model PipelineStageConfig
+ * 
+ */
+export type PipelineStageConfig = $Result.DefaultSelection<Prisma.$PipelineStageConfigPayload>
+/**
  * Model WhatsappInstance
  * 
  */
@@ -382,6 +392,26 @@ export class PrismaClient<
     * ```
     */
   get lead(): Prisma.LeadDelegate<ExtArgs>;
+
+  /**
+   * `prisma.leadComment`: Exposes CRUD operations for the **LeadComment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LeadComments
+    * const leadComments = await prisma.leadComment.findMany()
+    * ```
+    */
+  get leadComment(): Prisma.LeadCommentDelegate<ExtArgs>;
+
+  /**
+   * `prisma.pipelineStageConfig`: Exposes CRUD operations for the **PipelineStageConfig** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PipelineStageConfigs
+    * const pipelineStageConfigs = await prisma.pipelineStageConfig.findMany()
+    * ```
+    */
+  get pipelineStageConfig(): Prisma.PipelineStageConfigDelegate<ExtArgs>;
 
   /**
    * `prisma.whatsappInstance`: Exposes CRUD operations for the **WhatsappInstance** model.
@@ -889,6 +919,8 @@ export namespace Prisma {
     TrackingLink: 'TrackingLink',
     ClickEvent: 'ClickEvent',
     Lead: 'Lead',
+    LeadComment: 'LeadComment',
+    PipelineStageConfig: 'PipelineStageConfig',
     WhatsappInstance: 'WhatsappInstance',
     Message: 'Message',
     KeywordRule: 'KeywordRule',
@@ -910,7 +942,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "ticket" | "ticketMessage"
+      modelProps: "user" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "ticket" | "ticketMessage"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1331,6 +1363,146 @@ export namespace Prisma {
           count: {
             args: Prisma.LeadCountArgs<ExtArgs>
             result: $Utils.Optional<LeadCountAggregateOutputType> | number
+          }
+        }
+      }
+      LeadComment: {
+        payload: Prisma.$LeadCommentPayload<ExtArgs>
+        fields: Prisma.LeadCommentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LeadCommentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadCommentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LeadCommentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadCommentPayload>
+          }
+          findFirst: {
+            args: Prisma.LeadCommentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadCommentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LeadCommentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadCommentPayload>
+          }
+          findMany: {
+            args: Prisma.LeadCommentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadCommentPayload>[]
+          }
+          create: {
+            args: Prisma.LeadCommentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadCommentPayload>
+          }
+          createMany: {
+            args: Prisma.LeadCommentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LeadCommentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadCommentPayload>[]
+          }
+          delete: {
+            args: Prisma.LeadCommentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadCommentPayload>
+          }
+          update: {
+            args: Prisma.LeadCommentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadCommentPayload>
+          }
+          deleteMany: {
+            args: Prisma.LeadCommentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LeadCommentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.LeadCommentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadCommentPayload>
+          }
+          aggregate: {
+            args: Prisma.LeadCommentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLeadComment>
+          }
+          groupBy: {
+            args: Prisma.LeadCommentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LeadCommentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LeadCommentCountArgs<ExtArgs>
+            result: $Utils.Optional<LeadCommentCountAggregateOutputType> | number
+          }
+        }
+      }
+      PipelineStageConfig: {
+        payload: Prisma.$PipelineStageConfigPayload<ExtArgs>
+        fields: Prisma.PipelineStageConfigFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PipelineStageConfigFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelineStageConfigPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PipelineStageConfigFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelineStageConfigPayload>
+          }
+          findFirst: {
+            args: Prisma.PipelineStageConfigFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelineStageConfigPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PipelineStageConfigFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelineStageConfigPayload>
+          }
+          findMany: {
+            args: Prisma.PipelineStageConfigFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelineStageConfigPayload>[]
+          }
+          create: {
+            args: Prisma.PipelineStageConfigCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelineStageConfigPayload>
+          }
+          createMany: {
+            args: Prisma.PipelineStageConfigCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PipelineStageConfigCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelineStageConfigPayload>[]
+          }
+          delete: {
+            args: Prisma.PipelineStageConfigDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelineStageConfigPayload>
+          }
+          update: {
+            args: Prisma.PipelineStageConfigUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelineStageConfigPayload>
+          }
+          deleteMany: {
+            args: Prisma.PipelineStageConfigDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PipelineStageConfigUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PipelineStageConfigUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelineStageConfigPayload>
+          }
+          aggregate: {
+            args: Prisma.PipelineStageConfigAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePipelineStageConfig>
+          }
+          groupBy: {
+            args: Prisma.PipelineStageConfigGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PipelineStageConfigGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PipelineStageConfigCountArgs<ExtArgs>
+            result: $Utils.Optional<PipelineStageConfigCountAggregateOutputType> | number
           }
         }
       }
@@ -1954,6 +2126,7 @@ export namespace Prisma {
     keywordRules: number
     tickets: number
     trackingLinks: number
+    pipelineStages: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1965,6 +2138,7 @@ export namespace Prisma {
     keywordRules?: boolean | CompanyCountOutputTypeCountKeywordRulesArgs
     tickets?: boolean | CompanyCountOutputTypeCountTicketsArgs
     trackingLinks?: boolean | CompanyCountOutputTypeCountTrackingLinksArgs
+    pipelineStages?: boolean | CompanyCountOutputTypeCountPipelineStagesArgs
   }
 
   // Custom InputTypes
@@ -2032,6 +2206,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountTrackingLinksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TrackingLinkWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountPipelineStagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PipelineStageConfigWhereInput
   }
 
 
@@ -2139,10 +2320,12 @@ export namespace Prisma {
 
   export type LeadCountOutputType = {
     messages: number
+    comments: number
   }
 
   export type LeadCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | LeadCountOutputTypeCountMessagesArgs
+    comments?: boolean | LeadCountOutputTypeCountCommentsArgs
   }
 
   // Custom InputTypes
@@ -2161,6 +2344,13 @@ export namespace Prisma {
    */
   export type LeadCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MessageWhereInput
+  }
+
+  /**
+   * LeadCountOutputType without action
+   */
+  export type LeadCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeadCommentWhereInput
   }
 
 
@@ -3468,6 +3658,7 @@ export namespace Prisma {
     keywordRules?: boolean | Company$keywordRulesArgs<ExtArgs>
     tickets?: boolean | Company$ticketsArgs<ExtArgs>
     trackingLinks?: boolean | Company$trackingLinksArgs<ExtArgs>
+    pipelineStages?: boolean | Company$pipelineStagesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -3510,6 +3701,7 @@ export namespace Prisma {
     keywordRules?: boolean | Company$keywordRulesArgs<ExtArgs>
     tickets?: boolean | Company$ticketsArgs<ExtArgs>
     trackingLinks?: boolean | Company$trackingLinksArgs<ExtArgs>
+    pipelineStages?: boolean | Company$pipelineStagesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3525,6 +3717,7 @@ export namespace Prisma {
       keywordRules: Prisma.$KeywordRulePayload<ExtArgs>[]
       tickets: Prisma.$TicketPayload<ExtArgs>[]
       trackingLinks: Prisma.$TrackingLinkPayload<ExtArgs>[]
+      pipelineStages: Prisma.$PipelineStageConfigPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3911,6 +4104,7 @@ export namespace Prisma {
     keywordRules<T extends Company$keywordRulesArgs<ExtArgs> = {}>(args?: Subset<T, Company$keywordRulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KeywordRulePayload<ExtArgs>, T, "findMany"> | Null>
     tickets<T extends Company$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, Company$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany"> | Null>
     trackingLinks<T extends Company$trackingLinksArgs<ExtArgs> = {}>(args?: Subset<T, Company$trackingLinksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrackingLinkPayload<ExtArgs>, T, "findMany"> | Null>
+    pipelineStages<T extends Company$pipelineStagesArgs<ExtArgs> = {}>(args?: Subset<T, Company$pipelineStagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PipelineStageConfigPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4423,6 +4617,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TrackingLinkScalarFieldEnum | TrackingLinkScalarFieldEnum[]
+  }
+
+  /**
+   * Company.pipelineStages
+   */
+  export type Company$pipelineStagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PipelineStageConfig
+     */
+    select?: PipelineStageConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineStageConfigInclude<ExtArgs> | null
+    where?: PipelineStageConfigWhereInput
+    orderBy?: PipelineStageConfigOrderByWithRelationInput | PipelineStageConfigOrderByWithRelationInput[]
+    cursor?: PipelineStageConfigWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PipelineStageConfigScalarFieldEnum | PipelineStageConfigScalarFieldEnum[]
   }
 
   /**
@@ -7690,6 +7904,9 @@ export namespace Prisma {
     value: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    pipeline: string | null
+    pipelineStage: string | null
+    externalId: string | null
     companyId: string | null
     campaignId: string | null
     trackingLinkId: string | null
@@ -7706,6 +7923,9 @@ export namespace Prisma {
     value: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    pipeline: string | null
+    pipelineStage: string | null
+    externalId: string | null
     companyId: string | null
     campaignId: string | null
     trackingLinkId: string | null
@@ -7722,6 +7942,9 @@ export namespace Prisma {
     value: number
     createdAt: number
     updatedAt: number
+    pipeline: number
+    pipelineStage: number
+    externalId: number
     companyId: number
     campaignId: number
     trackingLinkId: number
@@ -7748,6 +7971,9 @@ export namespace Prisma {
     value?: true
     createdAt?: true
     updatedAt?: true
+    pipeline?: true
+    pipelineStage?: true
+    externalId?: true
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
@@ -7764,6 +7990,9 @@ export namespace Prisma {
     value?: true
     createdAt?: true
     updatedAt?: true
+    pipeline?: true
+    pipelineStage?: true
+    externalId?: true
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
@@ -7780,6 +8009,9 @@ export namespace Prisma {
     value?: true
     createdAt?: true
     updatedAt?: true
+    pipeline?: true
+    pipelineStage?: true
+    externalId?: true
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
@@ -7883,6 +8115,9 @@ export namespace Prisma {
     value: number | null
     createdAt: Date
     updatedAt: Date
+    pipeline: string | null
+    pipelineStage: string | null
+    externalId: string | null
     companyId: string
     campaignId: string | null
     trackingLinkId: string | null
@@ -7918,6 +8153,9 @@ export namespace Prisma {
     value?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    pipeline?: boolean
+    pipelineStage?: boolean
+    externalId?: boolean
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
@@ -7925,6 +8163,7 @@ export namespace Prisma {
     campaign?: boolean | Lead$campaignArgs<ExtArgs>
     trackingLink?: boolean | Lead$trackingLinkArgs<ExtArgs>
     messages?: boolean | Lead$messagesArgs<ExtArgs>
+    comments?: boolean | Lead$commentsArgs<ExtArgs>
     _count?: boolean | LeadCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["lead"]>
 
@@ -7939,6 +8178,9 @@ export namespace Prisma {
     value?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    pipeline?: boolean
+    pipelineStage?: boolean
+    externalId?: boolean
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
@@ -7958,6 +8200,9 @@ export namespace Prisma {
     value?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    pipeline?: boolean
+    pipelineStage?: boolean
+    externalId?: boolean
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
@@ -7968,6 +8213,7 @@ export namespace Prisma {
     campaign?: boolean | Lead$campaignArgs<ExtArgs>
     trackingLink?: boolean | Lead$trackingLinkArgs<ExtArgs>
     messages?: boolean | Lead$messagesArgs<ExtArgs>
+    comments?: boolean | Lead$commentsArgs<ExtArgs>
     _count?: boolean | LeadCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type LeadIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7983,6 +8229,7 @@ export namespace Prisma {
       campaign: Prisma.$CampaignPayload<ExtArgs> | null
       trackingLink: Prisma.$TrackingLinkPayload<ExtArgs> | null
       messages: Prisma.$MessagePayload<ExtArgs>[]
+      comments: Prisma.$LeadCommentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7995,6 +8242,9 @@ export namespace Prisma {
       value: number | null
       createdAt: Date
       updatedAt: Date
+      pipeline: string | null
+      pipelineStage: string | null
+      externalId: string | null
       companyId: string
       campaignId: string | null
       trackingLinkId: string | null
@@ -8366,6 +8616,7 @@ export namespace Prisma {
     campaign<T extends Lead$campaignArgs<ExtArgs> = {}>(args?: Subset<T, Lead$campaignArgs<ExtArgs>>): Prisma__CampaignClient<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     trackingLink<T extends Lead$trackingLinkArgs<ExtArgs> = {}>(args?: Subset<T, Lead$trackingLinkArgs<ExtArgs>>): Prisma__TrackingLinkClient<$Result.GetResult<Prisma.$TrackingLinkPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     messages<T extends Lead$messagesArgs<ExtArgs> = {}>(args?: Subset<T, Lead$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany"> | Null>
+    comments<T extends Lead$commentsArgs<ExtArgs> = {}>(args?: Subset<T, Lead$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadCommentPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8405,6 +8656,9 @@ export namespace Prisma {
     readonly value: FieldRef<"Lead", 'Float'>
     readonly createdAt: FieldRef<"Lead", 'DateTime'>
     readonly updatedAt: FieldRef<"Lead", 'DateTime'>
+    readonly pipeline: FieldRef<"Lead", 'String'>
+    readonly pipelineStage: FieldRef<"Lead", 'String'>
+    readonly externalId: FieldRef<"Lead", 'String'>
     readonly companyId: FieldRef<"Lead", 'String'>
     readonly campaignId: FieldRef<"Lead", 'String'>
     readonly trackingLinkId: FieldRef<"Lead", 'String'>
@@ -8776,6 +9030,26 @@ export namespace Prisma {
   }
 
   /**
+   * Lead.comments
+   */
+  export type Lead$commentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadComment
+     */
+    select?: LeadCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCommentInclude<ExtArgs> | null
+    where?: LeadCommentWhereInput
+    orderBy?: LeadCommentOrderByWithRelationInput | LeadCommentOrderByWithRelationInput[]
+    cursor?: LeadCommentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LeadCommentScalarFieldEnum | LeadCommentScalarFieldEnum[]
+  }
+
+  /**
    * Lead without action
    */
   export type LeadDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8787,6 +9061,1930 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: LeadInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LeadComment
+   */
+
+  export type AggregateLeadComment = {
+    _count: LeadCommentCountAggregateOutputType | null
+    _min: LeadCommentMinAggregateOutputType | null
+    _max: LeadCommentMaxAggregateOutputType | null
+  }
+
+  export type LeadCommentMinAggregateOutputType = {
+    id: string | null
+    body: string | null
+    authorName: string | null
+    createdAt: Date | null
+    leadId: string | null
+  }
+
+  export type LeadCommentMaxAggregateOutputType = {
+    id: string | null
+    body: string | null
+    authorName: string | null
+    createdAt: Date | null
+    leadId: string | null
+  }
+
+  export type LeadCommentCountAggregateOutputType = {
+    id: number
+    body: number
+    authorName: number
+    createdAt: number
+    leadId: number
+    _all: number
+  }
+
+
+  export type LeadCommentMinAggregateInputType = {
+    id?: true
+    body?: true
+    authorName?: true
+    createdAt?: true
+    leadId?: true
+  }
+
+  export type LeadCommentMaxAggregateInputType = {
+    id?: true
+    body?: true
+    authorName?: true
+    createdAt?: true
+    leadId?: true
+  }
+
+  export type LeadCommentCountAggregateInputType = {
+    id?: true
+    body?: true
+    authorName?: true
+    createdAt?: true
+    leadId?: true
+    _all?: true
+  }
+
+  export type LeadCommentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LeadComment to aggregate.
+     */
+    where?: LeadCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeadComments to fetch.
+     */
+    orderBy?: LeadCommentOrderByWithRelationInput | LeadCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LeadCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeadComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeadComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LeadComments
+    **/
+    _count?: true | LeadCommentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LeadCommentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LeadCommentMaxAggregateInputType
+  }
+
+  export type GetLeadCommentAggregateType<T extends LeadCommentAggregateArgs> = {
+        [P in keyof T & keyof AggregateLeadComment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLeadComment[P]>
+      : GetScalarType<T[P], AggregateLeadComment[P]>
+  }
+
+
+
+
+  export type LeadCommentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeadCommentWhereInput
+    orderBy?: LeadCommentOrderByWithAggregationInput | LeadCommentOrderByWithAggregationInput[]
+    by: LeadCommentScalarFieldEnum[] | LeadCommentScalarFieldEnum
+    having?: LeadCommentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LeadCommentCountAggregateInputType | true
+    _min?: LeadCommentMinAggregateInputType
+    _max?: LeadCommentMaxAggregateInputType
+  }
+
+  export type LeadCommentGroupByOutputType = {
+    id: string
+    body: string
+    authorName: string
+    createdAt: Date
+    leadId: string
+    _count: LeadCommentCountAggregateOutputType | null
+    _min: LeadCommentMinAggregateOutputType | null
+    _max: LeadCommentMaxAggregateOutputType | null
+  }
+
+  type GetLeadCommentGroupByPayload<T extends LeadCommentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LeadCommentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LeadCommentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LeadCommentGroupByOutputType[P]>
+            : GetScalarType<T[P], LeadCommentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LeadCommentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    body?: boolean
+    authorName?: boolean
+    createdAt?: boolean
+    leadId?: boolean
+    lead?: boolean | LeadDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["leadComment"]>
+
+  export type LeadCommentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    body?: boolean
+    authorName?: boolean
+    createdAt?: boolean
+    leadId?: boolean
+    lead?: boolean | LeadDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["leadComment"]>
+
+  export type LeadCommentSelectScalar = {
+    id?: boolean
+    body?: boolean
+    authorName?: boolean
+    createdAt?: boolean
+    leadId?: boolean
+  }
+
+  export type LeadCommentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lead?: boolean | LeadDefaultArgs<ExtArgs>
+  }
+  export type LeadCommentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lead?: boolean | LeadDefaultArgs<ExtArgs>
+  }
+
+  export type $LeadCommentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LeadComment"
+    objects: {
+      lead: Prisma.$LeadPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      body: string
+      authorName: string
+      createdAt: Date
+      leadId: string
+    }, ExtArgs["result"]["leadComment"]>
+    composites: {}
+  }
+
+  type LeadCommentGetPayload<S extends boolean | null | undefined | LeadCommentDefaultArgs> = $Result.GetResult<Prisma.$LeadCommentPayload, S>
+
+  type LeadCommentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<LeadCommentFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: LeadCommentCountAggregateInputType | true
+    }
+
+  export interface LeadCommentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LeadComment'], meta: { name: 'LeadComment' } }
+    /**
+     * Find zero or one LeadComment that matches the filter.
+     * @param {LeadCommentFindUniqueArgs} args - Arguments to find a LeadComment
+     * @example
+     * // Get one LeadComment
+     * const leadComment = await prisma.leadComment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LeadCommentFindUniqueArgs>(args: SelectSubset<T, LeadCommentFindUniqueArgs<ExtArgs>>): Prisma__LeadCommentClient<$Result.GetResult<Prisma.$LeadCommentPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one LeadComment that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {LeadCommentFindUniqueOrThrowArgs} args - Arguments to find a LeadComment
+     * @example
+     * // Get one LeadComment
+     * const leadComment = await prisma.leadComment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LeadCommentFindUniqueOrThrowArgs>(args: SelectSubset<T, LeadCommentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LeadCommentClient<$Result.GetResult<Prisma.$LeadCommentPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first LeadComment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadCommentFindFirstArgs} args - Arguments to find a LeadComment
+     * @example
+     * // Get one LeadComment
+     * const leadComment = await prisma.leadComment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LeadCommentFindFirstArgs>(args?: SelectSubset<T, LeadCommentFindFirstArgs<ExtArgs>>): Prisma__LeadCommentClient<$Result.GetResult<Prisma.$LeadCommentPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first LeadComment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadCommentFindFirstOrThrowArgs} args - Arguments to find a LeadComment
+     * @example
+     * // Get one LeadComment
+     * const leadComment = await prisma.leadComment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LeadCommentFindFirstOrThrowArgs>(args?: SelectSubset<T, LeadCommentFindFirstOrThrowArgs<ExtArgs>>): Prisma__LeadCommentClient<$Result.GetResult<Prisma.$LeadCommentPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more LeadComments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadCommentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LeadComments
+     * const leadComments = await prisma.leadComment.findMany()
+     * 
+     * // Get first 10 LeadComments
+     * const leadComments = await prisma.leadComment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const leadCommentWithIdOnly = await prisma.leadComment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LeadCommentFindManyArgs>(args?: SelectSubset<T, LeadCommentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadCommentPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a LeadComment.
+     * @param {LeadCommentCreateArgs} args - Arguments to create a LeadComment.
+     * @example
+     * // Create one LeadComment
+     * const LeadComment = await prisma.leadComment.create({
+     *   data: {
+     *     // ... data to create a LeadComment
+     *   }
+     * })
+     * 
+     */
+    create<T extends LeadCommentCreateArgs>(args: SelectSubset<T, LeadCommentCreateArgs<ExtArgs>>): Prisma__LeadCommentClient<$Result.GetResult<Prisma.$LeadCommentPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many LeadComments.
+     * @param {LeadCommentCreateManyArgs} args - Arguments to create many LeadComments.
+     * @example
+     * // Create many LeadComments
+     * const leadComment = await prisma.leadComment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LeadCommentCreateManyArgs>(args?: SelectSubset<T, LeadCommentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LeadComments and returns the data saved in the database.
+     * @param {LeadCommentCreateManyAndReturnArgs} args - Arguments to create many LeadComments.
+     * @example
+     * // Create many LeadComments
+     * const leadComment = await prisma.leadComment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LeadComments and only return the `id`
+     * const leadCommentWithIdOnly = await prisma.leadComment.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LeadCommentCreateManyAndReturnArgs>(args?: SelectSubset<T, LeadCommentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadCommentPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a LeadComment.
+     * @param {LeadCommentDeleteArgs} args - Arguments to delete one LeadComment.
+     * @example
+     * // Delete one LeadComment
+     * const LeadComment = await prisma.leadComment.delete({
+     *   where: {
+     *     // ... filter to delete one LeadComment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LeadCommentDeleteArgs>(args: SelectSubset<T, LeadCommentDeleteArgs<ExtArgs>>): Prisma__LeadCommentClient<$Result.GetResult<Prisma.$LeadCommentPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one LeadComment.
+     * @param {LeadCommentUpdateArgs} args - Arguments to update one LeadComment.
+     * @example
+     * // Update one LeadComment
+     * const leadComment = await prisma.leadComment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LeadCommentUpdateArgs>(args: SelectSubset<T, LeadCommentUpdateArgs<ExtArgs>>): Prisma__LeadCommentClient<$Result.GetResult<Prisma.$LeadCommentPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more LeadComments.
+     * @param {LeadCommentDeleteManyArgs} args - Arguments to filter LeadComments to delete.
+     * @example
+     * // Delete a few LeadComments
+     * const { count } = await prisma.leadComment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LeadCommentDeleteManyArgs>(args?: SelectSubset<T, LeadCommentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LeadComments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadCommentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LeadComments
+     * const leadComment = await prisma.leadComment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LeadCommentUpdateManyArgs>(args: SelectSubset<T, LeadCommentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one LeadComment.
+     * @param {LeadCommentUpsertArgs} args - Arguments to update or create a LeadComment.
+     * @example
+     * // Update or create a LeadComment
+     * const leadComment = await prisma.leadComment.upsert({
+     *   create: {
+     *     // ... data to create a LeadComment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LeadComment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LeadCommentUpsertArgs>(args: SelectSubset<T, LeadCommentUpsertArgs<ExtArgs>>): Prisma__LeadCommentClient<$Result.GetResult<Prisma.$LeadCommentPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of LeadComments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadCommentCountArgs} args - Arguments to filter LeadComments to count.
+     * @example
+     * // Count the number of LeadComments
+     * const count = await prisma.leadComment.count({
+     *   where: {
+     *     // ... the filter for the LeadComments we want to count
+     *   }
+     * })
+    **/
+    count<T extends LeadCommentCountArgs>(
+      args?: Subset<T, LeadCommentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LeadCommentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LeadComment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadCommentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LeadCommentAggregateArgs>(args: Subset<T, LeadCommentAggregateArgs>): Prisma.PrismaPromise<GetLeadCommentAggregateType<T>>
+
+    /**
+     * Group by LeadComment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadCommentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LeadCommentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LeadCommentGroupByArgs['orderBy'] }
+        : { orderBy?: LeadCommentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LeadCommentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLeadCommentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LeadComment model
+   */
+  readonly fields: LeadCommentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LeadComment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LeadCommentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    lead<T extends LeadDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LeadDefaultArgs<ExtArgs>>): Prisma__LeadClient<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LeadComment model
+   */ 
+  interface LeadCommentFieldRefs {
+    readonly id: FieldRef<"LeadComment", 'String'>
+    readonly body: FieldRef<"LeadComment", 'String'>
+    readonly authorName: FieldRef<"LeadComment", 'String'>
+    readonly createdAt: FieldRef<"LeadComment", 'DateTime'>
+    readonly leadId: FieldRef<"LeadComment", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LeadComment findUnique
+   */
+  export type LeadCommentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadComment
+     */
+    select?: LeadCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadComment to fetch.
+     */
+    where: LeadCommentWhereUniqueInput
+  }
+
+  /**
+   * LeadComment findUniqueOrThrow
+   */
+  export type LeadCommentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadComment
+     */
+    select?: LeadCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadComment to fetch.
+     */
+    where: LeadCommentWhereUniqueInput
+  }
+
+  /**
+   * LeadComment findFirst
+   */
+  export type LeadCommentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadComment
+     */
+    select?: LeadCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadComment to fetch.
+     */
+    where?: LeadCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeadComments to fetch.
+     */
+    orderBy?: LeadCommentOrderByWithRelationInput | LeadCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LeadComments.
+     */
+    cursor?: LeadCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeadComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeadComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LeadComments.
+     */
+    distinct?: LeadCommentScalarFieldEnum | LeadCommentScalarFieldEnum[]
+  }
+
+  /**
+   * LeadComment findFirstOrThrow
+   */
+  export type LeadCommentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadComment
+     */
+    select?: LeadCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadComment to fetch.
+     */
+    where?: LeadCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeadComments to fetch.
+     */
+    orderBy?: LeadCommentOrderByWithRelationInput | LeadCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LeadComments.
+     */
+    cursor?: LeadCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeadComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeadComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LeadComments.
+     */
+    distinct?: LeadCommentScalarFieldEnum | LeadCommentScalarFieldEnum[]
+  }
+
+  /**
+   * LeadComment findMany
+   */
+  export type LeadCommentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadComment
+     */
+    select?: LeadCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadComments to fetch.
+     */
+    where?: LeadCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeadComments to fetch.
+     */
+    orderBy?: LeadCommentOrderByWithRelationInput | LeadCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LeadComments.
+     */
+    cursor?: LeadCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeadComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeadComments.
+     */
+    skip?: number
+    distinct?: LeadCommentScalarFieldEnum | LeadCommentScalarFieldEnum[]
+  }
+
+  /**
+   * LeadComment create
+   */
+  export type LeadCommentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadComment
+     */
+    select?: LeadCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCommentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LeadComment.
+     */
+    data: XOR<LeadCommentCreateInput, LeadCommentUncheckedCreateInput>
+  }
+
+  /**
+   * LeadComment createMany
+   */
+  export type LeadCommentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LeadComments.
+     */
+    data: LeadCommentCreateManyInput | LeadCommentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LeadComment createManyAndReturn
+   */
+  export type LeadCommentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadComment
+     */
+    select?: LeadCommentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many LeadComments.
+     */
+    data: LeadCommentCreateManyInput | LeadCommentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCommentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LeadComment update
+   */
+  export type LeadCommentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadComment
+     */
+    select?: LeadCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCommentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LeadComment.
+     */
+    data: XOR<LeadCommentUpdateInput, LeadCommentUncheckedUpdateInput>
+    /**
+     * Choose, which LeadComment to update.
+     */
+    where: LeadCommentWhereUniqueInput
+  }
+
+  /**
+   * LeadComment updateMany
+   */
+  export type LeadCommentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LeadComments.
+     */
+    data: XOR<LeadCommentUpdateManyMutationInput, LeadCommentUncheckedUpdateManyInput>
+    /**
+     * Filter which LeadComments to update
+     */
+    where?: LeadCommentWhereInput
+  }
+
+  /**
+   * LeadComment upsert
+   */
+  export type LeadCommentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadComment
+     */
+    select?: LeadCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCommentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LeadComment to update in case it exists.
+     */
+    where: LeadCommentWhereUniqueInput
+    /**
+     * In case the LeadComment found by the `where` argument doesn't exist, create a new LeadComment with this data.
+     */
+    create: XOR<LeadCommentCreateInput, LeadCommentUncheckedCreateInput>
+    /**
+     * In case the LeadComment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LeadCommentUpdateInput, LeadCommentUncheckedUpdateInput>
+  }
+
+  /**
+   * LeadComment delete
+   */
+  export type LeadCommentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadComment
+     */
+    select?: LeadCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCommentInclude<ExtArgs> | null
+    /**
+     * Filter which LeadComment to delete.
+     */
+    where: LeadCommentWhereUniqueInput
+  }
+
+  /**
+   * LeadComment deleteMany
+   */
+  export type LeadCommentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LeadComments to delete
+     */
+    where?: LeadCommentWhereInput
+  }
+
+  /**
+   * LeadComment without action
+   */
+  export type LeadCommentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadComment
+     */
+    select?: LeadCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCommentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PipelineStageConfig
+   */
+
+  export type AggregatePipelineStageConfig = {
+    _count: PipelineStageConfigCountAggregateOutputType | null
+    _avg: PipelineStageConfigAvgAggregateOutputType | null
+    _sum: PipelineStageConfigSumAggregateOutputType | null
+    _min: PipelineStageConfigMinAggregateOutputType | null
+    _max: PipelineStageConfigMaxAggregateOutputType | null
+  }
+
+  export type PipelineStageConfigAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type PipelineStageConfigSumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type PipelineStageConfigMinAggregateOutputType = {
+    id: string | null
+    pipeline: string | null
+    name: string | null
+    color: string | null
+    order: number | null
+    isFinal: boolean | null
+    companyId: string | null
+  }
+
+  export type PipelineStageConfigMaxAggregateOutputType = {
+    id: string | null
+    pipeline: string | null
+    name: string | null
+    color: string | null
+    order: number | null
+    isFinal: boolean | null
+    companyId: string | null
+  }
+
+  export type PipelineStageConfigCountAggregateOutputType = {
+    id: number
+    pipeline: number
+    name: number
+    color: number
+    order: number
+    isFinal: number
+    companyId: number
+    _all: number
+  }
+
+
+  export type PipelineStageConfigAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type PipelineStageConfigSumAggregateInputType = {
+    order?: true
+  }
+
+  export type PipelineStageConfigMinAggregateInputType = {
+    id?: true
+    pipeline?: true
+    name?: true
+    color?: true
+    order?: true
+    isFinal?: true
+    companyId?: true
+  }
+
+  export type PipelineStageConfigMaxAggregateInputType = {
+    id?: true
+    pipeline?: true
+    name?: true
+    color?: true
+    order?: true
+    isFinal?: true
+    companyId?: true
+  }
+
+  export type PipelineStageConfigCountAggregateInputType = {
+    id?: true
+    pipeline?: true
+    name?: true
+    color?: true
+    order?: true
+    isFinal?: true
+    companyId?: true
+    _all?: true
+  }
+
+  export type PipelineStageConfigAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PipelineStageConfig to aggregate.
+     */
+    where?: PipelineStageConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PipelineStageConfigs to fetch.
+     */
+    orderBy?: PipelineStageConfigOrderByWithRelationInput | PipelineStageConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PipelineStageConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PipelineStageConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PipelineStageConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PipelineStageConfigs
+    **/
+    _count?: true | PipelineStageConfigCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PipelineStageConfigAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PipelineStageConfigSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PipelineStageConfigMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PipelineStageConfigMaxAggregateInputType
+  }
+
+  export type GetPipelineStageConfigAggregateType<T extends PipelineStageConfigAggregateArgs> = {
+        [P in keyof T & keyof AggregatePipelineStageConfig]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePipelineStageConfig[P]>
+      : GetScalarType<T[P], AggregatePipelineStageConfig[P]>
+  }
+
+
+
+
+  export type PipelineStageConfigGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PipelineStageConfigWhereInput
+    orderBy?: PipelineStageConfigOrderByWithAggregationInput | PipelineStageConfigOrderByWithAggregationInput[]
+    by: PipelineStageConfigScalarFieldEnum[] | PipelineStageConfigScalarFieldEnum
+    having?: PipelineStageConfigScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PipelineStageConfigCountAggregateInputType | true
+    _avg?: PipelineStageConfigAvgAggregateInputType
+    _sum?: PipelineStageConfigSumAggregateInputType
+    _min?: PipelineStageConfigMinAggregateInputType
+    _max?: PipelineStageConfigMaxAggregateInputType
+  }
+
+  export type PipelineStageConfigGroupByOutputType = {
+    id: string
+    pipeline: string
+    name: string
+    color: string
+    order: number
+    isFinal: boolean
+    companyId: string
+    _count: PipelineStageConfigCountAggregateOutputType | null
+    _avg: PipelineStageConfigAvgAggregateOutputType | null
+    _sum: PipelineStageConfigSumAggregateOutputType | null
+    _min: PipelineStageConfigMinAggregateOutputType | null
+    _max: PipelineStageConfigMaxAggregateOutputType | null
+  }
+
+  type GetPipelineStageConfigGroupByPayload<T extends PipelineStageConfigGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PipelineStageConfigGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PipelineStageConfigGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PipelineStageConfigGroupByOutputType[P]>
+            : GetScalarType<T[P], PipelineStageConfigGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PipelineStageConfigSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pipeline?: boolean
+    name?: boolean
+    color?: boolean
+    order?: boolean
+    isFinal?: boolean
+    companyId?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["pipelineStageConfig"]>
+
+  export type PipelineStageConfigSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pipeline?: boolean
+    name?: boolean
+    color?: boolean
+    order?: boolean
+    isFinal?: boolean
+    companyId?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["pipelineStageConfig"]>
+
+  export type PipelineStageConfigSelectScalar = {
+    id?: boolean
+    pipeline?: boolean
+    name?: boolean
+    color?: boolean
+    order?: boolean
+    isFinal?: boolean
+    companyId?: boolean
+  }
+
+  export type PipelineStageConfigInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type PipelineStageConfigIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $PipelineStageConfigPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PipelineStageConfig"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      pipeline: string
+      name: string
+      color: string
+      order: number
+      isFinal: boolean
+      companyId: string
+    }, ExtArgs["result"]["pipelineStageConfig"]>
+    composites: {}
+  }
+
+  type PipelineStageConfigGetPayload<S extends boolean | null | undefined | PipelineStageConfigDefaultArgs> = $Result.GetResult<Prisma.$PipelineStageConfigPayload, S>
+
+  type PipelineStageConfigCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<PipelineStageConfigFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: PipelineStageConfigCountAggregateInputType | true
+    }
+
+  export interface PipelineStageConfigDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PipelineStageConfig'], meta: { name: 'PipelineStageConfig' } }
+    /**
+     * Find zero or one PipelineStageConfig that matches the filter.
+     * @param {PipelineStageConfigFindUniqueArgs} args - Arguments to find a PipelineStageConfig
+     * @example
+     * // Get one PipelineStageConfig
+     * const pipelineStageConfig = await prisma.pipelineStageConfig.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PipelineStageConfigFindUniqueArgs>(args: SelectSubset<T, PipelineStageConfigFindUniqueArgs<ExtArgs>>): Prisma__PipelineStageConfigClient<$Result.GetResult<Prisma.$PipelineStageConfigPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one PipelineStageConfig that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {PipelineStageConfigFindUniqueOrThrowArgs} args - Arguments to find a PipelineStageConfig
+     * @example
+     * // Get one PipelineStageConfig
+     * const pipelineStageConfig = await prisma.pipelineStageConfig.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PipelineStageConfigFindUniqueOrThrowArgs>(args: SelectSubset<T, PipelineStageConfigFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PipelineStageConfigClient<$Result.GetResult<Prisma.$PipelineStageConfigPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first PipelineStageConfig that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineStageConfigFindFirstArgs} args - Arguments to find a PipelineStageConfig
+     * @example
+     * // Get one PipelineStageConfig
+     * const pipelineStageConfig = await prisma.pipelineStageConfig.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PipelineStageConfigFindFirstArgs>(args?: SelectSubset<T, PipelineStageConfigFindFirstArgs<ExtArgs>>): Prisma__PipelineStageConfigClient<$Result.GetResult<Prisma.$PipelineStageConfigPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first PipelineStageConfig that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineStageConfigFindFirstOrThrowArgs} args - Arguments to find a PipelineStageConfig
+     * @example
+     * // Get one PipelineStageConfig
+     * const pipelineStageConfig = await prisma.pipelineStageConfig.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PipelineStageConfigFindFirstOrThrowArgs>(args?: SelectSubset<T, PipelineStageConfigFindFirstOrThrowArgs<ExtArgs>>): Prisma__PipelineStageConfigClient<$Result.GetResult<Prisma.$PipelineStageConfigPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more PipelineStageConfigs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineStageConfigFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PipelineStageConfigs
+     * const pipelineStageConfigs = await prisma.pipelineStageConfig.findMany()
+     * 
+     * // Get first 10 PipelineStageConfigs
+     * const pipelineStageConfigs = await prisma.pipelineStageConfig.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const pipelineStageConfigWithIdOnly = await prisma.pipelineStageConfig.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PipelineStageConfigFindManyArgs>(args?: SelectSubset<T, PipelineStageConfigFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PipelineStageConfigPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a PipelineStageConfig.
+     * @param {PipelineStageConfigCreateArgs} args - Arguments to create a PipelineStageConfig.
+     * @example
+     * // Create one PipelineStageConfig
+     * const PipelineStageConfig = await prisma.pipelineStageConfig.create({
+     *   data: {
+     *     // ... data to create a PipelineStageConfig
+     *   }
+     * })
+     * 
+     */
+    create<T extends PipelineStageConfigCreateArgs>(args: SelectSubset<T, PipelineStageConfigCreateArgs<ExtArgs>>): Prisma__PipelineStageConfigClient<$Result.GetResult<Prisma.$PipelineStageConfigPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many PipelineStageConfigs.
+     * @param {PipelineStageConfigCreateManyArgs} args - Arguments to create many PipelineStageConfigs.
+     * @example
+     * // Create many PipelineStageConfigs
+     * const pipelineStageConfig = await prisma.pipelineStageConfig.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PipelineStageConfigCreateManyArgs>(args?: SelectSubset<T, PipelineStageConfigCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PipelineStageConfigs and returns the data saved in the database.
+     * @param {PipelineStageConfigCreateManyAndReturnArgs} args - Arguments to create many PipelineStageConfigs.
+     * @example
+     * // Create many PipelineStageConfigs
+     * const pipelineStageConfig = await prisma.pipelineStageConfig.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PipelineStageConfigs and only return the `id`
+     * const pipelineStageConfigWithIdOnly = await prisma.pipelineStageConfig.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PipelineStageConfigCreateManyAndReturnArgs>(args?: SelectSubset<T, PipelineStageConfigCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PipelineStageConfigPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a PipelineStageConfig.
+     * @param {PipelineStageConfigDeleteArgs} args - Arguments to delete one PipelineStageConfig.
+     * @example
+     * // Delete one PipelineStageConfig
+     * const PipelineStageConfig = await prisma.pipelineStageConfig.delete({
+     *   where: {
+     *     // ... filter to delete one PipelineStageConfig
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PipelineStageConfigDeleteArgs>(args: SelectSubset<T, PipelineStageConfigDeleteArgs<ExtArgs>>): Prisma__PipelineStageConfigClient<$Result.GetResult<Prisma.$PipelineStageConfigPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one PipelineStageConfig.
+     * @param {PipelineStageConfigUpdateArgs} args - Arguments to update one PipelineStageConfig.
+     * @example
+     * // Update one PipelineStageConfig
+     * const pipelineStageConfig = await prisma.pipelineStageConfig.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PipelineStageConfigUpdateArgs>(args: SelectSubset<T, PipelineStageConfigUpdateArgs<ExtArgs>>): Prisma__PipelineStageConfigClient<$Result.GetResult<Prisma.$PipelineStageConfigPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more PipelineStageConfigs.
+     * @param {PipelineStageConfigDeleteManyArgs} args - Arguments to filter PipelineStageConfigs to delete.
+     * @example
+     * // Delete a few PipelineStageConfigs
+     * const { count } = await prisma.pipelineStageConfig.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PipelineStageConfigDeleteManyArgs>(args?: SelectSubset<T, PipelineStageConfigDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PipelineStageConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineStageConfigUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PipelineStageConfigs
+     * const pipelineStageConfig = await prisma.pipelineStageConfig.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PipelineStageConfigUpdateManyArgs>(args: SelectSubset<T, PipelineStageConfigUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PipelineStageConfig.
+     * @param {PipelineStageConfigUpsertArgs} args - Arguments to update or create a PipelineStageConfig.
+     * @example
+     * // Update or create a PipelineStageConfig
+     * const pipelineStageConfig = await prisma.pipelineStageConfig.upsert({
+     *   create: {
+     *     // ... data to create a PipelineStageConfig
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PipelineStageConfig we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PipelineStageConfigUpsertArgs>(args: SelectSubset<T, PipelineStageConfigUpsertArgs<ExtArgs>>): Prisma__PipelineStageConfigClient<$Result.GetResult<Prisma.$PipelineStageConfigPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of PipelineStageConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineStageConfigCountArgs} args - Arguments to filter PipelineStageConfigs to count.
+     * @example
+     * // Count the number of PipelineStageConfigs
+     * const count = await prisma.pipelineStageConfig.count({
+     *   where: {
+     *     // ... the filter for the PipelineStageConfigs we want to count
+     *   }
+     * })
+    **/
+    count<T extends PipelineStageConfigCountArgs>(
+      args?: Subset<T, PipelineStageConfigCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PipelineStageConfigCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PipelineStageConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineStageConfigAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PipelineStageConfigAggregateArgs>(args: Subset<T, PipelineStageConfigAggregateArgs>): Prisma.PrismaPromise<GetPipelineStageConfigAggregateType<T>>
+
+    /**
+     * Group by PipelineStageConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineStageConfigGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PipelineStageConfigGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PipelineStageConfigGroupByArgs['orderBy'] }
+        : { orderBy?: PipelineStageConfigGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PipelineStageConfigGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPipelineStageConfigGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PipelineStageConfig model
+   */
+  readonly fields: PipelineStageConfigFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PipelineStageConfig.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PipelineStageConfigClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PipelineStageConfig model
+   */ 
+  interface PipelineStageConfigFieldRefs {
+    readonly id: FieldRef<"PipelineStageConfig", 'String'>
+    readonly pipeline: FieldRef<"PipelineStageConfig", 'String'>
+    readonly name: FieldRef<"PipelineStageConfig", 'String'>
+    readonly color: FieldRef<"PipelineStageConfig", 'String'>
+    readonly order: FieldRef<"PipelineStageConfig", 'Int'>
+    readonly isFinal: FieldRef<"PipelineStageConfig", 'Boolean'>
+    readonly companyId: FieldRef<"PipelineStageConfig", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PipelineStageConfig findUnique
+   */
+  export type PipelineStageConfigFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PipelineStageConfig
+     */
+    select?: PipelineStageConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineStageConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which PipelineStageConfig to fetch.
+     */
+    where: PipelineStageConfigWhereUniqueInput
+  }
+
+  /**
+   * PipelineStageConfig findUniqueOrThrow
+   */
+  export type PipelineStageConfigFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PipelineStageConfig
+     */
+    select?: PipelineStageConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineStageConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which PipelineStageConfig to fetch.
+     */
+    where: PipelineStageConfigWhereUniqueInput
+  }
+
+  /**
+   * PipelineStageConfig findFirst
+   */
+  export type PipelineStageConfigFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PipelineStageConfig
+     */
+    select?: PipelineStageConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineStageConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which PipelineStageConfig to fetch.
+     */
+    where?: PipelineStageConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PipelineStageConfigs to fetch.
+     */
+    orderBy?: PipelineStageConfigOrderByWithRelationInput | PipelineStageConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PipelineStageConfigs.
+     */
+    cursor?: PipelineStageConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PipelineStageConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PipelineStageConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PipelineStageConfigs.
+     */
+    distinct?: PipelineStageConfigScalarFieldEnum | PipelineStageConfigScalarFieldEnum[]
+  }
+
+  /**
+   * PipelineStageConfig findFirstOrThrow
+   */
+  export type PipelineStageConfigFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PipelineStageConfig
+     */
+    select?: PipelineStageConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineStageConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which PipelineStageConfig to fetch.
+     */
+    where?: PipelineStageConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PipelineStageConfigs to fetch.
+     */
+    orderBy?: PipelineStageConfigOrderByWithRelationInput | PipelineStageConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PipelineStageConfigs.
+     */
+    cursor?: PipelineStageConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PipelineStageConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PipelineStageConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PipelineStageConfigs.
+     */
+    distinct?: PipelineStageConfigScalarFieldEnum | PipelineStageConfigScalarFieldEnum[]
+  }
+
+  /**
+   * PipelineStageConfig findMany
+   */
+  export type PipelineStageConfigFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PipelineStageConfig
+     */
+    select?: PipelineStageConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineStageConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which PipelineStageConfigs to fetch.
+     */
+    where?: PipelineStageConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PipelineStageConfigs to fetch.
+     */
+    orderBy?: PipelineStageConfigOrderByWithRelationInput | PipelineStageConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PipelineStageConfigs.
+     */
+    cursor?: PipelineStageConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PipelineStageConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PipelineStageConfigs.
+     */
+    skip?: number
+    distinct?: PipelineStageConfigScalarFieldEnum | PipelineStageConfigScalarFieldEnum[]
+  }
+
+  /**
+   * PipelineStageConfig create
+   */
+  export type PipelineStageConfigCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PipelineStageConfig
+     */
+    select?: PipelineStageConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineStageConfigInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PipelineStageConfig.
+     */
+    data: XOR<PipelineStageConfigCreateInput, PipelineStageConfigUncheckedCreateInput>
+  }
+
+  /**
+   * PipelineStageConfig createMany
+   */
+  export type PipelineStageConfigCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PipelineStageConfigs.
+     */
+    data: PipelineStageConfigCreateManyInput | PipelineStageConfigCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PipelineStageConfig createManyAndReturn
+   */
+  export type PipelineStageConfigCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PipelineStageConfig
+     */
+    select?: PipelineStageConfigSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many PipelineStageConfigs.
+     */
+    data: PipelineStageConfigCreateManyInput | PipelineStageConfigCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineStageConfigIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PipelineStageConfig update
+   */
+  export type PipelineStageConfigUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PipelineStageConfig
+     */
+    select?: PipelineStageConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineStageConfigInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PipelineStageConfig.
+     */
+    data: XOR<PipelineStageConfigUpdateInput, PipelineStageConfigUncheckedUpdateInput>
+    /**
+     * Choose, which PipelineStageConfig to update.
+     */
+    where: PipelineStageConfigWhereUniqueInput
+  }
+
+  /**
+   * PipelineStageConfig updateMany
+   */
+  export type PipelineStageConfigUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PipelineStageConfigs.
+     */
+    data: XOR<PipelineStageConfigUpdateManyMutationInput, PipelineStageConfigUncheckedUpdateManyInput>
+    /**
+     * Filter which PipelineStageConfigs to update
+     */
+    where?: PipelineStageConfigWhereInput
+  }
+
+  /**
+   * PipelineStageConfig upsert
+   */
+  export type PipelineStageConfigUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PipelineStageConfig
+     */
+    select?: PipelineStageConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineStageConfigInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PipelineStageConfig to update in case it exists.
+     */
+    where: PipelineStageConfigWhereUniqueInput
+    /**
+     * In case the PipelineStageConfig found by the `where` argument doesn't exist, create a new PipelineStageConfig with this data.
+     */
+    create: XOR<PipelineStageConfigCreateInput, PipelineStageConfigUncheckedCreateInput>
+    /**
+     * In case the PipelineStageConfig was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PipelineStageConfigUpdateInput, PipelineStageConfigUncheckedUpdateInput>
+  }
+
+  /**
+   * PipelineStageConfig delete
+   */
+  export type PipelineStageConfigDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PipelineStageConfig
+     */
+    select?: PipelineStageConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineStageConfigInclude<ExtArgs> | null
+    /**
+     * Filter which PipelineStageConfig to delete.
+     */
+    where: PipelineStageConfigWhereUniqueInput
+  }
+
+  /**
+   * PipelineStageConfig deleteMany
+   */
+  export type PipelineStageConfigDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PipelineStageConfigs to delete
+     */
+    where?: PipelineStageConfigWhereInput
+  }
+
+  /**
+   * PipelineStageConfig without action
+   */
+  export type PipelineStageConfigDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PipelineStageConfig
+     */
+    select?: PipelineStageConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineStageConfigInclude<ExtArgs> | null
   }
 
 
@@ -14843,12 +17041,39 @@ export namespace Prisma {
     value: 'value',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    pipeline: 'pipeline',
+    pipelineStage: 'pipelineStage',
+    externalId: 'externalId',
     companyId: 'companyId',
     campaignId: 'campaignId',
     trackingLinkId: 'trackingLinkId'
   };
 
   export type LeadScalarFieldEnum = (typeof LeadScalarFieldEnum)[keyof typeof LeadScalarFieldEnum]
+
+
+  export const LeadCommentScalarFieldEnum: {
+    id: 'id',
+    body: 'body',
+    authorName: 'authorName',
+    createdAt: 'createdAt',
+    leadId: 'leadId'
+  };
+
+  export type LeadCommentScalarFieldEnum = (typeof LeadCommentScalarFieldEnum)[keyof typeof LeadCommentScalarFieldEnum]
+
+
+  export const PipelineStageConfigScalarFieldEnum: {
+    id: 'id',
+    pipeline: 'pipeline',
+    name: 'name',
+    color: 'color',
+    order: 'order',
+    isFinal: 'isFinal',
+    companyId: 'companyId'
+  };
+
+  export type PipelineStageConfigScalarFieldEnum = (typeof PipelineStageConfigScalarFieldEnum)[keyof typeof PipelineStageConfigScalarFieldEnum]
 
 
   export const WhatsappInstanceScalarFieldEnum: {
@@ -15276,6 +17501,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleListRelationFilter
     tickets?: TicketListRelationFilter
     trackingLinks?: TrackingLinkListRelationFilter
+    pipelineStages?: PipelineStageConfigListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -15299,6 +17525,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleOrderByRelationAggregateInput
     tickets?: TicketOrderByRelationAggregateInput
     trackingLinks?: TrackingLinkOrderByRelationAggregateInput
+    pipelineStages?: PipelineStageConfigOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -15325,6 +17552,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleListRelationFilter
     tickets?: TicketListRelationFilter
     trackingLinks?: TrackingLinkListRelationFilter
+    pipelineStages?: PipelineStageConfigListRelationFilter
   }, "id" | "slug">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -15638,6 +17866,9 @@ export namespace Prisma {
     value?: FloatNullableFilter<"Lead"> | number | null
     createdAt?: DateTimeFilter<"Lead"> | Date | string
     updatedAt?: DateTimeFilter<"Lead"> | Date | string
+    pipeline?: StringNullableFilter<"Lead"> | string | null
+    pipelineStage?: StringNullableFilter<"Lead"> | string | null
+    externalId?: StringNullableFilter<"Lead"> | string | null
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
@@ -15645,6 +17876,7 @@ export namespace Prisma {
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
     trackingLink?: XOR<TrackingLinkNullableRelationFilter, TrackingLinkWhereInput> | null
     messages?: MessageListRelationFilter
+    comments?: LeadCommentListRelationFilter
   }
 
   export type LeadOrderByWithRelationInput = {
@@ -15658,6 +17890,9 @@ export namespace Prisma {
     value?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    pipeline?: SortOrderInput | SortOrder
+    pipelineStage?: SortOrderInput | SortOrder
+    externalId?: SortOrderInput | SortOrder
     companyId?: SortOrder
     campaignId?: SortOrderInput | SortOrder
     trackingLinkId?: SortOrderInput | SortOrder
@@ -15665,6 +17900,7 @@ export namespace Prisma {
     campaign?: CampaignOrderByWithRelationInput
     trackingLink?: TrackingLinkOrderByWithRelationInput
     messages?: MessageOrderByRelationAggregateInput
+    comments?: LeadCommentOrderByRelationAggregateInput
   }
 
   export type LeadWhereUniqueInput = Prisma.AtLeast<{
@@ -15681,6 +17917,9 @@ export namespace Prisma {
     value?: FloatNullableFilter<"Lead"> | number | null
     createdAt?: DateTimeFilter<"Lead"> | Date | string
     updatedAt?: DateTimeFilter<"Lead"> | Date | string
+    pipeline?: StringNullableFilter<"Lead"> | string | null
+    pipelineStage?: StringNullableFilter<"Lead"> | string | null
+    externalId?: StringNullableFilter<"Lead"> | string | null
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
@@ -15688,6 +17927,7 @@ export namespace Prisma {
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
     trackingLink?: XOR<TrackingLinkNullableRelationFilter, TrackingLinkWhereInput> | null
     messages?: MessageListRelationFilter
+    comments?: LeadCommentListRelationFilter
   }, "id">
 
   export type LeadOrderByWithAggregationInput = {
@@ -15701,6 +17941,9 @@ export namespace Prisma {
     value?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    pipeline?: SortOrderInput | SortOrder
+    pipelineStage?: SortOrderInput | SortOrder
+    externalId?: SortOrderInput | SortOrder
     companyId?: SortOrder
     campaignId?: SortOrderInput | SortOrder
     trackingLinkId?: SortOrderInput | SortOrder
@@ -15725,9 +17968,134 @@ export namespace Prisma {
     value?: FloatNullableWithAggregatesFilter<"Lead"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"Lead"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Lead"> | Date | string
+    pipeline?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    pipelineStage?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    externalId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     companyId?: StringWithAggregatesFilter<"Lead"> | string
     campaignId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+  }
+
+  export type LeadCommentWhereInput = {
+    AND?: LeadCommentWhereInput | LeadCommentWhereInput[]
+    OR?: LeadCommentWhereInput[]
+    NOT?: LeadCommentWhereInput | LeadCommentWhereInput[]
+    id?: StringFilter<"LeadComment"> | string
+    body?: StringFilter<"LeadComment"> | string
+    authorName?: StringFilter<"LeadComment"> | string
+    createdAt?: DateTimeFilter<"LeadComment"> | Date | string
+    leadId?: StringFilter<"LeadComment"> | string
+    lead?: XOR<LeadRelationFilter, LeadWhereInput>
+  }
+
+  export type LeadCommentOrderByWithRelationInput = {
+    id?: SortOrder
+    body?: SortOrder
+    authorName?: SortOrder
+    createdAt?: SortOrder
+    leadId?: SortOrder
+    lead?: LeadOrderByWithRelationInput
+  }
+
+  export type LeadCommentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LeadCommentWhereInput | LeadCommentWhereInput[]
+    OR?: LeadCommentWhereInput[]
+    NOT?: LeadCommentWhereInput | LeadCommentWhereInput[]
+    body?: StringFilter<"LeadComment"> | string
+    authorName?: StringFilter<"LeadComment"> | string
+    createdAt?: DateTimeFilter<"LeadComment"> | Date | string
+    leadId?: StringFilter<"LeadComment"> | string
+    lead?: XOR<LeadRelationFilter, LeadWhereInput>
+  }, "id">
+
+  export type LeadCommentOrderByWithAggregationInput = {
+    id?: SortOrder
+    body?: SortOrder
+    authorName?: SortOrder
+    createdAt?: SortOrder
+    leadId?: SortOrder
+    _count?: LeadCommentCountOrderByAggregateInput
+    _max?: LeadCommentMaxOrderByAggregateInput
+    _min?: LeadCommentMinOrderByAggregateInput
+  }
+
+  export type LeadCommentScalarWhereWithAggregatesInput = {
+    AND?: LeadCommentScalarWhereWithAggregatesInput | LeadCommentScalarWhereWithAggregatesInput[]
+    OR?: LeadCommentScalarWhereWithAggregatesInput[]
+    NOT?: LeadCommentScalarWhereWithAggregatesInput | LeadCommentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LeadComment"> | string
+    body?: StringWithAggregatesFilter<"LeadComment"> | string
+    authorName?: StringWithAggregatesFilter<"LeadComment"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"LeadComment"> | Date | string
+    leadId?: StringWithAggregatesFilter<"LeadComment"> | string
+  }
+
+  export type PipelineStageConfigWhereInput = {
+    AND?: PipelineStageConfigWhereInput | PipelineStageConfigWhereInput[]
+    OR?: PipelineStageConfigWhereInput[]
+    NOT?: PipelineStageConfigWhereInput | PipelineStageConfigWhereInput[]
+    id?: StringFilter<"PipelineStageConfig"> | string
+    pipeline?: StringFilter<"PipelineStageConfig"> | string
+    name?: StringFilter<"PipelineStageConfig"> | string
+    color?: StringFilter<"PipelineStageConfig"> | string
+    order?: IntFilter<"PipelineStageConfig"> | number
+    isFinal?: BoolFilter<"PipelineStageConfig"> | boolean
+    companyId?: StringFilter<"PipelineStageConfig"> | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type PipelineStageConfigOrderByWithRelationInput = {
+    id?: SortOrder
+    pipeline?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    order?: SortOrder
+    isFinal?: SortOrder
+    companyId?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type PipelineStageConfigWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PipelineStageConfigWhereInput | PipelineStageConfigWhereInput[]
+    OR?: PipelineStageConfigWhereInput[]
+    NOT?: PipelineStageConfigWhereInput | PipelineStageConfigWhereInput[]
+    pipeline?: StringFilter<"PipelineStageConfig"> | string
+    name?: StringFilter<"PipelineStageConfig"> | string
+    color?: StringFilter<"PipelineStageConfig"> | string
+    order?: IntFilter<"PipelineStageConfig"> | number
+    isFinal?: BoolFilter<"PipelineStageConfig"> | boolean
+    companyId?: StringFilter<"PipelineStageConfig"> | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id">
+
+  export type PipelineStageConfigOrderByWithAggregationInput = {
+    id?: SortOrder
+    pipeline?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    order?: SortOrder
+    isFinal?: SortOrder
+    companyId?: SortOrder
+    _count?: PipelineStageConfigCountOrderByAggregateInput
+    _avg?: PipelineStageConfigAvgOrderByAggregateInput
+    _max?: PipelineStageConfigMaxOrderByAggregateInput
+    _min?: PipelineStageConfigMinOrderByAggregateInput
+    _sum?: PipelineStageConfigSumOrderByAggregateInput
+  }
+
+  export type PipelineStageConfigScalarWhereWithAggregatesInput = {
+    AND?: PipelineStageConfigScalarWhereWithAggregatesInput | PipelineStageConfigScalarWhereWithAggregatesInput[]
+    OR?: PipelineStageConfigScalarWhereWithAggregatesInput[]
+    NOT?: PipelineStageConfigScalarWhereWithAggregatesInput | PipelineStageConfigScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PipelineStageConfig"> | string
+    pipeline?: StringWithAggregatesFilter<"PipelineStageConfig"> | string
+    name?: StringWithAggregatesFilter<"PipelineStageConfig"> | string
+    color?: StringWithAggregatesFilter<"PipelineStageConfig"> | string
+    order?: IntWithAggregatesFilter<"PipelineStageConfig"> | number
+    isFinal?: BoolWithAggregatesFilter<"PipelineStageConfig"> | boolean
+    companyId?: StringWithAggregatesFilter<"PipelineStageConfig"> | string
   }
 
   export type WhatsappInstanceWhereInput = {
@@ -16266,6 +18634,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -16289,6 +18658,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -16312,6 +18682,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -16335,6 +18706,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -16679,10 +19051,14 @@ export namespace Prisma {
     value?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateInput = {
@@ -16696,10 +19072,14 @@ export namespace Prisma {
     value?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUpdateInput = {
@@ -16713,10 +19093,14 @@ export namespace Prisma {
     value?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateInput = {
@@ -16730,10 +19114,14 @@ export namespace Prisma {
     value?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadCreateManyInput = {
@@ -16747,6 +19135,9 @@ export namespace Prisma {
     value?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
@@ -16763,6 +19154,9 @@ export namespace Prisma {
     value?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LeadUncheckedUpdateManyInput = {
@@ -16776,9 +19170,136 @@ export namespace Prisma {
     value?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type LeadCommentCreateInput = {
+    id?: string
+    body: string
+    authorName?: string
+    createdAt?: Date | string
+    lead: LeadCreateNestedOneWithoutCommentsInput
+  }
+
+  export type LeadCommentUncheckedCreateInput = {
+    id?: string
+    body: string
+    authorName?: string
+    createdAt?: Date | string
+    leadId: string
+  }
+
+  export type LeadCommentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    authorName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lead?: LeadUpdateOneRequiredWithoutCommentsNestedInput
+  }
+
+  export type LeadCommentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    authorName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leadId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type LeadCommentCreateManyInput = {
+    id?: string
+    body: string
+    authorName?: string
+    createdAt?: Date | string
+    leadId: string
+  }
+
+  export type LeadCommentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    authorName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadCommentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    authorName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leadId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PipelineStageConfigCreateInput = {
+    id?: string
+    pipeline: string
+    name: string
+    color?: string
+    order?: number
+    isFinal?: boolean
+    company: CompanyCreateNestedOneWithoutPipelineStagesInput
+  }
+
+  export type PipelineStageConfigUncheckedCreateInput = {
+    id?: string
+    pipeline: string
+    name: string
+    color?: string
+    order?: number
+    isFinal?: boolean
+    companyId: string
+  }
+
+  export type PipelineStageConfigUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pipeline?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isFinal?: BoolFieldUpdateOperationsInput | boolean
+    company?: CompanyUpdateOneRequiredWithoutPipelineStagesNestedInput
+  }
+
+  export type PipelineStageConfigUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pipeline?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isFinal?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PipelineStageConfigCreateManyInput = {
+    id?: string
+    pipeline: string
+    name: string
+    color?: string
+    order?: number
+    isFinal?: boolean
+    companyId: string
+  }
+
+  export type PipelineStageConfigUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pipeline?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isFinal?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type PipelineStageConfigUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pipeline?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isFinal?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: StringFieldUpdateOperationsInput | string
   }
 
   export type WhatsappInstanceCreateInput = {
@@ -17449,6 +19970,12 @@ export namespace Prisma {
     none?: TrackingLinkWhereInput
   }
 
+  export type PipelineStageConfigListRelationFilter = {
+    every?: PipelineStageConfigWhereInput
+    some?: PipelineStageConfigWhereInput
+    none?: PipelineStageConfigWhereInput
+  }
+
   export type UserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -17474,6 +20001,10 @@ export namespace Prisma {
   }
 
   export type TrackingLinkOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PipelineStageConfigOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -17825,6 +20356,16 @@ export namespace Prisma {
     isNot?: TrackingLinkWhereInput | null
   }
 
+  export type LeadCommentListRelationFilter = {
+    every?: LeadCommentWhereInput
+    some?: LeadCommentWhereInput
+    none?: LeadCommentWhereInput
+  }
+
+  export type LeadCommentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type LeadCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -17836,6 +20377,9 @@ export namespace Prisma {
     value?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    pipeline?: SortOrder
+    pipelineStage?: SortOrder
+    externalId?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
@@ -17856,6 +20400,9 @@ export namespace Prisma {
     value?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    pipeline?: SortOrder
+    pipelineStage?: SortOrder
+    externalId?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
@@ -17872,6 +20419,9 @@ export namespace Prisma {
     value?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    pipeline?: SortOrder
+    pipelineStage?: SortOrder
+    externalId?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
@@ -17889,6 +20439,73 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumLeadStatusFilter<$PrismaModel>
     _max?: NestedEnumLeadStatusFilter<$PrismaModel>
+  }
+
+  export type LeadRelationFilter = {
+    is?: LeadWhereInput
+    isNot?: LeadWhereInput
+  }
+
+  export type LeadCommentCountOrderByAggregateInput = {
+    id?: SortOrder
+    body?: SortOrder
+    authorName?: SortOrder
+    createdAt?: SortOrder
+    leadId?: SortOrder
+  }
+
+  export type LeadCommentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    body?: SortOrder
+    authorName?: SortOrder
+    createdAt?: SortOrder
+    leadId?: SortOrder
+  }
+
+  export type LeadCommentMinOrderByAggregateInput = {
+    id?: SortOrder
+    body?: SortOrder
+    authorName?: SortOrder
+    createdAt?: SortOrder
+    leadId?: SortOrder
+  }
+
+  export type PipelineStageConfigCountOrderByAggregateInput = {
+    id?: SortOrder
+    pipeline?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    order?: SortOrder
+    isFinal?: SortOrder
+    companyId?: SortOrder
+  }
+
+  export type PipelineStageConfigAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type PipelineStageConfigMaxOrderByAggregateInput = {
+    id?: SortOrder
+    pipeline?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    order?: SortOrder
+    isFinal?: SortOrder
+    companyId?: SortOrder
+  }
+
+  export type PipelineStageConfigMinOrderByAggregateInput = {
+    id?: SortOrder
+    pipeline?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    order?: SortOrder
+    isFinal?: SortOrder
+    companyId?: SortOrder
+  }
+
+  export type PipelineStageConfigSumOrderByAggregateInput = {
+    order?: SortOrder
   }
 
   export type EnumInstanceStatusFilter<$PrismaModel = never> = {
@@ -18384,6 +21001,13 @@ export namespace Prisma {
     connect?: TrackingLinkWhereUniqueInput | TrackingLinkWhereUniqueInput[]
   }
 
+  export type PipelineStageConfigCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<PipelineStageConfigCreateWithoutCompanyInput, PipelineStageConfigUncheckedCreateWithoutCompanyInput> | PipelineStageConfigCreateWithoutCompanyInput[] | PipelineStageConfigUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: PipelineStageConfigCreateOrConnectWithoutCompanyInput | PipelineStageConfigCreateOrConnectWithoutCompanyInput[]
+    createMany?: PipelineStageConfigCreateManyCompanyInputEnvelope
+    connect?: PipelineStageConfigWhereUniqueInput | PipelineStageConfigWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -18438,6 +21062,13 @@ export namespace Prisma {
     connectOrCreate?: TrackingLinkCreateOrConnectWithoutCompanyInput | TrackingLinkCreateOrConnectWithoutCompanyInput[]
     createMany?: TrackingLinkCreateManyCompanyInputEnvelope
     connect?: TrackingLinkWhereUniqueInput | TrackingLinkWhereUniqueInput[]
+  }
+
+  export type PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<PipelineStageConfigCreateWithoutCompanyInput, PipelineStageConfigUncheckedCreateWithoutCompanyInput> | PipelineStageConfigCreateWithoutCompanyInput[] | PipelineStageConfigUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: PipelineStageConfigCreateOrConnectWithoutCompanyInput | PipelineStageConfigCreateOrConnectWithoutCompanyInput[]
+    createMany?: PipelineStageConfigCreateManyCompanyInputEnvelope
+    connect?: PipelineStageConfigWhereUniqueInput | PipelineStageConfigWhereUniqueInput[]
   }
 
   export type EnumCompanyStatusFieldUpdateOperationsInput = {
@@ -18560,6 +21191,20 @@ export namespace Prisma {
     deleteMany?: TrackingLinkScalarWhereInput | TrackingLinkScalarWhereInput[]
   }
 
+  export type PipelineStageConfigUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<PipelineStageConfigCreateWithoutCompanyInput, PipelineStageConfigUncheckedCreateWithoutCompanyInput> | PipelineStageConfigCreateWithoutCompanyInput[] | PipelineStageConfigUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: PipelineStageConfigCreateOrConnectWithoutCompanyInput | PipelineStageConfigCreateOrConnectWithoutCompanyInput[]
+    upsert?: PipelineStageConfigUpsertWithWhereUniqueWithoutCompanyInput | PipelineStageConfigUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: PipelineStageConfigCreateManyCompanyInputEnvelope
+    set?: PipelineStageConfigWhereUniqueInput | PipelineStageConfigWhereUniqueInput[]
+    disconnect?: PipelineStageConfigWhereUniqueInput | PipelineStageConfigWhereUniqueInput[]
+    delete?: PipelineStageConfigWhereUniqueInput | PipelineStageConfigWhereUniqueInput[]
+    connect?: PipelineStageConfigWhereUniqueInput | PipelineStageConfigWhereUniqueInput[]
+    update?: PipelineStageConfigUpdateWithWhereUniqueWithoutCompanyInput | PipelineStageConfigUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: PipelineStageConfigUpdateManyWithWhereWithoutCompanyInput | PipelineStageConfigUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: PipelineStageConfigScalarWhereInput | PipelineStageConfigScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -18670,6 +21315,20 @@ export namespace Prisma {
     update?: TrackingLinkUpdateWithWhereUniqueWithoutCompanyInput | TrackingLinkUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: TrackingLinkUpdateManyWithWhereWithoutCompanyInput | TrackingLinkUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: TrackingLinkScalarWhereInput | TrackingLinkScalarWhereInput[]
+  }
+
+  export type PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<PipelineStageConfigCreateWithoutCompanyInput, PipelineStageConfigUncheckedCreateWithoutCompanyInput> | PipelineStageConfigCreateWithoutCompanyInput[] | PipelineStageConfigUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: PipelineStageConfigCreateOrConnectWithoutCompanyInput | PipelineStageConfigCreateOrConnectWithoutCompanyInput[]
+    upsert?: PipelineStageConfigUpsertWithWhereUniqueWithoutCompanyInput | PipelineStageConfigUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: PipelineStageConfigCreateManyCompanyInputEnvelope
+    set?: PipelineStageConfigWhereUniqueInput | PipelineStageConfigWhereUniqueInput[]
+    disconnect?: PipelineStageConfigWhereUniqueInput | PipelineStageConfigWhereUniqueInput[]
+    delete?: PipelineStageConfigWhereUniqueInput | PipelineStageConfigWhereUniqueInput[]
+    connect?: PipelineStageConfigWhereUniqueInput | PipelineStageConfigWhereUniqueInput[]
+    update?: PipelineStageConfigUpdateWithWhereUniqueWithoutCompanyInput | PipelineStageConfigUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: PipelineStageConfigUpdateManyWithWhereWithoutCompanyInput | PipelineStageConfigUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: PipelineStageConfigScalarWhereInput | PipelineStageConfigScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutCampaignsInput = {
@@ -19037,11 +21696,25 @@ export namespace Prisma {
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
+  export type LeadCommentCreateNestedManyWithoutLeadInput = {
+    create?: XOR<LeadCommentCreateWithoutLeadInput, LeadCommentUncheckedCreateWithoutLeadInput> | LeadCommentCreateWithoutLeadInput[] | LeadCommentUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: LeadCommentCreateOrConnectWithoutLeadInput | LeadCommentCreateOrConnectWithoutLeadInput[]
+    createMany?: LeadCommentCreateManyLeadInputEnvelope
+    connect?: LeadCommentWhereUniqueInput | LeadCommentWhereUniqueInput[]
+  }
+
   export type MessageUncheckedCreateNestedManyWithoutLeadInput = {
     create?: XOR<MessageCreateWithoutLeadInput, MessageUncheckedCreateWithoutLeadInput> | MessageCreateWithoutLeadInput[] | MessageUncheckedCreateWithoutLeadInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutLeadInput | MessageCreateOrConnectWithoutLeadInput[]
     createMany?: MessageCreateManyLeadInputEnvelope
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type LeadCommentUncheckedCreateNestedManyWithoutLeadInput = {
+    create?: XOR<LeadCommentCreateWithoutLeadInput, LeadCommentUncheckedCreateWithoutLeadInput> | LeadCommentCreateWithoutLeadInput[] | LeadCommentUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: LeadCommentCreateOrConnectWithoutLeadInput | LeadCommentCreateOrConnectWithoutLeadInput[]
+    createMany?: LeadCommentCreateManyLeadInputEnvelope
+    connect?: LeadCommentWhereUniqueInput | LeadCommentWhereUniqueInput[]
   }
 
   export type EnumLeadStatusFieldUpdateOperationsInput = {
@@ -19090,6 +21763,20 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
+  export type LeadCommentUpdateManyWithoutLeadNestedInput = {
+    create?: XOR<LeadCommentCreateWithoutLeadInput, LeadCommentUncheckedCreateWithoutLeadInput> | LeadCommentCreateWithoutLeadInput[] | LeadCommentUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: LeadCommentCreateOrConnectWithoutLeadInput | LeadCommentCreateOrConnectWithoutLeadInput[]
+    upsert?: LeadCommentUpsertWithWhereUniqueWithoutLeadInput | LeadCommentUpsertWithWhereUniqueWithoutLeadInput[]
+    createMany?: LeadCommentCreateManyLeadInputEnvelope
+    set?: LeadCommentWhereUniqueInput | LeadCommentWhereUniqueInput[]
+    disconnect?: LeadCommentWhereUniqueInput | LeadCommentWhereUniqueInput[]
+    delete?: LeadCommentWhereUniqueInput | LeadCommentWhereUniqueInput[]
+    connect?: LeadCommentWhereUniqueInput | LeadCommentWhereUniqueInput[]
+    update?: LeadCommentUpdateWithWhereUniqueWithoutLeadInput | LeadCommentUpdateWithWhereUniqueWithoutLeadInput[]
+    updateMany?: LeadCommentUpdateManyWithWhereWithoutLeadInput | LeadCommentUpdateManyWithWhereWithoutLeadInput[]
+    deleteMany?: LeadCommentScalarWhereInput | LeadCommentScalarWhereInput[]
+  }
+
   export type MessageUncheckedUpdateManyWithoutLeadNestedInput = {
     create?: XOR<MessageCreateWithoutLeadInput, MessageUncheckedCreateWithoutLeadInput> | MessageCreateWithoutLeadInput[] | MessageUncheckedCreateWithoutLeadInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutLeadInput | MessageCreateOrConnectWithoutLeadInput[]
@@ -19102,6 +21789,48 @@ export namespace Prisma {
     update?: MessageUpdateWithWhereUniqueWithoutLeadInput | MessageUpdateWithWhereUniqueWithoutLeadInput[]
     updateMany?: MessageUpdateManyWithWhereWithoutLeadInput | MessageUpdateManyWithWhereWithoutLeadInput[]
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
+  export type LeadCommentUncheckedUpdateManyWithoutLeadNestedInput = {
+    create?: XOR<LeadCommentCreateWithoutLeadInput, LeadCommentUncheckedCreateWithoutLeadInput> | LeadCommentCreateWithoutLeadInput[] | LeadCommentUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: LeadCommentCreateOrConnectWithoutLeadInput | LeadCommentCreateOrConnectWithoutLeadInput[]
+    upsert?: LeadCommentUpsertWithWhereUniqueWithoutLeadInput | LeadCommentUpsertWithWhereUniqueWithoutLeadInput[]
+    createMany?: LeadCommentCreateManyLeadInputEnvelope
+    set?: LeadCommentWhereUniqueInput | LeadCommentWhereUniqueInput[]
+    disconnect?: LeadCommentWhereUniqueInput | LeadCommentWhereUniqueInput[]
+    delete?: LeadCommentWhereUniqueInput | LeadCommentWhereUniqueInput[]
+    connect?: LeadCommentWhereUniqueInput | LeadCommentWhereUniqueInput[]
+    update?: LeadCommentUpdateWithWhereUniqueWithoutLeadInput | LeadCommentUpdateWithWhereUniqueWithoutLeadInput[]
+    updateMany?: LeadCommentUpdateManyWithWhereWithoutLeadInput | LeadCommentUpdateManyWithWhereWithoutLeadInput[]
+    deleteMany?: LeadCommentScalarWhereInput | LeadCommentScalarWhereInput[]
+  }
+
+  export type LeadCreateNestedOneWithoutCommentsInput = {
+    create?: XOR<LeadCreateWithoutCommentsInput, LeadUncheckedCreateWithoutCommentsInput>
+    connectOrCreate?: LeadCreateOrConnectWithoutCommentsInput
+    connect?: LeadWhereUniqueInput
+  }
+
+  export type LeadUpdateOneRequiredWithoutCommentsNestedInput = {
+    create?: XOR<LeadCreateWithoutCommentsInput, LeadUncheckedCreateWithoutCommentsInput>
+    connectOrCreate?: LeadCreateOrConnectWithoutCommentsInput
+    upsert?: LeadUpsertWithoutCommentsInput
+    connect?: LeadWhereUniqueInput
+    update?: XOR<XOR<LeadUpdateToOneWithWhereWithoutCommentsInput, LeadUpdateWithoutCommentsInput>, LeadUncheckedUpdateWithoutCommentsInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutPipelineStagesInput = {
+    create?: XOR<CompanyCreateWithoutPipelineStagesInput, CompanyUncheckedCreateWithoutPipelineStagesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutPipelineStagesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutPipelineStagesNestedInput = {
+    create?: XOR<CompanyCreateWithoutPipelineStagesInput, CompanyUncheckedCreateWithoutPipelineStagesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutPipelineStagesInput
+    upsert?: CompanyUpsertWithoutPipelineStagesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutPipelineStagesInput, CompanyUpdateWithoutPipelineStagesInput>, CompanyUncheckedUpdateWithoutPipelineStagesInput>
   }
 
   export type CompanyCreateNestedOneWithoutWhatsappInstancesInput = {
@@ -19773,6 +22502,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -19795,6 +22525,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -19869,6 +22600,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -19891,6 +22623,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type TicketUpsertWithWhereUniqueWithoutCreatedByInput = {
@@ -20014,9 +22747,13 @@ export namespace Prisma {
     value?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutCompanyInput = {
@@ -20030,9 +22767,13 @@ export namespace Prisma {
     value?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
     campaignId?: string | null
     trackingLinkId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutCompanyInput = {
@@ -20223,6 +22964,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PipelineStageConfigCreateWithoutCompanyInput = {
+    id?: string
+    pipeline: string
+    name: string
+    color?: string
+    order?: number
+    isFinal?: boolean
+  }
+
+  export type PipelineStageConfigUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    pipeline: string
+    name: string
+    color?: string
+    order?: number
+    isFinal?: boolean
+  }
+
+  export type PipelineStageConfigCreateOrConnectWithoutCompanyInput = {
+    where: PipelineStageConfigWhereUniqueInput
+    create: XOR<PipelineStageConfigCreateWithoutCompanyInput, PipelineStageConfigUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type PipelineStageConfigCreateManyCompanyInputEnvelope = {
+    data: PipelineStageConfigCreateManyCompanyInput | PipelineStageConfigCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithWhereUniqueWithoutCompanyInput = {
     where: UserWhereUniqueInput
     update: XOR<UserUpdateWithoutCompanyInput, UserUncheckedUpdateWithoutCompanyInput>
@@ -20317,6 +23086,9 @@ export namespace Prisma {
     value?: FloatNullableFilter<"Lead"> | number | null
     createdAt?: DateTimeFilter<"Lead"> | Date | string
     updatedAt?: DateTimeFilter<"Lead"> | Date | string
+    pipeline?: StringNullableFilter<"Lead"> | string | null
+    pipelineStage?: StringNullableFilter<"Lead"> | string | null
+    externalId?: StringNullableFilter<"Lead"> | string | null
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
@@ -20466,6 +23238,35 @@ export namespace Prisma {
     companyId?: StringNullableFilter<"TrackingLink"> | string | null
   }
 
+  export type PipelineStageConfigUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: PipelineStageConfigWhereUniqueInput
+    update: XOR<PipelineStageConfigUpdateWithoutCompanyInput, PipelineStageConfigUncheckedUpdateWithoutCompanyInput>
+    create: XOR<PipelineStageConfigCreateWithoutCompanyInput, PipelineStageConfigUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type PipelineStageConfigUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: PipelineStageConfigWhereUniqueInput
+    data: XOR<PipelineStageConfigUpdateWithoutCompanyInput, PipelineStageConfigUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type PipelineStageConfigUpdateManyWithWhereWithoutCompanyInput = {
+    where: PipelineStageConfigScalarWhereInput
+    data: XOR<PipelineStageConfigUpdateManyMutationInput, PipelineStageConfigUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type PipelineStageConfigScalarWhereInput = {
+    AND?: PipelineStageConfigScalarWhereInput | PipelineStageConfigScalarWhereInput[]
+    OR?: PipelineStageConfigScalarWhereInput[]
+    NOT?: PipelineStageConfigScalarWhereInput | PipelineStageConfigScalarWhereInput[]
+    id?: StringFilter<"PipelineStageConfig"> | string
+    pipeline?: StringFilter<"PipelineStageConfig"> | string
+    name?: StringFilter<"PipelineStageConfig"> | string
+    color?: StringFilter<"PipelineStageConfig"> | string
+    order?: IntFilter<"PipelineStageConfig"> | number
+    isFinal?: BoolFilter<"PipelineStageConfig"> | boolean
+    companyId?: StringFilter<"PipelineStageConfig"> | string
+  }
+
   export type CompanyCreateWithoutCampaignsInput = {
     id?: string
     name: string
@@ -20486,6 +23287,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCampaignsInput = {
@@ -20508,6 +23310,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCampaignsInput = {
@@ -20526,9 +23329,13 @@ export namespace Prisma {
     value?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutCampaignInput = {
@@ -20542,9 +23349,13 @@ export namespace Prisma {
     value?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
     companyId: string
     trackingLinkId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutCampaignInput = {
@@ -20698,6 +23509,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCampaignsInput = {
@@ -20720,6 +23532,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -20847,6 +23660,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTrackingLinksInput = {
@@ -20869,6 +23683,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTrackingLinksInput = {
@@ -20887,9 +23702,13 @@ export namespace Prisma {
     value?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutTrackingLinkInput = {
@@ -20903,9 +23722,13 @@ export namespace Prisma {
     value?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
     companyId: string
     campaignId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutTrackingLinkInput = {
@@ -21020,6 +23843,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTrackingLinksInput = {
@@ -21042,6 +23866,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutTrackingLinkInput = {
@@ -21187,6 +24012,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutLeadsInput = {
@@ -21209,6 +24035,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutLeadsInput = {
@@ -21334,6 +24161,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type LeadCommentCreateWithoutLeadInput = {
+    id?: string
+    body: string
+    authorName?: string
+    createdAt?: Date | string
+  }
+
+  export type LeadCommentUncheckedCreateWithoutLeadInput = {
+    id?: string
+    body: string
+    authorName?: string
+    createdAt?: Date | string
+  }
+
+  export type LeadCommentCreateOrConnectWithoutLeadInput = {
+    where: LeadCommentWhereUniqueInput
+    create: XOR<LeadCommentCreateWithoutLeadInput, LeadCommentUncheckedCreateWithoutLeadInput>
+  }
+
+  export type LeadCommentCreateManyLeadInputEnvelope = {
+    data: LeadCommentCreateManyLeadInput | LeadCommentCreateManyLeadInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutLeadsInput = {
     update: XOR<CompanyUpdateWithoutLeadsInput, CompanyUncheckedUpdateWithoutLeadsInput>
     create: XOR<CompanyCreateWithoutLeadsInput, CompanyUncheckedCreateWithoutLeadsInput>
@@ -21365,6 +24216,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutLeadsInput = {
@@ -21387,6 +24239,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutLeadsInput = {
@@ -21495,6 +24348,237 @@ export namespace Prisma {
     data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutLeadInput>
   }
 
+  export type LeadCommentUpsertWithWhereUniqueWithoutLeadInput = {
+    where: LeadCommentWhereUniqueInput
+    update: XOR<LeadCommentUpdateWithoutLeadInput, LeadCommentUncheckedUpdateWithoutLeadInput>
+    create: XOR<LeadCommentCreateWithoutLeadInput, LeadCommentUncheckedCreateWithoutLeadInput>
+  }
+
+  export type LeadCommentUpdateWithWhereUniqueWithoutLeadInput = {
+    where: LeadCommentWhereUniqueInput
+    data: XOR<LeadCommentUpdateWithoutLeadInput, LeadCommentUncheckedUpdateWithoutLeadInput>
+  }
+
+  export type LeadCommentUpdateManyWithWhereWithoutLeadInput = {
+    where: LeadCommentScalarWhereInput
+    data: XOR<LeadCommentUpdateManyMutationInput, LeadCommentUncheckedUpdateManyWithoutLeadInput>
+  }
+
+  export type LeadCommentScalarWhereInput = {
+    AND?: LeadCommentScalarWhereInput | LeadCommentScalarWhereInput[]
+    OR?: LeadCommentScalarWhereInput[]
+    NOT?: LeadCommentScalarWhereInput | LeadCommentScalarWhereInput[]
+    id?: StringFilter<"LeadComment"> | string
+    body?: StringFilter<"LeadComment"> | string
+    authorName?: StringFilter<"LeadComment"> | string
+    createdAt?: DateTimeFilter<"LeadComment"> | Date | string
+    leadId?: StringFilter<"LeadComment"> | string
+  }
+
+  export type LeadCreateWithoutCommentsInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    email?: string | null
+    source?: string | null
+    status?: $Enums.LeadStatus
+    notes?: string | null
+    value?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
+    company: CompanyCreateNestedOneWithoutLeadsInput
+    campaign?: CampaignCreateNestedOneWithoutLeadsInput
+    trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    messages?: MessageCreateNestedManyWithoutLeadInput
+  }
+
+  export type LeadUncheckedCreateWithoutCommentsInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    email?: string | null
+    source?: string | null
+    status?: $Enums.LeadStatus
+    notes?: string | null
+    value?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
+    companyId: string
+    campaignId?: string | null
+    trackingLinkId?: string | null
+    messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
+  }
+
+  export type LeadCreateOrConnectWithoutCommentsInput = {
+    where: LeadWhereUniqueInput
+    create: XOR<LeadCreateWithoutCommentsInput, LeadUncheckedCreateWithoutCommentsInput>
+  }
+
+  export type LeadUpsertWithoutCommentsInput = {
+    update: XOR<LeadUpdateWithoutCommentsInput, LeadUncheckedUpdateWithoutCommentsInput>
+    create: XOR<LeadCreateWithoutCommentsInput, LeadUncheckedCreateWithoutCommentsInput>
+    where?: LeadWhereInput
+  }
+
+  export type LeadUpdateToOneWithWhereWithoutCommentsInput = {
+    where?: LeadWhereInput
+    data: XOR<LeadUpdateWithoutCommentsInput, LeadUncheckedUpdateWithoutCommentsInput>
+  }
+
+  export type LeadUpdateWithoutCommentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
+    campaign?: CampaignUpdateOneWithoutLeadsNestedInput
+    trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    messages?: MessageUpdateManyWithoutLeadNestedInput
+  }
+
+  export type LeadUncheckedUpdateWithoutCommentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
+  }
+
+  export type CompanyCreateWithoutPipelineStagesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    triggerOnly?: boolean
+    users?: UserCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutPipelineStagesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    triggerOnly?: boolean
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutPipelineStagesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutPipelineStagesInput, CompanyUncheckedCreateWithoutPipelineStagesInput>
+  }
+
+  export type CompanyUpsertWithoutPipelineStagesInput = {
+    update: XOR<CompanyUpdateWithoutPipelineStagesInput, CompanyUncheckedUpdateWithoutPipelineStagesInput>
+    create: XOR<CompanyCreateWithoutPipelineStagesInput, CompanyUncheckedCreateWithoutPipelineStagesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutPipelineStagesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutPipelineStagesInput, CompanyUncheckedUpdateWithoutPipelineStagesInput>
+  }
+
+  export type CompanyUpdateWithoutPipelineStagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutPipelineStagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
   export type CompanyCreateWithoutWhatsappInstancesInput = {
     id?: string
     name: string
@@ -21515,6 +24599,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWhatsappInstancesInput = {
@@ -21537,6 +24622,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWhatsappInstancesInput = {
@@ -21615,6 +24701,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWhatsappInstancesInput = {
@@ -21637,6 +24724,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutInstanceInput = {
@@ -21675,6 +24763,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMessagesInput = {
@@ -21697,6 +24786,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMessagesInput = {
@@ -21783,9 +24873,13 @@ export namespace Prisma {
     value?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    comments?: LeadCommentCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutMessagesInput = {
@@ -21799,9 +24893,13 @@ export namespace Prisma {
     value?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutMessagesInput = {
@@ -21840,6 +24938,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMessagesInput = {
@@ -21862,6 +24961,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutMessagesInput = {
@@ -21966,9 +25066,13 @@ export namespace Prisma {
     value?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    comments?: LeadCommentUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutMessagesInput = {
@@ -21982,9 +25086,13 @@ export namespace Prisma {
     value?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type CompanyCreateWithoutKeywordRulesInput = {
@@ -22007,6 +25115,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutKeywordRulesInput = {
@@ -22029,6 +25138,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutKeywordRulesInput = {
@@ -22108,6 +25218,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutKeywordRulesInput = {
@@ -22130,6 +25241,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutKeywordRulesInput = {
@@ -22199,6 +25311,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketsInput = {
@@ -22221,6 +25334,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketsInput = {
@@ -22314,6 +25428,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketsInput = {
@@ -22336,6 +25451,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTicketsCreatedInput = {
@@ -22553,6 +25669,9 @@ export namespace Prisma {
     value?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
     campaignId?: string | null
     trackingLinkId?: string | null
   }
@@ -22615,6 +25734,15 @@ export namespace Prisma {
     ogImage?: string | null
     createdAt?: Date | string
     campaignId?: string | null
+  }
+
+  export type PipelineStageConfigCreateManyCompanyInput = {
+    id?: string
+    pipeline: string
+    name: string
+    color?: string
+    order?: number
+    isFinal?: boolean
   }
 
   export type UserUpdateWithoutCompanyInput = {
@@ -22710,9 +25838,13 @@ export namespace Prisma {
     value?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutCompanyInput = {
@@ -22726,9 +25858,13 @@ export namespace Prisma {
     value?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateManyWithoutCompanyInput = {
@@ -22742,6 +25878,9 @@ export namespace Prisma {
     value?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -22934,6 +26073,33 @@ export namespace Prisma {
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type PipelineStageConfigUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pipeline?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isFinal?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type PipelineStageConfigUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pipeline?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isFinal?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type PipelineStageConfigUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pipeline?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    isFinal?: BoolFieldUpdateOperationsInput | boolean
+  }
+
   export type LeadCreateManyCampaignInput = {
     id?: string
     name?: string | null
@@ -22945,6 +26111,9 @@ export namespace Prisma {
     value?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
     companyId: string
     trackingLinkId?: string | null
   }
@@ -22998,9 +26167,13 @@ export namespace Prisma {
     value?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutCampaignInput = {
@@ -23014,9 +26187,13 @@ export namespace Prisma {
     value?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateManyWithoutCampaignInput = {
@@ -23030,6 +26207,9 @@ export namespace Prisma {
     value?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -23163,6 +26343,9 @@ export namespace Prisma {
     value?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
     companyId: string
     campaignId?: string | null
   }
@@ -23185,9 +26368,13 @@ export namespace Prisma {
     value?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutTrackingLinkInput = {
@@ -23201,9 +26388,13 @@ export namespace Prisma {
     value?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateManyWithoutTrackingLinkInput = {
@@ -23217,6 +26408,9 @@ export namespace Prisma {
     value?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -23255,6 +26449,13 @@ export namespace Prisma {
     companyId: string
     instanceId?: string | null
     campaignId?: string | null
+  }
+
+  export type LeadCommentCreateManyLeadInput = {
+    id?: string
+    body: string
+    authorName?: string
+    createdAt?: Date | string
   }
 
   export type MessageUpdateWithoutLeadInput = {
@@ -23300,6 +26501,27 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type LeadCommentUpdateWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    authorName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadCommentUncheckedUpdateWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    authorName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadCommentUncheckedUpdateManyWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    authorName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageCreateManyInstanceInput = {
@@ -23455,6 +26677,14 @@ export namespace Prisma {
      * @deprecated Use LeadDefaultArgs instead
      */
     export type LeadArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = LeadDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use LeadCommentDefaultArgs instead
+     */
+    export type LeadCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = LeadCommentDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PipelineStageConfigDefaultArgs instead
+     */
+    export type PipelineStageConfigArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PipelineStageConfigDefaultArgs<ExtArgs>
     /**
      * @deprecated Use WhatsappInstanceDefaultArgs instead
      */
