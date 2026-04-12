@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -17,7 +17,7 @@ interface Conversation {
   totalMessages: number;
   inboundCount: number;
   outboundCount: number;
-  lead: { id: string; name: string | null; status: string } | null;
+  lead: { id: string; name: string | null; status: string; notes: string | null } | null;
   lastMsg: {
     body: string;
     direction: string;
@@ -53,14 +53,13 @@ const INSTANCE_STATUS: Record<string, { dot: string; label: string }> = {
   CONNECTING: { dot: "bg-yellow-400 animate-pulse", label: "Conectando" },
 };
 
-// Cores para badges de instância (rotaciona por nome)
 const INSTANCE_BADGE_COLORS = [
-  "bg-violet-500/20 text-violet-300",
-  "bg-cyan-500/20 text-cyan-300",
-  "bg-emerald-500/20 text-emerald-300",
-  "bg-orange-500/20 text-orange-300",
-  "bg-pink-500/20 text-pink-300",
-  "bg-yellow-500/20 text-yellow-300",
+  "bg-violet-500/20 text-violet-300 border-violet-500/20",
+  "bg-cyan-500/20 text-cyan-300 border-cyan-500/20",
+  "bg-emerald-500/20 text-emerald-300 border-emerald-500/20",
+  "bg-orange-500/20 text-orange-300 border-orange-500/20",
+  "bg-pink-500/20 text-pink-300 border-pink-500/20",
+  "bg-yellow-500/20 text-yellow-300 border-yellow-500/20",
 ];
 
 function getInstanceBadgeColor(instanceName: string) {
@@ -86,19 +85,37 @@ export default function WhatsappManager({
   const [convMessages, setConvMessages] = useState<WaMessage[]>([]);
   const [loadingMsgs, setLoadingMsgs] = useState(false);
 
+  // Convert to lead
   const [converting, setConverting] = useState(false);
   const [convertForm, setConvertForm] = useState({ name: "", status: "NEW", campaignId: "" });
   const [showConvertForm, setShowConvertForm] = useState(false);
   const [campaigns, setCampaigns] = useState<{ id: string; name: string }[]>([]);
 
+  // Convert to ticket
+  const [showTicketForm, setShowTicketForm] = useState(false);
+  const [ticketForm, setTicketForm] = useState({ title: "", description: "" });
+  const [convertingTicket, setConvertingTicket] = useState(false);
+  const [ticketCreated, setTicketCreated] = useState(false);
+
+  // Reply
   const [replyText, setReplyText] = useState("");
   const [sendingReply, setSendingReply] = useState(false);
   const [replyError, setReplyError] = useState<string | null>(null);
+
+  // Name editor
   const [editingName, setEditingName] = useState(false);
   const [leadName, setLeadName] = useState("");
   const [savingName, setSavingName] = useState(false);
 
+  // Notes / comments
+  const [leadNotes, setLeadNotes] = useState<string>("");
+  const [showNotesPanel, setShowNotesPanel] = useState(false);
+  const [newNote, setNewNote] = useState("");
+  const [savingNote, setSavingNote] = useState(false);
+
+  // Filters
   const [search, setSearch] = useState("");
+  const [instanceFilter, setInstanceFilter] = useState("");
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const selectedConvRef = useRef<Conversation | null>(null);
@@ -107,35 +124,43 @@ export default function WhatsappManager({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [convMessages]);
 
-  // Auto-refresh: atualiza mensagens e lista de conversas a cada 5 segundos
   useEffect(() => {
     selectedConvRef.current = selectedConv;
   }, [selectedConv]);
 
+  // Auto-refresh every 5 seconds
   useEffect(() => {
     const interval = setInterval(async () => {
-      // Atualiza a página para recarregar a lista de conversas
       router.refresh();
-
-      // Atualiza mensagens da conversa selecionada
       const conv = selectedConvRef.current;
       if (!conv) return;
       const params = new URLSearchParams({ phone: conv.phone });
       if (conv.companyId) params.set("companyId", conv.companyId);
       const res = await fetch(`/api/whatsapp/messages?${params}`);
-      if (res.ok) {
-        const msgs = await res.json();
-        setConvMessages(msgs);
-      }
+      if (res.ok) setConvMessages(await res.json());
     }, 5000);
     return () => clearInterval(interval);
   }, [router]);
 
-  const filteredConvs = conversations.filter((c) => {
-    if (!search) return true;
-    const q = search.toLowerCase();
-    return c.phone.includes(q) || c.lead?.name?.toLowerCase().includes(q);
-  });
+  // Unique instances that appear in conversations (for filter)
+  const conversationInstances = useMemo(() => {
+    const names = conversations
+      .map((c) => c.lastMsg?.instance?.instanceName)
+      .filter(Boolean) as string[];
+    return [...new Set(names)];
+  }, [conversations]);
+
+  // Filtered conversations
+  const filteredConvs = useMemo(() => {
+    return conversations.filter((c) => {
+      if (search) {
+        const q = search.toLowerCase();
+        if (!c.phone.includes(q) && !c.lead?.name?.toLowerCase().includes(q)) return false;
+      }
+      if (instanceFilter && c.lastMsg?.instance?.instanceName !== instanceFilter) return false;
+      return true;
+    });
+  }, [conversations, search, instanceFilter]);
 
   async function handleSaveName(e: React.FormEvent) {
     e.preventDefault();
@@ -155,11 +180,16 @@ export default function WhatsappManager({
   async function loadConversation(conv: Conversation) {
     setSelectedConv(conv);
     setShowConvertForm(false);
+    setShowTicketForm(false);
+    setTicketCreated(false);
     setConvMessages([]);
     setReplyText("");
     setReplyError(null);
     setEditingName(false);
     setLeadName(conv.lead?.name ?? "");
+    setLeadNotes(conv.lead?.notes ?? "");
+    setShowNotesPanel(false);
+    setNewNote("");
     setLoadingMsgs(true);
 
     const params = new URLSearchParams({ phone: conv.phone });
@@ -171,7 +201,6 @@ export default function WhatsappManager({
     ]);
 
     setConvMessages(await msgsRes.json());
-
     if (campaignsRes.ok) {
       const data = await campaignsRes.json();
       setCampaigns(data.campaigns ?? data);
@@ -198,25 +227,69 @@ export default function WhatsappManager({
     setConverting(false);
     setShowConvertForm(false);
     if (data.lead) {
-      setSelectedConv({ ...selectedConv, lead: data.lead });
+      setSelectedConv({ ...selectedConv, lead: { ...data.lead, notes: null } });
       router.refresh();
     }
+  }
+
+  async function handleCreateTicket(e: React.FormEvent) {
+    e.preventDefault();
+    if (!selectedConv) return;
+    setConvertingTicket(true);
+    const res = await fetch("/api/tickets", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: ticketForm.title || `Suporte — ${selectedConv.lead?.name ?? selectedConv.phone}`,
+        description: ticketForm.description || `Contato via WhatsApp: ${selectedConv.phone}`,
+        companyId: selectedConv.companyId,
+        priority: "MEDIUM",
+      }),
+    });
+    setConvertingTicket(false);
+    if (res.ok) {
+      setTicketCreated(true);
+      setShowTicketForm(false);
+      router.refresh();
+    }
+  }
+
+  async function handleAddNote(e: React.FormEvent) {
+    e.preventDefault();
+    if (!selectedConv?.lead || !newNote.trim()) return;
+    setSavingNote(true);
+    const now = new Date();
+    const dateStr =
+      now.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" }) +
+      " " +
+      now.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+    const entry = `[${dateStr}] ${newNote.trim()}`;
+    const combined = leadNotes ? `${entry}\n\n${leadNotes}` : entry;
+
+    await fetch(`/api/leads/${selectedConv.lead.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ notes: combined }),
+    });
+
+    setLeadNotes(combined);
+    setNewNote("");
+    setSavingNote(false);
+    setShowNotesPanel(true); // keep open to see the new note
+    router.refresh();
   }
 
   async function handleReply(e: React.FormEvent) {
     e.preventDefault();
     if (!selectedConv || !replyText.trim()) return;
 
-    // Usar a instância que recebeu/enviou a última mensagem da conversa
-    const lastInstanceName = convMessages.length > 0
-      ? convMessages[convMessages.length - 1].instance?.instanceName
-      : null;
+    const lastInstanceName =
+      convMessages.length > 0 ? convMessages[convMessages.length - 1].instance?.instanceName : null;
 
-    const inst = (lastInstanceName
-      ? instances.find((i) => i.instanceName === lastInstanceName)
-      : null)
-      ?? instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId)
-      ?? instances.find((i) => i.company?.id === selectedConv.companyId);
+    const inst =
+      (lastInstanceName ? instances.find((i) => i.instanceName === lastInstanceName) : null) ??
+      instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId) ??
+      instances.find((i) => i.company?.id === selectedConv.companyId);
 
     if (!inst) {
       setReplyError("Nenhuma instância conectada. Configure em Configurações → Instâncias WhatsApp.");
@@ -261,7 +334,15 @@ export default function WhatsappManager({
       : d.toLocaleDateString("pt-BR");
   }
 
-  const connectedCount = instances.filter((i) => i.status === "CONNECTED").length;
+  // Parse notes into individual entries for display
+  const parsedNotes = useMemo(() => {
+    if (!leadNotes) return [];
+    return leadNotes.split(/\n\n+/).map((entry) => {
+      const match = entry.match(/^\[(.+?)\]\s*([\s\S]*)$/);
+      if (match) return { date: match[1], text: match[2].trim() };
+      return { date: null, text: entry.trim() };
+    }).filter((n) => n.text);
+  }, [leadNotes]);
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
@@ -269,17 +350,22 @@ export default function WhatsappManager({
       <div className="px-6 pt-5 pb-3 flex-shrink-0 border-b border-[#1e2d45]">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-white font-bold text-xl">📥 Mensagens</h1>
-            <p className="text-slate-500 text-sm mt-0.5">{conversations.length} conversa{conversations.length !== 1 ? "s" : ""}</p>
+            <h1 className="text-white font-bold text-xl">🗨️ Mensagens</h1>
+            <p className="text-slate-500 text-sm mt-0.5">
+              {conversations.length} conversa{conversations.length !== 1 ? "s" : ""}
+            </p>
           </div>
 
-          {/* Instâncias ativas + link para config */}
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               {instances.slice(0, 4).map((inst) => {
                 const s = INSTANCE_STATUS[inst.status] ?? INSTANCE_STATUS.DISCONNECTED;
                 return (
-                  <div key={inst.id} title={`${inst.instanceName} — ${s.label}`} className="flex items-center gap-1.5 bg-[#0f1623] border border-[#1e2d45] rounded-full px-2.5 py-1">
+                  <div
+                    key={inst.id}
+                    title={`${inst.instanceName} — ${s.label}`}
+                    className="flex items-center gap-1.5 bg-[#0f1623] border border-[#1e2d45] rounded-full px-2.5 py-1"
+                  >
                     <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${s.dot}`} />
                     <span className="text-slate-400 text-[11px] max-w-[80px] truncate">{inst.instanceName}</span>
                   </div>
@@ -299,7 +385,6 @@ export default function WhatsappManager({
         </div>
       </div>
 
-      {/* No instances warning */}
       {instances.length === 0 && (
         <div className="mx-6 mt-4 flex-shrink-0 bg-yellow-500/5 border border-yellow-500/20 rounded-xl p-4 flex items-center gap-3">
           <span className="text-xl">⚠️</span>
@@ -313,12 +398,42 @@ export default function WhatsappManager({
         </div>
       )}
 
-      {/* Body: lista + detalhe */}
+      {/* Body */}
       <div className="flex flex-1 overflow-hidden">
         {/* Conversation list */}
         <div className="w-[300px] min-w-[300px] border-r border-[#1e2d45] flex flex-col overflow-hidden">
+
+          {/* Filtro por instância */}
+          {conversationInstances.length > 1 && (
+            <div className="px-3 pt-3 pb-2 flex-shrink-0 flex flex-wrap gap-1.5">
+              <button
+                onClick={() => setInstanceFilter("")}
+                className={`px-2.5 py-1 rounded-full text-[10px] font-medium transition-colors ${
+                  instanceFilter === ""
+                    ? "bg-indigo-600 text-white"
+                    : "bg-[#0f1623] border border-[#1e2d45] text-slate-400 hover:text-white"
+                }`}
+              >
+                Todas
+              </button>
+              {conversationInstances.map((name) => (
+                <button
+                  key={name}
+                  onClick={() => setInstanceFilter(instanceFilter === name ? "" : name)}
+                  className={`px-2.5 py-1 rounded-full text-[10px] font-medium border transition-colors ${
+                    instanceFilter === name
+                      ? getInstanceBadgeColor(name) + " border-current"
+                      : "bg-[#0f1623] border-[#1e2d45] text-slate-400 hover:text-white"
+                  }`}
+                >
+                  {name}
+                </button>
+              ))}
+            </div>
+          )}
+
           {/* Search */}
-          <div className="p-3 border-b border-[#1e2d45] flex-shrink-0">
+          <div className={`px-3 pb-3 flex-shrink-0 ${conversationInstances.length > 1 ? "" : "pt-3"}`}>
             <input
               type="text"
               value={search}
@@ -333,55 +448,70 @@ export default function WhatsappManager({
               <div>
                 <div className="text-3xl mb-2">📭</div>
                 <div className="text-slate-500 text-sm">
-                  {conversations.length === 0 ? "Nenhuma mensagem recebida ainda." : "Nenhum resultado para a busca."}
+                  {conversations.length === 0 ? "Nenhuma mensagem recebida ainda." : "Nenhum resultado."}
                 </div>
               </div>
             </div>
           ) : (
-            <div className="flex-1 overflow-y-auto">
-              {filteredConvs.map((conv) => (
-                <button
-                  key={conv.phone}
-                  onClick={() => loadConversation(conv)}
-                  className={`w-full text-left px-4 py-3 border-b border-[#1e2d45]/50 hover:bg-white/[0.03] transition-colors ${
-                    selectedConv?.phone === conv.phone ? "bg-indigo-500/10 border-l-2 border-l-indigo-500" : ""
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-[#1e2d45] flex items-center justify-center text-xs font-bold text-slate-400 flex-shrink-0">
-                        {conv.phone.slice(-2)}
-                      </div>
-                      <div className="min-w-0">
-                        <div className="text-white text-[13px] font-semibold truncate">
-                          {conv.lead?.name ?? conv.phone}
+            <div className="flex-1 overflow-y-auto divide-y divide-[#1e2d45]/50">
+              {filteredConvs.map((conv) => {
+                const instanceName = conv.lastMsg?.instance?.instanceName;
+                const isSelected = selectedConv?.phone === conv.phone;
+                return (
+                  <button
+                    key={conv.phone}
+                    onClick={() => loadConversation(conv)}
+                    className={`w-full text-left px-4 py-3 hover:bg-white/[0.03] transition-colors ${
+                      isSelected ? "bg-indigo-500/10 border-l-2 border-l-indigo-500" : ""
+                    }`}
+                  >
+                    {/* Linha 1: avatar + nome + horário */}
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <div className="w-8 h-8 rounded-full bg-[#1e2d45] flex items-center justify-center text-xs font-bold text-slate-400 flex-shrink-0">
+                          {conv.phone.slice(-2)}
                         </div>
-                        {conv.lead?.name && <div className="text-slate-600 text-[10px]">{conv.phone}</div>}
+                        <div className="min-w-0">
+                          <div className="text-white text-[13px] font-semibold truncate">
+                            {conv.lead?.name ?? conv.phone}
+                          </div>
+                          {conv.lead?.name && (
+                            <div className="text-slate-600 text-[10px]">{conv.phone}</div>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                    <span className="text-slate-600 text-[10px] flex-shrink-0 ml-2">
-                      {conv.lastMsg ? formatTime(conv.lastMsg.receivedAt) : ""}
-                    </span>
-                  </div>
-
-                  {conv.lastMsg && (
-                    <div className="text-slate-500 text-[11px] truncate pl-10">
-                      {conv.lastMsg.direction === "OUTBOUND" ? "→ " : ""}{conv.lastMsg.body}
-                    </div>
-                  )}
-
-                  <div className="flex items-center gap-2 mt-1 pl-10">
-                    <span className="text-[10px] text-slate-600">📥{conv.inboundCount} 📤{conv.outboundCount}</span>
-                    {conv.lead ? (
-                      <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${LEAD_STATUS_COLOR[conv.lead.status] ?? ""}`}>
-                        {LEAD_STATUS_LABEL[conv.lead.status] ?? conv.lead.status}
+                      <span className="text-slate-600 text-[10px] flex-shrink-0 ml-2">
+                        {conv.lastMsg ? formatTime(conv.lastMsg.receivedAt) : ""}
                       </span>
-                    ) : (
-                      <span className="text-[10px] text-slate-600 bg-white/5 px-1.5 py-0.5 rounded-full">Não é lead</span>
+                    </div>
+
+                    {/* Linha 2: prévia da mensagem */}
+                    {conv.lastMsg && (
+                      <div className="text-slate-500 text-[11px] truncate pl-10">
+                        {conv.lastMsg.direction === "OUTBOUND" ? "→ " : ""}{conv.lastMsg.body}
+                      </div>
                     )}
-                  </div>
-                </button>
-              ))}
+
+                    {/* Linha 3: status lead + badge instância */}
+                    <div className="flex items-center gap-2 mt-1.5 pl-10 flex-wrap">
+                      {conv.lead ? (
+                        <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${LEAD_STATUS_COLOR[conv.lead.status] ?? ""}`}>
+                          🎯 {LEAD_STATUS_LABEL[conv.lead.status] ?? conv.lead.status}
+                        </span>
+                      ) : (
+                        <span className="text-[10px] text-slate-600 bg-white/5 px-1.5 py-0.5 rounded-full">
+                          Sem tipo
+                        </span>
+                      )}
+                      {instanceName && (
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full border font-medium ${getInstanceBadgeColor(instanceName)}`}>
+                          {instanceName}
+                        </span>
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
@@ -399,7 +529,8 @@ export default function WhatsappManager({
           ) : (
             <>
               {/* Conv header */}
-              <div className="px-5 py-3.5 border-b border-[#1e2d45] flex items-center justify-between flex-shrink-0">
+              <div className="px-5 py-3.5 border-b border-[#1e2d45] flex items-center justify-between flex-shrink-0 gap-3">
+                {/* Nome / edição */}
                 <div className="flex items-center gap-3 min-w-0">
                   {editingName ? (
                     <form onSubmit={handleSaveName} className="flex items-center gap-2">
@@ -414,46 +545,95 @@ export default function WhatsappManager({
                       <button type="submit" disabled={savingName} className="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-medium hover:bg-indigo-500 disabled:opacity-50">
                         {savingName ? "..." : "Salvar"}
                       </button>
-                      <button type="button" onClick={() => setEditingName(false)} className="text-slate-500 text-xs hover:text-white">Cancelar</button>
+                      <button type="button" onClick={() => setEditingName(false)} className="text-slate-500 text-xs hover:text-white">
+                        Cancelar
+                      </button>
                     </form>
                   ) : (
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="text-white font-semibold truncate">{selectedConv.lead?.name ?? selectedConv.phone}</span>
+                        <span className="text-white font-semibold truncate">
+                          {selectedConv.lead?.name ?? selectedConv.phone}
+                        </span>
                         {selectedConv.lead && (
                           <button
                             onClick={() => { setLeadName(selectedConv.lead?.name ?? ""); setEditingName(true); }}
                             className="text-slate-600 hover:text-slate-400 text-xs flex-shrink-0"
                             title="Editar nome"
-                          >✏️</button>
+                          >
+                            ✏️
+                          </button>
                         )}
                       </div>
-                      {selectedConv.lead?.name && <div className="text-slate-500 text-xs">{selectedConv.phone}</div>}
+                      {selectedConv.lead?.name && (
+                        <div className="text-slate-500 text-xs">{selectedConv.phone}</div>
+                      )}
                     </div>
                   )}
                 </div>
-                <div className="flex items-center gap-2 flex-shrink-0">
+
+                {/* Ações à direita */}
+                <div className="flex items-center gap-2 flex-shrink-0 flex-wrap justify-end">
                   {selectedConv.lead ? (
                     <>
                       <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${LEAD_STATUS_COLOR[selectedConv.lead.status] ?? ""}`}>
-                        ✓ Lead — {LEAD_STATUS_LABEL[selectedConv.lead.status] ?? selectedConv.lead.status}
+                        🎯 Lead — {LEAD_STATUS_LABEL[selectedConv.lead.status] ?? selectedConv.lead.status}
                       </span>
-                      <Link href="/leads" className="text-indigo-400 text-xs hover:underline">Ver lead →</Link>
+                      <Link href={`/leads`} className="text-indigo-400 text-xs hover:underline">
+                        Ver lead →
+                      </Link>
                     </>
                   ) : (
+                    <>
+                      {/* Botão criar lead */}
+                      <button
+                        onClick={() => { setShowConvertForm(!showConvertForm); setShowTicketForm(false); }}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                          showConvertForm
+                            ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"
+                            : "bg-indigo-600 text-white hover:bg-indigo-500"
+                        }`}
+                      >
+                        🎯 Criar Lead
+                      </button>
+                      {/* Botão abrir chamado */}
+                      <button
+                        onClick={() => { setShowTicketForm(!showTicketForm); setShowConvertForm(false); }}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                          showTicketForm
+                            ? "bg-orange-500/20 text-orange-300 border border-orange-500/30"
+                            : "bg-[#0f1623] border border-[#1e2d45] text-slate-300 hover:text-white hover:border-orange-500/50"
+                        }`}
+                      >
+                        🎫 Abrir Chamado
+                      </button>
+                    </>
+                  )}
+
+                  {/* Chamado mesmo tendo lead */}
+                  {selectedConv.lead && (
                     <button
-                      onClick={() => setShowConvertForm(true)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-medium hover:bg-indigo-500 transition-colors"
+                      onClick={() => setShowTicketForm(!showTicketForm)}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                        showTicketForm
+                          ? "bg-orange-500/20 text-orange-300 border border-orange-500/30"
+                          : "bg-[#0f1623] border border-[#1e2d45] text-slate-400 hover:text-white hover:border-orange-500/50"
+                      }`}
                     >
-                      🎯 Converter em Lead
+                      🎫 Chamado
                     </button>
+                  )}
+
+                  {ticketCreated && (
+                    <span className="text-green-400 text-xs">✓ Chamado criado!</span>
                   )}
                 </div>
               </div>
 
-              {/* Convert form */}
+              {/* Form: Criar Lead */}
               {showConvertForm && !selectedConv.lead && (
                 <div className="px-5 py-3.5 border-b border-[#1e2d45] bg-indigo-500/5 flex-shrink-0">
+                  <p className="text-indigo-400 text-xs font-semibold mb-3">🎯 Converter em Lead</p>
                   <form onSubmit={handleConvertLead} className="flex flex-wrap gap-3 items-end">
                     <div>
                       <label className="block text-slate-400 text-[10px] uppercase tracking-wide mb-1">Nome</label>
@@ -503,6 +683,43 @@ export default function WhatsappManager({
                 </div>
               )}
 
+              {/* Form: Abrir Chamado */}
+              {showTicketForm && (
+                <div className="px-5 py-3.5 border-b border-[#1e2d45] bg-orange-500/5 flex-shrink-0">
+                  <p className="text-orange-400 text-xs font-semibold mb-3">🎫 Abrir Chamado de Suporte</p>
+                  <form onSubmit={handleCreateTicket} className="flex flex-wrap gap-3 items-end">
+                    <div className="flex-1 min-w-[200px]">
+                      <label className="block text-slate-400 text-[10px] uppercase tracking-wide mb-1">Assunto</label>
+                      <input
+                        type="text"
+                        value={ticketForm.title}
+                        onChange={(e) => setTicketForm({ ...ticketForm, title: e.target.value })}
+                        placeholder={`Suporte — ${selectedConv.lead?.name ?? selectedConv.phone}`}
+                        className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-orange-500"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-[200px]">
+                      <label className="block text-slate-400 text-[10px] uppercase tracking-wide mb-1">Descrição (opcional)</label>
+                      <input
+                        type="text"
+                        value={ticketForm.description}
+                        onChange={(e) => setTicketForm({ ...ticketForm, description: e.target.value })}
+                        placeholder={`Contato via WhatsApp: ${selectedConv.phone}`}
+                        className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-orange-500"
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <button type="submit" disabled={convertingTicket} className="px-4 py-1.5 rounded-lg bg-orange-600 text-white text-sm font-medium hover:bg-orange-500 disabled:opacity-50 transition-colors">
+                        {convertingTicket ? "Criando..." : "Criar Chamado"}
+                      </button>
+                      <button type="button" onClick={() => setShowTicketForm(false)} className="px-3 py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] text-slate-400 text-sm hover:text-white transition-colors">
+                        Cancelar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+
               {/* Messages */}
               <div className="flex-1 overflow-y-auto px-5 py-4 space-y-3">
                 {loadingMsgs ? (
@@ -521,7 +738,7 @@ export default function WhatsappManager({
                               {new Date(msg.receivedAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
                             </span>
                             {msg.instance && (
-                              <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${getInstanceBadgeColor(msg.instance.instanceName)}`}>
+                              <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium border ${getInstanceBadgeColor(msg.instance.instanceName)}`}>
                                 {msg.instance.instanceName}
                               </span>
                             )}
@@ -536,6 +753,69 @@ export default function WhatsappManager({
                 )}
                 <div ref={messagesEndRef} />
               </div>
+
+              {/* Painel de notas (só para leads) */}
+              {selectedConv.lead && (
+                <div className="flex-shrink-0 border-t border-[#1e2d45]">
+                  {/* Toggle */}
+                  <button
+                    onClick={() => setShowNotesPanel(!showNotesPanel)}
+                    className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-white/[0.02] transition-colors"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-slate-400 text-xs font-semibold">📝 Notas do atendimento</span>
+                      {parsedNotes.length > 0 && (
+                        <span className="text-[10px] text-slate-600 bg-white/5 px-1.5 py-0.5 rounded-full">
+                          {parsedNotes.length}
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-slate-600 text-[10px]">{showNotesPanel ? "▴" : "▾"}</span>
+                  </button>
+
+                  {showNotesPanel && (
+                    <div className="px-4 pb-3 space-y-3">
+                      {/* Input nova nota */}
+                      <form onSubmit={handleAddNote} className="flex gap-2">
+                        <input
+                          type="text"
+                          value={newNote}
+                          onChange={(e) => setNewNote(e.target.value)}
+                          placeholder="Adicionar nota... (ex: cliente pediu proposta, voltará semana que vem)"
+                          className="flex-1 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                        />
+                        <button
+                          type="submit"
+                          disabled={savingNote || !newNote.trim()}
+                          className="px-3 py-2 rounded-lg bg-indigo-600 text-white text-xs font-medium hover:bg-indigo-500 disabled:opacity-40 flex-shrink-0"
+                        >
+                          {savingNote ? "..." : "Salvar"}
+                        </button>
+                      </form>
+
+                      {/* Lista de notas */}
+                      {parsedNotes.length > 0 && (
+                        <div className="space-y-2 max-h-40 overflow-y-auto">
+                          {parsedNotes.map((note, i) => (
+                            <div key={i} className="flex gap-2.5 bg-[#0a0f1a] rounded-lg px-3 py-2">
+                              <div className="flex-1 min-w-0">
+                                <p className="text-slate-200 text-xs leading-relaxed whitespace-pre-wrap">{note.text}</p>
+                              </div>
+                              {note.date && (
+                                <span className="flex-shrink-0 text-slate-600 text-[10px] font-mono mt-0.5">{note.date}</span>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {parsedNotes.length === 0 && (
+                        <p className="text-slate-600 text-xs">Nenhuma nota ainda. Adicione informações sobre o atendimento acima.</p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Reply */}
               <div className="flex-shrink-0 border-t border-[#1e2d45] px-4 py-3">
