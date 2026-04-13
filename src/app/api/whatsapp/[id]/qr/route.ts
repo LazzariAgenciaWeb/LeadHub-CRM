@@ -41,7 +41,7 @@ export async function GET(
         null;
       if (newToken) {
         savedToken = newToken;
-        await prisma.whatsappInstance.update({
+        await (prisma.whatsappInstance.update as any)({
           where: { id },
           data: { instanceToken: newToken },
         });

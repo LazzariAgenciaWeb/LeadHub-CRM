@@ -25,7 +25,8 @@ export async function POST(
   }
 
   try {
-    const data = await evolutionGetStatus(instance.instanceName, (instance as any).instanceToken);
+    const instanceToken = (instance as any).instanceToken as string | null | undefined;
+    const data: any = await evolutionGetStatus(instance.instanceName, instanceToken);
 
     // Evolution API pode retornar em vários formatos dependendo da versão:
     // v1: { instance: { state: "open" } }

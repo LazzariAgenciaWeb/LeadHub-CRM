@@ -26,7 +26,7 @@ export async function PATCH(
   const body = await req.json();
   const { instanceName, phone, status, webhookUrl, instanceToken } = body;
 
-  const instance = await prisma.whatsappInstance.update({
+  const instance = await (prisma.whatsappInstance.update as any)({
     where: { id },
     data: {
       ...(instanceName !== undefined && { instanceName }),
