@@ -47,13 +47,41 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: true, skipped: "group" });
     }
 
-    // Extrair texto da mensagem
-    const body_text =
-      message?.conversation ??
-      message?.extendedTextMessage?.text ??
-      message?.imageMessage?.caption ??
-      message?.videoMessage?.caption ??
-      "";
+    // Detectar tipo de mídia quando não há texto puro
+    function resolveBodyText(msg: any): string {
+      // Texto puro
+      if (msg?.conversation) return msg.conversation;
+      if (msg?.extendedTextMessage?.text) return msg.extendedTextMessage.text;
+
+      // Mídia com legenda
+      if (msg?.imageMessage?.caption) return msg.imageMessage.caption;
+      if (msg?.videoMessage?.caption) return msg.videoMessage.caption;
+      if (msg?.documentMessage?.caption) return msg.documentMessage.caption;
+
+      // Mídia sem legenda — descritores amigáveis
+      if (msg?.audioMessage) return "🎵 Áudio";
+      if (msg?.pttMessage) return "🎤 Áudio";
+      if (msg?.imageMessage) return "🖼️ Imagem";
+      if (msg?.videoMessage) return "🎥 Vídeo";
+      if (msg?.documentMessage) {
+        const name = msg.documentMessage.fileName ?? "Arquivo";
+        return `📎 ${name}`;
+      }
+      if (msg?.stickerMessage) return "😄 Figurinha";
+      if (msg?.locationMessage) {
+        const { degreesLatitude: lat, degreesLongitude: lng } = msg.locationMessage;
+        return lat != null ? `📍 Localização (${lat.toFixed(4)}, ${lng.toFixed(4)})` : "📍 Localização";
+      }
+      if (msg?.contactMessage) {
+        const name = msg.contactMessage.displayName ?? "Contato";
+        return `👤 Contato: ${name}`;
+      }
+      if (msg?.reactionMessage) return ""; // ignorar reações silenciosamente
+
+      return "";
+    }
+
+    const body_text = resolveBodyText(message);
 
     if (!body_text) {
       return NextResponse.json({ ok: true, skipped: "no_text" });

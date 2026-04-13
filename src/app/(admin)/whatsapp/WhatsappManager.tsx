@@ -845,11 +845,15 @@ export default function WhatsappManager({
                         </div>
 
                         {/* Linha 2: prévia da mensagem */}
-                        {conv.lastMsg && (
-                          <div className="text-slate-500 text-[11px] truncate pl-[42px]">
-                            {conv.lastMsg.direction === "OUTBOUND" ? "→ " : ""}{conv.lastMsg.body}
-                          </div>
-                        )}
+                        {conv.lastMsg && (() => {
+                          const MEDIA_PFX = ["🎵","🎤","🖼️","🎥","📎","😄","📍","👤"];
+                          const isMed = MEDIA_PFX.some(p => conv.lastMsg!.body?.startsWith(p));
+                          return (
+                            <div className={`text-[11px] truncate pl-[42px] ${isMed ? "text-slate-600 italic" : "text-slate-500"}`}>
+                              {conv.lastMsg.direction === "OUTBOUND" ? "→ " : ""}{conv.lastMsg.body}
+                            </div>
+                          );
+                        })()}
 
                         {/* Linha 3: pipeline + instância (sem badge de atendimento — está no ícone do avatar) */}
                         <div className="flex items-center gap-1.5 mt-1.5 pl-[42px] flex-wrap">
@@ -1317,10 +1321,13 @@ export default function WhatsappManager({
                 ) : (
                   convMessages.map((msg) => {
                     const isOut = msg.direction === "OUTBOUND";
+                    // Detectar se é mensagem de mídia (emoji descritor sem outro texto)
+                    const MEDIA_PREFIXES = ["🎵", "🎤", "🖼️", "🎥", "📎", "😄", "📍", "👤"];
+                    const isMedia = MEDIA_PREFIXES.some(p => msg.body?.startsWith(p));
                     return (
                       <div key={msg.id} className={`flex ${isOut ? "justify-end" : "justify-start"}`}>
                         <div className={`max-w-[75%] rounded-2xl px-4 py-2.5 ${isOut ? "bg-indigo-600 text-white rounded-tr-none" : "bg-[#0f1623] border border-[#1e2d45] text-slate-200 rounded-tl-none"}`}>
-                          <p className="text-sm whitespace-pre-wrap break-words">{msg.body}</p>
+                          <p className={`text-sm whitespace-pre-wrap break-words ${isMedia ? (isOut ? "italic text-indigo-200" : "italic text-slate-400") : ""}`}>{msg.body}</p>
                           <div className={`flex items-center gap-2 mt-1 flex-wrap ${isOut ? "justify-end" : "justify-start"}`}>
                             <span className={`text-[10px] ${isOut ? "text-indigo-200/60" : "text-slate-600"}`}>
                               {new Date(msg.receivedAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
