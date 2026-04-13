@@ -30,7 +30,8 @@ export async function POST(
   }
 
   try {
-    const result = await evolutionSendText(instance.instanceName, phone, text);
+    const instanceToken = (instance as any).instanceToken as string | null | undefined;
+    const result = await evolutionSendText(instance.instanceName, phone, text, instanceToken);
 
     // Save the sent message locally
     await prisma.message.create({

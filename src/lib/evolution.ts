@@ -125,15 +125,18 @@ export async function evolutionGetStatus(instanceName: string, instanceToken?: s
 }
 
 /** Envia mensagem de texto */
-export async function evolutionSendText(instanceName: string, phone: string, text: string) {
+export async function evolutionSendText(instanceName: string, phone: string, text: string, instanceToken?: string | null) {
   const { baseUrl, apiKey } = await getConfig();
+
+  // No v2, endpoints de instância exigem o token da instância
+  const authKey = instanceToken ?? await evolutionGetInstanceToken(instanceName) ?? apiKey;
 
   // Garante formato correto: 5511999999999@s.whatsapp.net
   const number = phone.replace(/\D/g, "");
 
   const res = await fetch(`${baseUrl}/message/sendText/${instanceName}`, {
     method: "POST",
-    headers: headers(apiKey),
+    headers: headers(authKey),
     body: JSON.stringify({
       number,
       text,
