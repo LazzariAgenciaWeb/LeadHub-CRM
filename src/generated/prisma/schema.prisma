@@ -24,7 +24,8 @@ model User {
   company   Company? @relation(fields: [companyId], references: [id])
   companyId String?
 
-  ticketsCreated Ticket[] @relation("TicketCreatedBy")
+  ticketsCreated Ticket[]        @relation("TicketCreatedBy")
+  companyContact CompanyContact? @relation("ContactUser")
 
   @@index([companyId])
 }
@@ -58,6 +59,7 @@ model Company {
   tickets           Ticket[]
   trackingLinks     TrackingLink[]
   pipelineStages    PipelineStageConfig[]
+  contacts          CompanyContact[]
   triggerOnly       Boolean               @default(false)
 }
 
@@ -224,6 +226,29 @@ model PipelineStageConfig {
   companyId String
 
   @@index([companyId, pipeline])
+}
+
+// ─── Contatos da Empresa (WhatsApp) ──────────────────────────────────────────
+
+model CompanyContact {
+  id        String   @id @default(cuid())
+  name      String? // nome do contato / grupo
+  phone     String // número (55...) ou group-id (@g.us)
+  isGroup   Boolean  @default(false) // true = grupo do WhatsApp
+  role      String   @default("CONTACT") // "CONTACT" | "DECISION_MAKER" | "TECHNICAL" | "FINANCIAL"
+  hasAccess Boolean  @default(false) // acesso ao portal do cliente
+  notes     String?
+  createdAt DateTime @default(now())
+
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  // Quando hasAccess = true, pode ter um User vinculado (login no portal)
+  user   User?   @relation("ContactUser", fields: [userId], references: [id])
+  userId String? @unique
+
+  @@unique([companyId, phone])
+  @@index([companyId])
 }
 
 // ─── Instâncias WhatsApp ──────────────────────────────────────────────────────

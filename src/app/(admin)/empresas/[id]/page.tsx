@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import DeleteCompanyButton from "./DeleteCompanyButton";
+import CompanyContacts from "./CompanyContacts";
 
 export default async function EmpresaDetailPage({
   params,
@@ -15,17 +16,24 @@ export default async function EmpresaDetailPage({
 
   const { id } = await params;
 
-  const company = await prisma.company.findUnique({
-    where: { id },
-    include: {
-      campaigns: {
-        orderBy: { createdAt: "desc" },
-        include: { _count: { select: { leads: true, messages: true } } },
+  const [company, contacts] = await Promise.all([
+    prisma.company.findUnique({
+      where: { id },
+      include: {
+        campaigns: {
+          orderBy: { createdAt: "desc" },
+          include: { _count: { select: { leads: true, messages: true } } },
+        },
+        whatsappInstances: true,
+        _count: { select: { leads: true, messages: true } },
       },
-      whatsappInstances: true,
-      _count: { select: { leads: true, messages: true } },
-    },
-  });
+    }),
+    prisma.companyContact.findMany({
+      where: { companyId: id },
+      orderBy: { createdAt: "asc" },
+      include: { user: { select: { id: true, name: true, email: true } } },
+    }),
+  ]);
 
   if (!company) notFound();
 
@@ -291,6 +299,12 @@ export default async function EmpresaDetailPage({
           </div>
         )}
       </div>
+
+      {/* Contatos WhatsApp */}
+      <CompanyContacts
+        companyId={id}
+        initialContacts={contacts as any}
+      />
     </div>
   );
 }

@@ -225,6 +225,19 @@ exports.Prisma.PipelineStageConfigScalarFieldEnum = {
   companyId: 'companyId'
 };
 
+exports.Prisma.CompanyContactScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  phone: 'phone',
+  isGroup: 'isGroup',
+  role: 'role',
+  hasAccess: 'hasAccess',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  companyId: 'companyId',
+  userId: 'userId'
+};
+
 exports.Prisma.WhatsappInstanceScalarFieldEnum = {
   id: 'id',
   instanceName: 'instanceName',
@@ -382,6 +395,7 @@ exports.Prisma.ModelName = {
   Lead: 'Lead',
   LeadComment: 'LeadComment',
   PipelineStageConfig: 'PipelineStageConfig',
+  CompanyContact: 'CompanyContact',
   WhatsappInstance: 'WhatsappInstance',
   Message: 'Message',
   KeywordRule: 'KeywordRule',

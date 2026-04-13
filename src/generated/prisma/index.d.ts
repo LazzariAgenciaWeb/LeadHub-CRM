@@ -54,6 +54,11 @@ export type LeadComment = $Result.DefaultSelection<Prisma.$LeadCommentPayload>
  */
 export type PipelineStageConfig = $Result.DefaultSelection<Prisma.$PipelineStageConfigPayload>
 /**
+ * Model CompanyContact
+ * 
+ */
+export type CompanyContact = $Result.DefaultSelection<Prisma.$CompanyContactPayload>
+/**
  * Model WhatsappInstance
  * 
  */
@@ -412,6 +417,16 @@ export class PrismaClient<
     * ```
     */
   get pipelineStageConfig(): Prisma.PipelineStageConfigDelegate<ExtArgs>;
+
+  /**
+   * `prisma.companyContact`: Exposes CRUD operations for the **CompanyContact** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CompanyContacts
+    * const companyContacts = await prisma.companyContact.findMany()
+    * ```
+    */
+  get companyContact(): Prisma.CompanyContactDelegate<ExtArgs>;
 
   /**
    * `prisma.whatsappInstance`: Exposes CRUD operations for the **WhatsappInstance** model.
@@ -921,6 +936,7 @@ export namespace Prisma {
     Lead: 'Lead',
     LeadComment: 'LeadComment',
     PipelineStageConfig: 'PipelineStageConfig',
+    CompanyContact: 'CompanyContact',
     WhatsappInstance: 'WhatsappInstance',
     Message: 'Message',
     KeywordRule: 'KeywordRule',
@@ -942,7 +958,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "ticket" | "ticketMessage"
+      modelProps: "user" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "ticket" | "ticketMessage"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1503,6 +1519,76 @@ export namespace Prisma {
           count: {
             args: Prisma.PipelineStageConfigCountArgs<ExtArgs>
             result: $Utils.Optional<PipelineStageConfigCountAggregateOutputType> | number
+          }
+        }
+      }
+      CompanyContact: {
+        payload: Prisma.$CompanyContactPayload<ExtArgs>
+        fields: Prisma.CompanyContactFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CompanyContactFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyContactPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CompanyContactFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyContactPayload>
+          }
+          findFirst: {
+            args: Prisma.CompanyContactFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyContactPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CompanyContactFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyContactPayload>
+          }
+          findMany: {
+            args: Prisma.CompanyContactFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyContactPayload>[]
+          }
+          create: {
+            args: Prisma.CompanyContactCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyContactPayload>
+          }
+          createMany: {
+            args: Prisma.CompanyContactCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CompanyContactCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyContactPayload>[]
+          }
+          delete: {
+            args: Prisma.CompanyContactDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyContactPayload>
+          }
+          update: {
+            args: Prisma.CompanyContactUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyContactPayload>
+          }
+          deleteMany: {
+            args: Prisma.CompanyContactDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CompanyContactUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CompanyContactUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyContactPayload>
+          }
+          aggregate: {
+            args: Prisma.CompanyContactAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCompanyContact>
+          }
+          groupBy: {
+            args: Prisma.CompanyContactGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CompanyContactGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CompanyContactCountArgs<ExtArgs>
+            result: $Utils.Optional<CompanyContactCountAggregateOutputType> | number
           }
         }
       }
@@ -2127,6 +2213,7 @@ export namespace Prisma {
     tickets: number
     trackingLinks: number
     pipelineStages: number
+    contacts: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2139,6 +2226,7 @@ export namespace Prisma {
     tickets?: boolean | CompanyCountOutputTypeCountTicketsArgs
     trackingLinks?: boolean | CompanyCountOutputTypeCountTrackingLinksArgs
     pipelineStages?: boolean | CompanyCountOutputTypeCountPipelineStagesArgs
+    contacts?: boolean | CompanyCountOutputTypeCountContactsArgs
   }
 
   // Custom InputTypes
@@ -2213,6 +2301,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountPipelineStagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PipelineStageConfigWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountContactsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompanyContactWhereInput
   }
 
 
@@ -2610,6 +2705,7 @@ export namespace Prisma {
     companyId?: boolean
     company?: boolean | User$companyArgs<ExtArgs>
     ticketsCreated?: boolean | User$ticketsCreatedArgs<ExtArgs>
+    companyContact?: boolean | User$companyContactArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2639,6 +2735,7 @@ export namespace Prisma {
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | User$companyArgs<ExtArgs>
     ticketsCreated?: boolean | User$ticketsCreatedArgs<ExtArgs>
+    companyContact?: boolean | User$companyContactArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2650,6 +2747,7 @@ export namespace Prisma {
     objects: {
       company: Prisma.$CompanyPayload<ExtArgs> | null
       ticketsCreated: Prisma.$TicketPayload<ExtArgs>[]
+      companyContact: Prisma.$CompanyContactPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3026,6 +3124,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     company<T extends User$companyArgs<ExtArgs> = {}>(args?: Subset<T, User$companyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     ticketsCreated<T extends User$ticketsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$ticketsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany"> | Null>
+    companyContact<T extends User$companyContactArgs<ExtArgs> = {}>(args?: Subset<T, User$companyContactArgs<ExtArgs>>): Prisma__CompanyContactClient<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3416,6 +3515,21 @@ export namespace Prisma {
   }
 
   /**
+   * User.companyContact
+   */
+  export type User$companyContactArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyContact
+     */
+    select?: CompanyContactSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyContactInclude<ExtArgs> | null
+    where?: CompanyContactWhereInput
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3659,6 +3773,7 @@ export namespace Prisma {
     tickets?: boolean | Company$ticketsArgs<ExtArgs>
     trackingLinks?: boolean | Company$trackingLinksArgs<ExtArgs>
     pipelineStages?: boolean | Company$pipelineStagesArgs<ExtArgs>
+    contacts?: boolean | Company$contactsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -3702,6 +3817,7 @@ export namespace Prisma {
     tickets?: boolean | Company$ticketsArgs<ExtArgs>
     trackingLinks?: boolean | Company$trackingLinksArgs<ExtArgs>
     pipelineStages?: boolean | Company$pipelineStagesArgs<ExtArgs>
+    contacts?: boolean | Company$contactsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3718,6 +3834,7 @@ export namespace Prisma {
       tickets: Prisma.$TicketPayload<ExtArgs>[]
       trackingLinks: Prisma.$TrackingLinkPayload<ExtArgs>[]
       pipelineStages: Prisma.$PipelineStageConfigPayload<ExtArgs>[]
+      contacts: Prisma.$CompanyContactPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4105,6 +4222,7 @@ export namespace Prisma {
     tickets<T extends Company$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, Company$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany"> | Null>
     trackingLinks<T extends Company$trackingLinksArgs<ExtArgs> = {}>(args?: Subset<T, Company$trackingLinksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrackingLinkPayload<ExtArgs>, T, "findMany"> | Null>
     pipelineStages<T extends Company$pipelineStagesArgs<ExtArgs> = {}>(args?: Subset<T, Company$pipelineStagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PipelineStageConfigPayload<ExtArgs>, T, "findMany"> | Null>
+    contacts<T extends Company$contactsArgs<ExtArgs> = {}>(args?: Subset<T, Company$contactsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4637,6 +4755,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PipelineStageConfigScalarFieldEnum | PipelineStageConfigScalarFieldEnum[]
+  }
+
+  /**
+   * Company.contacts
+   */
+  export type Company$contactsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyContact
+     */
+    select?: CompanyContactSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyContactInclude<ExtArgs> | null
+    where?: CompanyContactWhereInput
+    orderBy?: CompanyContactOrderByWithRelationInput | CompanyContactOrderByWithRelationInput[]
+    cursor?: CompanyContactWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CompanyContactScalarFieldEnum | CompanyContactScalarFieldEnum[]
   }
 
   /**
@@ -11013,6 +11151,1020 @@ export namespace Prisma {
 
 
   /**
+   * Model CompanyContact
+   */
+
+  export type AggregateCompanyContact = {
+    _count: CompanyContactCountAggregateOutputType | null
+    _min: CompanyContactMinAggregateOutputType | null
+    _max: CompanyContactMaxAggregateOutputType | null
+  }
+
+  export type CompanyContactMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    phone: string | null
+    isGroup: boolean | null
+    role: string | null
+    hasAccess: boolean | null
+    notes: string | null
+    createdAt: Date | null
+    companyId: string | null
+    userId: string | null
+  }
+
+  export type CompanyContactMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    phone: string | null
+    isGroup: boolean | null
+    role: string | null
+    hasAccess: boolean | null
+    notes: string | null
+    createdAt: Date | null
+    companyId: string | null
+    userId: string | null
+  }
+
+  export type CompanyContactCountAggregateOutputType = {
+    id: number
+    name: number
+    phone: number
+    isGroup: number
+    role: number
+    hasAccess: number
+    notes: number
+    createdAt: number
+    companyId: number
+    userId: number
+    _all: number
+  }
+
+
+  export type CompanyContactMinAggregateInputType = {
+    id?: true
+    name?: true
+    phone?: true
+    isGroup?: true
+    role?: true
+    hasAccess?: true
+    notes?: true
+    createdAt?: true
+    companyId?: true
+    userId?: true
+  }
+
+  export type CompanyContactMaxAggregateInputType = {
+    id?: true
+    name?: true
+    phone?: true
+    isGroup?: true
+    role?: true
+    hasAccess?: true
+    notes?: true
+    createdAt?: true
+    companyId?: true
+    userId?: true
+  }
+
+  export type CompanyContactCountAggregateInputType = {
+    id?: true
+    name?: true
+    phone?: true
+    isGroup?: true
+    role?: true
+    hasAccess?: true
+    notes?: true
+    createdAt?: true
+    companyId?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type CompanyContactAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CompanyContact to aggregate.
+     */
+    where?: CompanyContactWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyContacts to fetch.
+     */
+    orderBy?: CompanyContactOrderByWithRelationInput | CompanyContactOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CompanyContactWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyContacts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyContacts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CompanyContacts
+    **/
+    _count?: true | CompanyContactCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CompanyContactMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CompanyContactMaxAggregateInputType
+  }
+
+  export type GetCompanyContactAggregateType<T extends CompanyContactAggregateArgs> = {
+        [P in keyof T & keyof AggregateCompanyContact]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCompanyContact[P]>
+      : GetScalarType<T[P], AggregateCompanyContact[P]>
+  }
+
+
+
+
+  export type CompanyContactGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompanyContactWhereInput
+    orderBy?: CompanyContactOrderByWithAggregationInput | CompanyContactOrderByWithAggregationInput[]
+    by: CompanyContactScalarFieldEnum[] | CompanyContactScalarFieldEnum
+    having?: CompanyContactScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CompanyContactCountAggregateInputType | true
+    _min?: CompanyContactMinAggregateInputType
+    _max?: CompanyContactMaxAggregateInputType
+  }
+
+  export type CompanyContactGroupByOutputType = {
+    id: string
+    name: string | null
+    phone: string
+    isGroup: boolean
+    role: string
+    hasAccess: boolean
+    notes: string | null
+    createdAt: Date
+    companyId: string
+    userId: string | null
+    _count: CompanyContactCountAggregateOutputType | null
+    _min: CompanyContactMinAggregateOutputType | null
+    _max: CompanyContactMaxAggregateOutputType | null
+  }
+
+  type GetCompanyContactGroupByPayload<T extends CompanyContactGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CompanyContactGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CompanyContactGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CompanyContactGroupByOutputType[P]>
+            : GetScalarType<T[P], CompanyContactGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CompanyContactSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    phone?: boolean
+    isGroup?: boolean
+    role?: boolean
+    hasAccess?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    companyId?: boolean
+    userId?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    user?: boolean | CompanyContact$userArgs<ExtArgs>
+  }, ExtArgs["result"]["companyContact"]>
+
+  export type CompanyContactSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    phone?: boolean
+    isGroup?: boolean
+    role?: boolean
+    hasAccess?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    companyId?: boolean
+    userId?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    user?: boolean | CompanyContact$userArgs<ExtArgs>
+  }, ExtArgs["result"]["companyContact"]>
+
+  export type CompanyContactSelectScalar = {
+    id?: boolean
+    name?: boolean
+    phone?: boolean
+    isGroup?: boolean
+    role?: boolean
+    hasAccess?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    companyId?: boolean
+    userId?: boolean
+  }
+
+  export type CompanyContactInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    user?: boolean | CompanyContact$userArgs<ExtArgs>
+  }
+  export type CompanyContactIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    user?: boolean | CompanyContact$userArgs<ExtArgs>
+  }
+
+  export type $CompanyContactPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CompanyContact"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string | null
+      phone: string
+      isGroup: boolean
+      role: string
+      hasAccess: boolean
+      notes: string | null
+      createdAt: Date
+      companyId: string
+      userId: string | null
+    }, ExtArgs["result"]["companyContact"]>
+    composites: {}
+  }
+
+  type CompanyContactGetPayload<S extends boolean | null | undefined | CompanyContactDefaultArgs> = $Result.GetResult<Prisma.$CompanyContactPayload, S>
+
+  type CompanyContactCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<CompanyContactFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: CompanyContactCountAggregateInputType | true
+    }
+
+  export interface CompanyContactDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CompanyContact'], meta: { name: 'CompanyContact' } }
+    /**
+     * Find zero or one CompanyContact that matches the filter.
+     * @param {CompanyContactFindUniqueArgs} args - Arguments to find a CompanyContact
+     * @example
+     * // Get one CompanyContact
+     * const companyContact = await prisma.companyContact.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CompanyContactFindUniqueArgs>(args: SelectSubset<T, CompanyContactFindUniqueArgs<ExtArgs>>): Prisma__CompanyContactClient<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one CompanyContact that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {CompanyContactFindUniqueOrThrowArgs} args - Arguments to find a CompanyContact
+     * @example
+     * // Get one CompanyContact
+     * const companyContact = await prisma.companyContact.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CompanyContactFindUniqueOrThrowArgs>(args: SelectSubset<T, CompanyContactFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CompanyContactClient<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first CompanyContact that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyContactFindFirstArgs} args - Arguments to find a CompanyContact
+     * @example
+     * // Get one CompanyContact
+     * const companyContact = await prisma.companyContact.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CompanyContactFindFirstArgs>(args?: SelectSubset<T, CompanyContactFindFirstArgs<ExtArgs>>): Prisma__CompanyContactClient<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first CompanyContact that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyContactFindFirstOrThrowArgs} args - Arguments to find a CompanyContact
+     * @example
+     * // Get one CompanyContact
+     * const companyContact = await prisma.companyContact.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CompanyContactFindFirstOrThrowArgs>(args?: SelectSubset<T, CompanyContactFindFirstOrThrowArgs<ExtArgs>>): Prisma__CompanyContactClient<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more CompanyContacts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyContactFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CompanyContacts
+     * const companyContacts = await prisma.companyContact.findMany()
+     * 
+     * // Get first 10 CompanyContacts
+     * const companyContacts = await prisma.companyContact.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const companyContactWithIdOnly = await prisma.companyContact.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CompanyContactFindManyArgs>(args?: SelectSubset<T, CompanyContactFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a CompanyContact.
+     * @param {CompanyContactCreateArgs} args - Arguments to create a CompanyContact.
+     * @example
+     * // Create one CompanyContact
+     * const CompanyContact = await prisma.companyContact.create({
+     *   data: {
+     *     // ... data to create a CompanyContact
+     *   }
+     * })
+     * 
+     */
+    create<T extends CompanyContactCreateArgs>(args: SelectSubset<T, CompanyContactCreateArgs<ExtArgs>>): Prisma__CompanyContactClient<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many CompanyContacts.
+     * @param {CompanyContactCreateManyArgs} args - Arguments to create many CompanyContacts.
+     * @example
+     * // Create many CompanyContacts
+     * const companyContact = await prisma.companyContact.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CompanyContactCreateManyArgs>(args?: SelectSubset<T, CompanyContactCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CompanyContacts and returns the data saved in the database.
+     * @param {CompanyContactCreateManyAndReturnArgs} args - Arguments to create many CompanyContacts.
+     * @example
+     * // Create many CompanyContacts
+     * const companyContact = await prisma.companyContact.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CompanyContacts and only return the `id`
+     * const companyContactWithIdOnly = await prisma.companyContact.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CompanyContactCreateManyAndReturnArgs>(args?: SelectSubset<T, CompanyContactCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a CompanyContact.
+     * @param {CompanyContactDeleteArgs} args - Arguments to delete one CompanyContact.
+     * @example
+     * // Delete one CompanyContact
+     * const CompanyContact = await prisma.companyContact.delete({
+     *   where: {
+     *     // ... filter to delete one CompanyContact
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CompanyContactDeleteArgs>(args: SelectSubset<T, CompanyContactDeleteArgs<ExtArgs>>): Prisma__CompanyContactClient<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one CompanyContact.
+     * @param {CompanyContactUpdateArgs} args - Arguments to update one CompanyContact.
+     * @example
+     * // Update one CompanyContact
+     * const companyContact = await prisma.companyContact.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CompanyContactUpdateArgs>(args: SelectSubset<T, CompanyContactUpdateArgs<ExtArgs>>): Prisma__CompanyContactClient<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more CompanyContacts.
+     * @param {CompanyContactDeleteManyArgs} args - Arguments to filter CompanyContacts to delete.
+     * @example
+     * // Delete a few CompanyContacts
+     * const { count } = await prisma.companyContact.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CompanyContactDeleteManyArgs>(args?: SelectSubset<T, CompanyContactDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CompanyContacts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyContactUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CompanyContacts
+     * const companyContact = await prisma.companyContact.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CompanyContactUpdateManyArgs>(args: SelectSubset<T, CompanyContactUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CompanyContact.
+     * @param {CompanyContactUpsertArgs} args - Arguments to update or create a CompanyContact.
+     * @example
+     * // Update or create a CompanyContact
+     * const companyContact = await prisma.companyContact.upsert({
+     *   create: {
+     *     // ... data to create a CompanyContact
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CompanyContact we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CompanyContactUpsertArgs>(args: SelectSubset<T, CompanyContactUpsertArgs<ExtArgs>>): Prisma__CompanyContactClient<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of CompanyContacts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyContactCountArgs} args - Arguments to filter CompanyContacts to count.
+     * @example
+     * // Count the number of CompanyContacts
+     * const count = await prisma.companyContact.count({
+     *   where: {
+     *     // ... the filter for the CompanyContacts we want to count
+     *   }
+     * })
+    **/
+    count<T extends CompanyContactCountArgs>(
+      args?: Subset<T, CompanyContactCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CompanyContactCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CompanyContact.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyContactAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CompanyContactAggregateArgs>(args: Subset<T, CompanyContactAggregateArgs>): Prisma.PrismaPromise<GetCompanyContactAggregateType<T>>
+
+    /**
+     * Group by CompanyContact.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyContactGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CompanyContactGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CompanyContactGroupByArgs['orderBy'] }
+        : { orderBy?: CompanyContactGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CompanyContactGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCompanyContactGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CompanyContact model
+   */
+  readonly fields: CompanyContactFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CompanyContact.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CompanyContactClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    user<T extends CompanyContact$userArgs<ExtArgs> = {}>(args?: Subset<T, CompanyContact$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CompanyContact model
+   */ 
+  interface CompanyContactFieldRefs {
+    readonly id: FieldRef<"CompanyContact", 'String'>
+    readonly name: FieldRef<"CompanyContact", 'String'>
+    readonly phone: FieldRef<"CompanyContact", 'String'>
+    readonly isGroup: FieldRef<"CompanyContact", 'Boolean'>
+    readonly role: FieldRef<"CompanyContact", 'String'>
+    readonly hasAccess: FieldRef<"CompanyContact", 'Boolean'>
+    readonly notes: FieldRef<"CompanyContact", 'String'>
+    readonly createdAt: FieldRef<"CompanyContact", 'DateTime'>
+    readonly companyId: FieldRef<"CompanyContact", 'String'>
+    readonly userId: FieldRef<"CompanyContact", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CompanyContact findUnique
+   */
+  export type CompanyContactFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyContact
+     */
+    select?: CompanyContactSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyContactInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyContact to fetch.
+     */
+    where: CompanyContactWhereUniqueInput
+  }
+
+  /**
+   * CompanyContact findUniqueOrThrow
+   */
+  export type CompanyContactFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyContact
+     */
+    select?: CompanyContactSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyContactInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyContact to fetch.
+     */
+    where: CompanyContactWhereUniqueInput
+  }
+
+  /**
+   * CompanyContact findFirst
+   */
+  export type CompanyContactFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyContact
+     */
+    select?: CompanyContactSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyContactInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyContact to fetch.
+     */
+    where?: CompanyContactWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyContacts to fetch.
+     */
+    orderBy?: CompanyContactOrderByWithRelationInput | CompanyContactOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CompanyContacts.
+     */
+    cursor?: CompanyContactWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyContacts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyContacts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CompanyContacts.
+     */
+    distinct?: CompanyContactScalarFieldEnum | CompanyContactScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyContact findFirstOrThrow
+   */
+  export type CompanyContactFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyContact
+     */
+    select?: CompanyContactSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyContactInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyContact to fetch.
+     */
+    where?: CompanyContactWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyContacts to fetch.
+     */
+    orderBy?: CompanyContactOrderByWithRelationInput | CompanyContactOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CompanyContacts.
+     */
+    cursor?: CompanyContactWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyContacts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyContacts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CompanyContacts.
+     */
+    distinct?: CompanyContactScalarFieldEnum | CompanyContactScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyContact findMany
+   */
+  export type CompanyContactFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyContact
+     */
+    select?: CompanyContactSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyContactInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyContacts to fetch.
+     */
+    where?: CompanyContactWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyContacts to fetch.
+     */
+    orderBy?: CompanyContactOrderByWithRelationInput | CompanyContactOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CompanyContacts.
+     */
+    cursor?: CompanyContactWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyContacts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyContacts.
+     */
+    skip?: number
+    distinct?: CompanyContactScalarFieldEnum | CompanyContactScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyContact create
+   */
+  export type CompanyContactCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyContact
+     */
+    select?: CompanyContactSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyContactInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CompanyContact.
+     */
+    data: XOR<CompanyContactCreateInput, CompanyContactUncheckedCreateInput>
+  }
+
+  /**
+   * CompanyContact createMany
+   */
+  export type CompanyContactCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CompanyContacts.
+     */
+    data: CompanyContactCreateManyInput | CompanyContactCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CompanyContact createManyAndReturn
+   */
+  export type CompanyContactCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyContact
+     */
+    select?: CompanyContactSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many CompanyContacts.
+     */
+    data: CompanyContactCreateManyInput | CompanyContactCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyContactIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CompanyContact update
+   */
+  export type CompanyContactUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyContact
+     */
+    select?: CompanyContactSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyContactInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CompanyContact.
+     */
+    data: XOR<CompanyContactUpdateInput, CompanyContactUncheckedUpdateInput>
+    /**
+     * Choose, which CompanyContact to update.
+     */
+    where: CompanyContactWhereUniqueInput
+  }
+
+  /**
+   * CompanyContact updateMany
+   */
+  export type CompanyContactUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CompanyContacts.
+     */
+    data: XOR<CompanyContactUpdateManyMutationInput, CompanyContactUncheckedUpdateManyInput>
+    /**
+     * Filter which CompanyContacts to update
+     */
+    where?: CompanyContactWhereInput
+  }
+
+  /**
+   * CompanyContact upsert
+   */
+  export type CompanyContactUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyContact
+     */
+    select?: CompanyContactSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyContactInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CompanyContact to update in case it exists.
+     */
+    where: CompanyContactWhereUniqueInput
+    /**
+     * In case the CompanyContact found by the `where` argument doesn't exist, create a new CompanyContact with this data.
+     */
+    create: XOR<CompanyContactCreateInput, CompanyContactUncheckedCreateInput>
+    /**
+     * In case the CompanyContact was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CompanyContactUpdateInput, CompanyContactUncheckedUpdateInput>
+  }
+
+  /**
+   * CompanyContact delete
+   */
+  export type CompanyContactDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyContact
+     */
+    select?: CompanyContactSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyContactInclude<ExtArgs> | null
+    /**
+     * Filter which CompanyContact to delete.
+     */
+    where: CompanyContactWhereUniqueInput
+  }
+
+  /**
+   * CompanyContact deleteMany
+   */
+  export type CompanyContactDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CompanyContacts to delete
+     */
+    where?: CompanyContactWhereInput
+  }
+
+  /**
+   * CompanyContact.user
+   */
+  export type CompanyContact$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * CompanyContact without action
+   */
+  export type CompanyContactDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyContact
+     */
+    select?: CompanyContactSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyContactInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model WhatsappInstance
    */
 
@@ -17102,6 +18254,22 @@ export namespace Prisma {
   export type PipelineStageConfigScalarFieldEnum = (typeof PipelineStageConfigScalarFieldEnum)[keyof typeof PipelineStageConfigScalarFieldEnum]
 
 
+  export const CompanyContactScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    phone: 'phone',
+    isGroup: 'isGroup',
+    role: 'role',
+    hasAccess: 'hasAccess',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    companyId: 'companyId',
+    userId: 'userId'
+  };
+
+  export type CompanyContactScalarFieldEnum = (typeof CompanyContactScalarFieldEnum)[keyof typeof CompanyContactScalarFieldEnum]
+
+
   export const WhatsappInstanceScalarFieldEnum: {
     id: 'id',
     instanceName: 'instanceName',
@@ -17444,6 +18612,7 @@ export namespace Prisma {
     companyId?: StringNullableFilter<"User"> | string | null
     company?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     ticketsCreated?: TicketListRelationFilter
+    companyContact?: XOR<CompanyContactNullableRelationFilter, CompanyContactWhereInput> | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -17457,6 +18626,7 @@ export namespace Prisma {
     companyId?: SortOrderInput | SortOrder
     company?: CompanyOrderByWithRelationInput
     ticketsCreated?: TicketOrderByRelationAggregateInput
+    companyContact?: CompanyContactOrderByWithRelationInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -17473,6 +18643,7 @@ export namespace Prisma {
     companyId?: StringNullableFilter<"User"> | string | null
     company?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     ticketsCreated?: TicketListRelationFilter
+    companyContact?: XOR<CompanyContactNullableRelationFilter, CompanyContactWhereInput> | null
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -17528,6 +18699,7 @@ export namespace Prisma {
     tickets?: TicketListRelationFilter
     trackingLinks?: TrackingLinkListRelationFilter
     pipelineStages?: PipelineStageConfigListRelationFilter
+    contacts?: CompanyContactListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -17552,6 +18724,7 @@ export namespace Prisma {
     tickets?: TicketOrderByRelationAggregateInput
     trackingLinks?: TrackingLinkOrderByRelationAggregateInput
     pipelineStages?: PipelineStageConfigOrderByRelationAggregateInput
+    contacts?: CompanyContactOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -17579,6 +18752,7 @@ export namespace Prisma {
     tickets?: TicketListRelationFilter
     trackingLinks?: TrackingLinkListRelationFilter
     pipelineStages?: PipelineStageConfigListRelationFilter
+    contacts?: CompanyContactListRelationFilter
   }, "id" | "slug">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -18134,6 +19308,90 @@ export namespace Prisma {
     companyId?: StringWithAggregatesFilter<"PipelineStageConfig"> | string
   }
 
+  export type CompanyContactWhereInput = {
+    AND?: CompanyContactWhereInput | CompanyContactWhereInput[]
+    OR?: CompanyContactWhereInput[]
+    NOT?: CompanyContactWhereInput | CompanyContactWhereInput[]
+    id?: StringFilter<"CompanyContact"> | string
+    name?: StringNullableFilter<"CompanyContact"> | string | null
+    phone?: StringFilter<"CompanyContact"> | string
+    isGroup?: BoolFilter<"CompanyContact"> | boolean
+    role?: StringFilter<"CompanyContact"> | string
+    hasAccess?: BoolFilter<"CompanyContact"> | boolean
+    notes?: StringNullableFilter<"CompanyContact"> | string | null
+    createdAt?: DateTimeFilter<"CompanyContact"> | Date | string
+    companyId?: StringFilter<"CompanyContact"> | string
+    userId?: StringNullableFilter<"CompanyContact"> | string | null
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+  }
+
+  export type CompanyContactOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrderInput | SortOrder
+    phone?: SortOrder
+    isGroup?: SortOrder
+    role?: SortOrder
+    hasAccess?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    company?: CompanyOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type CompanyContactWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    companyId_phone?: CompanyContactCompanyIdPhoneCompoundUniqueInput
+    AND?: CompanyContactWhereInput | CompanyContactWhereInput[]
+    OR?: CompanyContactWhereInput[]
+    NOT?: CompanyContactWhereInput | CompanyContactWhereInput[]
+    name?: StringNullableFilter<"CompanyContact"> | string | null
+    phone?: StringFilter<"CompanyContact"> | string
+    isGroup?: BoolFilter<"CompanyContact"> | boolean
+    role?: StringFilter<"CompanyContact"> | string
+    hasAccess?: BoolFilter<"CompanyContact"> | boolean
+    notes?: StringNullableFilter<"CompanyContact"> | string | null
+    createdAt?: DateTimeFilter<"CompanyContact"> | Date | string
+    companyId?: StringFilter<"CompanyContact"> | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+  }, "id" | "userId" | "companyId_phone">
+
+  export type CompanyContactOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrderInput | SortOrder
+    phone?: SortOrder
+    isGroup?: SortOrder
+    role?: SortOrder
+    hasAccess?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    _count?: CompanyContactCountOrderByAggregateInput
+    _max?: CompanyContactMaxOrderByAggregateInput
+    _min?: CompanyContactMinOrderByAggregateInput
+  }
+
+  export type CompanyContactScalarWhereWithAggregatesInput = {
+    AND?: CompanyContactScalarWhereWithAggregatesInput | CompanyContactScalarWhereWithAggregatesInput[]
+    OR?: CompanyContactScalarWhereWithAggregatesInput[]
+    NOT?: CompanyContactScalarWhereWithAggregatesInput | CompanyContactScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CompanyContact"> | string
+    name?: StringNullableWithAggregatesFilter<"CompanyContact"> | string | null
+    phone?: StringWithAggregatesFilter<"CompanyContact"> | string
+    isGroup?: BoolWithAggregatesFilter<"CompanyContact"> | boolean
+    role?: StringWithAggregatesFilter<"CompanyContact"> | string
+    hasAccess?: BoolWithAggregatesFilter<"CompanyContact"> | boolean
+    notes?: StringNullableWithAggregatesFilter<"CompanyContact"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"CompanyContact"> | Date | string
+    companyId?: StringWithAggregatesFilter<"CompanyContact"> | string
+    userId?: StringNullableWithAggregatesFilter<"CompanyContact"> | string | null
+  }
+
   export type WhatsappInstanceWhereInput = {
     AND?: WhatsappInstanceWhereInput | WhatsappInstanceWhereInput[]
     OR?: WhatsappInstanceWhereInput[]
@@ -18579,6 +19837,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -18591,6 +19850,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     companyId?: string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -18603,6 +19863,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -18615,6 +19876,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -18671,6 +19933,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -18695,6 +19958,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -18719,6 +19983,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -18743,6 +20008,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -19352,6 +20618,95 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type CompanyContactCreateInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    isGroup?: boolean
+    role?: string
+    hasAccess?: boolean
+    notes?: string | null
+    createdAt?: Date | string
+    company: CompanyCreateNestedOneWithoutContactsInput
+    user?: UserCreateNestedOneWithoutCompanyContactInput
+  }
+
+  export type CompanyContactUncheckedCreateInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    isGroup?: boolean
+    role?: string
+    hasAccess?: boolean
+    notes?: string | null
+    createdAt?: Date | string
+    companyId: string
+    userId?: string | null
+  }
+
+  export type CompanyContactUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    role?: StringFieldUpdateOperationsInput | string
+    hasAccess?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutContactsNestedInput
+    user?: UserUpdateOneWithoutCompanyContactNestedInput
+  }
+
+  export type CompanyContactUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    role?: StringFieldUpdateOperationsInput | string
+    hasAccess?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CompanyContactCreateManyInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    isGroup?: boolean
+    role?: string
+    hasAccess?: boolean
+    notes?: string | null
+    createdAt?: Date | string
+    companyId: string
+    userId?: string | null
+  }
+
+  export type CompanyContactUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    role?: StringFieldUpdateOperationsInput | string
+    hasAccess?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompanyContactUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    role?: StringFieldUpdateOperationsInput | string
+    hasAccess?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type WhatsappInstanceCreateInput = {
     id?: string
     instanceName: string
@@ -19864,6 +21219,11 @@ export namespace Prisma {
     none?: TicketWhereInput
   }
 
+  export type CompanyContactNullableRelationFilter = {
+    is?: CompanyContactWhereInput | null
+    isNot?: CompanyContactWhereInput | null
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -20026,6 +21386,12 @@ export namespace Prisma {
     none?: PipelineStageConfigWhereInput
   }
 
+  export type CompanyContactListRelationFilter = {
+    every?: CompanyContactWhereInput
+    some?: CompanyContactWhereInput
+    none?: CompanyContactWhereInput
+  }
+
   export type UserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -20055,6 +21421,10 @@ export namespace Prisma {
   }
 
   export type PipelineStageConfigOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CompanyContactOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -20564,6 +21934,55 @@ export namespace Prisma {
     order?: SortOrder
   }
 
+  export type UserNullableRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
+  export type CompanyContactCompanyIdPhoneCompoundUniqueInput = {
+    companyId: string
+    phone: string
+  }
+
+  export type CompanyContactCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    isGroup?: SortOrder
+    role?: SortOrder
+    hasAccess?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type CompanyContactMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    isGroup?: SortOrder
+    role?: SortOrder
+    hasAccess?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type CompanyContactMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    isGroup?: SortOrder
+    role?: SortOrder
+    hasAccess?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrder
+  }
+
   export type EnumInstanceStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.InstanceStatus | EnumInstanceStatusFieldRefInput<$PrismaModel>
     in?: $Enums.InstanceStatus[] | ListEnumInstanceStatusFieldRefInput<$PrismaModel>
@@ -20818,11 +22237,6 @@ export namespace Prisma {
     not?: NestedEnumTicketPriorityFilter<$PrismaModel> | $Enums.TicketPriority
   }
 
-  export type UserNullableRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
-  }
-
   export type TicketMessageListRelationFilter = {
     every?: TicketMessageWhereInput
     some?: TicketMessageWhereInput
@@ -20940,11 +22354,23 @@ export namespace Prisma {
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
   }
 
+  export type CompanyContactCreateNestedOneWithoutUserInput = {
+    create?: XOR<CompanyContactCreateWithoutUserInput, CompanyContactUncheckedCreateWithoutUserInput>
+    connectOrCreate?: CompanyContactCreateOrConnectWithoutUserInput
+    connect?: CompanyContactWhereUniqueInput
+  }
+
   export type TicketUncheckedCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
     createMany?: TicketCreateManyCreatedByInputEnvelope
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+  }
+
+  export type CompanyContactUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<CompanyContactCreateWithoutUserInput, CompanyContactUncheckedCreateWithoutUserInput>
+    connectOrCreate?: CompanyContactCreateOrConnectWithoutUserInput
+    connect?: CompanyContactWhereUniqueInput
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -20983,6 +22409,16 @@ export namespace Prisma {
     deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
   }
 
+  export type CompanyContactUpdateOneWithoutUserNestedInput = {
+    create?: XOR<CompanyContactCreateWithoutUserInput, CompanyContactUncheckedCreateWithoutUserInput>
+    connectOrCreate?: CompanyContactCreateOrConnectWithoutUserInput
+    upsert?: CompanyContactUpsertWithoutUserInput
+    disconnect?: CompanyContactWhereInput | boolean
+    delete?: CompanyContactWhereInput | boolean
+    connect?: CompanyContactWhereUniqueInput
+    update?: XOR<XOR<CompanyContactUpdateToOneWithWhereWithoutUserInput, CompanyContactUpdateWithoutUserInput>, CompanyContactUncheckedUpdateWithoutUserInput>
+  }
+
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
   }
@@ -20999,6 +22435,16 @@ export namespace Prisma {
     update?: TicketUpdateWithWhereUniqueWithoutCreatedByInput | TicketUpdateWithWhereUniqueWithoutCreatedByInput[]
     updateMany?: TicketUpdateManyWithWhereWithoutCreatedByInput | TicketUpdateManyWithWhereWithoutCreatedByInput[]
     deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
+  export type CompanyContactUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<CompanyContactCreateWithoutUserInput, CompanyContactUncheckedCreateWithoutUserInput>
+    connectOrCreate?: CompanyContactCreateOrConnectWithoutUserInput
+    upsert?: CompanyContactUpsertWithoutUserInput
+    disconnect?: CompanyContactWhereInput | boolean
+    delete?: CompanyContactWhereInput | boolean
+    connect?: CompanyContactWhereUniqueInput
+    update?: XOR<XOR<CompanyContactUpdateToOneWithWhereWithoutUserInput, CompanyContactUpdateWithoutUserInput>, CompanyContactUncheckedUpdateWithoutUserInput>
   }
 
   export type UserCreateNestedManyWithoutCompanyInput = {
@@ -21064,6 +22510,13 @@ export namespace Prisma {
     connect?: PipelineStageConfigWhereUniqueInput | PipelineStageConfigWhereUniqueInput[]
   }
 
+  export type CompanyContactCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<CompanyContactCreateWithoutCompanyInput, CompanyContactUncheckedCreateWithoutCompanyInput> | CompanyContactCreateWithoutCompanyInput[] | CompanyContactUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CompanyContactCreateOrConnectWithoutCompanyInput | CompanyContactCreateOrConnectWithoutCompanyInput[]
+    createMany?: CompanyContactCreateManyCompanyInputEnvelope
+    connect?: CompanyContactWhereUniqueInput | CompanyContactWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -21125,6 +22578,13 @@ export namespace Prisma {
     connectOrCreate?: PipelineStageConfigCreateOrConnectWithoutCompanyInput | PipelineStageConfigCreateOrConnectWithoutCompanyInput[]
     createMany?: PipelineStageConfigCreateManyCompanyInputEnvelope
     connect?: PipelineStageConfigWhereUniqueInput | PipelineStageConfigWhereUniqueInput[]
+  }
+
+  export type CompanyContactUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<CompanyContactCreateWithoutCompanyInput, CompanyContactUncheckedCreateWithoutCompanyInput> | CompanyContactCreateWithoutCompanyInput[] | CompanyContactUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CompanyContactCreateOrConnectWithoutCompanyInput | CompanyContactCreateOrConnectWithoutCompanyInput[]
+    createMany?: CompanyContactCreateManyCompanyInputEnvelope
+    connect?: CompanyContactWhereUniqueInput | CompanyContactWhereUniqueInput[]
   }
 
   export type EnumCompanyStatusFieldUpdateOperationsInput = {
@@ -21261,6 +22721,20 @@ export namespace Prisma {
     deleteMany?: PipelineStageConfigScalarWhereInput | PipelineStageConfigScalarWhereInput[]
   }
 
+  export type CompanyContactUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<CompanyContactCreateWithoutCompanyInput, CompanyContactUncheckedCreateWithoutCompanyInput> | CompanyContactCreateWithoutCompanyInput[] | CompanyContactUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CompanyContactCreateOrConnectWithoutCompanyInput | CompanyContactCreateOrConnectWithoutCompanyInput[]
+    upsert?: CompanyContactUpsertWithWhereUniqueWithoutCompanyInput | CompanyContactUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: CompanyContactCreateManyCompanyInputEnvelope
+    set?: CompanyContactWhereUniqueInput | CompanyContactWhereUniqueInput[]
+    disconnect?: CompanyContactWhereUniqueInput | CompanyContactWhereUniqueInput[]
+    delete?: CompanyContactWhereUniqueInput | CompanyContactWhereUniqueInput[]
+    connect?: CompanyContactWhereUniqueInput | CompanyContactWhereUniqueInput[]
+    update?: CompanyContactUpdateWithWhereUniqueWithoutCompanyInput | CompanyContactUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: CompanyContactUpdateManyWithWhereWithoutCompanyInput | CompanyContactUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: CompanyContactScalarWhereInput | CompanyContactScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -21385,6 +22859,20 @@ export namespace Prisma {
     update?: PipelineStageConfigUpdateWithWhereUniqueWithoutCompanyInput | PipelineStageConfigUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: PipelineStageConfigUpdateManyWithWhereWithoutCompanyInput | PipelineStageConfigUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: PipelineStageConfigScalarWhereInput | PipelineStageConfigScalarWhereInput[]
+  }
+
+  export type CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<CompanyContactCreateWithoutCompanyInput, CompanyContactUncheckedCreateWithoutCompanyInput> | CompanyContactCreateWithoutCompanyInput[] | CompanyContactUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CompanyContactCreateOrConnectWithoutCompanyInput | CompanyContactCreateOrConnectWithoutCompanyInput[]
+    upsert?: CompanyContactUpsertWithWhereUniqueWithoutCompanyInput | CompanyContactUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: CompanyContactCreateManyCompanyInputEnvelope
+    set?: CompanyContactWhereUniqueInput | CompanyContactWhereUniqueInput[]
+    disconnect?: CompanyContactWhereUniqueInput | CompanyContactWhereUniqueInput[]
+    delete?: CompanyContactWhereUniqueInput | CompanyContactWhereUniqueInput[]
+    connect?: CompanyContactWhereUniqueInput | CompanyContactWhereUniqueInput[]
+    update?: CompanyContactUpdateWithWhereUniqueWithoutCompanyInput | CompanyContactUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: CompanyContactUpdateManyWithWhereWithoutCompanyInput | CompanyContactUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: CompanyContactScalarWhereInput | CompanyContactScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutCampaignsInput = {
@@ -21887,6 +23375,36 @@ export namespace Prisma {
     upsert?: CompanyUpsertWithoutPipelineStagesInput
     connect?: CompanyWhereUniqueInput
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutPipelineStagesInput, CompanyUpdateWithoutPipelineStagesInput>, CompanyUncheckedUpdateWithoutPipelineStagesInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutContactsInput = {
+    create?: XOR<CompanyCreateWithoutContactsInput, CompanyUncheckedCreateWithoutContactsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutContactsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutCompanyContactInput = {
+    create?: XOR<UserCreateWithoutCompanyContactInput, UserUncheckedCreateWithoutCompanyContactInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCompanyContactInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutContactsNestedInput = {
+    create?: XOR<CompanyCreateWithoutContactsInput, CompanyUncheckedCreateWithoutContactsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutContactsInput
+    upsert?: CompanyUpsertWithoutContactsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutContactsInput, CompanyUpdateWithoutContactsInput>, CompanyUncheckedUpdateWithoutContactsInput>
+  }
+
+  export type UserUpdateOneWithoutCompanyContactNestedInput = {
+    create?: XOR<UserCreateWithoutCompanyContactInput, UserUncheckedCreateWithoutCompanyContactInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCompanyContactInput
+    upsert?: UserUpsertWithoutCompanyContactInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCompanyContactInput, UserUpdateWithoutCompanyContactInput>, UserUncheckedUpdateWithoutCompanyContactInput>
   }
 
   export type CompanyCreateNestedOneWithoutWhatsappInstancesInput = {
@@ -22559,6 +24077,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -22582,6 +24101,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -22625,6 +24145,35 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CompanyContactCreateWithoutUserInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    isGroup?: boolean
+    role?: string
+    hasAccess?: boolean
+    notes?: string | null
+    createdAt?: Date | string
+    company: CompanyCreateNestedOneWithoutContactsInput
+  }
+
+  export type CompanyContactUncheckedCreateWithoutUserInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    isGroup?: boolean
+    role?: string
+    hasAccess?: boolean
+    notes?: string | null
+    createdAt?: Date | string
+    companyId: string
+  }
+
+  export type CompanyContactCreateOrConnectWithoutUserInput = {
+    where: CompanyContactWhereUniqueInput
+    create: XOR<CompanyContactCreateWithoutUserInput, CompanyContactUncheckedCreateWithoutUserInput>
+  }
+
   export type CompanyUpsertWithoutUsersInput = {
     update: XOR<CompanyUpdateWithoutUsersInput, CompanyUncheckedUpdateWithoutUsersInput>
     create: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
@@ -22657,6 +24206,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -22680,6 +24230,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type TicketUpsertWithWhereUniqueWithoutCreatedByInput = {
@@ -22714,6 +24265,41 @@ export namespace Prisma {
     createdById?: StringNullableFilter<"Ticket"> | string | null
   }
 
+  export type CompanyContactUpsertWithoutUserInput = {
+    update: XOR<CompanyContactUpdateWithoutUserInput, CompanyContactUncheckedUpdateWithoutUserInput>
+    create: XOR<CompanyContactCreateWithoutUserInput, CompanyContactUncheckedCreateWithoutUserInput>
+    where?: CompanyContactWhereInput
+  }
+
+  export type CompanyContactUpdateToOneWithWhereWithoutUserInput = {
+    where?: CompanyContactWhereInput
+    data: XOR<CompanyContactUpdateWithoutUserInput, CompanyContactUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CompanyContactUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    role?: StringFieldUpdateOperationsInput | string
+    hasAccess?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutContactsNestedInput
+  }
+
+  export type CompanyContactUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    role?: StringFieldUpdateOperationsInput | string
+    hasAccess?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type UserCreateWithoutCompanyInput = {
     id?: string
     name: string
@@ -22723,6 +24309,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyInput = {
@@ -22734,6 +24321,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyInput = {
@@ -23052,6 +24640,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CompanyContactCreateWithoutCompanyInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    isGroup?: boolean
+    role?: string
+    hasAccess?: boolean
+    notes?: string | null
+    createdAt?: Date | string
+    user?: UserCreateNestedOneWithoutCompanyContactInput
+  }
+
+  export type CompanyContactUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    isGroup?: boolean
+    role?: string
+    hasAccess?: boolean
+    notes?: string | null
+    createdAt?: Date | string
+    userId?: string | null
+  }
+
+  export type CompanyContactCreateOrConnectWithoutCompanyInput = {
+    where: CompanyContactWhereUniqueInput
+    create: XOR<CompanyContactCreateWithoutCompanyInput, CompanyContactUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type CompanyContactCreateManyCompanyInputEnvelope = {
+    data: CompanyContactCreateManyCompanyInput | CompanyContactCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithWhereUniqueWithoutCompanyInput = {
     where: UserWhereUniqueInput
     update: XOR<UserUpdateWithoutCompanyInput, UserUncheckedUpdateWithoutCompanyInput>
@@ -23329,6 +24951,38 @@ export namespace Prisma {
     companyId?: StringFilter<"PipelineStageConfig"> | string
   }
 
+  export type CompanyContactUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: CompanyContactWhereUniqueInput
+    update: XOR<CompanyContactUpdateWithoutCompanyInput, CompanyContactUncheckedUpdateWithoutCompanyInput>
+    create: XOR<CompanyContactCreateWithoutCompanyInput, CompanyContactUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type CompanyContactUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: CompanyContactWhereUniqueInput
+    data: XOR<CompanyContactUpdateWithoutCompanyInput, CompanyContactUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type CompanyContactUpdateManyWithWhereWithoutCompanyInput = {
+    where: CompanyContactScalarWhereInput
+    data: XOR<CompanyContactUpdateManyMutationInput, CompanyContactUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type CompanyContactScalarWhereInput = {
+    AND?: CompanyContactScalarWhereInput | CompanyContactScalarWhereInput[]
+    OR?: CompanyContactScalarWhereInput[]
+    NOT?: CompanyContactScalarWhereInput | CompanyContactScalarWhereInput[]
+    id?: StringFilter<"CompanyContact"> | string
+    name?: StringNullableFilter<"CompanyContact"> | string | null
+    phone?: StringFilter<"CompanyContact"> | string
+    isGroup?: BoolFilter<"CompanyContact"> | boolean
+    role?: StringFilter<"CompanyContact"> | string
+    hasAccess?: BoolFilter<"CompanyContact"> | boolean
+    notes?: StringNullableFilter<"CompanyContact"> | string | null
+    createdAt?: DateTimeFilter<"CompanyContact"> | Date | string
+    companyId?: StringFilter<"CompanyContact"> | string
+    userId?: StringNullableFilter<"CompanyContact"> | string | null
+  }
+
   export type CompanyCreateWithoutCampaignsInput = {
     id?: string
     name: string
@@ -23350,6 +25004,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCampaignsInput = {
@@ -23373,6 +25028,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCampaignsInput = {
@@ -23576,6 +25232,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCampaignsInput = {
@@ -23599,6 +25256,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -23727,6 +25385,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTrackingLinksInput = {
@@ -23750,6 +25409,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTrackingLinksInput = {
@@ -23914,6 +25574,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTrackingLinksInput = {
@@ -23937,6 +25598,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutTrackingLinkInput = {
@@ -24083,6 +25745,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutLeadsInput = {
@@ -24106,6 +25769,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutLeadsInput = {
@@ -24287,6 +25951,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutLeadsInput = {
@@ -24310,6 +25975,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutLeadsInput = {
@@ -24570,6 +26236,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPipelineStagesInput = {
@@ -24593,6 +26260,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPipelineStagesInput = {
@@ -24632,6 +26300,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPipelineStagesInput = {
@@ -24655,6 +26324,183 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutContactsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    triggerOnly?: boolean
+    users?: UserCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutContactsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    triggerOnly?: boolean
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutContactsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutContactsInput, CompanyUncheckedCreateWithoutContactsInput>
+  }
+
+  export type UserCreateWithoutCompanyContactInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserUncheckedCreateWithoutCompanyContactInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId?: string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserCreateOrConnectWithoutCompanyContactInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCompanyContactInput, UserUncheckedCreateWithoutCompanyContactInput>
+  }
+
+  export type CompanyUpsertWithoutContactsInput = {
+    update: XOR<CompanyUpdateWithoutContactsInput, CompanyUncheckedUpdateWithoutContactsInput>
+    create: XOR<CompanyCreateWithoutContactsInput, CompanyUncheckedCreateWithoutContactsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutContactsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutContactsInput, CompanyUncheckedUpdateWithoutContactsInput>
+  }
+
+  export type CompanyUpdateWithoutContactsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutContactsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type UserUpsertWithoutCompanyContactInput = {
+    update: XOR<UserUpdateWithoutCompanyContactInput, UserUncheckedUpdateWithoutCompanyContactInput>
+    create: XOR<UserCreateWithoutCompanyContactInput, UserUncheckedCreateWithoutCompanyContactInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCompanyContactInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCompanyContactInput, UserUncheckedUpdateWithoutCompanyContactInput>
+  }
+
+  export type UserUpdateWithoutCompanyContactInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCompanyContactInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type CompanyCreateWithoutWhatsappInstancesInput = {
@@ -24678,6 +26524,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWhatsappInstancesInput = {
@@ -24701,6 +26548,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWhatsappInstancesInput = {
@@ -24780,6 +26628,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWhatsappInstancesInput = {
@@ -24803,6 +26652,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutInstanceInput = {
@@ -24842,6 +26692,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMessagesInput = {
@@ -24865,6 +26716,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMessagesInput = {
@@ -25021,6 +26873,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMessagesInput = {
@@ -25044,6 +26897,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutMessagesInput = {
@@ -25202,6 +27056,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutKeywordRulesInput = {
@@ -25225,6 +27080,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutKeywordRulesInput = {
@@ -25305,6 +27161,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutKeywordRulesInput = {
@@ -25328,6 +27185,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutKeywordRulesInput = {
@@ -25398,6 +27256,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketsInput = {
@@ -25421,6 +27280,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketsInput = {
@@ -25437,6 +27297,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     company?: CompanyCreateNestedOneWithoutUsersInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketsCreatedInput = {
@@ -25448,6 +27309,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId?: string | null
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketsCreatedInput = {
@@ -25515,6 +27377,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketsInput = {
@@ -25538,6 +27401,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTicketsCreatedInput = {
@@ -25560,6 +27424,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneWithoutUsersNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsCreatedInput = {
@@ -25571,6 +27436,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type TicketMessageUpsertWithWhereUniqueWithoutTicketInput = {
@@ -25833,6 +27699,18 @@ export namespace Prisma {
     isFinal?: boolean
   }
 
+  export type CompanyContactCreateManyCompanyInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    isGroup?: boolean
+    role?: string
+    hasAccess?: boolean
+    notes?: string | null
+    createdAt?: Date | string
+    userId?: string | null
+  }
+
   export type UserUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -25842,6 +27720,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyInput = {
@@ -25853,6 +27732,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCompanyInput = {
@@ -26192,6 +28072,42 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     isFinal?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type CompanyContactUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    role?: StringFieldUpdateOperationsInput | string
+    hasAccess?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutCompanyContactNestedInput
+  }
+
+  export type CompanyContactUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    role?: StringFieldUpdateOperationsInput | string
+    hasAccess?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CompanyContactUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    role?: StringFieldUpdateOperationsInput | string
+    hasAccess?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LeadCreateManyCampaignInput = {
@@ -26795,6 +28711,10 @@ export namespace Prisma {
      * @deprecated Use PipelineStageConfigDefaultArgs instead
      */
     export type PipelineStageConfigArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PipelineStageConfigDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use CompanyContactDefaultArgs instead
+     */
+    export type CompanyContactArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CompanyContactDefaultArgs<ExtArgs>
     /**
      * @deprecated Use WhatsappInstanceDefaultArgs instead
      */
