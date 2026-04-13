@@ -34,7 +34,7 @@ export async function POST(
       d?.instance?.state ?? d?.state ?? d?.instance?.connectionStatus ?? d?.connectionStatus ?? ""
     ).toLowerCase();
 
-    console.log("[Sync WA] instanceName:", instance.instanceName, "raw data:", JSON.stringify(data), "state:", state);
+    console.log("[Sync WA] instanceName:", instance.instanceName, "raw data:", JSON.stringify(rawData), "state:", state);
 
     const statusMap: Record<string, string> = {
       open: "CONNECTED",
@@ -51,7 +51,7 @@ export async function POST(
       data: { status: newStatus as "CONNECTED" | "DISCONNECTED" | "CONNECTING" },
     });
 
-    return NextResponse.json({ status: updated.status, raw: data });
+    return NextResponse.json({ status: updated.status, raw: rawData });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 502 });
   }
