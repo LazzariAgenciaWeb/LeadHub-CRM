@@ -58,7 +58,35 @@ export async function GET() {
     result.tests.fetchInstances = { error: e.message };
   }
 
-  // 3. Busca instâncias do banco para comparar nomes
+  // 3. Testa criar instância Atendimento_azz na Evolution
+  try {
+    const res = await fetch(`${baseUrl}/instance/create`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", apikey: apiKey },
+      body: JSON.stringify({
+        instanceName: "Atendimento_azz",
+        qrcode: true,
+        integration: "WHATSAPP-BAILEYS",
+      }),
+    });
+    const body = await res.text();
+    result.tests.createInstance = { status: res.status, ok: res.ok, body: body.slice(0, 300) };
+  } catch (e: any) {
+    result.tests.createInstance = { error: e.message };
+  }
+
+  // 4. Testa connect (QR) com chave global
+  try {
+    const res = await fetch(`${baseUrl}/instance/connect/Atendimento_azz`, {
+      headers: { "Content-Type": "application/json", apikey: apiKey },
+    });
+    const body = await res.text();
+    result.tests.connectGlobalKey = { status: res.status, ok: res.ok, body: body.slice(0, 300) };
+  } catch (e: any) {
+    result.tests.connectGlobalKey = { error: e.message };
+  }
+
+  // 5. Busca instâncias do banco para comparar nomes
   const dbInstances = await prisma.whatsappInstance.findMany({
     select: { id: true, instanceName: true, status: true },
   });
