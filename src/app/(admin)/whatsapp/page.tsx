@@ -40,7 +40,7 @@ export default async function WhatsappPage({
 
   const conversations = await Promise.all(
     phones.map(async (p) => {
-      const [lastMsg, lead, inboundCount, outboundCount] = await Promise.all([
+      const [lastMsg, lead, inboundCount, outboundCount, companyContact] = await Promise.all([
         prisma.message.findFirst({
           where: { phone: p.phone, companyId: p.companyId },
           orderBy: { receivedAt: "desc" },
@@ -57,8 +57,16 @@ export default async function WhatsappPage({
         }),
         prisma.message.count({ where: { phone: p.phone, companyId: p.companyId, direction: "INBOUND" } }),
         prisma.message.count({ where: { phone: p.phone, companyId: p.companyId, direction: "OUTBOUND" } }),
+        // Verifica se este telefone é contato de alguma empresa cadastrada
+        prisma.companyContact.findFirst({
+          where: { phone: p.phone },
+          select: {
+            id: true, name: true, role: true, hasAccess: true,
+            company: { select: { id: true, name: true } },
+          },
+        }),
       ]);
-      return { phone: p.phone, companyId: p.companyId, lastMsg, lead, totalMessages: p._count, inboundCount, outboundCount };
+      return { phone: p.phone, companyId: p.companyId, lastMsg, lead, totalMessages: p._count, inboundCount, outboundCount, companyContact };
     })
   );
 

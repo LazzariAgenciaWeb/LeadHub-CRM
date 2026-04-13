@@ -11,6 +11,14 @@ interface Instance {
   company: { id: string; name: string } | null;
 }
 
+interface CompanyContactInfo {
+  id: string;
+  name: string | null;
+  role: string;
+  hasAccess: boolean;
+  company: { id: string; name: string };
+}
+
 interface Conversation {
   phone: string;
   companyId: string;
@@ -28,6 +36,7 @@ interface Conversation {
     receivedAt: string;
     instance: { instanceName: string } | null;
   } | null;
+  companyContact: CompanyContactInfo | null;
 }
 
 interface WaMessage {
@@ -157,6 +166,14 @@ export default function WhatsappManager({
   const [searchingProspect, setSearchingProspect] = useState(false);
   const [linkingProspect, setLinkingProspect] = useState(false);
 
+  // Adicionar como contato de empresa
+  const [showAddCompany, setShowAddCompany] = useState(false);
+  const [companySearch, setCompanySearch] = useState("");
+  const [companyResults, setCompanyResults] = useState<{ id: string; name: string; segment: string | null }[]>([]);
+  const [searchingCompany, setSearchingCompany] = useState(false);
+  const [addContactForm, setAddContactForm] = useState({ companyId: "", companyName: "", contactName: "", role: "CONTACT" });
+  const [savingContact, setSavingContact] = useState(false);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const selectedConvRef = useRef<Conversation | null>(null);
 
@@ -233,6 +250,9 @@ export default function WhatsappManager({
     setNewNote("");
     setAttendanceStatus(conv.lead?.attendanceStatus ?? null);
     setExpectedReturn(conv.lead?.expectedReturnAt ? new Date(conv.lead.expectedReturnAt).toISOString().slice(0, 16) : "");
+    setShowAddCompany(false);
+    setCompanySearch(""); setCompanyResults([]);
+    setAddContactForm({ companyId: "", companyName: "", contactName: "", role: "CONTACT" });
     setLoadingMsgs(true);
 
     const params = new URLSearchParams({ phone: conv.phone });
@@ -410,6 +430,39 @@ export default function WhatsappManager({
     setProspectSearch("");
     setProspectResults([]);
     router.refresh();
+  }
+
+  async function searchCompanies(q: string) {
+    setSearchingCompany(true);
+    const res = await fetch(`/api/companies?search=${encodeURIComponent(q)}`);
+    if (res.ok) setCompanyResults(await res.json());
+    setSearchingCompany(false);
+  }
+
+  async function handleAddAsContact() {
+    if (!selectedConv || !addContactForm.companyId) return;
+    setSavingContact(true);
+    const res = await fetch(`/api/companies/${addContactForm.companyId}/contacts`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        phone: selectedConv.phone,
+        name: addContactForm.contactName || selectedConv.lead?.name || null,
+        role: addContactForm.role,
+        isGroup: false,
+      }),
+    });
+    if (res.ok) {
+      setShowAddCompany(false);
+      setAddContactForm({ companyId: "", companyName: "", contactName: "", role: "CONTACT" });
+      setCompanyResults([]);
+      setCompanySearch("");
+      router.refresh();
+    } else {
+      const err = await res.json();
+      alert(err.error ?? "Erro ao adicionar contato");
+    }
+    setSavingContact(false);
   }
 
   async function handleSetAttendance(status: string) {
@@ -616,11 +669,21 @@ export default function WhatsappManager({
 
                             {/* Nome + telefone */}
                             <div className="min-w-0 pt-0.5">
-                              <div className="text-white text-[13px] font-semibold truncate leading-tight">
-                                {conv.lead?.name ?? conv.phone}
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-white text-[13px] font-semibold truncate leading-tight">
+                                  {conv.lead?.name ?? conv.companyContact?.name ?? conv.phone}
+                                </span>
+                                {conv.companyContact && (
+                                  <span title={`Cliente: ${conv.companyContact.company.name}`} className="text-amber-400 text-[11px] flex-shrink-0">⭐</span>
+                                )}
                               </div>
-                              {conv.lead?.name && (
+                              {(conv.lead?.name || conv.companyContact?.name) && (
                                 <div className="text-slate-600 text-[10px] leading-tight">{conv.phone}</div>
+                              )}
+                              {conv.companyContact && (
+                                <div className="text-amber-400/70 text-[10px] leading-tight truncate">
+                                  🏢 {conv.companyContact.company.name}
+                                </div>
                               )}
                             </div>
                           </div>
@@ -718,6 +781,31 @@ export default function WhatsappManager({
 
                 {/* Ações à direita */}
                 <div className="flex items-center gap-2 flex-shrink-0 flex-wrap justify-end">
+
+                  {/* Badge de cliente (empresa vinculada) */}
+                  {selectedConv.companyContact && (
+                    <Link
+                      href={`/empresas/${selectedConv.companyContact.company.id}`}
+                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold text-amber-400 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition-colors"
+                    >
+                      ⭐ {selectedConv.companyContact.company.name}
+                    </Link>
+                  )}
+
+                  {/* Botão: adicionar como contato de empresa (quando ainda não é cliente) */}
+                  {!selectedConv.companyContact && (
+                    <button
+                      onClick={() => { setShowAddCompany(!showAddCompany); setShowLinkProspect(false); setShowConvertForm(false); setShowTicketForm(false); }}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                        showAddCompany
+                          ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+                          : "bg-[#0f1623] border border-[#1e2d45] text-slate-300 hover:text-white hover:border-amber-500/50"
+                      }`}
+                    >
+                      ⭐ É cliente
+                    </button>
+                  )}
+
                   {selectedConv.lead ? (
                     <>
                       {selectedConv.lead.pipeline ? (
@@ -836,6 +924,96 @@ export default function WhatsappManager({
                       </span>
                     )}
                   </div>
+                </div>
+              )}
+
+              {/* Painel: Adicionar como contato de empresa */}
+              {showAddCompany && !selectedConv.companyContact && (
+                <div className="px-5 py-4 border-b border-[#1e2d45] bg-amber-500/5 flex-shrink-0">
+                  <p className="text-amber-400 text-xs font-semibold mb-3">⭐ Vincular como cliente de uma empresa</p>
+
+                  {!addContactForm.companyId ? (
+                    /* Passo 1: buscar empresa */
+                    <div className="space-y-2">
+                      <div className="flex gap-2">
+                        <input
+                          autoFocus
+                          type="text"
+                          value={companySearch}
+                          onChange={(e) => { setCompanySearch(e.target.value); if (e.target.value.length >= 1) searchCompanies(e.target.value); }}
+                          placeholder="Buscar empresa pelo nome..."
+                          className="flex-1 bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-500"
+                        />
+                        {searchingCompany && <span className="text-slate-500 text-xs self-center">...</span>}
+                      </div>
+                      {companyResults.length > 0 && (
+                        <div className="space-y-1 max-h-40 overflow-y-auto">
+                          {companyResults.map((co) => (
+                            <button
+                              key={co.id}
+                              onClick={() => setAddContactForm({ ...addContactForm, companyId: co.id, companyName: co.name })}
+                              className="w-full text-left flex items-center gap-2 bg-[#0f1623] border border-[#1e2d45] hover:border-amber-500/40 rounded-lg px-3 py-2 transition-colors"
+                            >
+                              <span className="text-lg">🏢</span>
+                              <div>
+                                <div className="text-white text-xs font-semibold">{co.name}</div>
+                                {co.segment && <div className="text-slate-500 text-[10px]">{co.segment}</div>}
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                      {companySearch && !searchingCompany && companyResults.length === 0 && (
+                        <p className="text-slate-600 text-xs">Nenhuma empresa encontrada.</p>
+                      )}
+                    </div>
+                  ) : (
+                    /* Passo 2: configurar contato */
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2">
+                        <span className="text-base">🏢</span>
+                        <span className="text-amber-300 text-sm font-semibold flex-1">{addContactForm.companyName}</span>
+                        <button onClick={() => setAddContactForm({ ...addContactForm, companyId: "", companyName: "" })} className="text-slate-500 hover:text-white text-xs">✕</button>
+                      </div>
+                      <div className="flex gap-3">
+                        <div className="flex-1">
+                          <label className="block text-slate-500 text-[10px] uppercase tracking-wide mb-1">Nome do contato</label>
+                          <input
+                            type="text"
+                            value={addContactForm.contactName}
+                            onChange={(e) => setAddContactForm({ ...addContactForm, contactName: e.target.value })}
+                            placeholder={selectedConv.lead?.name ?? selectedConv.phone}
+                            className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-slate-500 text-[10px] uppercase tracking-wide mb-1">Papel</label>
+                          <select
+                            value={addContactForm.role}
+                            onChange={(e) => setAddContactForm({ ...addContactForm, role: e.target.value })}
+                            className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-slate-300 focus:outline-none focus:border-amber-500"
+                          >
+                            <option value="CONTACT">👤 Contato</option>
+                            <option value="DECISION_MAKER">🎯 Decisor</option>
+                            <option value="TECHNICAL">🔧 Técnico</option>
+                            <option value="FINANCIAL">💰 Financeiro</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={handleAddAsContact}
+                          disabled={savingContact}
+                          className="px-4 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold disabled:opacity-50"
+                        >
+                          {savingContact ? "Salvando..." : "⭐ Confirmar como cliente"}
+                        </button>
+                        <button onClick={() => setShowAddCompany(false)} className="px-3 py-1.5 rounded-lg bg-white/5 text-slate-400 text-xs hover:text-white">
+                          Cancelar
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 

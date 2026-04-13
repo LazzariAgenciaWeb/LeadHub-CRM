@@ -3,24 +3,30 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-// GET /api/companies — Lista todas as empresas (só super admin)
-export async function GET() {
+// GET /api/companies?search= — Lista empresas (super admin vê todas, client vê a sua)
+export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
-  if (!session || (session.user as any).role !== "SUPER_ADMIN") {
-    return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+  if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const role = (session.user as any).role;
+  const userCompanyId = (session.user as any).companyId;
+  const search = new URL(req.url).searchParams.get("search");
+
+  const where: any = {};
+  if (role !== "SUPER_ADMIN") {
+    // CLIENT só vê a própria empresa
+    if (!userCompanyId) return NextResponse.json([]);
+    where.id = userCompanyId;
+  }
+  if (search) {
+    where.name = { contains: search, mode: "insensitive" };
   }
 
   const companies = await prisma.company.findMany({
-    orderBy: { createdAt: "desc" },
-    include: {
-      _count: {
-        select: {
-          leads: true,
-          campaigns: true,
-          whatsappInstances: true,
-        },
-      },
-    },
+    where,
+    orderBy: { name: "asc" },
+    take: 20,
+    select: { id: true, name: true, segment: true, status: true },
   });
 
   return NextResponse.json(companies);
