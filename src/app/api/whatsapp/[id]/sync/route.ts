@@ -26,12 +26,28 @@ export async function POST(
 
   try {
     const data = await evolutionGetStatus(instance.instanceName);
-    // data: { instance: { state: "open" | "close" | "connecting" } }
-    const state = data?.instance?.state ?? data?.state;
+
+    // Evolution API pode retornar em vários formatos dependendo da versão:
+    // v1: { instance: { state: "open" } }
+    // v2: { instance: { instanceName: "...", state: "open" } }
+    // v2 alt: { state: "open" }
+    // v2 alt: { instanceName: "...", connectionStatus: "open" }
+    const state: string = (
+      data?.instance?.state ??
+      data?.state ??
+      data?.instance?.connectionStatus ??
+      data?.connectionStatus ??
+      ""
+    ).toLowerCase();
+
+    console.log("[Sync WA] instanceName:", instance.instanceName, "raw data:", JSON.stringify(data), "state:", state);
 
     const statusMap: Record<string, string> = {
       open: "CONNECTED",
+      connected: "CONNECTED",
       close: "DISCONNECTED",
+      closed: "DISCONNECTED",
+      disconnected: "DISCONNECTED",
       connecting: "CONNECTING",
     };
     const newStatus = statusMap[state] ?? "DISCONNECTED";
@@ -41,7 +57,7 @@ export async function POST(
       data: { status: newStatus as "CONNECTED" | "DISCONNECTED" | "CONNECTING" },
     });
 
-    return NextResponse.json({ status: updated.status, raw: state });
+    return NextResponse.json({ status: updated.status, raw: data });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 502 });
   }
