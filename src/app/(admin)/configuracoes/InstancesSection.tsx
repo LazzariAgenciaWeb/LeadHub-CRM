@@ -9,6 +9,7 @@ interface Instance {
   phone: string | null;
   status: "CONNECTED" | "DISCONNECTED" | "CONNECTING";
   webhookUrl: string | null;
+  instanceToken: string | null;
   createdAt: string;
   company: { id: string; name: string } | null;
   _count: { messages: number };
@@ -39,6 +40,8 @@ export default function InstancesSection({
   const [deleting, setDeleting] = useState<string | null>(null);
   const [syncing, setSyncing] = useState<string | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
+  const [editingToken, setEditingToken] = useState<string | null>(null);
+  const [tokenInput, setTokenInput] = useState("");
   const [form, setForm] = useState({ instanceName: "", phone: "", companyId: defaultCompanyId });
 
   // QR Modal
@@ -83,6 +86,17 @@ export default function InstancesSection({
     setSyncing(inst.id);
     await fetch(`/api/whatsapp/${inst.id}/sync`, { method: "POST" });
     setSyncing(null);
+    router.refresh();
+  }
+
+  async function handleSaveToken(inst: Instance) {
+    await fetch(`/api/whatsapp/${inst.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ instanceToken: tokenInput }),
+    });
+    setEditingToken(null);
+    setTokenInput("");
     router.refresh();
   }
 
@@ -342,6 +356,15 @@ export default function InstancesSection({
                       {copied === inst.id ? "✓ Copiado" : "📋 Copiar nome"}
                     </button>
 
+                    {/* Token da instância */}
+                    <button
+                      onClick={() => { setEditingToken(inst.id); setTokenInput(inst.instanceToken ?? ""); }}
+                      title={inst.instanceToken ? "Token configurado ✓" : "Configurar token da instância"}
+                      className={`px-3 py-1.5 rounded-lg border text-xs transition-colors ${inst.instanceToken ? "bg-green-500/10 border-green-500/30 text-green-400 hover:bg-green-500/20" : "bg-yellow-500/10 border-yellow-500/30 text-yellow-400 hover:bg-yellow-500/20"}`}
+                    >
+                      🔑 {inst.instanceToken ? "Token ✓" : "Token"}
+                    </button>
+
                     {/* Delete */}
                     <button
                       onClick={() => handleDelete(inst)}
@@ -353,6 +376,30 @@ export default function InstancesSection({
                     </button>
                   </div>
                 </div>
+
+                {/* Painel de token */}
+                {editingToken === inst.id && (
+                  <div className="mt-3 pt-3 border-t border-[#1e2d45]">
+                    <p className="text-slate-500 text-xs mb-2">
+                      Cole o token da instância <strong className="text-slate-300">{inst.instanceName}</strong> da Evolution API (ícone de olho 👁 na instância).
+                    </p>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={tokenInput}
+                        onChange={e => setTokenInput(e.target.value)}
+                        placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                        className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
+                      />
+                      <button onClick={() => handleSaveToken(inst)} className="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs hover:bg-indigo-500 transition-colors">
+                        Salvar
+                      </button>
+                      <button onClick={() => setEditingToken(null)} className="px-3 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 text-xs hover:text-white transition-colors">
+                        Cancelar
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             );
           })}

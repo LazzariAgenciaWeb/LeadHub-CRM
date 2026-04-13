@@ -28,10 +28,27 @@ export async function GET(
   const webhookUrl = `${origin}/api/webhook/whatsapp`;
 
   try {
-    // Try to create the instance on Evolution (idempotent — ignore 400/409 if already exists)
-    await evolutionCreateInstance(instance.instanceName, webhookUrl).catch(() => {});
+    // Tenta criar a instância na Evolution (idempotente — ignora 400/409 se já existe)
+    // Captura o token retornado para salvar no banco
+    let savedToken: string | null = (instance as any).instanceToken ?? null;
+    try {
+      const createResult = await evolutionCreateInstance(instance.instanceName, webhookUrl);
+      // Evolution v2 retorna o token em hash.apikey ou instance.token
+      const newToken =
+        createResult?.hash?.apikey ??
+        createResult?.instance?.token ??
+        createResult?.token ??
+        null;
+      if (newToken) {
+        savedToken = newToken;
+        await prisma.whatsappInstance.update({
+          where: { id },
+          data: { instanceToken: newToken },
+        });
+      }
+    } catch {}
 
-    const qrData = await evolutionGetQR(instance.instanceName);
+    const qrData = await evolutionGetQR(instance.instanceName, savedToken);
 
     await prisma.whatsappInstance.update({
       where: { id },

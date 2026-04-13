@@ -66,15 +66,14 @@ async function evolutionGetInstanceToken(instanceName: string): Promise<string |
 }
 
 /** Busca o QR code de uma instância */
-export async function evolutionGetQR(instanceName: string) {
+export async function evolutionGetQR(instanceName: string, instanceToken?: string | null) {
   const { baseUrl, apiKey } = await getConfig();
 
-  // No v2, connect/{name} pode exigir o token da instância
-  const instanceToken = await evolutionGetInstanceToken(instanceName);
-  const authKey = instanceToken ?? apiKey;
+  // Prioridade: token da instância > buscar via fetchInstances > chave global
+  const token = instanceToken ?? await evolutionGetInstanceToken(instanceName) ?? apiKey;
 
   const res = await fetch(`${baseUrl}/instance/connect/${instanceName}`, {
-    headers: headers(authKey),
+    headers: headers(token),
   });
 
   if (!res.ok) {
@@ -85,13 +84,27 @@ export async function evolutionGetQR(instanceName: string) {
 }
 
 /** Status da instância
- * Evolution API v2: connectionState/{name} exige token da instância (401 com chave global).
- * Usamos fetchInstances que funciona com a chave global e retorna connectionStatus de todas.
+ * Evolution API v2: connectionState/{name} exige token da instância.
+ * instanceToken: token específico da instância (campo instanceToken no DB).
  */
-export async function evolutionGetStatus(instanceName: string) {
+export async function evolutionGetStatus(instanceName: string, instanceToken?: string | null) {
   const { baseUrl, apiKey } = await getConfig();
 
-  // Tenta primeiro via fetchInstances (funciona com chave global no v2)
+  // Se temos o token da instância, usa direto no connectionState
+  if (instanceToken) {
+    try {
+      const res = await fetch(`${baseUrl}/instance/connectionState/${instanceName}`, {
+        headers: headers(instanceToken),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const state = data?.instance?.state ?? data?.state ?? data?.connectionStatus ?? "close";
+        return { instance: { state } };
+      }
+    } catch {}
+  }
+
+  // Fallback: fetchInstances com chave global (retorna só as instâncias do mesmo token)
   try {
     const res = await fetch(`${baseUrl}/instance/fetchInstances`, {
       headers: headers(apiKey),
@@ -102,19 +115,13 @@ export async function evolutionGetStatus(instanceName: string) {
         (i: any) => i.name === instanceName || i.instanceName === instanceName
       );
       if (found) {
-        // Normaliza para o formato esperado pelo sync
         const state = found.connectionStatus ?? found.state ?? "close";
         return { instance: { state } };
       }
     }
   } catch {}
 
-  // Fallback: tenta connectionState diretamente (funciona no v1)
-  const res = await fetch(`${baseUrl}/instance/connectionState/${instanceName}`, {
-    headers: headers(apiKey),
-  });
-  if (!res.ok) return null;
-  return res.json();
+  return null;
 }
 
 /** Envia mensagem de texto */
