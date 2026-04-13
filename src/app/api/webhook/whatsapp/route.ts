@@ -11,6 +11,9 @@ import { processInboundMessage } from "@/lib/whatsapp";
  * Eventos suportados:
  *   - messages.upsert (mensagem recebida)
  */
+// Armazena os últimos 5 payloads recebidos para diagnóstico
+const recentPayloads: { ts: string; event: string; instance: string; skipped?: string }[] = [];
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -19,6 +22,11 @@ export async function POST(request: NextRequest) {
     const event = body?.event;
     const instance = body?.instance;
     const data = body?.data;
+
+    // Log para diagnóstico
+    console.log("[Webhook WA] Recebido:", JSON.stringify({ event, instance, hasData: !!data }));
+    recentPayloads.unshift({ ts: new Date().toISOString(), event: event ?? "?", instance: instance ?? "?" });
+    if (recentPayloads.length > 5) recentPayloads.pop();
 
     if (!event || !instance || !data) {
       return NextResponse.json({ ok: false, error: "Payload inválido" }, { status: 400 });
@@ -135,6 +143,7 @@ export async function POST(request: NextRequest) {
 }
 
 // A Evolution API pode fazer um GET para verificar o webhook
+// Também retorna os últimos payloads recebidos para diagnóstico
 export async function GET() {
-  return NextResponse.json({ ok: true, service: "LeadHub Webhook" });
+  return NextResponse.json({ ok: true, service: "LeadHub Webhook", recentPayloads });
 }

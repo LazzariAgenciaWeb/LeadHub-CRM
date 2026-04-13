@@ -26,19 +26,12 @@ export async function POST(
 
   try {
     const instanceToken = (instance as any).instanceToken as string | null | undefined;
-    const data: any = await evolutionGetStatus(instance.instanceName, instanceToken);
+    const rawData = await evolutionGetStatus(instance.instanceName, instanceToken);
+    const d = rawData as any;
 
-    // Evolution API pode retornar em vários formatos dependendo da versão:
-    // v1: { instance: { state: "open" } }
-    // v2: { instance: { instanceName: "...", state: "open" } }
-    // v2 alt: { state: "open" }
-    // v2 alt: { instanceName: "...", connectionStatus: "open" }
-    const state: string = (
-      data?.instance?.state ??
-      data?.state ??
-      data?.instance?.connectionStatus ??
-      data?.connectionStatus ??
-      ""
+    // Evolution API retorna em vários formatos dependendo da versão
+    const state: string = String(
+      d?.instance?.state ?? d?.state ?? d?.instance?.connectionStatus ?? d?.connectionStatus ?? ""
     ).toLowerCase();
 
     console.log("[Sync WA] instanceName:", instance.instanceName, "raw data:", JSON.stringify(data), "state:", state);
