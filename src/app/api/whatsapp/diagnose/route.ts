@@ -44,29 +44,25 @@ export async function GET() {
       headers: { "Content-Type": "application/json", apikey: apiKey },
     });
     const body = await res.text();
+    let parsed: any = null;
+    try { parsed = JSON.parse(body); } catch {}
     result.tests.fetchInstances = {
       status: res.status,
       ok: res.ok,
-      body: body.length > 500 ? body.slice(0, 500) + "..." : body,
+      // Mostra só nome + connectionStatus de cada instância
+      instances: Array.isArray(parsed)
+        ? parsed.map((i: any) => ({ name: i.name ?? i.instanceName, connectionStatus: i.connectionStatus ?? i.state, token: i.token ? i.token.slice(0, 8) + "..." : null }))
+        : parsed,
     };
   } catch (e: any) {
     result.tests.fetchInstances = { error: e.message };
   }
 
-  // 3. Teste 2: status da instância Atendimento_azz
-  try {
-    const res = await fetch(`${baseUrl}/instance/connectionState/Atendimento_azz`, {
-      headers: { "Content-Type": "application/json", apikey: apiKey },
-    });
-    const body = await res.text();
-    result.tests.connectionState = {
-      status: res.status,
-      ok: res.ok,
-      body: body.length > 500 ? body.slice(0, 500) + "..." : body,
-    };
-  } catch (e: any) {
-    result.tests.connectionState = { error: e.message };
-  }
+  // 3. Busca instâncias do banco para comparar nomes
+  const dbInstances = await prisma.whatsappInstance.findMany({
+    select: { id: true, instanceName: true, status: true },
+  });
+  result.dbInstances = dbInstances;
 
   return NextResponse.json(result, { status: 200 });
 }
