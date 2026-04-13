@@ -49,12 +49,32 @@ export async function evolutionCreateInstance(instanceName: string, webhookUrl: 
   return res.json();
 }
 
+/** Busca token da instância via fetchInstances (para autenticar endpoints que precisam do token) */
+async function evolutionGetInstanceToken(instanceName: string): Promise<string | null> {
+  const { baseUrl, apiKey } = await getConfig();
+  try {
+    const res = await fetch(`${baseUrl}/instance/fetchInstances`, {
+      headers: headers(apiKey),
+    });
+    if (!res.ok) return null;
+    const list: any[] = await res.json();
+    const found = list.find((i: any) => i.name === instanceName || i.instanceName === instanceName);
+    return found?.token ?? null;
+  } catch {
+    return null;
+  }
+}
+
 /** Busca o QR code de uma instância */
 export async function evolutionGetQR(instanceName: string) {
   const { baseUrl, apiKey } = await getConfig();
 
+  // No v2, connect/{name} pode exigir o token da instância
+  const instanceToken = await evolutionGetInstanceToken(instanceName);
+  const authKey = instanceToken ?? apiKey;
+
   const res = await fetch(`${baseUrl}/instance/connect/${instanceName}`, {
-    headers: headers(apiKey),
+    headers: headers(authKey),
   });
 
   if (!res.ok) {
@@ -64,16 +84,37 @@ export async function evolutionGetQR(instanceName: string) {
   return res.json(); // { base64: "data:image/png;base64,..." }
 }
 
-/** Status da instância */
+/** Status da instância
+ * Evolution API v2: connectionState/{name} exige token da instância (401 com chave global).
+ * Usamos fetchInstances que funciona com a chave global e retorna connectionStatus de todas.
+ */
 export async function evolutionGetStatus(instanceName: string) {
   const { baseUrl, apiKey } = await getConfig();
 
+  // Tenta primeiro via fetchInstances (funciona com chave global no v2)
+  try {
+    const res = await fetch(`${baseUrl}/instance/fetchInstances`, {
+      headers: headers(apiKey),
+    });
+    if (res.ok) {
+      const list: any[] = await res.json();
+      const found = list.find(
+        (i: any) => i.name === instanceName || i.instanceName === instanceName
+      );
+      if (found) {
+        // Normaliza para o formato esperado pelo sync
+        const state = found.connectionStatus ?? found.state ?? "close";
+        return { instance: { state } };
+      }
+    }
+  } catch {}
+
+  // Fallback: tenta connectionState diretamente (funciona no v1)
   const res = await fetch(`${baseUrl}/instance/connectionState/${instanceName}`, {
     headers: headers(apiKey),
   });
-
   if (!res.ok) return null;
-  return res.json(); // { instance: { state: "open" | "close" | "connecting" } }
+  return res.json();
 }
 
 /** Envia mensagem de texto */
