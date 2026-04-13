@@ -146,6 +146,7 @@ export default function WhatsappManager({
   // Filters
   const [search, setSearch] = useState("");
   const [instanceFilter, setInstanceFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
 
   // Atendimento
   const [attendanceStatus, setAttendanceStatus] = useState<string | null>(null);
@@ -210,14 +211,57 @@ export default function WhatsappManager({
   // Filtered conversations
   const filteredConvs = useMemo(() => {
     return conversations.filter((c) => {
+      // Busca por texto
       if (search) {
         const q = search.toLowerCase();
-        if (!c.phone.includes(q) && !c.lead?.name?.toLowerCase().includes(q)) return false;
+        const matchName = c.lead?.name?.toLowerCase().includes(q) || c.companyContact?.name?.toLowerCase().includes(q);
+        const matchPhone = c.phone.includes(q);
+        const matchCompany = c.companyContact?.company.name.toLowerCase().includes(q);
+        if (!matchName && !matchPhone && !matchCompany) return false;
       }
+      // Filtro de instância
       if (instanceFilter && c.lastMsg?.instance?.instanceName !== instanceFilter) return false;
+
+      // Filtros de status
+      if (statusFilter) {
+        const isInbound = c.lastMsg?.direction === "INBOUND";
+        const mins = isInbound
+          ? Math.floor((Date.now() - new Date(c.lastMsg!.receivedAt).getTime()) / 60_000)
+          : -1;
+        const atStatus = c.lead?.attendanceStatus;
+
+        switch (statusFilter) {
+          case "URGENT":      if (!(isInbound && mins >= 20)) return false; break;
+          case "UNANSWERED":  if (!isInbound) return false; break;
+          case "IN_PROGRESS": if (atStatus !== "IN_PROGRESS") return false; break;
+          case "RESOLVED":    if (atStatus !== "RESOLVED") return false; break;
+          case "SCHEDULED":   if (atStatus !== "SCHEDULED") return false; break;
+          case "CLIENTS":     if (!c.companyContact) return false; break;
+          case "NO_LEAD":     if (c.lead) return false; break;
+        }
+      }
       return true;
     });
-  }, [conversations, search, instanceFilter]);
+  }, [conversations, search, instanceFilter, statusFilter]);
+
+  // Contagem por filtro de status (para mostrar badges nos chips)
+  const filterCounts = useMemo(() => {
+    const counts: Record<string, number> = { URGENT: 0, UNANSWERED: 0, IN_PROGRESS: 0, RESOLVED: 0, SCHEDULED: 0, CLIENTS: 0, NO_LEAD: 0 };
+    const now = Date.now();
+    for (const c of conversations) {
+      const isInbound = c.lastMsg?.direction === "INBOUND";
+      const mins = isInbound ? Math.floor((now - new Date(c.lastMsg!.receivedAt).getTime()) / 60_000) : -1;
+      const atStatus = c.lead?.attendanceStatus;
+      if (isInbound && mins >= 20) counts.URGENT++;
+      if (isInbound)               counts.UNANSWERED++;
+      if (atStatus === "IN_PROGRESS") counts.IN_PROGRESS++;
+      if (atStatus === "RESOLVED")    counts.RESOLVED++;
+      if (atStatus === "SCHEDULED")   counts.SCHEDULED++;
+      if (c.companyContact)           counts.CLIENTS++;
+      if (!c.lead)                    counts.NO_LEAD++;
+    }
+    return counts;
+  }, [conversations]);
 
   async function handleSaveName(e: React.FormEvent) {
     e.preventDefault();
@@ -590,44 +634,96 @@ export default function WhatsappManager({
         {/* Conversation list */}
         <div className="w-[300px] min-w-[300px] border-r border-[#1e2d45] flex flex-col overflow-hidden">
 
-          {/* Filtro por instância */}
-          {conversationInstances.length > 1 && (
-            <div className="px-3 pt-3 pb-2 flex-shrink-0 flex flex-wrap gap-1.5">
-              <button
-                onClick={() => setInstanceFilter("")}
-                className={`px-2.5 py-1 rounded-full text-[10px] font-medium transition-colors ${
-                  instanceFilter === ""
-                    ? "bg-indigo-600 text-white"
-                    : "bg-[#0f1623] border border-[#1e2d45] text-slate-400 hover:text-white"
-                }`}
-              >
-                Todas
-              </button>
-              {conversationInstances.map((name) => (
-                <button
-                  key={name}
-                  onClick={() => setInstanceFilter(instanceFilter === name ? "" : name)}
-                  className={`px-2.5 py-1 rounded-full text-[10px] font-medium border transition-colors ${
-                    instanceFilter === name
-                      ? getInstanceBadgeColor(name) + " border-current"
-                      : "bg-[#0f1623] border-[#1e2d45] text-slate-400 hover:text-white"
-                  }`}
-                >
-                  {name}
-                </button>
-              ))}
-            </div>
-          )}
+          {/* ── Barra de filtros ── */}
+          <div className="px-3 pt-3 pb-2 flex-shrink-0 space-y-2">
 
-          {/* Search */}
-          <div className={`px-3 pb-3 flex-shrink-0 ${conversationInstances.length > 1 ? "" : "pt-3"}`}>
+            {/* Busca */}
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Buscar por nome ou telefone..."
+              placeholder="Buscar por nome, telefone ou empresa..."
               className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
             />
+
+            {/* Chips de status — scroll horizontal */}
+            <div className="flex gap-1.5 overflow-x-auto pb-0.5 scrollbar-hide">
+              {([
+                { key: "",           label: "Todas",          icon: "💬", color: "bg-indigo-600 text-white",  count: undefined },
+                { key: "URGENT",     label: `Urgente`,        icon: "🔴", color: "bg-red-500/20 text-red-400 border border-red-500/30",     count: filterCounts.URGENT },
+                { key: "UNANSWERED", label: `Sem resposta`,   icon: "⏳", color: "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30", count: filterCounts.UNANSWERED },
+                { key: "IN_PROGRESS",label: `Atendendo`,      icon: "💬", color: "bg-blue-500/20 text-blue-400 border border-blue-500/30",   count: filterCounts.IN_PROGRESS },
+                { key: "RESOLVED",   label: `Resolvidos`,     icon: "✅", color: "bg-green-500/20 text-green-400 border border-green-500/30", count: filterCounts.RESOLVED },
+                { key: "SCHEDULED",  label: `Agendados`,      icon: "📅", color: "bg-purple-500/20 text-purple-400 border border-purple-500/30", count: filterCounts.SCHEDULED },
+                { key: "CLIENTS",    label: `Clientes`,       icon: "⭐", color: "bg-amber-500/20 text-amber-400 border border-amber-500/30",  count: filterCounts.CLIENTS },
+                { key: "NO_LEAD",    label: `Sem lead`,       icon: "📋", color: "bg-slate-500/20 text-slate-400 border border-slate-500/30",  count: filterCounts.NO_LEAD },
+              ]).map(({ key, label, icon, color, count }) => {
+                const isActive = statusFilter === key;
+                return (
+                  <button
+                    key={key}
+                    onClick={() => setStatusFilter(key)}
+                    className={`flex-shrink-0 flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold transition-all ${
+                      isActive
+                        ? (key === "" ? "bg-indigo-600 text-white" : color)
+                        : "bg-[#0f1623] border border-[#1e2d45] text-slate-500 hover:text-slate-300"
+                    }`}
+                  >
+                    <span>{icon}</span>
+                    <span>{label}</span>
+                    {count !== undefined && count > 0 && (
+                      <span className={`text-[9px] font-bold px-1 py-0 rounded-full ml-0.5 ${
+                        isActive ? "bg-white/20" : "bg-white/10 text-slate-400"
+                      }`}>
+                        {count}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Chips de instância — só aparece quando há mais de uma */}
+            {conversationInstances.length > 1 && (
+              <div className="flex gap-1.5 overflow-x-auto pb-0.5 scrollbar-hide">
+                <button
+                  onClick={() => setInstanceFilter("")}
+                  className={`flex-shrink-0 px-2 py-1 rounded-full text-[10px] font-medium transition-colors ${
+                    instanceFilter === "" ? "bg-indigo-600 text-white" : "bg-[#0f1623] border border-[#1e2d45] text-slate-500 hover:text-slate-300"
+                  }`}
+                >
+                  Todas instâncias
+                </button>
+                {conversationInstances.map((name) => (
+                  <button
+                    key={name}
+                    onClick={() => setInstanceFilter(instanceFilter === name ? "" : name)}
+                    className={`flex-shrink-0 px-2 py-1 rounded-full text-[10px] font-medium border transition-colors ${
+                      instanceFilter === name
+                        ? getInstanceBadgeColor(name) + " border-current"
+                        : "bg-[#0f1623] border-[#1e2d45] text-slate-500 hover:text-slate-300"
+                    }`}
+                  >
+                    📱 {name}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Indicador de filtros ativos */}
+            {(statusFilter || instanceFilter) && (
+              <div className="flex items-center justify-between">
+                <span className="text-slate-600 text-[10px]">
+                  {filteredConvs.length} de {conversations.length} conversas
+                </span>
+                <button
+                  onClick={() => { setStatusFilter(""); setInstanceFilter(""); }}
+                  className="text-[10px] text-indigo-400 hover:text-indigo-300"
+                >
+                  Limpar filtros ✕
+                </button>
+              </div>
+            )}
           </div>
 
           {filteredConvs.length === 0 ? (
