@@ -147,6 +147,7 @@ export default function WhatsappManager({
   const [search, setSearch] = useState("");
   const [instanceFilter, setInstanceFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
 
   // Atendimento
   const [attendanceStatus, setAttendanceStatus] = useState<string | null>(null);
@@ -634,85 +635,139 @@ export default function WhatsappManager({
         {/* Conversation list */}
         <div className="w-[300px] min-w-[300px] border-r border-[#1e2d45] flex flex-col overflow-hidden">
 
-          {/* ── Barra de filtros ── */}
-          <div className="px-3 pt-3 pb-2 flex-shrink-0 space-y-2">
+          {/* ── Busca + botão de filtro ── */}
+          <div className="px-3 pt-3 pb-2 flex-shrink-0">
+            <div className="flex gap-2">
+              {/* Campo de busca */}
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Buscar por nome ou telefone..."
+                className="flex-1 min-w-0 bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+              />
 
-            {/* Busca */}
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Buscar por nome, telefone ou empresa..."
-              className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
-            />
-
-            {/* Chips de status — scroll horizontal */}
-            <div className="flex gap-1.5 overflow-x-auto pb-0.5 scrollbar-hide">
-              {([
-                { key: "",           label: "Todas",          icon: "💬", color: "bg-indigo-600 text-white",  count: undefined },
-                { key: "URGENT",     label: `Urgente`,        icon: "🔴", color: "bg-red-500/20 text-red-400 border border-red-500/30",     count: filterCounts.URGENT },
-                { key: "UNANSWERED", label: `Sem resposta`,   icon: "⏳", color: "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30", count: filterCounts.UNANSWERED },
-                { key: "IN_PROGRESS",label: `Atendendo`,      icon: "💬", color: "bg-blue-500/20 text-blue-400 border border-blue-500/30",   count: filterCounts.IN_PROGRESS },
-                { key: "RESOLVED",   label: `Resolvidos`,     icon: "✅", color: "bg-green-500/20 text-green-400 border border-green-500/30", count: filterCounts.RESOLVED },
-                { key: "SCHEDULED",  label: `Agendados`,      icon: "📅", color: "bg-purple-500/20 text-purple-400 border border-purple-500/30", count: filterCounts.SCHEDULED },
-                { key: "CLIENTS",    label: `Clientes`,       icon: "⭐", color: "bg-amber-500/20 text-amber-400 border border-amber-500/30",  count: filterCounts.CLIENTS },
-                { key: "NO_LEAD",    label: `Sem lead`,       icon: "📋", color: "bg-slate-500/20 text-slate-400 border border-slate-500/30",  count: filterCounts.NO_LEAD },
-              ]).map(({ key, label, icon, color, count }) => {
-                const isActive = statusFilter === key;
+              {/* Botão filtro */}
+              {(() => {
+                const hasFilter = !!(statusFilter || instanceFilter);
+                const activeCount = (statusFilter ? 1 : 0) + (instanceFilter ? 1 : 0);
                 return (
                   <button
-                    key={key}
-                    onClick={() => setStatusFilter(key)}
-                    className={`flex-shrink-0 flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold transition-all ${
-                      isActive
-                        ? (key === "" ? "bg-indigo-600 text-white" : color)
-                        : "bg-[#0f1623] border border-[#1e2d45] text-slate-500 hover:text-slate-300"
+                    onClick={() => setShowFilters(!showFilters)}
+                    title="Filtros"
+                    className={`relative flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
+                      showFilters || hasFilter
+                        ? "bg-indigo-600 text-white"
+                        : "bg-[#0f1623] border border-[#1e2d45] text-slate-400 hover:text-white hover:border-slate-600"
                     }`}
                   >
-                    <span>{icon}</span>
-                    <span>{label}</span>
-                    {count !== undefined && count > 0 && (
-                      <span className={`text-[9px] font-bold px-1 py-0 rounded-full ml-0.5 ${
-                        isActive ? "bg-white/20" : "bg-white/10 text-slate-400"
-                      }`}>
-                        {count}
+                    {/* Ícone funil SVG */}
+                    <svg viewBox="0 0 16 16" fill="currentColor" className="w-3.5 h-3.5">
+                      <path d="M1.5 2A.5.5 0 0 1 2 1.5h12a.5.5 0 0 1 .354.854l-4.5 4.5A.5.5 0 0 1 9.5 7v5.5a.5.5 0 0 1-.276.447l-3 1.5A.5.5 0 0 1 5.5 14V7a.5.5 0 0 1-.146-.354l-4.5-4.5A.5.5 0 0 1 1.5 2z"/>
+                    </svg>
+                    {/* Badge de filtros ativos */}
+                    {activeCount > 0 && (
+                      <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-red-500 text-white text-[8px] font-bold flex items-center justify-center">
+                        {activeCount}
                       </span>
                     )}
                   </button>
                 );
-              })}
+              })()}
             </div>
 
-            {/* Chips de instância — só aparece quando há mais de uma */}
-            {conversationInstances.length > 1 && (
-              <div className="flex gap-1.5 overflow-x-auto pb-0.5 scrollbar-hide">
-                <button
-                  onClick={() => setInstanceFilter("")}
-                  className={`flex-shrink-0 px-2 py-1 rounded-full text-[10px] font-medium transition-colors ${
-                    instanceFilter === "" ? "bg-indigo-600 text-white" : "bg-[#0f1623] border border-[#1e2d45] text-slate-500 hover:text-slate-300"
-                  }`}
-                >
-                  Todas instâncias
-                </button>
-                {conversationInstances.map((name) => (
-                  <button
-                    key={name}
-                    onClick={() => setInstanceFilter(instanceFilter === name ? "" : name)}
-                    className={`flex-shrink-0 px-2 py-1 rounded-full text-[10px] font-medium border transition-colors ${
-                      instanceFilter === name
-                        ? getInstanceBadgeColor(name) + " border-current"
-                        : "bg-[#0f1623] border-[#1e2d45] text-slate-500 hover:text-slate-300"
-                    }`}
-                  >
-                    📱 {name}
-                  </button>
-                ))}
+            {/* Painel de filtros — abre/fecha */}
+            {showFilters && (
+              <div className="mt-2 bg-[#0c1220] border border-[#1e2d45] rounded-xl overflow-hidden">
+
+                {/* Status de atendimento */}
+                <div className="px-3 pt-3 pb-2">
+                  <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2">Atendimento</p>
+                  <div className="grid grid-cols-2 gap-1">
+                    {([
+                      { key: "",           label: "Todos",       icon: "💬", dim: "text-slate-400" },
+                      { key: "URGENT",     label: "Urgente",     icon: "🔴", dim: "text-red-400",    count: filterCounts.URGENT },
+                      { key: "UNANSWERED", label: "Sem resposta",icon: "⏳", dim: "text-yellow-400", count: filterCounts.UNANSWERED },
+                      { key: "IN_PROGRESS",label: "Em atend.",   icon: "💬", dim: "text-blue-400",   count: filterCounts.IN_PROGRESS },
+                      { key: "RESOLVED",   label: "Resolvidos",  icon: "✅", dim: "text-green-400",  count: filterCounts.RESOLVED },
+                      { key: "SCHEDULED",  label: "Agendados",   icon: "📅", dim: "text-purple-400", count: filterCounts.SCHEDULED },
+                      { key: "CLIENTS",    label: "Clientes",    icon: "⭐", dim: "text-amber-400",  count: filterCounts.CLIENTS },
+                      { key: "NO_LEAD",    label: "Sem lead",    icon: "📋", dim: "text-slate-400",  count: filterCounts.NO_LEAD },
+                    ]).map(({ key, label, icon, dim, count }) => {
+                      const isActive = statusFilter === key;
+                      return (
+                        <button
+                          key={key}
+                          onClick={() => setStatusFilter(key)}
+                          className={`flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[11px] font-medium transition-colors ${
+                            isActive
+                              ? "bg-indigo-600 text-white"
+                              : "hover:bg-white/5 text-slate-500 hover:text-slate-300"
+                          }`}
+                        >
+                          <span className="text-[12px]">{icon}</span>
+                          <span className={`flex-1 text-left ${isActive ? "text-white" : dim}`}>{label}</span>
+                          {count !== undefined && count > 0 && (
+                            <span className={`text-[9px] font-bold px-1 rounded-full ${isActive ? "bg-white/20 text-white" : "bg-white/8 text-slate-500"}`}>
+                              {count}
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Instâncias */}
+                {conversationInstances.length > 0 && (
+                  <div className="px-3 pb-3 border-t border-[#1e2d45] pt-2">
+                    <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2">Instância WhatsApp</p>
+                    <div className="flex flex-col gap-1">
+                      <button
+                        onClick={() => setInstanceFilter("")}
+                        className={`flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[11px] font-medium transition-colors ${
+                          instanceFilter === "" ? "bg-indigo-600 text-white" : "hover:bg-white/5 text-slate-500 hover:text-slate-300"
+                        }`}
+                      >
+                        <span>📱</span>
+                        <span>Todas as instâncias</span>
+                      </button>
+                      {conversationInstances.map((name) => (
+                        <button
+                          key={name}
+                          onClick={() => setInstanceFilter(instanceFilter === name ? "" : name)}
+                          className={`flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[11px] font-medium transition-colors ${
+                            instanceFilter === name ? "bg-indigo-600 text-white" : "hover:bg-white/5 text-slate-500 hover:text-slate-300"
+                          }`}
+                        >
+                          <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${instanceFilter === name ? "bg-white" : "bg-slate-600"}`} />
+                          <span>{name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Rodapé com limpar */}
+                {(statusFilter || instanceFilter) && (
+                  <div className="px-3 py-2 border-t border-[#1e2d45] flex items-center justify-between">
+                    <span className="text-slate-600 text-[10px]">
+                      {filteredConvs.length} de {conversations.length}
+                    </span>
+                    <button
+                      onClick={() => { setStatusFilter(""); setInstanceFilter(""); }}
+                      className="text-[10px] text-indigo-400 hover:text-indigo-300 font-medium"
+                    >
+                      Limpar filtros ✕
+                    </button>
+                  </div>
+                )}
               </div>
             )}
 
-            {/* Indicador de filtros ativos */}
-            {(statusFilter || instanceFilter) && (
-              <div className="flex items-center justify-between">
+            {/* Indicador compacto de filtro ativo (quando painel fechado) */}
+            {!showFilters && (statusFilter || instanceFilter) && (
+              <div className="flex items-center justify-between mt-1.5">
                 <span className="text-slate-600 text-[10px]">
                   {filteredConvs.length} de {conversations.length} conversas
                 </span>
@@ -720,7 +775,7 @@ export default function WhatsappManager({
                   onClick={() => { setStatusFilter(""); setInstanceFilter(""); }}
                   className="text-[10px] text-indigo-400 hover:text-indigo-300"
                 >
-                  Limpar filtros ✕
+                  Limpar ✕
                 </button>
               </div>
             )}
