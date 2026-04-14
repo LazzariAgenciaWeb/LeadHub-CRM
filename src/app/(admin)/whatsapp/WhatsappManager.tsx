@@ -1083,8 +1083,30 @@ export default function WhatsappManager({
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
                         <span className="text-white font-semibold truncate">
-                          {selectedConv.lead?.name ?? selectedConv.phone}
+                          {selectedConv.lead?.name ?? selectedConv.companyContact?.name ?? selectedConv.phone}
                         </span>
+                        {/* Refresh nome do grupo */}
+                        {selectedConv.phone.includes("@g.us") && (
+                          <button
+                            onClick={async () => {
+                              const res = await fetch("/api/whatsapp/group-name", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ groupJid: selectedConv.phone, companyId: selectedConv.companyId }),
+                              });
+                              if (res.ok) {
+                                const { name } = await res.json();
+                                setSelectedConv({ ...selectedConv, companyContact: { ...selectedConv.companyContact, name } as any });
+                                router.refresh();
+                              }
+                            }}
+                            className="text-slate-600 hover:text-slate-300 text-xs flex-shrink-0"
+                            title="Atualizar nome do grupo"
+                          >
+                            🔄
+                          </button>
+                        )}
+                        {!selectedConv.phone.includes("@g.us") && (
                         <button
                           onClick={() => { setLeadName(selectedConv.lead?.name ?? ""); setEditingName(true); }}
                           className="text-slate-600 hover:text-slate-400 text-xs flex-shrink-0"
@@ -1092,8 +1114,9 @@ export default function WhatsappManager({
                         >
                           ✏️
                         </button>
+                        )}
                       </div>
-                      {selectedConv.lead?.name && (
+                      {selectedConv.lead?.name && !selectedConv.phone.includes("@g.us") && (
                         <div className="text-slate-500 text-xs">{selectedConv.phone}</div>
                       )}
                     </div>

@@ -80,6 +80,23 @@ export async function processInboundMessage(payload: {
         instanceId: instance.id,
       },
     });
+
+    // Upsert do CompanyContact com nome do grupo (busca na Evolution se ainda não tem nome)
+    const existing = await prisma.companyContact.findFirst({
+      where: { phone, companyId: instance.companyId },
+    });
+    if (!existing || !existing.name) {
+      const { evolutionGetGroupName } = await import("./evolution");
+      const groupName = await evolutionGetGroupName(instanceName, phone, (instance as any).instanceToken ?? null);
+      if (groupName) {
+        await prisma.companyContact.upsert({
+          where: { companyId_phone: { companyId: instance.companyId, phone } },
+          create: { phone, name: groupName, isGroup: true, companyId: instance.companyId },
+          update: { name: groupName, isGroup: true },
+        });
+      }
+    }
+
     return null;
   }
 

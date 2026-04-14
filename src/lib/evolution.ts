@@ -150,6 +150,25 @@ export async function evolutionSendText(instanceName: string, phone: string, tex
   return res.json();
 }
 
+/** Busca o nome (subject) de um grupo pelo JID */
+export async function evolutionGetGroupName(instanceName: string, groupJid: string, instanceToken?: string | null): Promise<string | null> {
+  try {
+    const { baseUrl, apiKey } = await getConfig();
+    const authKey = instanceToken ?? await evolutionGetInstanceToken(instanceName) ?? apiKey;
+    const res = await fetch(
+      `${baseUrl}/group/findGroupInfos/${instanceName}?groupJid=${encodeURIComponent(groupJid)}`,
+      { headers: headers(authKey) }
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    // Evolution pode retornar array ou objeto direto
+    const info = Array.isArray(data) ? data[0] : data;
+    return info?.subject ?? info?.name ?? null;
+  } catch {
+    return null;
+  }
+}
+
 /** Desconecta / deleta instância da Evolution */
 export async function evolutionDeleteInstance(instanceName: string) {
   const { baseUrl, apiKey } = await getConfig();
