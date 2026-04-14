@@ -152,7 +152,8 @@ export default async function DashboardPage() {
         company: { select: { name: true } },
       },
     });
-    if (lastMsg?.direction === "INBOUND") {
+    const resolved = lastMsg?.lead?.attendanceStatus === "RESOLVED" || lastMsg?.lead?.attendanceStatus === "CLOSED";
+    if (lastMsg?.direction === "INBOUND" && !resolved) {
       unansweredConvs.push({
         phone: g.phone,
         companyId: g.companyId,
