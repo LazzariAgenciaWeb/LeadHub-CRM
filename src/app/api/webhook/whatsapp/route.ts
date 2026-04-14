@@ -45,14 +45,23 @@ export async function POST(request: NextRequest) {
 
     // Extrair telefone do contato (sempre o remoteJid)
     const rawPhone = key?.remoteJid ?? "";
-    const phone = rawPhone.replace("@s.whatsapp.net", "").replace("@g.us", "");
+    const isGroup = rawPhone.includes("@g.us");
+
+    // Para grupos: manter o JID completo como identificador; para individuais: só dígitos
+    const phone = isGroup
+      ? rawPhone                                              // "120363...@g.us"
+      : rawPhone.replace("@s.whatsapp.net", "").replace(/\D/g, "");
+
+    // Quem enviou dentro do grupo (participante)
+    const participantPhone: string | null = isGroup
+      ? (data?.participant ?? key?.participant ?? null)
+      : null;
 
     // Nome do contato no WhatsApp (pushName vem da Evolution API)
     const contactName: string | null = data?.pushName ?? data?.verifiedBizName ?? null;
 
-    if (!phone || rawPhone.includes("@g.us")) {
-      // Ignorar mensagens de grupos por enquanto
-      return NextResponse.json({ ok: true, skipped: "group" });
+    if (!phone) {
+      return NextResponse.json({ ok: true, skipped: "no_phone" });
     }
 
     // Detectar tipo de mídia quando não há texto puro
@@ -129,6 +138,7 @@ export async function POST(request: NextRequest) {
       externalId: key?.id,
       rawPayload: body,
       contactName,
+      participantPhone,
     });
 
     return NextResponse.json({

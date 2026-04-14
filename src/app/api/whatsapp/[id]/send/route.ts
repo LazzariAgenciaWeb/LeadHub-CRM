@@ -45,10 +45,12 @@ export async function POST(
       },
     });
 
-    // Mark lead as "em atendimento" when we respond
-    const lead = await prisma.lead.findFirst({ where: { phone, companyId: instance.companyId }, orderBy: { createdAt: "desc" } });
-    if (lead && lead.attendanceStatus === "WAITING") {
-      await prisma.lead.update({ where: { id: lead.id }, data: { attendanceStatus: "IN_PROGRESS" } });
+    // Para grupos não há lead vinculado — pular atualização de atendimento
+    if (!phone.includes("@g.us")) {
+      const lead = await prisma.lead.findFirst({ where: { phone, companyId: instance.companyId }, orderBy: { createdAt: "desc" } });
+      if (lead && lead.attendanceStatus === "WAITING") {
+        await prisma.lead.update({ where: { id: lead.id }, data: { attendanceStatus: "IN_PROGRESS" } });
+      }
     }
 
     return NextResponse.json({ ok: true });

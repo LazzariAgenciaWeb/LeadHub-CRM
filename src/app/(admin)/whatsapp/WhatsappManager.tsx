@@ -44,6 +44,7 @@ interface WaMessage {
   body: string;
   direction: string;
   receivedAt: string;
+  participantPhone: string | null;
   instance: { instanceName: string } | null;
   campaign: { id: string; name: string } | null;
 }
@@ -183,6 +184,16 @@ export default function WhatsappManager({
   const [mergeSearch, setMergeSearch] = useState("");
   const [mergeResults, setMergeResults] = useState<{ phone: string; name: string | null }[]>([]);
   const [mergingContacts, setMergingContacts] = useState(false);
+
+  // Instância selecionada para responder grupos (persiste em localStorage)
+  const [groupInstanceId, setGroupInstanceId] = useState<string>(() => {
+    if (typeof window !== "undefined") return localStorage.getItem("group_instance_id") ?? "";
+    return "";
+  });
+  function selectGroupInstance(id: string) {
+    setGroupInstanceId(id);
+    if (typeof window !== "undefined") localStorage.setItem("group_instance_id", id);
+  }
 
   // Chamado aberto + menu de ações
   const [openTicket, setOpenTicket] = useState<{ id: string; title: string; status: string } | null>(null);
@@ -473,13 +484,20 @@ export default function WhatsappManager({
     e.preventDefault();
     if (!selectedConv || !replyText.trim()) return;
 
+    const isGroup = selectedConv.phone.includes("@g.us");
+
+    // Para grupos: usar a instância selecionada pelo usuário
+    // Para individuais: usar a instância da última mensagem → conectada → qualquer
     const lastInstanceName =
       convMessages.length > 0 ? convMessages[convMessages.length - 1].instance?.instanceName : null;
 
-    const inst =
-      (lastInstanceName ? instances.find((i) => i.instanceName === lastInstanceName) : null) ??
-      instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId) ??
-      instances.find((i) => i.company?.id === selectedConv.companyId);
+    const inst = isGroup
+      ? (instances.find((i) => i.id === groupInstanceId) ??
+         instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId) ??
+         instances.find((i) => i.company?.id === selectedConv.companyId))
+      : ((lastInstanceName ? instances.find((i) => i.instanceName === lastInstanceName) : null) ??
+         instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId) ??
+         instances.find((i) => i.company?.id === selectedConv.companyId));
 
     if (!inst) {
       setReplyError("Nenhuma instância conectada. Configure em Configurações → Instâncias WhatsApp.");
@@ -970,6 +988,9 @@ export default function WhatsappManager({
                                 <span className="text-white text-[13px] font-semibold truncate leading-tight">
                                   {conv.lead?.name ?? conv.companyContact?.name ?? conv.phone}
                                 </span>
+                                {conv.phone.includes("@g.us") && (
+                                  <span title="Grupo" className="text-slate-400 text-[11px] flex-shrink-0">👥</span>
+                                )}
                                 {conv.companyContact && (
                                   <span title={`Cliente: ${conv.companyContact.company.name}`} className="text-amber-400 text-[11px] flex-shrink-0">⭐</span>
                                 )}
@@ -1544,12 +1565,19 @@ export default function WhatsappManager({
                 ) : (
                   convMessages.map((msg) => {
                     const isOut = msg.direction === "OUTBOUND";
+                    const isGroupConv = selectedConv?.phone.includes("@g.us");
                     // Detectar se é mensagem de mídia (emoji descritor sem outro texto)
                     const MEDIA_PREFIXES = ["🎵", "🎤", "🖼️", "🎥", "📎", "😄", "📍", "👤"];
                     const isMedia = MEDIA_PREFIXES.some(p => msg.body?.startsWith(p));
                     return (
                       <div key={msg.id} className={`flex ${isOut ? "justify-end" : "justify-start"}`}>
                         <div className={`max-w-[75%] rounded-2xl px-4 py-2.5 ${isOut ? "bg-indigo-600 text-white rounded-tr-none" : "bg-[#0f1623] border border-[#1e2d45] text-slate-200 rounded-tl-none"}`}>
+                          {/* Participante (só em grupos, mensagens recebidas) */}
+                          {isGroupConv && !isOut && msg.participantPhone && (
+                            <div className="text-[10px] text-indigo-400 font-semibold mb-1 truncate">
+                              {msg.participantPhone.replace("@s.whatsapp.net", "").replace(/\D/g, "").replace(/^55/, "")}
+                            </div>
+                          )}
                           <p className={`text-sm whitespace-pre-wrap break-words ${isMedia ? (isOut ? "italic text-indigo-200" : "italic text-slate-400") : ""}`}>{msg.body}</p>
                           <div className={`flex items-center gap-2 mt-1 flex-wrap ${isOut ? "justify-end" : "justify-start"}`}>
                             <span className={`text-[10px] ${isOut ? "text-indigo-200/60" : "text-slate-600"}`}>
@@ -1637,6 +1665,26 @@ export default function WhatsappManager({
 
               {/* Reply */}
               <div className="flex-shrink-0 border-t border-[#1e2d45] px-4 py-3">
+                {/* Seletor de instância para grupos */}
+                {selectedConv?.phone.includes("@g.us") && (
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-slate-500 text-[11px]">📱 Responder via:</span>
+                    <select
+                      value={groupInstanceId}
+                      onChange={(e) => selectGroupInstance(e.target.value)}
+                      className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2 py-1 text-xs text-white focus:outline-none focus:border-indigo-500"
+                    >
+                      <option value="">— selecionar instância —</option>
+                      {instances
+                        .filter((i) => !selectedConv.companyId || i.company?.id === selectedConv.companyId)
+                        .map((i) => (
+                          <option key={i.id} value={i.id}>
+                            {i.instanceName} {i.status === "CONNECTED" ? "✓" : "✗"}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+                )}
                 {replyError && <div className="text-red-400 text-xs mb-2">{replyError}</div>}
                 <form onSubmit={handleReply} className="flex gap-2">
                   <input

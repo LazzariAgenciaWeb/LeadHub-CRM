@@ -131,8 +131,8 @@ export async function evolutionSendText(instanceName: string, phone: string, tex
   // No v2, endpoints de instância exigem o token da instância
   const authKey = instanceToken ?? await evolutionGetInstanceToken(instanceName) ?? apiKey;
 
-  // Garante formato correto: 5511999999999@s.whatsapp.net
-  const number = phone.replace(/\D/g, "");
+  // Para grupos: preservar o JID completo; para individuais: só dígitos
+  const number = phone.includes("@g.us") ? phone : phone.replace(/\D/g, "");
 
   const res = await fetch(`${baseUrl}/message/sendText/${instanceName}`, {
     method: "POST",

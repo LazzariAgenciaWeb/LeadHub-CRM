@@ -153,7 +153,8 @@ export default async function DashboardPage() {
       },
     });
     const resolved = lastMsg?.lead?.attendanceStatus === "RESOLVED" || lastMsg?.lead?.attendanceStatus === "CLOSED";
-    if (lastMsg?.direction === "INBOUND" && !resolved) {
+    const isGroup = g.phone.includes("@g.us");
+    if (lastMsg?.direction === "INBOUND" && !resolved && !isGroup) {
       unansweredConvs.push({
         phone: g.phone,
         companyId: g.companyId,

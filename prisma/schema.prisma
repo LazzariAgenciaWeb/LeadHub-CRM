@@ -280,15 +280,16 @@ enum InstanceStatus {
 // ─── Mensagens WhatsApp ───────────────────────────────────────────────────────
 
 model Message {
-  id           String      @id @default(cuid())
-  externalId   String?     @unique
-  phone        String
-  body         String      @db.Text
-  direction    MessageDir  @default(INBOUND)
-  identifiedAs LeadStatus?
-  processed    Boolean     @default(false)
-  rawPayload   Json?
-  receivedAt   DateTime    @default(now())
+  id               String      @id @default(cuid())
+  externalId       String?     @unique
+  phone            String      // telefone individual ou JID do grupo (@g.us)
+  participantPhone String?     // quem enviou dentro do grupo (preenchido só para mensagens de grupo)
+  body             String      @db.Text
+  direction        MessageDir  @default(INBOUND)
+  identifiedAs     LeadStatus?
+  processed        Boolean     @default(false)
+  rawPayload       Json?
+  receivedAt       DateTime    @default(now())
 
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String

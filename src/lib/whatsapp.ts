@@ -54,8 +54,34 @@ export async function processInboundMessage(payload: {
   externalId?: string;
   rawPayload?: unknown;
   contactName?: string | null;
+  participantPhone?: string | null;
 }) {
-  const { instanceName, phone, body, externalId, rawPayload, contactName } = payload;
+  const { instanceName, phone, body, externalId, rawPayload, contactName, participantPhone } = payload;
+
+  // Mensagens de grupo → salvar na caixa de entrada, sem criar lead
+  if (phone.includes("@g.us")) {
+    const instance = await prisma.whatsappInstance.findFirst({ where: { instanceName } });
+    if (!instance) return null;
+    // Deduplicar: mesma mensagem chega em todas as instâncias do grupo
+    if (externalId) {
+      const exists = await prisma.message.findUnique({ where: { externalId } });
+      if (exists) return null;
+    }
+    await prisma.message.create({
+      data: {
+        externalId: externalId ?? undefined,
+        phone,
+        participantPhone: participantPhone ?? undefined,
+        body,
+        direction: "INBOUND",
+        processed: false,
+        rawPayload: rawPayload ? (rawPayload as any) : undefined,
+        companyId: instance.companyId,
+        instanceId: instance.id,
+      },
+    });
+    return null;
+  }
 
   // Achar a instância WhatsApp pelo nome
   const instance = await prisma.whatsappInstance.findFirst({
