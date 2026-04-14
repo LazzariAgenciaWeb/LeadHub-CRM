@@ -254,13 +254,14 @@ model CompanyContact {
 // ─── Instâncias WhatsApp ──────────────────────────────────────────────────────
 
 model WhatsappInstance {
-  id           String         @id @default(cuid())
-  instanceName String
-  phone        String?
-  status       InstanceStatus @default(DISCONNECTED)
-  webhookUrl   String?
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
+  id            String         @id @default(cuid())
+  instanceName  String
+  phone         String?
+  status        InstanceStatus @default(DISCONNECTED)
+  webhookUrl    String?
+  instanceToken String? // token da instância na Evolution API (para auth em endpoints específicos)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
@@ -279,15 +280,16 @@ enum InstanceStatus {
 // ─── Mensagens WhatsApp ───────────────────────────────────────────────────────
 
 model Message {
-  id           String      @id @default(cuid())
-  externalId   String?     @unique
-  phone        String
-  body         String      @db.Text
-  direction    MessageDir  @default(INBOUND)
-  identifiedAs LeadStatus?
-  processed    Boolean     @default(false)
-  rawPayload   Json?
-  receivedAt   DateTime    @default(now())
+  id               String      @id @default(cuid())
+  externalId       String?     @unique
+  phone            String // telefone individual ou JID do grupo (@g.us)
+  participantPhone String? // quem enviou dentro do grupo (preenchido só para mensagens de grupo)
+  body             String      @db.Text
+  direction        MessageDir  @default(INBOUND)
+  identifiedAs     LeadStatus?
+  processed        Boolean     @default(false)
+  rawPayload       Json?
+  receivedAt       DateTime    @default(now())
 
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
@@ -346,6 +348,7 @@ model Ticket {
   status      TicketStatus   @default(OPEN)
   priority    TicketPriority @default(MEDIUM)
   category    String?
+  phone       String? // telefone WhatsApp de origem (quando criado via WhatsApp)
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
 

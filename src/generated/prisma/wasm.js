@@ -244,6 +244,7 @@ exports.Prisma.WhatsappInstanceScalarFieldEnum = {
   phone: 'phone',
   status: 'status',
   webhookUrl: 'webhookUrl',
+  instanceToken: 'instanceToken',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   companyId: 'companyId'
@@ -253,6 +254,7 @@ exports.Prisma.MessageScalarFieldEnum = {
   id: 'id',
   externalId: 'externalId',
   phone: 'phone',
+  participantPhone: 'participantPhone',
   body: 'body',
   direction: 'direction',
   identifiedAs: 'identifiedAs',
@@ -287,6 +289,7 @@ exports.Prisma.TicketScalarFieldEnum = {
   status: 'status',
   priority: 'priority',
   category: 'category',
+  phone: 'phone',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   companyId: 'companyId',

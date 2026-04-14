@@ -12180,6 +12180,7 @@ export namespace Prisma {
     phone: string | null
     status: $Enums.InstanceStatus | null
     webhookUrl: string | null
+    instanceToken: string | null
     createdAt: Date | null
     updatedAt: Date | null
     companyId: string | null
@@ -12191,6 +12192,7 @@ export namespace Prisma {
     phone: string | null
     status: $Enums.InstanceStatus | null
     webhookUrl: string | null
+    instanceToken: string | null
     createdAt: Date | null
     updatedAt: Date | null
     companyId: string | null
@@ -12202,6 +12204,7 @@ export namespace Prisma {
     phone: number
     status: number
     webhookUrl: number
+    instanceToken: number
     createdAt: number
     updatedAt: number
     companyId: number
@@ -12215,6 +12218,7 @@ export namespace Prisma {
     phone?: true
     status?: true
     webhookUrl?: true
+    instanceToken?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -12226,6 +12230,7 @@ export namespace Prisma {
     phone?: true
     status?: true
     webhookUrl?: true
+    instanceToken?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -12237,6 +12242,7 @@ export namespace Prisma {
     phone?: true
     status?: true
     webhookUrl?: true
+    instanceToken?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -12321,6 +12327,7 @@ export namespace Prisma {
     phone: string | null
     status: $Enums.InstanceStatus
     webhookUrl: string | null
+    instanceToken: string | null
     createdAt: Date
     updatedAt: Date
     companyId: string
@@ -12349,6 +12356,7 @@ export namespace Prisma {
     phone?: boolean
     status?: boolean
     webhookUrl?: boolean
+    instanceToken?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
@@ -12363,6 +12371,7 @@ export namespace Prisma {
     phone?: boolean
     status?: boolean
     webhookUrl?: boolean
+    instanceToken?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
@@ -12375,6 +12384,7 @@ export namespace Prisma {
     phone?: boolean
     status?: boolean
     webhookUrl?: boolean
+    instanceToken?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
@@ -12401,6 +12411,7 @@ export namespace Prisma {
       phone: string | null
       status: $Enums.InstanceStatus
       webhookUrl: string | null
+      instanceToken: string | null
       createdAt: Date
       updatedAt: Date
       companyId: string
@@ -12804,6 +12815,7 @@ export namespace Prisma {
     readonly phone: FieldRef<"WhatsappInstance", 'String'>
     readonly status: FieldRef<"WhatsappInstance", 'InstanceStatus'>
     readonly webhookUrl: FieldRef<"WhatsappInstance", 'String'>
+    readonly instanceToken: FieldRef<"WhatsappInstance", 'String'>
     readonly createdAt: FieldRef<"WhatsappInstance", 'DateTime'>
     readonly updatedAt: FieldRef<"WhatsappInstance", 'DateTime'>
     readonly companyId: FieldRef<"WhatsappInstance", 'String'>
@@ -13173,6 +13185,7 @@ export namespace Prisma {
     id: string | null
     externalId: string | null
     phone: string | null
+    participantPhone: string | null
     body: string | null
     direction: $Enums.MessageDir | null
     identifiedAs: $Enums.LeadStatus | null
@@ -13188,6 +13201,7 @@ export namespace Prisma {
     id: string | null
     externalId: string | null
     phone: string | null
+    participantPhone: string | null
     body: string | null
     direction: $Enums.MessageDir | null
     identifiedAs: $Enums.LeadStatus | null
@@ -13203,6 +13217,7 @@ export namespace Prisma {
     id: number
     externalId: number
     phone: number
+    participantPhone: number
     body: number
     direction: number
     identifiedAs: number
@@ -13221,6 +13236,7 @@ export namespace Prisma {
     id?: true
     externalId?: true
     phone?: true
+    participantPhone?: true
     body?: true
     direction?: true
     identifiedAs?: true
@@ -13236,6 +13252,7 @@ export namespace Prisma {
     id?: true
     externalId?: true
     phone?: true
+    participantPhone?: true
     body?: true
     direction?: true
     identifiedAs?: true
@@ -13251,6 +13268,7 @@ export namespace Prisma {
     id?: true
     externalId?: true
     phone?: true
+    participantPhone?: true
     body?: true
     direction?: true
     identifiedAs?: true
@@ -13340,6 +13358,7 @@ export namespace Prisma {
     id: string
     externalId: string | null
     phone: string
+    participantPhone: string | null
     body: string
     direction: $Enums.MessageDir
     identifiedAs: $Enums.LeadStatus | null
@@ -13373,6 +13392,7 @@ export namespace Prisma {
     id?: boolean
     externalId?: boolean
     phone?: boolean
+    participantPhone?: boolean
     body?: boolean
     direction?: boolean
     identifiedAs?: boolean
@@ -13393,6 +13413,7 @@ export namespace Prisma {
     id?: boolean
     externalId?: boolean
     phone?: boolean
+    participantPhone?: boolean
     body?: boolean
     direction?: boolean
     identifiedAs?: boolean
@@ -13413,6 +13434,7 @@ export namespace Prisma {
     id?: boolean
     externalId?: boolean
     phone?: boolean
+    participantPhone?: boolean
     body?: boolean
     direction?: boolean
     identifiedAs?: boolean
@@ -13450,6 +13472,7 @@ export namespace Prisma {
       id: string
       externalId: string | null
       phone: string
+      participantPhone: string | null
       body: string
       direction: $Enums.MessageDir
       identifiedAs: $Enums.LeadStatus | null
@@ -13860,6 +13883,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Message", 'String'>
     readonly externalId: FieldRef<"Message", 'String'>
     readonly phone: FieldRef<"Message", 'String'>
+    readonly participantPhone: FieldRef<"Message", 'String'>
     readonly body: FieldRef<"Message", 'String'>
     readonly direction: FieldRef<"Message", 'MessageDir'>
     readonly identifiedAs: FieldRef<"Message", 'LeadStatus'>
@@ -16133,6 +16157,7 @@ export namespace Prisma {
     status: $Enums.TicketStatus | null
     priority: $Enums.TicketPriority | null
     category: string | null
+    phone: string | null
     createdAt: Date | null
     updatedAt: Date | null
     companyId: string | null
@@ -16146,6 +16171,7 @@ export namespace Prisma {
     status: $Enums.TicketStatus | null
     priority: $Enums.TicketPriority | null
     category: string | null
+    phone: string | null
     createdAt: Date | null
     updatedAt: Date | null
     companyId: string | null
@@ -16159,6 +16185,7 @@ export namespace Prisma {
     status: number
     priority: number
     category: number
+    phone: number
     createdAt: number
     updatedAt: number
     companyId: number
@@ -16174,6 +16201,7 @@ export namespace Prisma {
     status?: true
     priority?: true
     category?: true
+    phone?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -16187,6 +16215,7 @@ export namespace Prisma {
     status?: true
     priority?: true
     category?: true
+    phone?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -16200,6 +16229,7 @@ export namespace Prisma {
     status?: true
     priority?: true
     category?: true
+    phone?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -16286,6 +16316,7 @@ export namespace Prisma {
     status: $Enums.TicketStatus
     priority: $Enums.TicketPriority
     category: string | null
+    phone: string | null
     createdAt: Date
     updatedAt: Date
     companyId: string
@@ -16316,6 +16347,7 @@ export namespace Prisma {
     status?: boolean
     priority?: boolean
     category?: boolean
+    phone?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
@@ -16333,6 +16365,7 @@ export namespace Prisma {
     status?: boolean
     priority?: boolean
     category?: boolean
+    phone?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
@@ -16348,6 +16381,7 @@ export namespace Prisma {
     status?: boolean
     priority?: boolean
     category?: boolean
+    phone?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
@@ -16379,6 +16413,7 @@ export namespace Prisma {
       status: $Enums.TicketStatus
       priority: $Enums.TicketPriority
       category: string | null
+      phone: string | null
       createdAt: Date
       updatedAt: Date
       companyId: string
@@ -16785,6 +16820,7 @@ export namespace Prisma {
     readonly status: FieldRef<"Ticket", 'TicketStatus'>
     readonly priority: FieldRef<"Ticket", 'TicketPriority'>
     readonly category: FieldRef<"Ticket", 'String'>
+    readonly phone: FieldRef<"Ticket", 'String'>
     readonly createdAt: FieldRef<"Ticket", 'DateTime'>
     readonly updatedAt: FieldRef<"Ticket", 'DateTime'>
     readonly companyId: FieldRef<"Ticket", 'String'>
@@ -18276,6 +18312,7 @@ export namespace Prisma {
     phone: 'phone',
     status: 'status',
     webhookUrl: 'webhookUrl',
+    instanceToken: 'instanceToken',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     companyId: 'companyId'
@@ -18288,6 +18325,7 @@ export namespace Prisma {
     id: 'id',
     externalId: 'externalId',
     phone: 'phone',
+    participantPhone: 'participantPhone',
     body: 'body',
     direction: 'direction',
     identifiedAs: 'identifiedAs',
@@ -18331,6 +18369,7 @@ export namespace Prisma {
     status: 'status',
     priority: 'priority',
     category: 'category',
+    phone: 'phone',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     companyId: 'companyId',
@@ -19401,6 +19440,7 @@ export namespace Prisma {
     phone?: StringNullableFilter<"WhatsappInstance"> | string | null
     status?: EnumInstanceStatusFilter<"WhatsappInstance"> | $Enums.InstanceStatus
     webhookUrl?: StringNullableFilter<"WhatsappInstance"> | string | null
+    instanceToken?: StringNullableFilter<"WhatsappInstance"> | string | null
     createdAt?: DateTimeFilter<"WhatsappInstance"> | Date | string
     updatedAt?: DateTimeFilter<"WhatsappInstance"> | Date | string
     companyId?: StringFilter<"WhatsappInstance"> | string
@@ -19414,6 +19454,7 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder
     status?: SortOrder
     webhookUrl?: SortOrderInput | SortOrder
+    instanceToken?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -19430,6 +19471,7 @@ export namespace Prisma {
     phone?: StringNullableFilter<"WhatsappInstance"> | string | null
     status?: EnumInstanceStatusFilter<"WhatsappInstance"> | $Enums.InstanceStatus
     webhookUrl?: StringNullableFilter<"WhatsappInstance"> | string | null
+    instanceToken?: StringNullableFilter<"WhatsappInstance"> | string | null
     createdAt?: DateTimeFilter<"WhatsappInstance"> | Date | string
     updatedAt?: DateTimeFilter<"WhatsappInstance"> | Date | string
     companyId?: StringFilter<"WhatsappInstance"> | string
@@ -19443,6 +19485,7 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder
     status?: SortOrder
     webhookUrl?: SortOrderInput | SortOrder
+    instanceToken?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -19460,6 +19503,7 @@ export namespace Prisma {
     phone?: StringNullableWithAggregatesFilter<"WhatsappInstance"> | string | null
     status?: EnumInstanceStatusWithAggregatesFilter<"WhatsappInstance"> | $Enums.InstanceStatus
     webhookUrl?: StringNullableWithAggregatesFilter<"WhatsappInstance"> | string | null
+    instanceToken?: StringNullableWithAggregatesFilter<"WhatsappInstance"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"WhatsappInstance"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"WhatsappInstance"> | Date | string
     companyId?: StringWithAggregatesFilter<"WhatsappInstance"> | string
@@ -19472,6 +19516,7 @@ export namespace Prisma {
     id?: StringFilter<"Message"> | string
     externalId?: StringNullableFilter<"Message"> | string | null
     phone?: StringFilter<"Message"> | string
+    participantPhone?: StringNullableFilter<"Message"> | string | null
     body?: StringFilter<"Message"> | string
     direction?: EnumMessageDirFilter<"Message"> | $Enums.MessageDir
     identifiedAs?: EnumLeadStatusNullableFilter<"Message"> | $Enums.LeadStatus | null
@@ -19492,6 +19537,7 @@ export namespace Prisma {
     id?: SortOrder
     externalId?: SortOrderInput | SortOrder
     phone?: SortOrder
+    participantPhone?: SortOrderInput | SortOrder
     body?: SortOrder
     direction?: SortOrder
     identifiedAs?: SortOrderInput | SortOrder
@@ -19515,6 +19561,7 @@ export namespace Prisma {
     OR?: MessageWhereInput[]
     NOT?: MessageWhereInput | MessageWhereInput[]
     phone?: StringFilter<"Message"> | string
+    participantPhone?: StringNullableFilter<"Message"> | string | null
     body?: StringFilter<"Message"> | string
     direction?: EnumMessageDirFilter<"Message"> | $Enums.MessageDir
     identifiedAs?: EnumLeadStatusNullableFilter<"Message"> | $Enums.LeadStatus | null
@@ -19535,6 +19582,7 @@ export namespace Prisma {
     id?: SortOrder
     externalId?: SortOrderInput | SortOrder
     phone?: SortOrder
+    participantPhone?: SortOrderInput | SortOrder
     body?: SortOrder
     direction?: SortOrder
     identifiedAs?: SortOrderInput | SortOrder
@@ -19557,6 +19605,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Message"> | string
     externalId?: StringNullableWithAggregatesFilter<"Message"> | string | null
     phone?: StringWithAggregatesFilter<"Message"> | string
+    participantPhone?: StringNullableWithAggregatesFilter<"Message"> | string | null
     body?: StringWithAggregatesFilter<"Message"> | string
     direction?: EnumMessageDirWithAggregatesFilter<"Message"> | $Enums.MessageDir
     identifiedAs?: EnumLeadStatusNullableWithAggregatesFilter<"Message"> | $Enums.LeadStatus | null
@@ -19686,6 +19735,7 @@ export namespace Prisma {
     status?: EnumTicketStatusFilter<"Ticket"> | $Enums.TicketStatus
     priority?: EnumTicketPriorityFilter<"Ticket"> | $Enums.TicketPriority
     category?: StringNullableFilter<"Ticket"> | string | null
+    phone?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     companyId?: StringFilter<"Ticket"> | string
@@ -19702,6 +19752,7 @@ export namespace Prisma {
     status?: SortOrder
     priority?: SortOrder
     category?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -19721,6 +19772,7 @@ export namespace Prisma {
     status?: EnumTicketStatusFilter<"Ticket"> | $Enums.TicketStatus
     priority?: EnumTicketPriorityFilter<"Ticket"> | $Enums.TicketPriority
     category?: StringNullableFilter<"Ticket"> | string | null
+    phone?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     companyId?: StringFilter<"Ticket"> | string
@@ -19737,6 +19789,7 @@ export namespace Prisma {
     status?: SortOrder
     priority?: SortOrder
     category?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -19756,6 +19809,7 @@ export namespace Prisma {
     status?: EnumTicketStatusWithAggregatesFilter<"Ticket"> | $Enums.TicketStatus
     priority?: EnumTicketPriorityWithAggregatesFilter<"Ticket"> | $Enums.TicketPriority
     category?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
+    phone?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Ticket"> | Date | string
     companyId?: StringWithAggregatesFilter<"Ticket"> | string
@@ -20713,6 +20767,7 @@ export namespace Prisma {
     phone?: string | null
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
+    instanceToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
@@ -20725,6 +20780,7 @@ export namespace Prisma {
     phone?: string | null
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
+    instanceToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -20737,6 +20793,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
@@ -20749,6 +20806,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -20761,6 +20819,7 @@ export namespace Prisma {
     phone?: string | null
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
+    instanceToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -20772,6 +20831,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20782,6 +20842,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -20791,6 +20852,7 @@ export namespace Prisma {
     id?: string
     externalId?: string | null
     phone: string
+    participantPhone?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -20807,6 +20869,7 @@ export namespace Prisma {
     id?: string
     externalId?: string | null
     phone: string
+    participantPhone?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -20823,6 +20886,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -20839,6 +20903,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -20855,6 +20920,7 @@ export namespace Prisma {
     id?: string
     externalId?: string | null
     phone: string
+    participantPhone?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -20871,6 +20937,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -20883,6 +20950,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -21005,6 +21073,7 @@ export namespace Prisma {
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
     category?: string | null
+    phone?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -21019,6 +21088,7 @@ export namespace Prisma {
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
     category?: string | null
+    phone?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -21033,6 +21103,7 @@ export namespace Prisma {
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -21047,6 +21118,7 @@ export namespace Prisma {
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -21061,6 +21133,7 @@ export namespace Prisma {
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
     category?: string | null
+    phone?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -21074,6 +21147,7 @@ export namespace Prisma {
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21085,6 +21159,7 @@ export namespace Prisma {
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -21996,6 +22071,7 @@ export namespace Prisma {
     phone?: SortOrder
     status?: SortOrder
     webhookUrl?: SortOrder
+    instanceToken?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -22007,6 +22083,7 @@ export namespace Prisma {
     phone?: SortOrder
     status?: SortOrder
     webhookUrl?: SortOrder
+    instanceToken?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -22018,6 +22095,7 @@ export namespace Prisma {
     phone?: SortOrder
     status?: SortOrder
     webhookUrl?: SortOrder
+    instanceToken?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -22083,6 +22161,7 @@ export namespace Prisma {
     id?: SortOrder
     externalId?: SortOrder
     phone?: SortOrder
+    participantPhone?: SortOrder
     body?: SortOrder
     direction?: SortOrder
     identifiedAs?: SortOrder
@@ -22099,6 +22178,7 @@ export namespace Prisma {
     id?: SortOrder
     externalId?: SortOrder
     phone?: SortOrder
+    participantPhone?: SortOrder
     body?: SortOrder
     direction?: SortOrder
     identifiedAs?: SortOrder
@@ -22114,6 +22194,7 @@ export namespace Prisma {
     id?: SortOrder
     externalId?: SortOrder
     phone?: SortOrder
+    participantPhone?: SortOrder
     body?: SortOrder
     direction?: SortOrder
     identifiedAs?: SortOrder
@@ -22254,6 +22335,7 @@ export namespace Prisma {
     status?: SortOrder
     priority?: SortOrder
     category?: SortOrder
+    phone?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -22267,6 +22349,7 @@ export namespace Prisma {
     status?: SortOrder
     priority?: SortOrder
     category?: SortOrder
+    phone?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -22280,6 +22363,7 @@ export namespace Prisma {
     status?: SortOrder
     priority?: SortOrder
     category?: SortOrder
+    phone?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -24116,6 +24200,7 @@ export namespace Prisma {
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
     category?: string | null
+    phone?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -24129,6 +24214,7 @@ export namespace Prisma {
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
     category?: string | null
+    phone?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -24259,6 +24345,7 @@ export namespace Prisma {
     status?: EnumTicketStatusFilter<"Ticket"> | $Enums.TicketStatus
     priority?: EnumTicketPriorityFilter<"Ticket"> | $Enums.TicketPriority
     category?: StringNullableFilter<"Ticket"> | string | null
+    phone?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     companyId?: StringFilter<"Ticket"> | string
@@ -24440,6 +24527,7 @@ export namespace Prisma {
     phone?: string | null
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
+    instanceToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     messages?: MessageCreateNestedManyWithoutInstanceInput
@@ -24451,6 +24539,7 @@ export namespace Prisma {
     phone?: string | null
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
+    instanceToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
@@ -24470,6 +24559,7 @@ export namespace Prisma {
     id?: string
     externalId?: string | null
     phone: string
+    participantPhone?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -24485,6 +24575,7 @@ export namespace Prisma {
     id?: string
     externalId?: string | null
     phone: string
+    participantPhone?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -24541,6 +24632,7 @@ export namespace Prisma {
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
     category?: string | null
+    phone?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
@@ -24554,6 +24646,7 @@ export namespace Prisma {
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
     category?: string | null
+    phone?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById?: string | null
@@ -24803,6 +24896,7 @@ export namespace Prisma {
     phone?: StringNullableFilter<"WhatsappInstance"> | string | null
     status?: EnumInstanceStatusFilter<"WhatsappInstance"> | $Enums.InstanceStatus
     webhookUrl?: StringNullableFilter<"WhatsappInstance"> | string | null
+    instanceToken?: StringNullableFilter<"WhatsappInstance"> | string | null
     createdAt?: DateTimeFilter<"WhatsappInstance"> | Date | string
     updatedAt?: DateTimeFilter<"WhatsappInstance"> | Date | string
     companyId?: StringFilter<"WhatsappInstance"> | string
@@ -24831,6 +24925,7 @@ export namespace Prisma {
     id?: StringFilter<"Message"> | string
     externalId?: StringNullableFilter<"Message"> | string | null
     phone?: StringFilter<"Message"> | string
+    participantPhone?: StringNullableFilter<"Message"> | string | null
     body?: StringFilter<"Message"> | string
     direction?: EnumMessageDirFilter<"Message"> | $Enums.MessageDir
     identifiedAs?: EnumLeadStatusNullableFilter<"Message"> | $Enums.LeadStatus | null
@@ -25094,6 +25189,7 @@ export namespace Prisma {
     id?: string
     externalId?: string | null
     phone: string
+    participantPhone?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -25109,6 +25205,7 @@ export namespace Prisma {
     id?: string
     externalId?: string | null
     phone: string
+    participantPhone?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -25859,6 +25956,7 @@ export namespace Prisma {
     id?: string
     externalId?: string | null
     phone: string
+    participantPhone?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -25874,6 +25972,7 @@ export namespace Prisma {
     id?: string
     externalId?: string | null
     phone: string
+    participantPhone?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -26560,6 +26659,7 @@ export namespace Prisma {
     id?: string
     externalId?: string | null
     phone: string
+    participantPhone?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -26575,6 +26675,7 @@ export namespace Prisma {
     id?: string
     externalId?: string | null
     phone: string
+    participantPhone?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -26730,6 +26831,7 @@ export namespace Prisma {
     phone?: string | null
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
+    instanceToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
@@ -26741,6 +26843,7 @@ export namespace Prisma {
     phone?: string | null
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
+    instanceToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -26917,6 +27020,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
@@ -26928,6 +27032,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -27475,6 +27580,7 @@ export namespace Prisma {
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
     category?: string | null
+    phone?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -27488,6 +27594,7 @@ export namespace Prisma {
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
     category?: string | null
+    phone?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -27517,6 +27624,7 @@ export namespace Prisma {
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -27530,6 +27638,7 @@ export namespace Prisma {
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -27543,6 +27652,7 @@ export namespace Prisma {
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
     category?: string | null
+    phone?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -27555,6 +27665,7 @@ export namespace Prisma {
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -27568,6 +27679,7 @@ export namespace Prisma {
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -27581,6 +27693,7 @@ export namespace Prisma {
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -27636,6 +27749,7 @@ export namespace Prisma {
     phone?: string | null
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
+    instanceToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -27644,6 +27758,7 @@ export namespace Prisma {
     id?: string
     externalId?: string | null
     phone: string
+    participantPhone?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -27671,6 +27786,7 @@ export namespace Prisma {
     status?: $Enums.TicketStatus
     priority?: $Enums.TicketPriority
     category?: string | null
+    phone?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById?: string | null
@@ -27865,6 +27981,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUpdateManyWithoutInstanceNestedInput
@@ -27876,6 +27993,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
@@ -27887,6 +28005,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -27895,6 +28014,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -27910,6 +28030,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -27925,6 +28046,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -27970,6 +28092,7 @@ export namespace Prisma {
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
@@ -27983,6 +28106,7 @@ export namespace Prisma {
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27996,6 +28120,7 @@ export namespace Prisma {
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28134,6 +28259,7 @@ export namespace Prisma {
     id?: string
     externalId?: string | null
     phone: string
+    participantPhone?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -28236,6 +28362,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -28251,6 +28378,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -28266,6 +28394,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -28466,6 +28595,7 @@ export namespace Prisma {
     id?: string
     externalId?: string | null
     phone: string
+    participantPhone?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -28488,6 +28618,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -28503,6 +28634,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -28518,6 +28650,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -28554,6 +28687,7 @@ export namespace Prisma {
     id?: string
     externalId?: string | null
     phone: string
+    participantPhone?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -28569,6 +28703,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -28584,6 +28719,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -28599,6 +28735,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null

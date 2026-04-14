@@ -1593,13 +1593,36 @@ export default function WhatsappManager({
                     // Detectar se é mensagem de mídia (emoji descritor sem outro texto)
                     const MEDIA_PREFIXES = ["🎵", "🎤", "🖼️", "🎥", "📎", "😄", "📍", "👤"];
                     const isMedia = MEDIA_PREFIXES.some(p => msg.body?.startsWith(p));
+
+                    // Nome do remetente para mensagens recebidas (conversa individual)
+                    const contactDisplayName = !isGroupConv && !isOut
+                      ? (selectedConv?.lead?.name ?? selectedConv?.companyContact?.name ?? selectedConv?.phone)
+                      : null;
+
+                    // Participante em grupos: tentar mapear para nome de contato conhecido
+                    const rawParticipant = isGroupConv && !isOut && msg.participantPhone
+                      ? msg.participantPhone.replace("@s.whatsapp.net", "").replace(/\D/g, "").replace(/^55/, "")
+                      : null;
+
                     return (
-                      <div key={msg.id} className={`flex ${isOut ? "justify-end" : "justify-start"}`}>
+                      <div key={msg.id} className={`flex flex-col ${isOut ? "items-end" : "items-start"}`}>
                         <div className={`max-w-[75%] rounded-2xl px-4 py-2.5 ${isOut ? "bg-indigo-600 text-white rounded-tr-none" : "bg-[#0f1623] border border-[#1e2d45] text-slate-200 rounded-tl-none"}`}>
-                          {/* Participante (só em grupos, mensagens recebidas) */}
-                          {isGroupConv && !isOut && msg.participantPhone && (
+                          {/* Remetente: quem enviou dentro do grupo */}
+                          {rawParticipant && (
                             <div className="text-[10px] text-indigo-400 font-semibold mb-1 truncate">
-                              {msg.participantPhone.replace("@s.whatsapp.net", "").replace(/\D/g, "").replace(/^55/, "")}
+                              {rawParticipant}
+                            </div>
+                          )}
+                          {/* Remetente: nome do contato em conversa individual recebida */}
+                          {contactDisplayName && (
+                            <div className="text-[10px] text-cyan-400 font-semibold mb-1 truncate">
+                              {contactDisplayName}
+                            </div>
+                          )}
+                          {/* Remetente: via qual instância foi enviada (outbound) */}
+                          {isOut && msg.instance && (
+                            <div className={`text-[10px] font-semibold mb-1 truncate ${getInstanceBadgeColor(msg.instance.instanceName).split(" ").filter(c => c.startsWith("text-")).join(" ")}`}>
+                              Via {msg.instance.instanceName}
                             </div>
                           )}
                           <p className={`text-sm whitespace-pre-wrap break-words ${isMedia ? (isOut ? "italic text-indigo-200" : "italic text-slate-400") : ""}`}>{msg.body}</p>
@@ -1607,11 +1630,6 @@ export default function WhatsappManager({
                             <span className={`text-[10px] ${isOut ? "text-indigo-200/60" : "text-slate-600"}`}>
                               {new Date(msg.receivedAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
                             </span>
-                            {msg.instance && (
-                              <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium border ${getInstanceBadgeColor(msg.instance.instanceName)}`}>
-                                {msg.instance.instanceName}
-                              </span>
-                            )}
                             {msg.campaign && (
                               <span className="text-[10px] text-indigo-400/70">📣 {msg.campaign.name}</span>
                             )}
