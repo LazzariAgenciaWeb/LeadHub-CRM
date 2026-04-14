@@ -526,6 +526,7 @@ export default function WhatsappManager({
           body: replyText.trim(),
           direction: "OUTBOUND",
           receivedAt: new Date().toISOString(),
+          participantPhone: null,
           instance: { instanceName: inst.instanceName },
           campaign: null,
         },
