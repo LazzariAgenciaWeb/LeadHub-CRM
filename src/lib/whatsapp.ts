@@ -101,12 +101,8 @@ export async function processInboundMessage(payload: {
       // Se não é triggerOnly mas tem regras, cria lead NEW sem campanha
       matchResult = { status: LeadStatus.NEW, campaignId: null };
     }
-  } else {
-    // Sem regras: toda mensagem vira lead NEW
-    matchResult = { status: LeadStatus.NEW, campaignId: null };
   }
-
-  const { status: identifiedAs, campaignId } = matchResult;
+  // Se matchResult ainda é null → empresa sem regras
 
   // Verificar se já existe lead com este telefone nesta empresa
   // (se tem campaignId, prioriza o lead da mesma campanha)
@@ -114,13 +110,36 @@ export async function processInboundMessage(payload: {
     where: {
       phone,
       companyId,
-      ...(campaignId ? { campaignId } : {}),
+      ...(matchResult?.campaignId ? { campaignId: matchResult.campaignId } : {}),
     },
     orderBy: { createdAt: "desc" },
   });
 
+  if (!lead && !matchResult) {
+    // Sem regras e sem lead existente → salva na caixa de entrada sem vincular a lead
+    console.log(`[WA] Mensagem salva na caixa de entrada (sem lead): ${phone}`);
+    await prisma.message.create({
+      data: {
+        externalId: externalId ?? undefined,
+        phone,
+        body,
+        direction: "INBOUND",
+        processed: false,
+        rawPayload: rawPayload ? (rawPayload as any) : undefined,
+        companyId,
+        instanceId: instance.id,
+      },
+    });
+    return null;
+  }
+
+  // Neste ponto: lead existe OU matchResult existe (ou ambos)
+  // Se matchResult é null mas lead existe → usamos o status atual do lead
+  const identifiedAs = matchResult?.status ?? lead!.status;
+  const campaignId = matchResult?.campaignId ?? null;
+
   if (!lead) {
-    // Buscar dados da campanha para enriquecer o lead
+    // Keyword match sem lead existente → criar lead
     let campaignSource: string | null = null;
     if (campaignId) {
       const campaign = await prisma.campaign.findUnique({
@@ -152,7 +171,7 @@ export async function processInboundMessage(payload: {
   } else {
     // Lead já existe — atualiza nome se ainda não tem e chegou um nome do WhatsApp
     const needsNameUpdate = !lead.name && contactName;
-    const needsStatusUpdate = shouldUpgradeStatus(lead.status, identifiedAs);
+    const needsStatusUpdate = matchResult ? shouldUpgradeStatus(lead.status, identifiedAs) : false;
 
     if (needsNameUpdate || needsStatusUpdate || (campaignId && !lead.campaignId)) {
       lead = await prisma.lead.update({

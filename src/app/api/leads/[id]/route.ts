@@ -80,11 +80,21 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
-  if (!session || (session.user as any).role !== "SUPER_ADMIN") {
-    return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
-  }
+  if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
   const { id } = await params;
+  const userRole = (session.user as any).role;
+  const userCompanyId = (session.user as any).companyId;
+
+  const lead = await prisma.lead.findUnique({ where: { id } });
+  if (!lead) return NextResponse.json({ error: "Lead não encontrado" }, { status: 404 });
+
+  if (userRole !== "SUPER_ADMIN" && lead.companyId !== userCompanyId) {
+    return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
+  }
+
+  // Desvincula as mensagens antes de deletar o lead
+  await prisma.message.updateMany({ where: { leadId: id }, data: { leadId: null } });
   await prisma.lead.delete({ where: { id } });
   return NextResponse.json({ ok: true });
 }

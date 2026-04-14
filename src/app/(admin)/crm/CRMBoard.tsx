@@ -82,6 +82,10 @@ export default function CRMBoard({
   const [addSaving, setAddSaving] = useState(false);
   const [addError, setAddError] = useState("");
 
+  // Deletar / remover do pipeline
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deletingLead, setDeletingLead] = useState(false);
+
   // BDR Sync
   const [syncing, setSyncing] = useState(false);
   const [syncResult, setSyncResult] = useState<{ imported: number; skipped: number; total: number } | null>(null);
@@ -142,6 +146,7 @@ export default function CRMBoard({
     setNewComment("");
     setEditingValue(false);
     setValueInput(lead.value?.toString() ?? "");
+    setConfirmDelete(false);
     setLoadingComments(true);
     const res = await fetch(`/api/leads/${lead.id}/comments`);
     if (res.ok) setComments(await res.json());
@@ -177,6 +182,29 @@ export default function CRMBoard({
     setSelected({ ...selected, value: val });
     setLeads((prev) => prev.map((l) => (l.id === selected.id ? { ...l, value: val } : l)));
     setEditingValue(false);
+  }
+
+  async function handleDeleteLead() {
+    if (!selected) return;
+    setDeletingLead(true);
+    await fetch(`/api/leads/${selected.id}`, { method: "DELETE" });
+    setLeads((prev) => prev.filter((l) => l.id !== selected.id));
+    setSelected(null);
+    setConfirmDelete(false);
+    setDeletingLead(false);
+    startTransition(() => router.refresh());
+  }
+
+  async function handleRemoveFromPipeline() {
+    if (!selected) return;
+    await fetch(`/api/leads/${selected.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pipeline: null, pipelineStage: null }),
+    });
+    setLeads((prev) => prev.filter((l) => l.id !== selected.id));
+    setSelected(null);
+    startTransition(() => router.refresh());
   }
 
   function onDragStart(e: React.DragEvent, leadId: string) {
@@ -656,6 +684,44 @@ export default function CRMBoard({
                     </button>
                   ))}
                 </div>
+              </div>
+
+              {/* Ações destrutivas */}
+              <div className="border-t border-[#1e2d45] pt-4 space-y-2">
+                <button
+                  onClick={handleRemoveFromPipeline}
+                  className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-yellow-400 hover:border-yellow-500/30 text-xs font-medium transition-colors"
+                >
+                  📥 Mover para Caixa de Entrada
+                </button>
+
+                {!confirmDelete ? (
+                  <button
+                    onClick={() => setConfirmDelete(true)}
+                    className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-500 hover:text-red-400 hover:border-red-500/30 text-xs font-medium transition-colors"
+                  >
+                    🗑️ Deletar este lead
+                  </button>
+                ) : (
+                  <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 space-y-2">
+                    <p className="text-red-400 text-xs text-center">Tem certeza? Esta ação não pode ser desfeita.</p>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={handleDeleteLead}
+                        disabled={deletingLead}
+                        className="flex-1 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-semibold disabled:opacity-50 transition-colors"
+                      >
+                        {deletingLead ? "Deletando..." : "Confirmar exclusão"}
+                      </button>
+                      <button
+                        onClick={() => setConfirmDelete(false)}
+                        className="px-3 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 text-xs hover:text-white transition-colors"
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Comentários */}

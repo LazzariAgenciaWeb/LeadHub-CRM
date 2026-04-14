@@ -176,6 +176,12 @@ export default function WhatsappManager({
   const [addContactForm, setAddContactForm] = useState({ companyId: "", companyName: "", contactName: "", role: "CONTACT" });
   const [savingContact, setSavingContact] = useState(false);
 
+  // Mesclar contatos duplicados
+  const [showMergePanel, setShowMergePanel] = useState(false);
+  const [mergeSearch, setMergeSearch] = useState("");
+  const [mergeResults, setMergeResults] = useState<{ phone: string; name: string | null }[]>([]);
+  const [mergingContacts, setMergingContacts] = useState(false);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const selectedConvRef = useRef<Conversation | null>(null);
 
@@ -298,6 +304,8 @@ export default function WhatsappManager({
     setShowAddCompany(false);
     setCompanySearch(""); setCompanyResults([]);
     setAddContactForm({ companyId: "", companyName: "", contactName: "", role: "CONTACT" });
+    setShowMergePanel(false);
+    setMergeSearch(""); setMergeResults([]);
     setLoadingMsgs(true);
 
     const params = new URLSearchParams({ phone: conv.phone });
@@ -508,6 +516,43 @@ export default function WhatsappManager({
       alert(err.error ?? "Erro ao adicionar contato");
     }
     setSavingContact(false);
+  }
+
+  function searchMergeTargets(q: string) {
+    const lower = q.toLowerCase();
+    const results = conversations
+      .filter((c) => c.phone !== selectedConv?.phone)
+      .filter((c) =>
+        c.phone.includes(q) ||
+        c.lead?.name?.toLowerCase().includes(lower) ||
+        c.companyContact?.name?.toLowerCase().includes(lower)
+      )
+      .slice(0, 8)
+      .map((c) => ({ phone: c.phone, name: c.lead?.name ?? c.companyContact?.name ?? null }));
+    setMergeResults(results);
+  }
+
+  async function handleMerge(mergePhone: string) {
+    if (!selectedConv) return;
+    setMergingContacts(true);
+    const res = await fetch("/api/whatsapp/merge", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        keepPhone: selectedConv.phone,
+        mergePhone,
+        companyId: selectedConv.companyId,
+      }),
+    });
+    setMergingContacts(false);
+    if (res.ok) {
+      setShowMergePanel(false);
+      setMergeSearch(""); setMergeResults([]);
+      router.refresh();
+    } else {
+      const data = await res.json();
+      alert(data.error ?? "Erro ao mesclar contatos");
+    }
   }
 
   async function handleSetAttendance(status: string) {
@@ -1029,6 +1074,21 @@ export default function WhatsappManager({
                     </button>
                   )}
 
+                  {/* Mesclar contatos duplicados */}
+                  {selectedConv.lead && (
+                    <button
+                      onClick={() => { setShowMergePanel(!showMergePanel); setShowTicketForm(false); setShowAddCompany(false); setMergeSearch(""); setMergeResults([]); }}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                        showMergePanel
+                          ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"
+                          : "bg-[#0f1623] border border-[#1e2d45] text-slate-400 hover:text-white hover:border-cyan-500/50"
+                      }`}
+                      title="Mesclar com contato duplicado"
+                    >
+                      🔗 Mesclar
+                    </button>
+                  )}
+
                   {ticketCreated && (
                     <span className="text-green-400 text-xs">✓ Chamado criado!</span>
                   )}
@@ -1309,6 +1369,85 @@ export default function WhatsappManager({
                       </button>
                     </div>
                   </form>
+                </div>
+              )}
+
+              {/* Painel: Mesclar contatos */}
+              {showMergePanel && selectedConv.lead && (
+                <div className="px-5 py-3.5 border-b border-[#1e2d45] bg-cyan-500/5 flex-shrink-0">
+                  <p className="text-cyan-400 text-xs font-semibold mb-1">🔗 Mesclar com contato duplicado</p>
+                  <p className="text-slate-500 text-[10px] mb-3">
+                    Busque a conversa duplicada. Todas as mensagens serão unificadas neste contato ({selectedConv.phone}) e o duplicado será removido.
+                  </p>
+                  <div className="flex gap-2 mb-3">
+                    <input
+                      autoFocus
+                      type="text"
+                      value={mergeSearch}
+                      onChange={(e) => { setMergeSearch(e.target.value); searchMergeTargets(e.target.value); }}
+                      placeholder="Buscar por nome ou telefone..."
+                      className="flex-1 bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500"
+                    />
+                  </div>
+                  {mergeResults.length > 0 && (
+                    <div className="space-y-1.5 max-h-48 overflow-y-auto">
+                      {mergeResults.map((r) => (
+                        <div key={r.phone} className="flex items-center justify-between bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2">
+                          <div>
+                            <div className="text-white text-xs font-semibold">{r.name ?? "Sem nome"}</div>
+                            <div className="text-slate-500 text-[10px] font-mono">{r.phone}</div>
+                          </div>
+                          <button
+                            onClick={() => handleMerge(r.phone)}
+                            disabled={mergingContacts}
+                            className="px-3 py-1 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-medium disabled:opacity-50 transition-colors"
+                          >
+                            {mergingContacts ? "..." : "Mesclar"}
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {mergeSearch && mergeResults.length === 0 && (
+                    <p className="text-slate-600 text-xs text-center py-2">Nenhum contato encontrado.</p>
+                  )}
+                </div>
+              )}
+
+              {/* Inbox classification banner */}
+              {!selectedConv.lead && (
+                <div className="mx-5 mt-4 mb-1 flex-shrink-0 bg-slate-800/40 border border-[#1e2d45] rounded-xl p-3.5">
+                  <div className="flex items-center gap-2 mb-2.5">
+                    <span className="text-base">📥</span>
+                    <span className="text-slate-300 text-xs font-semibold">Caixa de Entrada</span>
+                    <span className="text-slate-600 text-[10px]">— classifique esta conversa</span>
+                  </div>
+                  <div className="flex gap-2 flex-wrap">
+                    <button
+                      onClick={() => { setShowConvertForm(true); setShowTicketForm(false); setShowLinkProspect(false); setShowAddCompany(false); }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium transition-colors"
+                    >
+                      🎯 Pipeline
+                    </button>
+                    <button
+                      onClick={() => { setShowTicketForm(true); setShowConvertForm(false); setShowLinkProspect(false); setShowAddCompany(false); }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-600/80 hover:bg-orange-500 text-white text-xs font-medium transition-colors"
+                    >
+                      🎫 Chamado
+                    </button>
+                    <button
+                      onClick={() => { setShowAddCompany(true); setShowConvertForm(false); setShowTicketForm(false); setShowLinkProspect(false); }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-600/80 hover:bg-amber-500 text-white text-xs font-medium transition-colors"
+                    >
+                      ⭐ É Cliente
+                    </button>
+                    <button
+                      onClick={() => { setShowLinkProspect(true); setShowConvertForm(false); setShowTicketForm(false); setShowAddCompany(false); }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] text-violet-300 hover:border-violet-500/50 text-xs font-medium transition-colors"
+                    >
+                      🔎 Vincular Prospect
+                    </button>
+                  </div>
                 </div>
               )}
 
