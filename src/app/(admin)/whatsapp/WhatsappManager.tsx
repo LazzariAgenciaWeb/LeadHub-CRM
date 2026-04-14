@@ -184,6 +184,22 @@ export default function WhatsappManager({
   const [mergeResults, setMergeResults] = useState<{ phone: string; name: string | null }[]>([]);
   const [mergingContacts, setMergingContacts] = useState(false);
 
+  // Chamado aberto + menu de ações
+  const [openTicket, setOpenTicket] = useState<{ id: string; title: string; status: string } | null>(null);
+  const [showActionsMenu, setShowActionsMenu] = useState(false);
+  const actionsMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!showActionsMenu) return;
+    function handleClick(e: MouseEvent) {
+      if (actionsMenuRef.current && !actionsMenuRef.current.contains(e.target as Node)) {
+        setShowActionsMenu(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [showActionsMenu]);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const selectedConvRef = useRef<Conversation | null>(null);
 
@@ -351,20 +367,30 @@ export default function WhatsappManager({
     setAddContactForm({ companyId: "", companyName: "", contactName: "", role: "CONTACT" });
     setShowMergePanel(false);
     setMergeSearch(""); setMergeResults([]);
+    setOpenTicket(null);
+    setShowActionsMenu(false);
     setLoadingMsgs(true);
 
     const params = new URLSearchParams({ phone: conv.phone });
     if (conv.companyId) params.set("companyId", conv.companyId);
 
-    const [msgsRes, campaignsRes] = await Promise.all([
+    const ticketParams = new URLSearchParams({ phone: conv.phone, openOnly: "true" });
+    if (conv.companyId) ticketParams.set("companyId", conv.companyId);
+
+    const [msgsRes, campaignsRes, ticketsRes] = await Promise.all([
       fetch(`/api/whatsapp/messages?${params}`),
       fetch(`/api/campaigns?companyId=${conv.companyId}`),
+      fetch(`/api/tickets?${ticketParams}`),
     ]);
 
     setConvMessages(await msgsRes.json());
     if (campaignsRes.ok) {
       const data = await campaignsRes.json();
       setCampaigns(data.campaigns ?? data);
+    }
+    if (ticketsRes.ok) {
+      const tickets = await ticketsRes.json();
+      setOpenTicket(tickets[0] ?? null);
     }
     setLoadingMsgs(false);
   }
@@ -410,6 +436,8 @@ export default function WhatsappManager({
     });
     setConvertingTicket(false);
     if (res.ok) {
+      const newTicket = await res.json();
+      setOpenTicket({ id: newTicket.id, title: newTicket.title, status: newTicket.status });
       setTicketCreated(true);
       setShowTicketForm(false);
       router.refresh();
@@ -1050,77 +1078,104 @@ export default function WhatsappManager({
                   )}
                 </div>
 
-                {/* Ações à direita */}
+                {/* Direita: pills de status + menu ações */}
                 <div className="flex items-center gap-2 flex-shrink-0 flex-wrap justify-end">
 
-                  {/* Badge de cliente (empresa vinculada) */}
+                  {/* ── Pills de status (o que o contato É) ── */}
+
+                  {/* Cliente vinculado → link para empresa */}
                   {selectedConv.companyContact && (
                     <Link
                       href={`/empresas/${selectedConv.companyContact.company.id}`}
-                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold text-amber-400 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition-colors"
+                      className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold text-amber-400 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition-colors"
                     >
                       ⭐ {selectedConv.companyContact.company.name}
                     </Link>
                   )}
 
-                  {/* Botão: adicionar como contato de empresa (quando ainda não é cliente) */}
-                  {!selectedConv.companyContact && (
-                    <button
-                      onClick={() => { setShowAddCompany(!showAddCompany); setShowLinkProspect(false); setShowConvertForm(false); setShowTicketForm(false); }}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                        showAddCompany
-                          ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
-                          : "bg-[#0f1623] border border-[#1e2d45] text-slate-300 hover:text-white hover:border-amber-500/50"
-                      }`}
-                    >
-                      ⭐ É cliente
-                    </button>
-                  )}
-
+                  {/* Pipeline → link para CRM */}
                   {selectedConv.lead?.pipeline && (
-                    <>
-                      <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${PIPELINE_BADGE[selectedConv.lead.pipeline] ?? "text-slate-400 bg-white/5"}`}>
-                        {PIPELINE_LABEL[selectedConv.lead.pipeline] ?? selectedConv.lead.pipeline}
-                        {selectedConv.lead.pipelineStage ? ` · ${selectedConv.lead.pipelineStage}` : ""}
-                      </span>
-                      <Link href="/crm/leads" className="text-indigo-400 text-xs hover:underline">
-                        Ver CRM →
-                      </Link>
-                    </>
-                  )}
-
-                  {/* Chamado mesmo tendo lead */}
-                  {selectedConv.lead && (
-                    <button
-                      onClick={() => setShowTicketForm(!showTicketForm)}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                        showTicketForm
-                          ? "bg-orange-500/20 text-orange-300 border border-orange-500/30"
-                          : "bg-[#0f1623] border border-[#1e2d45] text-slate-400 hover:text-white hover:border-orange-500/50"
-                      }`}
+                    <Link
+                      href={`/crm`}
+                      className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border border-transparent hover:opacity-80 transition-opacity ${PIPELINE_BADGE[selectedConv.lead.pipeline] ?? "text-slate-400 bg-white/5"}`}
                     >
-                      🎫 Chamado
-                    </button>
+                      {PIPELINE_LABEL[selectedConv.lead.pipeline] ?? selectedConv.lead.pipeline}
+                      {selectedConv.lead.pipelineStage ? ` · ${selectedConv.lead.pipelineStage}` : ""}
+                      <span className="ml-0.5 opacity-50 text-[10px]">↗</span>
+                    </Link>
                   )}
 
-                  {/* Mesclar contatos duplicados */}
-                  {selectedConv.lead && (
-                    <button
-                      onClick={() => { setShowMergePanel(!showMergePanel); setShowTicketForm(false); setShowAddCompany(false); setMergeSearch(""); setMergeResults([]); }}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                        showMergePanel
-                          ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"
-                          : "bg-[#0f1623] border border-[#1e2d45] text-slate-400 hover:text-white hover:border-cyan-500/50"
-                      }`}
-                      title="Mesclar com contato duplicado"
+                  {/* Chamado aberto → link para o chamado */}
+                  {openTicket && (
+                    <Link
+                      href={`/chamados/${openTicket.id}`}
+                      className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold text-orange-400 bg-orange-500/10 border border-orange-500/20 hover:bg-orange-500/20 transition-colors max-w-[180px]"
+                      title={openTicket.title}
                     >
-                      🔗 Mesclar
-                    </button>
+                      🎫 <span className="truncate">{openTicket.title.length > 20 ? openTicket.title.slice(0, 20) + "…" : openTicket.title}</span>
+                      <span className="ml-0.5 opacity-50 text-[10px]">↗</span>
+                    </Link>
                   )}
 
-                  {ticketCreated && (
+                  {ticketCreated && !openTicket && (
                     <span className="text-green-400 text-xs">✓ Chamado criado!</span>
                   )}
+
+                  {/* ── Botão + Ações (dropdown) ── */}
+                  <div className="relative" ref={actionsMenuRef}>
+                    <button
+                      onClick={() => setShowActionsMenu(!showActionsMenu)}
+                      className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
+                        showActionsMenu
+                          ? "bg-white/10 border-slate-500 text-white"
+                          : "bg-[#0f1623] border-[#1e2d45] text-slate-300 hover:text-white hover:border-slate-500"
+                      }`}
+                    >
+                      + Ações <span className="text-[10px] opacity-50">▾</span>
+                    </button>
+
+                    {showActionsMenu && (
+                      <div className="absolute right-0 top-full mt-1.5 w-52 bg-[#0d1525] border border-[#1e2d45] rounded-xl shadow-2xl z-50 overflow-hidden py-1">
+
+                        {/* Vincular como cliente */}
+                        {!selectedConv.companyContact && (
+                          <button
+                            onClick={() => { setShowAddCompany(!showAddCompany); setShowActionsMenu(false); setShowLinkProspect(false); setShowConvertForm(false); setShowTicketForm(false); }}
+                            className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
+                          >
+                            <span>⭐</span> Vincular como cliente
+                          </button>
+                        )}
+
+                        {/* Abrir chamado (só se não há chamado aberto) */}
+                        {!openTicket && (
+                          <button
+                            onClick={() => { setShowTicketForm(!showTicketForm); setShowActionsMenu(false); setShowAddCompany(false); }}
+                            className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
+                          >
+                            <span>🎫</span> Abrir chamado
+                          </button>
+                        )}
+
+                        {/* Mesclar contato (quando tem lead) */}
+                        {selectedConv.lead && (
+                          <button
+                            onClick={() => { setShowMergePanel(!showMergePanel); setShowActionsMenu(false); setShowTicketForm(false); setShowAddCompany(false); setMergeSearch(""); setMergeResults([]); }}
+                            className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
+                          >
+                            <span>🔗</span> Mesclar contato
+                          </button>
+                        )}
+
+                        {/* Fallback: se não tem nenhuma ação disponível */}
+                        {selectedConv.companyContact && openTicket && !selectedConv.lead && (
+                          <div className="px-4 py-3 text-[11px] text-slate-600 text-center">
+                            Nenhuma ação disponível
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 

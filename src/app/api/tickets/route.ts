@@ -15,6 +15,8 @@ export async function GET(req: NextRequest) {
   const companyId = searchParams.get("companyId");
   const status = searchParams.get("status");
   const priority = searchParams.get("priority");
+  const phone = searchParams.get("phone");
+  const openOnly = searchParams.get("openOnly") === "true";
 
   const effectiveCompanyId = userRole === "SUPER_ADMIN" ? companyId : userCompanyId;
 
@@ -22,6 +24,8 @@ export async function GET(req: NextRequest) {
   if (effectiveCompanyId) where.companyId = effectiveCompanyId;
   if (status) where.status = status;
   if (priority) where.priority = priority;
+  if (phone) where.phone = phone;
+  if (openOnly) where.status = { in: ["OPEN", "IN_PROGRESS"] };
 
   const tickets = await prisma.ticket.findMany({
     where,
