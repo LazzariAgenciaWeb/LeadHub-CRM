@@ -30,9 +30,17 @@ export default async function LeadsPage() {
   });
 
   // SUPER_ADMIN vê stages de todas as empresas — deduplicar por nome
+  // e filtrar pelos nomes canônicos do pipeline (evita contaminar com stages de outros pipelines)
   if (isSuperAdmin) {
+    const canonicalNames = new Set(DEFAULT_STAGES.map(s => s.name));
     const seen = new Set<string>();
-    stages = stages.filter((s) => seen.has(s.name) ? false : (seen.add(s.name), true));
+    stages = stages.filter((s) =>
+      canonicalNames.has(s.name) && (seen.has(s.name) ? false : (seen.add(s.name), true))
+    );
+    // Fallback: se nenhuma empresa tem stages, usa os defaults
+    if (stages.length === 0) {
+      stages = DEFAULT_STAGES.map((s, i) => ({ ...s, id: `default-${i}`, pipeline: PIPELINE, companyId: "", createdAt: new Date(), updatedAt: new Date() }));
+    }
   }
 
   if (stages.length === 0 && effectiveCompanyId) {
