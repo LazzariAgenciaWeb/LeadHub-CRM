@@ -16,7 +16,7 @@ export async function PATCH(
 
   const { id, contactId } = await params;
   const body = await req.json();
-  const { name, role, notes, hasAccess, userEmail, userName } = body;
+  const { name, role, notes, hasAccess, userEmail, userName, resetPassword } = body;
 
   const contact = await prisma.companyContact.findFirst({
     where: { id: contactId, companyId: id },
@@ -25,15 +25,14 @@ export async function PATCH(
   if (!contact) return NextResponse.json({ error: "Contato não encontrado" }, { status: 404 });
 
   let userId = contact.userId;
+  let generatedPassword: string | null = null;
 
   // Quando ativa acesso + fornece email → cria/vincula User
   if (hasAccess && userEmail && !contact.userId) {
     const existingUser = await prisma.user.findUnique({ where: { email: userEmail } });
     if (existingUser) {
-      // Vincula usuário existente
       userId = existingUser.id;
     } else {
-      // Cria novo usuário CLIENT
       const tempPassword = Math.random().toString(36).slice(-8) + "A1!";
       const hash = await bcrypt.hash(tempPassword, 10);
       const newUser = await prisma.user.create({
@@ -46,7 +45,16 @@ export async function PATCH(
         },
       });
       userId = newUser.id;
+      generatedPassword = tempPassword; // retorna só uma vez
     }
+  }
+
+  // Redefinir senha de usuário existente
+  if (resetPassword && contact.userId) {
+    const tempPassword = Math.random().toString(36).slice(-8) + "A1!";
+    const hash = await bcrypt.hash(tempPassword, 10);
+    await prisma.user.update({ where: { id: contact.userId }, data: { password: hash } });
+    generatedPassword = tempPassword;
   }
 
   // Quando desativa acesso → desvincula User (mas não deleta)
@@ -66,7 +74,7 @@ export async function PATCH(
     include: { user: { select: { id: true, name: true, email: true } } },
   });
 
-  return NextResponse.json(updated);
+  return NextResponse.json({ ...updated, tempPassword: generatedPassword });
 }
 
 // DELETE /api/companies/[id]/contacts/[contactId]

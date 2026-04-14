@@ -60,6 +60,8 @@ export default function CompanyContacts({
 
   // Access modal state
   const [accessModal, setAccessModal] = useState<{ contact: Contact; email: string; userName: string } | null>(null);
+  // Credenciais geradas — exibir uma única vez após criação/reset
+  const [credentials, setCredentials] = useState<{ email: string; password: string; name: string } | null>(null);
 
   // Edit inline
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -117,7 +119,20 @@ export default function CompanyContacts({
     if (res.ok) {
       const updated = await res.json();
       setContacts((prev) => prev.map((c) => (c.id === contactId ? updated : c)));
+      // Se a API retornou credenciais geradas, exibe o painel
+      if (updated.tempPassword && updated.user?.email) {
+        setCredentials({ email: updated.user.email, password: updated.tempPassword, name: updated.user.name });
+      }
+      return updated;
     }
+  }
+
+  async function handleResetPassword(contact: Contact) {
+    if (!contact.user) return;
+    if (!confirm(`Redefinir a senha de ${contact.user.email}? A senha atual deixará de funcionar.`)) return;
+    setSaving(true);
+    await patchContact(contact.id, { resetPassword: true });
+    setSaving(false);
   }
 
   async function handleDelete(contactId: string) {
@@ -133,6 +148,30 @@ export default function CompanyContacts({
 
   return (
     <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl overflow-hidden">
+
+      {/* Painel de credenciais geradas — aparece uma única vez */}
+      {credentials && (
+        <div className="mx-4 mt-4 bg-green-500/10 border border-green-500/30 rounded-xl p-4">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-green-400 font-semibold text-sm mb-2">✅ Acesso criado! Anote as credenciais abaixo:</p>
+              <div className="space-y-1.5 font-mono text-sm">
+                <div className="flex items-center gap-2">
+                  <span className="text-slate-400 text-xs w-12">E-mail:</span>
+                  <span className="text-white bg-[#0c1220] px-3 py-1 rounded-lg border border-[#1e2d45] select-all">{credentials.email}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-slate-400 text-xs w-12">Senha:</span>
+                  <span className="text-green-300 bg-[#0c1220] px-3 py-1 rounded-lg border border-green-500/30 select-all font-bold tracking-wider">{credentials.password}</span>
+                </div>
+              </div>
+              <p className="text-slate-500 text-[11px] mt-2">⚠️ Esta senha não será exibida novamente. Copie agora e envie para {credentials.name}.</p>
+            </div>
+            <button onClick={() => setCredentials(null)} className="text-slate-500 hover:text-white text-xl flex-shrink-0">×</button>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="px-5 py-4 border-b border-[#1e2d45] flex items-center justify-between">
         <div>
@@ -319,6 +358,16 @@ export default function CompanyContacts({
 
                     {/* Ações */}
                     <div className="flex items-center gap-1 flex-shrink-0">
+                      {c.user && (
+                        <button
+                          onClick={() => handleResetPassword(c)}
+                          disabled={saving}
+                          className="w-7 h-7 rounded-lg hover:bg-yellow-500/10 flex items-center justify-center text-slate-500 hover:text-yellow-400 transition-colors text-xs disabled:opacity-50"
+                          title="Redefinir senha"
+                        >
+                          🔑
+                        </button>
+                      )}
                       <button
                         onClick={() => { setEditingId(c.id); setEditForm({ name: c.name ?? "", role: c.role, notes: c.notes ?? "" }); }}
                         className="w-7 h-7 rounded-lg hover:bg-white/10 flex items-center justify-center text-slate-500 hover:text-slate-300 transition-colors text-xs"
