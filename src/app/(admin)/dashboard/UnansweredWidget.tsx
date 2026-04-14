@@ -95,7 +95,7 @@ export default function UnansweredWidget({ convs }: { convs: UnansweredConv[] })
         {convs.map((c) => (
           <Link
             key={c.phone + c.companyId}
-            href="/whatsapp"
+            href={`/whatsapp?abrir=${encodeURIComponent(c.phone)}`}
             className="flex items-start gap-3 px-5 py-3.5 hover:bg-white/[0.02] transition-colors group"
           >
             {/* Avatar */}

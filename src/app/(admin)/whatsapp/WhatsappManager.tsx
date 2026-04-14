@@ -254,7 +254,7 @@ export default function WhatsappManager({
           case "RESOLVED":    if (atStatus !== "RESOLVED") return false; break;
           case "SCHEDULED":   if (atStatus !== "SCHEDULED") return false; break;
           case "CLIENTS":     if (!c.companyContact) return false; break;
-          case "NO_LEAD":     if (c.lead) return false; break;
+          case "NO_LEAD":     if (c.lead?.pipeline) return false; break;
         }
       }
       return true;
@@ -274,24 +274,58 @@ export default function WhatsappManager({
       if (atStatus === "IN_PROGRESS") counts.IN_PROGRESS++;
       if (atStatus === "RESOLVED")    counts.RESOLVED++;
       if (atStatus === "SCHEDULED")   counts.SCHEDULED++;
-      if (c.companyContact)           counts.CLIENTS++;
-      if (!c.lead)                    counts.NO_LEAD++;
+      if (c.companyContact)            counts.CLIENTS++;
+      if (!c.lead?.pipeline)           counts.NO_LEAD++;
     }
     return counts;
   }, [conversations]);
 
   async function handleSaveName(e: React.FormEvent) {
     e.preventDefault();
-    if (!selectedConv?.lead || !leadName.trim()) return;
+    if (!selectedConv || !leadName.trim()) return;
     setSavingName(true);
-    await fetch(`/api/leads/${selectedConv.lead.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: leadName.trim() }),
-    });
+
+    if (selectedConv.lead) {
+      // Lead já existe: só atualiza o nome
+      await fetch(`/api/leads/${selectedConv.lead.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: leadName.trim() }),
+      });
+      setSelectedConv({ ...selectedConv, lead: { ...selectedConv.lead, name: leadName.trim() } });
+    } else {
+      // Sem lead: cria um contato na caixa de entrada (pipeline: null)
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phone: selectedConv.phone,
+          name: leadName.trim(),
+          pipeline: null,
+          source: "whatsapp",
+        }),
+      });
+      if (res.ok) {
+        const newLead = await res.json();
+        // Vincula as mensagens desse telefone ao novo lead
+        await fetch("/api/whatsapp/link-prospect", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone: selectedConv.phone, companyId: selectedConv.companyId, leadId: newLead.id }),
+        });
+        setSelectedConv({
+          ...selectedConv,
+          lead: {
+            id: newLead.id, name: newLead.name, status: newLead.status,
+            notes: null, pipeline: null, pipelineStage: null,
+            attendanceStatus: null, expectedReturnAt: null,
+          },
+        });
+      }
+    }
+
     setSavingName(false);
     setEditingName(false);
-    setSelectedConv({ ...selectedConv, lead: { ...selectedConv.lead, name: leadName.trim() } });
     router.refresh();
   }
 
@@ -528,6 +562,22 @@ export default function WhatsappManager({
     setSavingContact(false);
   }
 
+  async function quickResolve(e: React.MouseEvent, conv: Conversation) {
+    e.stopPropagation();
+    if (!conv.lead) return;
+    await fetch(`/api/leads/${conv.lead.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ attendanceStatus: "RESOLVED" }),
+    });
+    // Atualiza estado local do selectedConv se for o aberto
+    if (selectedConv?.phone === conv.phone) {
+      setAttendanceStatus("RESOLVED");
+      setSelectedConv({ ...selectedConv, lead: { ...selectedConv.lead!, attendanceStatus: "RESOLVED" } });
+    }
+    router.refresh();
+  }
+
   function searchMergeTargets(q: string) {
     const lower = q.toLowerCase();
     const results = conversations
@@ -747,7 +797,7 @@ export default function WhatsappManager({
                       { key: "RESOLVED",   label: "Resolvidos",  icon: "✅", dim: "text-green-400",  count: filterCounts.RESOLVED },
                       { key: "SCHEDULED",  label: "Agendados",   icon: "📅", dim: "text-purple-400", count: filterCounts.SCHEDULED },
                       { key: "CLIENTS",    label: "Clientes",    icon: "⭐", dim: "text-amber-400",  count: filterCounts.CLIENTS },
-                      { key: "NO_LEAD",    label: "Sem lead",    icon: "📋", dim: "text-slate-400",  count: filterCounts.NO_LEAD },
+                      { key: "NO_LEAD",    label: "Entrada",     icon: "📥", dim: "text-slate-400",  count: filterCounts.NO_LEAD },
                     ]).map(({ key, label, icon, dim, count }) => {
                       const isActive = statusFilter === key;
                       return (
@@ -852,13 +902,24 @@ export default function WhatsappManager({
                 const isSelected = selectedConv?.phone === conv.phone;
                 const { ring, icon, pulse } = getUrgencyRing(conv);
                 return (
-                  <button
+                  <div
                     key={conv.phone}
-                    onClick={() => loadConversation(conv)}
-                    className={`w-full text-left px-4 py-3 hover:bg-white/[0.03] transition-colors ${
+                    className={`relative group/item w-full text-left px-4 py-3 hover:bg-white/[0.03] transition-colors cursor-pointer ${
                       isSelected ? "bg-indigo-500/10" : ""
                     }`}
+                    onClick={() => loadConversation(conv)}
+                  >
+                    {/* Botão rápido: Resolvido (aparece no hover quando aguardando) */}
+                    {conv.lead && conv.lead.attendanceStatus === "WAITING" && (
+                      <button
+                        onClick={(e) => quickResolve(e, conv)}
+                        title="Marcar como resolvido"
+                        className="absolute top-2 right-2 opacity-0 group-hover/item:opacity-100 transition-opacity z-10 w-6 h-6 rounded-full bg-green-500/20 border border-green-500/40 text-green-400 hover:bg-green-500/40 text-[11px] flex items-center justify-center"
                       >
+                        ✅
+                      </button>
+                    )}
+
                         {/* Linha 1: avatar-col + nome + horário */}
                         <div className="flex items-start justify-between mb-1">
                           <div className="flex items-start gap-2.5 min-w-0">
@@ -926,7 +987,7 @@ export default function WhatsappManager({
                             </span>
                           )}
                         </div>
-                  </button>
+                  </div>
                 );
               })}
             </div>
@@ -972,15 +1033,13 @@ export default function WhatsappManager({
                         <span className="text-white font-semibold truncate">
                           {selectedConv.lead?.name ?? selectedConv.phone}
                         </span>
-                        {selectedConv.lead && (
-                          <button
-                            onClick={() => { setLeadName(selectedConv.lead?.name ?? ""); setEditingName(true); }}
-                            className="text-slate-600 hover:text-slate-400 text-xs flex-shrink-0"
-                            title="Editar nome"
-                          >
-                            ✏️
-                          </button>
-                        )}
+                        <button
+                          onClick={() => { setLeadName(selectedConv.lead?.name ?? ""); setEditingName(true); }}
+                          className="text-slate-600 hover:text-slate-400 text-xs flex-shrink-0"
+                          title="Editar nome"
+                        >
+                          ✏️
+                        </button>
                       </div>
                       {selectedConv.lead?.name && (
                         <div className="text-slate-500 text-xs">{selectedConv.phone}</div>
@@ -1016,57 +1075,15 @@ export default function WhatsappManager({
                     </button>
                   )}
 
-                  {selectedConv.lead ? (
+                  {selectedConv.lead?.pipeline && (
                     <>
-                      {selectedConv.lead.pipeline ? (
-                        <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${PIPELINE_BADGE[selectedConv.lead.pipeline] ?? "text-slate-400 bg-white/5"}`}>
-                          {PIPELINE_LABEL[selectedConv.lead.pipeline] ?? selectedConv.lead.pipeline}
-                          {selectedConv.lead.pipelineStage ? ` · ${selectedConv.lead.pipelineStage}` : ""}
-                        </span>
-                      ) : (
-                        <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full text-slate-400 bg-white/5">
-                          🎯 Lead
-                        </span>
-                      )}
+                      <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${PIPELINE_BADGE[selectedConv.lead.pipeline] ?? "text-slate-400 bg-white/5"}`}>
+                        {PIPELINE_LABEL[selectedConv.lead.pipeline] ?? selectedConv.lead.pipeline}
+                        {selectedConv.lead.pipelineStage ? ` · ${selectedConv.lead.pipelineStage}` : ""}
+                      </span>
                       <Link href="/crm/leads" className="text-indigo-400 text-xs hover:underline">
                         Ver CRM →
                       </Link>
-                    </>
-                  ) : (
-                    <>
-                      {/* Vincular a prospect existente */}
-                      <button
-                        onClick={() => { setShowLinkProspect(!showLinkProspect); setShowConvertForm(false); setShowTicketForm(false); setProspectSearch(""); setProspectResults([]); }}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                          showLinkProspect
-                            ? "bg-violet-500/20 text-violet-300 border border-violet-500/30"
-                            : "bg-[#0f1623] border border-[#1e2d45] text-slate-300 hover:text-white hover:border-violet-500/50"
-                        }`}
-                      >
-                        🔎 Vincular Prospect
-                      </button>
-                      {/* Botão criar lead */}
-                      <button
-                        onClick={() => { setShowConvertForm(!showConvertForm); setShowTicketForm(false); setShowLinkProspect(false); }}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                          showConvertForm
-                            ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"
-                            : "bg-indigo-600 text-white hover:bg-indigo-500"
-                        }`}
-                      >
-                        🎯 Criar Lead
-                      </button>
-                      {/* Botão abrir chamado */}
-                      <button
-                        onClick={() => { setShowTicketForm(!showTicketForm); setShowConvertForm(false); setShowLinkProspect(false); }}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                          showTicketForm
-                            ? "bg-orange-500/20 text-orange-300 border border-orange-500/30"
-                            : "bg-[#0f1623] border border-[#1e2d45] text-slate-300 hover:text-white hover:border-orange-500/50"
-                        }`}
-                      >
-                        🎫 Abrir Chamado
-                      </button>
                     </>
                   )}
 
@@ -1437,7 +1454,7 @@ export default function WhatsappManager({
                       onClick={() => { setShowConvertForm(true); setShowTicketForm(false); setShowLinkProspect(false); setShowAddCompany(false); }}
                       className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium transition-colors"
                     >
-                      🎯 Pipeline
+                      🎯 Lead
                     </button>
                     <button
                       onClick={() => { setShowTicketForm(true); setShowConvertForm(false); setShowLinkProspect(false); setShowAddCompany(false); }}
