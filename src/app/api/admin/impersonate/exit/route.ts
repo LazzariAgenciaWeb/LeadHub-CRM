@@ -13,7 +13,8 @@ export async function GET(req: NextRequest) {
   const companyId = req.cookies.get(IMPERSONATE_COOKIE)?.value;
   const returnUrl = companyId ? `/empresas/${companyId}` : "/empresas";
 
-  const res = NextResponse.redirect(new URL(returnUrl, req.url));
+  const baseUrl = process.env.NEXTAUTH_URL ?? `https://${req.headers.get("host")}`;
+  const res = NextResponse.redirect(new URL(returnUrl, baseUrl));
   res.cookies.delete(IMPERSONATE_COOKIE);
   return res;
 }
