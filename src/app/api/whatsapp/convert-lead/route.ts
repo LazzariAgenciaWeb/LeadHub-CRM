@@ -20,6 +20,11 @@ export async function POST(req: NextRequest) {
   const effectiveCompanyId = userRole === "SUPER_ADMIN" ? companyId : userCompanyId;
   if (!effectiveCompanyId) return NextResponse.json({ error: "Empresa não informada" }, { status: 400 });
 
+  const firstLeadStage = await prisma.pipelineStageConfig.findFirst({
+    where: { companyId: effectiveCompanyId, pipeline: "LEADS" },
+    orderBy: { order: "asc" },
+  });
+
   // Verifica se já existe lead
   const existing = await prisma.lead.findFirst({
     where: { phone, companyId: effectiveCompanyId },
@@ -27,15 +32,28 @@ export async function POST(req: NextRequest) {
   });
 
   if (existing) {
-    return NextResponse.json({ lead: existing, alreadyExists: true });
+    // Lead já existe com pipeline → nada a fazer
+    if (existing.pipeline) {
+      return NextResponse.json({ lead: existing, alreadyExists: true });
+    }
+    // Lead existe mas sem pipeline → entra no pipeline LEADS
+    const lead = await prisma.lead.update({
+      where: { id: existing.id },
+      data: {
+        pipeline: "LEADS",
+        pipelineStage: firstLeadStage?.name ?? null,
+        ...(name && !existing.name ? { name } : {}),
+        ...(campaignId && !existing.campaignId ? { campaignId } : {}),
+      },
+    });
+    await prisma.message.updateMany({
+      where: { phone, companyId: effectiveCompanyId, leadId: null },
+      data: { leadId: lead.id },
+    });
+    return NextResponse.json({ lead, alreadyExists: false });
   }
 
   // Cria o lead — entra automaticamente no pipeline LEADS com primeira etapa
-  const firstLeadStage = await prisma.pipelineStageConfig.findFirst({
-    where: { companyId: effectiveCompanyId, pipeline: "LEADS" },
-    orderBy: { order: "asc" },
-  });
-
   const lead = await prisma.lead.create({
     data: {
       phone,

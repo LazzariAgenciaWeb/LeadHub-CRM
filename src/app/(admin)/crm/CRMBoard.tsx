@@ -86,6 +86,12 @@ export default function CRMBoard({
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deletingLead, setDeletingLead] = useState(false);
 
+  // Vincular conversa WhatsApp
+  const [showLinkConv, setShowLinkConv] = useState(false);
+  const [linkPhone, setLinkPhone] = useState("");
+  const [linkingConv, setLinkingConv] = useState(false);
+  const [linkResult, setLinkResult] = useState<string | null>(null);
+
   // BDR Sync
   const [syncing, setSyncing] = useState(false);
   const [syncResult, setSyncResult] = useState<{ imported: number; skipped: number; total: number } | null>(null);
@@ -147,6 +153,9 @@ export default function CRMBoard({
     setEditingValue(false);
     setValueInput(lead.value?.toString() ?? "");
     setConfirmDelete(false);
+    setShowLinkConv(false);
+    setLinkPhone("");
+    setLinkResult(null);
     setLoadingComments(true);
     const res = await fetch(`/api/leads/${lead.id}/comments`);
     if (res.ok) setComments(await res.json());
@@ -193,6 +202,30 @@ export default function CRMBoard({
     setConfirmDelete(false);
     setDeletingLead(false);
     startTransition(() => router.refresh());
+  }
+
+  async function handleLinkConversation() {
+    if (!selected || !linkPhone.trim()) return;
+    setLinkingConv(true);
+    setLinkResult(null);
+    const res = await fetch("/api/whatsapp/link-prospect", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        phone: linkPhone.trim(),
+        companyId: selected.company?.id ?? (selected as any).companyId,
+        leadId: selected.id,
+      }),
+    });
+    setLinkingConv(false);
+    if (res.ok) {
+      const data = await res.json();
+      setLinkResult(`✅ ${data.linked} mensagem(ns) vinculada(s)`);
+      setLinkPhone("");
+    } else {
+      const data = await res.json();
+      setLinkResult(`❌ ${data.error ?? "Erro ao vincular"}`);
+    }
   }
 
   async function handleRemoveFromPipeline() {
@@ -553,7 +586,16 @@ export default function CRMBoard({
                 <div className="text-white font-bold text-base">{selected.name ?? selected.phone}</div>
                 {selected.name && <div className="text-slate-500 text-xs mt-0.5">{selected.phone}</div>}
               </div>
-              <button onClick={() => setSelected(null)} className="text-slate-500 hover:text-white text-xl ml-3 flex-shrink-0">×</button>
+              <div className="flex items-center gap-2 flex-shrink-0 ml-3">
+                <a
+                  href={`/whatsapp?abrir=${encodeURIComponent(selected.phone)}`}
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-500/15 border border-indigo-500/25 text-indigo-400 hover:bg-indigo-500/25 text-xs font-medium transition-colors"
+                  title="Abrir conversa no WhatsApp"
+                >
+                  💬 Ver conversa
+                </a>
+                <button onClick={() => setSelected(null)} className="text-slate-500 hover:text-white text-xl">×</button>
+              </div>
             </div>
 
             <div className="flex-1 overflow-y-auto p-5 space-y-5">
@@ -684,6 +726,42 @@ export default function CRMBoard({
                     </button>
                   ))}
                 </div>
+              </div>
+
+              {/* Vincular conversa WhatsApp */}
+              <div>
+                <button
+                  onClick={() => { setShowLinkConv(!showLinkConv); setLinkResult(null); setLinkPhone(""); }}
+                  className="text-slate-500 text-[10px] uppercase tracking-wide hover:text-slate-300 transition-colors flex items-center gap-1"
+                >
+                  🔗 Vincular conversa WhatsApp {showLinkConv ? "▴" : "▾"}
+                </button>
+                {showLinkConv && (
+                  <div className="mt-2 space-y-2">
+                    <p className="text-slate-600 text-[10px]">
+                      Cole o telefone da conversa (ex: 5511999999999) para vincular as mensagens a este lead.
+                    </p>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={linkPhone}
+                        onChange={(e) => setLinkPhone(e.target.value)}
+                        placeholder="5511999999999"
+                        className="flex-1 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
+                      />
+                      <button
+                        onClick={handleLinkConversation}
+                        disabled={linkingConv || !linkPhone.trim()}
+                        className="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium disabled:opacity-50 transition-colors"
+                      >
+                        {linkingConv ? "..." : "Vincular"}
+                      </button>
+                    </div>
+                    {linkResult && (
+                      <p className="text-xs">{linkResult}</p>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Ações destrutivas */}

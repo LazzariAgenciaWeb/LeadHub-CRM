@@ -5,7 +5,7 @@ import WhatsappManager from "./WhatsappManager";
 export default async function WhatsappPage({
   searchParams,
 }: {
-  searchParams: Promise<{ companyId?: string }>;
+  searchParams: Promise<{ companyId?: string; abrir?: string }>;
 }) {
   const session = await getEffectiveSession();
   const isSuperAdmin = (session?.user as any)?.role === "SUPER_ADMIN";
@@ -13,6 +13,7 @@ export default async function WhatsappPage({
 
   const sp = await searchParams;
   const companyId = isSuperAdmin ? (sp.companyId ?? "") : (userCompanyId ?? "");
+  const defaultPhone = sp.abrir ?? "";
 
   const msgWhere: any = {};
   if (companyId) msgWhere.companyId = companyId;
@@ -76,6 +77,7 @@ export default async function WhatsappPage({
       isSuperAdmin={isSuperAdmin}
       defaultCompanyId={companyId}
       conversations={conversations as any}
+      defaultPhone={defaultPhone}
     />
   );
 }

@@ -103,11 +103,13 @@ export default function WhatsappManager({
   isSuperAdmin,
   defaultCompanyId,
   conversations,
+  defaultPhone,
 }: {
   instances: Instance[];
   isSuperAdmin: boolean;
   defaultCompanyId: string;
   conversations: Conversation[];
+  defaultPhone?: string;
 }) {
   const router = useRouter();
 
@@ -206,6 +208,14 @@ export default function WhatsappManager({
     }, 5000);
     return () => clearInterval(interval);
   }, [router]);
+
+  // Auto-abrir conversa quando vindo do CRM via ?abrir=PHONE
+  useEffect(() => {
+    if (!defaultPhone || conversations.length === 0) return;
+    const conv = conversations.find((c) => c.phone === defaultPhone);
+    if (conv) loadConversation(conv);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Unique instances that appear in conversations (for filter)
   const conversationInstances = useMemo(() => {
@@ -1415,7 +1425,7 @@ export default function WhatsappManager({
               )}
 
               {/* Inbox classification banner */}
-              {!selectedConv.lead && (
+              {(!selectedConv.lead || !selectedConv.lead.pipeline) && (
                 <div className="mx-5 mt-4 mb-1 flex-shrink-0 bg-slate-800/40 border border-[#1e2d45] rounded-xl p-3.5">
                   <div className="flex items-center gap-2 mb-2.5">
                     <span className="text-base">📥</span>
