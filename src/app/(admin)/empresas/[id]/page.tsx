@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import DeleteCompanyButton from "./DeleteCompanyButton";
+import EditCompanyButton from "./EditCompanyButton";
 import CompanyContacts from "./CompanyContacts";
 
 export default async function EmpresaDetailPage({
@@ -93,6 +94,7 @@ export default async function EmpresaDetailPage({
         </div>
         <div className="flex gap-2">
           <DeleteCompanyButton id={company.id} name={company.name} />
+          <EditCompanyButton company={company} />
           <Link
             href={`/api/admin/impersonate/${id}`}
             className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-medium hover:bg-amber-500/20 transition-colors"

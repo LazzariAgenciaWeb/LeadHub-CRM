@@ -20,6 +20,7 @@ interface Ticket {
   status: string;
   priority: string;
   category: string | null;
+  phone: string | null;
   createdAt: string;
   updatedAt: string;
   company: { id: string; name: string };
@@ -133,6 +134,14 @@ export default function TicketDetail({
 
           {/* Status actions */}
           <div className="flex-shrink-0 flex items-center gap-2">
+            {ticket.phone && (
+              <Link
+                href={`/whatsapp?abrir=${encodeURIComponent(ticket.phone)}`}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-500/10 border border-green-500/30 text-green-400 text-xs font-medium hover:bg-green-500/20 transition-colors"
+              >
+                💬 Responder no WhatsApp
+              </Link>
+            )}
             {isSuperAdmin && (
               <select
                 value={status}

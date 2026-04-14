@@ -303,6 +303,7 @@ export default function WhatsappManager({
           name: leadName.trim(),
           pipeline: null,
           source: "whatsapp",
+          companyId: selectedConv.companyId,
         }),
       });
       if (res.ok) {
@@ -404,6 +405,7 @@ export default function WhatsappManager({
         description: ticketForm.description || `Contato via WhatsApp: ${selectedConv.phone}`,
         companyId: selectedConv.companyId,
         priority: "MEDIUM",
+        phone: selectedConv.phone,
       }),
     });
     setConvertingTicket(false);

@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
   const userId = (session.user as any).id;
 
   const body = await req.json();
-  const { title, description, priority, category, companyId } = body;
+  const { title, description, priority, category, companyId, phone } = body;
 
   if (!title || !description) {
     return NextResponse.json({ error: "Título e descrição são obrigatórios" }, { status: 400 });
@@ -62,6 +62,7 @@ export async function POST(req: NextRequest) {
       description,
       priority: priority ?? "MEDIUM",
       category: category || null,
+      phone: phone || null,
       companyId: effectiveCompanyId,
       createdById: userId || null,
       messages: {
