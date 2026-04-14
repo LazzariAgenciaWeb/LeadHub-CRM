@@ -29,6 +29,12 @@ export default async function LeadsPage() {
     orderBy: { order: "asc" },
   });
 
+  // SUPER_ADMIN vê stages de todas as empresas — deduplicar por nome
+  if (isSuperAdmin) {
+    const seen = new Set<string>();
+    stages = stages.filter((s) => seen.has(s.name) ? false : (seen.add(s.name), true));
+  }
+
   if (stages.length === 0 && effectiveCompanyId) {
     stages = await Promise.all(
       DEFAULT_STAGES.map((s) =>

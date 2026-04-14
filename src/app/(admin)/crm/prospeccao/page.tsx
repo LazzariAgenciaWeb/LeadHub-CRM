@@ -31,6 +31,12 @@ export default async function ProspeccaoPage() {
     orderBy: { order: "asc" },
   });
 
+  // SUPER_ADMIN vê stages de todas as empresas — deduplicar por nome
+  if (isSuperAdmin) {
+    const seen = new Set<string>();
+    stages = stages.filter((s) => seen.has(s.name) ? false : (seen.add(s.name), true));
+  }
+
   // Se não há etapas configuradas e temos uma empresa, cria os defaults
   if (stages.length === 0 && effectiveCompanyId) {
     stages = await Promise.all(

@@ -78,7 +78,7 @@ export default function CRMBoard({
 
   // Adicionar novo lead/prospect manualmente
   const [showAddModal, setShowAddModal] = useState(false);
-  const [addForm, setAddForm] = useState({ name: "", phone: "", notes: "", value: "" });
+  const [addForm, setAddForm] = useState({ name: "", phone: "", notes: "", value: "", companyId: "" });
   const [addSaving, setAddSaving] = useState(false);
   const [addError, setAddError] = useState("");
 
@@ -198,12 +198,13 @@ export default function CRMBoard({
         value: pipeline === "OPORTUNIDADES" && addForm.value ? parseFloat(addForm.value.replace(",", ".")) : null,
         pipeline,
         source: pipeline === "PROSPECCAO" ? "bdr" : "manual",
+        ...(isSuperAdmin && addForm.companyId ? { companyId: addForm.companyId } : {}),
       }),
     });
     if (res.ok) {
       const newLead = await res.json();
       setLeads((prev) => [newLead, ...prev]);
-      setAddForm({ name: "", phone: "", notes: "", value: "" });
+      setAddForm({ name: "", phone: "", notes: "", value: "", companyId: "" });
       setShowAddModal(false);
       startTransition(() => router.refresh());
     } else {
@@ -417,6 +418,25 @@ export default function CRMBoard({
             </div>
 
             <form onSubmit={handleAddLead} className="p-6 space-y-4">
+              {isSuperAdmin && companies.length > 0 && (
+                <div>
+                  <label className="block text-slate-400 text-xs font-medium mb-1.5">
+                    Empresa <span className="text-red-400">*</span>
+                  </label>
+                  <select
+                    required
+                    value={addForm.companyId}
+                    onChange={(e) => setAddForm((f) => ({ ...f, companyId: e.target.value }))}
+                    className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500"
+                  >
+                    <option value="">Selecione a empresa</option>
+                    {companies.map((c) => (
+                      <option key={c.id} value={c.id}>{c.name}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
               <div>
                 <label className="block text-slate-400 text-xs font-medium mb-1.5">
                   {pipeline === "PROSPECCAO" ? "Empresa / Nome" : "Nome"}
