@@ -202,6 +202,8 @@ export default function WhatsappManager({
   const [groupCompanyResults, setGroupCompanyResults] = useState<{ id: string; name: string; segment: string | null }[]>([]);
   const [searchingGroupCompany, setSearchingGroupCompany] = useState(false);
   const [assigningGroupCompany, setAssigningGroupCompany] = useState(false);
+  const [assignGroupError, setAssignGroupError] = useState<string | null>(null);
+  const [creatingGroupCompany, setCreatingGroupCompany] = useState(false);
 
   // Instância selecionada para responder grupos (persiste em localStorage)
   const [groupInstanceId, setGroupInstanceId] = useState<string>(() => {
@@ -412,6 +414,7 @@ export default function WhatsappManager({
   async function handleAssignGroupCompany(targetCompanyId: string) {
     if (!selectedConv) return;
     setAssigningGroupCompany(true);
+    setAssignGroupError(null);
     const res = await fetch("/api/whatsapp/group-company", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -425,7 +428,32 @@ export default function WhatsappManager({
       setGroupCompanySearch("");
       setGroupCompanyResults([]);
       router.refresh();
+    } else {
+      const err = await res.json().catch(() => ({}));
+      setAssignGroupError(err.error ?? "Erro ao atribuir empresa");
     }
+  }
+
+  async function handleCreateAndAssignCompany(name: string) {
+    if (!selectedConv || !name.trim()) return;
+    setCreatingGroupCompany(true);
+    setAssignGroupError(null);
+    // 1. Criar a empresa
+    const createRes = await fetch("/api/companies", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: name.trim() }),
+    });
+    if (!createRes.ok) {
+      const err = await createRes.json().catch(() => ({}));
+      setAssignGroupError(err.error ?? "Erro ao criar empresa");
+      setCreatingGroupCompany(false);
+      return;
+    }
+    const newCompany = await createRes.json();
+    // 2. Atribuir o grupo à nova empresa
+    await handleAssignGroupCompany(newCompany.id);
+    setCreatingGroupCompany(false);
   }
 
   async function handleSaveName(e: React.FormEvent) {
@@ -1380,7 +1408,7 @@ export default function WhatsappManager({
                         {/* Atribuir grupo a empresa (só para grupos) */}
                         {selectedConv.phone.includes("@g.us") && (
                           <button
-                            onClick={() => { setShowGroupCompany(!showGroupCompany); setShowActionsMenu(false); setGroupCompanySearch(""); setGroupCompanyResults([]); }}
+                            onClick={() => { setShowGroupCompany(!showGroupCompany); setShowActionsMenu(false); setGroupCompanySearch(""); setGroupCompanyResults([]); setAssignGroupError(null); }}
                             className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
                           >
                             <span>🏢</span> {selectedConv.companyContact ? "Mudar empresa" : "Atribuir empresa"}
@@ -1479,40 +1507,72 @@ export default function WhatsappManager({
               {/* Painel: Atribuir grupo a empresa */}
               {showGroupCompany && selectedConv.phone.includes("@g.us") && (
                 <div className="px-5 py-4 border-b border-[#1e2d45] bg-indigo-500/5 flex-shrink-0">
-                  <p className="text-indigo-300 text-xs font-semibold mb-3">
-                    🏢 {selectedConv.companyContact ? `Mudar empresa (atual: ${selectedConv.companyContact.company.name})` : "Atribuir este grupo a uma empresa"}
-                  </p>
-                  <div className="flex gap-2">
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-indigo-300 text-xs font-semibold">
+                      🏢 {selectedConv.companyContact ? `Empresa atual: ${selectedConv.companyContact.company.name}` : "Atribuir grupo a uma empresa"}
+                    </p>
+                    <button onClick={() => { setShowGroupCompany(false); setGroupCompanySearch(""); setGroupCompanyResults([]); setAssignGroupError(null); }} className="text-slate-600 hover:text-slate-300 text-xs">✕</button>
+                  </div>
+
+                  {/* Campo de busca */}
+                  <div className="flex gap-2 mb-2">
                     <input
                       autoFocus
                       type="text"
                       value={groupCompanySearch}
-                      onChange={(e) => { setGroupCompanySearch(e.target.value); if (e.target.value.length >= 1) searchGroupCompanies(e.target.value); }}
-                      placeholder="Buscar empresa..."
-                      className="flex-1 bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                      onChange={(e) => {
+                        setGroupCompanySearch(e.target.value);
+                        setAssignGroupError(null);
+                        if (e.target.value.length >= 1) searchGroupCompanies(e.target.value);
+                        else setGroupCompanyResults([]);
+                      }}
+                      placeholder="Digite o nome da empresa..."
+                      className="flex-1 bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
                     />
-                    {searchingGroupCompany && <span className="text-slate-500 text-xs self-center">...</span>}
+                    {searchingGroupCompany && <span className="text-slate-500 text-xs self-center px-1">...</span>}
                   </div>
+
+                  {/* Resultados */}
                   {groupCompanyResults.length > 0 && (
-                    <div className="mt-2 space-y-1">
+                    <div className="space-y-1 mb-2">
                       {groupCompanyResults.map((c) => (
                         <button
                           key={c.id}
                           onClick={() => handleAssignGroupCompany(c.id)}
-                          disabled={assigningGroupCompany}
-                          className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-[#0f1623] border border-[#1e2d45] hover:border-indigo-500/50 text-left transition-colors disabled:opacity-50"
+                          disabled={assigningGroupCompany || creatingGroupCompany}
+                          className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-[#0f1623] border border-[#1e2d45] hover:border-indigo-500/60 text-left transition-colors disabled:opacity-50"
                         >
                           <div>
                             <div className="text-white text-xs font-medium">{c.name}</div>
                             {c.segment && <div className="text-slate-500 text-[10px]">{c.segment}</div>}
                           </div>
-                          <span className="text-indigo-400 text-xs">{assigningGroupCompany ? "..." : "Selecionar →"}</span>
+                          <span className="text-indigo-400 text-xs flex-shrink-0 ml-2">
+                            {assigningGroupCompany ? "..." : "Selecionar →"}
+                          </span>
                         </button>
                       ))}
                     </div>
                   )}
-                  {groupCompanySearch && groupCompanyResults.length === 0 && !searchingGroupCompany && (
-                    <p className="text-slate-600 text-xs text-center py-2">Nenhuma empresa encontrada.</p>
+
+                  {/* Nenhum resultado → oferecer criar */}
+                  {groupCompanySearch.trim().length >= 1 && groupCompanyResults.length === 0 && !searchingGroupCompany && (
+                    <div className="mt-1 p-3 rounded-lg bg-[#0f1623] border border-dashed border-[#1e2d45]">
+                      <p className="text-slate-500 text-xs mb-2">
+                        Nenhuma empresa encontrada para <span className="text-white">"{groupCompanySearch}"</span>
+                      </p>
+                      <button
+                        onClick={() => handleCreateAndAssignCompany(groupCompanySearch)}
+                        disabled={creatingGroupCompany || assigningGroupCompany}
+                        className="w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium disabled:opacity-50 transition-colors"
+                      >
+                        {creatingGroupCompany ? "Criando..." : `➕ Criar empresa "${groupCompanySearch}"`}
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Erro */}
+                  {assignGroupError && (
+                    <p className="text-red-400 text-xs mt-2">{assignGroupError}</p>
                   )}
                 </div>
               )}
