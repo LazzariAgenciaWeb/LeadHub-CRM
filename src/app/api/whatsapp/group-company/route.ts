@@ -18,9 +18,11 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: "targetCompanyId obrigatório" }, { status: 400 });
   }
 
-  // Buscar contato existente do grupo (em qualquer empresa)
+  const isGroup = groupJid.includes("@g.us");
+
+  // Buscar contato existente (em qualquer empresa)
   const existing = await prisma.companyContact.findFirst({
-    where: { phone: groupJid, isGroup: true },
+    where: { phone: groupJid },
   });
 
   // Já está na empresa alvo — nada a fazer
@@ -28,7 +30,7 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ ok: true });
   }
 
-  const groupName = existing?.name ?? null;
+  const contactName = existing?.name ?? null;
 
   // Se existia em outra empresa, remover de lá
   if (existing) {
@@ -38,8 +40,8 @@ export async function PATCH(req: NextRequest) {
   // Criar (ou garantir) na empresa alvo
   const contact = await prisma.companyContact.upsert({
     where: { companyId_phone: { companyId: targetCompanyId, phone: groupJid } },
-    create: { phone: groupJid, name: groupName, isGroup: true, companyId: targetCompanyId },
-    update: { isGroup: true, ...(groupName ? { name: groupName } : {}) },
+    create: { phone: groupJid, name: contactName, isGroup, companyId: targetCompanyId },
+    update: { isGroup, ...(contactName ? { name: contactName } : {}) },
     include: { company: { select: { id: true, name: true } } },
   });
 

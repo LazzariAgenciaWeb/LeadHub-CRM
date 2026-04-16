@@ -137,6 +137,20 @@ export default function WhatsappManager({
   const [replyText, setReplyText] = useState("");
   const [sendingReply, setSendingReply] = useState(false);
   const [replyError, setReplyError] = useState<string | null>(null);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const replyTextareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Scroll to bottom button visibility
+  const [showScrollBtn, setShowScrollBtn] = useState(false);
+
+  // Participante de grupo: editar nome / mover empresa
+  const [editingParticipant, setEditingParticipant] = useState<string | null>(null); // phone
+  const [participantNames, setParticipantNames] = useState<Record<string, string>>({}); // phone → name
+  const [participantCompanies, setParticipantCompanies] = useState<Record<string, { id: string; name: string }>>({});
+  const [participantNameInput, setParticipantNameInput] = useState("");
+  const [participantCompanySearch, setParticipantCompanySearch] = useState("");
+  const [participantCompanyResults, setParticipantCompanyResults] = useState<{ id: string; name: string }[]>([]);
+  const [savingParticipant, setSavingParticipant] = useState(false);
 
   // Name editor
   const [editingName, setEditingName] = useState(false);
@@ -244,6 +258,13 @@ export default function WhatsappManager({
     if (force || nearBottom) {
       messagesEndRef.current?.scrollIntoView({ behavior: force ? "instant" : "smooth" });
     }
+  }
+
+  function handleMessagesScroll() {
+    const el = messagesContainerRef.current;
+    if (!el) return;
+    const distFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+    setShowScrollBtn(distFromBottom > 200);
   }
 
   useEffect(() => {
@@ -355,15 +376,16 @@ export default function WhatsappManager({
     return map;
   }, [instances]);
 
-  function resolveParticipant(participantPhone: string | null): { isOurs: boolean; label: string } | null {
+  function resolveParticipant(participantPhone: string | null): { isOurs: boolean; label: string; rawNorm: string } | null {
     if (!participantPhone) return null;
     const raw = participantPhone.replace("@s.whatsapp.net", "").replace(/\D/g, "");
     const norm = raw.replace(/^55/, "");
     const instanceName = instancePhoneMap.get(norm) ?? instancePhoneMap.get(raw);
-    if (instanceName) return { isOurs: true, label: instanceName };
-    // Mostrar número formatado do cliente
-    const display = norm.length >= 10 ? norm.replace(/^(\d{2})(\d{4,5})(\d{4})$/, "($1) $2-$3") : norm;
-    return { isOurs: false, label: display };
+    if (instanceName) return { isOurs: true, label: instanceName, rawNorm: norm };
+    // Usar nome salvo ou número formatado
+    const savedName = participantNames[norm] ?? participantNames[raw];
+    const display = savedName ?? (norm.length >= 10 ? norm.replace(/^(\d{2})(\d{4,5})(\d{4})$/, "($1) $2-$3") : norm);
+    return { isOurs: false, label: display, rawNorm: norm };
   }
 
   async function handleNewConv(e: React.FormEvent) {
@@ -396,6 +418,60 @@ export default function WhatsappManager({
       const conv = conversations.find((c) => c.phone === phone || c.phone.endsWith(phone));
       if (conv) loadConversation(conv);
     }, 500);
+  }
+
+  // Carregar nomes de participantes ao abrir conversa de grupo
+  async function loadParticipantContacts(phones: string[]) {
+    if (!phones.length) return;
+    const res = await fetch(`/api/whatsapp/participant-contact?phones=${phones.join(",")}`);
+    if (!res.ok) return;
+    const contacts: { phone: string; name: string | null; company: { id: string; name: string } | null }[] = await res.json();
+    const names: Record<string, string> = {};
+    const companies: Record<string, { id: string; name: string }> = {};
+    for (const c of contacts) {
+      if (c.name) names[c.phone] = c.name;
+      if (c.company) companies[c.phone] = c.company;
+    }
+    setParticipantNames(names);
+    setParticipantCompanies(companies);
+  }
+
+  async function handleOpenParticipantEdit(phone: string) {
+    const norm = phone.replace("@s.whatsapp.net", "").replace(/\D/g, "");
+    setEditingParticipant(norm);
+    setParticipantNameInput(participantNames[norm] ?? "");
+    setParticipantCompanySearch("");
+    setParticipantCompanyResults([]);
+  }
+
+  async function searchParticipantCompanies(q: string) {
+    if (!q.trim()) return;
+    const res = await fetch(`/api/companies?search=${encodeURIComponent(q)}`);
+    if (res.ok) {
+      const data = await res.json();
+      setParticipantCompanyResults((data.companies ?? data).slice(0, 6));
+    }
+  }
+
+  async function handleSaveParticipant(companyId?: string) {
+    if (!editingParticipant) return;
+    setSavingParticipant(true);
+    const res = await fetch("/api/whatsapp/participant-contact", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        phone: editingParticipant,
+        name: participantNameInput.trim() || undefined,
+        companyId,
+      }),
+    });
+    setSavingParticipant(false);
+    if (res.ok) {
+      const { contact } = await res.json();
+      setParticipantNames((prev) => ({ ...prev, [editingParticipant]: contact.name ?? prev[editingParticipant] }));
+      if (contact.company) setParticipantCompanies((prev) => ({ ...prev, [editingParticipant]: contact.company }));
+      setEditingParticipant(null);
+    }
   }
 
   async function searchGroupCompanies(q: string) {
@@ -544,7 +620,19 @@ export default function WhatsappManager({
       fetch(`/api/tickets?${ticketParams}`),
     ]);
 
-    setConvMessages(await msgsRes.json());
+    const msgs = await msgsRes.json();
+    setConvMessages(msgs);
+
+    // Para grupos: carregar nomes dos participantes
+    if (conv.phone.includes("@g.us")) {
+      const participantPhones = [...new Set(
+        msgs.filter((m: any) => m.participantPhone).map((m: any) =>
+          (m.participantPhone as string).replace("@s.whatsapp.net", "").replace(/\D/g, "")
+        )
+      )] as string[];
+      loadParticipantContacts(participantPhones);
+    }
+
     if (campaignsRes.ok) {
       const data = await campaignsRes.json();
       setCampaigns(data.campaigns ?? data);
@@ -1270,7 +1358,7 @@ export default function WhatsappManager({
         </div>
 
         {/* Conversation detail */}
-        <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-1 flex flex-col overflow-hidden relative">
           {!selectedConv ? (
             <div className="flex-1 flex items-center justify-center text-center p-8">
               <div>
@@ -1887,7 +1975,20 @@ export default function WhatsappManager({
               )}
 
               {/* Messages */}
-              <div ref={messagesContainerRef} className="flex-1 overflow-y-auto px-5 py-4 space-y-3">
+              {/* Botão flutuante: rolar para o final */}
+              {showScrollBtn && (
+                <div className="absolute bottom-[80px] right-6 z-20">
+                  <button
+                    onClick={() => { forceScrollRef.current = true; scrollToBottom(true); }}
+                    className="w-9 h-9 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg flex items-center justify-center text-base transition-colors"
+                    title="Ir para o final"
+                  >
+                    ↓
+                  </button>
+                </div>
+              )}
+
+              <div ref={messagesContainerRef} onScroll={handleMessagesScroll} className="flex-1 overflow-y-auto px-5 py-4 space-y-3">
                 {loadingMsgs ? (
                   <div className="flex items-center justify-center py-10 text-slate-500 text-sm">Carregando...</div>
                 ) : convMessages.length === 0 ? (
@@ -1929,11 +2030,16 @@ export default function WhatsappManager({
                             </div>
                           )}
 
-                          {/* Grupo: participante é cliente */}
+                          {/* Grupo: participante é cliente — clicável para nomear */}
                           {isGroupConv && groupParticipant && !groupParticipant.isOurs && (
-                            <div className="text-[10px] text-cyan-400 font-semibold mb-1 truncate">
+                            <button
+                              onClick={() => handleOpenParticipantEdit(groupParticipant.rawNorm)}
+                              className="text-[10px] text-cyan-400 hover:text-cyan-300 font-semibold mb-1 truncate text-left max-w-full flex items-center gap-1 group/participant"
+                              title="Clique para nomear este contato"
+                            >
                               👤 {groupParticipant.label}
-                            </div>
+                              <span className="opacity-0 group-hover/participant:opacity-60 text-[9px]">✏️</span>
+                            </button>
                           )}
 
                           {/* Individual recebido: nome do contato */}
@@ -1964,6 +2070,68 @@ export default function WhatsappManager({
                     );
                   })
                 )}
+                {/* Popup de edição de participante de grupo */}
+                {editingParticipant && (
+                  <div className="sticky bottom-2 mx-auto w-full max-w-sm bg-[#0d1525] border border-indigo-500/30 rounded-2xl p-4 shadow-2xl z-30">
+                    <div className="flex items-center justify-between mb-3">
+                      <p className="text-indigo-300 text-xs font-semibold">👤 Nomear contato</p>
+                      <button onClick={() => setEditingParticipant(null)} className="text-slate-600 hover:text-slate-300 text-xs">✕</button>
+                    </div>
+                    <p className="text-slate-600 text-[10px] mb-2 font-mono">{editingParticipant}</p>
+                    <input
+                      autoFocus
+                      type="text"
+                      value={participantNameInput}
+                      onChange={(e) => setParticipantNameInput(e.target.value)}
+                      placeholder="Nome do contato..."
+                      className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 mb-2"
+                    />
+                    {/* Vincular a empresa */}
+                    <div className="mb-3">
+                      <input
+                        type="text"
+                        value={participantCompanySearch}
+                        onChange={(e) => { setParticipantCompanySearch(e.target.value); if (e.target.value.length >= 1) searchParticipantCompanies(e.target.value); else setParticipantCompanyResults([]); }}
+                        placeholder="Empresa (opcional)..."
+                        className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                      />
+                      {participantCompanyResults.length > 0 && (
+                        <div className="mt-1 space-y-0.5 max-h-32 overflow-y-auto">
+                          {participantCompanyResults.map((c) => (
+                            <button
+                              key={c.id}
+                              onClick={() => { handleSaveParticipant(c.id); }}
+                              disabled={savingParticipant}
+                              className="w-full flex items-center justify-between px-3 py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] hover:border-indigo-500/50 text-left text-xs transition-colors disabled:opacity-50"
+                            >
+                              <span className="text-white">{c.name}</span>
+                              <span className="text-indigo-400 text-[10px]">{savingParticipant ? "..." : "Salvar →"}</span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                      {participantCompanies[editingParticipant] && (
+                        <p className="text-amber-400 text-[10px] mt-1">🏢 Empresa atual: {participantCompanies[editingParticipant].name}</p>
+                      )}
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleSaveParticipant()}
+                        disabled={savingParticipant}
+                        className="flex-1 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium disabled:opacity-50 transition-colors"
+                      >
+                        {savingParticipant ? "Salvando..." : "Salvar nome"}
+                      </button>
+                      <button
+                        onClick={() => setEditingParticipant(null)}
+                        className="px-3 py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] text-slate-400 text-xs hover:text-white transition-colors"
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 <div ref={messagesEndRef} />
               </div>
 
@@ -2053,23 +2221,75 @@ export default function WhatsappManager({
                   </div>
                 )}
                 {replyError && <div className="text-red-400 text-xs mb-2">{replyError}</div>}
-                <form onSubmit={handleReply} className="flex gap-2">
-                  <input
-                    type="text"
-                    value={replyText}
-                    onChange={(e) => setReplyText(e.target.value)}
-                    placeholder="Digite uma mensagem..."
-                    disabled={sendingReply}
-                    className="flex-1 bg-[#0f1623] border border-[#1e2d45] rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 disabled:opacity-50"
-                  />
+
+                {/* Emoji picker simples */}
+                {showEmojiPicker && (
+                  <div className="mb-2 p-2 bg-[#0a0f1a] border border-[#1e2d45] rounded-xl flex flex-wrap gap-1 max-h-28 overflow-y-auto">
+                    {["😀","😂","😊","😍","🤔","😢","😡","👍","👎","🙏","❤️","🔥","✅","⚠️","🎉","💪","👋","🤝","💡","📋","📞","💰","🗓️","✉️","🚀","⏰","🎯","📢","🔔","💬","👀","✏️","🏢","📊","🤩","😎","🥳","💯","🙌","🫡"].map((e) => (
+                      <button
+                        key={e}
+                        type="button"
+                        onClick={() => {
+                          const ta = replyTextareaRef.current;
+                          if (!ta) { setReplyText((t) => t + e); return; }
+                          const start = ta.selectionStart ?? replyText.length;
+                          const end = ta.selectionEnd ?? replyText.length;
+                          const next = replyText.slice(0, start) + e + replyText.slice(end);
+                          setReplyText(next);
+                          setTimeout(() => { ta.selectionStart = ta.selectionEnd = start + e.length; ta.focus(); }, 0);
+                        }}
+                        className="text-lg hover:scale-125 transition-transform leading-none"
+                      >
+                        {e}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                <form onSubmit={handleReply} className="flex items-end gap-2">
+                  <div className="flex-1 relative">
+                    <textarea
+                      ref={replyTextareaRef}
+                      value={replyText}
+                      onChange={(e) => {
+                        setReplyText(e.target.value);
+                        // Auto-expand: reset height then set to scrollHeight
+                        e.target.style.height = "auto";
+                        e.target.style.height = Math.min(e.target.scrollHeight, 160) + "px";
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.ctrlKey && !e.shiftKey) {
+                          e.preventDefault();
+                          if (replyText.trim() && !sendingReply) handleReply(e as any);
+                        }
+                        // Ctrl+Enter ou Shift+Enter → quebra de linha (comportamento default do textarea)
+                      }}
+                      placeholder="Digite uma mensagem... (Enter envia · Ctrl+Enter nova linha)"
+                      disabled={sendingReply}
+                      rows={1}
+                      className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-xl px-4 py-2.5 pr-10 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 disabled:opacity-50 resize-none overflow-hidden"
+                      style={{ minHeight: "42px", maxHeight: "160px" }}
+                    />
+                    {/* Botão emoji dentro do campo */}
+                    <button
+                      type="button"
+                      onClick={() => setShowEmojiPicker((v) => !v)}
+                      className={`absolute right-2.5 bottom-2.5 text-base transition-colors ${showEmojiPicker ? "text-yellow-400" : "text-slate-600 hover:text-slate-300"}`}
+                      title="Emojis"
+                    >
+                      😊
+                    </button>
+                  </div>
                   <button
                     type="submit"
                     disabled={sendingReply || !replyText.trim()}
                     className="px-4 py-2.5 rounded-xl bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-500 disabled:opacity-40 transition-colors flex-shrink-0"
+                    style={{ height: "42px" }}
                   >
-                    {sendingReply ? "..." : "Enviar"}
+                    {sendingReply ? "..." : "↑"}
                   </button>
                 </form>
+                <p className="text-slate-700 text-[10px] mt-1">Enter envia · Ctrl+Enter quebra linha</p>
               </div>
             </>
           )}
