@@ -15,9 +15,15 @@ const DEFAULT_STAGES = [
   { name: "Perdido", color: "#ef4444", order: 6, isFinal: true },
 ];
 
-export default async function LeadsPage() {
+export default async function LeadsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ lead?: string }>;
+}) {
   const session = await getEffectiveSession();
   if (!session) redirect("/login");
+  const sp = await searchParams;
+  const defaultLeadId = sp.lead;
 
   const isSuperAdmin = (session.user as any)?.role === "SUPER_ADMIN";
   const companyId = (session.user as any)?.companyId as string | undefined;
@@ -76,6 +82,7 @@ export default async function LeadsPage() {
       stages={stages}
       isSuperAdmin={isSuperAdmin}
       companies={companies}
+      defaultLeadId={defaultLeadId}
     />
   );
 }

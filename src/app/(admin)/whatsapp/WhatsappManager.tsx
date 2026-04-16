@@ -30,6 +30,7 @@ interface Conversation {
     id: string; name: string | null; status: string; notes: string | null;
     pipeline: string | null; pipelineStage: string | null;
     attendanceStatus: string | null; expectedReturnAt: string | null;
+    companyId?: string;
   } | null;
   lastMsg: {
     body: string;
@@ -187,6 +188,14 @@ export default function WhatsappManager({
   const [mergeResults, setMergeResults] = useState<{ phone: string; name: string | null }[]>([]);
   const [mergingContacts, setMergingContacts] = useState(false);
 
+  // Nova conversa (iniciar com número novo)
+  const [showNewConv, setShowNewConv] = useState(false);
+  const [newConvPhone, setNewConvPhone] = useState("");
+  const [newConvMsg, setNewConvMsg] = useState("");
+  const [newConvInstanceId, setNewConvInstanceId] = useState("");
+  const [sendingNewConv, setSendingNewConv] = useState(false);
+  const [newConvError, setNewConvError] = useState<string | null>(null);
+
   // Atribuir grupo a empresa
   const [showGroupCompany, setShowGroupCompany] = useState(false);
   const [groupCompanySearch, setGroupCompanySearch] = useState("");
@@ -221,10 +230,25 @@ export default function WhatsappManager({
   }, [showActionsMenu]);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const selectedConvRef = useRef<Conversation | null>(null);
+  // Flag para forçar scroll no próximo render (ao abrir conversa ou enviar mensagem)
+  const forceScrollRef = useRef(false);
+
+  function scrollToBottom(force = false) {
+    const el = messagesContainerRef.current;
+    if (!el) return;
+    const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 120;
+    if (force || nearBottom) {
+      messagesEndRef.current?.scrollIntoView({ behavior: force ? "instant" : "smooth" });
+    }
+  }
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const force = forceScrollRef.current;
+    forceScrollRef.current = false;
+    scrollToBottom(force);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [convMessages]);
 
   useEffect(() => {
@@ -340,6 +364,38 @@ export default function WhatsappManager({
     return { isOurs: false, label: display };
   }
 
+  async function handleNewConv(e: React.FormEvent) {
+    e.preventDefault();
+    const phone = newConvPhone.trim().replace(/\D/g, "");
+    if (!phone || !newConvMsg.trim()) return;
+    const instId = newConvInstanceId || instances.find((i) => i.status === "CONNECTED")?.id;
+    if (!instId) { setNewConvError("Nenhuma instância conectada."); return; }
+    setSendingNewConv(true);
+    setNewConvError(null);
+    const res = await fetch(`/api/whatsapp/${instId}/send`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone, text: newConvMsg.trim() }),
+    });
+    setSendingNewConv(false);
+    if (!res.ok) {
+      const d = await res.json();
+      setNewConvError(d.error ?? "Erro ao enviar");
+      return;
+    }
+    // Fechar o formulário e recarregar para a conversa aparecer
+    setShowNewConv(false);
+    setNewConvPhone("");
+    setNewConvMsg("");
+    setNewConvInstanceId("");
+    router.refresh();
+    // Após refresh, tentar abrir a nova conversa (pode demorar um ciclo)
+    setTimeout(() => {
+      const conv = conversations.find((c) => c.phone === phone || c.phone.endsWith(phone));
+      if (conv) loadConversation(conv);
+    }, 500);
+  }
+
   async function searchGroupCompanies(q: string) {
     if (!q.trim()) return;
     setSearchingGroupCompany(true);
@@ -423,6 +479,7 @@ export default function WhatsappManager({
   }
 
   async function loadConversation(conv: Conversation) {
+    forceScrollRef.current = true; // sempre vai ao fundo ao abrir conversa
     setSelectedConv(conv);
     setShowConvertForm(false);
     setShowTicketForm(false);
@@ -584,6 +641,7 @@ export default function WhatsappManager({
       const data = await res.json();
       setReplyError(data.error ?? "Erro ao enviar mensagem");
     } else {
+      forceScrollRef.current = true; // sempre vai ao fundo ao enviar mensagem
       setConvMessages((prev) => [
         ...prev,
         {
@@ -826,6 +884,13 @@ export default function WhatsappManager({
                 <span className="text-slate-600 text-[11px]">+{instances.length - 4}</span>
               )}
             </div>
+            <button
+              onClick={() => { setShowNewConv(!showNewConv); setNewConvError(null); }}
+              title="Nova conversa"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${showNewConv ? "bg-indigo-600 border-indigo-500 text-white" : "bg-[#0f1623] border-[#1e2d45] text-slate-300 hover:text-white hover:border-slate-500"}`}
+            >
+              ✉️ Nova
+            </button>
             <Link
               href="/configuracoes?secao=instancias"
               className="px-3 py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] text-slate-400 hover:text-white text-xs transition-colors"
@@ -835,6 +900,59 @@ export default function WhatsappManager({
           </div>
         </div>
       </div>
+
+      {/* Formulário Nova Conversa */}
+      {showNewConv && (
+        <div className="mx-6 mt-3 flex-shrink-0 bg-indigo-500/5 border border-indigo-500/20 rounded-xl p-4">
+          <p className="text-indigo-300 text-xs font-semibold mb-3">✉️ Iniciar nova conversa</p>
+          <form onSubmit={handleNewConv} className="space-y-2">
+            <input
+              autoFocus
+              type="text"
+              value={newConvPhone}
+              onChange={(e) => setNewConvPhone(e.target.value)}
+              placeholder="Telefone (ex: 55119...)"
+              className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+            />
+            <textarea
+              value={newConvMsg}
+              onChange={(e) => setNewConvMsg(e.target.value)}
+              placeholder="Mensagem..."
+              rows={2}
+              className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
+            />
+            {instances.length > 1 && (
+              <select
+                value={newConvInstanceId}
+                onChange={(e) => setNewConvInstanceId(e.target.value)}
+                className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
+              >
+                <option value="">Instância automática (conectada)</option>
+                {instances.filter((i) => i.status === "CONNECTED").map((i) => (
+                  <option key={i.id} value={i.id}>{i.instanceName}</option>
+                ))}
+              </select>
+            )}
+            {newConvError && <p className="text-red-400 text-xs">{newConvError}</p>}
+            <div className="flex gap-2">
+              <button
+                type="submit"
+                disabled={sendingNewConv || !newConvPhone.trim() || !newConvMsg.trim()}
+                className="flex-1 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium disabled:opacity-50 transition-colors"
+              >
+                {sendingNewConv ? "Enviando..." : "Enviar →"}
+              </button>
+              <button
+                type="button"
+                onClick={() => { setShowNewConv(false); setNewConvPhone(""); setNewConvMsg(""); setNewConvError(null); }}
+                className="px-3 py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] text-slate-400 text-xs hover:text-white transition-colors"
+              >
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
 
       {instances.length === 0 && (
         <div className="mx-6 mt-4 flex-shrink-0 bg-yellow-500/5 border border-yellow-500/20 rounded-xl p-4 flex items-center gap-3">
@@ -1215,10 +1333,10 @@ export default function WhatsappManager({
                     </Link>
                   )}
 
-                  {/* Pipeline → link para CRM */}
-                  {selectedConv.lead?.pipeline && (
+                  {/* Pipeline → link para CRM com ID do lead */}
+                  {selectedConv.lead?.pipeline && selectedConv.lead?.id && (
                     <Link
-                      href={`/crm`}
+                      href={`/crm/${selectedConv.lead.pipeline === "LEADS" ? "leads" : selectedConv.lead.pipeline === "OPORTUNIDADES" ? "oportunidades" : "prospeccao"}?lead=${selectedConv.lead.id}`}
                       className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border border-transparent hover:opacity-80 transition-opacity ${PIPELINE_BADGE[selectedConv.lead.pipeline] ?? "text-slate-400 bg-white/5"}`}
                     >
                       {PIPELINE_LABEL[selectedConv.lead.pipeline] ?? selectedConv.lead.pipeline}
@@ -1709,7 +1827,7 @@ export default function WhatsappManager({
               )}
 
               {/* Messages */}
-              <div className="flex-1 overflow-y-auto px-5 py-4 space-y-3">
+              <div ref={messagesContainerRef} className="flex-1 overflow-y-auto px-5 py-4 space-y-3">
                 {loadingMsgs ? (
                   <div className="flex items-center justify-center py-10 text-slate-500 text-sm">Carregando...</div>
                 ) : convMessages.length === 0 ? (

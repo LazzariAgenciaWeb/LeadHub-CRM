@@ -14,9 +14,15 @@ const DEFAULT_STAGES = [
   { name: "Descartado", color: "#ef4444", order: 5, isFinal: true },
 ];
 
-export default async function ProspeccaoPage() {
+export default async function ProspeccaoPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ lead?: string }>;
+}) {
   const session = await getEffectiveSession();
   if (!session) redirect("/login");
+  const sp = await searchParams;
+  const defaultLeadId = sp.lead;
 
   const isSuperAdmin = (session.user as any)?.role === "SUPER_ADMIN";
   const companyId = (session.user as any)?.companyId as string | undefined;
@@ -77,6 +83,7 @@ export default async function ProspeccaoPage() {
       initialLeads={leads as any}
       stages={stages}
       isSuperAdmin={isSuperAdmin}
+      defaultLeadId={defaultLeadId}
       companies={companies}
     />
   );

@@ -53,12 +53,14 @@ export default function CRMBoard({
   stages,
   isSuperAdmin,
   companies,
+  defaultLeadId,
 }: {
   pipeline: string;
   initialLeads: CRMLead[];
   stages: PipelineStage[];
   isSuperAdmin: boolean;
   companies: { id: string; name: string }[];
+  defaultLeadId?: string;
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -67,6 +69,14 @@ export default function CRMBoard({
   const [dragOverStage, setDragOverStage] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<CRMLead | null>(null);
+
+  // Auto-abrir lead quando vindo do WhatsApp via ?lead=ID
+  useEffect(() => {
+    if (!defaultLeadId) return;
+    const lead = initialLeads.find((l) => l.id === defaultLeadId);
+    if (lead) openCard(lead);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultLeadId]);
 
   // Card detail state
   const [comments, setComments] = useState<LeadComment[]>([]);
