@@ -24,6 +24,7 @@ export default async function WhatsappPage({
     select: {
       id: true,
       instanceName: true,
+      phone: true,
       status: true,
       company: { select: { id: true, name: true } },
     },
@@ -45,7 +46,13 @@ export default async function WhatsappPage({
         prisma.message.findFirst({
           where: { phone: p.phone, companyId: p.companyId },
           orderBy: { receivedAt: "desc" },
-          include: { instance: { select: { instanceName: true } } },
+          select: {
+            body: true,
+            direction: true,
+            receivedAt: true,
+            participantPhone: true,
+            instance: { select: { instanceName: true } },
+          },
         }),
         prisma.lead.findFirst({
           where: { phone: p.phone, companyId: p.companyId },

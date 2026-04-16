@@ -32,9 +32,28 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: false, error: "Payload inválido" }, { status: 400 });
     }
 
+    const normalizedEvent = event.toLowerCase().replace(/_/g, ".");
+
+    // CONNECTION_UPDATE → salvar telefone da instância quando conecta
+    if (normalizedEvent === "connection.update") {
+      const state = data?.state ?? data?.instance?.state;
+      if (state === "open") {
+        // Evolution v2 envia me.id = "5511999@s.whatsapp.net"
+        const meId: string | undefined = data?.me?.id ?? data?.instance?.owner;
+        if (meId) {
+          const phone = meId.replace("@s.whatsapp.net", "").replace(/\D/g, "");
+          await (await import("@/lib/prisma")).prisma.whatsappInstance.updateMany({
+            where: { instanceName: instance },
+            data: { phone },
+          });
+          console.log(`[Webhook WA] Instância ${instance} conectada com phone=${phone}`);
+        }
+      }
+      return NextResponse.json({ ok: true, skipped: "connection_update" });
+    }
+
     // Processar apenas mensagens recebidas
     // A Evolution pode enviar como "messages.upsert" ou "MESSAGES_UPSERT" (webhookByEvents=true)
-    const normalizedEvent = event.toLowerCase().replace(/_/g, ".");
     if (normalizedEvent !== "messages.upsert") {
       return NextResponse.json({ ok: true, skipped: true });
     }

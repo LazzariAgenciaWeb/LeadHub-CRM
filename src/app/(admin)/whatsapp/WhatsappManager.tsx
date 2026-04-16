@@ -7,6 +7,7 @@ import Link from "next/link";
 interface Instance {
   id: string;
   instanceName: string;
+  phone: string | null;
   status: "CONNECTED" | "DISCONNECTED" | "CONNECTING";
   company: { id: string; name: string } | null;
 }
@@ -34,6 +35,7 @@ interface Conversation {
     body: string;
     direction: string;
     receivedAt: string;
+    participantPhone: string | null;
     instance: { instanceName: string } | null;
   } | null;
   companyContact: CompanyContactInfo | null;
@@ -185,6 +187,13 @@ export default function WhatsappManager({
   const [mergeResults, setMergeResults] = useState<{ phone: string; name: string | null }[]>([]);
   const [mergingContacts, setMergingContacts] = useState(false);
 
+  // Atribuir grupo a empresa
+  const [showGroupCompany, setShowGroupCompany] = useState(false);
+  const [groupCompanySearch, setGroupCompanySearch] = useState("");
+  const [groupCompanyResults, setGroupCompanyResults] = useState<{ id: string; name: string; segment: string | null }[]>([]);
+  const [searchingGroupCompany, setSearchingGroupCompany] = useState(false);
+  const [assigningGroupCompany, setAssigningGroupCompany] = useState(false);
+
   // Instância selecionada para responder grupos (persiste em localStorage)
   const [groupInstanceId, setGroupInstanceId] = useState<string>(() => {
     if (typeof window !== "undefined") return localStorage.getItem("group_instance_id") ?? "";
@@ -306,6 +315,62 @@ export default function WhatsappManager({
     }
     return counts;
   }, [conversations]);
+
+  // Mapa phone → instanceName para identificar "nossos números" em grupos
+  const instancePhoneMap = useMemo(() => {
+    const map = new Map<string, string>(); // normalized phone → instanceName
+    for (const inst of instances) {
+      if (inst.phone) {
+        const norm = inst.phone.replace("@s.whatsapp.net", "").replace(/\D/g, "").replace(/^55/, "");
+        map.set(norm, inst.instanceName);
+        map.set(inst.phone.replace("@s.whatsapp.net", "").replace(/\D/g, ""), inst.instanceName);
+      }
+    }
+    return map;
+  }, [instances]);
+
+  function resolveParticipant(participantPhone: string | null): { isOurs: boolean; label: string } | null {
+    if (!participantPhone) return null;
+    const raw = participantPhone.replace("@s.whatsapp.net", "").replace(/\D/g, "");
+    const norm = raw.replace(/^55/, "");
+    const instanceName = instancePhoneMap.get(norm) ?? instancePhoneMap.get(raw);
+    if (instanceName) return { isOurs: true, label: instanceName };
+    // Mostrar número formatado do cliente
+    const display = norm.length >= 10 ? norm.replace(/^(\d{2})(\d{4,5})(\d{4})$/, "($1) $2-$3") : norm;
+    return { isOurs: false, label: display };
+  }
+
+  async function searchGroupCompanies(q: string) {
+    if (!q.trim()) return;
+    setSearchingGroupCompany(true);
+    const params = new URLSearchParams({ search: q });
+    if (selectedConv?.companyId) params.set("companyId", selectedConv.companyId);
+    const res = await fetch(`/api/companies?${params}`);
+    if (res.ok) {
+      const data = await res.json();
+      setGroupCompanyResults((data.companies ?? data).slice(0, 8));
+    }
+    setSearchingGroupCompany(false);
+  }
+
+  async function handleAssignGroupCompany(targetCompanyId: string) {
+    if (!selectedConv) return;
+    setAssigningGroupCompany(true);
+    const res = await fetch("/api/whatsapp/group-company", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ groupJid: selectedConv.phone, targetCompanyId }),
+    });
+    setAssigningGroupCompany(false);
+    if (res.ok) {
+      const { contact } = await res.json();
+      setSelectedConv({ ...selectedConv, companyContact: { id: contact.id, name: contact.name, role: "CONTACT", hasAccess: false, company: contact.company } });
+      setShowGroupCompany(false);
+      setGroupCompanySearch("");
+      setGroupCompanyResults([]);
+      router.refresh();
+    }
+  }
 
   async function handleSaveName(e: React.FormEvent) {
     e.preventDefault();
@@ -950,6 +1015,12 @@ export default function WhatsappManager({
                 const instanceName = conv.lastMsg?.instance?.instanceName;
                 const isSelected = selectedConv?.phone === conv.phone;
                 const { ring, icon, pulse } = getUrgencyRing(conv);
+                // Grupos: verificar se aguarda resposta nossa (último INBOUND de participante não-instância)
+                const isGroupConvItem = conv.phone.includes("@g.us");
+                const groupWaiting = isGroupConvItem && conv.lastMsg?.direction === "INBOUND" && (() => {
+                  const p = resolveParticipant(conv.lastMsg?.participantPhone ?? null);
+                  return p ? !p.isOurs : false;
+                })();
                 return (
                   <div
                     key={conv.phone}
@@ -989,20 +1060,26 @@ export default function WhatsappManager({
                                 <span className="text-white text-[13px] font-semibold truncate leading-tight">
                                   {conv.lead?.name ?? conv.companyContact?.name ?? conv.phone}
                                 </span>
-                                {conv.phone.includes("@g.us") && (
+                                        {conv.phone.includes("@g.us") && (
                                   <span title="Grupo" className="text-slate-400 text-[11px] flex-shrink-0">👥</span>
+                                )}
+                                {groupWaiting && (
+                                  <span title="Aguardando resposta" className="text-yellow-400 text-[11px] flex-shrink-0">⏳</span>
                                 )}
                                 {conv.companyContact && (
                                   <span title={`Cliente: ${conv.companyContact.company.name}`} className="text-amber-400 text-[11px] flex-shrink-0">⭐</span>
                                 )}
                               </div>
-                              {(conv.lead?.name || conv.companyContact?.name) && (
+                              {(conv.lead?.name || conv.companyContact?.name) && !conv.phone.includes("@g.us") && (
                                 <div className="text-slate-600 text-[10px] leading-tight">{conv.phone}</div>
                               )}
                               {conv.companyContact && (
                                 <div className="text-amber-400/70 text-[10px] leading-tight truncate">
                                   🏢 {conv.companyContact.company.name}
                                 </div>
+                              )}
+                              {conv.phone.includes("@g.us") && !conv.companyContact && (
+                                <div className="text-slate-700 text-[10px] leading-tight">Sem empresa</div>
                               )}
                             </div>
                           </div>
@@ -1182,8 +1259,18 @@ export default function WhatsappManager({
                     {showActionsMenu && (
                       <div className="absolute right-0 top-full mt-1.5 w-52 bg-[#0d1525] border border-[#1e2d45] rounded-xl shadow-2xl z-50 overflow-hidden py-1">
 
-                        {/* Vincular como cliente */}
-                        {!selectedConv.companyContact && (
+                        {/* Atribuir grupo a empresa (só para grupos) */}
+                        {selectedConv.phone.includes("@g.us") && (
+                          <button
+                            onClick={() => { setShowGroupCompany(!showGroupCompany); setShowActionsMenu(false); setGroupCompanySearch(""); setGroupCompanyResults([]); }}
+                            className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
+                          >
+                            <span>🏢</span> {selectedConv.companyContact ? "Mudar empresa" : "Atribuir empresa"}
+                          </button>
+                        )}
+
+                        {/* Vincular como cliente (só para não-grupos) */}
+                        {!selectedConv.companyContact && !selectedConv.phone.includes("@g.us") && (
                           <button
                             onClick={() => { setShowAddCompany(!showAddCompany); setShowActionsMenu(false); setShowLinkProspect(false); setShowConvertForm(false); setShowTicketForm(false); }}
                             className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
@@ -1268,6 +1355,47 @@ export default function WhatsappManager({
                       </span>
                     )}
                   </div>
+                </div>
+              )}
+
+              {/* Painel: Atribuir grupo a empresa */}
+              {showGroupCompany && selectedConv.phone.includes("@g.us") && (
+                <div className="px-5 py-4 border-b border-[#1e2d45] bg-indigo-500/5 flex-shrink-0">
+                  <p className="text-indigo-300 text-xs font-semibold mb-3">
+                    🏢 {selectedConv.companyContact ? `Mudar empresa (atual: ${selectedConv.companyContact.company.name})` : "Atribuir este grupo a uma empresa"}
+                  </p>
+                  <div className="flex gap-2">
+                    <input
+                      autoFocus
+                      type="text"
+                      value={groupCompanySearch}
+                      onChange={(e) => { setGroupCompanySearch(e.target.value); if (e.target.value.length >= 1) searchGroupCompanies(e.target.value); }}
+                      placeholder="Buscar empresa..."
+                      className="flex-1 bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                    />
+                    {searchingGroupCompany && <span className="text-slate-500 text-xs self-center">...</span>}
+                  </div>
+                  {groupCompanyResults.length > 0 && (
+                    <div className="mt-2 space-y-1">
+                      {groupCompanyResults.map((c) => (
+                        <button
+                          key={c.id}
+                          onClick={() => handleAssignGroupCompany(c.id)}
+                          disabled={assigningGroupCompany}
+                          className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-[#0f1623] border border-[#1e2d45] hover:border-indigo-500/50 text-left transition-colors disabled:opacity-50"
+                        >
+                          <div>
+                            <div className="text-white text-xs font-medium">{c.name}</div>
+                            {c.segment && <div className="text-slate-500 text-[10px]">{c.segment}</div>}
+                          </div>
+                          <span className="text-indigo-400 text-xs">{assigningGroupCompany ? "..." : "Selecionar →"}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  {groupCompanySearch && groupCompanyResults.length === 0 && !searchingGroupCompany && (
+                    <p className="text-slate-600 text-xs text-center py-2">Nenhuma empresa encontrada.</p>
+                  )}
                 </div>
               )}
 
@@ -1590,44 +1718,63 @@ export default function WhatsappManager({
                   convMessages.map((msg) => {
                     const isOut = msg.direction === "OUTBOUND";
                     const isGroupConv = selectedConv?.phone.includes("@g.us");
-                    // Detectar se é mensagem de mídia (emoji descritor sem outro texto)
                     const MEDIA_PREFIXES = ["🎵", "🎤", "🖼️", "🎥", "📎", "😄", "📍", "👤"];
                     const isMedia = MEDIA_PREFIXES.some(p => msg.body?.startsWith(p));
+
+                    // Resolver remetente do grupo (INBOUND): nosso número ou cliente
+                    const groupParticipant = isGroupConv && !isOut
+                      ? resolveParticipant(msg.participantPhone)
+                      : null;
+
+                    // Em grupo, mensagem INBOUND de um dos nossos números → estilo "enviado"
+                    const isOursInGroup = isGroupConv && !isOut && groupParticipant?.isOurs === true;
 
                     // Nome do remetente para mensagens recebidas (conversa individual)
                     const contactDisplayName = !isGroupConv && !isOut
                       ? (selectedConv?.lead?.name ?? selectedConv?.companyContact?.name ?? selectedConv?.phone)
                       : null;
 
-                    // Participante em grupos: tentar mapear para nome de contato conhecido
-                    const rawParticipant = isGroupConv && !isOut && msg.participantPhone
-                      ? msg.participantPhone.replace("@s.whatsapp.net", "").replace(/\D/g, "").replace(/^55/, "")
-                      : null;
+                    // Estilo do bubble
+                    const bubbleStyle = isOut || isOursInGroup
+                      ? "bg-indigo-600 text-white rounded-tr-none"
+                      : "bg-[#0f1623] border border-[#1e2d45] text-slate-200 rounded-tl-none";
+                    const bubbleAlign = isOut || isOursInGroup ? "items-end" : "items-start";
 
                     return (
-                      <div key={msg.id} className={`flex flex-col ${isOut ? "items-end" : "items-start"}`}>
-                        <div className={`max-w-[75%] rounded-2xl px-4 py-2.5 ${isOut ? "bg-indigo-600 text-white rounded-tr-none" : "bg-[#0f1623] border border-[#1e2d45] text-slate-200 rounded-tl-none"}`}>
-                          {/* Remetente: quem enviou dentro do grupo */}
-                          {rawParticipant && (
-                            <div className="text-[10px] text-indigo-400 font-semibold mb-1 truncate">
-                              {rawParticipant}
+                      <div key={msg.id} className={`flex flex-col ${bubbleAlign}`}>
+                        <div className={`max-w-[75%] rounded-2xl px-4 py-2.5 ${bubbleStyle}`}>
+
+                          {/* Grupo: participante é um dos nossos números → mostrar instância */}
+                          {isGroupConv && groupParticipant?.isOurs && (
+                            <div className={`text-[10px] font-semibold mb-1 truncate ${getInstanceBadgeColor(groupParticipant.label).split(" ").filter(c => c.startsWith("text-")).join(" ")}`}>
+                              📤 {groupParticipant.label}
                             </div>
                           )}
-                          {/* Remetente: nome do contato em conversa individual recebida */}
+
+                          {/* Grupo: participante é cliente */}
+                          {isGroupConv && groupParticipant && !groupParticipant.isOurs && (
+                            <div className="text-[10px] text-cyan-400 font-semibold mb-1 truncate">
+                              👤 {groupParticipant.label}
+                            </div>
+                          )}
+
+                          {/* Individual recebido: nome do contato */}
                           {contactDisplayName && (
                             <div className="text-[10px] text-cyan-400 font-semibold mb-1 truncate">
                               {contactDisplayName}
                             </div>
                           )}
-                          {/* Remetente: via qual instância foi enviada (outbound) */}
+
+                          {/* Individual enviado / outbound direto: via instância */}
                           {isOut && msg.instance && (
                             <div className={`text-[10px] font-semibold mb-1 truncate ${getInstanceBadgeColor(msg.instance.instanceName).split(" ").filter(c => c.startsWith("text-")).join(" ")}`}>
                               Via {msg.instance.instanceName}
                             </div>
                           )}
-                          <p className={`text-sm whitespace-pre-wrap break-words ${isMedia ? (isOut ? "italic text-indigo-200" : "italic text-slate-400") : ""}`}>{msg.body}</p>
-                          <div className={`flex items-center gap-2 mt-1 flex-wrap ${isOut ? "justify-end" : "justify-start"}`}>
-                            <span className={`text-[10px] ${isOut ? "text-indigo-200/60" : "text-slate-600"}`}>
+
+                          <p className={`text-sm whitespace-pre-wrap break-words ${isMedia ? (isOut || isOursInGroup ? "italic text-indigo-200" : "italic text-slate-400") : ""}`}>{msg.body}</p>
+                          <div className={`flex items-center gap-2 mt-1 flex-wrap ${isOut || isOursInGroup ? "justify-end" : "justify-start"}`}>
+                            <span className={`text-[10px] ${isOut || isOursInGroup ? "text-indigo-200/60" : "text-slate-600"}`}>
                               {new Date(msg.receivedAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
                             </span>
                             {msg.campaign && (
