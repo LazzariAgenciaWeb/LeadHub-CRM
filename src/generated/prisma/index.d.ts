@@ -16171,6 +16171,7 @@ export namespace Prisma {
     category: string | null
     phone: string | null
     clickupTaskId: string | null
+    ticketStage: string | null
     createdAt: Date | null
     updatedAt: Date | null
     companyId: string | null
@@ -16186,6 +16187,7 @@ export namespace Prisma {
     category: string | null
     phone: string | null
     clickupTaskId: string | null
+    ticketStage: string | null
     createdAt: Date | null
     updatedAt: Date | null
     companyId: string | null
@@ -16201,6 +16203,7 @@ export namespace Prisma {
     category: number
     phone: number
     clickupTaskId: number
+    ticketStage: number
     createdAt: number
     updatedAt: number
     companyId: number
@@ -16218,6 +16221,7 @@ export namespace Prisma {
     category?: true
     phone?: true
     clickupTaskId?: true
+    ticketStage?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -16233,6 +16237,7 @@ export namespace Prisma {
     category?: true
     phone?: true
     clickupTaskId?: true
+    ticketStage?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -16248,6 +16253,7 @@ export namespace Prisma {
     category?: true
     phone?: true
     clickupTaskId?: true
+    ticketStage?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -16336,6 +16342,7 @@ export namespace Prisma {
     category: string | null
     phone: string | null
     clickupTaskId: string | null
+    ticketStage: string | null
     createdAt: Date
     updatedAt: Date
     companyId: string
@@ -16368,6 +16375,7 @@ export namespace Prisma {
     category?: boolean
     phone?: boolean
     clickupTaskId?: boolean
+    ticketStage?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
@@ -16387,6 +16395,7 @@ export namespace Prisma {
     category?: boolean
     phone?: boolean
     clickupTaskId?: boolean
+    ticketStage?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
@@ -16404,6 +16413,7 @@ export namespace Prisma {
     category?: boolean
     phone?: boolean
     clickupTaskId?: boolean
+    ticketStage?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
@@ -16437,6 +16447,7 @@ export namespace Prisma {
       category: string | null
       phone: string | null
       clickupTaskId: string | null
+      ticketStage: string | null
       createdAt: Date
       updatedAt: Date
       companyId: string
@@ -16845,6 +16856,7 @@ export namespace Prisma {
     readonly category: FieldRef<"Ticket", 'String'>
     readonly phone: FieldRef<"Ticket", 'String'>
     readonly clickupTaskId: FieldRef<"Ticket", 'String'>
+    readonly ticketStage: FieldRef<"Ticket", 'String'>
     readonly createdAt: FieldRef<"Ticket", 'DateTime'>
     readonly updatedAt: FieldRef<"Ticket", 'DateTime'>
     readonly companyId: FieldRef<"Ticket", 'String'>
@@ -18396,6 +18408,7 @@ export namespace Prisma {
     category: 'category',
     phone: 'phone',
     clickupTaskId: 'clickupTaskId',
+    ticketStage: 'ticketStage',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     companyId: 'companyId',
@@ -19768,6 +19781,7 @@ export namespace Prisma {
     category?: StringNullableFilter<"Ticket"> | string | null
     phone?: StringNullableFilter<"Ticket"> | string | null
     clickupTaskId?: StringNullableFilter<"Ticket"> | string | null
+    ticketStage?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     companyId?: StringFilter<"Ticket"> | string
@@ -19786,6 +19800,7 @@ export namespace Prisma {
     category?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
+    ticketStage?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -19807,6 +19822,7 @@ export namespace Prisma {
     category?: StringNullableFilter<"Ticket"> | string | null
     phone?: StringNullableFilter<"Ticket"> | string | null
     clickupTaskId?: StringNullableFilter<"Ticket"> | string | null
+    ticketStage?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     companyId?: StringFilter<"Ticket"> | string
@@ -19825,6 +19841,7 @@ export namespace Prisma {
     category?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
+    ticketStage?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -19846,6 +19863,7 @@ export namespace Prisma {
     category?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     phone?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     clickupTaskId?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
+    ticketStage?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Ticket"> | Date | string
     companyId?: StringWithAggregatesFilter<"Ticket"> | string
@@ -21118,6 +21136,7 @@ export namespace Prisma {
     category?: string | null
     phone?: string | null
     clickupTaskId?: string | null
+    ticketStage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -21134,6 +21153,7 @@ export namespace Prisma {
     category?: string | null
     phone?: string | null
     clickupTaskId?: string | null
+    ticketStage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -21150,6 +21170,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -21166,6 +21187,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -21182,6 +21204,7 @@ export namespace Prisma {
     category?: string | null
     phone?: string | null
     clickupTaskId?: string | null
+    ticketStage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -21197,6 +21220,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21210,6 +21234,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -22390,6 +22415,7 @@ export namespace Prisma {
     category?: SortOrder
     phone?: SortOrder
     clickupTaskId?: SortOrder
+    ticketStage?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -22405,6 +22431,7 @@ export namespace Prisma {
     category?: SortOrder
     phone?: SortOrder
     clickupTaskId?: SortOrder
+    ticketStage?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -22420,6 +22447,7 @@ export namespace Prisma {
     category?: SortOrder
     phone?: SortOrder
     clickupTaskId?: SortOrder
+    ticketStage?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -24258,6 +24286,7 @@ export namespace Prisma {
     category?: string | null
     phone?: string | null
     clickupTaskId?: string | null
+    ticketStage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -24273,6 +24302,7 @@ export namespace Prisma {
     category?: string | null
     phone?: string | null
     clickupTaskId?: string | null
+    ticketStage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -24405,6 +24435,7 @@ export namespace Prisma {
     category?: StringNullableFilter<"Ticket"> | string | null
     phone?: StringNullableFilter<"Ticket"> | string | null
     clickupTaskId?: StringNullableFilter<"Ticket"> | string | null
+    ticketStage?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     companyId?: StringFilter<"Ticket"> | string
@@ -24695,6 +24726,7 @@ export namespace Prisma {
     category?: string | null
     phone?: string | null
     clickupTaskId?: string | null
+    ticketStage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
@@ -24710,6 +24742,7 @@ export namespace Prisma {
     category?: string | null
     phone?: string | null
     clickupTaskId?: string | null
+    ticketStage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById?: string | null
@@ -27658,6 +27691,7 @@ export namespace Prisma {
     category?: string | null
     phone?: string | null
     clickupTaskId?: string | null
+    ticketStage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -27673,6 +27707,7 @@ export namespace Prisma {
     category?: string | null
     phone?: string | null
     clickupTaskId?: string | null
+    ticketStage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -27704,6 +27739,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -27719,6 +27755,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -27734,6 +27771,7 @@ export namespace Prisma {
     category?: string | null
     phone?: string | null
     clickupTaskId?: string | null
+    ticketStage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -27748,6 +27786,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -27763,6 +27802,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -27778,6 +27818,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -27873,6 +27914,7 @@ export namespace Prisma {
     category?: string | null
     phone?: string | null
     clickupTaskId?: string | null
+    ticketStage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById?: string | null
@@ -28183,6 +28225,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
@@ -28198,6 +28241,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28213,6 +28257,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null

@@ -1,6 +1,4 @@
 import { getEffectiveSession } from "@/lib/effective-session";
-
-
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import TicketDetail from "./TicketDetail";
@@ -25,14 +23,42 @@ export default async function TicketPage({
   });
 
   if (!ticket) notFound();
-
   if (!isSuperAdmin && ticket.companyId !== userCompanyId) notFound();
+
+  // Load CHAMADOS stages
+  const stagesWhere = isSuperAdmin
+    ? { pipeline: "CHAMADOS" as const }
+    : { pipeline: "CHAMADOS" as const, companyId: userCompanyId ?? "" };
+
+  let stages = await prisma.pipelineStageConfig.findMany({
+    where: stagesWhere,
+    orderBy: { order: "asc" },
+  });
+
+  // Deduplicate for super admin
+  if (isSuperAdmin) {
+    const seen = new Set<string>();
+    stages = stages.filter((s) => (seen.has(s.name) ? false : (seen.add(s.name), true)));
+  }
+
+  // Fallback default stages if none configured
+  if (stages.length === 0) {
+    stages = [
+      { id: "d0", name: "Novo",               color: "#6366f1", order: 0, isFinal: false, pipeline: "CHAMADOS", companyId: "", createdAt: new Date(), updatedAt: new Date() },
+      { id: "d1", name: "Em Análise",         color: "#8b5cf6", order: 1, isFinal: false, pipeline: "CHAMADOS", companyId: "", createdAt: new Date(), updatedAt: new Date() },
+      { id: "d2", name: "Aguardando Cliente", color: "#f59e0b", order: 2, isFinal: false, pipeline: "CHAMADOS", companyId: "", createdAt: new Date(), updatedAt: new Date() },
+      { id: "d3", name: "Em Execução",        color: "#3b82f6", order: 3, isFinal: false, pipeline: "CHAMADOS", companyId: "", createdAt: new Date(), updatedAt: new Date() },
+      { id: "d4", name: "Resolvido ✅",       color: "#22c55e", order: 4, isFinal: true,  pipeline: "CHAMADOS", companyId: "", createdAt: new Date(), updatedAt: new Date() },
+      { id: "d5", name: "Fechado",            color: "#64748b", order: 5, isFinal: true,  pipeline: "CHAMADOS", companyId: "", createdAt: new Date(), updatedAt: new Date() },
+    ] as any;
+  }
 
   return (
     <TicketDetail
       ticket={ticket as any}
       isSuperAdmin={isSuperAdmin}
       currentUserName={session?.user?.name ?? "Usuário"}
+      stages={stages as any}
     />
   );
 }

@@ -42,13 +42,14 @@ export async function PATCH(
 
   const { id } = await params;
   const body = await req.json();
-  const { status, priority, category, title, clickupTaskId } = body;
+  const { status, priority, category, title, clickupTaskId, ticketStage } = body;
 
   const ticket = await prisma.ticket.update({
     where: { id },
     data: {
       status, priority, category, title,
       ...(clickupTaskId !== undefined && { clickupTaskId: clickupTaskId ?? null }),
+      ...(ticketStage !== undefined && { ticketStage: ticketStage ?? null }),
     },
     include: { company: { select: { id: true, name: true } } },
   });

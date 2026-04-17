@@ -292,6 +292,7 @@ exports.Prisma.TicketScalarFieldEnum = {
   category: 'category',
   phone: 'phone',
   clickupTaskId: 'clickupTaskId',
+  ticketStage: 'ticketStage',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   companyId: 'companyId',

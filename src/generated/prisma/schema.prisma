@@ -353,6 +353,7 @@ model Ticket {
   category      String?
   phone         String? // telefone WhatsApp de origem (quando criado via WhatsApp)
   clickupTaskId String? // ID ou URL da tarefa no ClickUp
+  ticketStage   String? // etapa configurável do kanban de chamados
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 

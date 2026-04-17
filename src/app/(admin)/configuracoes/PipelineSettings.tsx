@@ -16,6 +16,7 @@ const PIPELINES = [
   { key: "PROSPECCAO", label: "🔎 Prospecção", desc: "Contatos frios do BDR" },
   { key: "LEADS", label: "🎯 Leads", desc: "Prospects com interesse" },
   { key: "OPORTUNIDADES", label: "💡 Oportunidades", desc: "Em negociação / orçamento" },
+  { key: "CHAMADOS", label: "🎫 Chamados", desc: "Etapas de atendimento" },
 ];
 
 const COLOR_PRESETS = [
@@ -33,7 +34,7 @@ export default function PipelineSettings({
 }) {
   const router = useRouter();
   const [stages, setStages] = useState(initialStages);
-  const [activeTab, setActiveTab] = useState("PROSPECCAO");
+  const [activeTab, setActiveTab] = useState("CHAMADOS");
   const [addingTo, setAddingTo] = useState<string | null>(null);
   const [newName, setNewName] = useState("");
   const [newColor, setNewColor] = useState("#6366f1");

@@ -30,6 +30,14 @@ const DEFAULT_STAGES: Record<string, { name: string; color: string; order: numbe
     { name: "Fechado ✅",             color: "#22c55e", order: 4, isFinal: true  },
     { name: "Perdido ❌",             color: "#ef4444", order: 5, isFinal: true  },
   ],
+  CHAMADOS: [
+    { name: "Novo",                  color: "#6366f1", order: 0, isFinal: false },
+    { name: "Em Análise",            color: "#8b5cf6", order: 1, isFinal: false },
+    { name: "Aguardando Cliente",    color: "#f59e0b", order: 2, isFinal: false },
+    { name: "Em Execução",           color: "#3b82f6", order: 3, isFinal: false },
+    { name: "Resolvido ✅",          color: "#22c55e", order: 4, isFinal: true  },
+    { name: "Fechado",               color: "#64748b", order: 5, isFinal: true  },
+  ],
 };
 
 // POST /api/pipeline/stages/seed
@@ -44,7 +52,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const { pipeline, companyId, force } = body;
 
-  if (!pipeline || !DEFAULT_STAGES[pipeline]) {
+  if (!pipeline) {
     return NextResponse.json({ error: "Pipeline inválido" }, { status: 400 });
   }
 
