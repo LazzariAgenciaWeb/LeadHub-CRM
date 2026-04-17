@@ -4,6 +4,7 @@ import SettingsLayout from "./SettingsLayout";
 import SettingsForm from "./SettingsForm";
 import InstancesSection from "./InstancesSection";
 import PipelineSettings from "./PipelineSettings";
+import ClickupSettings from "./ClickupSettings";
 
 export default async function ConfiguracoesPage({
   searchParams,
@@ -16,7 +17,6 @@ export default async function ConfiguracoesPage({
 
   const sp = await searchParams;
   const secao = sp.secao ?? "instancias";
-  const effectiveCompanyId = isSuperAdmin ? undefined : userCompanyId;
 
   const webhookBaseUrl = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
 
@@ -48,12 +48,7 @@ export default async function ConfiguracoesPage({
         webhookBaseUrl={webhookBaseUrl}
       />
     );
-  } else {
-    // empresa + integracoes — usa o SettingsForm existente
-    const settingsRaw = await prisma.setting.findMany();
-    const settings: Record<string, string> = {};
-    for (const s of settingsRaw) settings[s.key] = s.value;
-
+  } else if (secao === "empresa") {
     let company = null;
     if (userCompanyId) {
       company = await prisma.company.findUnique({
@@ -61,23 +56,33 @@ export default async function ConfiguracoesPage({
         select: { id: true, name: true, phone: true, email: true, website: true, segment: true, logoUrl: true },
       });
     }
-
-    const showEmpresa = secao === "empresa";
-    const showIntegracoes = secao === "integracoes";
+    content = (
+      <div className="p-6 max-w-2xl">
+        <SettingsForm isSuperAdmin={false} settings={{}} company={company} onlyCompany />
+      </div>
+    );
+  } else if (secao === "integracoes-evolution" || secao === "integracoes") {
+    // Legacy "integracoes" redirects to Evolution sub-section
+    const settingsRaw = await prisma.setting.findMany();
+    const settings: Record<string, string> = {};
+    for (const s of settingsRaw) settings[s.key] = s.value;
 
     content = (
       <div className="p-6 max-w-2xl">
-        {showEmpresa && (
-          <SettingsForm isSuperAdmin={false} settings={{}} company={company} onlyCompany />
-        )}
-        {showIntegracoes && (
-          <SettingsForm isSuperAdmin={isSuperAdmin} settings={settings} company={null} onlyIntegrations />
-        )}
+        <SettingsForm isSuperAdmin={isSuperAdmin} settings={settings} company={null} onlyIntegrations />
       </div>
     );
-  }
+  } else if (secao === "integracoes-clickup") {
+    const settingsRaw = await prisma.setting.findMany({
+      where: {
+        key: { in: ["clickup_api_token", "clickup_oportunidades_list_id", "clickup_tickets_list_id"] },
+      },
+    });
+    const settings: Record<string, string> = {};
+    for (const s of settingsRaw) settings[s.key] = s.value;
 
-  if (secao === "pipeline") {
+    content = <ClickupSettings settings={settings} />;
+  } else if (secao === "pipeline") {
     // Para SUPER_ADMIN sem companyId próprio, usa a primeira empresa do sistema
     let pipelineCompanyId = userCompanyId;
     if (!pipelineCompanyId) {
@@ -98,6 +103,8 @@ export default async function ConfiguracoesPage({
         companyId={pipelineCompanyId ?? ""}
       />
     );
+  } else {
+    content = <div className="p-6 text-slate-500 text-sm">Seção não encontrada.</div>;
   }
 
   return (

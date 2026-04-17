@@ -26,6 +26,7 @@ export interface CRMLead {
   createdAt: string;
   campaign: { id: string; name: string } | null;
   company: { id: string; name: string } | null;
+  clickupTaskId: string | null;
 }
 
 export interface LeadComment {
@@ -102,6 +103,11 @@ export default function CRMBoard({
   const [linkingConv, setLinkingConv] = useState(false);
   const [linkResult, setLinkResult] = useState<string | null>(null);
 
+  // ClickUp task ID (só Oportunidades)
+  const [editingClickup, setEditingClickup] = useState(false);
+  const [clickupInput, setClickupInput] = useState("");
+  const [savingClickup, setSavingClickup] = useState(false);
+
   // BDR Sync
   const [syncing, setSyncing] = useState(false);
   const [syncResult, setSyncResult] = useState<{ imported: number; skipped: number; total: number } | null>(null);
@@ -166,6 +172,8 @@ export default function CRMBoard({
     setShowLinkConv(false);
     setLinkPhone("");
     setLinkResult(null);
+    setEditingClickup(false);
+    setClickupInput(lead.clickupTaskId ?? "");
     setLoadingComments(true);
     const res = await fetch(`/api/leads/${lead.id}/comments`);
     if (res.ok) setComments(await res.json());
@@ -201,6 +209,22 @@ export default function CRMBoard({
     setSelected({ ...selected, value: val });
     setLeads((prev) => prev.map((l) => (l.id === selected.id ? { ...l, value: val } : l)));
     setEditingValue(false);
+  }
+
+  async function handleSaveClickup(e: React.FormEvent) {
+    e.preventDefault();
+    if (!selected) return;
+    setSavingClickup(true);
+    const val = clickupInput.trim() || null;
+    await fetch(`/api/leads/${selected.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ clickupTaskId: val }),
+    });
+    setSelected({ ...selected, clickupTaskId: val });
+    setLeads((prev) => prev.map((l) => (l.id === selected.id ? { ...l, clickupTaskId: val } : l)));
+    setEditingClickup(false);
+    setSavingClickup(false);
   }
 
   async function handleDeleteLead() {
@@ -699,6 +723,70 @@ export default function CRMBoard({
                       </span>
                       <button onClick={() => setEditingValue(true)} className="text-slate-600 hover:text-slate-400 text-xs">✏️ Editar</button>
                     </div>
+                  )}
+                </div>
+              )}
+
+              {/* ClickUp Task ID (só Oportunidades) */}
+              {pipeline === "OPORTUNIDADES" && (
+                <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="text-slate-500 text-[10px] uppercase tracking-wide flex items-center gap-1.5">
+                      ✅ ClickUp
+                    </div>
+                    {!editingClickup && (
+                      <button
+                        onClick={() => { setEditingClickup(true); setClickupInput(selected.clickupTaskId ?? ""); }}
+                        className="text-slate-600 hover:text-slate-400 text-xs transition-colors"
+                      >
+                        {selected.clickupTaskId ? "✏️ Editar" : "+ Vincular"}
+                      </button>
+                    )}
+                  </div>
+                  {editingClickup ? (
+                    <form onSubmit={handleSaveClickup} className="space-y-2">
+                      <input
+                        autoFocus
+                        type="text"
+                        value={clickupInput}
+                        onChange={(e) => setClickupInput(e.target.value)}
+                        placeholder="ID ou URL da tarefa no ClickUp"
+                        className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
+                      />
+                      <div className="flex gap-2">
+                        <button
+                          type="submit"
+                          disabled={savingClickup}
+                          className="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-medium hover:bg-indigo-500 disabled:opacity-50 transition-colors"
+                        >
+                          {savingClickup ? "Salvando..." : "Salvar"}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setEditingClickup(false)}
+                          className="text-slate-500 text-xs hover:text-white transition-colors"
+                        >
+                          Cancelar
+                        </button>
+                      </div>
+                    </form>
+                  ) : selected.clickupTaskId ? (
+                    <div className="flex items-center gap-2">
+                      {selected.clickupTaskId.startsWith("http") ? (
+                        <a
+                          href={selected.clickupTaskId}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-indigo-400 hover:text-indigo-300 text-xs font-mono truncate underline"
+                        >
+                          {selected.clickupTaskId}
+                        </a>
+                      ) : (
+                        <span className="text-indigo-400 text-xs font-mono">{selected.clickupTaskId}</span>
+                      )}
+                    </div>
+                  ) : (
+                    <p className="text-slate-600 text-xs">Nenhuma tarefa vinculada</p>
                   )}
                 </div>
               )}

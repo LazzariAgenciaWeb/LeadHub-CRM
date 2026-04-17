@@ -21,6 +21,7 @@ interface Ticket {
   priority: string;
   category: string | null;
   phone: string | null;
+  clickupTaskId: string | null;
   createdAt: string;
   updatedAt: string;
   company: { id: string; name: string };
@@ -59,6 +60,12 @@ export default function TicketDetail({
   const [updatingStatus, setUpdatingStatus] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // ClickUp task ID
+  const [clickupTaskId, setClickupTaskId] = useState(ticket.clickupTaskId ?? "");
+  const [editingClickup, setEditingClickup] = useState(false);
+  const [clickupInput, setClickupInput] = useState(ticket.clickupTaskId ?? "");
+  const [savingClickup, setSavingClickup] = useState(false);
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -93,6 +100,20 @@ export default function TicketDetail({
     });
     setStatus(newStatus);
     setUpdatingStatus(false);
+  }
+
+  async function handleSaveClickup(e: React.FormEvent) {
+    e.preventDefault();
+    setSavingClickup(true);
+    const val = clickupInput.trim() || null;
+    await fetch(`/api/tickets/${ticket.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ clickupTaskId: val }),
+    });
+    setClickupTaskId(val ?? "");
+    setEditingClickup(false);
+    setSavingClickup(false);
   }
 
   const sc = STATUS_CONFIG[status] ?? STATUS_CONFIG.OPEN;
@@ -167,6 +188,71 @@ export default function TicketDetail({
           </div>
         </div>
       </div>
+
+      {/* ClickUp task link (admin only) */}
+      {isSuperAdmin && (
+        <div className="flex-shrink-0 px-6 py-3 border-b border-[#1e2d45] bg-[#0a0f1a]">
+          <div className="flex items-center gap-3">
+            <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide whitespace-nowrap">
+              ✅ ClickUp
+            </span>
+            {editingClickup ? (
+              <form onSubmit={handleSaveClickup} className="flex flex-1 gap-2">
+                <input
+                  autoFocus
+                  type="text"
+                  value={clickupInput}
+                  onChange={(e) => setClickupInput(e.target.value)}
+                  placeholder="ID ou URL da tarefa no ClickUp"
+                  className="flex-1 bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
+                />
+                <button
+                  type="submit"
+                  disabled={savingClickup}
+                  className="px-3 py-1 rounded-lg bg-indigo-600 text-white text-xs font-medium hover:bg-indigo-500 disabled:opacity-50 transition-colors"
+                >
+                  {savingClickup ? "..." : "Salvar"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setEditingClickup(false); setClickupInput(clickupTaskId); }}
+                  className="text-slate-500 text-xs hover:text-white transition-colors"
+                >
+                  ✕
+                </button>
+              </form>
+            ) : clickupTaskId ? (
+              <div className="flex items-center gap-2 flex-1 min-w-0">
+                {clickupTaskId.startsWith("http") ? (
+                  <a
+                    href={clickupTaskId}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-indigo-400 hover:text-indigo-300 text-xs font-mono truncate underline"
+                  >
+                    {clickupTaskId}
+                  </a>
+                ) : (
+                  <span className="text-indigo-400 text-xs font-mono">{clickupTaskId}</span>
+                )}
+                <button
+                  onClick={() => { setEditingClickup(true); setClickupInput(clickupTaskId); }}
+                  className="text-slate-600 hover:text-slate-400 text-[10px] flex-shrink-0 transition-colors"
+                >
+                  ✏️
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setEditingClickup(true)}
+                className="text-slate-500 text-xs hover:text-indigo-400 transition-colors"
+              >
+                + Vincular tarefa
+              </button>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Messages thread */}
       <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">

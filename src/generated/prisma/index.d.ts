@@ -8047,6 +8047,7 @@ export namespace Prisma {
     externalId: string | null
     attendanceStatus: string | null
     expectedReturnAt: Date | null
+    clickupTaskId: string | null
     companyId: string | null
     campaignId: string | null
     trackingLinkId: string | null
@@ -8068,6 +8069,7 @@ export namespace Prisma {
     externalId: string | null
     attendanceStatus: string | null
     expectedReturnAt: Date | null
+    clickupTaskId: string | null
     companyId: string | null
     campaignId: string | null
     trackingLinkId: string | null
@@ -8089,6 +8091,7 @@ export namespace Prisma {
     externalId: number
     attendanceStatus: number
     expectedReturnAt: number
+    clickupTaskId: number
     companyId: number
     campaignId: number
     trackingLinkId: number
@@ -8120,6 +8123,7 @@ export namespace Prisma {
     externalId?: true
     attendanceStatus?: true
     expectedReturnAt?: true
+    clickupTaskId?: true
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
@@ -8141,6 +8145,7 @@ export namespace Prisma {
     externalId?: true
     attendanceStatus?: true
     expectedReturnAt?: true
+    clickupTaskId?: true
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
@@ -8162,6 +8167,7 @@ export namespace Prisma {
     externalId?: true
     attendanceStatus?: true
     expectedReturnAt?: true
+    clickupTaskId?: true
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
@@ -8270,6 +8276,7 @@ export namespace Prisma {
     externalId: string | null
     attendanceStatus: string | null
     expectedReturnAt: Date | null
+    clickupTaskId: string | null
     companyId: string
     campaignId: string | null
     trackingLinkId: string | null
@@ -8310,6 +8317,7 @@ export namespace Prisma {
     externalId?: boolean
     attendanceStatus?: boolean
     expectedReturnAt?: boolean
+    clickupTaskId?: boolean
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
@@ -8337,6 +8345,7 @@ export namespace Prisma {
     externalId?: boolean
     attendanceStatus?: boolean
     expectedReturnAt?: boolean
+    clickupTaskId?: boolean
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
@@ -8361,6 +8370,7 @@ export namespace Prisma {
     externalId?: boolean
     attendanceStatus?: boolean
     expectedReturnAt?: boolean
+    clickupTaskId?: boolean
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
@@ -8405,6 +8415,7 @@ export namespace Prisma {
       externalId: string | null
       attendanceStatus: string | null
       expectedReturnAt: Date | null
+      clickupTaskId: string | null
       companyId: string
       campaignId: string | null
       trackingLinkId: string | null
@@ -8821,6 +8832,7 @@ export namespace Prisma {
     readonly externalId: FieldRef<"Lead", 'String'>
     readonly attendanceStatus: FieldRef<"Lead", 'String'>
     readonly expectedReturnAt: FieldRef<"Lead", 'DateTime'>
+    readonly clickupTaskId: FieldRef<"Lead", 'String'>
     readonly companyId: FieldRef<"Lead", 'String'>
     readonly campaignId: FieldRef<"Lead", 'String'>
     readonly trackingLinkId: FieldRef<"Lead", 'String'>
@@ -16158,6 +16170,7 @@ export namespace Prisma {
     priority: $Enums.TicketPriority | null
     category: string | null
     phone: string | null
+    clickupTaskId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     companyId: string | null
@@ -16172,6 +16185,7 @@ export namespace Prisma {
     priority: $Enums.TicketPriority | null
     category: string | null
     phone: string | null
+    clickupTaskId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     companyId: string | null
@@ -16186,6 +16200,7 @@ export namespace Prisma {
     priority: number
     category: number
     phone: number
+    clickupTaskId: number
     createdAt: number
     updatedAt: number
     companyId: number
@@ -16202,6 +16217,7 @@ export namespace Prisma {
     priority?: true
     category?: true
     phone?: true
+    clickupTaskId?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -16216,6 +16232,7 @@ export namespace Prisma {
     priority?: true
     category?: true
     phone?: true
+    clickupTaskId?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -16230,6 +16247,7 @@ export namespace Prisma {
     priority?: true
     category?: true
     phone?: true
+    clickupTaskId?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -16317,6 +16335,7 @@ export namespace Prisma {
     priority: $Enums.TicketPriority
     category: string | null
     phone: string | null
+    clickupTaskId: string | null
     createdAt: Date
     updatedAt: Date
     companyId: string
@@ -16348,6 +16367,7 @@ export namespace Prisma {
     priority?: boolean
     category?: boolean
     phone?: boolean
+    clickupTaskId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
@@ -16366,6 +16386,7 @@ export namespace Prisma {
     priority?: boolean
     category?: boolean
     phone?: boolean
+    clickupTaskId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
@@ -16382,6 +16403,7 @@ export namespace Prisma {
     priority?: boolean
     category?: boolean
     phone?: boolean
+    clickupTaskId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
@@ -16414,6 +16436,7 @@ export namespace Prisma {
       priority: $Enums.TicketPriority
       category: string | null
       phone: string | null
+      clickupTaskId: string | null
       createdAt: Date
       updatedAt: Date
       companyId: string
@@ -16821,6 +16844,7 @@ export namespace Prisma {
     readonly priority: FieldRef<"Ticket", 'TicketPriority'>
     readonly category: FieldRef<"Ticket", 'String'>
     readonly phone: FieldRef<"Ticket", 'String'>
+    readonly clickupTaskId: FieldRef<"Ticket", 'String'>
     readonly createdAt: FieldRef<"Ticket", 'DateTime'>
     readonly updatedAt: FieldRef<"Ticket", 'DateTime'>
     readonly companyId: FieldRef<"Ticket", 'String'>
@@ -18258,6 +18282,7 @@ export namespace Prisma {
     externalId: 'externalId',
     attendanceStatus: 'attendanceStatus',
     expectedReturnAt: 'expectedReturnAt',
+    clickupTaskId: 'clickupTaskId',
     companyId: 'companyId',
     campaignId: 'campaignId',
     trackingLinkId: 'trackingLinkId'
@@ -18370,6 +18395,7 @@ export namespace Prisma {
     priority: 'priority',
     category: 'category',
     phone: 'phone',
+    clickupTaskId: 'clickupTaskId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     companyId: 'companyId',
@@ -19110,6 +19136,7 @@ export namespace Prisma {
     externalId?: StringNullableFilter<"Lead"> | string | null
     attendanceStatus?: StringNullableFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
+    clickupTaskId?: StringNullableFilter<"Lead"> | string | null
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
@@ -19136,6 +19163,7 @@ export namespace Prisma {
     externalId?: SortOrderInput | SortOrder
     attendanceStatus?: SortOrderInput | SortOrder
     expectedReturnAt?: SortOrderInput | SortOrder
+    clickupTaskId?: SortOrderInput | SortOrder
     companyId?: SortOrder
     campaignId?: SortOrderInput | SortOrder
     trackingLinkId?: SortOrderInput | SortOrder
@@ -19165,6 +19193,7 @@ export namespace Prisma {
     externalId?: StringNullableFilter<"Lead"> | string | null
     attendanceStatus?: StringNullableFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
+    clickupTaskId?: StringNullableFilter<"Lead"> | string | null
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
@@ -19191,6 +19220,7 @@ export namespace Prisma {
     externalId?: SortOrderInput | SortOrder
     attendanceStatus?: SortOrderInput | SortOrder
     expectedReturnAt?: SortOrderInput | SortOrder
+    clickupTaskId?: SortOrderInput | SortOrder
     companyId?: SortOrder
     campaignId?: SortOrderInput | SortOrder
     trackingLinkId?: SortOrderInput | SortOrder
@@ -19220,6 +19250,7 @@ export namespace Prisma {
     externalId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     attendanceStatus?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableWithAggregatesFilter<"Lead"> | Date | string | null
+    clickupTaskId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     companyId?: StringWithAggregatesFilter<"Lead"> | string
     campaignId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
@@ -19736,6 +19767,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFilter<"Ticket"> | $Enums.TicketPriority
     category?: StringNullableFilter<"Ticket"> | string | null
     phone?: StringNullableFilter<"Ticket"> | string | null
+    clickupTaskId?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     companyId?: StringFilter<"Ticket"> | string
@@ -19753,6 +19785,7 @@ export namespace Prisma {
     priority?: SortOrder
     category?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
+    clickupTaskId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -19773,6 +19806,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFilter<"Ticket"> | $Enums.TicketPriority
     category?: StringNullableFilter<"Ticket"> | string | null
     phone?: StringNullableFilter<"Ticket"> | string | null
+    clickupTaskId?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     companyId?: StringFilter<"Ticket"> | string
@@ -19790,6 +19824,7 @@ export namespace Prisma {
     priority?: SortOrder
     category?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
+    clickupTaskId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -19810,6 +19845,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityWithAggregatesFilter<"Ticket"> | $Enums.TicketPriority
     category?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     phone?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
+    clickupTaskId?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Ticket"> | Date | string
     companyId?: StringWithAggregatesFilter<"Ticket"> | string
@@ -20412,6 +20448,7 @@ export namespace Prisma {
     externalId?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
@@ -20435,6 +20472,7 @@ export namespace Prisma {
     externalId?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
@@ -20458,6 +20496,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
@@ -20481,6 +20520,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20504,6 +20544,7 @@ export namespace Prisma {
     externalId?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
@@ -20525,6 +20566,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LeadUncheckedUpdateManyInput = {
@@ -20543,6 +20585,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21074,6 +21117,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     category?: string | null
     phone?: string | null
+    clickupTaskId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -21089,6 +21133,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     category?: string | null
     phone?: string | null
+    clickupTaskId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -21104,6 +21149,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -21119,6 +21165,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -21134,6 +21181,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     category?: string | null
     phone?: string | null
+    clickupTaskId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -21148,6 +21196,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21160,6 +21209,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -21877,6 +21927,7 @@ export namespace Prisma {
     externalId?: SortOrder
     attendanceStatus?: SortOrder
     expectedReturnAt?: SortOrder
+    clickupTaskId?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
@@ -21902,6 +21953,7 @@ export namespace Prisma {
     externalId?: SortOrder
     attendanceStatus?: SortOrder
     expectedReturnAt?: SortOrder
+    clickupTaskId?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
@@ -21923,6 +21975,7 @@ export namespace Prisma {
     externalId?: SortOrder
     attendanceStatus?: SortOrder
     expectedReturnAt?: SortOrder
+    clickupTaskId?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
@@ -22336,6 +22389,7 @@ export namespace Prisma {
     priority?: SortOrder
     category?: SortOrder
     phone?: SortOrder
+    clickupTaskId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -22350,6 +22404,7 @@ export namespace Prisma {
     priority?: SortOrder
     category?: SortOrder
     phone?: SortOrder
+    clickupTaskId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -22364,6 +22419,7 @@ export namespace Prisma {
     priority?: SortOrder
     category?: SortOrder
     phone?: SortOrder
+    clickupTaskId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -24201,6 +24257,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     category?: string | null
     phone?: string | null
+    clickupTaskId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -24215,6 +24272,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     category?: string | null
     phone?: string | null
+    clickupTaskId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -24346,6 +24404,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFilter<"Ticket"> | $Enums.TicketPriority
     category?: StringNullableFilter<"Ticket"> | string | null
     phone?: StringNullableFilter<"Ticket"> | string | null
+    clickupTaskId?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     companyId?: StringFilter<"Ticket"> | string
@@ -24483,6 +24542,7 @@ export namespace Prisma {
     externalId?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
@@ -24505,6 +24565,7 @@ export namespace Prisma {
     externalId?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
     campaignId?: string | null
     trackingLinkId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
@@ -24633,6 +24694,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     category?: string | null
     phone?: string | null
+    clickupTaskId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
@@ -24647,6 +24709,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     category?: string | null
     phone?: string | null
+    clickupTaskId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById?: string | null
@@ -24866,6 +24929,7 @@ export namespace Prisma {
     externalId?: StringNullableFilter<"Lead"> | string | null
     attendanceStatus?: StringNullableFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
+    clickupTaskId?: StringNullableFilter<"Lead"> | string | null
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
@@ -25147,6 +25211,7 @@ export namespace Prisma {
     externalId?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
@@ -25169,6 +25234,7 @@ export namespace Prisma {
     externalId?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
     companyId: string
     trackingLinkId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
@@ -25530,6 +25596,7 @@ export namespace Prisma {
     externalId?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
@@ -25552,6 +25619,7 @@ export namespace Prisma {
     externalId?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
     companyId: string
     campaignId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
@@ -26226,6 +26294,7 @@ export namespace Prisma {
     externalId?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
@@ -26248,6 +26317,7 @@ export namespace Prisma {
     externalId?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
@@ -26286,6 +26356,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
@@ -26308,6 +26379,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26911,6 +26983,7 @@ export namespace Prisma {
     externalId?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
@@ -26933,6 +27006,7 @@ export namespace Prisma {
     externalId?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
@@ -27112,6 +27186,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
@@ -27134,6 +27209,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27581,6 +27657,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     category?: string | null
     phone?: string | null
+    clickupTaskId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -27595,6 +27672,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     category?: string | null
     phone?: string | null
+    clickupTaskId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -27625,6 +27703,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -27639,6 +27718,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -27653,6 +27733,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     category?: string | null
     phone?: string | null
+    clickupTaskId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -27666,6 +27747,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -27680,6 +27762,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -27694,6 +27777,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -27739,6 +27823,7 @@ export namespace Prisma {
     externalId?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
     campaignId?: string | null
     trackingLinkId?: string | null
   }
@@ -27787,6 +27872,7 @@ export namespace Prisma {
     priority?: $Enums.TicketPriority
     category?: string | null
     phone?: string | null
+    clickupTaskId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById?: string | null
@@ -27927,6 +28013,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
@@ -27949,6 +28036,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
@@ -27971,6 +28059,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -28093,6 +28182,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
@@ -28107,6 +28197,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28121,6 +28212,7 @@ export namespace Prisma {
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     category?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28251,6 +28343,7 @@ export namespace Prisma {
     externalId?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
     companyId: string
     trackingLinkId?: string | null
   }
@@ -28310,6 +28403,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
@@ -28332,6 +28426,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
@@ -28354,6 +28449,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -28495,6 +28591,7 @@ export namespace Prisma {
     externalId?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
     companyId: string
     campaignId?: string | null
   }
@@ -28522,6 +28619,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
@@ -28544,6 +28642,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
@@ -28566,6 +28665,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
   }

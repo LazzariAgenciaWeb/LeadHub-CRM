@@ -202,6 +202,7 @@ exports.Prisma.LeadScalarFieldEnum = {
   externalId: 'externalId',
   attendanceStatus: 'attendanceStatus',
   expectedReturnAt: 'expectedReturnAt',
+  clickupTaskId: 'clickupTaskId',
   companyId: 'companyId',
   campaignId: 'campaignId',
   trackingLinkId: 'trackingLinkId'
@@ -290,6 +291,7 @@ exports.Prisma.TicketScalarFieldEnum = {
   priority: 'priority',
   category: 'category',
   phone: 'phone',
+  clickupTaskId: 'clickupTaskId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   companyId: 'companyId',

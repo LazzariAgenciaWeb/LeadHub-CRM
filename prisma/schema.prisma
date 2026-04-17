@@ -171,6 +171,9 @@ model Lead {
   attendanceStatus  String?   // "WAITING" | "IN_PROGRESS" | "RESOLVED" | "SCHEDULED"
   expectedReturnAt  DateTime? // previsão de retorno quando agendado
 
+  // Integração ClickUp
+  clickupTaskId     String?   // ID ou URL da tarefa no ClickUp
+
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
 
@@ -349,6 +352,7 @@ model Ticket {
   priority    TicketPriority @default(MEDIUM)
   category    String?
   phone       String?        // telefone WhatsApp de origem (quando criado via WhatsApp)
+  clickupTaskId String?      // ID ou URL da tarefa no ClickUp
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
 
