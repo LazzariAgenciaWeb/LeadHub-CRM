@@ -70,24 +70,32 @@ function ElapsedBadge({ isoDate }: { isoDate: string }) {
 
 export default function UnansweredWidget({ initialConvs }: { initialConvs: UnansweredConv[] }) {
   const [convs, setConvs] = useState<UnansweredConv[]>(initialConvs);
+  const [loaded, setLoaded] = useState(false);
 
   const fetchFresh = useCallback(async () => {
     try {
       const res = await fetch("/api/dashboard/unanswered");
-      if (res.ok) setConvs(await res.json());
+      if (res.ok) {
+        setConvs(await res.json());
+        setLoaded(true);
+      }
     } catch { /* silencioso */ }
   }, []);
 
   useEffect(() => {
-    // Atualiza ao ganhar foco (usuário voltou de outra aba/página)
+    // Busca dados frescos imediatamente ao montar
+    // (Next.js SPA: ao voltar ao dashboard o componente remonta com props antigas do cache)
+    fetchFresh();
+
+    // Também atualiza ao ganhar foco de janela / trocar aba do browser
     const onFocus = () => fetchFresh();
     const onVisible = () => { if (document.visibilityState === "visible") fetchFresh(); };
 
     window.addEventListener("focus", onFocus);
     document.addEventListener("visibilitychange", onVisible);
 
-    // Polling a cada 60s para garantir atualização mesmo sem navegar
-    const interval = setInterval(fetchFresh, 60_000);
+    // Polling a cada 30s como fallback
+    const interval = setInterval(fetchFresh, 30_000);
 
     return () => {
       window.removeEventListener("focus", onFocus);
@@ -96,7 +104,9 @@ export default function UnansweredWidget({ initialConvs }: { initialConvs: Unans
     };
   }, [fetchFresh]);
 
-  if (convs.length === 0) return null;
+  // Só some após o primeiro fetch confirmar lista vazia (evita piscar com dados do SSR)
+  if (loaded && convs.length === 0) return null;
+  if (!loaded && convs.length === 0) return null;
 
   return (
     <div className="bg-[#0c1220] border border-red-500/20 rounded-2xl overflow-hidden">
