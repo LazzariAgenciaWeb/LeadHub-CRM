@@ -430,17 +430,32 @@ export default function WhatsappManager({
   // Carregar nomes de participantes ao abrir conversa de grupo
   async function loadParticipantContacts(phones: string[]) {
     if (!phones.length) return;
-    const res = await fetch(`/api/whatsapp/participant-contact?phones=${phones.join(",")}`);
+    // Also include country-code variant so DB lookups work regardless of storage format
+    const phonesWithVariants = [...new Set(
+      phones.flatMap((p) => {
+        const digits = p.replace(/\D/g, "");
+        const variants = [digits];
+        if (digits.startsWith("55")) variants.push(digits.slice(2)); // sem 55
+        else if (digits.length === 11) variants.push("55" + digits);  // com 55
+        return variants;
+      })
+    )];
+    const res = await fetch(`/api/whatsapp/participant-contact?phones=${phonesWithVariants.join(",")}`);
     if (!res.ok) return;
     const contacts: { phone: string; name: string | null; company: { id: string; name: string } | null }[] = await res.json();
     const names: Record<string, string> = {};
     const companies: Record<string, { id: string; name: string }> = {};
     for (const c of contacts) {
-      if (c.name) names[c.phone] = c.name;
-      if (c.company) companies[c.phone] = c.company;
+      const p = c.phone;
+      // Store under both variants so resolveParticipant finds it
+      const withoutCC = p.startsWith("55") && p.length > 11 ? p.slice(2) : p;
+      const withCC = p.startsWith("55") ? p : "55" + p;
+      if (c.name) { names[p] = c.name; names[withoutCC] = c.name; names[withCC] = c.name; }
+      if (c.company) { companies[p] = c.company; companies[withoutCC] = c.company; }
     }
-    setParticipantNames(names);
-    setParticipantCompanies(companies);
+    // Merge instead of replace so switching conversations doesn't lose previous names
+    setParticipantNames((prev) => ({ ...prev, ...names }));
+    setParticipantCompanies((prev) => ({ ...prev, ...companies }));
   }
 
   async function handleOpenParticipantEdit(phone: string) {
