@@ -48,6 +48,7 @@ interface WaMessage {
   direction: string;
   receivedAt: string;
   participantPhone: string | null;
+  participantName: string | null;
   instance: { instanceName: string } | null;
   campaign: { id: string; name: string } | null;
 }
@@ -101,6 +102,45 @@ const ATTENDANCE: Record<string, { label: string; icon: string; ring: string; bt
   RESOLVED:    { label: "Resolvido",       icon: "✅", ring: "border-green-500/40 bg-green-500/5",   btn: "bg-green-500/20 text-green-300 border-green-500/30" },
   SCHEDULED:   { label: "Agendado",        icon: "📅", ring: "border-purple-500/40 bg-purple-500/5", btn: "bg-purple-500/20 text-purple-300 border-purple-500/30" },
 };
+
+/**
+ * Retorna todas as variantes normalizadas de um número brasileiro/internacional
+ * para lookup no instancePhoneMap.
+ *
+ * Problema: Evolution API às vezes salva/envia o número com ou sem o dígito "9"
+ * extra obrigatório em celulares brasileiros (DDD + 9 + 8 dígitos vs DDD + 8 dígitos).
+ *
+ * Exemplo: 11 9XXXX-XXXX → também tenta 11 XXXX-XXXX e vice-versa.
+ */
+function phoneVariants(rawDigits: string): string[] {
+  const digits = rawDigits.replace(/\D/g, "");
+  // Remove prefixo 55 para trabalhar na forma sem país
+  const withoutCountry = digits.startsWith("55") ? digits.slice(2) : digits;
+  const withCountry = "55" + withoutCountry;
+
+  const variants = new Set<string>([digits, withoutCountry, withCountry]);
+
+  // Aplica variante do 9 apenas para números brasileiros (DDD 2 dígitos + corpo)
+  if (withoutCountry.length === 11) {
+    // Tem 9 → tenta sem (DDD + 8 dígitos)
+    const ddd = withoutCountry.slice(0, 2);
+    const corpo = withoutCountry.slice(2);
+    if (corpo.startsWith("9") && corpo.length === 9) {
+      const sem9 = ddd + corpo.slice(1);         // 10 dígitos
+      variants.add(sem9);
+      variants.add("55" + sem9);
+    }
+  } else if (withoutCountry.length === 10) {
+    // Sem 9 → tenta com (DDD + 9 + 8 dígitos)
+    const ddd = withoutCountry.slice(0, 2);
+    const corpo = withoutCountry.slice(2);       // 8 dígitos
+    const com9 = ddd + "9" + corpo;              // 11 dígitos
+    variants.add(com9);
+    variants.add("55" + com9);
+  }
+
+  return [...variants];
+}
 
 export default function WhatsappManager({
   instances,
@@ -443,34 +483,59 @@ export default function WhatsappManager({
     return counts;
   }, [conversations, localAttendanceOverrides]);
 
-  // Mapa phone → instanceName para identificar "nossos números" em grupos
+  // Mapa phone → instanceName para identificar "nossos números" em grupos.
+  // Indexa TODAS as variantes (com/sem 55, com/sem o 9 extra) para cobrir inconsistências
+  // entre como a Evolution salva o número da instância e como envia o participantPhone.
   const instancePhoneMap = useMemo(() => {
-    const map = new Map<string, string>(); // normalized phone → instanceName
+    const map = new Map<string, string>(); // variante → instanceName
     for (const inst of instances) {
       if (inst.phone) {
-        const norm = inst.phone.replace("@s.whatsapp.net", "").replace(/\D/g, "").replace(/^55/, "");
-        map.set(norm, inst.instanceName);
-        map.set(inst.phone.replace("@s.whatsapp.net", "").replace(/\D/g, ""), inst.instanceName);
+        for (const v of phoneVariants(inst.phone)) {
+          map.set(v, inst.instanceName);
+        }
       }
     }
     // Aplica overrides locais (definidos ao clicar "É meu número") — efeito imediato sem aguardar router.refresh
     for (const [phone, instanceName] of instancePhoneOverrides) {
-      map.set(phone, instanceName);
+      for (const v of phoneVariants(phone)) {
+        map.set(v, instanceName);
+      }
     }
     return map;
   }, [instances, instancePhoneOverrides]);
 
-  function resolveParticipant(participantPhone: string | null): { isOurs: boolean; label: string; rawNorm: string } | null {
+  // Mapa phone normalizado → nome vindo do pushName (preenchido ao carregar mensagens do grupo)
+  const pushNameMap = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const msg of convMessages) {
+      if (msg.participantPhone && msg.participantName) {
+        const raw = msg.participantPhone.replace("@s.whatsapp.net", "").replace(/\D/g, "");
+        const norm = raw.replace(/^55/, "");
+        if (!map.has(norm)) map.set(norm, msg.participantName);
+        if (!map.has(raw))  map.set(raw,  msg.participantName);
+      }
+    }
+    return map;
+  }, [convMessages]);
+
+  function resolveParticipant(participantPhone: string | null, pushName?: string | null): { isOurs: boolean; label: string; rawNorm: string } | null {
     if (!participantPhone) return null;
     const raw = participantPhone.replace("@s.whatsapp.net", "").replace(/\D/g, "");
     const norm = raw.replace(/^55/, "");
-    const instanceName = instancePhoneMap.get(norm) ?? instancePhoneMap.get(raw);
+
+    // Tenta todas as variantes (com/sem 55, com/sem 9 extra) para encontrar a instância
+    const allVariants = phoneVariants(raw);
+    const instanceName = allVariants.reduce<string | undefined>((found, v) => found ?? instancePhoneMap.get(v), undefined);
     if (instanceName) return { isOurs: true, label: instanceName, rawNorm: norm };
-    // Usar nome salvo ou número abreviado (últimos 9 dígitos para números internacionais)
+
+    // Prioridade de nome: nome salvo manualmente > pushName da Evolution > número formatado
     const savedName = participantNames[norm] ?? participantNames[raw];
+    const evolutionName = pushName ?? pushNameMap.get(norm) ?? pushNameMap.get(raw);
     let display: string;
     if (savedName) {
       display = savedName;
+    } else if (evolutionName) {
+      display = evolutionName;
     } else if (norm.length >= 10 && norm.length <= 11) {
       // Brasileiro: (DDD) XXXXX-XXXX
       display = norm.replace(/^(\d{2})(\d{4,5})(\d{4})$/, "($1) $2-$3");
@@ -971,6 +1036,7 @@ export default function WhatsappManager({
           direction: "OUTBOUND",
           receivedAt: new Date().toISOString(),
           participantPhone: null,
+          participantName: null,
           instance: { instanceName: inst.instanceName },
           campaign: null,
         },
@@ -1791,7 +1857,7 @@ export default function WhatsappManager({
                         const unique = new Map<string, ReturnType<typeof resolveParticipant>>();
                         for (const m of convMessages) {
                           if (m.participantPhone && !unique.has(m.participantPhone)) {
-                            unique.set(m.participantPhone, resolveParticipant(m.participantPhone));
+                            unique.set(m.participantPhone, resolveParticipant(m.participantPhone, m.participantName));
                           }
                         }
                         const list = [...unique.values()].filter(Boolean) as NonNullable<ReturnType<typeof resolveParticipant>>[];
@@ -2408,7 +2474,7 @@ export default function WhatsappManager({
 
                     // Resolver remetente do grupo (INBOUND): nosso número ou cliente
                     const groupParticipant = isGroupConv && !isOut
-                      ? resolveParticipant(msg.participantPhone)
+                      ? resolveParticipant(msg.participantPhone, msg.participantName)
                       : null;
 
                     // Em grupo, mensagem INBOUND de um dos nossos números → estilo "enviado"

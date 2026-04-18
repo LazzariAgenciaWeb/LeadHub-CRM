@@ -262,6 +262,7 @@ exports.Prisma.MessageScalarFieldEnum = {
   externalId: 'externalId',
   phone: 'phone',
   participantPhone: 'participantPhone',
+  participantName: 'participantName',
   body: 'body',
   direction: 'direction',
   identifiedAs: 'identifiedAs',

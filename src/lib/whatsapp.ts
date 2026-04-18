@@ -55,8 +55,9 @@ export async function processInboundMessage(payload: {
   rawPayload?: unknown;
   contactName?: string | null;
   participantPhone?: string | null;
+  participantName?: string | null;
 }) {
-  const { instanceName, phone, body, externalId, rawPayload, contactName, participantPhone } = payload;
+  const { instanceName, phone, body, externalId, rawPayload, contactName, participantPhone, participantName } = payload;
 
   // Mensagens de grupo → salvar na caixa de entrada, sem criar lead
   if (phone.includes("@g.us")) {
@@ -72,6 +73,7 @@ export async function processInboundMessage(payload: {
         externalId: externalId ?? undefined,
         phone,
         participantPhone: participantPhone ?? undefined,
+        participantName: participantName ?? undefined,
         body,
         direction: "INBOUND",
         processed: false,

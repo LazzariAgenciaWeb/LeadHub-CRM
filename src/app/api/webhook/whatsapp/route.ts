@@ -77,7 +77,10 @@ export async function POST(request: NextRequest) {
       : null;
 
     // Nome do contato no WhatsApp (pushName vem da Evolution API)
+    // Para mensagens individuais: nome do contato que enviou
+    // Para mensagens de grupo: nome do participante que enviou a mensagem
     const contactName: string | null = data?.pushName ?? data?.verifiedBizName ?? null;
+    const participantName: string | null = isGroup ? (data?.pushName ?? null) : null;
 
     if (!phone) {
       return NextResponse.json({ ok: true, skipped: "no_phone" });
@@ -137,6 +140,8 @@ export async function POST(request: NextRequest) {
             data: {
               externalId: key.id,
               phone,
+              participantPhone: isGroup ? (data?.participant ?? key?.participant ?? undefined) : undefined,
+              participantName: isGroup ? (data?.pushName ?? undefined) : undefined,
               body: body_text,
               direction: "OUTBOUND",
               processed: true,
@@ -158,6 +163,7 @@ export async function POST(request: NextRequest) {
       rawPayload: body,
       contactName,
       participantPhone,
+      participantName,
     });
 
     return NextResponse.json({

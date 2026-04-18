@@ -303,6 +303,7 @@ model Message {
   externalId       String?     @unique
   phone            String // telefone individual ou JID do grupo (@g.us)
   participantPhone String? // quem enviou dentro do grupo (preenchido só para mensagens de grupo)
+  participantName  String? // nome do participante do grupo (pushName da Evolution API)
   body             String      @db.Text
   direction        MessageDir  @default(INBOUND)
   identifiedAs     LeadStatus?

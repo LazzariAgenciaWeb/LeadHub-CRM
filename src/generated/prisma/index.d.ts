@@ -13329,6 +13329,7 @@ export namespace Prisma {
     externalId: string | null
     phone: string | null
     participantPhone: string | null
+    participantName: string | null
     body: string | null
     direction: $Enums.MessageDir | null
     identifiedAs: $Enums.LeadStatus | null
@@ -13345,6 +13346,7 @@ export namespace Prisma {
     externalId: string | null
     phone: string | null
     participantPhone: string | null
+    participantName: string | null
     body: string | null
     direction: $Enums.MessageDir | null
     identifiedAs: $Enums.LeadStatus | null
@@ -13361,6 +13363,7 @@ export namespace Prisma {
     externalId: number
     phone: number
     participantPhone: number
+    participantName: number
     body: number
     direction: number
     identifiedAs: number
@@ -13380,6 +13383,7 @@ export namespace Prisma {
     externalId?: true
     phone?: true
     participantPhone?: true
+    participantName?: true
     body?: true
     direction?: true
     identifiedAs?: true
@@ -13396,6 +13400,7 @@ export namespace Prisma {
     externalId?: true
     phone?: true
     participantPhone?: true
+    participantName?: true
     body?: true
     direction?: true
     identifiedAs?: true
@@ -13412,6 +13417,7 @@ export namespace Prisma {
     externalId?: true
     phone?: true
     participantPhone?: true
+    participantName?: true
     body?: true
     direction?: true
     identifiedAs?: true
@@ -13502,6 +13508,7 @@ export namespace Prisma {
     externalId: string | null
     phone: string
     participantPhone: string | null
+    participantName: string | null
     body: string
     direction: $Enums.MessageDir
     identifiedAs: $Enums.LeadStatus | null
@@ -13536,6 +13543,7 @@ export namespace Prisma {
     externalId?: boolean
     phone?: boolean
     participantPhone?: boolean
+    participantName?: boolean
     body?: boolean
     direction?: boolean
     identifiedAs?: boolean
@@ -13557,6 +13565,7 @@ export namespace Prisma {
     externalId?: boolean
     phone?: boolean
     participantPhone?: boolean
+    participantName?: boolean
     body?: boolean
     direction?: boolean
     identifiedAs?: boolean
@@ -13578,6 +13587,7 @@ export namespace Prisma {
     externalId?: boolean
     phone?: boolean
     participantPhone?: boolean
+    participantName?: boolean
     body?: boolean
     direction?: boolean
     identifiedAs?: boolean
@@ -13616,6 +13626,7 @@ export namespace Prisma {
       externalId: string | null
       phone: string
       participantPhone: string | null
+      participantName: string | null
       body: string
       direction: $Enums.MessageDir
       identifiedAs: $Enums.LeadStatus | null
@@ -14027,6 +14038,7 @@ export namespace Prisma {
     readonly externalId: FieldRef<"Message", 'String'>
     readonly phone: FieldRef<"Message", 'String'>
     readonly participantPhone: FieldRef<"Message", 'String'>
+    readonly participantName: FieldRef<"Message", 'String'>
     readonly body: FieldRef<"Message", 'String'>
     readonly direction: FieldRef<"Message", 'MessageDir'>
     readonly identifiedAs: FieldRef<"Message", 'LeadStatus'>
@@ -18512,6 +18524,7 @@ export namespace Prisma {
     externalId: 'externalId',
     phone: 'phone',
     participantPhone: 'participantPhone',
+    participantName: 'participantName',
     body: 'body',
     direction: 'direction',
     identifiedAs: 'identifiedAs',
@@ -19747,6 +19760,7 @@ export namespace Prisma {
     externalId?: StringNullableFilter<"Message"> | string | null
     phone?: StringFilter<"Message"> | string
     participantPhone?: StringNullableFilter<"Message"> | string | null
+    participantName?: StringNullableFilter<"Message"> | string | null
     body?: StringFilter<"Message"> | string
     direction?: EnumMessageDirFilter<"Message"> | $Enums.MessageDir
     identifiedAs?: EnumLeadStatusNullableFilter<"Message"> | $Enums.LeadStatus | null
@@ -19768,6 +19782,7 @@ export namespace Prisma {
     externalId?: SortOrderInput | SortOrder
     phone?: SortOrder
     participantPhone?: SortOrderInput | SortOrder
+    participantName?: SortOrderInput | SortOrder
     body?: SortOrder
     direction?: SortOrder
     identifiedAs?: SortOrderInput | SortOrder
@@ -19792,6 +19807,7 @@ export namespace Prisma {
     NOT?: MessageWhereInput | MessageWhereInput[]
     phone?: StringFilter<"Message"> | string
     participantPhone?: StringNullableFilter<"Message"> | string | null
+    participantName?: StringNullableFilter<"Message"> | string | null
     body?: StringFilter<"Message"> | string
     direction?: EnumMessageDirFilter<"Message"> | $Enums.MessageDir
     identifiedAs?: EnumLeadStatusNullableFilter<"Message"> | $Enums.LeadStatus | null
@@ -19813,6 +19829,7 @@ export namespace Prisma {
     externalId?: SortOrderInput | SortOrder
     phone?: SortOrder
     participantPhone?: SortOrderInput | SortOrder
+    participantName?: SortOrderInput | SortOrder
     body?: SortOrder
     direction?: SortOrder
     identifiedAs?: SortOrderInput | SortOrder
@@ -19836,6 +19853,7 @@ export namespace Prisma {
     externalId?: StringNullableWithAggregatesFilter<"Message"> | string | null
     phone?: StringWithAggregatesFilter<"Message"> | string
     participantPhone?: StringNullableWithAggregatesFilter<"Message"> | string | null
+    participantName?: StringNullableWithAggregatesFilter<"Message"> | string | null
     body?: StringWithAggregatesFilter<"Message"> | string
     direction?: EnumMessageDirWithAggregatesFilter<"Message"> | $Enums.MessageDir
     identifiedAs?: EnumLeadStatusNullableWithAggregatesFilter<"Message"> | $Enums.LeadStatus | null
@@ -21150,6 +21168,7 @@ export namespace Prisma {
     externalId?: string | null
     phone: string
     participantPhone?: string | null
+    participantName?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -21167,6 +21186,7 @@ export namespace Prisma {
     externalId?: string | null
     phone: string
     participantPhone?: string | null
+    participantName?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -21184,6 +21204,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -21201,6 +21222,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -21218,6 +21240,7 @@ export namespace Prisma {
     externalId?: string | null
     phone: string
     participantPhone?: string | null
+    participantName?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -21235,6 +21258,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -21248,6 +21272,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -22511,6 +22536,7 @@ export namespace Prisma {
     externalId?: SortOrder
     phone?: SortOrder
     participantPhone?: SortOrder
+    participantName?: SortOrder
     body?: SortOrder
     direction?: SortOrder
     identifiedAs?: SortOrder
@@ -22528,6 +22554,7 @@ export namespace Prisma {
     externalId?: SortOrder
     phone?: SortOrder
     participantPhone?: SortOrder
+    participantName?: SortOrder
     body?: SortOrder
     direction?: SortOrder
     identifiedAs?: SortOrder
@@ -22544,6 +22571,7 @@ export namespace Prisma {
     externalId?: SortOrder
     phone?: SortOrder
     participantPhone?: SortOrder
+    participantName?: SortOrder
     body?: SortOrder
     direction?: SortOrder
     identifiedAs?: SortOrder
@@ -25148,6 +25176,7 @@ export namespace Prisma {
     externalId?: string | null
     phone: string
     participantPhone?: string | null
+    participantName?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -25164,6 +25193,7 @@ export namespace Prisma {
     externalId?: string | null
     phone: string
     participantPhone?: string | null
+    participantName?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -25632,6 +25662,7 @@ export namespace Prisma {
     externalId?: StringNullableFilter<"Message"> | string | null
     phone?: StringFilter<"Message"> | string
     participantPhone?: StringNullableFilter<"Message"> | string | null
+    participantName?: StringNullableFilter<"Message"> | string | null
     body?: StringFilter<"Message"> | string
     direction?: EnumMessageDirFilter<"Message"> | $Enums.MessageDir
     identifiedAs?: EnumLeadStatusNullableFilter<"Message"> | $Enums.LeadStatus | null
@@ -25912,6 +25943,7 @@ export namespace Prisma {
     externalId?: string | null
     phone: string
     participantPhone?: string | null
+    participantName?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -25928,6 +25960,7 @@ export namespace Prisma {
     externalId?: string | null
     phone: string
     participantPhone?: string | null
+    participantName?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -26731,6 +26764,7 @@ export namespace Prisma {
     externalId?: string | null
     phone: string
     participantPhone?: string | null
+    participantName?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -26747,6 +26781,7 @@ export namespace Prisma {
     externalId?: string | null
     phone: string
     participantPhone?: string | null
+    participantName?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -27514,6 +27549,7 @@ export namespace Prisma {
     externalId?: string | null
     phone: string
     participantPhone?: string | null
+    participantName?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -27530,6 +27566,7 @@ export namespace Prisma {
     externalId?: string | null
     phone: string
     participantPhone?: string | null
+    participantName?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -28750,6 +28787,7 @@ export namespace Prisma {
     externalId?: string | null
     phone: string
     participantPhone?: string | null
+    participantName?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -29094,6 +29132,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -29110,6 +29149,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -29126,6 +29166,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -29350,6 +29391,7 @@ export namespace Prisma {
     externalId?: string | null
     phone: string
     participantPhone?: string | null
+    participantName?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -29459,6 +29501,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -29475,6 +29518,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -29491,6 +29535,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -29700,6 +29745,7 @@ export namespace Prisma {
     externalId?: string | null
     phone: string
     participantPhone?: string | null
+    participantName?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -29723,6 +29769,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -29739,6 +29786,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -29755,6 +29803,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -29792,6 +29841,7 @@ export namespace Prisma {
     externalId?: string | null
     phone: string
     participantPhone?: string | null
+    participantName?: string | null
     body: string
     direction?: $Enums.MessageDir
     identifiedAs?: $Enums.LeadStatus | null
@@ -29808,6 +29858,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -29824,6 +29875,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
@@ -29840,6 +29892,7 @@ export namespace Prisma {
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: StringFieldUpdateOperationsInput | string
     participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
     direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
     identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
