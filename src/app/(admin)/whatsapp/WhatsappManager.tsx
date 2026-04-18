@@ -164,6 +164,10 @@ export default function WhatsappManager({
   const [leadName, setLeadName] = useState("");
   const [savingName, setSavingName] = useState(false);
 
+  // Group name overrides — atualizado localmente sem precisar de router.refresh()
+  const [groupNameOverrides, setGroupNameOverrides] = useState<Record<string, string>>({});
+  const [refreshingGroupName, setRefreshingGroupName] = useState(false);
+
   // Notes / comments
   const [leadNotes, setLeadNotes] = useState<string>("");
   const [showNotesPanel, setShowNotesPanel] = useState(false);
@@ -1389,7 +1393,7 @@ export default function WhatsappManager({
                             <div className="min-w-0 pt-0.5">
                               <div className="flex items-center gap-1.5">
                                 <span className="text-white text-[13px] font-semibold truncate leading-tight">
-                                  {conv.lead?.name ?? conv.companyContact?.name ?? conv.phone}
+                                  {groupNameOverrides[conv.phone] ?? conv.lead?.name ?? conv.companyContact?.name ?? conv.phone}
                                 </span>
                                         {conv.phone.includes("@g.us") && (
                                   <span title="Grupo" className="text-slate-400 text-[11px] flex-shrink-0">👥</span>
@@ -1491,24 +1495,35 @@ export default function WhatsappManager({
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
                         <span className="text-white font-semibold truncate">
-                          {selectedConv.lead?.name ?? selectedConv.companyContact?.name ?? selectedConv.phone}
+                          {groupNameOverrides[selectedConv.phone] ?? selectedConv.lead?.name ?? selectedConv.companyContact?.name ?? selectedConv.phone}
                         </span>
                         {/* Refresh nome do grupo */}
                         {selectedConv.phone.includes("@g.us") && (
                           <button
                             onClick={async () => {
-                              const res = await fetch("/api/whatsapp/group-name", {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ groupJid: selectedConv.phone, companyId: selectedConv.companyId }),
-                              });
-                              if (res.ok) {
-                                const { name } = await res.json();
-                                setSelectedConv({ ...selectedConv, companyContact: { ...selectedConv.companyContact, name } as any });
-                                router.refresh();
+                              setRefreshingGroupName(true);
+                              try {
+                                const res = await fetch("/api/whatsapp/group-name", {
+                                  method: "POST",
+                                  headers: { "Content-Type": "application/json" },
+                                  body: JSON.stringify({ groupJid: selectedConv.phone, companyId: selectedConv.companyId }),
+                                });
+                                if (res.ok) {
+                                  const { name } = await res.json();
+                                  // Atualiza o mapa local — lista da esquerda + cabeçalho sem router.refresh()
+                                  setGroupNameOverrides((prev) => ({ ...prev, [selectedConv.phone]: name }));
+                                } else {
+                                  const d = await res.json().catch(() => ({}));
+                                  alert(d.error ?? "Não foi possível buscar o nome do grupo");
+                                }
+                              } catch {
+                                alert("Erro de conexão ao buscar nome do grupo");
+                              } finally {
+                                setRefreshingGroupName(false);
                               }
                             }}
-                            className="text-slate-600 hover:text-slate-300 text-xs flex-shrink-0"
+                            disabled={refreshingGroupName}
+                            className="text-slate-600 hover:text-slate-300 text-xs flex-shrink-0 disabled:animate-spin disabled:opacity-50"
                             title="Atualizar nome do grupo"
                           >
                             🔄
