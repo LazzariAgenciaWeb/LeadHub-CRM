@@ -246,6 +246,14 @@ export default function WhatsappManager({
   const [showActionsMenu, setShowActionsMenu] = useState(false);
   const actionsMenuRef = useRef<HTMLDivElement>(null);
 
+  // Painel IA
+  const [showAiPanel, setShowAiPanel] = useState(false);
+  const [aiSummary, setAiSummary] = useState<string | null>(null);
+  const [aiIntent, setAiIntent] = useState<string | null>(null);
+  const [aiSuggestedReply, setAiSuggestedReply] = useState<string | null>(null);
+  const [aiLoadingSummary, setAiLoadingSummary] = useState(false);
+  const [aiLoadingReply, setAiLoadingReply] = useState(false);
+
   useEffect(() => {
     if (!showActionsMenu) return;
     function handleClick(e: MouseEvent) {
@@ -656,6 +664,10 @@ export default function WhatsappManager({
     setMergeSearch(""); setMergeResults([]);
     setOpenTicket(null);
     setShowActionsMenu(false);
+    setShowAiPanel(false);
+    setAiSummary(null);
+    setAiIntent(null);
+    setAiSuggestedReply(null);
     setLoadingMsgs(true);
 
     const params = new URLSearchParams({ phone: conv.phone });
@@ -1004,6 +1016,48 @@ export default function WhatsappManager({
     }
   }
 
+  async function handleAiSummarize() {
+    if (!selectedConv) return;
+    setAiLoadingSummary(true);
+    setAiSummary(null);
+    setAiIntent(null);
+    const params = new URLSearchParams({ phone: selectedConv.phone, companyId: selectedConv.companyId });
+    try {
+      const res = await fetch(`/api/ai/summarize?${params}`);
+      if (res.ok) {
+        const data = await res.json();
+        setAiSummary(data.summary ?? null);
+        setAiIntent(data.intent ?? null);
+      } else {
+        const err = await res.json().catch(() => ({}));
+        setAiSummary(err.error ?? "Erro ao gerar resumo. Verifique se a API Key da OpenAI está configurada.");
+      }
+    } catch {
+      setAiSummary("Falha de conexão ao chamar a IA.");
+    }
+    setAiLoadingSummary(false);
+  }
+
+  async function handleAiSuggestReply() {
+    if (!selectedConv) return;
+    setAiLoadingReply(true);
+    setAiSuggestedReply(null);
+    const params = new URLSearchParams({ phone: selectedConv.phone, companyId: selectedConv.companyId });
+    try {
+      const res = await fetch(`/api/ai/suggest-reply?${params}`);
+      if (res.ok) {
+        const data = await res.json();
+        setAiSuggestedReply(data.reply ?? null);
+      } else {
+        const err = await res.json().catch(() => ({}));
+        setAiSuggestedReply(err.error ?? "Erro ao gerar sugestão.");
+      }
+    } catch {
+      setAiSuggestedReply("Falha de conexão ao chamar a IA.");
+    }
+    setAiLoadingReply(false);
+  }
+
   async function handleSetAttendance(status: string) {
     if (!selectedConv) return;
     setSavingAttendance(true);
@@ -1050,9 +1104,30 @@ export default function WhatsappManager({
   function formatTime(dt: string) {
     const d = new Date(dt);
     const now = new Date();
-    return d.toDateString() === now.toDateString()
-      ? d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })
-      : d.toLocaleDateString("pt-BR");
+    const today     = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const yesterday = new Date(today.getTime() - 86_400_000);
+    const time = d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+    const dayStart  = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+
+    if (dayStart >= today)     return time;
+    if (dayStart >= yesterday) return `ontem ${time}`;
+    const daysAgo = Math.round((today.getTime() - dayStart.getTime()) / 86_400_000);
+    if (daysAgo < 7) {
+      const weekday = d.toLocaleDateString("pt-BR", { weekday: "short" }).replace(".", "");
+      return `${weekday} ${time}`;
+    }
+    return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" }) + " " + time;
+  }
+
+  function formatDateDivider(dt: string) {
+    const d = new Date(dt);
+    const now = new Date();
+    const today     = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const yesterday = new Date(today.getTime() - 86_400_000);
+    const dayStart  = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    if (dayStart >= today)     return "Hoje";
+    if (dayStart >= yesterday) return "Ontem";
+    return d.toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "2-digit", year: "numeric" });
   }
 
   // Anel de urgência no avatar — cor por tempo sem resposta + prioridade do pipeline
@@ -1383,8 +1458,10 @@ export default function WhatsappManager({
                 return (
                   <div
                     key={conv.phone}
-                    className={`relative group/item w-full text-left px-4 py-3 hover:bg-white/[0.03] transition-colors cursor-pointer ${
-                      isSelected ? "bg-indigo-500/10" : ""
+                    className={`relative group/item w-full text-left px-4 py-3 hover:bg-white/[0.03] transition-colors cursor-pointer border-l-2 ${
+                      isSelected
+                        ? "bg-indigo-500/10 border-l-indigo-500"
+                        : "border-l-transparent"
                     }`}
                     onClick={() => loadConversation(conv)}
                   >
@@ -1645,6 +1722,19 @@ export default function WhatsappManager({
                   )}
 
 
+                  {/* ── Botão IA ── */}
+                  <button
+                    onClick={() => setShowAiPanel(!showAiPanel)}
+                    title="Assistente IA"
+                    className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
+                      showAiPanel
+                        ? "bg-emerald-600/30 border-emerald-500/50 text-emerald-300"
+                        : "bg-[#0f1623] border-[#1e2d45] text-slate-300 hover:text-white hover:border-emerald-500/50"
+                    }`}
+                  >
+                    🤖 IA
+                  </button>
+
                   {/* ── Botão + Ações (dropdown) ── */}
                   <div className="relative" ref={actionsMenuRef}>
                     <button
@@ -1757,6 +1847,94 @@ export default function WhatsappManager({
                   )}
                 </div>
               </div>
+
+              {/* Painel IA */}
+              {showAiPanel && (
+                <div className="px-5 py-4 border-b border-[#1e2d45] bg-emerald-500/5 flex-shrink-0">
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-emerald-300 text-xs font-semibold">🤖 Assistente IA — últimas 24h</p>
+                    <button onClick={() => setShowAiPanel(false)} className="text-slate-600 hover:text-slate-300 text-xs">✕</button>
+                  </div>
+
+                  {/* Botões de ação */}
+                  <div className="flex gap-2 mb-3 flex-wrap">
+                    <button
+                      onClick={handleAiSummarize}
+                      disabled={aiLoadingSummary || aiLoadingReply}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600/20 border border-emerald-500/30 text-emerald-300 text-xs font-medium hover:bg-emerald-600/30 disabled:opacity-50 transition-colors"
+                    >
+                      {aiLoadingSummary ? "Resumindo..." : "📋 Resumir conversa"}
+                    </button>
+                    <button
+                      onClick={handleAiSuggestReply}
+                      disabled={aiLoadingReply || aiLoadingSummary}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 text-xs font-medium hover:bg-indigo-600/30 disabled:opacity-50 transition-colors"
+                    >
+                      {aiLoadingReply ? "Gerando..." : "💡 Sugerir resposta"}
+                    </button>
+                  </div>
+
+                  {/* Resultado: Resumo */}
+                  {aiSummary && (
+                    <div className="mb-3">
+                      <p className="text-slate-500 text-[10px] font-semibold uppercase tracking-wide mb-1.5">Resumo</p>
+                      <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3 text-slate-300 text-xs leading-relaxed whitespace-pre-wrap">
+                        {aiSummary}
+                      </div>
+                      {aiIntent && (
+                        <p className="text-slate-600 text-[10px] mt-1.5">
+                          💡 Intenção: <span className="text-emerald-400 font-medium">{aiIntent}</span>
+                        </p>
+                      )}
+                      {/* Ações rápidas baseadas no resumo */}
+                      <div className="flex gap-1.5 mt-2 flex-wrap">
+                        <button
+                          onClick={() => { setShowConvertForm(true); setShowAiPanel(false); }}
+                          className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-500/15 border border-blue-500/20 text-blue-300 text-[10px] font-medium hover:bg-blue-500/25 transition-colors"
+                        >
+                          🎯 Criar Lead
+                        </button>
+                        <button
+                          onClick={() => { setShowOportunidadeForm(true); setShowAiPanel(false); }}
+                          className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-500/15 border border-amber-500/20 text-amber-300 text-[10px] font-medium hover:bg-amber-500/25 transition-colors"
+                        >
+                          💰 Criar Oportunidade
+                        </button>
+                        <button
+                          onClick={() => {
+                            setTicketForm((prev) => ({ ...prev, description: aiSummary ?? "" }));
+                            setShowTicketForm(true);
+                            setShowAiPanel(false);
+                          }}
+                          className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-orange-500/15 border border-orange-500/20 text-orange-300 text-[10px] font-medium hover:bg-orange-500/25 transition-colors"
+                        >
+                          🎫 Abrir Chamado
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Resultado: Sugestão de resposta */}
+                  {aiSuggestedReply && (
+                    <div>
+                      <p className="text-slate-500 text-[10px] font-semibold uppercase tracking-wide mb-1.5">Sugestão de resposta</p>
+                      <div className="bg-[#0f1623] border border-indigo-500/30 rounded-lg p-3 text-slate-200 text-xs leading-relaxed whitespace-pre-wrap">
+                        {aiSuggestedReply}
+                      </div>
+                      <button
+                        onClick={() => {
+                          setReplyText(aiSuggestedReply);
+                          setShowAiPanel(false);
+                          setTimeout(() => replyTextareaRef.current?.focus(), 100);
+                        }}
+                        className="mt-2 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 text-xs font-medium hover:bg-indigo-600/30 transition-colors"
+                      >
+                        ✏️ Usar como resposta
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Painel: Atribuir grupo a empresa */}
               {showGroupCompany && selectedConv.phone.includes("@g.us") && (
@@ -2232,7 +2410,13 @@ export default function WhatsappManager({
                 ) : convMessages.length === 0 ? (
                   <div className="flex items-center justify-center py-10 text-slate-500 text-sm">Nenhuma mensagem.</div>
                 ) : (
-                  convMessages.map((msg) => {
+                  (() => {
+                    let lastDateKey = "";
+                    return convMessages.map((msg) => {
+                    const msgDateKey = new Date(msg.receivedAt).toDateString();
+                    const showDivider = msgDateKey !== lastDateKey;
+                    lastDateKey = msgDateKey;
+
                     const isOut = msg.direction === "OUTBOUND";
                     const isGroupConv = selectedConv?.phone.includes("@g.us");
                     const MEDIA_PREFIXES = ["🎵", "🎤", "🖼️", "🎥", "📎", "😄", "📍", "👤"];
@@ -2258,7 +2442,17 @@ export default function WhatsappManager({
                     const bubbleAlign = isOut || isOursInGroup ? "items-end" : "items-start";
 
                     return (
-                      <div key={msg.id} className={`flex flex-col ${bubbleAlign}`}>
+                      <div key={msg.id}>
+                        {showDivider && (
+                          <div className="flex items-center gap-3 my-3">
+                            <div className="flex-1 h-px bg-[#1e2d45]" />
+                            <span className="text-[10px] text-slate-600 font-medium px-2 py-0.5 rounded-full bg-[#0f1623] border border-[#1e2d45] whitespace-nowrap">
+                              {formatDateDivider(msg.receivedAt)}
+                            </span>
+                            <div className="flex-1 h-px bg-[#1e2d45]" />
+                          </div>
+                        )}
+                      <div className={`flex flex-col ${bubbleAlign}`}>
                         <div className={`max-w-[75%] rounded-2xl px-4 py-2.5 ${bubbleStyle}`}>
 
                           {/* Grupo: participante é um dos nossos números → mostrar instância */}
@@ -2305,8 +2499,10 @@ export default function WhatsappManager({
                           </div>
                         </div>
                       </div>
+                      </div>
                     );
-                  })
+                  });
+                  })()
                 )}
                 {/* Popup de edição de participante de grupo */}
                 {editingParticipant && (
