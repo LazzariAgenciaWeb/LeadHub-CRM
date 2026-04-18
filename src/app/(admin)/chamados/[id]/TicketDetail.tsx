@@ -72,6 +72,8 @@ export default function TicketDetail({
   const [editingClickup, setEditingClickup] = useState(false);
   const [clickupInput, setClickupInput] = useState(ticket.clickupTaskId ?? "");
   const [savingClickup, setSavingClickup] = useState(false);
+  const [syncingClickup, setSyncingClickup] = useState(false);
+  const [syncError, setSyncError] = useState<string | null>(null);
 
   // Change company (SUPER_ADMIN only)
   const [editingCompany, setEditingCompany] = useState(false);
@@ -145,6 +147,28 @@ export default function TicketDetail({
     setClickupTaskId(val ?? "");
     setEditingClickup(false);
     setSavingClickup(false);
+  }
+
+  async function handleSyncClickup() {
+    setSyncingClickup(true);
+    setSyncError(null);
+    const res = await fetch(`/api/tickets/${ticket.id}/sync-clickup`, { method: "POST" });
+    const data = await res.json();
+    if (res.ok && data.clickupTaskId) {
+      setClickupTaskId(data.clickupTaskId);
+      setClickupInput(data.clickupTaskId);
+    } else {
+      // Monta mensagem de erro legível
+      let msg = data.error ?? "Erro desconhecido";
+      if (data.clickupError) {
+        const detail = typeof data.clickupError === "object"
+          ? (data.clickupError.err ?? data.clickupError.ECODE ?? JSON.stringify(data.clickupError))
+          : data.clickupError;
+        msg += `: ${detail}`;
+      }
+      setSyncError(msg);
+    }
+    setSyncingClickup(false);
   }
 
   async function searchTicketCompanies(q: string) {
@@ -225,15 +249,25 @@ export default function TicketDetail({
                 💬 WhatsApp
               </Link>
             )}
-            {clickupTaskId && (
-              <a
-                href={clickupTaskId.startsWith("http") ? clickupTaskId : `https://app.clickup.com/t/${clickupTaskId}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#7B68EE]/10 border border-[#7B68EE]/30 text-[#a99ef5] text-xs font-medium hover:bg-[#7B68EE]/20 transition-colors"
-              >
-                ✅ ClickUp ↗
-              </a>
+            {isSuperAdmin && (
+              clickupTaskId ? (
+                <a
+                  href={clickupTaskId.startsWith("http") ? clickupTaskId : `https://app.clickup.com/t/${clickupTaskId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#7B68EE]/10 border border-[#7B68EE]/30 text-[#a99ef5] text-xs font-medium hover:bg-[#7B68EE]/20 transition-colors"
+                >
+                  ✅ ClickUp ↗
+                </a>
+              ) : (
+                <button
+                  onClick={handleSyncClickup}
+                  disabled={syncingClickup}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#7B68EE]/10 border border-[#7B68EE]/30 text-[#a99ef5] text-xs font-medium hover:bg-[#7B68EE]/20 disabled:opacity-50 transition-colors"
+                >
+                  {syncingClickup ? "Criando..." : "✅ Criar no ClickUp"}
+                </button>
+              )
             )}
           </div>
         </div>
@@ -466,17 +500,19 @@ export default function TicketDetail({
           {/* ClickUp */}
           {isSuperAdmin && (
             <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
-              <div className="flex items-center justify-between mb-1.5">
+              <div className="flex items-center justify-between mb-2">
                 <div className="text-[10px] text-slate-500 uppercase tracking-wide">✅ ClickUp</div>
-                {!editingClickup && (
+                {!editingClickup && clickupTaskId && (
                   <button
-                    onClick={() => { setEditingClickup(true); setClickupInput(clickupTaskId); }}
+                    onClick={() => { setEditingClickup(true); setClickupInput(clickupTaskId); setSyncError(null); }}
                     className="text-slate-600 hover:text-slate-400 text-[10px] transition-colors"
+                    title="Editar ID manualmente"
                   >
-                    {clickupTaskId ? "✏️" : "+ Vincular"}
+                    ✏️
                   </button>
                 )}
               </div>
+
               {editingClickup ? (
                 <form onSubmit={handleSaveClickup} className="space-y-1.5">
                   <input
@@ -495,19 +531,40 @@ export default function TicketDetail({
                   </div>
                 </form>
               ) : clickupTaskId ? (
-                <div className="space-y-1.5">
+                /* Tem task ID — mostra link */
+                <div className="space-y-2">
                   <a
                     href={clickupTaskId.startsWith("http") ? clickupTaskId : `https://app.clickup.com/t/${clickupTaskId}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 text-[#a99ef5] hover:text-[#c4b9ff] text-xs font-medium hover:underline transition-colors"
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#7B68EE]/15 border border-[#7B68EE]/30 text-[#b0a4f8] text-xs font-medium hover:bg-[#7B68EE]/25 transition-colors w-full justify-center"
                   >
                     ↗ Abrir no ClickUp
                   </a>
-                  <p className="text-slate-700 text-[10px] font-mono truncate">{clickupTaskId}</p>
+                  <p className="text-slate-700 text-[10px] font-mono truncate text-center">{clickupTaskId}</p>
                 </div>
               ) : (
-                <p className="text-slate-600 text-xs">Nenhuma tarefa vinculada</p>
+                /* Sem task — botão de criar */
+                <div className="space-y-2">
+                  <button
+                    onClick={handleSyncClickup}
+                    disabled={syncingClickup}
+                    className="w-full flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#7B68EE]/15 border border-[#7B68EE]/30 text-[#b0a4f8] text-xs font-medium hover:bg-[#7B68EE]/25 disabled:opacity-50 transition-colors"
+                  >
+                    {syncingClickup ? "Criando..." : "✅ Criar no ClickUp"}
+                  </button>
+                  {syncError && (
+                    <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-2">
+                      <p className="text-red-400 text-[10px] leading-relaxed break-words">{syncError}</p>
+                    </div>
+                  )}
+                  <button
+                    onClick={() => { setEditingClickup(true); setClickupInput(""); setSyncError(null); }}
+                    className="w-full text-slate-600 text-[10px] hover:text-slate-400 transition-colors text-center"
+                  >
+                    + Vincular ID existente
+                  </button>
+                </div>
               )}
             </div>
           )}
