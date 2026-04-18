@@ -1720,195 +1720,9 @@ export default function WhatsappManager({
                   {ticketCreated && !openTicket && (
                     <span className="text-green-400 text-xs">✓ Chamado criado!</span>
                   )}
-
-
-                  {/* ── Botão IA ── */}
-                  <button
-                    onClick={() => setShowAiPanel(!showAiPanel)}
-                    title="Assistente IA"
-                    className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
-                      showAiPanel
-                        ? "bg-emerald-600/30 border-emerald-500/50 text-emerald-300"
-                        : "bg-[#0f1623] border-[#1e2d45] text-slate-300 hover:text-white hover:border-emerald-500/50"
-                    }`}
-                  >
-                    🤖 IA
-                  </button>
-
-                  {/* ── Botão + Ações (dropdown) ── */}
-                  <div className="relative" ref={actionsMenuRef}>
-                    <button
-                      onClick={() => setShowActionsMenu(!showActionsMenu)}
-                      className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
-                        showActionsMenu
-                          ? "bg-white/10 border-slate-500 text-white"
-                          : "bg-[#0f1623] border-[#1e2d45] text-slate-300 hover:text-white hover:border-slate-500"
-                      }`}
-                    >
-                      + Ações <span className="text-[10px] opacity-50">▾</span>
-                    </button>
-
-                    {showActionsMenu && (
-                      <div className="absolute right-0 top-full mt-1.5 w-52 bg-[#0d1525] border border-[#1e2d45] rounded-xl shadow-2xl z-50 overflow-hidden py-1">
-
-                        {/* Atribuir grupo a empresa (só para grupos) */}
-                        {selectedConv.phone.includes("@g.us") && (
-                          <button
-                            onClick={() => { setShowGroupCompany(!showGroupCompany); setShowActionsMenu(false); setGroupCompanySearch(""); setGroupCompanyResults([]); setAssignGroupError(null); }}
-                            className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
-                          >
-                            <span>🏢</span> {selectedConv.companyContact ? "Mudar empresa" : "Atribuir empresa"}
-                          </button>
-                        )}
-
-                        {/* Vincular como cliente (só para não-grupos) */}
-                        {!selectedConv.companyContact && !selectedConv.phone.includes("@g.us") && (
-                          <button
-                            onClick={() => { setShowAddCompany(!showAddCompany); setShowActionsMenu(false); setShowLinkProspect(false); setShowConvertForm(false); setShowTicketForm(false); }}
-                            className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
-                          >
-                            <span>⭐</span> Vincular como cliente
-                          </button>
-                        )}
-
-                        {/* Abrir chamado (só se não há chamado aberto) */}
-                        {!openTicket && (
-                          <button
-                            onClick={() => { setShowTicketForm(!showTicketForm); setShowActionsMenu(false); setShowAddCompany(false); }}
-                            className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
-                          >
-                            <span>🎫</span> Abrir chamado
-                          </button>
-                        )}
-
-                        {/* Mesclar contato (quando tem lead) */}
-                        {selectedConv.lead && (
-                          <button
-                            onClick={() => { setShowMergePanel(!showMergePanel); setShowActionsMenu(false); setShowTicketForm(false); setShowAddCompany(false); setMergeSearch(""); setMergeResults([]); }}
-                            className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
-                          >
-                            <span>🔗</span> Mesclar contato
-                          </button>
-                        )}
-
-                        {/* Fallback: se não tem nenhuma ação disponível */}
-                        {selectedConv.companyContact && openTicket && !selectedConv.lead && (
-                          <div className="px-4 py-3 text-[11px] text-slate-600 text-center">
-                            Nenhuma ação disponível
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
                 </div>
               </div>
 
-              {/* ── Barra de contexto inteligente ──────────────────────────────────
-                   Classificação (sem pipeline) OU Atendimento (com pipeline)
-                   em uma única faixa — elimina a duplicação de botões          */}
-              {(() => {
-                const isLeadInFinalStage = !!(selectedConv.lead?.pipelineStage && finalStageNames.includes(selectedConv.lead.pipelineStage));
-                const isTicketFinal = openTicket?.status === "RESOLVED" || openTicket?.status === "CLOSED";
-                // Mostra atendimento quando: tem pipeline OU é cliente (companyContact) OU já tem status
-                // Mostra classificação quando: não tem nada ainda OU etapa final (reabrir)
-                const showClassify = (!selectedConv.lead?.pipeline && !selectedConv.companyContact && !attendanceStatus) || isLeadInFinalStage;
-
-                if (showClassify) {
-                  /* ── Modo Classificação ── */
-                  return (
-                    <div className="px-5 py-2.5 border-b border-[#1e2d45] flex-shrink-0 bg-[#0a0f1a]">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-slate-500 text-[10px] font-semibold uppercase tracking-wide flex-shrink-0">
-                          {isLeadInFinalStage ? "♻️ Reabrir como:" : "📥 Classificar:"}
-                        </span>
-                        <button
-                          onClick={() => { setShowConvertForm(true); setShowTicketForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowAddCompany(false); }}
-                          className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 hover:bg-indigo-600/40 transition-colors"
-                        >
-                          🎯 Lead
-                        </button>
-                        <button
-                          onClick={() => { setShowOportunidadeForm(true); setShowConvertForm(false); setShowTicketForm(false); setShowLinkProspect(false); setShowAddCompany(false); }}
-                          className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-amber-600/20 border border-amber-500/30 text-amber-300 hover:bg-amber-600/40 transition-colors"
-                        >
-                          💰 Oportunidade
-                        </button>
-                        {(!openTicket || isTicketFinal) && (
-                          <button
-                            onClick={() => { setShowTicketForm(true); setShowConvertForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowAddCompany(false); }}
-                            className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-orange-600/20 border border-orange-500/30 text-orange-300 hover:bg-orange-600/40 transition-colors"
-                          >
-                            🎫 Chamado
-                          </button>
-                        )}
-                        {!isLeadInFinalStage && !selectedConv.companyContact && !selectedConv.phone.includes("@g.us") && (
-                          <button
-                            onClick={() => { setShowAddCompany(true); setShowConvertForm(false); setShowTicketForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); }}
-                            className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-amber-700/20 border border-amber-600/30 text-amber-400 hover:bg-amber-700/40 transition-colors"
-                          >
-                            ⭐ É Cliente
-                          </button>
-                        )}
-                        {!isLeadInFinalStage && (
-                          <button
-                            onClick={() => { setShowLinkProspect(true); setShowConvertForm(false); setShowTicketForm(false); setShowOportunidadeForm(false); setShowAddCompany(false); }}
-                            className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border border-[#1e2d45] text-slate-500 hover:text-violet-300 hover:border-violet-500/50 transition-colors"
-                          >
-                            🔎 Vincular Prospect
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  );
-                }
-
-                /* ── Modo Atendimento ── */
-                return (
-                  <div className={`px-5 py-2.5 border-b border-[#1e2d45] flex-shrink-0 ${ATTENDANCE[attendanceStatus ?? ""]?.ring ?? "bg-[#0a0f1a]"}`}>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-slate-500 text-[10px] font-semibold uppercase tracking-wide flex-shrink-0">Atendimento:</span>
-                      {(["WAITING", "IN_PROGRESS", "RESOLVED", "SCHEDULED"] as const).map((s) => {
-                        const a = ATTENDANCE[s];
-                        const isActive = attendanceStatus === s;
-                        return (
-                          <button
-                            key={s}
-                            onClick={() => handleSetAttendance(s)}
-                            disabled={savingAttendance}
-                            className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border transition-all disabled:opacity-50 ${
-                              isActive ? a.btn + " scale-105" : "border-[#1e2d45] text-slate-500 hover:text-slate-300 hover:border-slate-600"
-                            }`}
-                          >
-                            {a.icon} {a.label}
-                          </button>
-                        );
-                      })}
-                      {attendanceStatus === "SCHEDULED" && (
-                        <div className="flex items-center gap-2 ml-auto">
-                          <input
-                            type="datetime-local"
-                            value={expectedReturn}
-                            onChange={(e) => setExpectedReturn(e.target.value)}
-                            className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2 py-1 text-xs text-white focus:outline-none focus:border-purple-500"
-                          />
-                          <button
-                            onClick={() => handleSetAttendance("SCHEDULED")}
-                            disabled={savingAttendance || !expectedReturn}
-                            className="px-2.5 py-1 rounded-lg bg-purple-600 text-white text-xs font-medium hover:bg-purple-500 disabled:opacity-50"
-                          >
-                            Salvar
-                          </button>
-                        </div>
-                      )}
-                      {selectedConv.lead?.expectedReturnAt && attendanceStatus === "SCHEDULED" && !expectedReturn && (
-                        <span className="text-purple-400 text-[11px] ml-auto">
-                          📅 {new Date(selectedConv.lead.expectedReturnAt).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                );
-              })()}
 
               {/* Painel IA */}
               {showAiPanel && (
@@ -2686,6 +2500,159 @@ export default function WhatsappManager({
                 )}
 
                 <form onSubmit={handleReply} className="flex items-end gap-2">
+
+                  {/* ── Botão + Ações (abre para cima) ── */}
+                  {(() => {
+                    const isLeadInFinalStage = !!(selectedConv.lead?.pipelineStage && finalStageNames.includes(selectedConv.lead.pipelineStage));
+                    const isTicketFinal = openTicket?.status === "RESOLVED" || openTicket?.status === "CLOSED";
+                    return (
+                      <div className="relative flex-shrink-0" ref={actionsMenuRef}>
+                        <button
+                          type="button"
+                          onClick={() => setShowActionsMenu(!showActionsMenu)}
+                          className={`flex items-center gap-1 px-3 rounded-xl text-xs font-semibold border transition-colors ${
+                            showActionsMenu
+                              ? "bg-indigo-600 border-indigo-500 text-white"
+                              : "bg-[#0f1623] border-[#1e2d45] text-slate-400 hover:text-white hover:border-slate-500"
+                          }`}
+                          style={{ height: "42px" }}
+                        >
+                          + <span className="hidden sm:inline ml-0.5">Ações</span> <span className="text-[10px] opacity-60">{showActionsMenu ? "▾" : "▴"}</span>
+                        </button>
+
+                        {showActionsMenu && (
+                          <div className="absolute left-0 bottom-full mb-2 w-64 bg-[#0d1525] border border-[#1e2d45] rounded-xl shadow-2xl z-50 overflow-hidden py-1">
+
+                            {/* ── Status de Atendimento ── */}
+                            <div className="px-3 pt-2.5 pb-1.5">
+                              <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2">Atendimento</p>
+                              <div className="grid grid-cols-2 gap-1">
+                                {(["WAITING", "IN_PROGRESS", "RESOLVED", "SCHEDULED"] as const).map((s) => {
+                                  const a = ATTENDANCE[s];
+                                  const isActive = attendanceStatus === s;
+                                  return (
+                                    <button
+                                      key={s}
+                                      type="button"
+                                      onClick={() => { handleSetAttendance(s); if (s !== "SCHEDULED") setShowActionsMenu(false); }}
+                                      disabled={savingAttendance}
+                                      className={`flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-[11px] font-semibold border transition-all disabled:opacity-50 ${
+                                        isActive ? a.btn : "border-[#1e2d45] text-slate-500 hover:text-slate-200 hover:border-slate-600 hover:bg-white/5"
+                                      }`}
+                                    >
+                                      {a.icon} {a.label}
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                              {attendanceStatus === "SCHEDULED" && (
+                                <div className="flex gap-2 mt-2">
+                                  <input
+                                    type="datetime-local"
+                                    value={expectedReturn}
+                                    onChange={(e) => setExpectedReturn(e.target.value)}
+                                    className="flex-1 bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-purple-500"
+                                  />
+                                  <button
+                                    type="button"
+                                    onClick={() => { handleSetAttendance("SCHEDULED"); setShowActionsMenu(false); }}
+                                    disabled={savingAttendance || !expectedReturn}
+                                    className="px-2.5 py-1.5 rounded-lg bg-purple-600 text-white text-xs font-medium hover:bg-purple-500 disabled:opacity-50"
+                                  >
+                                    Salvar
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+
+                            <div className="border-t border-[#1e2d45] my-1" />
+
+                            {/* ── Classificar ── */}
+                            <div className="px-3 py-1.5">
+                              <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2">Classificar</p>
+                              <div className="space-y-0.5">
+                                <button
+                                  type="button"
+                                  onClick={() => { setShowConvertForm(true); setShowTicketForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowAddCompany(false); setShowActionsMenu(false); }}
+                                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
+                                >
+                                  🎯 Criar Lead
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => { setShowOportunidadeForm(true); setShowConvertForm(false); setShowTicketForm(false); setShowLinkProspect(false); setShowAddCompany(false); setShowActionsMenu(false); }}
+                                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
+                                >
+                                  💰 Criar Oportunidade
+                                </button>
+                                {(!openTicket || isTicketFinal) && (
+                                  <button
+                                    type="button"
+                                    onClick={() => { setShowTicketForm(true); setShowConvertForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowAddCompany(false); setShowActionsMenu(false); }}
+                                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
+                                  >
+                                    🎫 Abrir Chamado
+                                  </button>
+                                )}
+                                {!selectedConv.companyContact && !selectedConv.phone.includes("@g.us") && (
+                                  <button
+                                    type="button"
+                                    onClick={() => { setShowAddCompany(true); setShowConvertForm(false); setShowTicketForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowActionsMenu(false); }}
+                                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
+                                  >
+                                    ⭐ É Cliente
+                                  </button>
+                                )}
+                                <button
+                                  type="button"
+                                  onClick={() => { setShowLinkProspect(true); setShowConvertForm(false); setShowTicketForm(false); setShowOportunidadeForm(false); setShowAddCompany(false); setShowActionsMenu(false); }}
+                                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
+                                >
+                                  🔎 Vincular Prospect
+                                </button>
+                              </div>
+                            </div>
+
+                            <div className="border-t border-[#1e2d45] my-1" />
+
+                            {/* ── Mais opções ── */}
+                            <div className="px-3 py-1.5">
+                              <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2">Mais</p>
+                              <div className="space-y-0.5">
+                                <button
+                                  type="button"
+                                  onClick={() => { setShowAiPanel(!showAiPanel); setShowActionsMenu(false); }}
+                                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-emerald-400 hover:bg-emerald-500/10 hover:text-emerald-300 transition-colors text-left"
+                                >
+                                  🤖 Assistente IA
+                                </button>
+                                {selectedConv.phone.includes("@g.us") && (
+                                  <button
+                                    type="button"
+                                    onClick={() => { setShowGroupCompany(!showGroupCompany); setShowActionsMenu(false); setGroupCompanySearch(""); setGroupCompanyResults([]); setAssignGroupError(null); }}
+                                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
+                                  >
+                                    🏢 {selectedConv.companyContact ? "Mudar empresa" : "Atribuir empresa"}
+                                  </button>
+                                )}
+                                {selectedConv.lead && (
+                                  <button
+                                    type="button"
+                                    onClick={() => { setShowMergePanel(!showMergePanel); setShowActionsMenu(false); setMergeSearch(""); setMergeResults([]); }}
+                                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
+                                  >
+                                    🔗 Mesclar contato
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
+
                   <div className="flex-1 relative">
                     <textarea
                       ref={replyTextareaRef}
