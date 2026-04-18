@@ -49,20 +49,29 @@ export async function GET() {
     const isGroup = g.phone.includes("@g.us");
     if (isGroup) continue;
 
-    const lastMsg = await prisma.message.findFirst({
-      where: { phone: g.phone, companyId: g.companyId },
-      orderBy: { receivedAt: "desc" },
-      include: {
-        instance: { select: { instanceName: true } },
-        lead: { select: { id: true, name: true, pipeline: true, pipelineStage: true, attendanceStatus: true } },
-        company: { select: { name: true } },
-      },
-    });
+    // Busca última mensagem e lead em paralelo
+    // O lead é buscado por phone (não pelo leadId da msg, que pode ser null ou antigo)
+    const [lastMsg, lead] = await Promise.all([
+      prisma.message.findFirst({
+        where: { phone: g.phone, companyId: g.companyId },
+        orderBy: { receivedAt: "desc" },
+        include: {
+          instance: { select: { instanceName: true } },
+          company: { select: { name: true } },
+        },
+      }),
+      prisma.lead.findFirst({
+        where: { phone: g.phone, companyId: g.companyId },
+        orderBy: { createdAt: "desc" },
+        select: { id: true, name: true, pipeline: true, pipelineStage: true, attendanceStatus: true },
+      }),
+    ]);
 
     if (!lastMsg) continue;
     if (lastMsg.direction !== "INBOUND") continue;
 
-    const atStatus = lastMsg.lead?.attendanceStatus;
+    // Usa o attendanceStatus do lead buscado por phone (fonte correta)
+    const atStatus = lead?.attendanceStatus;
     const resolved = atStatus === "RESOLVED" || atStatus === "CLOSED";
     if (resolved) continue;
 
@@ -70,10 +79,10 @@ export async function GET() {
       phone: g.phone,
       companyId: g.companyId,
       companyName: lastMsg.company?.name ?? null,
-      leadName: lastMsg.lead?.name ?? null,
-      leadId: lastMsg.lead?.id ?? null,
-      pipeline: lastMsg.lead?.pipeline ?? null,
-      pipelineStage: lastMsg.lead?.pipelineStage ?? null,
+      leadName: lead?.name ?? null,
+      leadId: lead?.id ?? null,
+      pipeline: lead?.pipeline ?? null,
+      pipelineStage: lead?.pipelineStage ?? null,
       attendanceStatus: atStatus ?? null,
       lastMsgBody: lastMsg.body,
       lastMsgAt: lastMsg.receivedAt.toISOString(),

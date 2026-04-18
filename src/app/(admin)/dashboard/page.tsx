@@ -143,32 +143,45 @@ export default async function DashboardPage() {
   }> = [];
   for (const g of phoneGroups) {
     if (unansweredConvs.length >= 10) break;
-    const lastMsg = await prisma.message.findFirst({
-      where: { phone: g.phone, companyId: g.companyId },
-      orderBy: { receivedAt: "desc" },
-      include: {
-        instance: { select: { instanceName: true } },
-        lead: { select: { id: true, name: true, pipeline: true, pipelineStage: true, attendanceStatus: true } },
-        company: { select: { name: true } },
-      },
-    });
-    const resolved = lastMsg?.lead?.attendanceStatus === "RESOLVED" || lastMsg?.lead?.attendanceStatus === "CLOSED";
     const isGroup = g.phone.includes("@g.us");
-    if (lastMsg?.direction === "INBOUND" && !resolved && !isGroup) {
-      unansweredConvs.push({
-        phone: g.phone,
-        companyId: g.companyId,
-        companyName: lastMsg.company?.name ?? null,
-        leadName: lastMsg.lead?.name ?? null,
-        leadId: lastMsg.lead?.id ?? null,
-        pipeline: lastMsg.lead?.pipeline ?? null,
-        pipelineStage: lastMsg.lead?.pipelineStage ?? null,
-        attendanceStatus: lastMsg.lead?.attendanceStatus ?? null,
-        lastMsgBody: lastMsg.body,
-        lastMsgAt: lastMsg.receivedAt.toISOString(),
-        instanceName: lastMsg.instance?.instanceName ?? null,
-      });
-    }
+    if (isGroup) continue;
+
+    // Lead buscado por phone (fonte correta do attendanceStatus)
+    // A mensagem pode ter leadId=null ou apontar para lead antigo
+    const [lastMsg, lead] = await Promise.all([
+      prisma.message.findFirst({
+        where: { phone: g.phone, companyId: g.companyId },
+        orderBy: { receivedAt: "desc" },
+        include: {
+          instance: { select: { instanceName: true } },
+          company: { select: { name: true } },
+        },
+      }),
+      prisma.lead.findFirst({
+        where: { phone: g.phone, companyId: g.companyId },
+        orderBy: { createdAt: "desc" },
+        select: { id: true, name: true, pipeline: true, pipelineStage: true, attendanceStatus: true },
+      }),
+    ]);
+
+    if (!lastMsg || lastMsg.direction !== "INBOUND") continue;
+    const atStatus = lead?.attendanceStatus;
+    const resolved = atStatus === "RESOLVED" || atStatus === "CLOSED";
+    if (resolved) continue;
+
+    unansweredConvs.push({
+      phone: g.phone,
+      companyId: g.companyId,
+      companyName: lastMsg.company?.name ?? null,
+      leadName: lead?.name ?? null,
+      leadId: lead?.id ?? null,
+      pipeline: lead?.pipeline ?? null,
+      pipelineStage: lead?.pipelineStage ?? null,
+      attendanceStatus: atStatus ?? null,
+      lastMsgBody: lastMsg.body,
+      lastMsgAt: lastMsg.receivedAt.toISOString(),
+      instanceName: lastMsg.instance?.instanceName ?? null,
+    });
   }
 
   const pipelineLabel: Record<string, { label: string; color: string }> = {
