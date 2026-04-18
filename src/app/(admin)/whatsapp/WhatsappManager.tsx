@@ -1809,7 +1809,9 @@ export default function WhatsappManager({
               {(() => {
                 const isLeadInFinalStage = !!(selectedConv.lead?.pipelineStage && finalStageNames.includes(selectedConv.lead.pipelineStage));
                 const isTicketFinal = openTicket?.status === "RESOLVED" || openTicket?.status === "CLOSED";
-                const showClassify = !selectedConv.lead?.pipeline || isLeadInFinalStage;
+                // Mostra atendimento quando: tem pipeline OU é cliente (companyContact) OU já tem status
+                // Mostra classificação quando: não tem nada ainda OU etapa final (reabrir)
+                const showClassify = (!selectedConv.lead?.pipeline && !selectedConv.companyContact && !attendanceStatus) || isLeadInFinalStage;
 
                 if (showClassify) {
                   /* ── Modo Classificação ── */
