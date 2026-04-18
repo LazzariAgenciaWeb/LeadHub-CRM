@@ -206,6 +206,7 @@ export default function WhatsappManager({
   const [searchingCompany, setSearchingCompany] = useState(false);
   const [addContactForm, setAddContactForm] = useState({ companyId: "", companyName: "", contactName: "", role: "CONTACT" });
   const [savingContact, setSavingContact] = useState(false);
+  const [creatingContactCompany, setCreatingContactCompany] = useState(false);
 
   // Mesclar contatos duplicados
   const [showMergePanel, setShowMergePanel] = useState(false);
@@ -556,6 +557,29 @@ export default function WhatsappManager({
     // 2. Atribuir o grupo à nova empresa
     await handleAssignGroupCompany(newCompany.id);
     setCreatingGroupCompany(false);
+  }
+
+  // Criar empresa e avançar direto para o passo 2 do formulário de contato individual
+  async function handleCreateCompanyForContact(name: string) {
+    if (!name.trim()) return;
+    setCreatingContactCompany(true);
+    const createRes = await fetch("/api/companies", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: name.trim() }),
+    });
+    if (!createRes.ok) {
+      const err = await createRes.json().catch(() => ({}));
+      alert(err.error ?? "Erro ao criar empresa");
+      setCreatingContactCompany(false);
+      return;
+    }
+    const newCompany = await createRes.json();
+    // Avança para o passo 2 com a empresa recém-criada
+    setAddContactForm((prev) => ({ ...prev, companyId: newCompany.id, companyName: newCompany.name }));
+    setCompanySearch("");
+    setCompanyResults([]);
+    setCreatingContactCompany(false);
   }
 
   async function handleSaveName(e: React.FormEvent) {
@@ -1843,8 +1867,23 @@ export default function WhatsappManager({
                           ))}
                         </div>
                       )}
-                      {companySearch && !searchingCompany && companyResults.length === 0 && (
-                        <p className="text-slate-600 text-xs">Nenhuma empresa encontrada.</p>
+                      {companySearch.trim().length >= 1 && !searchingCompany && companyResults.length === 0 && (
+                        <div className="space-y-1">
+                          <p className="text-slate-600 text-xs">
+                            Nenhuma empresa encontrada para <span className="text-white">"{companySearch}"</span>.
+                          </p>
+                          <button
+                            type="button"
+                            onClick={() => handleCreateCompanyForContact(companySearch)}
+                            disabled={creatingContactCompany}
+                            className="w-full text-left flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 hover:border-amber-400/60 rounded-lg px-3 py-2 transition-colors disabled:opacity-50"
+                          >
+                            <span className="text-lg">➕</span>
+                            <span className="text-amber-300 text-xs font-semibold">
+                              {creatingContactCompany ? "Criando..." : `Criar empresa "${companySearch}"`}
+                            </span>
+                          </button>
+                        </div>
                       )}
                     </div>
                   ) : (
