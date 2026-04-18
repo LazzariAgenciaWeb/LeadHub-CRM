@@ -184,6 +184,8 @@ export default function WhatsappManager({
   const [attendanceStatus, setAttendanceStatus] = useState<string | null>(null);
   const [expectedReturn, setExpectedReturn] = useState<string>("");
   const [savingAttendance, setSavingAttendance] = useState(false);
+  // Override local de attendanceStatus por telefone — evita sidebar desatualizada antes do router.refresh()
+  const [localAttendanceOverrides, setLocalAttendanceOverrides] = useState<Map<string, string>>(new Map());
 
   // Tick a cada 30s para atualizar as bordas de urgência sem aguardar o router.refresh
   const [, setTick] = useState(0);
@@ -400,7 +402,8 @@ export default function WhatsappManager({
         const mins = isInbound
           ? Math.floor((Date.now() - new Date(c.lastMsg!.receivedAt).getTime()) / 60_000)
           : -1;
-        const atStatus = c.lead?.attendanceStatus;
+        // Usa override local se existir (atualização otimista antes do router.refresh)
+        const atStatus = localAttendanceOverrides.get(c.phone) ?? c.lead?.attendanceStatus;
 
         switch (statusFilter) {
           case "URGENT":      if (!(isInbound && mins >= 20)) return false; break;
@@ -414,7 +417,7 @@ export default function WhatsappManager({
       }
       return true;
     });
-  }, [conversations, search, instanceFilter, statusFilter]);
+  }, [conversations, search, instanceFilter, statusFilter, localAttendanceOverrides]);
 
   // Contagem por filtro de status (para mostrar badges nos chips)
   const filterCounts = useMemo(() => {
@@ -423,7 +426,8 @@ export default function WhatsappManager({
     for (const c of conversations) {
       const isInbound = c.lastMsg?.direction === "INBOUND";
       const mins = isInbound ? Math.floor((now - new Date(c.lastMsg!.receivedAt).getTime()) / 60_000) : -1;
-      const atStatus = c.lead?.attendanceStatus;
+      // Usa override local se existir
+      const atStatus = localAttendanceOverrides.get(c.phone) ?? c.lead?.attendanceStatus;
       if (isInbound && mins >= 20) counts.URGENT++;
       if (isInbound && atStatus !== "RESOLVED") counts.UNANSWERED++;
       if (atStatus === "IN_PROGRESS") counts.IN_PROGRESS++;
@@ -433,7 +437,7 @@ export default function WhatsappManager({
       if (!c.lead?.pipeline)           counts.NO_LEAD++;
     }
     return counts;
-  }, [conversations]);
+  }, [conversations, localAttendanceOverrides]);
 
   // Mapa phone → instanceName para identificar "nossos números" em grupos
   const instancePhoneMap = useMemo(() => {
@@ -996,6 +1000,8 @@ export default function WhatsappManager({
 
   async function quickResolve(e: React.MouseEvent, conv: Conversation) {
     e.stopPropagation();
+    // Override imediato na sidebar antes do router.refresh()
+    setLocalAttendanceOverrides(prev => new Map(prev).set(conv.phone, "RESOLVED"));
     if (!conv.lead) {
       // Sem lead: criar registro mínimo para rastrear atendimento
       const res = await fetch("/api/leads", {
@@ -1114,6 +1120,8 @@ export default function WhatsappManager({
     if (!selectedConv) return;
     setSavingAttendance(true);
     setAttendanceStatus(status);
+    // Atualiza sidebar imediatamente (antes do router.refresh() chegar)
+    setLocalAttendanceOverrides(prev => new Map(prev).set(selectedConv.phone, status));
 
     if (!selectedConv.lead) {
       // Sem lead: criar registro mínimo para rastrear atendimento
@@ -1186,7 +1194,8 @@ export default function WhatsappManager({
   function getUrgencyRing(conv: Conversation): { ring: string; icon: string; pulse: boolean } {
     const isInbound = conv.lastMsg?.direction === "INBOUND";
     const pipeline  = conv.lead?.pipeline;
-    const status    = conv.lead?.attendanceStatus;
+    // Usa override local para refletir mudança imediatamente antes do router.refresh()
+    const status    = localAttendanceOverrides.get(conv.phone) ?? conv.lead?.attendanceStatus;
 
     // Resolvido / Em Atendimento / Agendado → anel de status, sem urgência
     if (status === "RESOLVED")    return { ring: "ring-1 ring-green-600/50",  icon: "✅", pulse: false };
