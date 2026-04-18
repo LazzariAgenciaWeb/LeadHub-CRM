@@ -150,14 +150,18 @@ export default function WhatsappManager({
   // Scroll to bottom button visibility
   const [showScrollBtn, setShowScrollBtn] = useState(false);
 
-  // Participante de grupo: editar nome / mover empresa
+  // Participante de grupo: editar nome / mover empresa / marcar como meu
   const [editingParticipant, setEditingParticipant] = useState<string | null>(null); // phone
+  const [participantMarkMode, setParticipantMarkMode] = useState<"contact" | "mine" | null>(null);
   const [participantNames, setParticipantNames] = useState<Record<string, string>>({}); // phone → name
   const [participantCompanies, setParticipantCompanies] = useState<Record<string, { id: string; name: string }>>({});
   const [participantNameInput, setParticipantNameInput] = useState("");
   const [participantCompanySearch, setParticipantCompanySearch] = useState("");
   const [participantCompanyResults, setParticipantCompanyResults] = useState<{ id: string; name: string }[]>([]);
   const [savingParticipant, setSavingParticipant] = useState(false);
+  const [markingAsMine, setMarkingAsMine] = useState(false);
+  // Overrides locais: phone → instanceName (aplicados imediatamente ao marcar "é meu número")
+  const [instancePhoneOverrides, setInstancePhoneOverrides] = useState<Map<string, string>>(new Map());
 
   // Name editor
   const [editingName, setEditingName] = useState(false);
@@ -449,8 +453,12 @@ export default function WhatsappManager({
         map.set(inst.phone.replace("@s.whatsapp.net", "").replace(/\D/g, ""), inst.instanceName);
       }
     }
+    // Aplica overrides locais (definidos ao clicar "É meu número") — efeito imediato sem aguardar router.refresh
+    for (const [phone, instanceName] of instancePhoneOverrides) {
+      map.set(phone, instanceName);
+    }
     return map;
-  }, [instances]);
+  }, [instances, instancePhoneOverrides]);
 
   function resolveParticipant(participantPhone: string | null): { isOurs: boolean; label: string; rawNorm: string } | null {
     if (!participantPhone) return null;
@@ -553,6 +561,7 @@ export default function WhatsappManager({
   async function handleOpenParticipantEdit(phone: string) {
     const norm = phone.replace("@s.whatsapp.net", "").replace(/\D/g, "");
     setEditingParticipant(norm);
+    setParticipantMarkMode(null); // começa na tela de escolha
     setParticipantNameInput(participantNames[norm] ?? "");
     setParticipantCompanySearch("");
     setParticipantCompanyResults([]);
@@ -585,6 +594,31 @@ export default function WhatsappManager({
       setParticipantNames((prev) => ({ ...prev, [editingParticipant]: contact.name ?? prev[editingParticipant] }));
       if (contact.company) setParticipantCompanies((prev) => ({ ...prev, [editingParticipant]: contact.company }));
       setEditingParticipant(null);
+    }
+  }
+
+  async function handleMarkAsMine(instanceId: string) {
+    if (!editingParticipant) return;
+    const inst = instances.find((i) => i.id === instanceId);
+    if (!inst) return;
+    setMarkingAsMine(true);
+    const res = await fetch(`/api/whatsapp/${instanceId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone: editingParticipant }),
+    });
+    setMarkingAsMine(false);
+    if (res.ok) {
+      // Atualiza mapa local imediatamente — os balões do grupo mudam de lado sem precisar de router.refresh
+      const norm = editingParticipant.replace(/^55/, "");
+      setInstancePhoneOverrides((prev) => {
+        const next = new Map(prev);
+        next.set(editingParticipant, inst.instanceName);
+        next.set(norm, inst.instanceName);
+        return next;
+      });
+      setEditingParticipant(null);
+      setParticipantMarkMode(null);
     }
   }
 
@@ -2457,62 +2491,143 @@ export default function WhatsappManager({
                 {/* Popup de edição de participante de grupo */}
                 {editingParticipant && (
                   <div className="sticky bottom-2 mx-auto w-full max-w-sm bg-[#0d1525] border border-indigo-500/30 rounded-2xl p-4 shadow-2xl z-30">
+                    {/* Header comum */}
                     <div className="flex items-center justify-between mb-3">
-                      <p className="text-indigo-300 text-xs font-semibold">👤 Nomear contato</p>
-                      <button onClick={() => setEditingParticipant(null)} className="text-slate-600 hover:text-slate-300 text-xs">✕</button>
+                      <p className="text-indigo-300 text-xs font-semibold">
+                        {participantMarkMode === "mine" ? "📤 Associar ao meu número" : participantMarkMode === "contact" ? "👤 Nomear contato" : "⚙️ O que deseja fazer?"}
+                      </p>
+                      <button
+                        onClick={() => { setEditingParticipant(null); setParticipantMarkMode(null); }}
+                        className="text-slate-600 hover:text-slate-300 text-xs"
+                      >✕</button>
                     </div>
-                    <p className="text-slate-600 text-[10px] mb-2 font-mono">{editingParticipant}</p>
-                    <input
-                      autoFocus
-                      type="text"
-                      value={participantNameInput}
-                      onChange={(e) => setParticipantNameInput(e.target.value)}
-                      placeholder="Nome do contato..."
-                      className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 mb-2"
-                    />
-                    {/* Vincular a empresa */}
-                    <div className="mb-3">
-                      <input
-                        type="text"
-                        value={participantCompanySearch}
-                        onChange={(e) => { setParticipantCompanySearch(e.target.value); if (e.target.value.length >= 1) searchParticipantCompanies(e.target.value); else setParticipantCompanyResults([]); }}
-                        placeholder="Empresa (opcional)..."
-                        className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
-                      />
-                      {participantCompanyResults.length > 0 && (
-                        <div className="mt-1 space-y-0.5 max-h-32 overflow-y-auto">
-                          {participantCompanyResults.map((c) => (
-                            <button
-                              key={c.id}
-                              onClick={() => { handleSaveParticipant(c.id); }}
-                              disabled={savingParticipant}
-                              className="w-full flex items-center justify-between px-3 py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] hover:border-indigo-500/50 text-left text-xs transition-colors disabled:opacity-50"
-                            >
-                              <span className="text-white">{c.name}</span>
-                              <span className="text-indigo-400 text-[10px]">{savingParticipant ? "..." : "Salvar →"}</span>
-                            </button>
-                          ))}
+                    <p className="text-slate-600 text-[10px] mb-3 font-mono">{editingParticipant}</p>
+
+                    {/* Modo: escolha inicial */}
+                    {participantMarkMode === null && (
+                      <div className="space-y-2">
+                        <button
+                          onClick={() => setParticipantMarkMode("contact")}
+                          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-[#0f1623] border border-[#1e2d45] hover:border-indigo-500/50 text-left transition-colors group"
+                        >
+                          <span className="text-xl">👤</span>
+                          <div>
+                            <p className="text-white text-xs font-medium group-hover:text-indigo-300 transition-colors">Nomear contato</p>
+                            <p className="text-slate-600 text-[10px]">Salvar nome ou vincular a uma empresa cliente</p>
+                          </div>
+                        </button>
+                        <button
+                          onClick={() => setParticipantMarkMode("mine")}
+                          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-[#0f1623] border border-[#1e2d45] hover:border-emerald-500/50 text-left transition-colors group"
+                        >
+                          <span className="text-xl">📤</span>
+                          <div>
+                            <p className="text-white text-xs font-medium group-hover:text-emerald-300 transition-colors">É meu número</p>
+                            <p className="text-slate-600 text-[10px]">Associar este número a uma das minhas instâncias WhatsApp</p>
+                          </div>
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Modo: nomear contato */}
+                    {participantMarkMode === "contact" && (
+                      <>
+                        <input
+                          autoFocus
+                          type="text"
+                          value={participantNameInput}
+                          onChange={(e) => setParticipantNameInput(e.target.value)}
+                          placeholder="Nome do contato..."
+                          className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 mb-2"
+                        />
+                        {/* Vincular a empresa */}
+                        <div className="mb-3">
+                          <input
+                            type="text"
+                            value={participantCompanySearch}
+                            onChange={(e) => { setParticipantCompanySearch(e.target.value); if (e.target.value.length >= 1) searchParticipantCompanies(e.target.value); else setParticipantCompanyResults([]); }}
+                            placeholder="Empresa (opcional)..."
+                            className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                          />
+                          {participantCompanyResults.length > 0 && (
+                            <div className="mt-1 space-y-0.5 max-h-32 overflow-y-auto">
+                              {participantCompanyResults.map((c) => (
+                                <button
+                                  key={c.id}
+                                  onClick={() => { handleSaveParticipant(c.id); }}
+                                  disabled={savingParticipant}
+                                  className="w-full flex items-center justify-between px-3 py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] hover:border-indigo-500/50 text-left text-xs transition-colors disabled:opacity-50"
+                                >
+                                  <span className="text-white">{c.name}</span>
+                                  <span className="text-indigo-400 text-[10px]">{savingParticipant ? "..." : "Salvar →"}</span>
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                          {participantCompanies[editingParticipant] && (
+                            <p className="text-amber-400 text-[10px] mt-1">🏢 Empresa atual: {participantCompanies[editingParticipant].name}</p>
+                          )}
                         </div>
-                      )}
-                      {participantCompanies[editingParticipant] && (
-                        <p className="text-amber-400 text-[10px] mt-1">🏢 Empresa atual: {participantCompanies[editingParticipant].name}</p>
-                      )}
-                    </div>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => handleSaveParticipant()}
-                        disabled={savingParticipant}
-                        className="flex-1 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium disabled:opacity-50 transition-colors"
-                      >
-                        {savingParticipant ? "Salvando..." : "Salvar nome"}
-                      </button>
-                      <button
-                        onClick={() => setEditingParticipant(null)}
-                        className="px-3 py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] text-slate-400 text-xs hover:text-white transition-colors"
-                      >
-                        Cancelar
-                      </button>
-                    </div>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => handleSaveParticipant()}
+                            disabled={savingParticipant}
+                            className="flex-1 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium disabled:opacity-50 transition-colors"
+                          >
+                            {savingParticipant ? "Salvando..." : "Salvar nome"}
+                          </button>
+                          <button
+                            onClick={() => setParticipantMarkMode(null)}
+                            className="px-3 py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] text-slate-400 text-xs hover:text-white transition-colors"
+                          >
+                            ← Voltar
+                          </button>
+                        </div>
+                      </>
+                    )}
+
+                    {/* Modo: marcar como meu número */}
+                    {participantMarkMode === "mine" && (
+                      <>
+                        <p className="text-slate-500 text-[11px] mb-2">Selecione qual instância usa este número:</p>
+                        <div className="space-y-1.5 max-h-52 overflow-y-auto">
+                          {instances.map((inst) => {
+                            const badgeColor = getInstanceBadgeColor(inst.instanceName);
+                            const isConnected = inst.status === "CONNECTED";
+                            return (
+                              <button
+                                key={inst.id}
+                                onClick={() => handleMarkAsMine(inst.id)}
+                                disabled={markingAsMine}
+                                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-[#0f1623] border border-[#1e2d45] hover:border-emerald-500/50 text-left transition-colors disabled:opacity-50 group"
+                              >
+                                <div className={`w-2 h-2 rounded-full flex-shrink-0 ${isConnected ? "bg-green-400" : "bg-slate-600"}`} />
+                                <div className="flex-1 min-w-0">
+                                  <p className={`text-xs font-semibold truncate ${badgeColor.split(" ").filter((c) => c.startsWith("text-")).join(" ")}`}>
+                                    {inst.instanceName}
+                                  </p>
+                                  {inst.phone && (
+                                    <p className="text-slate-600 text-[10px] font-mono truncate">{inst.phone}</p>
+                                  )}
+                                  {inst.company && (
+                                    <p className="text-slate-600 text-[10px] truncate">{inst.company.name}</p>
+                                  )}
+                                </div>
+                                <span className="text-emerald-400 text-[10px] font-medium group-hover:text-emerald-300 transition-colors flex-shrink-0">
+                                  {markingAsMine ? "..." : "Associar →"}
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                        <button
+                          onClick={() => setParticipantMarkMode(null)}
+                          className="mt-3 w-full py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] text-slate-400 text-xs hover:text-white transition-colors"
+                        >
+                          ← Voltar
+                        </button>
+                      </>
+                    )}
                   </div>
                 )}
 
