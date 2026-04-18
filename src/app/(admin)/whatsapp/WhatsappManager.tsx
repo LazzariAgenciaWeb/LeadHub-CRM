@@ -268,6 +268,7 @@ export default function WhatsappManager({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const selectedConvRef = useRef<Conversation | null>(null);
+  const openTicketRef = useRef<{ id: string; title: string; status: string } | null>(null);
   // Flag para forçar scroll no próximo render (ao abrir conversa ou enviar mensagem)
   const forceScrollRef = useRef(false);
 
@@ -298,6 +299,10 @@ export default function WhatsappManager({
     selectedConvRef.current = selectedConv;
   }, [selectedConv]);
 
+  useEffect(() => {
+    openTicketRef.current = openTicket;
+  }, [openTicket]);
+
   // Auto-refresh every 5 seconds
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -308,21 +313,34 @@ export default function WhatsappManager({
       const msgParams = new URLSearchParams({ phone: conv.phone });
       if (conv.companyId) msgParams.set("companyId", conv.companyId);
 
+      // Estratégia dupla para o chamado:
+      // 1) busca por phone (descobre ticket novo)
+      // 2) se já tem ticket aberto, verifica o status diretamente pelo ID
+      //    (cobre casos onde o ticket não tem phone salvo ou phone diferente)
       const ticketParams = new URLSearchParams({ phone: conv.phone, openOnly: "true" });
       if (conv.companyId) ticketParams.set("companyId", conv.companyId);
+      const currentTicketId = openTicketRef.current?.id;
 
-      // Re-busca mensagens, chamado e lead em paralelo
       const fetches: Promise<Response>[] = [
         fetch(`/api/whatsapp/messages?${msgParams}`),
         fetch(`/api/tickets?${ticketParams}`),
       ];
-      if (conv.lead?.id) fetches.push(fetch(`/api/leads/${conv.lead.id}`));
+      if (currentTicketId) fetches.push(fetch(`/api/tickets/${currentTicketId}`));
+      if (conv.lead?.id)   fetches.push(fetch(`/api/leads/${conv.lead.id}`));
 
-      const [msgsRes, ticketsRes, leadRes] = await Promise.all(fetches);
+      const results = await Promise.all(fetches);
+      const [msgsRes, ticketsRes, ...rest] = results;
+      const ticketByIdRes = currentTicketId ? rest[0] : undefined;
+      const leadRes       = currentTicketId ? rest[1] : rest[0];
 
       if (msgsRes.ok) setConvMessages(await msgsRes.json());
 
-      if (ticketsRes.ok) {
+      // Atualiza chamado: usa o resultado por ID se disponível (mais confiável)
+      if (ticketByIdRes?.ok) {
+        const t = await ticketByIdRes.json();
+        const isFinal = t.status === "RESOLVED" || t.status === "CLOSED";
+        setOpenTicket(isFinal ? null : { id: t.id, title: t.title, status: t.status });
+      } else if (ticketsRes.ok) {
         const tickets = await ticketsRes.json();
         setOpenTicket(tickets[0] ?? null);
       }
@@ -337,7 +355,6 @@ export default function WhatsappManager({
             lead: {
               ...prev.lead,
               ...updatedLead,
-              // garante que os campos de texto não sejam sobrescritos com undefined
               notes: updatedLead.notes ?? prev.lead?.notes ?? null,
             },
           };
