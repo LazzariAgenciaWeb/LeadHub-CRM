@@ -1703,16 +1703,7 @@ export default function WhatsappManager({
                           </Link>
                         )}
 
-                        {/* Chamado resolvido/fechado — pill muted */}
-                        {openTicket && isTicketFinal && (
-                          <Link
-                            href={`/chamados/${openTicket.id}`}
-                            className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border border-slate-700/50 text-slate-500 bg-white/3 hover:opacity-80 transition-opacity line-through"
-                            title="Chamado encerrado"
-                          >
-                            🎫 <span className="truncate">{openTicket.title.length > 20 ? openTicket.title.slice(0, 20) + "…" : openTicket.title}</span>
-                          </Link>
-                        )}
+                        {/* Chamado encerrado: não exibe pill — "Abrir Chamado" fica disponível no menu + Ações */}
                       </>
                     );
                   })()}
