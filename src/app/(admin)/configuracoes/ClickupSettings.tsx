@@ -172,13 +172,19 @@ export default function ClickupSettings({
       <section className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5">
         <h3 className="text-white font-semibold text-sm mb-3">📋 O que é sincronizado</h3>
         <div className="space-y-2">
-          <div className="flex items-center gap-3 text-sm">
-            <span className="text-green-400 text-base">✅</span>
-            <span className="text-slate-300">Oportunidades (pipeline CRM)</span>
+          <div className="flex items-start gap-3 text-sm">
+            <span className="text-green-400 text-base mt-0.5">✅</span>
+            <div>
+              <div className="text-slate-300">Oportunidades (pipeline CRM)</div>
+              <div className="text-slate-500 text-xs">Criadas automaticamente ao mover para OPORTUNIDADES; atualizadas ao mudar etapa/prioridade.</div>
+            </div>
           </div>
-          <div className="flex items-center gap-3 text-sm">
-            <span className="text-green-400 text-base">✅</span>
-            <span className="text-slate-300">Chamados (helpdesk)</span>
+          <div className="flex items-start gap-3 text-sm">
+            <span className="text-green-400 text-base mt-0.5">✅</span>
+            <div>
+              <div className="text-slate-300">Chamados (helpdesk)</div>
+              <div className="text-slate-500 text-xs">Criados automaticamente no ClickUp ao abrir; status atualizado em tempo real.</div>
+            </div>
           </div>
           <div className="flex items-center gap-3 text-sm">
             <span className="text-slate-600 text-base">❌</span>
@@ -186,7 +192,7 @@ export default function ClickupSettings({
           </div>
         </div>
         <p className="text-slate-600 text-xs mt-3">
-          Cada item pode ter o ClickUp habilitado individualmente. Use o campo de ID da tarefa em cada oportunidade ou chamado para vincular manualmente.
+          Sincronização automática ativada quando o API Token e os List IDs estão configurados. O ID da tarefa ClickUp também pode ser vinculado manualmente em cada oportunidade ou chamado.
         </p>
       </section>
     </div>

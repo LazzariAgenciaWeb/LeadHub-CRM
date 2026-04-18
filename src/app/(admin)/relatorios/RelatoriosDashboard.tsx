@@ -14,6 +14,9 @@ interface Props {
   leadsPerStatus: { name: string; value: number; color: string }[];
   leadsPerCampaign: { name: string; leads: number; closed: number }[];
   leadsPerCompany: { name: string; leads: number; closed: number }[];
+  trackingLinks: { label: string; clicks: number; leads: number; destType: string; campaign: string | null }[];
+  linkKpis: { totalClicks: number; totalLeads: number };
+  ticketKpis: { open: number; inProgress: number; resolved: number; total: number };
 }
 
 const PERIOD_OPTIONS = [
@@ -53,6 +56,7 @@ function PieTooltip({ active, payload }: any) {
 
 export default function RelatoriosDashboard({
   days, isSuperAdmin, kpis, leadsPerDay, leadsPerStatus, leadsPerCampaign, leadsPerCompany,
+  trackingLinks, linkKpis, ticketKpis,
 }: Props) {
   const router = useRouter();
 
@@ -252,6 +256,91 @@ export default function RelatoriosDashboard({
           </ResponsiveContainer>
         </div>
       )}
+
+      {/* Chamados + Links de Rastreamento */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* Chamados */}
+        <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5">
+          <h2 className="text-white font-bold text-sm mb-4">🎫 Chamados</h2>
+          <div className="grid grid-cols-2 gap-3 mb-4">
+            {[
+              { label: "Total",         value: ticketKpis.total,      color: "text-white" },
+              { label: "Abertos",       value: ticketKpis.open,       color: "text-indigo-400" },
+              { label: "Em Andamento",  value: ticketKpis.inProgress,  color: "text-blue-400" },
+              { label: "Resolvidos",    value: ticketKpis.resolved,    color: "text-green-400" },
+            ].map((item) => (
+              <div key={item.label} className="bg-[#161f30] rounded-lg p-3 text-center">
+                <div className={`text-2xl font-bold ${item.color}`}>{item.value}</div>
+                <div className="text-slate-500 text-[11px] mt-0.5">{item.label}</div>
+              </div>
+            ))}
+          </div>
+          {ticketKpis.total > 0 && (
+            <div className="space-y-2 pt-2 border-t border-[#1e2d45]">
+              {[
+                { label: "Abertos",      value: ticketKpis.open,       color: "bg-indigo-500" },
+                { label: "Em Andamento", value: ticketKpis.inProgress,  color: "bg-blue-500" },
+                { label: "Resolvidos",   value: ticketKpis.resolved,    color: "bg-green-500" },
+              ].map((row) => (
+                <div key={row.label}>
+                  <div className="flex justify-between text-[11px] mb-1">
+                    <span className="text-slate-400">{row.label}</span>
+                    <span className="text-white font-semibold">{row.value}</span>
+                  </div>
+                  <div className="h-1.5 bg-[#1e2d45] rounded-full overflow-hidden">
+                    <div
+                      className={`h-full rounded-full ${row.color}`}
+                      style={{ width: `${ticketKpis.total > 0 ? Math.round((row.value / ticketKpis.total) * 100) : 0}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Links de Rastreamento */}
+        <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-white font-bold text-sm">🔗 Links de Rastreamento</h2>
+            <div className="flex items-center gap-3 text-[11px]">
+              <span className="text-slate-400">👆 <strong className="text-white">{linkKpis.totalClicks}</strong> cliques</span>
+              <span className="text-slate-400">🎯 <strong className="text-green-400">{linkKpis.totalLeads}</strong> leads</span>
+            </div>
+          </div>
+          {trackingLinks.length === 0 ? (
+            <div className="text-center py-8 text-slate-500 text-sm">Nenhum link criado ainda</div>
+          ) : (
+            <div className="space-y-2">
+              {trackingLinks.map((link, i) => {
+                const maxClicks = Math.max(1, trackingLinks[0].clicks);
+                const pct = Math.round((link.clicks / maxClicks) * 100);
+                const conv = link.clicks > 0 ? ((link.leads / link.clicks) * 100).toFixed(0) : "0";
+                return (
+                  <div key={i} className="flex items-center gap-3">
+                    <span className="text-slate-600 text-[11px] w-4 text-right flex-shrink-0">{i + 1}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between mb-0.5">
+                        <span className="text-slate-300 text-[12px] font-medium truncate">
+                          {link.destType === "whatsapp" ? "💬" : "🌐"} {link.label}
+                        </span>
+                        <div className="flex items-center gap-2 flex-shrink-0 ml-2 text-[11px]">
+                          <span className="text-white font-bold">{link.clicks}</span>
+                          <span className="text-green-400">{conv}%</span>
+                        </div>
+                      </div>
+                      <div className="h-1 bg-[#1e2d45] rounded-full overflow-hidden">
+                        <div className="h-full bg-gradient-to-r from-orange-500 to-amber-400 rounded-full" style={{ width: `${pct}%` }} />
+                      </div>
+                      {link.campaign && <div className="text-slate-600 text-[10px] mt-0.5">📣 {link.campaign}</div>}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { getClickupSettings, syncTicketToClickup } from "@/lib/clickup";
 
 // GET /api/tickets/[id]
 export async function GET(
@@ -44,6 +45,9 @@ export async function PATCH(
   const body = await req.json();
   const { status, priority, category, title, clickupTaskId, ticketStage, companyId } = body;
 
+  // Fetch existing task ID before update (in case user didn't send it)
+  const existing = await prisma.ticket.findUnique({ where: { id }, select: { clickupTaskId: true } });
+
   const ticket = await prisma.ticket.update({
     where: { id },
     data: {
@@ -54,6 +58,23 @@ export async function PATCH(
     },
     include: { company: { select: { id: true, name: true } } },
   });
+
+  // ── ClickUp auto-sync ──────────────────────────────────────────────────
+  // Only sync status/priority/stage updates — not manual ID changes
+  const effectiveClickupId = ticket.clickupTaskId ?? existing?.clickupTaskId ?? null;
+  if (effectiveClickupId && (status || priority || title || ticketStage)) {
+    const clickupSettings = await getClickupSettings();
+    if (clickupSettings) {
+      await syncTicketToClickup({
+        settings: clickupSettings,
+        ticketId: id,
+        existingClickupTaskId: effectiveClickupId,
+        title: ticket.title,
+        priority: ticket.priority,
+        status: status ?? ticket.status,
+      });
+    }
+  }
 
   return NextResponse.json(ticket);
 }

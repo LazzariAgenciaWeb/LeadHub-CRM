@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { getClickupSettings, syncOportunidadeToClickup } from "@/lib/clickup";
 
 // GET /api/leads/[id]
 export async function GET(
@@ -71,6 +72,29 @@ export async function PATCH(
       campaign: { select: { id: true, name: true } },
     },
   });
+
+  // ── ClickUp auto-sync (Oportunidades only) ────────────────────────────
+  const effectivePipeline = pipeline ?? existing.pipeline;
+  if (effectivePipeline === "OPORTUNIDADES") {
+    const clickupSettings = await getClickupSettings();
+    if (clickupSettings?.oportunidadesListId) {
+      const effectiveClickupId = lead.clickupTaskId ?? null;
+      const newTaskId = await syncOportunidadeToClickup({
+        settings: clickupSettings,
+        leadId: id,
+        existingClickupTaskId: effectiveClickupId,
+        name: lead.name ?? lead.phone,
+        notes: lead.notes,
+        value: lead.value,
+        pipelineStage: lead.pipelineStage,
+      });
+      // Persist the new task ID if it was just created
+      if (newTaskId && !effectiveClickupId) {
+        await prisma.lead.update({ where: { id }, data: { clickupTaskId: newTaskId } });
+        (lead as any).clickupTaskId = newTaskId;
+      }
+    }
+  }
 
   return NextResponse.json(lead);
 }

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { getClickupSettings, syncTicketToClickup } from "@/lib/clickup";
 
 // GET /api/tickets?companyId=&status=&priority=
 export async function GET(req: NextRequest) {
@@ -83,6 +84,26 @@ export async function POST(req: NextRequest) {
       _count: { select: { messages: true } },
     },
   });
+
+  // ── ClickUp auto-sync ──────────────────────────────────────────────────
+  const clickupSettings = await getClickupSettings();
+  if (clickupSettings?.ticketsListId) {
+    const newTaskId = await syncTicketToClickup({
+      settings: clickupSettings,
+      ticketId: ticket.id,
+      title: ticket.title,
+      description: ticket.description,
+      priority: ticket.priority,
+      status: ticket.status,
+    });
+    if (newTaskId) {
+      await prisma.ticket.update({
+        where: { id: ticket.id },
+        data: { clickupTaskId: newTaskId },
+      });
+      (ticket as any).clickupTaskId = newTaskId;
+    }
+  }
 
   return NextResponse.json(ticket, { status: 201 });
 }

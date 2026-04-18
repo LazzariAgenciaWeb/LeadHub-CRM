@@ -101,6 +101,29 @@ export default async function RelatoriosPage({
   });
   const growth = prevCount > 0 ? (((totalLeads - prevCount) / prevCount) * 100).toFixed(0) : null;
 
+  // ── Tracking links ──────────────────────────────────────────────────────
+  const trackingLinks = await prisma.trackingLink.findMany({
+    where: companyFilter,
+    select: {
+      id: true, label: true, code: true, clicks: true, destType: true,
+      _count: { select: { leads: true } },
+      campaign: { select: { name: true } },
+    },
+    orderBy: { clicks: "desc" },
+    take: 10,
+  });
+  const totalLinkClicks = trackingLinks.reduce((s, l) => s + l.clicks, 0);
+  const totalLinkLeads  = trackingLinks.reduce((s, l) => s + l._count.leads, 0);
+
+  // ── Chamados stats ───────────────────────────────────────────────────────
+  const [ticketsOpen, ticketsResolved, ticketsInProgress] = await Promise.all([
+    prisma.ticket.count({ where: { ...companyFilter, status: "OPEN" } }),
+    prisma.ticket.count({ where: { ...companyFilter, status: "RESOLVED" } }),
+    prisma.ticket.count({ where: { ...companyFilter, status: "IN_PROGRESS" } }),
+  ]);
+  const ticketsTotal = ticketsOpen + ticketsResolved + ticketsInProgress +
+    await prisma.ticket.count({ where: { ...companyFilter, status: "CLOSED" } });
+
   return (
     <RelatoriosDashboard
       days={days}
@@ -110,6 +133,15 @@ export default async function RelatoriosPage({
       leadsPerStatus={leadsPerStatus}
       leadsPerCampaign={leadsPerCampaign}
       leadsPerCompany={leadsPerCompany}
+      trackingLinks={trackingLinks.map(l => ({
+        label: l.label ?? l.code,
+        clicks: l.clicks,
+        leads: l._count.leads,
+        destType: l.destType,
+        campaign: l.campaign?.name ?? null,
+      }))}
+      linkKpis={{ totalClicks: totalLinkClicks, totalLeads: totalLinkLeads }}
+      ticketKpis={{ open: ticketsOpen, inProgress: ticketsInProgress, resolved: ticketsResolved, total: ticketsTotal }}
     />
   );
 }
