@@ -75,6 +75,10 @@ export default function TicketDetail({
   const [syncingClickup, setSyncingClickup] = useState(false);
   const [syncError, setSyncError] = useState<string | null>(null);
 
+  // Excluir / arquivar
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
   // Change company (SUPER_ADMIN only)
   const [editingCompany, setEditingCompany] = useState(false);
   const [companyName, setCompanyName] = useState(ticket.company.name);
@@ -101,6 +105,23 @@ export default function TicketDetail({
       setReply("");
     }
     setSending(false);
+  }
+
+  async function handleDelete() {
+    setDeleting(true);
+    await fetch(`/api/tickets/${ticket.id}`, { method: "DELETE" });
+    router.push("/chamados");
+  }
+
+  async function handleArchive() {
+    await fetch(`/api/tickets/${ticket.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "CLOSED" }),
+    });
+    setStatus("CLOSED");
+    setConfirmDelete(false);
+    startTransition(() => router.refresh());
   }
 
   async function handleStageChange(newStage: string) {
@@ -614,6 +635,46 @@ export default function TicketDetail({
             >
               Fechar chamado
             </button>
+          )}
+
+          {/* Excluir / Arquivar — só SUPER_ADMIN */}
+          {isSuperAdmin && (
+            <div className="pt-2 border-t border-[#1e2d45] space-y-2">
+              {!confirmDelete ? (
+                <button
+                  onClick={() => setConfirmDelete(true)}
+                  className="w-full py-1.5 rounded-lg border border-red-500/20 text-red-400/70 text-xs hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/40 transition-colors"
+                >
+                  🗑️ Excluir chamado
+                </button>
+              ) : (
+                <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 space-y-2">
+                  <p className="text-red-400 text-xs font-semibold">Tem certeza?</p>
+                  <p className="text-slate-500 text-[10px]">Esta ação não pode ser desfeita. Todas as mensagens serão removidas.</p>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={handleDelete}
+                      disabled={deleting}
+                      className="flex-1 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-medium disabled:opacity-50 transition-colors"
+                    >
+                      {deleting ? "Excluindo..." : "Sim, excluir"}
+                    </button>
+                    <button
+                      onClick={() => setConfirmDelete(false)}
+                      className="flex-1 py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] text-slate-400 text-xs hover:text-white transition-colors"
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                  <button
+                    onClick={handleArchive}
+                    className="w-full py-1.5 rounded-lg border border-slate-600 text-slate-500 text-xs hover:text-slate-300 hover:border-slate-500 transition-colors"
+                  >
+                    📦 Só fechar (manter histórico)
+                  </button>
+                </div>
+              )}
+            </div>
           )}
         </div>
       </div>
