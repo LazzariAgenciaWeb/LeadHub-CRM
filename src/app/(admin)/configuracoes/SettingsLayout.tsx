@@ -16,7 +16,8 @@ const SECTIONS: SectionItem[] = [
     label: "Integrações",
     children: [
       { key: "integracoes-evolution", icon: "⚡", label: "Evolution API", desc: "WhatsApp gateway" },
-      { key: "integracoes-clickup", icon: "✅", label: "ClickUp", desc: "Tarefas e projetos" },
+      { key: "integracoes-clickup",  icon: "✅", label: "ClickUp",       desc: "Tarefas e projetos" },
+      { key: "integracoes-openai",   icon: "🤖", label: "OpenAI",        desc: "IA e automação" },
     ],
   },
   { type: "item", key: "pipeline", icon: "🫧", label: "CRM / Pipeline", desc: "Etapas e configurações" },

@@ -5,6 +5,7 @@ import SettingsForm from "./SettingsForm";
 import InstancesSection from "./InstancesSection";
 import PipelineSettings from "./PipelineSettings";
 import ClickupSettings from "./ClickupSettings";
+import OpenAISettings from "./OpenAISettings";
 
 export default async function ConfiguracoesPage({
   searchParams,
@@ -82,6 +83,14 @@ export default async function ConfiguracoesPage({
     for (const s of settingsRaw) settings[s.key] = s.value;
 
     content = <ClickupSettings settings={settings} />;
+  } else if (secao === "integracoes-openai") {
+    const settingsRaw = await prisma.setting.findMany({
+      where: { key: { in: ["openai_api_key", "openai_model"] } },
+    });
+    const settings: Record<string, string> = {};
+    for (const s of settingsRaw) settings[s.key] = s.value;
+
+    content = <OpenAISettings settings={settings} />;
   } else if (secao === "pipeline") {
     // Para SUPER_ADMIN sem companyId próprio, usa a primeira empresa do sistema
     let pipelineCompanyId = userCompanyId;

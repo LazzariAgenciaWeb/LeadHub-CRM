@@ -23,7 +23,15 @@ export async function PUT(req: NextRequest) {
   const body: { key: string; value: string }[] = await req.json();
 
   // Apenas SUPER_ADMIN pode gravar chaves de integração
-  const integrationKeys = ["evolution_base_url", "evolution_api_key"];
+  const integrationKeys = [
+    "evolution_base_url",
+    "evolution_api_key",
+    "clickup_api_token",
+    "clickup_oportunidades_list_id",
+    "clickup_tickets_list_id",
+    "openai_api_key",
+    "openai_model",
+  ];
   for (const item of body) {
     if (integrationKeys.includes(item.key) && !isSuperAdmin) {
       return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
