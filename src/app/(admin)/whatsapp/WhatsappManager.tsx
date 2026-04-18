@@ -458,10 +458,33 @@ export default function WhatsappManager({
     const norm = raw.replace(/^55/, "");
     const instanceName = instancePhoneMap.get(norm) ?? instancePhoneMap.get(raw);
     if (instanceName) return { isOurs: true, label: instanceName, rawNorm: norm };
-    // Usar nome salvo ou número formatado
+    // Usar nome salvo ou número abreviado (últimos 9 dígitos para números internacionais)
     const savedName = participantNames[norm] ?? participantNames[raw];
-    const display = savedName ?? (norm.length >= 10 ? norm.replace(/^(\d{2})(\d{4,5})(\d{4})$/, "($1) $2-$3") : norm);
+    let display: string;
+    if (savedName) {
+      display = savedName;
+    } else if (norm.length >= 10 && norm.length <= 11) {
+      // Brasileiro: (DDD) XXXXX-XXXX
+      display = norm.replace(/^(\d{2})(\d{4,5})(\d{4})$/, "($1) $2-$3");
+    } else if (norm.length > 11) {
+      // Internacional longo: mostra só últimos 9 dígitos precedidos de "..."
+      display = "…" + norm.slice(-9).replace(/(\d{4,5})(\d{4})$/, "$1-$2");
+    } else {
+      display = norm;
+    }
     return { isOurs: false, label: display, rawNorm: norm };
+  }
+
+  // Cor estável por participante (hash do telefone → paleta)
+  function getParticipantColor(phone: string): string {
+    const palette = [
+      "text-cyan-400", "text-emerald-400", "text-violet-400",
+      "text-orange-400", "text-pink-400", "text-yellow-400",
+      "text-blue-400",  "text-teal-400",  "text-rose-400",
+    ];
+    let h = 0;
+    for (let i = 0; i < phone.length; i++) h = (Math.imul(31, h) + phone.charCodeAt(i)) | 0;
+    return palette[Math.abs(h) % palette.length];
   }
 
   async function handleNewConv(e: React.FormEvent) {
@@ -1590,9 +1613,34 @@ export default function WhatsappManager({
                         {conv.lastMsg && (() => {
                           const MEDIA_PFX = ["🎵","🎤","🖼️","🎥","📎","😄","📍","👤"];
                           const isMed = MEDIA_PFX.some(p => conv.lastMsg!.body?.startsWith(p));
+                          const isGroupItem = conv.phone.includes("@g.us");
+
+                          // Para grupos: descobre quem enviou a última mensagem
+                          let senderPrefix = "";
+                          let senderColor = "text-slate-500";
+                          if (isGroupItem) {
+                            if (conv.lastMsg.direction === "OUTBOUND") {
+                              senderPrefix = "→ Você: ";
+                            } else {
+                              const participant = resolveParticipant(conv.lastMsg.participantPhone ?? null);
+                              if (participant?.isOurs) {
+                                senderPrefix = `→ ${participant.label}: `;
+                                senderColor = "text-indigo-400/80";
+                              } else if (participant) {
+                                senderPrefix = `${participant.label}: `;
+                                senderColor = groupWaiting ? "text-yellow-500/80" : "text-slate-400";
+                              }
+                            }
+                          } else if (conv.lastMsg.direction === "OUTBOUND") {
+                            senderPrefix = "→ ";
+                          }
+
                           return (
                             <div className={`text-[11px] truncate pl-[42px] ${isMed ? "text-slate-600 italic" : "text-slate-500"}`}>
-                              {conv.lastMsg.direction === "OUTBOUND" ? "→ " : ""}{conv.lastMsg.body}
+                              {senderPrefix && (
+                                <span className={`font-medium ${senderColor}`}>{senderPrefix}</span>
+                              )}
+                              {conv.lastMsg.body}
                             </div>
                           );
                         })()}
@@ -1704,6 +1752,37 @@ export default function WhatsappManager({
                       {selectedConv.lead?.name && !selectedConv.phone.includes("@g.us") && (
                         <div className="text-slate-500 text-xs">{selectedConv.phone}</div>
                       )}
+                      {/* Grupo: lista de participantes únicos */}
+                      {selectedConv.phone.includes("@g.us") && convMessages.length > 0 && (() => {
+                        const unique = new Map<string, ReturnType<typeof resolveParticipant>>();
+                        for (const m of convMessages) {
+                          if (m.participantPhone && !unique.has(m.participantPhone)) {
+                            unique.set(m.participantPhone, resolveParticipant(m.participantPhone));
+                          }
+                        }
+                        const list = [...unique.values()].filter(Boolean) as NonNullable<ReturnType<typeof resolveParticipant>>[];
+                        const ours = list.filter(p => p.isOurs);
+                        const clients = list.filter(p => !p.isOurs);
+                        return (
+                          <div className="flex flex-wrap gap-1 mt-1">
+                            {ours.map(p => (
+                              <span key={p.rawNorm} className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 ${getInstanceBadgeColor(p.label).split(" ").filter(c => c.startsWith("text-")).join(" ")}`}>
+                                📤 {p.label}
+                              </span>
+                            ))}
+                            {clients.map(p => (
+                              <button
+                                key={p.rawNorm}
+                                onClick={() => handleOpenParticipantEdit(p.rawNorm)}
+                                className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 hover:border-white/20 transition-colors ${getParticipantColor(p.rawNorm)}`}
+                                title="Clique para nomear"
+                              >
+                                👤 {p.label}
+                              </button>
+                            ))}
+                          </div>
+                        );
+                      })()}
                     </div>
                   )}
                 </div>
@@ -2326,18 +2405,18 @@ export default function WhatsappManager({
                       <div className={`flex flex-col ${bubbleAlign}`}>
                         <div className={`max-w-[75%] rounded-2xl px-4 py-2.5 ${bubbleStyle}`}>
 
-                          {/* Grupo: participante é um dos nossos números → mostrar instância */}
+                          {/* Grupo: participante é um dos nossos números → nome da instância */}
                           {isGroupConv && groupParticipant?.isOurs && (
-                            <div className={`text-[10px] font-semibold mb-1 truncate ${getInstanceBadgeColor(groupParticipant.label).split(" ").filter(c => c.startsWith("text-")).join(" ")}`}>
+                            <div className={`text-[10px] font-bold mb-1 truncate ${getInstanceBadgeColor(groupParticipant.label).split(" ").filter(c => c.startsWith("text-")).join(" ")}`}>
                               📤 {groupParticipant.label}
                             </div>
                           )}
 
-                          {/* Grupo: participante é cliente — clicável para nomear */}
+                          {/* Grupo: participante é cliente — cor estável + clicável para nomear */}
                           {isGroupConv && groupParticipant && !groupParticipant.isOurs && (
                             <button
                               onClick={() => handleOpenParticipantEdit(groupParticipant.rawNorm)}
-                              className="text-[10px] text-cyan-400 hover:text-cyan-300 font-semibold mb-1 truncate text-left max-w-full flex items-center gap-1 group/participant"
+                              className={`text-[10px] font-bold mb-1 truncate text-left max-w-full flex items-center gap-1 group/participant hover:opacity-80 ${getParticipantColor(groupParticipant.rawNorm)}`}
                               title="Clique para nomear este contato"
                             >
                               👤 {groupParticipant.label}
