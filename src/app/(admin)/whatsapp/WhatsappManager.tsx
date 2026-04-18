@@ -304,22 +304,44 @@ export default function WhatsappManager({
       router.refresh();
       const conv = selectedConvRef.current;
       if (!conv) return;
-      const params = new URLSearchParams({ phone: conv.phone });
-      if (conv.companyId) params.set("companyId", conv.companyId);
 
-      // Re-busca mensagens e chamado em paralelo
+      const msgParams = new URLSearchParams({ phone: conv.phone });
+      if (conv.companyId) msgParams.set("companyId", conv.companyId);
+
       const ticketParams = new URLSearchParams({ phone: conv.phone, openOnly: "true" });
       if (conv.companyId) ticketParams.set("companyId", conv.companyId);
 
-      const [msgsRes, ticketsRes] = await Promise.all([
-        fetch(`/api/whatsapp/messages?${params}`),
+      // Re-busca mensagens, chamado e lead em paralelo
+      const fetches: Promise<Response>[] = [
+        fetch(`/api/whatsapp/messages?${msgParams}`),
         fetch(`/api/tickets?${ticketParams}`),
-      ]);
+      ];
+      if (conv.lead?.id) fetches.push(fetch(`/api/leads/${conv.lead.id}`));
+
+      const [msgsRes, ticketsRes, leadRes] = await Promise.all(fetches);
 
       if (msgsRes.ok) setConvMessages(await msgsRes.json());
+
       if (ticketsRes.ok) {
         const tickets = await ticketsRes.json();
         setOpenTicket(tickets[0] ?? null);
+      }
+
+      // Atualiza pipeline/stage/attendanceStatus do lead sem fechar a conversa
+      if (leadRes?.ok) {
+        const updatedLead = await leadRes.json();
+        setSelectedConv((prev) => {
+          if (!prev || !updatedLead) return prev;
+          return {
+            ...prev,
+            lead: {
+              ...prev.lead,
+              ...updatedLead,
+              // garante que os campos de texto não sejam sobrescritos com undefined
+              notes: updatedLead.notes ?? prev.lead?.notes ?? null,
+            },
+          };
+        });
       }
     }, 5000);
     return () => clearInterval(interval);
