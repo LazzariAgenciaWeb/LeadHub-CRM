@@ -306,8 +306,21 @@ export default function WhatsappManager({
       if (!conv) return;
       const params = new URLSearchParams({ phone: conv.phone });
       if (conv.companyId) params.set("companyId", conv.companyId);
-      const res = await fetch(`/api/whatsapp/messages?${params}`);
-      if (res.ok) setConvMessages(await res.json());
+
+      // Re-busca mensagens e chamado em paralelo
+      const ticketParams = new URLSearchParams({ phone: conv.phone, openOnly: "true" });
+      if (conv.companyId) ticketParams.set("companyId", conv.companyId);
+
+      const [msgsRes, ticketsRes] = await Promise.all([
+        fetch(`/api/whatsapp/messages?${params}`),
+        fetch(`/api/tickets?${ticketParams}`),
+      ]);
+
+      if (msgsRes.ok) setConvMessages(await msgsRes.json());
+      if (ticketsRes.ok) {
+        const tickets = await ticketsRes.json();
+        setOpenTicket(tickets[0] ?? null);
+      }
     }, 5000);
     return () => clearInterval(interval);
   }, [router]);
