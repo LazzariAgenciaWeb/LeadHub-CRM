@@ -1866,7 +1866,7 @@ export default function WhatsappManager({
                         return (
                           <div className="flex flex-wrap gap-1 mt-1">
                             {ours.map(p => (
-                              <span key={p.rawNorm} className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 ${getInstanceBadgeColor(p.label).split(" ").filter(c => c.startsWith("text-")).join(" ")}`}>
+                              <span key={p.rawNorm} className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 ${getInstanceBadgeColor(p.label).split(" ").filter(c => c.startsWith("text-")).join(" ")}`} title={p.rawNorm}>
                                 📤 {p.label}
                               </span>
                             ))}
@@ -2655,8 +2655,11 @@ export default function WhatsappManager({
                     {/* Modo: marcar como meu número */}
                     {participantMarkMode === "mine" && (
                       <>
-                        <p className="text-slate-500 text-[11px] mb-2">Selecione qual instância usa este número:</p>
-                        <div className="space-y-1.5 max-h-52 overflow-y-auto">
+                        <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-lg px-3 py-2 mb-3">
+                          <p className="text-emerald-300 text-[11px] font-medium">Qual chip/WhatsApp da agência usa este número?</p>
+                          <p className="text-slate-500 text-[10px] mt-0.5">Escolha a conexão correspondente. O número será vinculado e reconhecido em todos os grupos.</p>
+                        </div>
+                        <div className="space-y-1.5 max-h-48 overflow-y-auto">
                           {instances.map((inst) => {
                             const badgeColor = getInstanceBadgeColor(inst.instanceName);
                             const isConnected = inst.status === "CONNECTED";
@@ -2667,20 +2670,21 @@ export default function WhatsappManager({
                                 disabled={markingAsMine}
                                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-[#0f1623] border border-[#1e2d45] hover:border-emerald-500/50 text-left transition-colors disabled:opacity-50 group"
                               >
-                                <div className={`w-2 h-2 rounded-full flex-shrink-0 ${isConnected ? "bg-green-400" : "bg-slate-600"}`} />
+                                <div className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${isConnected ? "bg-green-400" : "bg-slate-600"}`} />
                                 <div className="flex-1 min-w-0">
                                   <p className={`text-xs font-semibold truncate ${badgeColor.split(" ").filter((c) => c.startsWith("text-")).join(" ")}`}>
                                     {inst.instanceName}
                                   </p>
-                                  {inst.phone && (
-                                    <p className="text-slate-600 text-[10px] font-mono truncate">{inst.phone}</p>
-                                  )}
-                                  {inst.company && (
-                                    <p className="text-slate-600 text-[10px] truncate">{inst.company.name}</p>
+                                  {inst.phone ? (
+                                    <p className="text-slate-400 text-[10px] font-mono truncate">
+                                      {inst.phone.replace(/(\d{2})(\d{2})(\d{4,5})(\d{4})/, "+$1 ($2) $3-$4")}
+                                    </p>
+                                  ) : (
+                                    <p className="text-slate-600 text-[10px]">Sem número configurado</p>
                                   )}
                                 </div>
-                                <span className="text-emerald-400 text-[10px] font-medium group-hover:text-emerald-300 transition-colors flex-shrink-0">
-                                  {markingAsMine ? "..." : "Associar →"}
+                                <span className="text-emerald-400 text-[11px] font-semibold group-hover:text-emerald-300 transition-colors flex-shrink-0">
+                                  {markingAsMine ? "salvando..." : "Este! →"}
                                 </span>
                               </button>
                             );
