@@ -106,10 +106,20 @@ export default function TicketDetail({
   async function handleStageChange(newStage: string) {
     setUpdatingStage(true);
     setTicketStage(newStage);
+
+    // Se a etapa destino é final, sincroniza o status com RESOLVED
+    // para que os filtros openOnly=true parem de retornar este chamado
+    const stageObj = stages.find((s) => s.name === newStage);
+    const newStatus = stageObj?.isFinal ? "RESOLVED" : undefined;
+    if (newStatus) setStatus(newStatus);
+
     await fetch(`/api/tickets/${ticket.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ticketStage: newStage }),
+      body: JSON.stringify({
+        ticketStage: newStage,
+        ...(newStatus ? { status: newStatus } : {}),
+      }),
     });
     setUpdatingStage(false);
     startTransition(() => router.refresh());
