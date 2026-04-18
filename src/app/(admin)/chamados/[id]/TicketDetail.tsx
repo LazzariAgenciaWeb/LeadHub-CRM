@@ -215,15 +215,27 @@ export default function TicketDetail({
               <span className="text-slate-600 text-[11px]">💬 {messages.length} mensagen{messages.length !== 1 ? "s" : ""}</span>
             </div>
           </div>
-          {/* WhatsApp shortcut */}
-          {ticket.phone && (
-            <Link
-              href={`/whatsapp?abrir=${encodeURIComponent(ticket.phone)}`}
-              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-500/10 border border-green-500/30 text-green-400 text-xs font-medium hover:bg-green-500/20 transition-colors"
-            >
-              💬 WhatsApp
-            </Link>
-          )}
+          {/* Atalhos rápidos */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            {ticket.phone && (
+              <Link
+                href={`/whatsapp?abrir=${encodeURIComponent(ticket.phone)}`}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-500/10 border border-green-500/30 text-green-400 text-xs font-medium hover:bg-green-500/20 transition-colors"
+              >
+                💬 WhatsApp
+              </Link>
+            )}
+            {clickupTaskId && (
+              <a
+                href={clickupTaskId.startsWith("http") ? clickupTaskId : `https://app.clickup.com/t/${clickupTaskId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#7B68EE]/10 border border-[#7B68EE]/30 text-[#a99ef5] text-xs font-medium hover:bg-[#7B68EE]/20 transition-colors"
+              >
+                ✅ ClickUp ↗
+              </a>
+            )}
+          </div>
         </div>
       </div>
 
@@ -483,13 +495,17 @@ export default function TicketDetail({
                   </div>
                 </form>
               ) : clickupTaskId ? (
-                clickupTaskId.startsWith("http") ? (
-                  <a href={clickupTaskId} target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 text-xs font-mono truncate block underline">
-                    {clickupTaskId}
+                <div className="space-y-1.5">
+                  <a
+                    href={clickupTaskId.startsWith("http") ? clickupTaskId : `https://app.clickup.com/t/${clickupTaskId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 text-[#a99ef5] hover:text-[#c4b9ff] text-xs font-medium hover:underline transition-colors"
+                  >
+                    ↗ Abrir no ClickUp
                   </a>
-                ) : (
-                  <span className="text-indigo-400 text-xs font-mono">{clickupTaskId}</span>
-                )
+                  <p className="text-slate-700 text-[10px] font-mono truncate">{clickupTaskId}</p>
+                </div>
               ) : (
                 <p className="text-slate-600 text-xs">Nenhuma tarefa vinculada</p>
               )}

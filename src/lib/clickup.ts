@@ -129,6 +129,41 @@ export async function updateClickupTask({
   }
 }
 
+/** Add a comment to a ClickUp task. */
+export async function addCommentToClickupTask({
+  apiToken,
+  taskId,
+  comment,
+}: {
+  apiToken: string;
+  taskId: string;
+  comment: string;
+}): Promise<boolean> {
+  if (!taskId) return false;
+  try {
+    const res = await fetch(`${BASE}/task/${taskId}/comment`, {
+      method: "POST",
+      headers: { Authorization: apiToken, "Content-Type": "application/json" },
+      body: JSON.stringify({ comment_text: comment, notify_all: false }),
+    });
+    if (!res.ok) {
+      console.error("[ClickUp] addComment failed", res.status, await res.text());
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("[ClickUp] addComment error", err);
+    return false;
+  }
+}
+
+/** Build a ClickUp task URL from a task ID or URL. */
+export function clickupTaskUrl(taskId: string): string {
+  if (!taskId) return "";
+  if (taskId.startsWith("http")) return taskId;
+  return `https://app.clickup.com/t/${taskId}`;
+}
+
 // ── High-level helpers ────────────────────────────────────────────────────────
 
 /**

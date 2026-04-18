@@ -88,11 +88,14 @@ export async function POST(req: NextRequest) {
   // ── ClickUp auto-sync ──────────────────────────────────────────────────
   const clickupSettings = await getClickupSettings();
   if (clickupSettings?.ticketsListId) {
+    const baseUrl = process.env.NEXTAUTH_URL ?? "";
+    const leadhubUrl = `${baseUrl}/chamados/${ticket.id}`;
+    const descWithLink = `${ticket.description}\n\n🔗 Ver no LeadHub: ${leadhubUrl}`;
     const newTaskId = await syncTicketToClickup({
       settings: clickupSettings,
       ticketId: ticket.id,
       title: ticket.title,
-      description: ticket.description,
+      description: descWithLink,
       priority: ticket.priority,
       status: ticket.status,
     });

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { getClickupSettings, addCommentToClickupTask } from "@/lib/clickup";
 
 // POST /api/tickets/[id]/messages
 export async function POST(
@@ -49,6 +50,23 @@ export async function POST(
       ? [prisma.ticket.update({ where: { id: ticketId }, data: updates })]
       : []),
   ]);
+
+  // ── ClickUp comment sync ───────────────────────────────────────────────
+  // Não sincroniza notas internas para o ClickUp
+  const isInternalMsg = isInternal && userRole === "SUPER_ADMIN";
+  if (!isInternalMsg && ticket.clickupTaskId) {
+    const clickupSettings = await getClickupSettings();
+    if (clickupSettings) {
+      const authorLabel = userRole === "SUPER_ADMIN"
+        ? `💬 Suporte — ${session.user?.name ?? "Atendente"}`
+        : `👤 Cliente — ${session.user?.name ?? "Usuário"}`;
+      await addCommentToClickupTask({
+        apiToken: clickupSettings.apiToken,
+        taskId: ticket.clickupTaskId,
+        comment: `${authorLabel}\n\n${messageBody.trim()}`,
+      });
+    }
+  }
 
   return NextResponse.json(message, { status: 201 });
 }
