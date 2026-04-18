@@ -24,10 +24,12 @@ export default async function ProspeccaoPage({
   const sp = await searchParams;
   const defaultLeadId = sp.lead;
 
-  const isSuperAdmin = (session.user as any)?.role === "SUPER_ADMIN";
+  const isRealSuperAdmin = (session.user as any)?.role === "SUPER_ADMIN";
+  const isSuperAdmin = isRealSuperAdmin || !!(session as any)._impersonating;
   const companyId = (session.user as any)?.companyId as string | undefined;
+  const defaultCompanyId = (session as any)._impersonating?.companyId as string | undefined;
 
-  const effectiveCompanyId = isSuperAdmin
+  const effectiveCompanyId = isRealSuperAdmin
     ? undefined // superadmin vê todos
     : companyId;
 
@@ -39,7 +41,7 @@ export default async function ProspeccaoPage({
 
   // SUPER_ADMIN vê stages de todas as empresas — deduplicar por nome
   // e filtrar pelos nomes canônicos do pipeline (evita contaminar com stages de outros pipelines)
-  if (isSuperAdmin) {
+  if (isRealSuperAdmin) {
     const canonicalNames = new Set(DEFAULT_STAGES.map(s => s.name));
     const seen = new Set<string>();
     stages = stages.filter((s) =>
@@ -51,7 +53,7 @@ export default async function ProspeccaoPage({
   }
 
   // Se não há etapas configuradas e temos uma empresa, cria os defaults
-  if (stages.length === 0 && effectiveCompanyId) {
+  if (stages.length === 0 && !isRealSuperAdmin && effectiveCompanyId) {
     stages = await Promise.all(
       DEFAULT_STAGES.map((s) =>
         prisma.pipelineStageConfig.create({
@@ -85,6 +87,7 @@ export default async function ProspeccaoPage({
       isSuperAdmin={isSuperAdmin}
       defaultLeadId={defaultLeadId}
       companies={companies}
+      defaultCompanyId={defaultCompanyId}
     />
   );
 }

@@ -73,6 +73,13 @@ export default function TicketDetail({
   const [clickupInput, setClickupInput] = useState(ticket.clickupTaskId ?? "");
   const [savingClickup, setSavingClickup] = useState(false);
 
+  // Change company (SUPER_ADMIN only)
+  const [editingCompany, setEditingCompany] = useState(false);
+  const [companyName, setCompanyName] = useState(ticket.company.name);
+  const [companySearchInput, setCompanySearchInput] = useState("");
+  const [companyResults, setCompanyResults] = useState<{ id: string; name: string }[]>([]);
+  const [searchingCompany, setSearchingCompany] = useState(false);
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -138,6 +145,30 @@ export default function TicketDetail({
     setClickupTaskId(val ?? "");
     setEditingClickup(false);
     setSavingClickup(false);
+  }
+
+  async function searchTicketCompanies(q: string) {
+    if (!q.trim()) return;
+    setSearchingCompany(true);
+    const res = await fetch(`/api/companies?search=${encodeURIComponent(q)}`);
+    if (res.ok) {
+      const data = await res.json();
+      setCompanyResults((data.companies ?? data).slice(0, 6));
+    }
+    setSearchingCompany(false);
+  }
+
+  async function handleChangeCompany(company: { id: string; name: string }) {
+    await fetch(`/api/tickets/${ticket.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ companyId: company.id }),
+    });
+    setCompanyName(company.name);
+    setEditingCompany(false);
+    setCompanySearchInput("");
+    setCompanyResults([]);
+    startTransition(() => router.refresh());
   }
 
   const pc = PRIORITY_CONFIG[priority] ?? PRIORITY_CONFIG.MEDIUM;
@@ -356,8 +387,60 @@ export default function TicketDetail({
 
           {/* Company */}
           <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
-            <div className="text-[10px] text-slate-500 uppercase tracking-wide mb-1.5">Empresa</div>
-            <div className="text-white text-sm font-medium">{ticket.company.name}</div>
+            <div className="flex items-center justify-between mb-1.5">
+              <div className="text-[10px] text-slate-500 uppercase tracking-wide">Empresa</div>
+              {isSuperAdmin && !editingCompany && (
+                <button
+                  onClick={() => { setEditingCompany(true); setCompanySearchInput(""); setCompanyResults([]); }}
+                  className="text-slate-600 hover:text-slate-400 text-[10px] transition-colors"
+                  title="Mudar empresa"
+                >
+                  ✏️
+                </button>
+              )}
+            </div>
+            {editingCompany ? (
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-1">
+                  <input
+                    autoFocus
+                    type="text"
+                    value={companySearchInput}
+                    onChange={(e) => {
+                      setCompanySearchInput(e.target.value);
+                      if (e.target.value.length >= 1) searchTicketCompanies(e.target.value);
+                      else setCompanyResults([]);
+                    }}
+                    placeholder="Buscar empresa..."
+                    className="flex-1 bg-[#0a0f1a] border border-[#1e2d45] rounded px-2 py-1 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                  />
+                  {searchingCompany && <span className="text-slate-600 text-[10px]">...</span>}
+                </div>
+                {companyResults.length > 0 && (
+                  <div className="space-y-0.5 max-h-32 overflow-y-auto">
+                    {companyResults.map((c) => (
+                      <button
+                        key={c.id}
+                        onClick={() => handleChangeCompany(c)}
+                        className="w-full text-left px-2 py-1 rounded text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors"
+                      >
+                        🏢 {c.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+                <button
+                  onClick={() => { setEditingCompany(false); setCompanySearchInput(""); setCompanyResults([]); }}
+                  className="text-slate-600 text-[10px] hover:text-slate-400 transition-colors"
+                >
+                  Cancelar
+                </button>
+              </div>
+            ) : (
+              <Link href={`/empresas/${ticket.company.id}`} className="text-white text-sm font-medium hover:text-indigo-300 transition-colors">
+                {companyName}
+              </Link>
+            )}
           </div>
 
           {/* Category */}

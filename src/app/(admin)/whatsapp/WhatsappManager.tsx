@@ -108,12 +108,14 @@ export default function WhatsappManager({
   defaultCompanyId,
   conversations,
   defaultPhone,
+  finalStageNames = [],
 }: {
   instances: Instance[];
   isSuperAdmin: boolean;
   defaultCompanyId: string;
   conversations: Conversation[];
   defaultPhone?: string;
+  finalStageNames?: string[];
 }) {
   const router = useRouter();
 
@@ -132,6 +134,11 @@ export default function WhatsappManager({
   const [ticketForm, setTicketForm] = useState({ title: "", description: "" });
   const [convertingTicket, setConvertingTicket] = useState(false);
   const [ticketCreated, setTicketCreated] = useState(false);
+
+  // Convert to oportunidade
+  const [showOportunidadeForm, setShowOportunidadeForm] = useState(false);
+  const [oportunidadeForm, setOportunidadeForm] = useState({ name: "", value: "" });
+  const [convertingOportunidade, setConvertingOportunidade] = useState(false);
 
   // Reply
   const [replyText, setReplyText] = useState("");
@@ -332,7 +339,7 @@ export default function WhatsappManager({
 
         switch (statusFilter) {
           case "URGENT":      if (!(isInbound && mins >= 20)) return false; break;
-          case "UNANSWERED":  if (!isInbound) return false; break;
+          case "UNANSWERED":  if (!isInbound || atStatus === "RESOLVED") return false; break;
           case "IN_PROGRESS": if (atStatus !== "IN_PROGRESS") return false; break;
           case "RESOLVED":    if (atStatus !== "RESOLVED") return false; break;
           case "SCHEDULED":   if (atStatus !== "SCHEDULED") return false; break;
@@ -353,7 +360,7 @@ export default function WhatsappManager({
       const mins = isInbound ? Math.floor((now - new Date(c.lastMsg!.receivedAt).getTime()) / 60_000) : -1;
       const atStatus = c.lead?.attendanceStatus;
       if (isInbound && mins >= 20) counts.URGENT++;
-      if (isInbound)               counts.UNANSWERED++;
+      if (isInbound && atStatus !== "RESOLVED") counts.UNANSWERED++;
       if (atStatus === "IN_PROGRESS") counts.IN_PROGRESS++;
       if (atStatus === "RESOLVED")    counts.RESOLVED++;
       if (atStatus === "SCHEDULED")   counts.SCHEDULED++;
@@ -583,10 +590,10 @@ export default function WhatsappManager({
   }
 
   async function loadConversation(conv: Conversation) {
-    forceScrollRef.current = true; // sempre vai ao fundo ao abrir conversa
     setSelectedConv(conv);
     setShowConvertForm(false);
     setShowTicketForm(false);
+    setShowOportunidadeForm(false);
     setTicketCreated(false);
     setShowLinkProspect(false);
     setConvMessages([]);
@@ -621,14 +628,18 @@ export default function WhatsappManager({
     ]);
 
     const msgs = await msgsRes.json();
+    // Set forceScroll BEFORE updating convMessages so the useEffect sees it as true
+    forceScrollRef.current = true;
     setConvMessages(msgs);
 
     // Para grupos: carregar nomes dos participantes
     if (conv.phone.includes("@g.us")) {
+      // Normalize phones to "without country code" format (same as saved in CompanyContact.phone)
       const participantPhones = [...new Set(
-        msgs.filter((m: any) => m.participantPhone).map((m: any) =>
-          (m.participantPhone as string).replace("@s.whatsapp.net", "").replace(/\D/g, "")
-        )
+        msgs.filter((m: any) => m.participantPhone).map((m: any) => {
+          const raw = (m.participantPhone as string).replace("@s.whatsapp.net", "").replace(/\D/g, "");
+          return raw.startsWith("55") && raw.length > 11 ? raw.slice(2) : raw;
+        })
       )] as string[];
       loadParticipantContacts(participantPhones);
     }
@@ -689,6 +700,32 @@ export default function WhatsappManager({
       setOpenTicket({ id: newTicket.id, title: newTicket.title, status: newTicket.status });
       setTicketCreated(true);
       setShowTicketForm(false);
+      router.refresh();
+    }
+  }
+
+  async function handleCreateOportunidade(e: React.FormEvent) {
+    e.preventDefault();
+    if (!selectedConv) return;
+    setConvertingOportunidade(true);
+    const res = await fetch("/api/leads", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        phone: selectedConv.phone,
+        name: oportunidadeForm.name.trim() || selectedConv.lead?.name || null,
+        value: oportunidadeForm.value ? parseFloat(oportunidadeForm.value.replace(",", ".")) : null,
+        pipeline: "OPORTUNIDADES",
+        source: "whatsapp",
+        companyId: selectedConv.companyId,
+      }),
+    });
+    setConvertingOportunidade(false);
+    if (res.ok) {
+      const newLead = await res.json();
+      setSelectedConv({ ...selectedConv, lead: { ...newLead, notes: null } });
+      setShowOportunidadeForm(false);
+      setOportunidadeForm({ name: "", value: "" });
       router.refresh();
     }
   }
@@ -852,7 +889,28 @@ export default function WhatsappManager({
 
   async function quickResolve(e: React.MouseEvent, conv: Conversation) {
     e.stopPropagation();
-    if (!conv.lead) return;
+    if (!conv.lead) {
+      // Sem lead: criar registro mínimo para rastrear atendimento
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: conv.phone, pipeline: null, source: "whatsapp", companyId: conv.companyId }),
+      });
+      if (res.ok) {
+        const newLead = await res.json();
+        await fetch(`/api/leads/${newLead.id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ attendanceStatus: "RESOLVED" }),
+        });
+        if (selectedConv?.phone === conv.phone) {
+          setAttendanceStatus("RESOLVED");
+          setSelectedConv({ ...selectedConv!, lead: { id: newLead.id, name: newLead.name, status: newLead.status, notes: null, pipeline: null, pipelineStage: null, attendanceStatus: "RESOLVED", expectedReturnAt: null } });
+        }
+      }
+      router.refresh();
+      return;
+    }
     await fetch(`/api/leads/${conv.lead.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -904,9 +962,33 @@ export default function WhatsappManager({
   }
 
   async function handleSetAttendance(status: string) {
-    if (!selectedConv?.lead) return;
+    if (!selectedConv) return;
     setSavingAttendance(true);
     setAttendanceStatus(status);
+
+    if (!selectedConv.lead) {
+      // Sem lead: criar registro mínimo para rastrear atendimento
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: selectedConv.phone, pipeline: null, source: "whatsapp", companyId: selectedConv.companyId }),
+      });
+      if (res.ok) {
+        const newLead = await res.json();
+        const patchBody: any = { attendanceStatus: status };
+        if (status === "SCHEDULED" && expectedReturn) patchBody.expectedReturnAt = new Date(expectedReturn).toISOString();
+        await fetch(`/api/leads/${newLead.id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(patchBody),
+        });
+        setSelectedConv({ ...selectedConv, lead: { id: newLead.id, name: newLead.name, status: newLead.status, notes: null, pipeline: null, pipelineStage: null, attendanceStatus: status, expectedReturnAt: status === "SCHEDULED" && expectedReturn ? expectedReturn : null } });
+      }
+      setSavingAttendance(false);
+      router.refresh();
+      return;
+    }
+
     const body: any = { attendanceStatus: status };
     if (status === "SCHEDULED" && expectedReturn) {
       body.expectedReturnAt = new Date(expectedReturn).toISOString();
@@ -1263,8 +1345,8 @@ export default function WhatsappManager({
                     }`}
                     onClick={() => loadConversation(conv)}
                   >
-                    {/* Botão rápido: Resolvido (aparece no hover quando aguardando) */}
-                    {conv.lead && conv.lead.attendanceStatus === "WAITING" && (
+                    {/* Botão rápido: Resolvido (aparece no hover quando não resolvido e última msg é inbound) */}
+                    {conv.lastMsg?.direction === "INBOUND" && conv.lead?.attendanceStatus !== "RESOLVED" && (
                       <button
                         onClick={(e) => quickResolve(e, conv)}
                         title="Marcar como resolvido"
@@ -1438,44 +1520,76 @@ export default function WhatsappManager({
                 <div className="flex items-center gap-2 flex-shrink-0 flex-wrap justify-end">
 
                   {/* ── Pills de status (o que o contato É) ── */}
+                  {/* Helpers */}
+                  {(() => {
+                    const isLeadInFinalStage = !!(selectedConv.lead?.pipelineStage && finalStageNames.includes(selectedConv.lead.pipelineStage));
+                    const isTicketFinal = openTicket?.status === "RESOLVED" || openTicket?.status === "CLOSED";
+                    return (
+                      <>
+                        {/* Cliente vinculado → link para empresa */}
+                        {selectedConv.companyContact && (
+                          <Link
+                            href={`/empresas/${selectedConv.companyContact.company.id}`}
+                            className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold text-amber-400 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition-colors"
+                          >
+                            ⭐ {selectedConv.companyContact.company.name}
+                          </Link>
+                        )}
 
-                  {/* Cliente vinculado → link para empresa */}
-                  {selectedConv.companyContact && (
-                    <Link
-                      href={`/empresas/${selectedConv.companyContact.company.id}`}
-                      className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold text-amber-400 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition-colors"
-                    >
-                      ⭐ {selectedConv.companyContact.company.name}
-                    </Link>
-                  )}
+                        {/* Pipeline → link para CRM (oculto se em etapa final) */}
+                        {selectedConv.lead?.pipeline && selectedConv.lead?.id && !isLeadInFinalStage && (
+                          <Link
+                            href={`/crm/${selectedConv.lead.pipeline === "LEADS" ? "leads" : selectedConv.lead.pipeline === "OPORTUNIDADES" ? "oportunidades" : "prospeccao"}?lead=${selectedConv.lead.id}`}
+                            className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border border-transparent hover:opacity-80 transition-opacity ${PIPELINE_BADGE[selectedConv.lead.pipeline] ?? "text-slate-400 bg-white/5"}`}
+                          >
+                            {PIPELINE_LABEL[selectedConv.lead.pipeline] ?? selectedConv.lead.pipeline}
+                            {selectedConv.lead.pipelineStage ? ` · ${selectedConv.lead.pipelineStage}` : ""}
+                            <span className="ml-0.5 opacity-50 text-[10px]">↗</span>
+                          </Link>
+                        )}
 
-                  {/* Pipeline → link para CRM com ID do lead */}
-                  {selectedConv.lead?.pipeline && selectedConv.lead?.id && (
-                    <Link
-                      href={`/crm/${selectedConv.lead.pipeline === "LEADS" ? "leads" : selectedConv.lead.pipeline === "OPORTUNIDADES" ? "oportunidades" : "prospeccao"}?lead=${selectedConv.lead.id}`}
-                      className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border border-transparent hover:opacity-80 transition-opacity ${PIPELINE_BADGE[selectedConv.lead.pipeline] ?? "text-slate-400 bg-white/5"}`}
-                    >
-                      {PIPELINE_LABEL[selectedConv.lead.pipeline] ?? selectedConv.lead.pipeline}
-                      {selectedConv.lead.pipelineStage ? ` · ${selectedConv.lead.pipelineStage}` : ""}
-                      <span className="ml-0.5 opacity-50 text-[10px]">↗</span>
-                    </Link>
-                  )}
+                        {/* Pill de etapa final (concluído/perdido) — clique para ver no CRM */}
+                        {selectedConv.lead?.pipeline && selectedConv.lead?.id && isLeadInFinalStage && (
+                          <Link
+                            href={`/crm/${selectedConv.lead.pipeline === "LEADS" ? "leads" : selectedConv.lead.pipeline === "OPORTUNIDADES" ? "oportunidades" : "prospeccao"}?lead=${selectedConv.lead.id}`}
+                            className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border border-slate-700/50 text-slate-500 bg-white/3 hover:opacity-80 transition-opacity line-through"
+                            title="Concluído — clique para ver"
+                          >
+                            {PIPELINE_LABEL[selectedConv.lead.pipeline] ?? selectedConv.lead.pipeline}
+                            {selectedConv.lead.pipelineStage ? ` · ${selectedConv.lead.pipelineStage}` : ""}
+                          </Link>
+                        )}
 
-                  {/* Chamado aberto → link para o chamado */}
-                  {openTicket && (
-                    <Link
-                      href={`/chamados/${openTicket.id}`}
-                      className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold text-orange-400 bg-orange-500/10 border border-orange-500/20 hover:bg-orange-500/20 transition-colors max-w-[180px]"
-                      title={openTicket.title}
-                    >
-                      🎫 <span className="truncate">{openTicket.title.length > 20 ? openTicket.title.slice(0, 20) + "…" : openTicket.title}</span>
-                      <span className="ml-0.5 opacity-50 text-[10px]">↗</span>
-                    </Link>
-                  )}
+                        {/* Chamado aberto → link (oculto se resolvido/fechado) */}
+                        {openTicket && !isTicketFinal && (
+                          <Link
+                            href={`/chamados/${openTicket.id}`}
+                            className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold text-orange-400 bg-orange-500/10 border border-orange-500/20 hover:bg-orange-500/20 transition-colors max-w-[180px]"
+                            title={openTicket.title}
+                          >
+                            🎫 <span className="truncate">{openTicket.title.length > 20 ? openTicket.title.slice(0, 20) + "…" : openTicket.title}</span>
+                            <span className="ml-0.5 opacity-50 text-[10px]">↗</span>
+                          </Link>
+                        )}
+
+                        {/* Chamado resolvido/fechado — pill muted */}
+                        {openTicket && isTicketFinal && (
+                          <Link
+                            href={`/chamados/${openTicket.id}`}
+                            className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border border-slate-700/50 text-slate-500 bg-white/3 hover:opacity-80 transition-opacity line-through"
+                            title="Chamado encerrado"
+                          >
+                            🎫 <span className="truncate">{openTicket.title.length > 20 ? openTicket.title.slice(0, 20) + "…" : openTicket.title}</span>
+                          </Link>
+                        )}
+                      </>
+                    );
+                  })()}
 
                   {ticketCreated && !openTicket && (
                     <span className="text-green-400 text-xs">✓ Chamado criado!</span>
                   )}
+
 
                   {/* ── Botão + Ações (dropdown) ── */}
                   <div className="relative" ref={actionsMenuRef}>
@@ -1545,52 +1659,50 @@ export default function WhatsappManager({
                 </div>
               </div>
 
-              {/* Painel de Atendimento */}
-              {selectedConv.lead && (
-                <div className={`px-5 py-3 border-b border-[#1e2d45] flex-shrink-0 ${ATTENDANCE[attendanceStatus ?? ""]?.ring ?? "bg-[#0a0f1a]"}`}>
-                  <div className="flex items-center gap-3 flex-wrap">
-                    <span className="text-slate-400 text-[11px] font-semibold uppercase tracking-wide flex-shrink-0">Atendimento:</span>
-                    {(["WAITING", "IN_PROGRESS", "RESOLVED", "SCHEDULED"] as const).map((s) => {
-                      const a = ATTENDANCE[s];
-                      const isActive = attendanceStatus === s;
-                      return (
-                        <button
-                          key={s}
-                          onClick={() => handleSetAttendance(s)}
-                          disabled={savingAttendance}
-                          className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border transition-all disabled:opacity-50 ${
-                            isActive ? a.btn + " scale-105 shadow-sm" : "border-[#1e2d45] text-slate-500 hover:text-slate-300 hover:border-slate-600"
-                          }`}
-                        >
-                          {a.icon} {a.label}
-                        </button>
-                      );
-                    })}
-                    {attendanceStatus === "SCHEDULED" && (
-                      <div className="flex items-center gap-2 ml-auto">
-                        <input
-                          type="datetime-local"
-                          value={expectedReturn}
-                          onChange={(e) => setExpectedReturn(e.target.value)}
-                          className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2 py-1 text-xs text-white focus:outline-none focus:border-purple-500"
-                        />
-                        <button
-                          onClick={() => handleSetAttendance("SCHEDULED")}
-                          disabled={savingAttendance || !expectedReturn}
-                          className="px-2.5 py-1 rounded-lg bg-purple-600 text-white text-xs font-medium hover:bg-purple-500 disabled:opacity-50"
-                        >
-                          Salvar
-                        </button>
-                      </div>
-                    )}
-                    {selectedConv.lead.expectedReturnAt && attendanceStatus === "SCHEDULED" && !expectedReturn && (
-                      <span className="text-purple-400 text-[11px] ml-auto">
-                        📅 {new Date(selectedConv.lead.expectedReturnAt).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
-                      </span>
-                    )}
-                  </div>
+              {/* Painel de Atendimento — sempre visível */}
+              <div className={`px-5 py-3 border-b border-[#1e2d45] flex-shrink-0 ${ATTENDANCE[attendanceStatus ?? ""]?.ring ?? "bg-[#0a0f1a]"}`}>
+                <div className="flex items-center gap-3 flex-wrap">
+                  <span className="text-slate-400 text-[11px] font-semibold uppercase tracking-wide flex-shrink-0">Atendimento:</span>
+                  {(["WAITING", "IN_PROGRESS", "RESOLVED", "SCHEDULED"] as const).map((s) => {
+                    const a = ATTENDANCE[s];
+                    const isActive = attendanceStatus === s;
+                    return (
+                      <button
+                        key={s}
+                        onClick={() => handleSetAttendance(s)}
+                        disabled={savingAttendance}
+                        className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border transition-all disabled:opacity-50 ${
+                          isActive ? a.btn + " scale-105 shadow-sm" : "border-[#1e2d45] text-slate-500 hover:text-slate-300 hover:border-slate-600"
+                        }`}
+                      >
+                        {a.icon} {a.label}
+                      </button>
+                    );
+                  })}
+                  {attendanceStatus === "SCHEDULED" && (
+                    <div className="flex items-center gap-2 ml-auto">
+                      <input
+                        type="datetime-local"
+                        value={expectedReturn}
+                        onChange={(e) => setExpectedReturn(e.target.value)}
+                        className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2 py-1 text-xs text-white focus:outline-none focus:border-purple-500"
+                      />
+                      <button
+                        onClick={() => handleSetAttendance("SCHEDULED")}
+                        disabled={savingAttendance || !expectedReturn}
+                        className="px-2.5 py-1 rounded-lg bg-purple-600 text-white text-xs font-medium hover:bg-purple-500 disabled:opacity-50"
+                      >
+                        Salvar
+                      </button>
+                    </div>
+                  )}
+                  {selectedConv.lead?.expectedReturnAt && attendanceStatus === "SCHEDULED" && !expectedReturn && (
+                    <span className="text-purple-400 text-[11px] ml-auto">
+                      📅 {new Date(selectedConv.lead.expectedReturnAt).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
+                    </span>
+                  )}
                 </div>
-              )}
+              </div>
 
               {/* Painel: Atribuir grupo a empresa */}
               {showGroupCompany && selectedConv.phone.includes("@g.us") && (
@@ -1895,6 +2007,43 @@ export default function WhatsappManager({
                 </div>
               )}
 
+              {/* Form: Criar Oportunidade */}
+              {showOportunidadeForm && (
+                <div className="px-5 py-3.5 border-b border-[#1e2d45] bg-amber-500/5 flex-shrink-0">
+                  <p className="text-amber-400 text-xs font-semibold mb-3">💰 Criar Oportunidade</p>
+                  <form onSubmit={handleCreateOportunidade} className="flex flex-wrap gap-3 items-end">
+                    <div>
+                      <label className="block text-slate-400 text-[10px] uppercase tracking-wide mb-1">Nome</label>
+                      <input
+                        type="text"
+                        value={oportunidadeForm.name}
+                        onChange={(e) => setOportunidadeForm({ ...oportunidadeForm, name: e.target.value })}
+                        placeholder={selectedConv.lead?.name ?? "Nome (opcional)"}
+                        className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-slate-400 text-[10px] uppercase tracking-wide mb-1">Valor (R$)</label>
+                      <input
+                        type="text"
+                        value={oportunidadeForm.value}
+                        onChange={(e) => setOportunidadeForm({ ...oportunidadeForm, value: e.target.value })}
+                        placeholder="Opcional"
+                        className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-500 w-28"
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <button type="submit" disabled={convertingOportunidade} className="px-4 py-1.5 rounded-lg bg-amber-600 text-white text-sm font-medium hover:bg-amber-500 disabled:opacity-50 transition-colors">
+                        {convertingOportunidade ? "Criando..." : "💰 Criar Oportunidade"}
+                      </button>
+                      <button type="button" onClick={() => setShowOportunidadeForm(false)} className="px-3 py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] text-slate-400 text-sm hover:text-white transition-colors">
+                        Cancelar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+
               {/* Painel: Mesclar contatos */}
               {showMergePanel && selectedConv.lead && (
                 <div className="px-5 py-3.5 border-b border-[#1e2d45] bg-cyan-500/5 flex-shrink-0">
@@ -1937,42 +2086,62 @@ export default function WhatsappManager({
                 </div>
               )}
 
-              {/* Inbox classification banner */}
-              {(!selectedConv.lead || !selectedConv.lead.pipeline) && (
-                <div className="mx-5 mt-4 mb-1 flex-shrink-0 bg-slate-800/40 border border-[#1e2d45] rounded-xl p-3.5">
-                  <div className="flex items-center gap-2 mb-2.5">
-                    <span className="text-base">📥</span>
-                    <span className="text-slate-300 text-xs font-semibold">Caixa de Entrada</span>
-                    <span className="text-slate-600 text-[10px]">— classifique esta conversa</span>
+              {/* Inbox classification banner — mostra quando sem pipeline OU pipeline em etapa final */}
+              {(() => {
+                const isLeadInFinalStage = !!(selectedConv.lead?.pipelineStage && finalStageNames.includes(selectedConv.lead.pipelineStage));
+                const isTicketFinal = openTicket?.status === "RESOLVED" || openTicket?.status === "CLOSED";
+                const showBanner = !selectedConv.lead?.pipeline || isLeadInFinalStage;
+                if (!showBanner) return null;
+                return (
+                  <div className="mx-5 mt-4 mb-1 flex-shrink-0 bg-slate-800/40 border border-[#1e2d45] rounded-xl p-3.5">
+                    <div className="flex items-center gap-2 mb-2.5">
+                      <span className="text-base">{isLeadInFinalStage ? "♻️" : "📥"}</span>
+                      <span className="text-slate-300 text-xs font-semibold">
+                        {isLeadInFinalStage ? "Negócio encerrado — abrir novo?" : "Caixa de Entrada"}
+                      </span>
+                      {!isLeadInFinalStage && <span className="text-slate-600 text-[10px]">— classifique esta conversa</span>}
+                    </div>
+                    <div className="flex gap-2 flex-wrap">
+                      <button
+                        onClick={() => { setShowConvertForm(true); setShowTicketForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowAddCompany(false); }}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium transition-colors"
+                      >
+                        🎯 Lead
+                      </button>
+                      <button
+                        onClick={() => { setShowOportunidadeForm(true); setShowConvertForm(false); setShowTicketForm(false); setShowLinkProspect(false); setShowAddCompany(false); }}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-600/80 hover:bg-amber-500 text-white text-xs font-medium transition-colors"
+                      >
+                        💰 Oportunidade
+                      </button>
+                      {(!openTicket || isTicketFinal) && (
+                        <button
+                          onClick={() => { setShowTicketForm(true); setShowConvertForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowAddCompany(false); }}
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-600/80 hover:bg-orange-500 text-white text-xs font-medium transition-colors"
+                        >
+                          🎫 Chamado
+                        </button>
+                      )}
+                      {!isLeadInFinalStage && (
+                        <>
+                          <button
+                            onClick={() => { setShowAddCompany(true); setShowConvertForm(false); setShowTicketForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); }}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-700/60 hover:bg-amber-600 text-white text-xs font-medium transition-colors"
+                          >
+                            ⭐ É Cliente
+                          </button>
+                          <button
+                            onClick={() => { setShowLinkProspect(true); setShowConvertForm(false); setShowTicketForm(false); setShowOportunidadeForm(false); setShowAddCompany(false); }}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] text-violet-300 hover:border-violet-500/50 text-xs font-medium transition-colors"
+                          >
+                            🔎 Vincular Prospect
+                          </button>
+                        </>
+                      )}
+                    </div>
                   </div>
-                  <div className="flex gap-2 flex-wrap">
-                    <button
-                      onClick={() => { setShowConvertForm(true); setShowTicketForm(false); setShowLinkProspect(false); setShowAddCompany(false); }}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium transition-colors"
-                    >
-                      🎯 Lead
-                    </button>
-                    <button
-                      onClick={() => { setShowTicketForm(true); setShowConvertForm(false); setShowLinkProspect(false); setShowAddCompany(false); }}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-600/80 hover:bg-orange-500 text-white text-xs font-medium transition-colors"
-                    >
-                      🎫 Chamado
-                    </button>
-                    <button
-                      onClick={() => { setShowAddCompany(true); setShowConvertForm(false); setShowTicketForm(false); setShowLinkProspect(false); }}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-600/80 hover:bg-amber-500 text-white text-xs font-medium transition-colors"
-                    >
-                      ⭐ É Cliente
-                    </button>
-                    <button
-                      onClick={() => { setShowLinkProspect(true); setShowConvertForm(false); setShowTicketForm(false); setShowAddCompany(false); }}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] text-violet-300 hover:border-violet-500/50 text-xs font-medium transition-colors"
-                    >
-                      🔎 Vincular Prospect
-                    </button>
-                  </div>
-                </div>
-              )}
+                );
+              })()}
 
               {/* Messages */}
               {/* Botão flutuante: rolar para o final */}

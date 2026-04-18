@@ -78,6 +78,13 @@ export default async function WhatsappPage({
     })
   );
 
+  // Stages finais (isFinal = true) para ocultar pill quando lead/oportunidade estiver concluída
+  const finalStageConfigs = await prisma.pipelineStageConfig.findMany({
+    where: { isFinal: true, ...(companyId ? { companyId } : {}) },
+    select: { name: true },
+  });
+  const finalStageNames = [...new Set(finalStageConfigs.map((s) => s.name))];
+
   return (
     <WhatsappManager
       instances={instances as any}
@@ -85,6 +92,7 @@ export default async function WhatsappPage({
       defaultCompanyId={companyId}
       conversations={conversations as any}
       defaultPhone={defaultPhone}
+      finalStageNames={finalStageNames}
     />
   );
 }

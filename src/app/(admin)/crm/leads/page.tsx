@@ -25,10 +25,12 @@ export default async function LeadsPage({
   const sp = await searchParams;
   const defaultLeadId = sp.lead;
 
-  const isSuperAdmin = (session.user as any)?.role === "SUPER_ADMIN";
+  const isRealSuperAdmin = (session.user as any)?.role === "SUPER_ADMIN";
+  const isSuperAdmin = isRealSuperAdmin || !!(session as any)._impersonating;
   const companyId = (session.user as any)?.companyId as string | undefined;
+  const defaultCompanyId = (session as any)._impersonating?.companyId as string | undefined;
 
-  const effectiveCompanyId = isSuperAdmin ? undefined : companyId;
+  const effectiveCompanyId = isRealSuperAdmin ? undefined : companyId;
 
   let stages = await prisma.pipelineStageConfig.findMany({
     where: { pipeline: PIPELINE, ...(effectiveCompanyId ? { companyId: effectiveCompanyId } : {}) },
@@ -37,7 +39,7 @@ export default async function LeadsPage({
 
   // SUPER_ADMIN vê stages de todas as empresas — deduplicar por nome
   // e filtrar pelos nomes canônicos do pipeline (evita contaminar com stages de outros pipelines)
-  if (isSuperAdmin) {
+  if (isRealSuperAdmin) {
     const canonicalNames = new Set(DEFAULT_STAGES.map(s => s.name));
     const seen = new Set<string>();
     stages = stages.filter((s) =>
@@ -49,7 +51,7 @@ export default async function LeadsPage({
     }
   }
 
-  if (stages.length === 0 && effectiveCompanyId) {
+  if (stages.length === 0 && !isRealSuperAdmin && effectiveCompanyId) {
     stages = await Promise.all(
       DEFAULT_STAGES.map((s) =>
         prisma.pipelineStageConfig.create({
@@ -83,6 +85,7 @@ export default async function LeadsPage({
       isSuperAdmin={isSuperAdmin}
       companies={companies}
       defaultLeadId={defaultLeadId}
+      defaultCompanyId={defaultCompanyId}
     />
   );
 }

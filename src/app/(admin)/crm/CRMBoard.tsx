@@ -55,6 +55,7 @@ export default function CRMBoard({
   isSuperAdmin,
   companies,
   defaultLeadId,
+  defaultCompanyId,
 }: {
   pipeline: string;
   initialLeads: CRMLead[];
@@ -62,6 +63,7 @@ export default function CRMBoard({
   isSuperAdmin: boolean;
   companies: { id: string; name: string }[];
   defaultLeadId?: string;
+  defaultCompanyId?: string;
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -89,7 +91,7 @@ export default function CRMBoard({
 
   // Adicionar novo lead/prospect manualmente
   const [showAddModal, setShowAddModal] = useState(false);
-  const [addForm, setAddForm] = useState({ name: "", phone: "", notes: "", value: "", companyId: "" });
+  const [addForm, setAddForm] = useState({ name: "", phone: "", notes: "", value: "", companyId: defaultCompanyId ?? "" });
   const [addSaving, setAddSaving] = useState(false);
   const [addError, setAddError] = useState("");
 
@@ -299,7 +301,7 @@ export default function CRMBoard({
     if (res.ok) {
       const newLead = await res.json();
       setLeads((prev) => [newLead, ...prev]);
-      setAddForm({ name: "", phone: "", notes: "", value: "", companyId: "" });
+      setAddForm({ name: "", phone: "", notes: "", value: "", companyId: defaultCompanyId ?? "" });
       setShowAddModal(false);
       startTransition(() => router.refresh());
     } else {

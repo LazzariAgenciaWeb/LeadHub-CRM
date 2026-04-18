@@ -38,11 +38,32 @@ export default async function EmpresaDetailPage({
 
   if (!company) notFound();
 
-  const [prospeccaoCount, leadsCount, oportunidadesCount, totalLeads] = await Promise.all([
+  const [prospeccaoCount, leadsCount, oportunidadesCount, totalLeads, recentLeads, recentOportunidades, recentChamados] = await Promise.all([
     prisma.lead.count({ where: { companyId: id, pipeline: "PROSPECCAO" } }),
     prisma.lead.count({ where: { companyId: id, pipeline: "LEADS" } }),
     prisma.lead.count({ where: { companyId: id, pipeline: "OPORTUNIDADES" } }),
     prisma.lead.count({ where: { companyId: id } }),
+    // Leads recentes (excl. oportunidades — essas têm seção própria)
+    prisma.lead.findMany({
+      where: { companyId: id, pipeline: { in: ["PROSPECCAO", "LEADS"] } },
+      orderBy: { createdAt: "desc" },
+      take: 10,
+      select: { id: true, name: true, phone: true, pipeline: true, pipelineStage: true, status: true, createdAt: true },
+    }),
+    // Oportunidades recentes
+    prisma.lead.findMany({
+      where: { companyId: id, pipeline: "OPORTUNIDADES" },
+      orderBy: { createdAt: "desc" },
+      take: 10,
+      select: { id: true, name: true, phone: true, pipelineStage: true, value: true, createdAt: true },
+    }),
+    // Chamados recentes
+    prisma.ticket.findMany({
+      where: { companyId: id },
+      orderBy: { createdAt: "desc" },
+      take: 10,
+      select: { id: true, title: true, priority: true, status: true, ticketStage: true, createdAt: true },
+    }),
   ]);
 
   // Vendas = oportunidades em etapas finais positivas
@@ -294,6 +315,146 @@ export default async function EmpresaDetailPage({
                     <td className="py-2.5 px-2 text-slate-500 text-[11px]">
                       {new Date(c.createdAt).toLocaleDateString("pt-BR")}
                     </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {/* Leads & Prospectos */}
+      <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5 mt-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-white font-bold text-sm">🎯 Leads & Prospectos ({leadsCount + prospeccaoCount})</h2>
+          <Link href={`/crm/leads`} className="text-indigo-400 text-xs font-medium hover:underline">Ver todos →</Link>
+        </div>
+        {recentLeads.length === 0 ? (
+          <div className="text-slate-500 text-sm text-center py-6">Nenhum lead cadastrado</div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-[#1e2d45]">
+                  <th className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide text-left pb-2 px-2">Nome / Telefone</th>
+                  <th className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide text-left pb-2 px-2">Pipeline</th>
+                  <th className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide text-left pb-2 px-2">Etapa</th>
+                  <th className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide text-left pb-2 px-2">Data</th>
+                </tr>
+              </thead>
+              <tbody>
+                {recentLeads.map((l) => (
+                  <tr key={l.id} className="border-b border-[#1e2d45]/50 hover:bg-white/[0.02]">
+                    <td className="py-2.5 px-2">
+                      <div className="text-white text-[13px] font-semibold">{l.name ?? l.phone}</div>
+                      {l.name && <div className="text-slate-600 text-[10px]">{l.phone}</div>}
+                    </td>
+                    <td className="py-2.5 px-2">
+                      <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${
+                        l.pipeline === "PROSPECCAO" ? "text-violet-400 bg-violet-500/15" :
+                        l.pipeline === "LEADS" ? "text-blue-400 bg-blue-500/15" :
+                        "text-slate-500 bg-white/5"
+                      }`}>
+                        {l.pipeline === "PROSPECCAO" ? "🔎 Prospecção" : l.pipeline === "LEADS" ? "🎯 Lead" : "📥 Entrada"}
+                      </span>
+                    </td>
+                    <td className="py-2.5 px-2 text-slate-400 text-xs">{l.pipelineStage ?? "—"}</td>
+                    <td className="py-2.5 px-2 text-slate-500 text-[11px]">{new Date(l.createdAt).toLocaleDateString("pt-BR")}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {/* Oportunidades */}
+      <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5 mt-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-white font-bold text-sm">💰 Oportunidades ({oportunidadesCount})</h2>
+          <Link href={`/crm/oportunidades`} className="text-indigo-400 text-xs font-medium hover:underline">Ver todas →</Link>
+        </div>
+        {recentOportunidades.length === 0 ? (
+          <div className="text-slate-500 text-sm text-center py-6">Nenhuma oportunidade cadastrada</div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-[#1e2d45]">
+                  <th className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide text-left pb-2 px-2">Nome / Telefone</th>
+                  <th className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide text-left pb-2 px-2">Etapa</th>
+                  <th className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide text-left pb-2 px-2">Valor</th>
+                  <th className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide text-left pb-2 px-2">Data</th>
+                </tr>
+              </thead>
+              <tbody>
+                {recentOportunidades.map((l) => (
+                  <tr key={l.id} className="border-b border-[#1e2d45]/50 hover:bg-white/[0.02]">
+                    <td className="py-2.5 px-2">
+                      <div className="text-white text-[13px] font-semibold">{l.name ?? l.phone}</div>
+                      {l.name && <div className="text-slate-600 text-[10px]">{l.phone}</div>}
+                    </td>
+                    <td className="py-2.5 px-2 text-slate-400 text-xs">{l.pipelineStage ?? "—"}</td>
+                    <td className="py-2.5 px-2">
+                      {l.value != null
+                        ? <span className="text-green-400 font-semibold text-sm">R$ {l.value.toLocaleString("pt-BR", { minimumFractionDigits: 0 })}</span>
+                        : <span className="text-slate-600 text-xs">—</span>
+                      }
+                    </td>
+                    <td className="py-2.5 px-2 text-slate-500 text-[11px]">{new Date(l.createdAt).toLocaleDateString("pt-BR")}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {/* Chamados */}
+      <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5 mt-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-white font-bold text-sm">🎫 Chamados ({recentChamados.length >= 10 ? "10+" : recentChamados.length})</h2>
+          <Link href="/chamados" className="text-indigo-400 text-xs font-medium hover:underline">Ver todos →</Link>
+        </div>
+        {recentChamados.length === 0 ? (
+          <div className="text-slate-500 text-sm text-center py-6">Nenhum chamado registrado</div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-[#1e2d45]">
+                  <th className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide text-left pb-2 px-2">Título</th>
+                  <th className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide text-left pb-2 px-2">Etapa</th>
+                  <th className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide text-left pb-2 px-2">Prioridade</th>
+                  <th className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide text-left pb-2 px-2">Data</th>
+                </tr>
+              </thead>
+              <tbody>
+                {recentChamados.map((t) => (
+                  <tr key={t.id} className="border-b border-[#1e2d45]/50 hover:bg-white/[0.02]">
+                    <td className="py-2.5 px-2">
+                      <Link href={`/chamados/${t.id}`} className="text-white text-[13px] font-semibold hover:text-indigo-300 transition-colors">
+                        {t.title}
+                      </Link>
+                      <div className={`text-[10px] font-medium mt-0.5 ${
+                        t.status === "OPEN" ? "text-indigo-400" :
+                        t.status === "IN_PROGRESS" ? "text-blue-400" :
+                        t.status === "RESOLVED" ? "text-green-400" : "text-slate-500"
+                      }`}>
+                        {t.status === "OPEN" ? "Aberto" : t.status === "IN_PROGRESS" ? "Em Andamento" : t.status === "RESOLVED" ? "Resolvido" : "Fechado"}
+                      </div>
+                    </td>
+                    <td className="py-2.5 px-2 text-slate-400 text-xs">{t.ticketStage ?? "—"}</td>
+                    <td className="py-2.5 px-2">
+                      <span className={`text-[10px] font-semibold ${
+                        t.priority === "URGENT" ? "text-red-400" :
+                        t.priority === "HIGH" ? "text-orange-400" :
+                        t.priority === "MEDIUM" ? "text-yellow-400" : "text-slate-400"
+                      }`}>
+                        {t.priority === "URGENT" ? "🔴 Urgente" : t.priority === "HIGH" ? "🟠 Alta" : t.priority === "MEDIUM" ? "🟡 Média" : "🟢 Baixa"}
+                      </span>
+                    </td>
+                    <td className="py-2.5 px-2 text-slate-500 text-[11px]">{new Date(t.createdAt).toLocaleDateString("pt-BR")}</td>
                   </tr>
                 ))}
               </tbody>
