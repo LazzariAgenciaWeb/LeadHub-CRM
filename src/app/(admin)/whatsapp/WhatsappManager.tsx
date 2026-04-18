@@ -1803,50 +1803,110 @@ export default function WhatsappManager({
                 </div>
               </div>
 
-              {/* Painel de Atendimento — sempre visível */}
-              <div className={`px-5 py-3 border-b border-[#1e2d45] flex-shrink-0 ${ATTENDANCE[attendanceStatus ?? ""]?.ring ?? "bg-[#0a0f1a]"}`}>
-                <div className="flex items-center gap-3 flex-wrap">
-                  <span className="text-slate-400 text-[11px] font-semibold uppercase tracking-wide flex-shrink-0">Atendimento:</span>
-                  {(["WAITING", "IN_PROGRESS", "RESOLVED", "SCHEDULED"] as const).map((s) => {
-                    const a = ATTENDANCE[s];
-                    const isActive = attendanceStatus === s;
-                    return (
-                      <button
-                        key={s}
-                        onClick={() => handleSetAttendance(s)}
-                        disabled={savingAttendance}
-                        className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border transition-all disabled:opacity-50 ${
-                          isActive ? a.btn + " scale-105 shadow-sm" : "border-[#1e2d45] text-slate-500 hover:text-slate-300 hover:border-slate-600"
-                        }`}
-                      >
-                        {a.icon} {a.label}
-                      </button>
-                    );
-                  })}
-                  {attendanceStatus === "SCHEDULED" && (
-                    <div className="flex items-center gap-2 ml-auto">
-                      <input
-                        type="datetime-local"
-                        value={expectedReturn}
-                        onChange={(e) => setExpectedReturn(e.target.value)}
-                        className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2 py-1 text-xs text-white focus:outline-none focus:border-purple-500"
-                      />
-                      <button
-                        onClick={() => handleSetAttendance("SCHEDULED")}
-                        disabled={savingAttendance || !expectedReturn}
-                        className="px-2.5 py-1 rounded-lg bg-purple-600 text-white text-xs font-medium hover:bg-purple-500 disabled:opacity-50"
-                      >
-                        Salvar
-                      </button>
+              {/* ── Barra de contexto inteligente ──────────────────────────────────
+                   Classificação (sem pipeline) OU Atendimento (com pipeline)
+                   em uma única faixa — elimina a duplicação de botões          */}
+              {(() => {
+                const isLeadInFinalStage = !!(selectedConv.lead?.pipelineStage && finalStageNames.includes(selectedConv.lead.pipelineStage));
+                const isTicketFinal = openTicket?.status === "RESOLVED" || openTicket?.status === "CLOSED";
+                const showClassify = !selectedConv.lead?.pipeline || isLeadInFinalStage;
+
+                if (showClassify) {
+                  /* ── Modo Classificação ── */
+                  return (
+                    <div className="px-5 py-2.5 border-b border-[#1e2d45] flex-shrink-0 bg-[#0a0f1a]">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-slate-500 text-[10px] font-semibold uppercase tracking-wide flex-shrink-0">
+                          {isLeadInFinalStage ? "♻️ Reabrir como:" : "📥 Classificar:"}
+                        </span>
+                        <button
+                          onClick={() => { setShowConvertForm(true); setShowTicketForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowAddCompany(false); }}
+                          className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 hover:bg-indigo-600/40 transition-colors"
+                        >
+                          🎯 Lead
+                        </button>
+                        <button
+                          onClick={() => { setShowOportunidadeForm(true); setShowConvertForm(false); setShowTicketForm(false); setShowLinkProspect(false); setShowAddCompany(false); }}
+                          className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-amber-600/20 border border-amber-500/30 text-amber-300 hover:bg-amber-600/40 transition-colors"
+                        >
+                          💰 Oportunidade
+                        </button>
+                        {(!openTicket || isTicketFinal) && (
+                          <button
+                            onClick={() => { setShowTicketForm(true); setShowConvertForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowAddCompany(false); }}
+                            className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-orange-600/20 border border-orange-500/30 text-orange-300 hover:bg-orange-600/40 transition-colors"
+                          >
+                            🎫 Chamado
+                          </button>
+                        )}
+                        {!isLeadInFinalStage && !selectedConv.companyContact && !selectedConv.phone.includes("@g.us") && (
+                          <button
+                            onClick={() => { setShowAddCompany(true); setShowConvertForm(false); setShowTicketForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); }}
+                            className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-amber-700/20 border border-amber-600/30 text-amber-400 hover:bg-amber-700/40 transition-colors"
+                          >
+                            ⭐ É Cliente
+                          </button>
+                        )}
+                        {!isLeadInFinalStage && (
+                          <button
+                            onClick={() => { setShowLinkProspect(true); setShowConvertForm(false); setShowTicketForm(false); setShowOportunidadeForm(false); setShowAddCompany(false); }}
+                            className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border border-[#1e2d45] text-slate-500 hover:text-violet-300 hover:border-violet-500/50 transition-colors"
+                          >
+                            🔎 Vincular Prospect
+                          </button>
+                        )}
+                      </div>
                     </div>
-                  )}
-                  {selectedConv.lead?.expectedReturnAt && attendanceStatus === "SCHEDULED" && !expectedReturn && (
-                    <span className="text-purple-400 text-[11px] ml-auto">
-                      📅 {new Date(selectedConv.lead.expectedReturnAt).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
-                    </span>
-                  )}
-                </div>
-              </div>
+                  );
+                }
+
+                /* ── Modo Atendimento ── */
+                return (
+                  <div className={`px-5 py-2.5 border-b border-[#1e2d45] flex-shrink-0 ${ATTENDANCE[attendanceStatus ?? ""]?.ring ?? "bg-[#0a0f1a]"}`}>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-slate-500 text-[10px] font-semibold uppercase tracking-wide flex-shrink-0">Atendimento:</span>
+                      {(["WAITING", "IN_PROGRESS", "RESOLVED", "SCHEDULED"] as const).map((s) => {
+                        const a = ATTENDANCE[s];
+                        const isActive = attendanceStatus === s;
+                        return (
+                          <button
+                            key={s}
+                            onClick={() => handleSetAttendance(s)}
+                            disabled={savingAttendance}
+                            className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border transition-all disabled:opacity-50 ${
+                              isActive ? a.btn + " scale-105" : "border-[#1e2d45] text-slate-500 hover:text-slate-300 hover:border-slate-600"
+                            }`}
+                          >
+                            {a.icon} {a.label}
+                          </button>
+                        );
+                      })}
+                      {attendanceStatus === "SCHEDULED" && (
+                        <div className="flex items-center gap-2 ml-auto">
+                          <input
+                            type="datetime-local"
+                            value={expectedReturn}
+                            onChange={(e) => setExpectedReturn(e.target.value)}
+                            className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2 py-1 text-xs text-white focus:outline-none focus:border-purple-500"
+                          />
+                          <button
+                            onClick={() => handleSetAttendance("SCHEDULED")}
+                            disabled={savingAttendance || !expectedReturn}
+                            className="px-2.5 py-1 rounded-lg bg-purple-600 text-white text-xs font-medium hover:bg-purple-500 disabled:opacity-50"
+                          >
+                            Salvar
+                          </button>
+                        </div>
+                      )}
+                      {selectedConv.lead?.expectedReturnAt && attendanceStatus === "SCHEDULED" && !expectedReturn && (
+                        <span className="text-purple-400 text-[11px] ml-auto">
+                          📅 {new Date(selectedConv.lead.expectedReturnAt).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })()}
 
               {/* Painel IA */}
               {showAiPanel && (
@@ -2332,63 +2392,6 @@ export default function WhatsappManager({
                   )}
                 </div>
               )}
-
-              {/* Inbox classification banner — mostra quando sem pipeline OU pipeline em etapa final */}
-              {(() => {
-                const isLeadInFinalStage = !!(selectedConv.lead?.pipelineStage && finalStageNames.includes(selectedConv.lead.pipelineStage));
-                const isTicketFinal = openTicket?.status === "RESOLVED" || openTicket?.status === "CLOSED";
-                const showBanner = !selectedConv.lead?.pipeline || isLeadInFinalStage;
-                if (!showBanner) return null;
-                return (
-                  <div className="mx-5 mt-4 mb-1 flex-shrink-0 bg-slate-800/40 border border-[#1e2d45] rounded-xl p-3.5">
-                    <div className="flex items-center gap-2 mb-2.5">
-                      <span className="text-base">{isLeadInFinalStage ? "♻️" : "📥"}</span>
-                      <span className="text-slate-300 text-xs font-semibold">
-                        {isLeadInFinalStage ? "Negócio encerrado — abrir novo?" : "Caixa de Entrada"}
-                      </span>
-                      {!isLeadInFinalStage && <span className="text-slate-600 text-[10px]">— classifique esta conversa</span>}
-                    </div>
-                    <div className="flex gap-2 flex-wrap">
-                      <button
-                        onClick={() => { setShowConvertForm(true); setShowTicketForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowAddCompany(false); }}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium transition-colors"
-                      >
-                        🎯 Lead
-                      </button>
-                      <button
-                        onClick={() => { setShowOportunidadeForm(true); setShowConvertForm(false); setShowTicketForm(false); setShowLinkProspect(false); setShowAddCompany(false); }}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-600/80 hover:bg-amber-500 text-white text-xs font-medium transition-colors"
-                      >
-                        💰 Oportunidade
-                      </button>
-                      {(!openTicket || isTicketFinal) && (
-                        <button
-                          onClick={() => { setShowTicketForm(true); setShowConvertForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowAddCompany(false); }}
-                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-600/80 hover:bg-orange-500 text-white text-xs font-medium transition-colors"
-                        >
-                          🎫 Chamado
-                        </button>
-                      )}
-                      {!isLeadInFinalStage && (
-                        <>
-                          <button
-                            onClick={() => { setShowAddCompany(true); setShowConvertForm(false); setShowTicketForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); }}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-700/60 hover:bg-amber-600 text-white text-xs font-medium transition-colors"
-                          >
-                            ⭐ É Cliente
-                          </button>
-                          <button
-                            onClick={() => { setShowLinkProspect(true); setShowConvertForm(false); setShowTicketForm(false); setShowOportunidadeForm(false); setShowAddCompany(false); }}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] text-violet-300 hover:border-violet-500/50 text-xs font-medium transition-colors"
-                          >
-                            🔎 Vincular Prospect
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                );
-              })()}
 
               {/* Messages */}
               {/* Botão flutuante: rolar para o final */}

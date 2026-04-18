@@ -109,6 +109,8 @@ export default function CRMBoard({
   const [editingClickup, setEditingClickup] = useState(false);
   const [clickupInput, setClickupInput] = useState("");
   const [savingClickup, setSavingClickup] = useState(false);
+  const [syncingClickup, setSyncingClickup] = useState(false);
+  const [syncClickupError, setSyncClickupError] = useState<string | null>(null);
 
   // BDR Sync
   const [syncing, setSyncing] = useState(false);
@@ -176,6 +178,7 @@ export default function CRMBoard({
     setLinkResult(null);
     setEditingClickup(false);
     setClickupInput(lead.clickupTaskId ?? "");
+    setSyncClickupError(null);
     setLoadingComments(true);
     const res = await fetch(`/api/leads/${lead.id}/comments`);
     if (res.ok) setComments(await res.json());
@@ -227,6 +230,28 @@ export default function CRMBoard({
     setLeads((prev) => prev.map((l) => (l.id === selected.id ? { ...l, clickupTaskId: val } : l)));
     setEditingClickup(false);
     setSavingClickup(false);
+  }
+
+  async function handleSyncClickup() {
+    if (!selected) return;
+    setSyncingClickup(true);
+    setSyncClickupError(null);
+    const res = await fetch(`/api/leads/${selected.id}/sync-clickup`, { method: "POST" });
+    const data = await res.json();
+    if (res.ok && data.clickupTaskId) {
+      setSelected({ ...selected, clickupTaskId: data.clickupTaskId });
+      setLeads((prev) => prev.map((l) => (l.id === selected.id ? { ...l, clickupTaskId: data.clickupTaskId } : l)));
+    } else {
+      let msg = data.error ?? "Erro desconhecido";
+      if (data.clickupError) {
+        const detail = typeof data.clickupError === "object"
+          ? (data.clickupError.err ?? data.clickupError.ECODE ?? JSON.stringify(data.clickupError))
+          : data.clickupError;
+        msg += `: ${detail}`;
+      }
+      setSyncClickupError(msg);
+    }
+    setSyncingClickup(false);
   }
 
   async function handleDeleteLead() {
@@ -736,15 +761,16 @@ export default function CRMBoard({
                     <div className="text-slate-500 text-[10px] uppercase tracking-wide flex items-center gap-1.5">
                       ✅ ClickUp
                     </div>
-                    {!editingClickup && (
+                    {!editingClickup && selected.clickupTaskId && (
                       <button
                         onClick={() => { setEditingClickup(true); setClickupInput(selected.clickupTaskId ?? ""); }}
                         className="text-slate-600 hover:text-slate-400 text-xs transition-colors"
                       >
-                        {selected.clickupTaskId ? "✏️ Editar" : "+ Vincular"}
+                        ✏️ Editar
                       </button>
                     )}
                   </div>
+
                   {editingClickup ? (
                     <form onSubmit={handleSaveClickup} className="space-y-2">
                       <input
@@ -774,21 +800,36 @@ export default function CRMBoard({
                     </form>
                   ) : selected.clickupTaskId ? (
                     <div className="flex items-center gap-2">
-                      {selected.clickupTaskId.startsWith("http") ? (
-                        <a
-                          href={selected.clickupTaskId}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-indigo-400 hover:text-indigo-300 text-xs font-mono truncate underline"
-                        >
-                          {selected.clickupTaskId}
-                        </a>
-                      ) : (
-                        <span className="text-indigo-400 text-xs font-mono">{selected.clickupTaskId}</span>
-                      )}
+                      <a
+                        href={selected.clickupTaskId.startsWith("http") ? selected.clickupTaskId : `https://app.clickup.com/t/${selected.clickupTaskId}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/20 border border-indigo-500/30 text-indigo-400 hover:bg-indigo-600/30 hover:text-indigo-300 text-xs font-medium transition-colors"
+                      >
+                        ↗ Abrir no ClickUp
+                      </a>
                     </div>
                   ) : (
-                    <p className="text-slate-600 text-xs">Nenhuma tarefa vinculada</p>
+                    <div className="space-y-2">
+                      <button
+                        onClick={handleSyncClickup}
+                        disabled={syncingClickup}
+                        className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-indigo-600/10 border border-indigo-500/20 text-indigo-400 hover:bg-indigo-600/20 hover:border-indigo-500/40 hover:text-indigo-300 text-xs font-medium transition-colors disabled:opacity-50"
+                      >
+                        {syncingClickup ? (
+                          <>
+                            <span className="animate-spin">⏳</span> Criando tarefa...
+                          </>
+                        ) : (
+                          <>✅ Criar no ClickUp</>
+                        )}
+                      </button>
+                      {syncClickupError && (
+                        <p className="text-red-400 text-[10px] leading-relaxed bg-red-500/10 border border-red-500/20 rounded p-2">
+                          {syncClickupError}
+                        </p>
+                      )}
+                    </div>
                   )}
                 </div>
               )}
