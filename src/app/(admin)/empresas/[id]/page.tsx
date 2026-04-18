@@ -1,6 +1,8 @@
 import { getServerSession } from "next-auth";
 import { redirect, notFound } from "next/navigation";
+import { cookies } from "next/headers";
 import { authOptions } from "@/lib/auth";
+import { IMPERSONATE_COOKIE } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import DeleteCompanyButton from "./DeleteCompanyButton";
@@ -16,6 +18,15 @@ export default async function EmpresaDetailPage({
   if ((session?.user as any)?.role !== "SUPER_ADMIN") redirect("/dashboard");
 
   const { id } = await params;
+
+  // If a SUPER_ADMIN arrives here with an active impersonation cookie, clear it
+  // so the sidebar (which uses getEffectiveSession) shows global data, not a client view.
+  // "Ver Detalhes" should never change the dashboard context.
+  const cookieStore = await cookies();
+  const impersonating = cookieStore.get(IMPERSONATE_COOKIE)?.value;
+  if (impersonating) {
+    redirect(`/api/admin/impersonate/exit?returnTo=/empresas/${id}`);
+  }
 
   const [company, contacts] = await Promise.all([
     prisma.company.findUnique({
@@ -120,7 +131,7 @@ export default async function EmpresaDetailPage({
             href={`/api/admin/impersonate/${id}`}
             className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-medium hover:bg-amber-500/20 transition-colors"
           >
-            👁 Ver como cliente
+            👁 Acessar Painel
           </Link>
           <Link
             href={`/empresas/${id}/campanhas/nova`}
