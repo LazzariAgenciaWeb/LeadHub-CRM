@@ -38,6 +38,8 @@ export default async function EmpresaDetailPage({
         },
         whatsappInstances: true,
         _count: { select: { leads: true, messages: true } },
+        // Novos campos de acesso e hierarquia
+        subCompanies: { select: { id: true, name: true }, take: 5 },
       },
     }),
     prisma.companyContact.findMany({
@@ -126,7 +128,7 @@ export default async function EmpresaDetailPage({
         </div>
         <div className="flex gap-2">
           <DeleteCompanyButton id={company.id} name={company.name} />
-          <EditCompanyButton company={company} />
+          <EditCompanyButton company={company as any} isSuperAdmin={true} />
           <Link
             href={`/api/admin/impersonate/${id}`}
             className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-medium hover:bg-amber-500/20 transition-colors"
@@ -141,6 +143,33 @@ export default async function EmpresaDetailPage({
           </Link>
         </div>
       </div>
+
+      {/* Badge de acesso e módulos */}
+      {(company as any).hasSystemAccess !== undefined && (
+        <div className="flex flex-wrap gap-2 mb-4">
+          {(company as any).hasSystemAccess ? (
+            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-violet-500/15 border border-violet-500/30 text-violet-300">
+              🔐 Acesso ao sistema
+            </span>
+          ) : (
+            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-slate-500/10 border border-slate-500/20 text-slate-400">
+              📋 Apenas CRM
+            </span>
+          )}
+          {(company as any).hasSystemAccess && (
+            <>
+              {(company as any).moduleWhatsapp && <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-400">WhatsApp</span>}
+              {(company as any).moduleCrm && <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400">CRM</span>}
+              {(company as any).moduleTickets && <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400">Chamados</span>}
+            </>
+          )}
+          {(company as any).subCompanies?.length > 0 && (
+            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
+              👥 {(company as any).subCompanies.length} cliente{(company as any).subCompanies.length !== 1 ? "s" : ""} cadastrado{(company as any).subCompanies.length !== 1 ? "s" : ""}
+            </span>
+          )}
+        </div>
+      )}
 
       {/* Info + Stats */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">

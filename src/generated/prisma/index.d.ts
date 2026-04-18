@@ -2204,6 +2204,7 @@ export namespace Prisma {
    */
 
   export type CompanyCountOutputType = {
+    subCompanies: number
     users: number
     campaigns: number
     leads: number
@@ -2217,6 +2218,7 @@ export namespace Prisma {
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    subCompanies?: boolean | CompanyCountOutputTypeCountSubCompaniesArgs
     users?: boolean | CompanyCountOutputTypeCountUsersArgs
     campaigns?: boolean | CompanyCountOutputTypeCountCampaignsArgs
     leads?: boolean | CompanyCountOutputTypeCountLeadsArgs
@@ -2238,6 +2240,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the CompanyCountOutputType
      */
     select?: CompanyCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountSubCompaniesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompanyWhereInput
   }
 
   /**
@@ -3566,6 +3575,11 @@ export namespace Prisma {
     status: $Enums.CompanyStatus | null
     createdAt: Date | null
     updatedAt: Date | null
+    hasSystemAccess: boolean | null
+    moduleWhatsapp: boolean | null
+    moduleCrm: boolean | null
+    moduleTickets: boolean | null
+    parentCompanyId: string | null
     triggerOnly: boolean | null
   }
 
@@ -3581,6 +3595,11 @@ export namespace Prisma {
     status: $Enums.CompanyStatus | null
     createdAt: Date | null
     updatedAt: Date | null
+    hasSystemAccess: boolean | null
+    moduleWhatsapp: boolean | null
+    moduleCrm: boolean | null
+    moduleTickets: boolean | null
+    parentCompanyId: string | null
     triggerOnly: boolean | null
   }
 
@@ -3596,6 +3615,11 @@ export namespace Prisma {
     status: number
     createdAt: number
     updatedAt: number
+    hasSystemAccess: number
+    moduleWhatsapp: number
+    moduleCrm: number
+    moduleTickets: number
+    parentCompanyId: number
     triggerOnly: number
     _all: number
   }
@@ -3613,6 +3637,11 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    hasSystemAccess?: true
+    moduleWhatsapp?: true
+    moduleCrm?: true
+    moduleTickets?: true
+    parentCompanyId?: true
     triggerOnly?: true
   }
 
@@ -3628,6 +3657,11 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    hasSystemAccess?: true
+    moduleWhatsapp?: true
+    moduleCrm?: true
+    moduleTickets?: true
+    parentCompanyId?: true
     triggerOnly?: true
   }
 
@@ -3643,6 +3677,11 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    hasSystemAccess?: true
+    moduleWhatsapp?: true
+    moduleCrm?: true
+    moduleTickets?: true
+    parentCompanyId?: true
     triggerOnly?: true
     _all?: true
   }
@@ -3731,6 +3770,11 @@ export namespace Prisma {
     status: $Enums.CompanyStatus
     createdAt: Date
     updatedAt: Date
+    hasSystemAccess: boolean
+    moduleWhatsapp: boolean
+    moduleCrm: boolean
+    moduleTickets: boolean
+    parentCompanyId: string | null
     triggerOnly: boolean
     _count: CompanyCountAggregateOutputType | null
     _min: CompanyMinAggregateOutputType | null
@@ -3763,7 +3807,14 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    parentCompanyId?: boolean
     triggerOnly?: boolean
+    parentCompany?: boolean | Company$parentCompanyArgs<ExtArgs>
+    subCompanies?: boolean | Company$subCompaniesArgs<ExtArgs>
     users?: boolean | Company$usersArgs<ExtArgs>
     campaigns?: boolean | Company$campaignsArgs<ExtArgs>
     leads?: boolean | Company$leadsArgs<ExtArgs>
@@ -3789,7 +3840,13 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    parentCompanyId?: boolean
     triggerOnly?: boolean
+    parentCompany?: boolean | Company$parentCompanyArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
   export type CompanySelectScalar = {
@@ -3804,10 +3861,17 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    parentCompanyId?: boolean
     triggerOnly?: boolean
   }
 
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    parentCompany?: boolean | Company$parentCompanyArgs<ExtArgs>
+    subCompanies?: boolean | Company$subCompaniesArgs<ExtArgs>
     users?: boolean | Company$usersArgs<ExtArgs>
     campaigns?: boolean | Company$campaignsArgs<ExtArgs>
     leads?: boolean | Company$leadsArgs<ExtArgs>
@@ -3820,11 +3884,15 @@ export namespace Prisma {
     contacts?: boolean | Company$contactsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    parentCompany?: boolean | Company$parentCompanyArgs<ExtArgs>
+  }
 
   export type $CompanyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Company"
     objects: {
+      parentCompany: Prisma.$CompanyPayload<ExtArgs> | null
+      subCompanies: Prisma.$CompanyPayload<ExtArgs>[]
       users: Prisma.$UserPayload<ExtArgs>[]
       campaigns: Prisma.$CampaignPayload<ExtArgs>[]
       leads: Prisma.$LeadPayload<ExtArgs>[]
@@ -3848,6 +3916,11 @@ export namespace Prisma {
       status: $Enums.CompanyStatus
       createdAt: Date
       updatedAt: Date
+      hasSystemAccess: boolean
+      moduleWhatsapp: boolean
+      moduleCrm: boolean
+      moduleTickets: boolean
+      parentCompanyId: string | null
       triggerOnly: boolean
     }, ExtArgs["result"]["company"]>
     composites: {}
@@ -4213,6 +4286,8 @@ export namespace Prisma {
    */
   export interface Prisma__CompanyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    parentCompany<T extends Company$parentCompanyArgs<ExtArgs> = {}>(args?: Subset<T, Company$parentCompanyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    subCompanies<T extends Company$subCompaniesArgs<ExtArgs> = {}>(args?: Subset<T, Company$subCompaniesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findMany"> | Null>
     users<T extends Company$usersArgs<ExtArgs> = {}>(args?: Subset<T, Company$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany"> | Null>
     campaigns<T extends Company$campaignsArgs<ExtArgs> = {}>(args?: Subset<T, Company$campaignsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findMany"> | Null>
     leads<T extends Company$leadsArgs<ExtArgs> = {}>(args?: Subset<T, Company$leadsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findMany"> | Null>
@@ -4263,6 +4338,11 @@ export namespace Prisma {
     readonly status: FieldRef<"Company", 'CompanyStatus'>
     readonly createdAt: FieldRef<"Company", 'DateTime'>
     readonly updatedAt: FieldRef<"Company", 'DateTime'>
+    readonly hasSystemAccess: FieldRef<"Company", 'Boolean'>
+    readonly moduleWhatsapp: FieldRef<"Company", 'Boolean'>
+    readonly moduleCrm: FieldRef<"Company", 'Boolean'>
+    readonly moduleTickets: FieldRef<"Company", 'Boolean'>
+    readonly parentCompanyId: FieldRef<"Company", 'String'>
     readonly triggerOnly: FieldRef<"Company", 'Boolean'>
   }
     
@@ -4485,6 +4565,10 @@ export namespace Prisma {
      */
     data: CompanyCreateManyInput | CompanyCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -4575,6 +4659,41 @@ export namespace Prisma {
      * Filter which Companies to delete
      */
     where?: CompanyWhereInput
+  }
+
+  /**
+   * Company.parentCompany
+   */
+  export type Company$parentCompanyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Company
+     */
+    select?: CompanySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyInclude<ExtArgs> | null
+    where?: CompanyWhereInput
+  }
+
+  /**
+   * Company.subCompanies
+   */
+  export type Company$subCompaniesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Company
+     */
+    select?: CompanySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyInclude<ExtArgs> | null
+    where?: CompanyWhereInput
+    orderBy?: CompanyOrderByWithRelationInput | CompanyOrderByWithRelationInput[]
+    cursor?: CompanyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CompanyScalarFieldEnum | CompanyScalarFieldEnum[]
   }
 
   /**
@@ -8048,6 +8167,7 @@ export namespace Prisma {
     attendanceStatus: string | null
     expectedReturnAt: Date | null
     clickupTaskId: string | null
+    isInternal: boolean | null
     companyId: string | null
     campaignId: string | null
     trackingLinkId: string | null
@@ -8070,6 +8190,7 @@ export namespace Prisma {
     attendanceStatus: string | null
     expectedReturnAt: Date | null
     clickupTaskId: string | null
+    isInternal: boolean | null
     companyId: string | null
     campaignId: string | null
     trackingLinkId: string | null
@@ -8092,6 +8213,7 @@ export namespace Prisma {
     attendanceStatus: number
     expectedReturnAt: number
     clickupTaskId: number
+    isInternal: number
     companyId: number
     campaignId: number
     trackingLinkId: number
@@ -8124,6 +8246,7 @@ export namespace Prisma {
     attendanceStatus?: true
     expectedReturnAt?: true
     clickupTaskId?: true
+    isInternal?: true
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
@@ -8146,6 +8269,7 @@ export namespace Prisma {
     attendanceStatus?: true
     expectedReturnAt?: true
     clickupTaskId?: true
+    isInternal?: true
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
@@ -8168,6 +8292,7 @@ export namespace Prisma {
     attendanceStatus?: true
     expectedReturnAt?: true
     clickupTaskId?: true
+    isInternal?: true
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
@@ -8277,6 +8402,7 @@ export namespace Prisma {
     attendanceStatus: string | null
     expectedReturnAt: Date | null
     clickupTaskId: string | null
+    isInternal: boolean
     companyId: string
     campaignId: string | null
     trackingLinkId: string | null
@@ -8318,6 +8444,7 @@ export namespace Prisma {
     attendanceStatus?: boolean
     expectedReturnAt?: boolean
     clickupTaskId?: boolean
+    isInternal?: boolean
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
@@ -8346,6 +8473,7 @@ export namespace Prisma {
     attendanceStatus?: boolean
     expectedReturnAt?: boolean
     clickupTaskId?: boolean
+    isInternal?: boolean
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
@@ -8371,6 +8499,7 @@ export namespace Prisma {
     attendanceStatus?: boolean
     expectedReturnAt?: boolean
     clickupTaskId?: boolean
+    isInternal?: boolean
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
@@ -8416,6 +8545,7 @@ export namespace Prisma {
       attendanceStatus: string | null
       expectedReturnAt: Date | null
       clickupTaskId: string | null
+      isInternal: boolean
       companyId: string
       campaignId: string | null
       trackingLinkId: string | null
@@ -8833,6 +8963,7 @@ export namespace Prisma {
     readonly attendanceStatus: FieldRef<"Lead", 'String'>
     readonly expectedReturnAt: FieldRef<"Lead", 'DateTime'>
     readonly clickupTaskId: FieldRef<"Lead", 'String'>
+    readonly isInternal: FieldRef<"Lead", 'Boolean'>
     readonly companyId: FieldRef<"Lead", 'String'>
     readonly campaignId: FieldRef<"Lead", 'String'>
     readonly trackingLinkId: FieldRef<"Lead", 'String'>
@@ -16172,6 +16303,7 @@ export namespace Prisma {
     phone: string | null
     clickupTaskId: string | null
     ticketStage: string | null
+    isInternal: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
     companyId: string | null
@@ -16188,6 +16320,7 @@ export namespace Prisma {
     phone: string | null
     clickupTaskId: string | null
     ticketStage: string | null
+    isInternal: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
     companyId: string | null
@@ -16204,6 +16337,7 @@ export namespace Prisma {
     phone: number
     clickupTaskId: number
     ticketStage: number
+    isInternal: number
     createdAt: number
     updatedAt: number
     companyId: number
@@ -16222,6 +16356,7 @@ export namespace Prisma {
     phone?: true
     clickupTaskId?: true
     ticketStage?: true
+    isInternal?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -16238,6 +16373,7 @@ export namespace Prisma {
     phone?: true
     clickupTaskId?: true
     ticketStage?: true
+    isInternal?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -16254,6 +16390,7 @@ export namespace Prisma {
     phone?: true
     clickupTaskId?: true
     ticketStage?: true
+    isInternal?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -16343,6 +16480,7 @@ export namespace Prisma {
     phone: string | null
     clickupTaskId: string | null
     ticketStage: string | null
+    isInternal: boolean
     createdAt: Date
     updatedAt: Date
     companyId: string
@@ -16376,6 +16514,7 @@ export namespace Prisma {
     phone?: boolean
     clickupTaskId?: boolean
     ticketStage?: boolean
+    isInternal?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
@@ -16396,6 +16535,7 @@ export namespace Prisma {
     phone?: boolean
     clickupTaskId?: boolean
     ticketStage?: boolean
+    isInternal?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
@@ -16414,6 +16554,7 @@ export namespace Prisma {
     phone?: boolean
     clickupTaskId?: boolean
     ticketStage?: boolean
+    isInternal?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
@@ -16448,6 +16589,7 @@ export namespace Prisma {
       phone: string | null
       clickupTaskId: string | null
       ticketStage: string | null
+      isInternal: boolean
       createdAt: Date
       updatedAt: Date
       companyId: string
@@ -16857,6 +16999,7 @@ export namespace Prisma {
     readonly phone: FieldRef<"Ticket", 'String'>
     readonly clickupTaskId: FieldRef<"Ticket", 'String'>
     readonly ticketStage: FieldRef<"Ticket", 'String'>
+    readonly isInternal: FieldRef<"Ticket", 'Boolean'>
     readonly createdAt: FieldRef<"Ticket", 'DateTime'>
     readonly updatedAt: FieldRef<"Ticket", 'DateTime'>
     readonly companyId: FieldRef<"Ticket", 'String'>
@@ -18225,6 +18368,11 @@ export namespace Prisma {
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    hasSystemAccess: 'hasSystemAccess',
+    moduleWhatsapp: 'moduleWhatsapp',
+    moduleCrm: 'moduleCrm',
+    moduleTickets: 'moduleTickets',
+    parentCompanyId: 'parentCompanyId',
     triggerOnly: 'triggerOnly'
   };
 
@@ -18295,6 +18443,7 @@ export namespace Prisma {
     attendanceStatus: 'attendanceStatus',
     expectedReturnAt: 'expectedReturnAt',
     clickupTaskId: 'clickupTaskId',
+    isInternal: 'isInternal',
     companyId: 'companyId',
     campaignId: 'campaignId',
     trackingLinkId: 'trackingLinkId'
@@ -18409,6 +18558,7 @@ export namespace Prisma {
     phone: 'phone',
     clickupTaskId: 'clickupTaskId',
     ticketStage: 'ticketStage',
+    isInternal: 'isInternal',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     companyId: 'companyId',
@@ -18767,7 +18917,14 @@ export namespace Prisma {
     status?: EnumCompanyStatusFilter<"Company"> | $Enums.CompanyStatus
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
+    hasSystemAccess?: BoolFilter<"Company"> | boolean
+    moduleWhatsapp?: BoolFilter<"Company"> | boolean
+    moduleCrm?: BoolFilter<"Company"> | boolean
+    moduleTickets?: BoolFilter<"Company"> | boolean
+    parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
+    parentCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
+    subCompanies?: CompanyListRelationFilter
     users?: UserListRelationFilter
     campaigns?: CampaignListRelationFilter
     leads?: LeadListRelationFilter
@@ -18792,7 +18949,14 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    hasSystemAccess?: SortOrder
+    moduleWhatsapp?: SortOrder
+    moduleCrm?: SortOrder
+    moduleTickets?: SortOrder
+    parentCompanyId?: SortOrderInput | SortOrder
     triggerOnly?: SortOrder
+    parentCompany?: CompanyOrderByWithRelationInput
+    subCompanies?: CompanyOrderByRelationAggregateInput
     users?: UserOrderByRelationAggregateInput
     campaigns?: CampaignOrderByRelationAggregateInput
     leads?: LeadOrderByRelationAggregateInput
@@ -18820,7 +18984,14 @@ export namespace Prisma {
     status?: EnumCompanyStatusFilter<"Company"> | $Enums.CompanyStatus
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
+    hasSystemAccess?: BoolFilter<"Company"> | boolean
+    moduleWhatsapp?: BoolFilter<"Company"> | boolean
+    moduleCrm?: BoolFilter<"Company"> | boolean
+    moduleTickets?: BoolFilter<"Company"> | boolean
+    parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
+    parentCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
+    subCompanies?: CompanyListRelationFilter
     users?: UserListRelationFilter
     campaigns?: CampaignListRelationFilter
     leads?: LeadListRelationFilter
@@ -18845,6 +19016,11 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    hasSystemAccess?: SortOrder
+    moduleWhatsapp?: SortOrder
+    moduleCrm?: SortOrder
+    moduleTickets?: SortOrder
+    parentCompanyId?: SortOrderInput | SortOrder
     triggerOnly?: SortOrder
     _count?: CompanyCountOrderByAggregateInput
     _max?: CompanyMaxOrderByAggregateInput
@@ -18866,6 +19042,11 @@ export namespace Prisma {
     status?: EnumCompanyStatusWithAggregatesFilter<"Company"> | $Enums.CompanyStatus
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
+    hasSystemAccess?: BoolWithAggregatesFilter<"Company"> | boolean
+    moduleWhatsapp?: BoolWithAggregatesFilter<"Company"> | boolean
+    moduleCrm?: BoolWithAggregatesFilter<"Company"> | boolean
+    moduleTickets?: BoolWithAggregatesFilter<"Company"> | boolean
+    parentCompanyId?: StringNullableWithAggregatesFilter<"Company"> | string | null
     triggerOnly?: BoolWithAggregatesFilter<"Company"> | boolean
   }
 
@@ -19150,6 +19331,7 @@ export namespace Prisma {
     attendanceStatus?: StringNullableFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     clickupTaskId?: StringNullableFilter<"Lead"> | string | null
+    isInternal?: BoolFilter<"Lead"> | boolean
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
@@ -19177,6 +19359,7 @@ export namespace Prisma {
     attendanceStatus?: SortOrderInput | SortOrder
     expectedReturnAt?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
+    isInternal?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrderInput | SortOrder
     trackingLinkId?: SortOrderInput | SortOrder
@@ -19207,6 +19390,7 @@ export namespace Prisma {
     attendanceStatus?: StringNullableFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     clickupTaskId?: StringNullableFilter<"Lead"> | string | null
+    isInternal?: BoolFilter<"Lead"> | boolean
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
@@ -19234,6 +19418,7 @@ export namespace Prisma {
     attendanceStatus?: SortOrderInput | SortOrder
     expectedReturnAt?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
+    isInternal?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrderInput | SortOrder
     trackingLinkId?: SortOrderInput | SortOrder
@@ -19264,6 +19449,7 @@ export namespace Prisma {
     attendanceStatus?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableWithAggregatesFilter<"Lead"> | Date | string | null
     clickupTaskId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    isInternal?: BoolWithAggregatesFilter<"Lead"> | boolean
     companyId?: StringWithAggregatesFilter<"Lead"> | string
     campaignId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
@@ -19782,6 +19968,7 @@ export namespace Prisma {
     phone?: StringNullableFilter<"Ticket"> | string | null
     clickupTaskId?: StringNullableFilter<"Ticket"> | string | null
     ticketStage?: StringNullableFilter<"Ticket"> | string | null
+    isInternal?: BoolFilter<"Ticket"> | boolean
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     companyId?: StringFilter<"Ticket"> | string
@@ -19801,6 +19988,7 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
     ticketStage?: SortOrderInput | SortOrder
+    isInternal?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -19823,6 +20011,7 @@ export namespace Prisma {
     phone?: StringNullableFilter<"Ticket"> | string | null
     clickupTaskId?: StringNullableFilter<"Ticket"> | string | null
     ticketStage?: StringNullableFilter<"Ticket"> | string | null
+    isInternal?: BoolFilter<"Ticket"> | boolean
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     companyId?: StringFilter<"Ticket"> | string
@@ -19842,6 +20031,7 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
     ticketStage?: SortOrderInput | SortOrder
+    isInternal?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -19864,6 +20054,7 @@ export namespace Prisma {
     phone?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     clickupTaskId?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     ticketStage?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
+    isInternal?: BoolWithAggregatesFilter<"Ticket"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Ticket"> | Date | string
     companyId?: StringWithAggregatesFilter<"Ticket"> | string
@@ -20031,7 +20222,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
     triggerOnly?: boolean
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -20056,7 +20253,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    parentCompanyId?: string | null
     triggerOnly?: boolean
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -20081,7 +20284,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -20106,7 +20315,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -20131,6 +20346,11 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    parentCompanyId?: string | null
     triggerOnly?: boolean
   }
 
@@ -20146,6 +20366,10 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -20161,6 +20385,11 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -20467,6 +20696,7 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    isInternal?: boolean
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
@@ -20491,6 +20721,7 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    isInternal?: boolean
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
@@ -20515,6 +20746,7 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
@@ -20539,6 +20771,7 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20563,6 +20796,7 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    isInternal?: boolean
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
@@ -20585,6 +20819,7 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type LeadUncheckedUpdateManyInput = {
@@ -20604,6 +20839,7 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21137,6 +21373,7 @@ export namespace Prisma {
     phone?: string | null
     clickupTaskId?: string | null
     ticketStage?: string | null
+    isInternal?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -21154,6 +21391,7 @@ export namespace Prisma {
     phone?: string | null
     clickupTaskId?: string | null
     ticketStage?: string | null
+    isInternal?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -21171,6 +21409,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -21188,6 +21427,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -21205,6 +21445,7 @@ export namespace Prisma {
     phone?: string | null
     clickupTaskId?: string | null
     ticketStage?: string | null
+    isInternal?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -21221,6 +21462,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21235,6 +21477,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -21488,6 +21731,12 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type CompanyListRelationFilter = {
+    every?: CompanyWhereInput
+    some?: CompanyWhereInput
+    none?: CompanyWhereInput
+  }
+
   export type UserListRelationFilter = {
     every?: UserWhereInput
     some?: UserWhereInput
@@ -21542,6 +21791,10 @@ export namespace Prisma {
     none?: CompanyContactWhereInput
   }
 
+  export type CompanyOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -21590,6 +21843,11 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    hasSystemAccess?: SortOrder
+    moduleWhatsapp?: SortOrder
+    moduleCrm?: SortOrder
+    moduleTickets?: SortOrder
+    parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
   }
 
@@ -21605,6 +21863,11 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    hasSystemAccess?: SortOrder
+    moduleWhatsapp?: SortOrder
+    moduleCrm?: SortOrder
+    moduleTickets?: SortOrder
+    parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
   }
 
@@ -21620,6 +21883,11 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    hasSystemAccess?: SortOrder
+    moduleWhatsapp?: SortOrder
+    moduleCrm?: SortOrder
+    moduleTickets?: SortOrder
+    parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
   }
 
@@ -21953,6 +22221,7 @@ export namespace Prisma {
     attendanceStatus?: SortOrder
     expectedReturnAt?: SortOrder
     clickupTaskId?: SortOrder
+    isInternal?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
@@ -21979,6 +22248,7 @@ export namespace Prisma {
     attendanceStatus?: SortOrder
     expectedReturnAt?: SortOrder
     clickupTaskId?: SortOrder
+    isInternal?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
@@ -22001,6 +22271,7 @@ export namespace Prisma {
     attendanceStatus?: SortOrder
     expectedReturnAt?: SortOrder
     clickupTaskId?: SortOrder
+    isInternal?: SortOrder
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
@@ -22416,6 +22687,7 @@ export namespace Prisma {
     phone?: SortOrder
     clickupTaskId?: SortOrder
     ticketStage?: SortOrder
+    isInternal?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -22432,6 +22704,7 @@ export namespace Prisma {
     phone?: SortOrder
     clickupTaskId?: SortOrder
     ticketStage?: SortOrder
+    isInternal?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -22448,6 +22721,7 @@ export namespace Prisma {
     phone?: SortOrder
     clickupTaskId?: SortOrder
     ticketStage?: SortOrder
+    isInternal?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -22615,6 +22889,19 @@ export namespace Prisma {
     update?: XOR<XOR<CompanyContactUpdateToOneWithWhereWithoutUserInput, CompanyContactUpdateWithoutUserInput>, CompanyContactUncheckedUpdateWithoutUserInput>
   }
 
+  export type CompanyCreateNestedOneWithoutSubCompaniesInput = {
+    create?: XOR<CompanyCreateWithoutSubCompaniesInput, CompanyUncheckedCreateWithoutSubCompaniesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutSubCompaniesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedManyWithoutParentCompanyInput = {
+    create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
+    connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
+    createMany?: CompanyCreateManyParentCompanyInputEnvelope
+    connect?: CompanyWhereUniqueInput | CompanyWhereUniqueInput[]
+  }
+
   export type UserCreateNestedManyWithoutCompanyInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -22683,6 +22970,13 @@ export namespace Prisma {
     connectOrCreate?: CompanyContactCreateOrConnectWithoutCompanyInput | CompanyContactCreateOrConnectWithoutCompanyInput[]
     createMany?: CompanyContactCreateManyCompanyInputEnvelope
     connect?: CompanyContactWhereUniqueInput | CompanyContactWhereUniqueInput[]
+  }
+
+  export type CompanyUncheckedCreateNestedManyWithoutParentCompanyInput = {
+    create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
+    connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
+    createMany?: CompanyCreateManyParentCompanyInputEnvelope
+    connect?: CompanyWhereUniqueInput | CompanyWhereUniqueInput[]
   }
 
   export type UserUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -22761,6 +23055,30 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type CompanyUpdateOneWithoutSubCompaniesNestedInput = {
+    create?: XOR<CompanyCreateWithoutSubCompaniesInput, CompanyUncheckedCreateWithoutSubCompaniesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutSubCompaniesInput
+    upsert?: CompanyUpsertWithoutSubCompaniesInput
+    disconnect?: CompanyWhereInput | boolean
+    delete?: CompanyWhereInput | boolean
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutSubCompaniesInput, CompanyUpdateWithoutSubCompaniesInput>, CompanyUncheckedUpdateWithoutSubCompaniesInput>
+  }
+
+  export type CompanyUpdateManyWithoutParentCompanyNestedInput = {
+    create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
+    connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
+    upsert?: CompanyUpsertWithWhereUniqueWithoutParentCompanyInput | CompanyUpsertWithWhereUniqueWithoutParentCompanyInput[]
+    createMany?: CompanyCreateManyParentCompanyInputEnvelope
+    set?: CompanyWhereUniqueInput | CompanyWhereUniqueInput[]
+    disconnect?: CompanyWhereUniqueInput | CompanyWhereUniqueInput[]
+    delete?: CompanyWhereUniqueInput | CompanyWhereUniqueInput[]
+    connect?: CompanyWhereUniqueInput | CompanyWhereUniqueInput[]
+    update?: CompanyUpdateWithWhereUniqueWithoutParentCompanyInput | CompanyUpdateWithWhereUniqueWithoutParentCompanyInput[]
+    updateMany?: CompanyUpdateManyWithWhereWithoutParentCompanyInput | CompanyUpdateManyWithWhereWithoutParentCompanyInput[]
+    deleteMany?: CompanyScalarWhereInput | CompanyScalarWhereInput[]
   }
 
   export type UserUpdateManyWithoutCompanyNestedInput = {
@@ -22901,6 +23219,20 @@ export namespace Prisma {
     update?: CompanyContactUpdateWithWhereUniqueWithoutCompanyInput | CompanyContactUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: CompanyContactUpdateManyWithWhereWithoutCompanyInput | CompanyContactUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: CompanyContactScalarWhereInput | CompanyContactScalarWhereInput[]
+  }
+
+  export type CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput = {
+    create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
+    connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
+    upsert?: CompanyUpsertWithWhereUniqueWithoutParentCompanyInput | CompanyUpsertWithWhereUniqueWithoutParentCompanyInput[]
+    createMany?: CompanyCreateManyParentCompanyInputEnvelope
+    set?: CompanyWhereUniqueInput | CompanyWhereUniqueInput[]
+    disconnect?: CompanyWhereUniqueInput | CompanyWhereUniqueInput[]
+    delete?: CompanyWhereUniqueInput | CompanyWhereUniqueInput[]
+    connect?: CompanyWhereUniqueInput | CompanyWhereUniqueInput[]
+    update?: CompanyUpdateWithWhereUniqueWithoutParentCompanyInput | CompanyUpdateWithWhereUniqueWithoutParentCompanyInput[]
+    updateMany?: CompanyUpdateManyWithWhereWithoutParentCompanyInput | CompanyUpdateManyWithWhereWithoutParentCompanyInput[]
+    deleteMany?: CompanyScalarWhereInput | CompanyScalarWhereInput[]
   }
 
   export type UserUncheckedUpdateManyWithoutCompanyNestedInput = {
@@ -24236,7 +24568,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
     triggerOnly?: boolean
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -24260,7 +24598,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    parentCompanyId?: string | null
     triggerOnly?: boolean
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -24287,6 +24631,7 @@ export namespace Prisma {
     phone?: string | null
     clickupTaskId?: string | null
     ticketStage?: string | null
+    isInternal?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -24303,6 +24648,7 @@ export namespace Prisma {
     phone?: string | null
     clickupTaskId?: string | null
     ticketStage?: string | null
+    isInternal?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -24371,7 +24717,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -24395,7 +24747,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -24436,6 +24794,7 @@ export namespace Prisma {
     phone?: StringNullableFilter<"Ticket"> | string | null
     clickupTaskId?: StringNullableFilter<"Ticket"> | string | null
     ticketStage?: StringNullableFilter<"Ticket"> | string | null
+    isInternal?: BoolFilter<"Ticket"> | boolean
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     companyId?: StringFilter<"Ticket"> | string
@@ -24475,6 +24834,141 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CompanyCreateWithoutSubCompaniesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    triggerOnly?: boolean
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutSubCompaniesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutSubCompaniesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutSubCompaniesInput, CompanyUncheckedCreateWithoutSubCompaniesInput>
+  }
+
+  export type CompanyCreateWithoutParentCompanyInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    triggerOnly?: boolean
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutParentCompanyInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    triggerOnly?: boolean
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutParentCompanyInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput>
+  }
+
+  export type CompanyCreateManyParentCompanyInputEnvelope = {
+    data: CompanyCreateManyParentCompanyInput | CompanyCreateManyParentCompanyInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserCreateWithoutCompanyInput = {
@@ -24574,6 +25068,7 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    isInternal?: boolean
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
@@ -24597,6 +25092,7 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    isInternal?: boolean
     campaignId?: string | null
     trackingLinkId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
@@ -24727,6 +25223,7 @@ export namespace Prisma {
     phone?: string | null
     clickupTaskId?: string | null
     ticketStage?: string | null
+    isInternal?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
@@ -24743,6 +25240,7 @@ export namespace Prisma {
     phone?: string | null
     clickupTaskId?: string | null
     ticketStage?: string | null
+    isInternal?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById?: string | null
@@ -24863,6 +25361,116 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CompanyUpsertWithoutSubCompaniesInput = {
+    update: XOR<CompanyUpdateWithoutSubCompaniesInput, CompanyUncheckedUpdateWithoutSubCompaniesInput>
+    create: XOR<CompanyCreateWithoutSubCompaniesInput, CompanyUncheckedCreateWithoutSubCompaniesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutSubCompaniesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutSubCompaniesInput, CompanyUncheckedUpdateWithoutSubCompaniesInput>
+  }
+
+  export type CompanyUpdateWithoutSubCompaniesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutSubCompaniesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUpsertWithWhereUniqueWithoutParentCompanyInput = {
+    where: CompanyWhereUniqueInput
+    update: XOR<CompanyUpdateWithoutParentCompanyInput, CompanyUncheckedUpdateWithoutParentCompanyInput>
+    create: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput>
+  }
+
+  export type CompanyUpdateWithWhereUniqueWithoutParentCompanyInput = {
+    where: CompanyWhereUniqueInput
+    data: XOR<CompanyUpdateWithoutParentCompanyInput, CompanyUncheckedUpdateWithoutParentCompanyInput>
+  }
+
+  export type CompanyUpdateManyWithWhereWithoutParentCompanyInput = {
+    where: CompanyScalarWhereInput
+    data: XOR<CompanyUpdateManyMutationInput, CompanyUncheckedUpdateManyWithoutParentCompanyInput>
+  }
+
+  export type CompanyScalarWhereInput = {
+    AND?: CompanyScalarWhereInput | CompanyScalarWhereInput[]
+    OR?: CompanyScalarWhereInput[]
+    NOT?: CompanyScalarWhereInput | CompanyScalarWhereInput[]
+    id?: StringFilter<"Company"> | string
+    name?: StringFilter<"Company"> | string
+    slug?: StringFilter<"Company"> | string
+    segment?: StringNullableFilter<"Company"> | string | null
+    phone?: StringNullableFilter<"Company"> | string | null
+    email?: StringNullableFilter<"Company"> | string | null
+    website?: StringNullableFilter<"Company"> | string | null
+    logoUrl?: StringNullableFilter<"Company"> | string | null
+    status?: EnumCompanyStatusFilter<"Company"> | $Enums.CompanyStatus
+    createdAt?: DateTimeFilter<"Company"> | Date | string
+    updatedAt?: DateTimeFilter<"Company"> | Date | string
+    hasSystemAccess?: BoolFilter<"Company"> | boolean
+    moduleWhatsapp?: BoolFilter<"Company"> | boolean
+    moduleCrm?: BoolFilter<"Company"> | boolean
+    moduleTickets?: BoolFilter<"Company"> | boolean
+    parentCompanyId?: StringNullableFilter<"Company"> | string | null
+    triggerOnly?: BoolFilter<"Company"> | boolean
+  }
+
   export type UserUpsertWithWhereUniqueWithoutCompanyInput = {
     where: UserWhereUniqueInput
     update: XOR<UserUpdateWithoutCompanyInput, UserUncheckedUpdateWithoutCompanyInput>
@@ -24963,6 +25571,7 @@ export namespace Prisma {
     attendanceStatus?: StringNullableFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     clickupTaskId?: StringNullableFilter<"Lead"> | string | null
+    isInternal?: BoolFilter<"Lead"> | boolean
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
@@ -25187,7 +25796,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
     triggerOnly?: boolean
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -25211,7 +25826,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    parentCompanyId?: string | null
     triggerOnly?: boolean
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -25245,6 +25866,7 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    isInternal?: boolean
     company: CompanyCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
@@ -25268,6 +25890,7 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    isInternal?: boolean
     companyId: string
     trackingLinkId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
@@ -25419,7 +26042,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -25443,7 +26072,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -25572,7 +26207,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
     triggerOnly?: boolean
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -25596,7 +26237,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    parentCompanyId?: string | null
     triggerOnly?: boolean
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -25630,6 +26277,7 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    isInternal?: boolean
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
@@ -25653,6 +26301,7 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    isInternal?: boolean
     companyId: string
     campaignId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
@@ -25763,7 +26412,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -25787,7 +26442,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -25934,7 +26595,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
     triggerOnly?: boolean
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -25958,7 +26625,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    parentCompanyId?: string | null
     triggerOnly?: boolean
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -26142,7 +26815,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -26166,7 +26845,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -26328,6 +27013,7 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    isInternal?: boolean
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
@@ -26351,6 +27037,7 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    isInternal?: boolean
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
@@ -26390,6 +27077,7 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
@@ -26413,6 +27101,7 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26431,7 +27120,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
     triggerOnly?: boolean
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -26455,7 +27150,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    parentCompanyId?: string | null
     triggerOnly?: boolean
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -26495,7 +27196,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -26519,7 +27226,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -26543,7 +27256,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
     triggerOnly?: boolean
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -26567,7 +27286,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    parentCompanyId?: string | null
     triggerOnly?: boolean
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -26636,7 +27361,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -26660,7 +27391,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -26719,7 +27456,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
     triggerOnly?: boolean
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -26743,7 +27486,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    parentCompanyId?: string | null
     triggerOnly?: boolean
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -26825,7 +27574,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -26849,7 +27604,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -26889,7 +27650,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
     triggerOnly?: boolean
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -26913,7 +27680,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    parentCompanyId?: string | null
     triggerOnly?: boolean
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -27017,6 +27790,7 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    isInternal?: boolean
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
@@ -27040,6 +27814,7 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    isInternal?: boolean
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
@@ -27074,7 +27849,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -27098,7 +27879,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -27220,6 +28007,7 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
@@ -27243,6 +28031,7 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27261,7 +28050,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
     triggerOnly?: boolean
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -27285,7 +28080,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    parentCompanyId?: string | null
     triggerOnly?: boolean
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -27366,7 +28167,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -27390,7 +28197,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -27461,7 +28274,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
     triggerOnly?: boolean
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -27485,7 +28304,13 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    parentCompanyId?: string | null
     triggerOnly?: boolean
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -27582,7 +28407,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -27606,7 +28437,13 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -27692,6 +28529,7 @@ export namespace Prisma {
     phone?: string | null
     clickupTaskId?: string | null
     ticketStage?: string | null
+    isInternal?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -27708,6 +28546,7 @@ export namespace Prisma {
     phone?: string | null
     clickupTaskId?: string | null
     ticketStage?: string | null
+    isInternal?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -27740,6 +28579,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -27756,6 +28596,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -27772,6 +28613,7 @@ export namespace Prisma {
     phone?: string | null
     clickupTaskId?: string | null
     ticketStage?: string | null
+    isInternal?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -27787,6 +28629,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -27803,6 +28646,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -27819,9 +28663,29 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CompanyCreateManyParentCompanyInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    triggerOnly?: boolean
   }
 
   export type UserCreateManyCompanyInput = {
@@ -27865,6 +28729,7 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    isInternal?: boolean
     campaignId?: string | null
     trackingLinkId?: string | null
   }
@@ -27915,6 +28780,7 @@ export namespace Prisma {
     phone?: string | null
     clickupTaskId?: string | null
     ticketStage?: string | null
+    isInternal?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById?: string | null
@@ -27953,6 +28819,85 @@ export namespace Prisma {
     notes?: string | null
     createdAt?: Date | string
     userId?: string | null
+  }
+
+  export type CompanyUpdateWithoutParentCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutParentCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateManyWithoutParentCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUpdateWithoutCompanyInput = {
@@ -28056,6 +29001,7 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
@@ -28079,6 +29025,7 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
@@ -28102,6 +29049,7 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -28226,6 +29174,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
@@ -28242,6 +29191,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28258,6 +29208,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28389,6 +29340,7 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    isInternal?: boolean
     companyId: string
     trackingLinkId?: string | null
   }
@@ -28449,6 +29401,7 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
@@ -28472,6 +29425,7 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
@@ -28495,6 +29449,7 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -28637,6 +29592,7 @@ export namespace Prisma {
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
+    isInternal?: boolean
     companyId: string
     campaignId?: string | null
   }
@@ -28665,6 +29621,7 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
@@ -28688,6 +29645,7 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
@@ -28711,6 +29669,7 @@ export namespace Prisma {
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
   }

@@ -27,6 +27,8 @@ export async function GET(req: NextRequest) {
   if (priority) where.priority = priority;
   if (phone) where.phone = phone;
   if (openOnly) where.status = { in: ["OPEN", "IN_PROGRESS"] };
+  // Clientes não veem chamados internos (criados pelo SUPER_ADMIN para uso interno)
+  if (userRole !== "SUPER_ADMIN") where.isInternal = false;
 
   const tickets = await prisma.ticket.findMany({
     where,
@@ -50,7 +52,7 @@ export async function POST(req: NextRequest) {
   const userId = (session.user as any).id;
 
   const body = await req.json();
-  const { title, description, priority, category, companyId, phone } = body;
+  const { title, description, priority, category, companyId, phone, isInternal } = body;
 
   if (!title || !description) {
     return NextResponse.json({ error: "Título e descrição são obrigatórios" }, { status: 400 });
@@ -70,6 +72,7 @@ export async function POST(req: NextRequest) {
       phone: phone || null,
       companyId: effectiveCompanyId,
       createdById: userId || null,
+      isInternal: userRole === "SUPER_ADMIN" ? (isInternal ?? false) : false,
       messages: {
         create: {
           body: description,

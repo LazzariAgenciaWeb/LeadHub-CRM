@@ -32,6 +32,8 @@ export async function GET(req: NextRequest) {
   if (status) where.status = status;
   if (campaignId) where.campaignId = campaignId;
   if (pipeline) where.pipeline = pipeline;
+  // Clientes não veem leads/oportunidades internos (uso exclusivo do SUPER_ADMIN)
+  if (userRole !== "SUPER_ADMIN") where.isInternal = false;
   if (search) {
     where.OR = [
       { name: { contains: search } },
@@ -67,7 +69,7 @@ export async function POST(req: NextRequest) {
   const userRole = (session.user as any).role;
   const userCompanyId = (session.user as any).companyId;
   const body = await req.json();
-  const { name, phone, email, source, status, notes, value, companyId, campaignId, pipeline, pipelineStage } = body;
+  const { name, phone, email, source, status, notes, value, companyId, campaignId, pipeline, pipelineStage, isInternal } = body;
 
   if (!phone) {
     return NextResponse.json({ error: "Telefone é obrigatório" }, { status: 400 });
@@ -103,6 +105,7 @@ export async function POST(req: NextRequest) {
       campaignId: campaignId || null,
       pipeline: pipeline ?? null,
       pipelineStage: resolvedStage,
+      isInternal: userRole === "SUPER_ADMIN" ? (isInternal ?? false) : false,
     },
     include: {
       company: { select: { id: true, name: true } },

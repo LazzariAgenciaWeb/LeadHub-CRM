@@ -56,11 +56,23 @@ export async function PATCH(
   }
 
   const body = await request.json();
-  const { name, segment, phone, email, website, logoUrl, status, triggerOnly } = body;
+  const {
+    name, segment, phone, email, website, logoUrl, status, triggerOnly,
+    // SUPER_ADMIN only
+    hasSystemAccess, moduleWhatsapp, moduleCrm, moduleTickets, parentCompanyId,
+  } = body;
 
-  // Campos que CLIENT não pode alterar
+  // Campos que apenas SUPER_ADMIN pode alterar
   const adminOnlyData = isSuperAdmin
-    ? { ...(status !== undefined && { status }), ...(triggerOnly !== undefined && { triggerOnly }) }
+    ? {
+        ...(status !== undefined && { status }),
+        ...(triggerOnly !== undefined && { triggerOnly }),
+        ...(hasSystemAccess !== undefined && { hasSystemAccess }),
+        ...(moduleWhatsapp !== undefined && { moduleWhatsapp }),
+        ...(moduleCrm !== undefined && { moduleCrm }),
+        ...(moduleTickets !== undefined && { moduleTickets }),
+        ...(parentCompanyId !== undefined && { parentCompanyId: parentCompanyId || null }),
+      }
     : {};
 
   const company = await prisma.company.update({

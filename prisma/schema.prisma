@@ -50,6 +50,17 @@ model Company {
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
 
+  // Acesso ao sistema e módulos habilitados
+  hasSystemAccess Boolean @default(false)  // pode fazer login no portal?
+  moduleWhatsapp  Boolean @default(false)  // módulo WhatsApp
+  moduleCrm       Boolean @default(true)   // módulo CRM (padrão ligado)
+  moduleTickets   Boolean @default(false)  // módulo Chamados
+
+  // Hierarquia: empresa-pai gerencia sub-empresas (clientes da empresa)
+  parentCompanyId String?
+  parentCompany   Company?  @relation("SubCompanies", fields: [parentCompanyId], references: [id])
+  subCompanies    Company[] @relation("SubCompanies")
+
   users             User[]
   campaigns         Campaign[]
   leads             Lead[]
@@ -61,6 +72,8 @@ model Company {
   pipelineStages    PipelineStageConfig[]
   contacts          CompanyContact[]
   triggerOnly       Boolean @default(false)
+
+  @@index([parentCompanyId])
 }
 
 enum CompanyStatus {
@@ -173,6 +186,9 @@ model Lead {
 
   // Integração ClickUp
   clickupTaskId     String?   // ID ou URL da tarefa no ClickUp
+
+  // Visibilidade: isInternal=true → visível apenas ao SUPER_ADMIN (não aparece no portal do cliente)
+  isInternal Boolean @default(false)
 
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
@@ -354,6 +370,8 @@ model Ticket {
   phone       String?        // telefone WhatsApp de origem (quando criado via WhatsApp)
   clickupTaskId String?      // ID ou URL da tarefa no ClickUp
   ticketStage String?        // etapa configurável do kanban de chamados
+  // Visibilidade: isInternal=true → visível apenas ao SUPER_ADMIN (não aparece no portal do cliente)
+  isInternal  Boolean        @default(false)
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
 

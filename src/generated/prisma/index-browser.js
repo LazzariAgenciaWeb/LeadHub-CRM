@@ -145,6 +145,11 @@ exports.Prisma.CompanyScalarFieldEnum = {
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  hasSystemAccess: 'hasSystemAccess',
+  moduleWhatsapp: 'moduleWhatsapp',
+  moduleCrm: 'moduleCrm',
+  moduleTickets: 'moduleTickets',
+  parentCompanyId: 'parentCompanyId',
   triggerOnly: 'triggerOnly'
 };
 
@@ -203,6 +208,7 @@ exports.Prisma.LeadScalarFieldEnum = {
   attendanceStatus: 'attendanceStatus',
   expectedReturnAt: 'expectedReturnAt',
   clickupTaskId: 'clickupTaskId',
+  isInternal: 'isInternal',
   companyId: 'companyId',
   campaignId: 'campaignId',
   trackingLinkId: 'trackingLinkId'
@@ -293,6 +299,7 @@ exports.Prisma.TicketScalarFieldEnum = {
   phone: 'phone',
   clickupTaskId: 'clickupTaskId',
   ticketStage: 'ticketStage',
+  isInternal: 'isInternal',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   companyId: 'companyId',
