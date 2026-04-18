@@ -169,14 +169,15 @@ export async function syncTicketToClickup({
 
   if (!settings.ticketsListId) return null;
 
+  // Ao criar, NÃO passa status — usa o padrão da lista para evitar erro 400
+  // (o status do ClickUp precisa existir com nome exato na lista)
   const newId = await createClickupTask({
     apiToken: settings.apiToken,
     listId: settings.ticketsListId,
     name: title,
     description,
     priority,
-    status: mappedStatus,
-    tags: ["chamado", `id:${ticketId}`],
+    tags: ["chamado"],
   });
 
   return newId;
@@ -226,14 +227,14 @@ export async function syncOportunidadeToClickup({
 
   if (!settings.oportunidadesListId) return null;
 
+  // Ao criar, NÃO passa status — usa o padrão da lista para evitar erro 400
   const newId = await createClickupTask({
     apiToken: settings.apiToken,
     listId: settings.oportunidadesListId,
     name,
     description,
     priority,
-    status: pipelineStage ?? undefined,
-    tags: ["oportunidade", `id:${leadId}`],
+    tags: ["oportunidade"],
   });
 
   return newId;
