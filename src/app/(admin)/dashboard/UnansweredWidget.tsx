@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 
 interface UnansweredConv {
@@ -13,7 +13,7 @@ interface UnansweredConv {
   pipelineStage: string | null;
   attendanceStatus: string | null;
   lastMsgBody: string;
-  lastMsgAt: string; // ISO string
+  lastMsgAt: string;
   instanceName: string | null;
 }
 
@@ -68,7 +68,34 @@ function ElapsedBadge({ isoDate }: { isoDate: string }) {
   );
 }
 
-export default function UnansweredWidget({ convs }: { convs: UnansweredConv[] }) {
+export default function UnansweredWidget({ initialConvs }: { initialConvs: UnansweredConv[] }) {
+  const [convs, setConvs] = useState<UnansweredConv[]>(initialConvs);
+
+  const fetchFresh = useCallback(async () => {
+    try {
+      const res = await fetch("/api/dashboard/unanswered");
+      if (res.ok) setConvs(await res.json());
+    } catch { /* silencioso */ }
+  }, []);
+
+  useEffect(() => {
+    // Atualiza ao ganhar foco (usuário voltou de outra aba/página)
+    const onFocus = () => fetchFresh();
+    const onVisible = () => { if (document.visibilityState === "visible") fetchFresh(); };
+
+    window.addEventListener("focus", onFocus);
+    document.addEventListener("visibilitychange", onVisible);
+
+    // Polling a cada 60s para garantir atualização mesmo sem navegar
+    const interval = setInterval(fetchFresh, 60_000);
+
+    return () => {
+      window.removeEventListener("focus", onFocus);
+      document.removeEventListener("visibilitychange", onVisible);
+      clearInterval(interval);
+    };
+  }, [fetchFresh]);
+
   if (convs.length === 0) return null;
 
   return (

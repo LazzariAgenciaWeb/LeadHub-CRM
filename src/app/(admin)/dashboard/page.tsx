@@ -227,7 +227,7 @@ export default async function DashboardPage() {
 
       {/* Conversas aguardando resposta */}
       {unansweredConvs.length > 0 && (
-        <UnansweredWidget convs={unansweredConvs} />
+        <UnansweredWidget initialConvs={unansweredConvs} />
       )}
 
       {/* Funil + Gráfico */}
