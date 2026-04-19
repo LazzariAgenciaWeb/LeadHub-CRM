@@ -26,6 +26,7 @@ export default function Sidebar({ session }: SidebarProps) {
   const topLinks = [
     { href: "/dashboard", icon: "🏠", label: "Dashboard" },
     { href: "/whatsapp", icon: "🗨️", label: "Mensagens" },
+    { href: "/assistente", icon: "🤖", label: "Assistente IA" },
     ...(isSuperAdmin ? [{ href: "/empresas", icon: "🏢", label: "Empresas" }] : []),
   ];
 
