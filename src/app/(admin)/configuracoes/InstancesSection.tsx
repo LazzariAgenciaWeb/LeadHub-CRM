@@ -42,6 +42,11 @@ export default function InstancesSection({
   const [copied, setCopied] = useState<string | null>(null);
   const [editingToken, setEditingToken] = useState<string | null>(null);
   const [tokenInput, setTokenInput] = useState("");
+
+  // Editar número (phone) da instância
+  const [editingPhone, setEditingPhone] = useState<string | null>(null); // instanceId
+  const [phoneInput, setPhoneInput] = useState("");
+  const [savingPhone, setSavingPhone] = useState(false);
   const [form, setForm] = useState({ instanceName: "", phone: "", companyId: defaultCompanyId });
 
   // QR Modal
@@ -97,6 +102,32 @@ export default function InstancesSection({
     });
     setEditingToken(null);
     setTokenInput("");
+    router.refresh();
+  }
+
+  async function handleSavePhone(instId: string) {
+    setSavingPhone(true);
+    await fetch(`/api/whatsapp/${instId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone: phoneInput.trim() || null }),
+    });
+    setSavingPhone(false);
+    setEditingPhone(null);
+    setPhoneInput("");
+    router.refresh();
+  }
+
+  async function handleClearPhone(instId: string) {
+    setSavingPhone(true);
+    await fetch(`/api/whatsapp/${instId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone: null }),
+    });
+    setSavingPhone(false);
+    setEditingPhone(null);
+    setPhoneInput("");
     router.refresh();
   }
 
@@ -365,6 +396,15 @@ export default function InstancesSection({
                       🔑 {inst.instanceToken ? "Token ✓" : "Token"}
                     </button>
 
+                    {/* Editar número */}
+                    <button
+                      onClick={() => { setEditingPhone(inst.id); setPhoneInput(inst.phone ?? ""); }}
+                      title={inst.phone ? `Número: ${inst.phone} — clique para editar` : "Definir número desta instância"}
+                      className={`px-3 py-1.5 rounded-lg border text-xs transition-colors ${inst.phone ? "bg-blue-500/10 border-blue-500/30 text-blue-400 hover:bg-blue-500/20" : "bg-[#161f30] border-[#1e2d45] text-slate-500 hover:text-slate-300"}`}
+                    >
+                      📱 {inst.phone ? "Número ✓" : "Número"}
+                    </button>
+
                     {/* Delete */}
                     <button
                       onClick={() => handleDelete(inst)}
@@ -395,6 +435,47 @@ export default function InstancesSection({
                         Salvar
                       </button>
                       <button onClick={() => setEditingToken(null)} className="px-3 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 text-xs hover:text-white transition-colors">
+                        Cancelar
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Painel de editar número */}
+                {editingPhone === inst.id && (
+                  <div className="mt-3 pt-3 border-t border-[#1e2d45]">
+                    <p className="text-slate-500 text-xs mb-2">
+                      Edite ou remova o número associado à instância <strong className="text-slate-300">{inst.instanceName}</strong>.
+                      {inst.phone && (
+                        <span className="text-yellow-400"> Atual: {inst.phone}</span>
+                      )}
+                    </p>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={phoneInput}
+                        onChange={e => setPhoneInput(e.target.value)}
+                        placeholder="5511999999999 (deixe vazio para remover)"
+                        className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 font-mono"
+                      />
+                      <button
+                        onClick={() => handleSavePhone(inst.id)}
+                        disabled={savingPhone}
+                        className="px-3 py-1.5 rounded-lg bg-blue-600 text-white text-xs hover:bg-blue-500 disabled:opacity-50 transition-colors"
+                      >
+                        {savingPhone ? "..." : "Salvar"}
+                      </button>
+                      {inst.phone && (
+                        <button
+                          onClick={() => handleClearPhone(inst.id)}
+                          disabled={savingPhone}
+                          title="Remover número desta instância"
+                          className="px-3 py-1.5 rounded-lg bg-red-500/15 border border-red-500/30 text-red-400 text-xs hover:bg-red-500/25 disabled:opacity-50 transition-colors"
+                        >
+                          🗑 Remover
+                        </button>
+                      )}
+                      <button onClick={() => setEditingPhone(null)} className="px-3 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 text-xs hover:text-white transition-colors">
                         Cancelar
                       </button>
                     </div>
