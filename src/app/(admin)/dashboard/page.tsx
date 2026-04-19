@@ -95,7 +95,6 @@ export default async function DashboardPage() {
     take: 60,
     include: {
       instance: { select: { instanceName: true } },
-      lead: { select: { name: true } },
     },
   });
   // Deduplicar por phone mantendo a mais recente
@@ -105,6 +104,37 @@ export default async function DashboardPage() {
     seenPhones.add(m.phone);
     return true;
   }).slice(0, 8);
+
+  // Resolve nomes por phone (mais confiável que message.leadId)
+  const recentPhones = recentMessages.map((m) => m.phone);
+  const [leadsForMsgs, contactsForMsgs] = await Promise.all([
+    prisma.lead.findMany({
+      where: { phone: { in: recentPhones }, ...where },
+      orderBy: { createdAt: "desc" },
+      select: { phone: true, name: true },
+    }),
+    prisma.companyContact.findMany({
+      where: { phone: { in: recentPhones } },
+      select: { phone: true, name: true },
+    }),
+  ]);
+  // Mantém apenas o primeiro nome encontrado por phone (mais recente = primeiro do orderBy desc)
+  const leadNameByPhone = new Map<string, string>();
+  for (const l of leadsForMsgs) {
+    if (l.name && !leadNameByPhone.has(l.phone)) leadNameByPhone.set(l.phone, l.name);
+  }
+  const contactNameByPhone = new Map<string, string>();
+  for (const c of contactsForMsgs) {
+    if (c.name && !contactNameByPhone.has(c.phone)) contactNameByPhone.set(c.phone, c.name);
+  }
+
+  function resolveDisplayName(phone: string): string {
+    if (leadNameByPhone.has(phone)) return leadNameByPhone.get(phone)!;
+    if (contactNameByPhone.has(phone)) return contactNameByPhone.get(phone)!;
+    // Grupo @g.us → mostra só os últimos dígitos
+    if (phone.includes("@g.us")) return `Grupo (…${phone.replace("@g.us", "").slice(-6)})`;
+    return phone;
+  }
 
   // Top 5 links
   const topLinks = await prisma.trackingLink.findMany({
@@ -307,31 +337,35 @@ export default async function DashboardPage() {
             </div>
           ) : (
             <div className="space-y-1">
-              {recentMessages.map((msg) => (
-                <Link
-                  key={msg.id}
-                  href="/whatsapp"
-                  className="flex items-start gap-3 px-3 py-2 rounded-lg hover:bg-white/[0.03] transition-colors"
-                >
-                  <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center text-xs font-bold text-green-400 flex-shrink-0 mt-0.5">
-                    {(msg.lead?.name ?? msg.phone).slice(0, 2).toUpperCase()}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between">
-                      <span className="text-slate-300 text-[12px] font-medium truncate">
-                        {msg.lead?.name ?? msg.phone}
-                      </span>
-                      <span className="text-slate-600 text-[10px] flex-shrink-0 ml-2">
-                        {new Date(msg.receivedAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })}
-                        {" "}
-                        {new Date(msg.receivedAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
-                      </span>
+              {recentMessages.map((msg) => {
+                const displayName = resolveDisplayName(msg.phone);
+                const isGroup = msg.phone.includes("@g.us");
+                return (
+                  <Link
+                    key={msg.id}
+                    href={isGroup ? "/whatsapp" : `/whatsapp?abrir=${encodeURIComponent(msg.phone)}`}
+                    className="flex items-start gap-3 px-3 py-2 rounded-lg hover:bg-white/[0.03] transition-colors"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center text-xs font-bold text-green-400 flex-shrink-0 mt-0.5">
+                      {displayName.slice(0, 2).toUpperCase()}
                     </div>
-                    <p className="text-slate-500 text-[11px] truncate">{msg.body}</p>
-                    {msg.instance && <span className="text-slate-700 text-[10px]">via {msg.instance.instanceName}</span>}
-                  </div>
-                </Link>
-              ))}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-300 text-[12px] font-medium truncate">
+                          {displayName}
+                        </span>
+                        <span className="text-slate-600 text-[10px] flex-shrink-0 ml-2">
+                          {new Date(msg.receivedAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })}
+                          {" "}
+                          {new Date(msg.receivedAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
+                        </span>
+                      </div>
+                      <p className="text-slate-500 text-[11px] truncate">{msg.body}</p>
+                      {msg.instance && <span className="text-slate-700 text-[10px]">via {msg.instance.instanceName}</span>}
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           )}
         </div>
