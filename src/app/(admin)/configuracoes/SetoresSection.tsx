@@ -81,16 +81,19 @@ export default function SetoresSection({
   const [creating, setCreating] = useState(false);
   const [form, setForm]         = useState({ ...EMPTY_FORM });
   const [saving, setSaving]     = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
 
   function openCreate() {
     setEditing(null);
     setForm({ ...EMPTY_FORM });
+    setSaveError(null);
     setCreating(true);
   }
 
   function openEdit(s: Setor) {
     setCreating(false);
+    setSaveError(null);
     setForm({
       name:             s.name,
       canManageUsers:   s.canManageUsers,
@@ -108,6 +111,7 @@ export default function SetoresSection({
   function closePanel() {
     setCreating(false);
     setEditing(null);
+    setSaveError(null);
   }
 
   function toggleId(field: "userIds" | "instanceIds", id: string) {
@@ -120,6 +124,7 @@ export default function SetoresSection({
   async function handleSave() {
     if (!form.name.trim()) return;
     setSaving(true);
+    setSaveError(null);
     try {
       if (editing) {
         const res = await fetch(`/api/setores/${editing.id}`, {
@@ -131,6 +136,9 @@ export default function SetoresSection({
           const updated: Setor = await res.json();
           setSetores((prev) => prev.map((s) => (s.id === updated.id ? updated : s)));
           closePanel();
+        } else {
+          const err = await res.json().catch(() => ({}));
+          setSaveError(err.error ?? `Erro ${res.status}`);
         }
       } else {
         const res = await fetch("/api/setores", {
@@ -142,8 +150,13 @@ export default function SetoresSection({
           const created: Setor = await res.json();
           setSetores((prev) => [...prev, created]);
           closePanel();
+        } else {
+          const err = await res.json().catch(() => ({}));
+          setSaveError(err.error ?? `Erro ${res.status}`);
         }
       }
+    } catch (e: any) {
+      setSaveError(e?.message ?? "Erro desconhecido");
     } finally {
       setSaving(false);
     }
@@ -364,6 +377,13 @@ export default function SetoresSection({
                 </div>
               )}
             </div>
+
+            {/* Erro */}
+            {saveError && (
+              <div className="mb-4 px-3 py-2.5 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-xs">
+                ⚠️ {saveError}
+              </div>
+            )}
 
             {/* Ações */}
             <div className="flex gap-3">

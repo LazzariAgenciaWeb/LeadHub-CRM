@@ -65,6 +65,7 @@ export async function POST(req: NextRequest) {
     include: {
       users:     { include: { user: { select: { id: true, name: true, email: true } } } },
       instances: { include: { instance: { select: { id: true, instanceName: true, phone: true, status: true } } } },
+      _count:    { select: { tickets: true } },
     },
   });
 
