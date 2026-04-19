@@ -21,6 +21,7 @@ const SECTIONS: SectionItem[] = [
     ],
   },
   { type: "item", key: "pipeline", icon: "🫧", label: "CRM / Pipeline", desc: "Etapas e configurações" },
+  { type: "item", key: "setores",  icon: "🏷️", label: "Setores",         desc: "Times, acesso e permissões" },
 ];
 
 function isIntegSubKey(key: string) {

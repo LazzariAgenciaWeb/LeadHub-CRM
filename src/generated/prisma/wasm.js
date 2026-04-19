@@ -130,6 +130,7 @@ exports.Prisma.UserScalarFieldEnum = {
   role: 'role',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  whatsappSignature: 'whatsappSignature',
   companyId: 'companyId'
 };
 
@@ -304,7 +305,8 @@ exports.Prisma.TicketScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   companyId: 'companyId',
-  createdById: 'createdById'
+  createdById: 'createdById',
+  setorId: 'setorId'
 };
 
 exports.Prisma.TicketMessageScalarFieldEnum = {
@@ -315,6 +317,30 @@ exports.Prisma.TicketMessageScalarFieldEnum = {
   authorRole: 'authorRole',
   createdAt: 'createdAt',
   ticketId: 'ticketId'
+};
+
+exports.Prisma.SetorScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  companyId: 'companyId',
+  canManageUsers: 'canManageUsers',
+  canViewLeads: 'canViewLeads',
+  canCreateLeads: 'canCreateLeads',
+  canViewTickets: 'canViewTickets',
+  canCreateTickets: 'canCreateTickets',
+  canViewConfig: 'canViewConfig'
+};
+
+exports.Prisma.SetorUserScalarFieldEnum = {
+  setorId: 'setorId',
+  userId: 'userId'
+};
+
+exports.Prisma.SetorInstanceScalarFieldEnum = {
+  setorId: 'setorId',
+  instanceId: 'instanceId'
 };
 
 exports.Prisma.SortOrder = {
@@ -415,7 +441,10 @@ exports.Prisma.ModelName = {
   KeywordRule: 'KeywordRule',
   Setting: 'Setting',
   Ticket: 'Ticket',
-  TicketMessage: 'TicketMessage'
+  TicketMessage: 'TicketMessage',
+  Setor: 'Setor',
+  SetorUser: 'SetorUser',
+  SetorInstance: 'SetorInstance'
 };
 
 /**

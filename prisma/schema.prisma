@@ -21,11 +21,15 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // Assinatura exibida no início das mensagens WhatsApp enviadas pelo usuário
+  whatsappSignature String?
+
   company   Company? @relation(fields: [companyId], references: [id])
   companyId String?
 
   ticketsCreated  Ticket[]        @relation("TicketCreatedBy")
   companyContact  CompanyContact? @relation("ContactUser")
+  setores         SetorUser[]
 
   @@index([companyId])
 }
@@ -71,6 +75,7 @@ model Company {
   trackingLinks     TrackingLink[]
   pipelineStages    PipelineStageConfig[]
   contacts          CompanyContact[]
+  setores           Setor[]
   triggerOnly       Boolean @default(false)
 
   @@index([parentCompanyId])
@@ -286,6 +291,7 @@ model WhatsappInstance {
   companyId String
 
   messages Message[]
+  setores  SetorInstance[]
 
   @@index([companyId])
 }
@@ -382,10 +388,15 @@ model Ticket {
   createdBy   User?   @relation("TicketCreatedBy", fields: [createdById], references: [id])
   createdById String?
 
+  // Setor responsável — quem não pertence ao setor não enxerga o chamado
+  setor   Setor?  @relation(fields: [setorId], references: [id])
+  setorId String?
+
   messages TicketMessage[]
 
   @@index([companyId])
   @@index([status])
+  @@index([setorId])
 }
 
 model TicketMessage {
@@ -414,4 +425,52 @@ enum TicketPriority {
   MEDIUM
   HIGH
   URGENT
+}
+
+// ─── Setores (controle de acesso interno por departamento) ────────────────────
+
+model Setor {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  // Permissões do setor
+  canManageUsers     Boolean @default(false) // cadastrar/editar usuários
+  canViewLeads       Boolean @default(true)  // ver prospects/leads/oportunidades
+  canCreateLeads     Boolean @default(false) // cadastrar/mover leads
+  canViewTickets     Boolean @default(true)  // ver chamados do setor
+  canCreateTickets   Boolean @default(true)  // abrir chamados
+  canViewConfig      Boolean @default(false) // acessar configurações
+
+  users     SetorUser[]
+  instances SetorInstance[]
+  tickets   Ticket[]
+
+  @@index([companyId])
+}
+
+// Pivot: usuário ↔ setor (N:N — um usuário pode pertencer a vários setores)
+model SetorUser {
+  setorId String
+  userId  String
+
+  setor Setor @relation(fields: [setorId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([setorId, userId])
+}
+
+// Pivot: setor ↔ instância WhatsApp (N:N)
+model SetorInstance {
+  setorId    String
+  instanceId String
+
+  setor    Setor            @relation(fields: [setorId], references: [id], onDelete: Cascade)
+  instance WhatsappInstance @relation(fields: [instanceId], references: [id], onDelete: Cascade)
+
+  @@id([setorId, instanceId])
 }

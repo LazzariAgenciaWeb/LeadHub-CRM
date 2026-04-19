@@ -149,6 +149,8 @@ export default function WhatsappManager({
   conversations,
   defaultPhone,
   finalStageNames = [],
+  userSignature = "",
+  userName = "",
 }: {
   instances: Instance[];
   isSuperAdmin: boolean;
@@ -156,6 +158,8 @@ export default function WhatsappManager({
   conversations: Conversation[];
   defaultPhone?: string;
   finalStageNames?: string[];
+  userSignature?: string;
+  userName?: string;
 }) {
   const router = useRouter();
 
@@ -826,7 +830,8 @@ export default function WhatsappManager({
     setTicketCreated(false);
     setShowLinkProspect(false);
     setConvMessages([]);
-    setReplyText("");
+    // Pré-preenche com a assinatura do usuário (topo da mensagem)
+    setReplyText(userSignature ? `-- ${userSignature}\n\n` : "");
     setReplyError(null);
     setEditingName(false);
     setLeadName(conv.lead?.name ?? "");
@@ -1041,7 +1046,8 @@ export default function WhatsappManager({
           campaign: null,
         },
       ]);
-      setReplyText("");
+      // Após enviar, volta à assinatura (pronta para próxima mensagem)
+      setReplyText(userSignature ? `-- ${userSignature}\n\n` : "");
     }
   }
 

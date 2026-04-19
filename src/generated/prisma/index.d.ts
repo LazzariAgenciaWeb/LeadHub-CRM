@@ -88,6 +88,21 @@ export type Ticket = $Result.DefaultSelection<Prisma.$TicketPayload>
  * 
  */
 export type TicketMessage = $Result.DefaultSelection<Prisma.$TicketMessagePayload>
+/**
+ * Model Setor
+ * 
+ */
+export type Setor = $Result.DefaultSelection<Prisma.$SetorPayload>
+/**
+ * Model SetorUser
+ * 
+ */
+export type SetorUser = $Result.DefaultSelection<Prisma.$SetorUserPayload>
+/**
+ * Model SetorInstance
+ * 
+ */
+export type SetorInstance = $Result.DefaultSelection<Prisma.$SetorInstancePayload>
 
 /**
  * Enums
@@ -487,6 +502,36 @@ export class PrismaClient<
     * ```
     */
   get ticketMessage(): Prisma.TicketMessageDelegate<ExtArgs>;
+
+  /**
+   * `prisma.setor`: Exposes CRUD operations for the **Setor** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Setors
+    * const setors = await prisma.setor.findMany()
+    * ```
+    */
+  get setor(): Prisma.SetorDelegate<ExtArgs>;
+
+  /**
+   * `prisma.setorUser`: Exposes CRUD operations for the **SetorUser** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SetorUsers
+    * const setorUsers = await prisma.setorUser.findMany()
+    * ```
+    */
+  get setorUser(): Prisma.SetorUserDelegate<ExtArgs>;
+
+  /**
+   * `prisma.setorInstance`: Exposes CRUD operations for the **SetorInstance** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SetorInstances
+    * const setorInstances = await prisma.setorInstance.findMany()
+    * ```
+    */
+  get setorInstance(): Prisma.SetorInstanceDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -942,7 +987,10 @@ export namespace Prisma {
     KeywordRule: 'KeywordRule',
     Setting: 'Setting',
     Ticket: 'Ticket',
-    TicketMessage: 'TicketMessage'
+    TicketMessage: 'TicketMessage',
+    Setor: 'Setor',
+    SetorUser: 'SetorUser',
+    SetorInstance: 'SetorInstance'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -958,7 +1006,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "ticket" | "ticketMessage"
+      modelProps: "user" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "ticket" | "ticketMessage" | "setor" | "setorUser" | "setorInstance"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2012,6 +2060,216 @@ export namespace Prisma {
           }
         }
       }
+      Setor: {
+        payload: Prisma.$SetorPayload<ExtArgs>
+        fields: Prisma.SetorFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SetorFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SetorFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorPayload>
+          }
+          findFirst: {
+            args: Prisma.SetorFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SetorFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorPayload>
+          }
+          findMany: {
+            args: Prisma.SetorFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorPayload>[]
+          }
+          create: {
+            args: Prisma.SetorCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorPayload>
+          }
+          createMany: {
+            args: Prisma.SetorCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SetorCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorPayload>[]
+          }
+          delete: {
+            args: Prisma.SetorDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorPayload>
+          }
+          update: {
+            args: Prisma.SetorUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorPayload>
+          }
+          deleteMany: {
+            args: Prisma.SetorDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SetorUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SetorUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorPayload>
+          }
+          aggregate: {
+            args: Prisma.SetorAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSetor>
+          }
+          groupBy: {
+            args: Prisma.SetorGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SetorGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SetorCountArgs<ExtArgs>
+            result: $Utils.Optional<SetorCountAggregateOutputType> | number
+          }
+        }
+      }
+      SetorUser: {
+        payload: Prisma.$SetorUserPayload<ExtArgs>
+        fields: Prisma.SetorUserFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SetorUserFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorUserPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SetorUserFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorUserPayload>
+          }
+          findFirst: {
+            args: Prisma.SetorUserFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorUserPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SetorUserFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorUserPayload>
+          }
+          findMany: {
+            args: Prisma.SetorUserFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorUserPayload>[]
+          }
+          create: {
+            args: Prisma.SetorUserCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorUserPayload>
+          }
+          createMany: {
+            args: Prisma.SetorUserCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SetorUserCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorUserPayload>[]
+          }
+          delete: {
+            args: Prisma.SetorUserDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorUserPayload>
+          }
+          update: {
+            args: Prisma.SetorUserUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorUserPayload>
+          }
+          deleteMany: {
+            args: Prisma.SetorUserDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SetorUserUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SetorUserUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorUserPayload>
+          }
+          aggregate: {
+            args: Prisma.SetorUserAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSetorUser>
+          }
+          groupBy: {
+            args: Prisma.SetorUserGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SetorUserGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SetorUserCountArgs<ExtArgs>
+            result: $Utils.Optional<SetorUserCountAggregateOutputType> | number
+          }
+        }
+      }
+      SetorInstance: {
+        payload: Prisma.$SetorInstancePayload<ExtArgs>
+        fields: Prisma.SetorInstanceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SetorInstanceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorInstancePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SetorInstanceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorInstancePayload>
+          }
+          findFirst: {
+            args: Prisma.SetorInstanceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorInstancePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SetorInstanceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorInstancePayload>
+          }
+          findMany: {
+            args: Prisma.SetorInstanceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorInstancePayload>[]
+          }
+          create: {
+            args: Prisma.SetorInstanceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorInstancePayload>
+          }
+          createMany: {
+            args: Prisma.SetorInstanceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SetorInstanceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorInstancePayload>[]
+          }
+          delete: {
+            args: Prisma.SetorInstanceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorInstancePayload>
+          }
+          update: {
+            args: Prisma.SetorInstanceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorInstancePayload>
+          }
+          deleteMany: {
+            args: Prisma.SetorInstanceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SetorInstanceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SetorInstanceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorInstancePayload>
+          }
+          aggregate: {
+            args: Prisma.SetorInstanceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSetorInstance>
+          }
+          groupBy: {
+            args: Prisma.SetorInstanceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SetorInstanceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SetorInstanceCountArgs<ExtArgs>
+            result: $Utils.Optional<SetorInstanceCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2174,10 +2432,12 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     ticketsCreated: number
+    setores: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ticketsCreated?: boolean | UserCountOutputTypeCountTicketsCreatedArgs
+    setores?: boolean | UserCountOutputTypeCountSetoresArgs
   }
 
   // Custom InputTypes
@@ -2198,6 +2458,13 @@ export namespace Prisma {
     where?: TicketWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSetoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SetorUserWhereInput
+  }
+
 
   /**
    * Count Type CompanyCountOutputType
@@ -2215,6 +2482,7 @@ export namespace Prisma {
     trackingLinks: number
     pipelineStages: number
     contacts: number
+    setores: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2229,6 +2497,7 @@ export namespace Prisma {
     trackingLinks?: boolean | CompanyCountOutputTypeCountTrackingLinksArgs
     pipelineStages?: boolean | CompanyCountOutputTypeCountPipelineStagesArgs
     contacts?: boolean | CompanyCountOutputTypeCountContactsArgs
+    setores?: boolean | CompanyCountOutputTypeCountSetoresArgs
   }
 
   // Custom InputTypes
@@ -2317,6 +2586,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountContactsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CompanyContactWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountSetoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SetorWhereInput
   }
 
 
@@ -2464,10 +2740,12 @@ export namespace Prisma {
 
   export type WhatsappInstanceCountOutputType = {
     messages: number
+    setores: number
   }
 
   export type WhatsappInstanceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | WhatsappInstanceCountOutputTypeCountMessagesArgs
+    setores?: boolean | WhatsappInstanceCountOutputTypeCountSetoresArgs
   }
 
   // Custom InputTypes
@@ -2486,6 +2764,13 @@ export namespace Prisma {
    */
   export type WhatsappInstanceCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MessageWhereInput
+  }
+
+  /**
+   * WhatsappInstanceCountOutputType without action
+   */
+  export type WhatsappInstanceCountOutputTypeCountSetoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SetorInstanceWhereInput
   }
 
 
@@ -2521,6 +2806,55 @@ export namespace Prisma {
 
 
   /**
+   * Count Type SetorCountOutputType
+   */
+
+  export type SetorCountOutputType = {
+    users: number
+    instances: number
+    tickets: number
+  }
+
+  export type SetorCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    users?: boolean | SetorCountOutputTypeCountUsersArgs
+    instances?: boolean | SetorCountOutputTypeCountInstancesArgs
+    tickets?: boolean | SetorCountOutputTypeCountTicketsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SetorCountOutputType without action
+   */
+  export type SetorCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorCountOutputType
+     */
+    select?: SetorCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SetorCountOutputType without action
+   */
+  export type SetorCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SetorUserWhereInput
+  }
+
+  /**
+   * SetorCountOutputType without action
+   */
+  export type SetorCountOutputTypeCountInstancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SetorInstanceWhereInput
+  }
+
+  /**
+   * SetorCountOutputType without action
+   */
+  export type SetorCountOutputTypeCountTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TicketWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -2542,6 +2876,7 @@ export namespace Prisma {
     role: $Enums.UserRole | null
     createdAt: Date | null
     updatedAt: Date | null
+    whatsappSignature: string | null
     companyId: string | null
   }
 
@@ -2553,6 +2888,7 @@ export namespace Prisma {
     role: $Enums.UserRole | null
     createdAt: Date | null
     updatedAt: Date | null
+    whatsappSignature: string | null
     companyId: string | null
   }
 
@@ -2564,6 +2900,7 @@ export namespace Prisma {
     role: number
     createdAt: number
     updatedAt: number
+    whatsappSignature: number
     companyId: number
     _all: number
   }
@@ -2577,6 +2914,7 @@ export namespace Prisma {
     role?: true
     createdAt?: true
     updatedAt?: true
+    whatsappSignature?: true
     companyId?: true
   }
 
@@ -2588,6 +2926,7 @@ export namespace Prisma {
     role?: true
     createdAt?: true
     updatedAt?: true
+    whatsappSignature?: true
     companyId?: true
   }
 
@@ -2599,6 +2938,7 @@ export namespace Prisma {
     role?: true
     createdAt?: true
     updatedAt?: true
+    whatsappSignature?: true
     companyId?: true
     _all?: true
   }
@@ -2683,6 +3023,7 @@ export namespace Prisma {
     role: $Enums.UserRole
     createdAt: Date
     updatedAt: Date
+    whatsappSignature: string | null
     companyId: string | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
@@ -2711,10 +3052,12 @@ export namespace Prisma {
     role?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    whatsappSignature?: boolean
     companyId?: boolean
     company?: boolean | User$companyArgs<ExtArgs>
     ticketsCreated?: boolean | User$ticketsCreatedArgs<ExtArgs>
     companyContact?: boolean | User$companyContactArgs<ExtArgs>
+    setores?: boolean | User$setoresArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2726,6 +3069,7 @@ export namespace Prisma {
     role?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    whatsappSignature?: boolean
     companyId?: boolean
     company?: boolean | User$companyArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -2738,6 +3082,7 @@ export namespace Prisma {
     role?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    whatsappSignature?: boolean
     companyId?: boolean
   }
 
@@ -2745,6 +3090,7 @@ export namespace Prisma {
     company?: boolean | User$companyArgs<ExtArgs>
     ticketsCreated?: boolean | User$ticketsCreatedArgs<ExtArgs>
     companyContact?: boolean | User$companyContactArgs<ExtArgs>
+    setores?: boolean | User$setoresArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2757,6 +3103,7 @@ export namespace Prisma {
       company: Prisma.$CompanyPayload<ExtArgs> | null
       ticketsCreated: Prisma.$TicketPayload<ExtArgs>[]
       companyContact: Prisma.$CompanyContactPayload<ExtArgs> | null
+      setores: Prisma.$SetorUserPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2766,6 +3113,7 @@ export namespace Prisma {
       role: $Enums.UserRole
       createdAt: Date
       updatedAt: Date
+      whatsappSignature: string | null
       companyId: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -3134,6 +3482,7 @@ export namespace Prisma {
     company<T extends User$companyArgs<ExtArgs> = {}>(args?: Subset<T, User$companyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     ticketsCreated<T extends User$ticketsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$ticketsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany"> | Null>
     companyContact<T extends User$companyContactArgs<ExtArgs> = {}>(args?: Subset<T, User$companyContactArgs<ExtArgs>>): Prisma__CompanyContactClient<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    setores<T extends User$setoresArgs<ExtArgs> = {}>(args?: Subset<T, User$setoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorUserPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3170,6 +3519,7 @@ export namespace Prisma {
     readonly role: FieldRef<"User", 'UserRole'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
+    readonly whatsappSignature: FieldRef<"User", 'String'>
     readonly companyId: FieldRef<"User", 'String'>
   }
     
@@ -3539,6 +3889,26 @@ export namespace Prisma {
   }
 
   /**
+   * User.setores
+   */
+  export type User$setoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorUser
+     */
+    select?: SetorUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorUserInclude<ExtArgs> | null
+    where?: SetorUserWhereInput
+    orderBy?: SetorUserOrderByWithRelationInput | SetorUserOrderByWithRelationInput[]
+    cursor?: SetorUserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SetorUserScalarFieldEnum | SetorUserScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3825,6 +4195,7 @@ export namespace Prisma {
     trackingLinks?: boolean | Company$trackingLinksArgs<ExtArgs>
     pipelineStages?: boolean | Company$pipelineStagesArgs<ExtArgs>
     contacts?: boolean | Company$contactsArgs<ExtArgs>
+    setores?: boolean | Company$setoresArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -3882,6 +4253,7 @@ export namespace Prisma {
     trackingLinks?: boolean | Company$trackingLinksArgs<ExtArgs>
     pipelineStages?: boolean | Company$pipelineStagesArgs<ExtArgs>
     contacts?: boolean | Company$contactsArgs<ExtArgs>
+    setores?: boolean | Company$setoresArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3903,6 +4275,7 @@ export namespace Prisma {
       trackingLinks: Prisma.$TrackingLinkPayload<ExtArgs>[]
       pipelineStages: Prisma.$PipelineStageConfigPayload<ExtArgs>[]
       contacts: Prisma.$CompanyContactPayload<ExtArgs>[]
+      setores: Prisma.$SetorPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4298,6 +4671,7 @@ export namespace Prisma {
     trackingLinks<T extends Company$trackingLinksArgs<ExtArgs> = {}>(args?: Subset<T, Company$trackingLinksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrackingLinkPayload<ExtArgs>, T, "findMany"> | Null>
     pipelineStages<T extends Company$pipelineStagesArgs<ExtArgs> = {}>(args?: Subset<T, Company$pipelineStagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PipelineStageConfigPayload<ExtArgs>, T, "findMany"> | Null>
     contacts<T extends Company$contactsArgs<ExtArgs> = {}>(args?: Subset<T, Company$contactsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "findMany"> | Null>
+    setores<T extends Company$setoresArgs<ExtArgs> = {}>(args?: Subset<T, Company$setoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4894,6 +5268,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CompanyContactScalarFieldEnum | CompanyContactScalarFieldEnum[]
+  }
+
+  /**
+   * Company.setores
+   */
+  export type Company$setoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setor
+     */
+    select?: SetorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInclude<ExtArgs> | null
+    where?: SetorWhereInput
+    orderBy?: SetorOrderByWithRelationInput | SetorOrderByWithRelationInput[]
+    cursor?: SetorWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SetorScalarFieldEnum | SetorScalarFieldEnum[]
   }
 
   /**
@@ -12505,6 +12899,7 @@ export namespace Prisma {
     companyId?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     messages?: boolean | WhatsappInstance$messagesArgs<ExtArgs>
+    setores?: boolean | WhatsappInstance$setoresArgs<ExtArgs>
     _count?: boolean | WhatsappInstanceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["whatsappInstance"]>
 
@@ -12536,6 +12931,7 @@ export namespace Prisma {
   export type WhatsappInstanceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     messages?: boolean | WhatsappInstance$messagesArgs<ExtArgs>
+    setores?: boolean | WhatsappInstance$setoresArgs<ExtArgs>
     _count?: boolean | WhatsappInstanceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type WhatsappInstanceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12547,6 +12943,7 @@ export namespace Prisma {
     objects: {
       company: Prisma.$CompanyPayload<ExtArgs>
       messages: Prisma.$MessagePayload<ExtArgs>[]
+      setores: Prisma.$SetorInstancePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -12924,6 +13321,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     messages<T extends WhatsappInstance$messagesArgs<ExtArgs> = {}>(args?: Subset<T, WhatsappInstance$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany"> | Null>
+    setores<T extends WhatsappInstance$setoresArgs<ExtArgs> = {}>(args?: Subset<T, WhatsappInstance$setoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorInstancePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13297,6 +13695,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MessageScalarFieldEnum | MessageScalarFieldEnum[]
+  }
+
+  /**
+   * WhatsappInstance.setores
+   */
+  export type WhatsappInstance$setoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorInstance
+     */
+    select?: SetorInstanceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInstanceInclude<ExtArgs> | null
+    where?: SetorInstanceWhereInput
+    orderBy?: SetorInstanceOrderByWithRelationInput | SetorInstanceOrderByWithRelationInput[]
+    cursor?: SetorInstanceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SetorInstanceScalarFieldEnum | SetorInstanceScalarFieldEnum[]
   }
 
   /**
@@ -16320,6 +16738,7 @@ export namespace Prisma {
     updatedAt: Date | null
     companyId: string | null
     createdById: string | null
+    setorId: string | null
   }
 
   export type TicketMaxAggregateOutputType = {
@@ -16337,6 +16756,7 @@ export namespace Prisma {
     updatedAt: Date | null
     companyId: string | null
     createdById: string | null
+    setorId: string | null
   }
 
   export type TicketCountAggregateOutputType = {
@@ -16354,6 +16774,7 @@ export namespace Prisma {
     updatedAt: number
     companyId: number
     createdById: number
+    setorId: number
     _all: number
   }
 
@@ -16373,6 +16794,7 @@ export namespace Prisma {
     updatedAt?: true
     companyId?: true
     createdById?: true
+    setorId?: true
   }
 
   export type TicketMaxAggregateInputType = {
@@ -16390,6 +16812,7 @@ export namespace Prisma {
     updatedAt?: true
     companyId?: true
     createdById?: true
+    setorId?: true
   }
 
   export type TicketCountAggregateInputType = {
@@ -16407,6 +16830,7 @@ export namespace Prisma {
     updatedAt?: true
     companyId?: true
     createdById?: true
+    setorId?: true
     _all?: true
   }
 
@@ -16497,6 +16921,7 @@ export namespace Prisma {
     updatedAt: Date
     companyId: string
     createdById: string | null
+    setorId: string | null
     _count: TicketCountAggregateOutputType | null
     _min: TicketMinAggregateOutputType | null
     _max: TicketMaxAggregateOutputType | null
@@ -16531,8 +16956,10 @@ export namespace Prisma {
     updatedAt?: boolean
     companyId?: boolean
     createdById?: boolean
+    setorId?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     createdBy?: boolean | Ticket$createdByArgs<ExtArgs>
+    setor?: boolean | Ticket$setorArgs<ExtArgs>
     messages?: boolean | Ticket$messagesArgs<ExtArgs>
     _count?: boolean | TicketCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["ticket"]>
@@ -16552,8 +16979,10 @@ export namespace Prisma {
     updatedAt?: boolean
     companyId?: boolean
     createdById?: boolean
+    setorId?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     createdBy?: boolean | Ticket$createdByArgs<ExtArgs>
+    setor?: boolean | Ticket$setorArgs<ExtArgs>
   }, ExtArgs["result"]["ticket"]>
 
   export type TicketSelectScalar = {
@@ -16571,17 +17000,20 @@ export namespace Prisma {
     updatedAt?: boolean
     companyId?: boolean
     createdById?: boolean
+    setorId?: boolean
   }
 
   export type TicketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     createdBy?: boolean | Ticket$createdByArgs<ExtArgs>
+    setor?: boolean | Ticket$setorArgs<ExtArgs>
     messages?: boolean | Ticket$messagesArgs<ExtArgs>
     _count?: boolean | TicketCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TicketIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     createdBy?: boolean | Ticket$createdByArgs<ExtArgs>
+    setor?: boolean | Ticket$setorArgs<ExtArgs>
   }
 
   export type $TicketPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16589,6 +17021,7 @@ export namespace Prisma {
     objects: {
       company: Prisma.$CompanyPayload<ExtArgs>
       createdBy: Prisma.$UserPayload<ExtArgs> | null
+      setor: Prisma.$SetorPayload<ExtArgs> | null
       messages: Prisma.$TicketMessagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -16606,6 +17039,7 @@ export namespace Prisma {
       updatedAt: Date
       companyId: string
       createdById: string | null
+      setorId: string | null
     }, ExtArgs["result"]["ticket"]>
     composites: {}
   }
@@ -16972,6 +17406,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     createdBy<T extends Ticket$createdByArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    setor<T extends Ticket$setorArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$setorArgs<ExtArgs>>): Prisma__SetorClient<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     messages<T extends Ticket$messagesArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketMessagePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -17016,6 +17451,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"Ticket", 'DateTime'>
     readonly companyId: FieldRef<"Ticket", 'String'>
     readonly createdById: FieldRef<"Ticket", 'String'>
+    readonly setorId: FieldRef<"Ticket", 'String'>
   }
     
 
@@ -17346,6 +17782,21 @@ export namespace Prisma {
      */
     include?: UserInclude<ExtArgs> | null
     where?: UserWhereInput
+  }
+
+  /**
+   * Ticket.setor
+   */
+  export type Ticket$setorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setor
+     */
+    select?: SetorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInclude<ExtArgs> | null
+    where?: SetorWhereInput
   }
 
   /**
@@ -18341,6 +18792,2891 @@ export namespace Prisma {
 
 
   /**
+   * Model Setor
+   */
+
+  export type AggregateSetor = {
+    _count: SetorCountAggregateOutputType | null
+    _min: SetorMinAggregateOutputType | null
+    _max: SetorMaxAggregateOutputType | null
+  }
+
+  export type SetorMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    companyId: string | null
+    canManageUsers: boolean | null
+    canViewLeads: boolean | null
+    canCreateLeads: boolean | null
+    canViewTickets: boolean | null
+    canCreateTickets: boolean | null
+    canViewConfig: boolean | null
+  }
+
+  export type SetorMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    companyId: string | null
+    canManageUsers: boolean | null
+    canViewLeads: boolean | null
+    canCreateLeads: boolean | null
+    canViewTickets: boolean | null
+    canCreateTickets: boolean | null
+    canViewConfig: boolean | null
+  }
+
+  export type SetorCountAggregateOutputType = {
+    id: number
+    name: number
+    createdAt: number
+    updatedAt: number
+    companyId: number
+    canManageUsers: number
+    canViewLeads: number
+    canCreateLeads: number
+    canViewTickets: number
+    canCreateTickets: number
+    canViewConfig: number
+    _all: number
+  }
+
+
+  export type SetorMinAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    companyId?: true
+    canManageUsers?: true
+    canViewLeads?: true
+    canCreateLeads?: true
+    canViewTickets?: true
+    canCreateTickets?: true
+    canViewConfig?: true
+  }
+
+  export type SetorMaxAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    companyId?: true
+    canManageUsers?: true
+    canViewLeads?: true
+    canCreateLeads?: true
+    canViewTickets?: true
+    canCreateTickets?: true
+    canViewConfig?: true
+  }
+
+  export type SetorCountAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    companyId?: true
+    canManageUsers?: true
+    canViewLeads?: true
+    canCreateLeads?: true
+    canViewTickets?: true
+    canCreateTickets?: true
+    canViewConfig?: true
+    _all?: true
+  }
+
+  export type SetorAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Setor to aggregate.
+     */
+    where?: SetorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Setors to fetch.
+     */
+    orderBy?: SetorOrderByWithRelationInput | SetorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SetorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Setors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Setors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Setors
+    **/
+    _count?: true | SetorCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SetorMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SetorMaxAggregateInputType
+  }
+
+  export type GetSetorAggregateType<T extends SetorAggregateArgs> = {
+        [P in keyof T & keyof AggregateSetor]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSetor[P]>
+      : GetScalarType<T[P], AggregateSetor[P]>
+  }
+
+
+
+
+  export type SetorGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SetorWhereInput
+    orderBy?: SetorOrderByWithAggregationInput | SetorOrderByWithAggregationInput[]
+    by: SetorScalarFieldEnum[] | SetorScalarFieldEnum
+    having?: SetorScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SetorCountAggregateInputType | true
+    _min?: SetorMinAggregateInputType
+    _max?: SetorMaxAggregateInputType
+  }
+
+  export type SetorGroupByOutputType = {
+    id: string
+    name: string
+    createdAt: Date
+    updatedAt: Date
+    companyId: string
+    canManageUsers: boolean
+    canViewLeads: boolean
+    canCreateLeads: boolean
+    canViewTickets: boolean
+    canCreateTickets: boolean
+    canViewConfig: boolean
+    _count: SetorCountAggregateOutputType | null
+    _min: SetorMinAggregateOutputType | null
+    _max: SetorMaxAggregateOutputType | null
+  }
+
+  type GetSetorGroupByPayload<T extends SetorGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SetorGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SetorGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SetorGroupByOutputType[P]>
+            : GetScalarType<T[P], SetorGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SetorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    companyId?: boolean
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    users?: boolean | Setor$usersArgs<ExtArgs>
+    instances?: boolean | Setor$instancesArgs<ExtArgs>
+    tickets?: boolean | Setor$ticketsArgs<ExtArgs>
+    _count?: boolean | SetorCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["setor"]>
+
+  export type SetorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    companyId?: boolean
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["setor"]>
+
+  export type SetorSelectScalar = {
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    companyId?: boolean
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+  }
+
+  export type SetorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    users?: boolean | Setor$usersArgs<ExtArgs>
+    instances?: boolean | Setor$instancesArgs<ExtArgs>
+    tickets?: boolean | Setor$ticketsArgs<ExtArgs>
+    _count?: boolean | SetorCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type SetorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $SetorPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Setor"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      users: Prisma.$SetorUserPayload<ExtArgs>[]
+      instances: Prisma.$SetorInstancePayload<ExtArgs>[]
+      tickets: Prisma.$TicketPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      createdAt: Date
+      updatedAt: Date
+      companyId: string
+      canManageUsers: boolean
+      canViewLeads: boolean
+      canCreateLeads: boolean
+      canViewTickets: boolean
+      canCreateTickets: boolean
+      canViewConfig: boolean
+    }, ExtArgs["result"]["setor"]>
+    composites: {}
+  }
+
+  type SetorGetPayload<S extends boolean | null | undefined | SetorDefaultArgs> = $Result.GetResult<Prisma.$SetorPayload, S>
+
+  type SetorCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<SetorFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: SetorCountAggregateInputType | true
+    }
+
+  export interface SetorDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Setor'], meta: { name: 'Setor' } }
+    /**
+     * Find zero or one Setor that matches the filter.
+     * @param {SetorFindUniqueArgs} args - Arguments to find a Setor
+     * @example
+     * // Get one Setor
+     * const setor = await prisma.setor.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SetorFindUniqueArgs>(args: SelectSubset<T, SetorFindUniqueArgs<ExtArgs>>): Prisma__SetorClient<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Setor that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {SetorFindUniqueOrThrowArgs} args - Arguments to find a Setor
+     * @example
+     * // Get one Setor
+     * const setor = await prisma.setor.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SetorFindUniqueOrThrowArgs>(args: SelectSubset<T, SetorFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SetorClient<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Setor that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorFindFirstArgs} args - Arguments to find a Setor
+     * @example
+     * // Get one Setor
+     * const setor = await prisma.setor.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SetorFindFirstArgs>(args?: SelectSubset<T, SetorFindFirstArgs<ExtArgs>>): Prisma__SetorClient<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Setor that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorFindFirstOrThrowArgs} args - Arguments to find a Setor
+     * @example
+     * // Get one Setor
+     * const setor = await prisma.setor.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SetorFindFirstOrThrowArgs>(args?: SelectSubset<T, SetorFindFirstOrThrowArgs<ExtArgs>>): Prisma__SetorClient<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Setors that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Setors
+     * const setors = await prisma.setor.findMany()
+     * 
+     * // Get first 10 Setors
+     * const setors = await prisma.setor.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const setorWithIdOnly = await prisma.setor.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SetorFindManyArgs>(args?: SelectSubset<T, SetorFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Setor.
+     * @param {SetorCreateArgs} args - Arguments to create a Setor.
+     * @example
+     * // Create one Setor
+     * const Setor = await prisma.setor.create({
+     *   data: {
+     *     // ... data to create a Setor
+     *   }
+     * })
+     * 
+     */
+    create<T extends SetorCreateArgs>(args: SelectSubset<T, SetorCreateArgs<ExtArgs>>): Prisma__SetorClient<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Setors.
+     * @param {SetorCreateManyArgs} args - Arguments to create many Setors.
+     * @example
+     * // Create many Setors
+     * const setor = await prisma.setor.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SetorCreateManyArgs>(args?: SelectSubset<T, SetorCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Setors and returns the data saved in the database.
+     * @param {SetorCreateManyAndReturnArgs} args - Arguments to create many Setors.
+     * @example
+     * // Create many Setors
+     * const setor = await prisma.setor.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Setors and only return the `id`
+     * const setorWithIdOnly = await prisma.setor.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SetorCreateManyAndReturnArgs>(args?: SelectSubset<T, SetorCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Setor.
+     * @param {SetorDeleteArgs} args - Arguments to delete one Setor.
+     * @example
+     * // Delete one Setor
+     * const Setor = await prisma.setor.delete({
+     *   where: {
+     *     // ... filter to delete one Setor
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SetorDeleteArgs>(args: SelectSubset<T, SetorDeleteArgs<ExtArgs>>): Prisma__SetorClient<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Setor.
+     * @param {SetorUpdateArgs} args - Arguments to update one Setor.
+     * @example
+     * // Update one Setor
+     * const setor = await prisma.setor.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SetorUpdateArgs>(args: SelectSubset<T, SetorUpdateArgs<ExtArgs>>): Prisma__SetorClient<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Setors.
+     * @param {SetorDeleteManyArgs} args - Arguments to filter Setors to delete.
+     * @example
+     * // Delete a few Setors
+     * const { count } = await prisma.setor.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SetorDeleteManyArgs>(args?: SelectSubset<T, SetorDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Setors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Setors
+     * const setor = await prisma.setor.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SetorUpdateManyArgs>(args: SelectSubset<T, SetorUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Setor.
+     * @param {SetorUpsertArgs} args - Arguments to update or create a Setor.
+     * @example
+     * // Update or create a Setor
+     * const setor = await prisma.setor.upsert({
+     *   create: {
+     *     // ... data to create a Setor
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Setor we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SetorUpsertArgs>(args: SelectSubset<T, SetorUpsertArgs<ExtArgs>>): Prisma__SetorClient<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Setors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorCountArgs} args - Arguments to filter Setors to count.
+     * @example
+     * // Count the number of Setors
+     * const count = await prisma.setor.count({
+     *   where: {
+     *     // ... the filter for the Setors we want to count
+     *   }
+     * })
+    **/
+    count<T extends SetorCountArgs>(
+      args?: Subset<T, SetorCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SetorCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Setor.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SetorAggregateArgs>(args: Subset<T, SetorAggregateArgs>): Prisma.PrismaPromise<GetSetorAggregateType<T>>
+
+    /**
+     * Group by Setor.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SetorGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SetorGroupByArgs['orderBy'] }
+        : { orderBy?: SetorGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SetorGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSetorGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Setor model
+   */
+  readonly fields: SetorFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Setor.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SetorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    users<T extends Setor$usersArgs<ExtArgs> = {}>(args?: Subset<T, Setor$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorUserPayload<ExtArgs>, T, "findMany"> | Null>
+    instances<T extends Setor$instancesArgs<ExtArgs> = {}>(args?: Subset<T, Setor$instancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorInstancePayload<ExtArgs>, T, "findMany"> | Null>
+    tickets<T extends Setor$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, Setor$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Setor model
+   */ 
+  interface SetorFieldRefs {
+    readonly id: FieldRef<"Setor", 'String'>
+    readonly name: FieldRef<"Setor", 'String'>
+    readonly createdAt: FieldRef<"Setor", 'DateTime'>
+    readonly updatedAt: FieldRef<"Setor", 'DateTime'>
+    readonly companyId: FieldRef<"Setor", 'String'>
+    readonly canManageUsers: FieldRef<"Setor", 'Boolean'>
+    readonly canViewLeads: FieldRef<"Setor", 'Boolean'>
+    readonly canCreateLeads: FieldRef<"Setor", 'Boolean'>
+    readonly canViewTickets: FieldRef<"Setor", 'Boolean'>
+    readonly canCreateTickets: FieldRef<"Setor", 'Boolean'>
+    readonly canViewConfig: FieldRef<"Setor", 'Boolean'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Setor findUnique
+   */
+  export type SetorFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setor
+     */
+    select?: SetorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInclude<ExtArgs> | null
+    /**
+     * Filter, which Setor to fetch.
+     */
+    where: SetorWhereUniqueInput
+  }
+
+  /**
+   * Setor findUniqueOrThrow
+   */
+  export type SetorFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setor
+     */
+    select?: SetorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInclude<ExtArgs> | null
+    /**
+     * Filter, which Setor to fetch.
+     */
+    where: SetorWhereUniqueInput
+  }
+
+  /**
+   * Setor findFirst
+   */
+  export type SetorFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setor
+     */
+    select?: SetorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInclude<ExtArgs> | null
+    /**
+     * Filter, which Setor to fetch.
+     */
+    where?: SetorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Setors to fetch.
+     */
+    orderBy?: SetorOrderByWithRelationInput | SetorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Setors.
+     */
+    cursor?: SetorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Setors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Setors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Setors.
+     */
+    distinct?: SetorScalarFieldEnum | SetorScalarFieldEnum[]
+  }
+
+  /**
+   * Setor findFirstOrThrow
+   */
+  export type SetorFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setor
+     */
+    select?: SetorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInclude<ExtArgs> | null
+    /**
+     * Filter, which Setor to fetch.
+     */
+    where?: SetorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Setors to fetch.
+     */
+    orderBy?: SetorOrderByWithRelationInput | SetorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Setors.
+     */
+    cursor?: SetorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Setors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Setors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Setors.
+     */
+    distinct?: SetorScalarFieldEnum | SetorScalarFieldEnum[]
+  }
+
+  /**
+   * Setor findMany
+   */
+  export type SetorFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setor
+     */
+    select?: SetorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInclude<ExtArgs> | null
+    /**
+     * Filter, which Setors to fetch.
+     */
+    where?: SetorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Setors to fetch.
+     */
+    orderBy?: SetorOrderByWithRelationInput | SetorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Setors.
+     */
+    cursor?: SetorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Setors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Setors.
+     */
+    skip?: number
+    distinct?: SetorScalarFieldEnum | SetorScalarFieldEnum[]
+  }
+
+  /**
+   * Setor create
+   */
+  export type SetorCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setor
+     */
+    select?: SetorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Setor.
+     */
+    data: XOR<SetorCreateInput, SetorUncheckedCreateInput>
+  }
+
+  /**
+   * Setor createMany
+   */
+  export type SetorCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Setors.
+     */
+    data: SetorCreateManyInput | SetorCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Setor createManyAndReturn
+   */
+  export type SetorCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setor
+     */
+    select?: SetorSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Setors.
+     */
+    data: SetorCreateManyInput | SetorCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Setor update
+   */
+  export type SetorUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setor
+     */
+    select?: SetorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Setor.
+     */
+    data: XOR<SetorUpdateInput, SetorUncheckedUpdateInput>
+    /**
+     * Choose, which Setor to update.
+     */
+    where: SetorWhereUniqueInput
+  }
+
+  /**
+   * Setor updateMany
+   */
+  export type SetorUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Setors.
+     */
+    data: XOR<SetorUpdateManyMutationInput, SetorUncheckedUpdateManyInput>
+    /**
+     * Filter which Setors to update
+     */
+    where?: SetorWhereInput
+  }
+
+  /**
+   * Setor upsert
+   */
+  export type SetorUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setor
+     */
+    select?: SetorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Setor to update in case it exists.
+     */
+    where: SetorWhereUniqueInput
+    /**
+     * In case the Setor found by the `where` argument doesn't exist, create a new Setor with this data.
+     */
+    create: XOR<SetorCreateInput, SetorUncheckedCreateInput>
+    /**
+     * In case the Setor was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SetorUpdateInput, SetorUncheckedUpdateInput>
+  }
+
+  /**
+   * Setor delete
+   */
+  export type SetorDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setor
+     */
+    select?: SetorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInclude<ExtArgs> | null
+    /**
+     * Filter which Setor to delete.
+     */
+    where: SetorWhereUniqueInput
+  }
+
+  /**
+   * Setor deleteMany
+   */
+  export type SetorDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Setors to delete
+     */
+    where?: SetorWhereInput
+  }
+
+  /**
+   * Setor.users
+   */
+  export type Setor$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorUser
+     */
+    select?: SetorUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorUserInclude<ExtArgs> | null
+    where?: SetorUserWhereInput
+    orderBy?: SetorUserOrderByWithRelationInput | SetorUserOrderByWithRelationInput[]
+    cursor?: SetorUserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SetorUserScalarFieldEnum | SetorUserScalarFieldEnum[]
+  }
+
+  /**
+   * Setor.instances
+   */
+  export type Setor$instancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorInstance
+     */
+    select?: SetorInstanceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInstanceInclude<ExtArgs> | null
+    where?: SetorInstanceWhereInput
+    orderBy?: SetorInstanceOrderByWithRelationInput | SetorInstanceOrderByWithRelationInput[]
+    cursor?: SetorInstanceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SetorInstanceScalarFieldEnum | SetorInstanceScalarFieldEnum[]
+  }
+
+  /**
+   * Setor.tickets
+   */
+  export type Setor$ticketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ticket
+     */
+    select?: TicketSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketInclude<ExtArgs> | null
+    where?: TicketWhereInput
+    orderBy?: TicketOrderByWithRelationInput | TicketOrderByWithRelationInput[]
+    cursor?: TicketWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TicketScalarFieldEnum | TicketScalarFieldEnum[]
+  }
+
+  /**
+   * Setor without action
+   */
+  export type SetorDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setor
+     */
+    select?: SetorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SetorUser
+   */
+
+  export type AggregateSetorUser = {
+    _count: SetorUserCountAggregateOutputType | null
+    _min: SetorUserMinAggregateOutputType | null
+    _max: SetorUserMaxAggregateOutputType | null
+  }
+
+  export type SetorUserMinAggregateOutputType = {
+    setorId: string | null
+    userId: string | null
+  }
+
+  export type SetorUserMaxAggregateOutputType = {
+    setorId: string | null
+    userId: string | null
+  }
+
+  export type SetorUserCountAggregateOutputType = {
+    setorId: number
+    userId: number
+    _all: number
+  }
+
+
+  export type SetorUserMinAggregateInputType = {
+    setorId?: true
+    userId?: true
+  }
+
+  export type SetorUserMaxAggregateInputType = {
+    setorId?: true
+    userId?: true
+  }
+
+  export type SetorUserCountAggregateInputType = {
+    setorId?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type SetorUserAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SetorUser to aggregate.
+     */
+    where?: SetorUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SetorUsers to fetch.
+     */
+    orderBy?: SetorUserOrderByWithRelationInput | SetorUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SetorUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SetorUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SetorUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SetorUsers
+    **/
+    _count?: true | SetorUserCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SetorUserMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SetorUserMaxAggregateInputType
+  }
+
+  export type GetSetorUserAggregateType<T extends SetorUserAggregateArgs> = {
+        [P in keyof T & keyof AggregateSetorUser]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSetorUser[P]>
+      : GetScalarType<T[P], AggregateSetorUser[P]>
+  }
+
+
+
+
+  export type SetorUserGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SetorUserWhereInput
+    orderBy?: SetorUserOrderByWithAggregationInput | SetorUserOrderByWithAggregationInput[]
+    by: SetorUserScalarFieldEnum[] | SetorUserScalarFieldEnum
+    having?: SetorUserScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SetorUserCountAggregateInputType | true
+    _min?: SetorUserMinAggregateInputType
+    _max?: SetorUserMaxAggregateInputType
+  }
+
+  export type SetorUserGroupByOutputType = {
+    setorId: string
+    userId: string
+    _count: SetorUserCountAggregateOutputType | null
+    _min: SetorUserMinAggregateOutputType | null
+    _max: SetorUserMaxAggregateOutputType | null
+  }
+
+  type GetSetorUserGroupByPayload<T extends SetorUserGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SetorUserGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SetorUserGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SetorUserGroupByOutputType[P]>
+            : GetScalarType<T[P], SetorUserGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SetorUserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    setorId?: boolean
+    userId?: boolean
+    setor?: boolean | SetorDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["setorUser"]>
+
+  export type SetorUserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    setorId?: boolean
+    userId?: boolean
+    setor?: boolean | SetorDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["setorUser"]>
+
+  export type SetorUserSelectScalar = {
+    setorId?: boolean
+    userId?: boolean
+  }
+
+  export type SetorUserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    setor?: boolean | SetorDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SetorUserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    setor?: boolean | SetorDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $SetorUserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SetorUser"
+    objects: {
+      setor: Prisma.$SetorPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      setorId: string
+      userId: string
+    }, ExtArgs["result"]["setorUser"]>
+    composites: {}
+  }
+
+  type SetorUserGetPayload<S extends boolean | null | undefined | SetorUserDefaultArgs> = $Result.GetResult<Prisma.$SetorUserPayload, S>
+
+  type SetorUserCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<SetorUserFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: SetorUserCountAggregateInputType | true
+    }
+
+  export interface SetorUserDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SetorUser'], meta: { name: 'SetorUser' } }
+    /**
+     * Find zero or one SetorUser that matches the filter.
+     * @param {SetorUserFindUniqueArgs} args - Arguments to find a SetorUser
+     * @example
+     * // Get one SetorUser
+     * const setorUser = await prisma.setorUser.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SetorUserFindUniqueArgs>(args: SelectSubset<T, SetorUserFindUniqueArgs<ExtArgs>>): Prisma__SetorUserClient<$Result.GetResult<Prisma.$SetorUserPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one SetorUser that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {SetorUserFindUniqueOrThrowArgs} args - Arguments to find a SetorUser
+     * @example
+     * // Get one SetorUser
+     * const setorUser = await prisma.setorUser.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SetorUserFindUniqueOrThrowArgs>(args: SelectSubset<T, SetorUserFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SetorUserClient<$Result.GetResult<Prisma.$SetorUserPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first SetorUser that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorUserFindFirstArgs} args - Arguments to find a SetorUser
+     * @example
+     * // Get one SetorUser
+     * const setorUser = await prisma.setorUser.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SetorUserFindFirstArgs>(args?: SelectSubset<T, SetorUserFindFirstArgs<ExtArgs>>): Prisma__SetorUserClient<$Result.GetResult<Prisma.$SetorUserPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first SetorUser that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorUserFindFirstOrThrowArgs} args - Arguments to find a SetorUser
+     * @example
+     * // Get one SetorUser
+     * const setorUser = await prisma.setorUser.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SetorUserFindFirstOrThrowArgs>(args?: SelectSubset<T, SetorUserFindFirstOrThrowArgs<ExtArgs>>): Prisma__SetorUserClient<$Result.GetResult<Prisma.$SetorUserPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more SetorUsers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorUserFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SetorUsers
+     * const setorUsers = await prisma.setorUser.findMany()
+     * 
+     * // Get first 10 SetorUsers
+     * const setorUsers = await prisma.setorUser.findMany({ take: 10 })
+     * 
+     * // Only select the `setorId`
+     * const setorUserWithSetorIdOnly = await prisma.setorUser.findMany({ select: { setorId: true } })
+     * 
+     */
+    findMany<T extends SetorUserFindManyArgs>(args?: SelectSubset<T, SetorUserFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorUserPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a SetorUser.
+     * @param {SetorUserCreateArgs} args - Arguments to create a SetorUser.
+     * @example
+     * // Create one SetorUser
+     * const SetorUser = await prisma.setorUser.create({
+     *   data: {
+     *     // ... data to create a SetorUser
+     *   }
+     * })
+     * 
+     */
+    create<T extends SetorUserCreateArgs>(args: SelectSubset<T, SetorUserCreateArgs<ExtArgs>>): Prisma__SetorUserClient<$Result.GetResult<Prisma.$SetorUserPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many SetorUsers.
+     * @param {SetorUserCreateManyArgs} args - Arguments to create many SetorUsers.
+     * @example
+     * // Create many SetorUsers
+     * const setorUser = await prisma.setorUser.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SetorUserCreateManyArgs>(args?: SelectSubset<T, SetorUserCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SetorUsers and returns the data saved in the database.
+     * @param {SetorUserCreateManyAndReturnArgs} args - Arguments to create many SetorUsers.
+     * @example
+     * // Create many SetorUsers
+     * const setorUser = await prisma.setorUser.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SetorUsers and only return the `setorId`
+     * const setorUserWithSetorIdOnly = await prisma.setorUser.createManyAndReturn({ 
+     *   select: { setorId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SetorUserCreateManyAndReturnArgs>(args?: SelectSubset<T, SetorUserCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorUserPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a SetorUser.
+     * @param {SetorUserDeleteArgs} args - Arguments to delete one SetorUser.
+     * @example
+     * // Delete one SetorUser
+     * const SetorUser = await prisma.setorUser.delete({
+     *   where: {
+     *     // ... filter to delete one SetorUser
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SetorUserDeleteArgs>(args: SelectSubset<T, SetorUserDeleteArgs<ExtArgs>>): Prisma__SetorUserClient<$Result.GetResult<Prisma.$SetorUserPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one SetorUser.
+     * @param {SetorUserUpdateArgs} args - Arguments to update one SetorUser.
+     * @example
+     * // Update one SetorUser
+     * const setorUser = await prisma.setorUser.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SetorUserUpdateArgs>(args: SelectSubset<T, SetorUserUpdateArgs<ExtArgs>>): Prisma__SetorUserClient<$Result.GetResult<Prisma.$SetorUserPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more SetorUsers.
+     * @param {SetorUserDeleteManyArgs} args - Arguments to filter SetorUsers to delete.
+     * @example
+     * // Delete a few SetorUsers
+     * const { count } = await prisma.setorUser.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SetorUserDeleteManyArgs>(args?: SelectSubset<T, SetorUserDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SetorUsers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorUserUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SetorUsers
+     * const setorUser = await prisma.setorUser.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SetorUserUpdateManyArgs>(args: SelectSubset<T, SetorUserUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one SetorUser.
+     * @param {SetorUserUpsertArgs} args - Arguments to update or create a SetorUser.
+     * @example
+     * // Update or create a SetorUser
+     * const setorUser = await prisma.setorUser.upsert({
+     *   create: {
+     *     // ... data to create a SetorUser
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SetorUser we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SetorUserUpsertArgs>(args: SelectSubset<T, SetorUserUpsertArgs<ExtArgs>>): Prisma__SetorUserClient<$Result.GetResult<Prisma.$SetorUserPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of SetorUsers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorUserCountArgs} args - Arguments to filter SetorUsers to count.
+     * @example
+     * // Count the number of SetorUsers
+     * const count = await prisma.setorUser.count({
+     *   where: {
+     *     // ... the filter for the SetorUsers we want to count
+     *   }
+     * })
+    **/
+    count<T extends SetorUserCountArgs>(
+      args?: Subset<T, SetorUserCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SetorUserCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SetorUser.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorUserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SetorUserAggregateArgs>(args: Subset<T, SetorUserAggregateArgs>): Prisma.PrismaPromise<GetSetorUserAggregateType<T>>
+
+    /**
+     * Group by SetorUser.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorUserGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SetorUserGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SetorUserGroupByArgs['orderBy'] }
+        : { orderBy?: SetorUserGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SetorUserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSetorUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SetorUser model
+   */
+  readonly fields: SetorUserFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SetorUser.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SetorUserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    setor<T extends SetorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SetorDefaultArgs<ExtArgs>>): Prisma__SetorClient<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SetorUser model
+   */ 
+  interface SetorUserFieldRefs {
+    readonly setorId: FieldRef<"SetorUser", 'String'>
+    readonly userId: FieldRef<"SetorUser", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SetorUser findUnique
+   */
+  export type SetorUserFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorUser
+     */
+    select?: SetorUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorUserInclude<ExtArgs> | null
+    /**
+     * Filter, which SetorUser to fetch.
+     */
+    where: SetorUserWhereUniqueInput
+  }
+
+  /**
+   * SetorUser findUniqueOrThrow
+   */
+  export type SetorUserFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorUser
+     */
+    select?: SetorUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorUserInclude<ExtArgs> | null
+    /**
+     * Filter, which SetorUser to fetch.
+     */
+    where: SetorUserWhereUniqueInput
+  }
+
+  /**
+   * SetorUser findFirst
+   */
+  export type SetorUserFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorUser
+     */
+    select?: SetorUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorUserInclude<ExtArgs> | null
+    /**
+     * Filter, which SetorUser to fetch.
+     */
+    where?: SetorUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SetorUsers to fetch.
+     */
+    orderBy?: SetorUserOrderByWithRelationInput | SetorUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SetorUsers.
+     */
+    cursor?: SetorUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SetorUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SetorUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SetorUsers.
+     */
+    distinct?: SetorUserScalarFieldEnum | SetorUserScalarFieldEnum[]
+  }
+
+  /**
+   * SetorUser findFirstOrThrow
+   */
+  export type SetorUserFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorUser
+     */
+    select?: SetorUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorUserInclude<ExtArgs> | null
+    /**
+     * Filter, which SetorUser to fetch.
+     */
+    where?: SetorUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SetorUsers to fetch.
+     */
+    orderBy?: SetorUserOrderByWithRelationInput | SetorUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SetorUsers.
+     */
+    cursor?: SetorUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SetorUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SetorUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SetorUsers.
+     */
+    distinct?: SetorUserScalarFieldEnum | SetorUserScalarFieldEnum[]
+  }
+
+  /**
+   * SetorUser findMany
+   */
+  export type SetorUserFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorUser
+     */
+    select?: SetorUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorUserInclude<ExtArgs> | null
+    /**
+     * Filter, which SetorUsers to fetch.
+     */
+    where?: SetorUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SetorUsers to fetch.
+     */
+    orderBy?: SetorUserOrderByWithRelationInput | SetorUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SetorUsers.
+     */
+    cursor?: SetorUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SetorUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SetorUsers.
+     */
+    skip?: number
+    distinct?: SetorUserScalarFieldEnum | SetorUserScalarFieldEnum[]
+  }
+
+  /**
+   * SetorUser create
+   */
+  export type SetorUserCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorUser
+     */
+    select?: SetorUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorUserInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SetorUser.
+     */
+    data: XOR<SetorUserCreateInput, SetorUserUncheckedCreateInput>
+  }
+
+  /**
+   * SetorUser createMany
+   */
+  export type SetorUserCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SetorUsers.
+     */
+    data: SetorUserCreateManyInput | SetorUserCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SetorUser createManyAndReturn
+   */
+  export type SetorUserCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorUser
+     */
+    select?: SetorUserSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many SetorUsers.
+     */
+    data: SetorUserCreateManyInput | SetorUserCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorUserIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SetorUser update
+   */
+  export type SetorUserUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorUser
+     */
+    select?: SetorUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorUserInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SetorUser.
+     */
+    data: XOR<SetorUserUpdateInput, SetorUserUncheckedUpdateInput>
+    /**
+     * Choose, which SetorUser to update.
+     */
+    where: SetorUserWhereUniqueInput
+  }
+
+  /**
+   * SetorUser updateMany
+   */
+  export type SetorUserUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SetorUsers.
+     */
+    data: XOR<SetorUserUpdateManyMutationInput, SetorUserUncheckedUpdateManyInput>
+    /**
+     * Filter which SetorUsers to update
+     */
+    where?: SetorUserWhereInput
+  }
+
+  /**
+   * SetorUser upsert
+   */
+  export type SetorUserUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorUser
+     */
+    select?: SetorUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorUserInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SetorUser to update in case it exists.
+     */
+    where: SetorUserWhereUniqueInput
+    /**
+     * In case the SetorUser found by the `where` argument doesn't exist, create a new SetorUser with this data.
+     */
+    create: XOR<SetorUserCreateInput, SetorUserUncheckedCreateInput>
+    /**
+     * In case the SetorUser was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SetorUserUpdateInput, SetorUserUncheckedUpdateInput>
+  }
+
+  /**
+   * SetorUser delete
+   */
+  export type SetorUserDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorUser
+     */
+    select?: SetorUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorUserInclude<ExtArgs> | null
+    /**
+     * Filter which SetorUser to delete.
+     */
+    where: SetorUserWhereUniqueInput
+  }
+
+  /**
+   * SetorUser deleteMany
+   */
+  export type SetorUserDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SetorUsers to delete
+     */
+    where?: SetorUserWhereInput
+  }
+
+  /**
+   * SetorUser without action
+   */
+  export type SetorUserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorUser
+     */
+    select?: SetorUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorUserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SetorInstance
+   */
+
+  export type AggregateSetorInstance = {
+    _count: SetorInstanceCountAggregateOutputType | null
+    _min: SetorInstanceMinAggregateOutputType | null
+    _max: SetorInstanceMaxAggregateOutputType | null
+  }
+
+  export type SetorInstanceMinAggregateOutputType = {
+    setorId: string | null
+    instanceId: string | null
+  }
+
+  export type SetorInstanceMaxAggregateOutputType = {
+    setorId: string | null
+    instanceId: string | null
+  }
+
+  export type SetorInstanceCountAggregateOutputType = {
+    setorId: number
+    instanceId: number
+    _all: number
+  }
+
+
+  export type SetorInstanceMinAggregateInputType = {
+    setorId?: true
+    instanceId?: true
+  }
+
+  export type SetorInstanceMaxAggregateInputType = {
+    setorId?: true
+    instanceId?: true
+  }
+
+  export type SetorInstanceCountAggregateInputType = {
+    setorId?: true
+    instanceId?: true
+    _all?: true
+  }
+
+  export type SetorInstanceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SetorInstance to aggregate.
+     */
+    where?: SetorInstanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SetorInstances to fetch.
+     */
+    orderBy?: SetorInstanceOrderByWithRelationInput | SetorInstanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SetorInstanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SetorInstances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SetorInstances.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SetorInstances
+    **/
+    _count?: true | SetorInstanceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SetorInstanceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SetorInstanceMaxAggregateInputType
+  }
+
+  export type GetSetorInstanceAggregateType<T extends SetorInstanceAggregateArgs> = {
+        [P in keyof T & keyof AggregateSetorInstance]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSetorInstance[P]>
+      : GetScalarType<T[P], AggregateSetorInstance[P]>
+  }
+
+
+
+
+  export type SetorInstanceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SetorInstanceWhereInput
+    orderBy?: SetorInstanceOrderByWithAggregationInput | SetorInstanceOrderByWithAggregationInput[]
+    by: SetorInstanceScalarFieldEnum[] | SetorInstanceScalarFieldEnum
+    having?: SetorInstanceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SetorInstanceCountAggregateInputType | true
+    _min?: SetorInstanceMinAggregateInputType
+    _max?: SetorInstanceMaxAggregateInputType
+  }
+
+  export type SetorInstanceGroupByOutputType = {
+    setorId: string
+    instanceId: string
+    _count: SetorInstanceCountAggregateOutputType | null
+    _min: SetorInstanceMinAggregateOutputType | null
+    _max: SetorInstanceMaxAggregateOutputType | null
+  }
+
+  type GetSetorInstanceGroupByPayload<T extends SetorInstanceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SetorInstanceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SetorInstanceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SetorInstanceGroupByOutputType[P]>
+            : GetScalarType<T[P], SetorInstanceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SetorInstanceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    setorId?: boolean
+    instanceId?: boolean
+    setor?: boolean | SetorDefaultArgs<ExtArgs>
+    instance?: boolean | WhatsappInstanceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["setorInstance"]>
+
+  export type SetorInstanceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    setorId?: boolean
+    instanceId?: boolean
+    setor?: boolean | SetorDefaultArgs<ExtArgs>
+    instance?: boolean | WhatsappInstanceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["setorInstance"]>
+
+  export type SetorInstanceSelectScalar = {
+    setorId?: boolean
+    instanceId?: boolean
+  }
+
+  export type SetorInstanceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    setor?: boolean | SetorDefaultArgs<ExtArgs>
+    instance?: boolean | WhatsappInstanceDefaultArgs<ExtArgs>
+  }
+  export type SetorInstanceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    setor?: boolean | SetorDefaultArgs<ExtArgs>
+    instance?: boolean | WhatsappInstanceDefaultArgs<ExtArgs>
+  }
+
+  export type $SetorInstancePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SetorInstance"
+    objects: {
+      setor: Prisma.$SetorPayload<ExtArgs>
+      instance: Prisma.$WhatsappInstancePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      setorId: string
+      instanceId: string
+    }, ExtArgs["result"]["setorInstance"]>
+    composites: {}
+  }
+
+  type SetorInstanceGetPayload<S extends boolean | null | undefined | SetorInstanceDefaultArgs> = $Result.GetResult<Prisma.$SetorInstancePayload, S>
+
+  type SetorInstanceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<SetorInstanceFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: SetorInstanceCountAggregateInputType | true
+    }
+
+  export interface SetorInstanceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SetorInstance'], meta: { name: 'SetorInstance' } }
+    /**
+     * Find zero or one SetorInstance that matches the filter.
+     * @param {SetorInstanceFindUniqueArgs} args - Arguments to find a SetorInstance
+     * @example
+     * // Get one SetorInstance
+     * const setorInstance = await prisma.setorInstance.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SetorInstanceFindUniqueArgs>(args: SelectSubset<T, SetorInstanceFindUniqueArgs<ExtArgs>>): Prisma__SetorInstanceClient<$Result.GetResult<Prisma.$SetorInstancePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one SetorInstance that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {SetorInstanceFindUniqueOrThrowArgs} args - Arguments to find a SetorInstance
+     * @example
+     * // Get one SetorInstance
+     * const setorInstance = await prisma.setorInstance.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SetorInstanceFindUniqueOrThrowArgs>(args: SelectSubset<T, SetorInstanceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SetorInstanceClient<$Result.GetResult<Prisma.$SetorInstancePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first SetorInstance that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorInstanceFindFirstArgs} args - Arguments to find a SetorInstance
+     * @example
+     * // Get one SetorInstance
+     * const setorInstance = await prisma.setorInstance.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SetorInstanceFindFirstArgs>(args?: SelectSubset<T, SetorInstanceFindFirstArgs<ExtArgs>>): Prisma__SetorInstanceClient<$Result.GetResult<Prisma.$SetorInstancePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first SetorInstance that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorInstanceFindFirstOrThrowArgs} args - Arguments to find a SetorInstance
+     * @example
+     * // Get one SetorInstance
+     * const setorInstance = await prisma.setorInstance.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SetorInstanceFindFirstOrThrowArgs>(args?: SelectSubset<T, SetorInstanceFindFirstOrThrowArgs<ExtArgs>>): Prisma__SetorInstanceClient<$Result.GetResult<Prisma.$SetorInstancePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more SetorInstances that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorInstanceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SetorInstances
+     * const setorInstances = await prisma.setorInstance.findMany()
+     * 
+     * // Get first 10 SetorInstances
+     * const setorInstances = await prisma.setorInstance.findMany({ take: 10 })
+     * 
+     * // Only select the `setorId`
+     * const setorInstanceWithSetorIdOnly = await prisma.setorInstance.findMany({ select: { setorId: true } })
+     * 
+     */
+    findMany<T extends SetorInstanceFindManyArgs>(args?: SelectSubset<T, SetorInstanceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorInstancePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a SetorInstance.
+     * @param {SetorInstanceCreateArgs} args - Arguments to create a SetorInstance.
+     * @example
+     * // Create one SetorInstance
+     * const SetorInstance = await prisma.setorInstance.create({
+     *   data: {
+     *     // ... data to create a SetorInstance
+     *   }
+     * })
+     * 
+     */
+    create<T extends SetorInstanceCreateArgs>(args: SelectSubset<T, SetorInstanceCreateArgs<ExtArgs>>): Prisma__SetorInstanceClient<$Result.GetResult<Prisma.$SetorInstancePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many SetorInstances.
+     * @param {SetorInstanceCreateManyArgs} args - Arguments to create many SetorInstances.
+     * @example
+     * // Create many SetorInstances
+     * const setorInstance = await prisma.setorInstance.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SetorInstanceCreateManyArgs>(args?: SelectSubset<T, SetorInstanceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SetorInstances and returns the data saved in the database.
+     * @param {SetorInstanceCreateManyAndReturnArgs} args - Arguments to create many SetorInstances.
+     * @example
+     * // Create many SetorInstances
+     * const setorInstance = await prisma.setorInstance.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SetorInstances and only return the `setorId`
+     * const setorInstanceWithSetorIdOnly = await prisma.setorInstance.createManyAndReturn({ 
+     *   select: { setorId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SetorInstanceCreateManyAndReturnArgs>(args?: SelectSubset<T, SetorInstanceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorInstancePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a SetorInstance.
+     * @param {SetorInstanceDeleteArgs} args - Arguments to delete one SetorInstance.
+     * @example
+     * // Delete one SetorInstance
+     * const SetorInstance = await prisma.setorInstance.delete({
+     *   where: {
+     *     // ... filter to delete one SetorInstance
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SetorInstanceDeleteArgs>(args: SelectSubset<T, SetorInstanceDeleteArgs<ExtArgs>>): Prisma__SetorInstanceClient<$Result.GetResult<Prisma.$SetorInstancePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one SetorInstance.
+     * @param {SetorInstanceUpdateArgs} args - Arguments to update one SetorInstance.
+     * @example
+     * // Update one SetorInstance
+     * const setorInstance = await prisma.setorInstance.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SetorInstanceUpdateArgs>(args: SelectSubset<T, SetorInstanceUpdateArgs<ExtArgs>>): Prisma__SetorInstanceClient<$Result.GetResult<Prisma.$SetorInstancePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more SetorInstances.
+     * @param {SetorInstanceDeleteManyArgs} args - Arguments to filter SetorInstances to delete.
+     * @example
+     * // Delete a few SetorInstances
+     * const { count } = await prisma.setorInstance.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SetorInstanceDeleteManyArgs>(args?: SelectSubset<T, SetorInstanceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SetorInstances.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorInstanceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SetorInstances
+     * const setorInstance = await prisma.setorInstance.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SetorInstanceUpdateManyArgs>(args: SelectSubset<T, SetorInstanceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one SetorInstance.
+     * @param {SetorInstanceUpsertArgs} args - Arguments to update or create a SetorInstance.
+     * @example
+     * // Update or create a SetorInstance
+     * const setorInstance = await prisma.setorInstance.upsert({
+     *   create: {
+     *     // ... data to create a SetorInstance
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SetorInstance we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SetorInstanceUpsertArgs>(args: SelectSubset<T, SetorInstanceUpsertArgs<ExtArgs>>): Prisma__SetorInstanceClient<$Result.GetResult<Prisma.$SetorInstancePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of SetorInstances.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorInstanceCountArgs} args - Arguments to filter SetorInstances to count.
+     * @example
+     * // Count the number of SetorInstances
+     * const count = await prisma.setorInstance.count({
+     *   where: {
+     *     // ... the filter for the SetorInstances we want to count
+     *   }
+     * })
+    **/
+    count<T extends SetorInstanceCountArgs>(
+      args?: Subset<T, SetorInstanceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SetorInstanceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SetorInstance.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorInstanceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SetorInstanceAggregateArgs>(args: Subset<T, SetorInstanceAggregateArgs>): Prisma.PrismaPromise<GetSetorInstanceAggregateType<T>>
+
+    /**
+     * Group by SetorInstance.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorInstanceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SetorInstanceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SetorInstanceGroupByArgs['orderBy'] }
+        : { orderBy?: SetorInstanceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SetorInstanceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSetorInstanceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SetorInstance model
+   */
+  readonly fields: SetorInstanceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SetorInstance.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SetorInstanceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    setor<T extends SetorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SetorDefaultArgs<ExtArgs>>): Prisma__SetorClient<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    instance<T extends WhatsappInstanceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WhatsappInstanceDefaultArgs<ExtArgs>>): Prisma__WhatsappInstanceClient<$Result.GetResult<Prisma.$WhatsappInstancePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SetorInstance model
+   */ 
+  interface SetorInstanceFieldRefs {
+    readonly setorId: FieldRef<"SetorInstance", 'String'>
+    readonly instanceId: FieldRef<"SetorInstance", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SetorInstance findUnique
+   */
+  export type SetorInstanceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorInstance
+     */
+    select?: SetorInstanceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInstanceInclude<ExtArgs> | null
+    /**
+     * Filter, which SetorInstance to fetch.
+     */
+    where: SetorInstanceWhereUniqueInput
+  }
+
+  /**
+   * SetorInstance findUniqueOrThrow
+   */
+  export type SetorInstanceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorInstance
+     */
+    select?: SetorInstanceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInstanceInclude<ExtArgs> | null
+    /**
+     * Filter, which SetorInstance to fetch.
+     */
+    where: SetorInstanceWhereUniqueInput
+  }
+
+  /**
+   * SetorInstance findFirst
+   */
+  export type SetorInstanceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorInstance
+     */
+    select?: SetorInstanceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInstanceInclude<ExtArgs> | null
+    /**
+     * Filter, which SetorInstance to fetch.
+     */
+    where?: SetorInstanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SetorInstances to fetch.
+     */
+    orderBy?: SetorInstanceOrderByWithRelationInput | SetorInstanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SetorInstances.
+     */
+    cursor?: SetorInstanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SetorInstances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SetorInstances.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SetorInstances.
+     */
+    distinct?: SetorInstanceScalarFieldEnum | SetorInstanceScalarFieldEnum[]
+  }
+
+  /**
+   * SetorInstance findFirstOrThrow
+   */
+  export type SetorInstanceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorInstance
+     */
+    select?: SetorInstanceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInstanceInclude<ExtArgs> | null
+    /**
+     * Filter, which SetorInstance to fetch.
+     */
+    where?: SetorInstanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SetorInstances to fetch.
+     */
+    orderBy?: SetorInstanceOrderByWithRelationInput | SetorInstanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SetorInstances.
+     */
+    cursor?: SetorInstanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SetorInstances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SetorInstances.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SetorInstances.
+     */
+    distinct?: SetorInstanceScalarFieldEnum | SetorInstanceScalarFieldEnum[]
+  }
+
+  /**
+   * SetorInstance findMany
+   */
+  export type SetorInstanceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorInstance
+     */
+    select?: SetorInstanceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInstanceInclude<ExtArgs> | null
+    /**
+     * Filter, which SetorInstances to fetch.
+     */
+    where?: SetorInstanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SetorInstances to fetch.
+     */
+    orderBy?: SetorInstanceOrderByWithRelationInput | SetorInstanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SetorInstances.
+     */
+    cursor?: SetorInstanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SetorInstances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SetorInstances.
+     */
+    skip?: number
+    distinct?: SetorInstanceScalarFieldEnum | SetorInstanceScalarFieldEnum[]
+  }
+
+  /**
+   * SetorInstance create
+   */
+  export type SetorInstanceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorInstance
+     */
+    select?: SetorInstanceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInstanceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SetorInstance.
+     */
+    data: XOR<SetorInstanceCreateInput, SetorInstanceUncheckedCreateInput>
+  }
+
+  /**
+   * SetorInstance createMany
+   */
+  export type SetorInstanceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SetorInstances.
+     */
+    data: SetorInstanceCreateManyInput | SetorInstanceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SetorInstance createManyAndReturn
+   */
+  export type SetorInstanceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorInstance
+     */
+    select?: SetorInstanceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many SetorInstances.
+     */
+    data: SetorInstanceCreateManyInput | SetorInstanceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInstanceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SetorInstance update
+   */
+  export type SetorInstanceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorInstance
+     */
+    select?: SetorInstanceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInstanceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SetorInstance.
+     */
+    data: XOR<SetorInstanceUpdateInput, SetorInstanceUncheckedUpdateInput>
+    /**
+     * Choose, which SetorInstance to update.
+     */
+    where: SetorInstanceWhereUniqueInput
+  }
+
+  /**
+   * SetorInstance updateMany
+   */
+  export type SetorInstanceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SetorInstances.
+     */
+    data: XOR<SetorInstanceUpdateManyMutationInput, SetorInstanceUncheckedUpdateManyInput>
+    /**
+     * Filter which SetorInstances to update
+     */
+    where?: SetorInstanceWhereInput
+  }
+
+  /**
+   * SetorInstance upsert
+   */
+  export type SetorInstanceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorInstance
+     */
+    select?: SetorInstanceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInstanceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SetorInstance to update in case it exists.
+     */
+    where: SetorInstanceWhereUniqueInput
+    /**
+     * In case the SetorInstance found by the `where` argument doesn't exist, create a new SetorInstance with this data.
+     */
+    create: XOR<SetorInstanceCreateInput, SetorInstanceUncheckedCreateInput>
+    /**
+     * In case the SetorInstance was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SetorInstanceUpdateInput, SetorInstanceUncheckedUpdateInput>
+  }
+
+  /**
+   * SetorInstance delete
+   */
+  export type SetorInstanceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorInstance
+     */
+    select?: SetorInstanceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInstanceInclude<ExtArgs> | null
+    /**
+     * Filter which SetorInstance to delete.
+     */
+    where: SetorInstanceWhereUniqueInput
+  }
+
+  /**
+   * SetorInstance deleteMany
+   */
+  export type SetorInstanceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SetorInstances to delete
+     */
+    where?: SetorInstanceWhereInput
+  }
+
+  /**
+   * SetorInstance without action
+   */
+  export type SetorInstanceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorInstance
+     */
+    select?: SetorInstanceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInstanceInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -18362,6 +21698,7 @@ export namespace Prisma {
     role: 'role',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    whatsappSignature: 'whatsappSignature',
     companyId: 'companyId'
   };
 
@@ -18575,7 +21912,8 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     companyId: 'companyId',
-    createdById: 'createdById'
+    createdById: 'createdById',
+    setorId: 'setorId'
   };
 
   export type TicketScalarFieldEnum = (typeof TicketScalarFieldEnum)[keyof typeof TicketScalarFieldEnum]
@@ -18592,6 +21930,39 @@ export namespace Prisma {
   };
 
   export type TicketMessageScalarFieldEnum = (typeof TicketMessageScalarFieldEnum)[keyof typeof TicketMessageScalarFieldEnum]
+
+
+  export const SetorScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    companyId: 'companyId',
+    canManageUsers: 'canManageUsers',
+    canViewLeads: 'canViewLeads',
+    canCreateLeads: 'canCreateLeads',
+    canViewTickets: 'canViewTickets',
+    canCreateTickets: 'canCreateTickets',
+    canViewConfig: 'canViewConfig'
+  };
+
+  export type SetorScalarFieldEnum = (typeof SetorScalarFieldEnum)[keyof typeof SetorScalarFieldEnum]
+
+
+  export const SetorUserScalarFieldEnum: {
+    setorId: 'setorId',
+    userId: 'userId'
+  };
+
+  export type SetorUserScalarFieldEnum = (typeof SetorUserScalarFieldEnum)[keyof typeof SetorUserScalarFieldEnum]
+
+
+  export const SetorInstanceScalarFieldEnum: {
+    setorId: 'setorId',
+    instanceId: 'instanceId'
+  };
+
+  export type SetorInstanceScalarFieldEnum = (typeof SetorInstanceScalarFieldEnum)[keyof typeof SetorInstanceScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -18850,10 +22221,12 @@ export namespace Prisma {
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    whatsappSignature?: StringNullableFilter<"User"> | string | null
     companyId?: StringNullableFilter<"User"> | string | null
     company?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     ticketsCreated?: TicketListRelationFilter
     companyContact?: XOR<CompanyContactNullableRelationFilter, CompanyContactWhereInput> | null
+    setores?: SetorUserListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -18864,10 +22237,12 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    whatsappSignature?: SortOrderInput | SortOrder
     companyId?: SortOrderInput | SortOrder
     company?: CompanyOrderByWithRelationInput
     ticketsCreated?: TicketOrderByRelationAggregateInput
     companyContact?: CompanyContactOrderByWithRelationInput
+    setores?: SetorUserOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -18881,10 +22256,12 @@ export namespace Prisma {
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    whatsappSignature?: StringNullableFilter<"User"> | string | null
     companyId?: StringNullableFilter<"User"> | string | null
     company?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     ticketsCreated?: TicketListRelationFilter
     companyContact?: XOR<CompanyContactNullableRelationFilter, CompanyContactWhereInput> | null
+    setores?: SetorUserListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -18895,6 +22272,7 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    whatsappSignature?: SortOrderInput | SortOrder
     companyId?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -18912,6 +22290,7 @@ export namespace Prisma {
     role?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    whatsappSignature?: StringNullableWithAggregatesFilter<"User"> | string | null
     companyId?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
@@ -18948,6 +22327,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkListRelationFilter
     pipelineStages?: PipelineStageConfigListRelationFilter
     contacts?: CompanyContactListRelationFilter
+    setores?: SetorListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -18980,6 +22360,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkOrderByRelationAggregateInput
     pipelineStages?: PipelineStageConfigOrderByRelationAggregateInput
     contacts?: CompanyContactOrderByRelationAggregateInput
+    setores?: SetorOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -19015,6 +22396,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkListRelationFilter
     pipelineStages?: PipelineStageConfigListRelationFilter
     contacts?: CompanyContactListRelationFilter
+    setores?: SetorListRelationFilter
   }, "id" | "slug">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -19689,6 +23071,7 @@ export namespace Prisma {
     companyId?: StringFilter<"WhatsappInstance"> | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     messages?: MessageListRelationFilter
+    setores?: SetorInstanceListRelationFilter
   }
 
   export type WhatsappInstanceOrderByWithRelationInput = {
@@ -19703,6 +23086,7 @@ export namespace Prisma {
     companyId?: SortOrder
     company?: CompanyOrderByWithRelationInput
     messages?: MessageOrderByRelationAggregateInput
+    setores?: SetorInstanceOrderByRelationAggregateInput
   }
 
   export type WhatsappInstanceWhereUniqueInput = Prisma.AtLeast<{
@@ -19720,6 +23104,7 @@ export namespace Prisma {
     companyId?: StringFilter<"WhatsappInstance"> | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     messages?: MessageListRelationFilter
+    setores?: SetorInstanceListRelationFilter
   }, "id">
 
   export type WhatsappInstanceOrderByWithAggregationInput = {
@@ -19991,8 +23376,10 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     companyId?: StringFilter<"Ticket"> | string
     createdById?: StringNullableFilter<"Ticket"> | string | null
+    setorId?: StringNullableFilter<"Ticket"> | string | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    setor?: XOR<SetorNullableRelationFilter, SetorWhereInput> | null
     messages?: TicketMessageListRelationFilter
   }
 
@@ -20011,8 +23398,10 @@ export namespace Prisma {
     updatedAt?: SortOrder
     companyId?: SortOrder
     createdById?: SortOrderInput | SortOrder
+    setorId?: SortOrderInput | SortOrder
     company?: CompanyOrderByWithRelationInput
     createdBy?: UserOrderByWithRelationInput
+    setor?: SetorOrderByWithRelationInput
     messages?: TicketMessageOrderByRelationAggregateInput
   }
 
@@ -20034,8 +23423,10 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     companyId?: StringFilter<"Ticket"> | string
     createdById?: StringNullableFilter<"Ticket"> | string | null
+    setorId?: StringNullableFilter<"Ticket"> | string | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    setor?: XOR<SetorNullableRelationFilter, SetorWhereInput> | null
     messages?: TicketMessageListRelationFilter
   }, "id">
 
@@ -20054,6 +23445,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     companyId?: SortOrder
     createdById?: SortOrderInput | SortOrder
+    setorId?: SortOrderInput | SortOrder
     _count?: TicketCountOrderByAggregateInput
     _max?: TicketMaxOrderByAggregateInput
     _min?: TicketMinOrderByAggregateInput
@@ -20077,6 +23469,7 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Ticket"> | Date | string
     companyId?: StringWithAggregatesFilter<"Ticket"> | string
     createdById?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
+    setorId?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
   }
 
   export type TicketMessageWhereInput = {
@@ -20144,6 +23537,188 @@ export namespace Prisma {
     ticketId?: StringWithAggregatesFilter<"TicketMessage"> | string
   }
 
+  export type SetorWhereInput = {
+    AND?: SetorWhereInput | SetorWhereInput[]
+    OR?: SetorWhereInput[]
+    NOT?: SetorWhereInput | SetorWhereInput[]
+    id?: StringFilter<"Setor"> | string
+    name?: StringFilter<"Setor"> | string
+    createdAt?: DateTimeFilter<"Setor"> | Date | string
+    updatedAt?: DateTimeFilter<"Setor"> | Date | string
+    companyId?: StringFilter<"Setor"> | string
+    canManageUsers?: BoolFilter<"Setor"> | boolean
+    canViewLeads?: BoolFilter<"Setor"> | boolean
+    canCreateLeads?: BoolFilter<"Setor"> | boolean
+    canViewTickets?: BoolFilter<"Setor"> | boolean
+    canCreateTickets?: BoolFilter<"Setor"> | boolean
+    canViewConfig?: BoolFilter<"Setor"> | boolean
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    users?: SetorUserListRelationFilter
+    instances?: SetorInstanceListRelationFilter
+    tickets?: TicketListRelationFilter
+  }
+
+  export type SetorOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    companyId?: SortOrder
+    canManageUsers?: SortOrder
+    canViewLeads?: SortOrder
+    canCreateLeads?: SortOrder
+    canViewTickets?: SortOrder
+    canCreateTickets?: SortOrder
+    canViewConfig?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    users?: SetorUserOrderByRelationAggregateInput
+    instances?: SetorInstanceOrderByRelationAggregateInput
+    tickets?: TicketOrderByRelationAggregateInput
+  }
+
+  export type SetorWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SetorWhereInput | SetorWhereInput[]
+    OR?: SetorWhereInput[]
+    NOT?: SetorWhereInput | SetorWhereInput[]
+    name?: StringFilter<"Setor"> | string
+    createdAt?: DateTimeFilter<"Setor"> | Date | string
+    updatedAt?: DateTimeFilter<"Setor"> | Date | string
+    companyId?: StringFilter<"Setor"> | string
+    canManageUsers?: BoolFilter<"Setor"> | boolean
+    canViewLeads?: BoolFilter<"Setor"> | boolean
+    canCreateLeads?: BoolFilter<"Setor"> | boolean
+    canViewTickets?: BoolFilter<"Setor"> | boolean
+    canCreateTickets?: BoolFilter<"Setor"> | boolean
+    canViewConfig?: BoolFilter<"Setor"> | boolean
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    users?: SetorUserListRelationFilter
+    instances?: SetorInstanceListRelationFilter
+    tickets?: TicketListRelationFilter
+  }, "id">
+
+  export type SetorOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    companyId?: SortOrder
+    canManageUsers?: SortOrder
+    canViewLeads?: SortOrder
+    canCreateLeads?: SortOrder
+    canViewTickets?: SortOrder
+    canCreateTickets?: SortOrder
+    canViewConfig?: SortOrder
+    _count?: SetorCountOrderByAggregateInput
+    _max?: SetorMaxOrderByAggregateInput
+    _min?: SetorMinOrderByAggregateInput
+  }
+
+  export type SetorScalarWhereWithAggregatesInput = {
+    AND?: SetorScalarWhereWithAggregatesInput | SetorScalarWhereWithAggregatesInput[]
+    OR?: SetorScalarWhereWithAggregatesInput[]
+    NOT?: SetorScalarWhereWithAggregatesInput | SetorScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Setor"> | string
+    name?: StringWithAggregatesFilter<"Setor"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Setor"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Setor"> | Date | string
+    companyId?: StringWithAggregatesFilter<"Setor"> | string
+    canManageUsers?: BoolWithAggregatesFilter<"Setor"> | boolean
+    canViewLeads?: BoolWithAggregatesFilter<"Setor"> | boolean
+    canCreateLeads?: BoolWithAggregatesFilter<"Setor"> | boolean
+    canViewTickets?: BoolWithAggregatesFilter<"Setor"> | boolean
+    canCreateTickets?: BoolWithAggregatesFilter<"Setor"> | boolean
+    canViewConfig?: BoolWithAggregatesFilter<"Setor"> | boolean
+  }
+
+  export type SetorUserWhereInput = {
+    AND?: SetorUserWhereInput | SetorUserWhereInput[]
+    OR?: SetorUserWhereInput[]
+    NOT?: SetorUserWhereInput | SetorUserWhereInput[]
+    setorId?: StringFilter<"SetorUser"> | string
+    userId?: StringFilter<"SetorUser"> | string
+    setor?: XOR<SetorRelationFilter, SetorWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type SetorUserOrderByWithRelationInput = {
+    setorId?: SortOrder
+    userId?: SortOrder
+    setor?: SetorOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type SetorUserWhereUniqueInput = Prisma.AtLeast<{
+    setorId_userId?: SetorUserSetorIdUserIdCompoundUniqueInput
+    AND?: SetorUserWhereInput | SetorUserWhereInput[]
+    OR?: SetorUserWhereInput[]
+    NOT?: SetorUserWhereInput | SetorUserWhereInput[]
+    setorId?: StringFilter<"SetorUser"> | string
+    userId?: StringFilter<"SetorUser"> | string
+    setor?: XOR<SetorRelationFilter, SetorWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "setorId_userId">
+
+  export type SetorUserOrderByWithAggregationInput = {
+    setorId?: SortOrder
+    userId?: SortOrder
+    _count?: SetorUserCountOrderByAggregateInput
+    _max?: SetorUserMaxOrderByAggregateInput
+    _min?: SetorUserMinOrderByAggregateInput
+  }
+
+  export type SetorUserScalarWhereWithAggregatesInput = {
+    AND?: SetorUserScalarWhereWithAggregatesInput | SetorUserScalarWhereWithAggregatesInput[]
+    OR?: SetorUserScalarWhereWithAggregatesInput[]
+    NOT?: SetorUserScalarWhereWithAggregatesInput | SetorUserScalarWhereWithAggregatesInput[]
+    setorId?: StringWithAggregatesFilter<"SetorUser"> | string
+    userId?: StringWithAggregatesFilter<"SetorUser"> | string
+  }
+
+  export type SetorInstanceWhereInput = {
+    AND?: SetorInstanceWhereInput | SetorInstanceWhereInput[]
+    OR?: SetorInstanceWhereInput[]
+    NOT?: SetorInstanceWhereInput | SetorInstanceWhereInput[]
+    setorId?: StringFilter<"SetorInstance"> | string
+    instanceId?: StringFilter<"SetorInstance"> | string
+    setor?: XOR<SetorRelationFilter, SetorWhereInput>
+    instance?: XOR<WhatsappInstanceRelationFilter, WhatsappInstanceWhereInput>
+  }
+
+  export type SetorInstanceOrderByWithRelationInput = {
+    setorId?: SortOrder
+    instanceId?: SortOrder
+    setor?: SetorOrderByWithRelationInput
+    instance?: WhatsappInstanceOrderByWithRelationInput
+  }
+
+  export type SetorInstanceWhereUniqueInput = Prisma.AtLeast<{
+    setorId_instanceId?: SetorInstanceSetorIdInstanceIdCompoundUniqueInput
+    AND?: SetorInstanceWhereInput | SetorInstanceWhereInput[]
+    OR?: SetorInstanceWhereInput[]
+    NOT?: SetorInstanceWhereInput | SetorInstanceWhereInput[]
+    setorId?: StringFilter<"SetorInstance"> | string
+    instanceId?: StringFilter<"SetorInstance"> | string
+    setor?: XOR<SetorRelationFilter, SetorWhereInput>
+    instance?: XOR<WhatsappInstanceRelationFilter, WhatsappInstanceWhereInput>
+  }, "setorId_instanceId">
+
+  export type SetorInstanceOrderByWithAggregationInput = {
+    setorId?: SortOrder
+    instanceId?: SortOrder
+    _count?: SetorInstanceCountOrderByAggregateInput
+    _max?: SetorInstanceMaxOrderByAggregateInput
+    _min?: SetorInstanceMinOrderByAggregateInput
+  }
+
+  export type SetorInstanceScalarWhereWithAggregatesInput = {
+    AND?: SetorInstanceScalarWhereWithAggregatesInput | SetorInstanceScalarWhereWithAggregatesInput[]
+    OR?: SetorInstanceScalarWhereWithAggregatesInput[]
+    NOT?: SetorInstanceScalarWhereWithAggregatesInput | SetorInstanceScalarWhereWithAggregatesInput[]
+    setorId?: StringWithAggregatesFilter<"SetorInstance"> | string
+    instanceId?: StringWithAggregatesFilter<"SetorInstance"> | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -20152,9 +23727,11 @@ export namespace Prisma {
     role?: $Enums.UserRole
     createdAt?: Date | string
     updatedAt?: Date | string
+    whatsappSignature?: string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -20165,9 +23742,11 @@ export namespace Prisma {
     role?: $Enums.UserRole
     createdAt?: Date | string
     updatedAt?: Date | string
+    whatsappSignature?: string | null
     companyId?: string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -20178,9 +23757,11 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -20191,9 +23772,11 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -20204,6 +23787,7 @@ export namespace Prisma {
     role?: $Enums.UserRole
     createdAt?: Date | string
     updatedAt?: Date | string
+    whatsappSignature?: string | null
     companyId?: string | null
   }
 
@@ -20215,6 +23799,7 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -20225,6 +23810,7 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -20257,6 +23843,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -20288,6 +23875,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -20319,6 +23907,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -20350,6 +23939,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -21087,6 +24677,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
     messages?: MessageCreateNestedManyWithoutInstanceInput
+    setores?: SetorInstanceCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceUncheckedCreateInput = {
@@ -21100,6 +24691,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     companyId: string
     messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
+    setores?: SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceUpdateInput = {
@@ -21113,6 +24705,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
     messages?: MessageUpdateManyWithoutInstanceNestedInput
+    setores?: SetorInstanceUpdateManyWithoutInstanceNestedInput
   }
 
   export type WhatsappInstanceUncheckedUpdateInput = {
@@ -21126,6 +24719,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
     messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
+    setores?: SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput
   }
 
   export type WhatsappInstanceCreateManyInput = {
@@ -21403,6 +24997,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutTicketsInput
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
+    setor?: SetorCreateNestedOneWithoutTicketsInput
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
   }
 
@@ -21421,6 +25016,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     companyId: string
     createdById?: string | null
+    setorId?: string | null
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
   }
 
@@ -21439,6 +25035,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
+    setor?: SetorUpdateOneWithoutTicketsNestedInput
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
   }
 
@@ -21457,6 +25054,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
   }
 
@@ -21475,6 +25073,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     companyId: string
     createdById?: string | null
+    setorId?: string | null
   }
 
   export type TicketUpdateManyMutationInput = {
@@ -21507,6 +25106,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TicketMessageCreateInput = {
@@ -21578,6 +25178,183 @@ export namespace Prisma {
     ticketId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type SetorCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+    company: CompanyCreateNestedOneWithoutSetoresInput
+    users?: SetorUserCreateNestedManyWithoutSetorInput
+    instances?: SetorInstanceCreateNestedManyWithoutSetorInput
+    tickets?: TicketCreateNestedManyWithoutSetorInput
+  }
+
+  export type SetorUncheckedCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+    users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
+    instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
+  }
+
+  export type SetorUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
+    users?: SetorUserUpdateManyWithoutSetorNestedInput
+    instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
+    tickets?: TicketUpdateManyWithoutSetorNestedInput
+  }
+
+  export type SetorUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
+    instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
+  }
+
+  export type SetorCreateManyInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+  }
+
+  export type SetorUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type SetorUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type SetorUserCreateInput = {
+    setor: SetorCreateNestedOneWithoutUsersInput
+    user: UserCreateNestedOneWithoutSetoresInput
+  }
+
+  export type SetorUserUncheckedCreateInput = {
+    setorId: string
+    userId: string
+  }
+
+  export type SetorUserUpdateInput = {
+    setor?: SetorUpdateOneRequiredWithoutUsersNestedInput
+    user?: UserUpdateOneRequiredWithoutSetoresNestedInput
+  }
+
+  export type SetorUserUncheckedUpdateInput = {
+    setorId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SetorUserCreateManyInput = {
+    setorId: string
+    userId: string
+  }
+
+  export type SetorUserUpdateManyMutationInput = {
+
+  }
+
+  export type SetorUserUncheckedUpdateManyInput = {
+    setorId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SetorInstanceCreateInput = {
+    setor: SetorCreateNestedOneWithoutInstancesInput
+    instance: WhatsappInstanceCreateNestedOneWithoutSetoresInput
+  }
+
+  export type SetorInstanceUncheckedCreateInput = {
+    setorId: string
+    instanceId: string
+  }
+
+  export type SetorInstanceUpdateInput = {
+    setor?: SetorUpdateOneRequiredWithoutInstancesNestedInput
+    instance?: WhatsappInstanceUpdateOneRequiredWithoutSetoresNestedInput
+  }
+
+  export type SetorInstanceUncheckedUpdateInput = {
+    setorId?: StringFieldUpdateOperationsInput | string
+    instanceId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SetorInstanceCreateManyInput = {
+    setorId: string
+    instanceId: string
+  }
+
+  export type SetorInstanceUpdateManyMutationInput = {
+
+  }
+
+  export type SetorInstanceUncheckedUpdateManyInput = {
+    setorId?: StringFieldUpdateOperationsInput | string
+    instanceId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -21642,12 +25419,22 @@ export namespace Prisma {
     isNot?: CompanyContactWhereInput | null
   }
 
+  export type SetorUserListRelationFilter = {
+    every?: SetorUserWhereInput
+    some?: SetorUserWhereInput
+    none?: SetorUserWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type TicketOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SetorUserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -21659,6 +25446,7 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    whatsappSignature?: SortOrder
     companyId?: SortOrder
   }
 
@@ -21670,6 +25458,7 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    whatsappSignature?: SortOrder
     companyId?: SortOrder
   }
 
@@ -21681,6 +25470,7 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    whatsappSignature?: SortOrder
     companyId?: SortOrder
   }
 
@@ -21816,6 +25606,12 @@ export namespace Prisma {
     none?: CompanyContactWhereInput
   }
 
+  export type SetorListRelationFilter = {
+    every?: SetorWhereInput
+    some?: SetorWhereInput
+    none?: SetorWhereInput
+  }
+
   export type CompanyOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -21853,6 +25649,10 @@ export namespace Prisma {
   }
 
   export type CompanyContactOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SetorOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -22439,6 +26239,16 @@ export namespace Prisma {
     not?: NestedEnumInstanceStatusFilter<$PrismaModel> | $Enums.InstanceStatus
   }
 
+  export type SetorInstanceListRelationFilter = {
+    every?: SetorInstanceWhereInput
+    some?: SetorInstanceWhereInput
+    none?: SetorInstanceWhereInput
+  }
+
+  export type SetorInstanceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type WhatsappInstanceCountOrderByAggregateInput = {
     id?: SortOrder
     instanceName?: SortOrder
@@ -22695,6 +26505,11 @@ export namespace Prisma {
     not?: NestedEnumTicketPriorityFilter<$PrismaModel> | $Enums.TicketPriority
   }
 
+  export type SetorNullableRelationFilter = {
+    is?: SetorWhereInput | null
+    isNot?: SetorWhereInput | null
+  }
+
   export type TicketMessageListRelationFilter = {
     every?: TicketMessageWhereInput
     some?: TicketMessageWhereInput
@@ -22720,6 +26535,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     companyId?: SortOrder
     createdById?: SortOrder
+    setorId?: SortOrder
   }
 
   export type TicketMaxOrderByAggregateInput = {
@@ -22737,6 +26553,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     companyId?: SortOrder
     createdById?: SortOrder
+    setorId?: SortOrder
   }
 
   export type TicketMinOrderByAggregateInput = {
@@ -22754,6 +26571,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     companyId?: SortOrder
     createdById?: SortOrder
+    setorId?: SortOrder
   }
 
   export type EnumTicketStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -22811,6 +26629,103 @@ export namespace Prisma {
     ticketId?: SortOrder
   }
 
+  export type SetorCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    companyId?: SortOrder
+    canManageUsers?: SortOrder
+    canViewLeads?: SortOrder
+    canCreateLeads?: SortOrder
+    canViewTickets?: SortOrder
+    canCreateTickets?: SortOrder
+    canViewConfig?: SortOrder
+  }
+
+  export type SetorMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    companyId?: SortOrder
+    canManageUsers?: SortOrder
+    canViewLeads?: SortOrder
+    canCreateLeads?: SortOrder
+    canViewTickets?: SortOrder
+    canCreateTickets?: SortOrder
+    canViewConfig?: SortOrder
+  }
+
+  export type SetorMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    companyId?: SortOrder
+    canManageUsers?: SortOrder
+    canViewLeads?: SortOrder
+    canCreateLeads?: SortOrder
+    canViewTickets?: SortOrder
+    canCreateTickets?: SortOrder
+    canViewConfig?: SortOrder
+  }
+
+  export type SetorRelationFilter = {
+    is?: SetorWhereInput
+    isNot?: SetorWhereInput
+  }
+
+  export type UserRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type SetorUserSetorIdUserIdCompoundUniqueInput = {
+    setorId: string
+    userId: string
+  }
+
+  export type SetorUserCountOrderByAggregateInput = {
+    setorId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SetorUserMaxOrderByAggregateInput = {
+    setorId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SetorUserMinOrderByAggregateInput = {
+    setorId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type WhatsappInstanceRelationFilter = {
+    is?: WhatsappInstanceWhereInput
+    isNot?: WhatsappInstanceWhereInput
+  }
+
+  export type SetorInstanceSetorIdInstanceIdCompoundUniqueInput = {
+    setorId: string
+    instanceId: string
+  }
+
+  export type SetorInstanceCountOrderByAggregateInput = {
+    setorId?: SortOrder
+    instanceId?: SortOrder
+  }
+
+  export type SetorInstanceMaxOrderByAggregateInput = {
+    setorId?: SortOrder
+    instanceId?: SortOrder
+  }
+
+  export type SetorInstanceMinOrderByAggregateInput = {
+    setorId?: SortOrder
+    instanceId?: SortOrder
+  }
+
   export type CompanyCreateNestedOneWithoutUsersInput = {
     create?: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutUsersInput
@@ -22830,6 +26745,13 @@ export namespace Prisma {
     connect?: CompanyContactWhereUniqueInput
   }
 
+  export type SetorUserCreateNestedManyWithoutUserInput = {
+    create?: XOR<SetorUserCreateWithoutUserInput, SetorUserUncheckedCreateWithoutUserInput> | SetorUserCreateWithoutUserInput[] | SetorUserUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SetorUserCreateOrConnectWithoutUserInput | SetorUserCreateOrConnectWithoutUserInput[]
+    createMany?: SetorUserCreateManyUserInputEnvelope
+    connect?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+  }
+
   export type TicketUncheckedCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -22843,6 +26765,13 @@ export namespace Prisma {
     connect?: CompanyContactWhereUniqueInput
   }
 
+  export type SetorUserUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<SetorUserCreateWithoutUserInput, SetorUserUncheckedCreateWithoutUserInput> | SetorUserCreateWithoutUserInput[] | SetorUserUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SetorUserCreateOrConnectWithoutUserInput | SetorUserCreateOrConnectWithoutUserInput[]
+    createMany?: SetorUserCreateManyUserInputEnvelope
+    connect?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -22853,6 +26782,10 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type CompanyUpdateOneWithoutUsersNestedInput = {
@@ -22889,8 +26822,18 @@ export namespace Prisma {
     update?: XOR<XOR<CompanyContactUpdateToOneWithWhereWithoutUserInput, CompanyContactUpdateWithoutUserInput>, CompanyContactUncheckedUpdateWithoutUserInput>
   }
 
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
+  export type SetorUserUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SetorUserCreateWithoutUserInput, SetorUserUncheckedCreateWithoutUserInput> | SetorUserCreateWithoutUserInput[] | SetorUserUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SetorUserCreateOrConnectWithoutUserInput | SetorUserCreateOrConnectWithoutUserInput[]
+    upsert?: SetorUserUpsertWithWhereUniqueWithoutUserInput | SetorUserUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SetorUserCreateManyUserInputEnvelope
+    set?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+    disconnect?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+    delete?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+    connect?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+    update?: SetorUserUpdateWithWhereUniqueWithoutUserInput | SetorUserUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SetorUserUpdateManyWithWhereWithoutUserInput | SetorUserUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SetorUserScalarWhereInput | SetorUserScalarWhereInput[]
   }
 
   export type TicketUncheckedUpdateManyWithoutCreatedByNestedInput = {
@@ -22915,6 +26858,20 @@ export namespace Prisma {
     delete?: CompanyContactWhereInput | boolean
     connect?: CompanyContactWhereUniqueInput
     update?: XOR<XOR<CompanyContactUpdateToOneWithWhereWithoutUserInput, CompanyContactUpdateWithoutUserInput>, CompanyContactUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SetorUserUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SetorUserCreateWithoutUserInput, SetorUserUncheckedCreateWithoutUserInput> | SetorUserCreateWithoutUserInput[] | SetorUserUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SetorUserCreateOrConnectWithoutUserInput | SetorUserCreateOrConnectWithoutUserInput[]
+    upsert?: SetorUserUpsertWithWhereUniqueWithoutUserInput | SetorUserUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SetorUserCreateManyUserInputEnvelope
+    set?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+    disconnect?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+    delete?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+    connect?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+    update?: SetorUserUpdateWithWhereUniqueWithoutUserInput | SetorUserUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SetorUserUpdateManyWithWhereWithoutUserInput | SetorUserUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SetorUserScalarWhereInput | SetorUserScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutSubCompaniesInput = {
@@ -23000,6 +26957,13 @@ export namespace Prisma {
     connect?: CompanyContactWhereUniqueInput | CompanyContactWhereUniqueInput[]
   }
 
+  export type SetorCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<SetorCreateWithoutCompanyInput, SetorUncheckedCreateWithoutCompanyInput> | SetorCreateWithoutCompanyInput[] | SetorUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: SetorCreateOrConnectWithoutCompanyInput | SetorCreateOrConnectWithoutCompanyInput[]
+    createMany?: SetorCreateManyCompanyInputEnvelope
+    connect?: SetorWhereUniqueInput | SetorWhereUniqueInput[]
+  }
+
   export type CompanyUncheckedCreateNestedManyWithoutParentCompanyInput = {
     create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
@@ -23075,6 +27039,13 @@ export namespace Prisma {
     connectOrCreate?: CompanyContactCreateOrConnectWithoutCompanyInput | CompanyContactCreateOrConnectWithoutCompanyInput[]
     createMany?: CompanyContactCreateManyCompanyInputEnvelope
     connect?: CompanyContactWhereUniqueInput | CompanyContactWhereUniqueInput[]
+  }
+
+  export type SetorUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<SetorCreateWithoutCompanyInput, SetorUncheckedCreateWithoutCompanyInput> | SetorCreateWithoutCompanyInput[] | SetorUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: SetorCreateOrConnectWithoutCompanyInput | SetorCreateOrConnectWithoutCompanyInput[]
+    createMany?: SetorCreateManyCompanyInputEnvelope
+    connect?: SetorWhereUniqueInput | SetorWhereUniqueInput[]
   }
 
   export type EnumCompanyStatusFieldUpdateOperationsInput = {
@@ -23249,6 +27220,20 @@ export namespace Prisma {
     deleteMany?: CompanyContactScalarWhereInput | CompanyContactScalarWhereInput[]
   }
 
+  export type SetorUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<SetorCreateWithoutCompanyInput, SetorUncheckedCreateWithoutCompanyInput> | SetorCreateWithoutCompanyInput[] | SetorUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: SetorCreateOrConnectWithoutCompanyInput | SetorCreateOrConnectWithoutCompanyInput[]
+    upsert?: SetorUpsertWithWhereUniqueWithoutCompanyInput | SetorUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: SetorCreateManyCompanyInputEnvelope
+    set?: SetorWhereUniqueInput | SetorWhereUniqueInput[]
+    disconnect?: SetorWhereUniqueInput | SetorWhereUniqueInput[]
+    delete?: SetorWhereUniqueInput | SetorWhereUniqueInput[]
+    connect?: SetorWhereUniqueInput | SetorWhereUniqueInput[]
+    update?: SetorUpdateWithWhereUniqueWithoutCompanyInput | SetorUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: SetorUpdateManyWithWhereWithoutCompanyInput | SetorUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: SetorScalarWhereInput | SetorScalarWhereInput[]
+  }
+
   export type CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput = {
     create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
@@ -23401,6 +27386,20 @@ export namespace Prisma {
     update?: CompanyContactUpdateWithWhereUniqueWithoutCompanyInput | CompanyContactUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: CompanyContactUpdateManyWithWhereWithoutCompanyInput | CompanyContactUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: CompanyContactScalarWhereInput | CompanyContactScalarWhereInput[]
+  }
+
+  export type SetorUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<SetorCreateWithoutCompanyInput, SetorUncheckedCreateWithoutCompanyInput> | SetorCreateWithoutCompanyInput[] | SetorUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: SetorCreateOrConnectWithoutCompanyInput | SetorCreateOrConnectWithoutCompanyInput[]
+    upsert?: SetorUpsertWithWhereUniqueWithoutCompanyInput | SetorUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: SetorCreateManyCompanyInputEnvelope
+    set?: SetorWhereUniqueInput | SetorWhereUniqueInput[]
+    disconnect?: SetorWhereUniqueInput | SetorWhereUniqueInput[]
+    delete?: SetorWhereUniqueInput | SetorWhereUniqueInput[]
+    connect?: SetorWhereUniqueInput | SetorWhereUniqueInput[]
+    update?: SetorUpdateWithWhereUniqueWithoutCompanyInput | SetorUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: SetorUpdateManyWithWhereWithoutCompanyInput | SetorUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: SetorScalarWhereInput | SetorScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutCampaignsInput = {
@@ -23948,11 +27947,25 @@ export namespace Prisma {
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
+  export type SetorInstanceCreateNestedManyWithoutInstanceInput = {
+    create?: XOR<SetorInstanceCreateWithoutInstanceInput, SetorInstanceUncheckedCreateWithoutInstanceInput> | SetorInstanceCreateWithoutInstanceInput[] | SetorInstanceUncheckedCreateWithoutInstanceInput[]
+    connectOrCreate?: SetorInstanceCreateOrConnectWithoutInstanceInput | SetorInstanceCreateOrConnectWithoutInstanceInput[]
+    createMany?: SetorInstanceCreateManyInstanceInputEnvelope
+    connect?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+  }
+
   export type MessageUncheckedCreateNestedManyWithoutInstanceInput = {
     create?: XOR<MessageCreateWithoutInstanceInput, MessageUncheckedCreateWithoutInstanceInput> | MessageCreateWithoutInstanceInput[] | MessageUncheckedCreateWithoutInstanceInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutInstanceInput | MessageCreateOrConnectWithoutInstanceInput[]
     createMany?: MessageCreateManyInstanceInputEnvelope
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput = {
+    create?: XOR<SetorInstanceCreateWithoutInstanceInput, SetorInstanceUncheckedCreateWithoutInstanceInput> | SetorInstanceCreateWithoutInstanceInput[] | SetorInstanceUncheckedCreateWithoutInstanceInput[]
+    connectOrCreate?: SetorInstanceCreateOrConnectWithoutInstanceInput | SetorInstanceCreateOrConnectWithoutInstanceInput[]
+    createMany?: SetorInstanceCreateManyInstanceInputEnvelope
+    connect?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
   }
 
   export type EnumInstanceStatusFieldUpdateOperationsInput = {
@@ -23981,6 +27994,20 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
+  export type SetorInstanceUpdateManyWithoutInstanceNestedInput = {
+    create?: XOR<SetorInstanceCreateWithoutInstanceInput, SetorInstanceUncheckedCreateWithoutInstanceInput> | SetorInstanceCreateWithoutInstanceInput[] | SetorInstanceUncheckedCreateWithoutInstanceInput[]
+    connectOrCreate?: SetorInstanceCreateOrConnectWithoutInstanceInput | SetorInstanceCreateOrConnectWithoutInstanceInput[]
+    upsert?: SetorInstanceUpsertWithWhereUniqueWithoutInstanceInput | SetorInstanceUpsertWithWhereUniqueWithoutInstanceInput[]
+    createMany?: SetorInstanceCreateManyInstanceInputEnvelope
+    set?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+    disconnect?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+    delete?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+    connect?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+    update?: SetorInstanceUpdateWithWhereUniqueWithoutInstanceInput | SetorInstanceUpdateWithWhereUniqueWithoutInstanceInput[]
+    updateMany?: SetorInstanceUpdateManyWithWhereWithoutInstanceInput | SetorInstanceUpdateManyWithWhereWithoutInstanceInput[]
+    deleteMany?: SetorInstanceScalarWhereInput | SetorInstanceScalarWhereInput[]
+  }
+
   export type MessageUncheckedUpdateManyWithoutInstanceNestedInput = {
     create?: XOR<MessageCreateWithoutInstanceInput, MessageUncheckedCreateWithoutInstanceInput> | MessageCreateWithoutInstanceInput[] | MessageUncheckedCreateWithoutInstanceInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutInstanceInput | MessageCreateOrConnectWithoutInstanceInput[]
@@ -23993,6 +28020,20 @@ export namespace Prisma {
     update?: MessageUpdateWithWhereUniqueWithoutInstanceInput | MessageUpdateWithWhereUniqueWithoutInstanceInput[]
     updateMany?: MessageUpdateManyWithWhereWithoutInstanceInput | MessageUpdateManyWithWhereWithoutInstanceInput[]
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
+  export type SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput = {
+    create?: XOR<SetorInstanceCreateWithoutInstanceInput, SetorInstanceUncheckedCreateWithoutInstanceInput> | SetorInstanceCreateWithoutInstanceInput[] | SetorInstanceUncheckedCreateWithoutInstanceInput[]
+    connectOrCreate?: SetorInstanceCreateOrConnectWithoutInstanceInput | SetorInstanceCreateOrConnectWithoutInstanceInput[]
+    upsert?: SetorInstanceUpsertWithWhereUniqueWithoutInstanceInput | SetorInstanceUpsertWithWhereUniqueWithoutInstanceInput[]
+    createMany?: SetorInstanceCreateManyInstanceInputEnvelope
+    set?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+    disconnect?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+    delete?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+    connect?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+    update?: SetorInstanceUpdateWithWhereUniqueWithoutInstanceInput | SetorInstanceUpdateWithWhereUniqueWithoutInstanceInput[]
+    updateMany?: SetorInstanceUpdateManyWithWhereWithoutInstanceInput | SetorInstanceUpdateManyWithWhereWithoutInstanceInput[]
+    deleteMany?: SetorInstanceScalarWhereInput | SetorInstanceScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutMessagesInput = {
@@ -24109,6 +28150,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type SetorCreateNestedOneWithoutTicketsInput = {
+    create?: XOR<SetorCreateWithoutTicketsInput, SetorUncheckedCreateWithoutTicketsInput>
+    connectOrCreate?: SetorCreateOrConnectWithoutTicketsInput
+    connect?: SetorWhereUniqueInput
+  }
+
   export type TicketMessageCreateNestedManyWithoutTicketInput = {
     create?: XOR<TicketMessageCreateWithoutTicketInput, TicketMessageUncheckedCreateWithoutTicketInput> | TicketMessageCreateWithoutTicketInput[] | TicketMessageUncheckedCreateWithoutTicketInput[]
     connectOrCreate?: TicketMessageCreateOrConnectWithoutTicketInput | TicketMessageCreateOrConnectWithoutTicketInput[]
@@ -24147,6 +28194,16 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTicketsCreatedInput, UserUpdateWithoutTicketsCreatedInput>, UserUncheckedUpdateWithoutTicketsCreatedInput>
+  }
+
+  export type SetorUpdateOneWithoutTicketsNestedInput = {
+    create?: XOR<SetorCreateWithoutTicketsInput, SetorUncheckedCreateWithoutTicketsInput>
+    connectOrCreate?: SetorCreateOrConnectWithoutTicketsInput
+    upsert?: SetorUpsertWithoutTicketsInput
+    disconnect?: SetorWhereInput | boolean
+    delete?: SetorWhereInput | boolean
+    connect?: SetorWhereUniqueInput
+    update?: XOR<XOR<SetorUpdateToOneWithWhereWithoutTicketsInput, SetorUpdateWithoutTicketsInput>, SetorUncheckedUpdateWithoutTicketsInput>
   }
 
   export type TicketMessageUpdateManyWithoutTicketNestedInput = {
@@ -24189,6 +28246,202 @@ export namespace Prisma {
     upsert?: TicketUpsertWithoutMessagesInput
     connect?: TicketWhereUniqueInput
     update?: XOR<XOR<TicketUpdateToOneWithWhereWithoutMessagesInput, TicketUpdateWithoutMessagesInput>, TicketUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutSetoresInput = {
+    create?: XOR<CompanyCreateWithoutSetoresInput, CompanyUncheckedCreateWithoutSetoresInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutSetoresInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type SetorUserCreateNestedManyWithoutSetorInput = {
+    create?: XOR<SetorUserCreateWithoutSetorInput, SetorUserUncheckedCreateWithoutSetorInput> | SetorUserCreateWithoutSetorInput[] | SetorUserUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: SetorUserCreateOrConnectWithoutSetorInput | SetorUserCreateOrConnectWithoutSetorInput[]
+    createMany?: SetorUserCreateManySetorInputEnvelope
+    connect?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+  }
+
+  export type SetorInstanceCreateNestedManyWithoutSetorInput = {
+    create?: XOR<SetorInstanceCreateWithoutSetorInput, SetorInstanceUncheckedCreateWithoutSetorInput> | SetorInstanceCreateWithoutSetorInput[] | SetorInstanceUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: SetorInstanceCreateOrConnectWithoutSetorInput | SetorInstanceCreateOrConnectWithoutSetorInput[]
+    createMany?: SetorInstanceCreateManySetorInputEnvelope
+    connect?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+  }
+
+  export type TicketCreateNestedManyWithoutSetorInput = {
+    create?: XOR<TicketCreateWithoutSetorInput, TicketUncheckedCreateWithoutSetorInput> | TicketCreateWithoutSetorInput[] | TicketUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutSetorInput | TicketCreateOrConnectWithoutSetorInput[]
+    createMany?: TicketCreateManySetorInputEnvelope
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+  }
+
+  export type SetorUserUncheckedCreateNestedManyWithoutSetorInput = {
+    create?: XOR<SetorUserCreateWithoutSetorInput, SetorUserUncheckedCreateWithoutSetorInput> | SetorUserCreateWithoutSetorInput[] | SetorUserUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: SetorUserCreateOrConnectWithoutSetorInput | SetorUserCreateOrConnectWithoutSetorInput[]
+    createMany?: SetorUserCreateManySetorInputEnvelope
+    connect?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+  }
+
+  export type SetorInstanceUncheckedCreateNestedManyWithoutSetorInput = {
+    create?: XOR<SetorInstanceCreateWithoutSetorInput, SetorInstanceUncheckedCreateWithoutSetorInput> | SetorInstanceCreateWithoutSetorInput[] | SetorInstanceUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: SetorInstanceCreateOrConnectWithoutSetorInput | SetorInstanceCreateOrConnectWithoutSetorInput[]
+    createMany?: SetorInstanceCreateManySetorInputEnvelope
+    connect?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+  }
+
+  export type TicketUncheckedCreateNestedManyWithoutSetorInput = {
+    create?: XOR<TicketCreateWithoutSetorInput, TicketUncheckedCreateWithoutSetorInput> | TicketCreateWithoutSetorInput[] | TicketUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutSetorInput | TicketCreateOrConnectWithoutSetorInput[]
+    createMany?: TicketCreateManySetorInputEnvelope
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+  }
+
+  export type CompanyUpdateOneRequiredWithoutSetoresNestedInput = {
+    create?: XOR<CompanyCreateWithoutSetoresInput, CompanyUncheckedCreateWithoutSetoresInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutSetoresInput
+    upsert?: CompanyUpsertWithoutSetoresInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutSetoresInput, CompanyUpdateWithoutSetoresInput>, CompanyUncheckedUpdateWithoutSetoresInput>
+  }
+
+  export type SetorUserUpdateManyWithoutSetorNestedInput = {
+    create?: XOR<SetorUserCreateWithoutSetorInput, SetorUserUncheckedCreateWithoutSetorInput> | SetorUserCreateWithoutSetorInput[] | SetorUserUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: SetorUserCreateOrConnectWithoutSetorInput | SetorUserCreateOrConnectWithoutSetorInput[]
+    upsert?: SetorUserUpsertWithWhereUniqueWithoutSetorInput | SetorUserUpsertWithWhereUniqueWithoutSetorInput[]
+    createMany?: SetorUserCreateManySetorInputEnvelope
+    set?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+    disconnect?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+    delete?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+    connect?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+    update?: SetorUserUpdateWithWhereUniqueWithoutSetorInput | SetorUserUpdateWithWhereUniqueWithoutSetorInput[]
+    updateMany?: SetorUserUpdateManyWithWhereWithoutSetorInput | SetorUserUpdateManyWithWhereWithoutSetorInput[]
+    deleteMany?: SetorUserScalarWhereInput | SetorUserScalarWhereInput[]
+  }
+
+  export type SetorInstanceUpdateManyWithoutSetorNestedInput = {
+    create?: XOR<SetorInstanceCreateWithoutSetorInput, SetorInstanceUncheckedCreateWithoutSetorInput> | SetorInstanceCreateWithoutSetorInput[] | SetorInstanceUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: SetorInstanceCreateOrConnectWithoutSetorInput | SetorInstanceCreateOrConnectWithoutSetorInput[]
+    upsert?: SetorInstanceUpsertWithWhereUniqueWithoutSetorInput | SetorInstanceUpsertWithWhereUniqueWithoutSetorInput[]
+    createMany?: SetorInstanceCreateManySetorInputEnvelope
+    set?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+    disconnect?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+    delete?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+    connect?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+    update?: SetorInstanceUpdateWithWhereUniqueWithoutSetorInput | SetorInstanceUpdateWithWhereUniqueWithoutSetorInput[]
+    updateMany?: SetorInstanceUpdateManyWithWhereWithoutSetorInput | SetorInstanceUpdateManyWithWhereWithoutSetorInput[]
+    deleteMany?: SetorInstanceScalarWhereInput | SetorInstanceScalarWhereInput[]
+  }
+
+  export type TicketUpdateManyWithoutSetorNestedInput = {
+    create?: XOR<TicketCreateWithoutSetorInput, TicketUncheckedCreateWithoutSetorInput> | TicketCreateWithoutSetorInput[] | TicketUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutSetorInput | TicketCreateOrConnectWithoutSetorInput[]
+    upsert?: TicketUpsertWithWhereUniqueWithoutSetorInput | TicketUpsertWithWhereUniqueWithoutSetorInput[]
+    createMany?: TicketCreateManySetorInputEnvelope
+    set?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    disconnect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    delete?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    update?: TicketUpdateWithWhereUniqueWithoutSetorInput | TicketUpdateWithWhereUniqueWithoutSetorInput[]
+    updateMany?: TicketUpdateManyWithWhereWithoutSetorInput | TicketUpdateManyWithWhereWithoutSetorInput[]
+    deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
+  export type SetorUserUncheckedUpdateManyWithoutSetorNestedInput = {
+    create?: XOR<SetorUserCreateWithoutSetorInput, SetorUserUncheckedCreateWithoutSetorInput> | SetorUserCreateWithoutSetorInput[] | SetorUserUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: SetorUserCreateOrConnectWithoutSetorInput | SetorUserCreateOrConnectWithoutSetorInput[]
+    upsert?: SetorUserUpsertWithWhereUniqueWithoutSetorInput | SetorUserUpsertWithWhereUniqueWithoutSetorInput[]
+    createMany?: SetorUserCreateManySetorInputEnvelope
+    set?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+    disconnect?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+    delete?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+    connect?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+    update?: SetorUserUpdateWithWhereUniqueWithoutSetorInput | SetorUserUpdateWithWhereUniqueWithoutSetorInput[]
+    updateMany?: SetorUserUpdateManyWithWhereWithoutSetorInput | SetorUserUpdateManyWithWhereWithoutSetorInput[]
+    deleteMany?: SetorUserScalarWhereInput | SetorUserScalarWhereInput[]
+  }
+
+  export type SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput = {
+    create?: XOR<SetorInstanceCreateWithoutSetorInput, SetorInstanceUncheckedCreateWithoutSetorInput> | SetorInstanceCreateWithoutSetorInput[] | SetorInstanceUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: SetorInstanceCreateOrConnectWithoutSetorInput | SetorInstanceCreateOrConnectWithoutSetorInput[]
+    upsert?: SetorInstanceUpsertWithWhereUniqueWithoutSetorInput | SetorInstanceUpsertWithWhereUniqueWithoutSetorInput[]
+    createMany?: SetorInstanceCreateManySetorInputEnvelope
+    set?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+    disconnect?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+    delete?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+    connect?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+    update?: SetorInstanceUpdateWithWhereUniqueWithoutSetorInput | SetorInstanceUpdateWithWhereUniqueWithoutSetorInput[]
+    updateMany?: SetorInstanceUpdateManyWithWhereWithoutSetorInput | SetorInstanceUpdateManyWithWhereWithoutSetorInput[]
+    deleteMany?: SetorInstanceScalarWhereInput | SetorInstanceScalarWhereInput[]
+  }
+
+  export type TicketUncheckedUpdateManyWithoutSetorNestedInput = {
+    create?: XOR<TicketCreateWithoutSetorInput, TicketUncheckedCreateWithoutSetorInput> | TicketCreateWithoutSetorInput[] | TicketUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutSetorInput | TicketCreateOrConnectWithoutSetorInput[]
+    upsert?: TicketUpsertWithWhereUniqueWithoutSetorInput | TicketUpsertWithWhereUniqueWithoutSetorInput[]
+    createMany?: TicketCreateManySetorInputEnvelope
+    set?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    disconnect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    delete?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    update?: TicketUpdateWithWhereUniqueWithoutSetorInput | TicketUpdateWithWhereUniqueWithoutSetorInput[]
+    updateMany?: TicketUpdateManyWithWhereWithoutSetorInput | TicketUpdateManyWithWhereWithoutSetorInput[]
+    deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
+  export type SetorCreateNestedOneWithoutUsersInput = {
+    create?: XOR<SetorCreateWithoutUsersInput, SetorUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: SetorCreateOrConnectWithoutUsersInput
+    connect?: SetorWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutSetoresInput = {
+    create?: XOR<UserCreateWithoutSetoresInput, UserUncheckedCreateWithoutSetoresInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSetoresInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type SetorUpdateOneRequiredWithoutUsersNestedInput = {
+    create?: XOR<SetorCreateWithoutUsersInput, SetorUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: SetorCreateOrConnectWithoutUsersInput
+    upsert?: SetorUpsertWithoutUsersInput
+    connect?: SetorWhereUniqueInput
+    update?: XOR<XOR<SetorUpdateToOneWithWhereWithoutUsersInput, SetorUpdateWithoutUsersInput>, SetorUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutSetoresNestedInput = {
+    create?: XOR<UserCreateWithoutSetoresInput, UserUncheckedCreateWithoutSetoresInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSetoresInput
+    upsert?: UserUpsertWithoutSetoresInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSetoresInput, UserUpdateWithoutSetoresInput>, UserUncheckedUpdateWithoutSetoresInput>
+  }
+
+  export type SetorCreateNestedOneWithoutInstancesInput = {
+    create?: XOR<SetorCreateWithoutInstancesInput, SetorUncheckedCreateWithoutInstancesInput>
+    connectOrCreate?: SetorCreateOrConnectWithoutInstancesInput
+    connect?: SetorWhereUniqueInput
+  }
+
+  export type WhatsappInstanceCreateNestedOneWithoutSetoresInput = {
+    create?: XOR<WhatsappInstanceCreateWithoutSetoresInput, WhatsappInstanceUncheckedCreateWithoutSetoresInput>
+    connectOrCreate?: WhatsappInstanceCreateOrConnectWithoutSetoresInput
+    connect?: WhatsappInstanceWhereUniqueInput
+  }
+
+  export type SetorUpdateOneRequiredWithoutInstancesNestedInput = {
+    create?: XOR<SetorCreateWithoutInstancesInput, SetorUncheckedCreateWithoutInstancesInput>
+    connectOrCreate?: SetorCreateOrConnectWithoutInstancesInput
+    upsert?: SetorUpsertWithoutInstancesInput
+    connect?: SetorWhereUniqueInput
+    update?: XOR<XOR<SetorUpdateToOneWithWhereWithoutInstancesInput, SetorUpdateWithoutInstancesInput>, SetorUncheckedUpdateWithoutInstancesInput>
+  }
+
+  export type WhatsappInstanceUpdateOneRequiredWithoutSetoresNestedInput = {
+    create?: XOR<WhatsappInstanceCreateWithoutSetoresInput, WhatsappInstanceUncheckedCreateWithoutSetoresInput>
+    connectOrCreate?: WhatsappInstanceCreateOrConnectWithoutSetoresInput
+    upsert?: WhatsappInstanceUpsertWithoutSetoresInput
+    connect?: WhatsappInstanceWhereUniqueInput
+    update?: XOR<XOR<WhatsappInstanceUpdateToOneWithWhereWithoutSetoresInput, WhatsappInstanceUpdateWithoutSetoresInput>, WhatsappInstanceUncheckedUpdateWithoutSetoresInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -24612,6 +28865,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -24642,6 +28896,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -24663,6 +28918,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutTicketsInput
+    setor?: SetorCreateNestedOneWithoutTicketsInput
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
   }
 
@@ -24680,6 +28936,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
+    setorId?: string | null
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
   }
 
@@ -24722,6 +28979,24 @@ export namespace Prisma {
     create: XOR<CompanyContactCreateWithoutUserInput, CompanyContactUncheckedCreateWithoutUserInput>
   }
 
+  export type SetorUserCreateWithoutUserInput = {
+    setor: SetorCreateNestedOneWithoutUsersInput
+  }
+
+  export type SetorUserUncheckedCreateWithoutUserInput = {
+    setorId: string
+  }
+
+  export type SetorUserCreateOrConnectWithoutUserInput = {
+    where: SetorUserWhereUniqueInput
+    create: XOR<SetorUserCreateWithoutUserInput, SetorUserUncheckedCreateWithoutUserInput>
+  }
+
+  export type SetorUserCreateManyUserInputEnvelope = {
+    data: SetorUserCreateManyUserInput | SetorUserCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutUsersInput = {
     update: XOR<CompanyUpdateWithoutUsersInput, CompanyUncheckedUpdateWithoutUsersInput>
     create: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
@@ -24761,6 +29036,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -24791,6 +29067,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type TicketUpsertWithWhereUniqueWithoutCreatedByInput = {
@@ -24827,6 +29104,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     companyId?: StringFilter<"Ticket"> | string
     createdById?: StringNullableFilter<"Ticket"> | string | null
+    setorId?: StringNullableFilter<"Ticket"> | string | null
   }
 
   export type CompanyContactUpsertWithoutUserInput = {
@@ -24864,6 +29142,30 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type SetorUserUpsertWithWhereUniqueWithoutUserInput = {
+    where: SetorUserWhereUniqueInput
+    update: XOR<SetorUserUpdateWithoutUserInput, SetorUserUncheckedUpdateWithoutUserInput>
+    create: XOR<SetorUserCreateWithoutUserInput, SetorUserUncheckedCreateWithoutUserInput>
+  }
+
+  export type SetorUserUpdateWithWhereUniqueWithoutUserInput = {
+    where: SetorUserWhereUniqueInput
+    data: XOR<SetorUserUpdateWithoutUserInput, SetorUserUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SetorUserUpdateManyWithWhereWithoutUserInput = {
+    where: SetorUserScalarWhereInput
+    data: XOR<SetorUserUpdateManyMutationInput, SetorUserUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type SetorUserScalarWhereInput = {
+    AND?: SetorUserScalarWhereInput | SetorUserScalarWhereInput[]
+    OR?: SetorUserScalarWhereInput[]
+    NOT?: SetorUserScalarWhereInput | SetorUserScalarWhereInput[]
+    setorId?: StringFilter<"SetorUser"> | string
+    userId?: StringFilter<"SetorUser"> | string
+  }
+
   export type CompanyCreateWithoutSubCompaniesInput = {
     id?: string
     name: string
@@ -24892,6 +29194,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSubCompaniesInput = {
@@ -24922,6 +29225,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSubCompaniesInput = {
@@ -24957,6 +29261,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutParentCompanyInput = {
@@ -24987,6 +29292,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutParentCompanyInput = {
@@ -25007,8 +29313,10 @@ export namespace Prisma {
     role?: $Enums.UserRole
     createdAt?: Date | string
     updatedAt?: Date | string
+    whatsappSignature?: string | null
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyInput = {
@@ -25019,8 +29327,10 @@ export namespace Prisma {
     role?: $Enums.UserRole
     createdAt?: Date | string
     updatedAt?: Date | string
+    whatsappSignature?: string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyInput = {
@@ -25147,6 +29457,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     messages?: MessageCreateNestedManyWithoutInstanceInput
+    setores?: SetorInstanceCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceUncheckedCreateWithoutCompanyInput = {
@@ -25159,6 +29470,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
+    setores?: SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceCreateOrConnectWithoutCompanyInput = {
@@ -25257,6 +29569,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
+    setor?: SetorCreateNestedOneWithoutTicketsInput
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
   }
 
@@ -25274,6 +29587,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById?: string | null
+    setorId?: string | null
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
   }
 
@@ -25391,6 +29705,48 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SetorCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+    users?: SetorUserCreateNestedManyWithoutSetorInput
+    instances?: SetorInstanceCreateNestedManyWithoutSetorInput
+    tickets?: TicketCreateNestedManyWithoutSetorInput
+  }
+
+  export type SetorUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+    users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
+    instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
+  }
+
+  export type SetorCreateOrConnectWithoutCompanyInput = {
+    where: SetorWhereUniqueInput
+    create: XOR<SetorCreateWithoutCompanyInput, SetorUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type SetorCreateManyCompanyInputEnvelope = {
+    data: SetorCreateManyCompanyInput | SetorCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutSubCompaniesInput = {
     update: XOR<CompanyUpdateWithoutSubCompaniesInput, CompanyUncheckedUpdateWithoutSubCompaniesInput>
     create: XOR<CompanyCreateWithoutSubCompaniesInput, CompanyUncheckedCreateWithoutSubCompaniesInput>
@@ -25430,6 +29786,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSubCompaniesInput = {
@@ -25460,6 +29817,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUpsertWithWhereUniqueWithoutParentCompanyInput = {
@@ -25528,6 +29886,7 @@ export namespace Prisma {
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    whatsappSignature?: StringNullableFilter<"User"> | string | null
     companyId?: StringNullableFilter<"User"> | string | null
   }
 
@@ -25815,6 +30174,39 @@ export namespace Prisma {
     userId?: StringNullableFilter<"CompanyContact"> | string | null
   }
 
+  export type SetorUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: SetorWhereUniqueInput
+    update: XOR<SetorUpdateWithoutCompanyInput, SetorUncheckedUpdateWithoutCompanyInput>
+    create: XOR<SetorCreateWithoutCompanyInput, SetorUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type SetorUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: SetorWhereUniqueInput
+    data: XOR<SetorUpdateWithoutCompanyInput, SetorUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type SetorUpdateManyWithWhereWithoutCompanyInput = {
+    where: SetorScalarWhereInput
+    data: XOR<SetorUpdateManyMutationInput, SetorUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type SetorScalarWhereInput = {
+    AND?: SetorScalarWhereInput | SetorScalarWhereInput[]
+    OR?: SetorScalarWhereInput[]
+    NOT?: SetorScalarWhereInput | SetorScalarWhereInput[]
+    id?: StringFilter<"Setor"> | string
+    name?: StringFilter<"Setor"> | string
+    createdAt?: DateTimeFilter<"Setor"> | Date | string
+    updatedAt?: DateTimeFilter<"Setor"> | Date | string
+    companyId?: StringFilter<"Setor"> | string
+    canManageUsers?: BoolFilter<"Setor"> | boolean
+    canViewLeads?: BoolFilter<"Setor"> | boolean
+    canCreateLeads?: BoolFilter<"Setor"> | boolean
+    canViewTickets?: BoolFilter<"Setor"> | boolean
+    canCreateTickets?: BoolFilter<"Setor"> | boolean
+    canViewConfig?: BoolFilter<"Setor"> | boolean
+  }
+
   export type CompanyCreateWithoutCampaignsInput = {
     id?: string
     name: string
@@ -25843,6 +30235,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCampaignsInput = {
@@ -25873,6 +30266,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCampaignsInput = {
@@ -26091,6 +30485,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCampaignsInput = {
@@ -26121,6 +30516,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -26256,6 +30652,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTrackingLinksInput = {
@@ -26286,6 +30683,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTrackingLinksInput = {
@@ -26461,6 +30859,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTrackingLinksInput = {
@@ -26491,6 +30890,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutTrackingLinkInput = {
@@ -26644,6 +31044,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutLeadsInput = {
@@ -26674,6 +31075,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutLeadsInput = {
@@ -26866,6 +31268,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutLeadsInput = {
@@ -26896,6 +31299,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutLeadsInput = {
@@ -27171,6 +31575,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPipelineStagesInput = {
@@ -27201,6 +31606,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPipelineStagesInput = {
@@ -27247,6 +31653,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPipelineStagesInput = {
@@ -27277,6 +31684,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutContactsInput = {
@@ -27307,6 +31715,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutContactsInput = {
@@ -27337,6 +31746,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutContactsInput = {
@@ -27352,8 +31762,10 @@ export namespace Prisma {
     role?: $Enums.UserRole
     createdAt?: Date | string
     updatedAt?: Date | string
+    whatsappSignature?: string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyContactInput = {
@@ -27364,8 +31776,10 @@ export namespace Prisma {
     role?: $Enums.UserRole
     createdAt?: Date | string
     updatedAt?: Date | string
+    whatsappSignature?: string | null
     companyId?: string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyContactInput = {
@@ -27412,6 +31826,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutContactsInput = {
@@ -27442,6 +31857,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutCompanyContactInput = {
@@ -27463,8 +31879,10 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyContactInput = {
@@ -27475,8 +31893,10 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutWhatsappInstancesInput = {
@@ -27507,6 +31927,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWhatsappInstancesInput = {
@@ -27537,6 +31958,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWhatsappInstancesInput = {
@@ -27588,6 +32010,24 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SetorInstanceCreateWithoutInstanceInput = {
+    setor: SetorCreateNestedOneWithoutInstancesInput
+  }
+
+  export type SetorInstanceUncheckedCreateWithoutInstanceInput = {
+    setorId: string
+  }
+
+  export type SetorInstanceCreateOrConnectWithoutInstanceInput = {
+    where: SetorInstanceWhereUniqueInput
+    create: XOR<SetorInstanceCreateWithoutInstanceInput, SetorInstanceUncheckedCreateWithoutInstanceInput>
+  }
+
+  export type SetorInstanceCreateManyInstanceInputEnvelope = {
+    data: SetorInstanceCreateManyInstanceInput | SetorInstanceCreateManyInstanceInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutWhatsappInstancesInput = {
     update: XOR<CompanyUpdateWithoutWhatsappInstancesInput, CompanyUncheckedUpdateWithoutWhatsappInstancesInput>
     create: XOR<CompanyCreateWithoutWhatsappInstancesInput, CompanyUncheckedCreateWithoutWhatsappInstancesInput>
@@ -27627,6 +32067,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWhatsappInstancesInput = {
@@ -27657,6 +32098,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutInstanceInput = {
@@ -27673,6 +32115,30 @@ export namespace Prisma {
   export type MessageUpdateManyWithWhereWithoutInstanceInput = {
     where: MessageScalarWhereInput
     data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutInstanceInput>
+  }
+
+  export type SetorInstanceUpsertWithWhereUniqueWithoutInstanceInput = {
+    where: SetorInstanceWhereUniqueInput
+    update: XOR<SetorInstanceUpdateWithoutInstanceInput, SetorInstanceUncheckedUpdateWithoutInstanceInput>
+    create: XOR<SetorInstanceCreateWithoutInstanceInput, SetorInstanceUncheckedCreateWithoutInstanceInput>
+  }
+
+  export type SetorInstanceUpdateWithWhereUniqueWithoutInstanceInput = {
+    where: SetorInstanceWhereUniqueInput
+    data: XOR<SetorInstanceUpdateWithoutInstanceInput, SetorInstanceUncheckedUpdateWithoutInstanceInput>
+  }
+
+  export type SetorInstanceUpdateManyWithWhereWithoutInstanceInput = {
+    where: SetorInstanceScalarWhereInput
+    data: XOR<SetorInstanceUpdateManyMutationInput, SetorInstanceUncheckedUpdateManyWithoutInstanceInput>
+  }
+
+  export type SetorInstanceScalarWhereInput = {
+    AND?: SetorInstanceScalarWhereInput | SetorInstanceScalarWhereInput[]
+    OR?: SetorInstanceScalarWhereInput[]
+    NOT?: SetorInstanceScalarWhereInput | SetorInstanceScalarWhereInput[]
+    setorId?: StringFilter<"SetorInstance"> | string
+    instanceId?: StringFilter<"SetorInstance"> | string
   }
 
   export type CompanyCreateWithoutMessagesInput = {
@@ -27703,6 +32169,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMessagesInput = {
@@ -27733,6 +32200,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMessagesInput = {
@@ -27750,6 +32218,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
+    setores?: SetorInstanceCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceUncheckedCreateWithoutMessagesInput = {
@@ -27762,6 +32231,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
+    setores?: SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceCreateOrConnectWithoutMessagesInput = {
@@ -27902,6 +32372,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMessagesInput = {
@@ -27932,6 +32403,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutMessagesInput = {
@@ -27955,6 +32427,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
+    setores?: SetorInstanceUpdateManyWithoutInstanceNestedInput
   }
 
   export type WhatsappInstanceUncheckedUpdateWithoutMessagesInput = {
@@ -27967,6 +32440,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
+    setores?: SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput
   }
 
   export type CampaignUpsertWithoutMessagesInput = {
@@ -28103,6 +32577,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutKeywordRulesInput = {
@@ -28133,6 +32608,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutKeywordRulesInput = {
@@ -28220,6 +32696,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutKeywordRulesInput = {
@@ -28250,6 +32727,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutKeywordRulesInput = {
@@ -28327,6 +32805,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketsInput = {
@@ -28357,6 +32836,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketsInput = {
@@ -28372,8 +32852,10 @@ export namespace Prisma {
     role?: $Enums.UserRole
     createdAt?: Date | string
     updatedAt?: Date | string
+    whatsappSignature?: string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketsCreatedInput = {
@@ -28384,13 +32866,52 @@ export namespace Prisma {
     role?: $Enums.UserRole
     createdAt?: Date | string
     updatedAt?: Date | string
+    whatsappSignature?: string | null
     companyId?: string | null
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketsCreatedInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutTicketsCreatedInput, UserUncheckedCreateWithoutTicketsCreatedInput>
+  }
+
+  export type SetorCreateWithoutTicketsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+    company: CompanyCreateNestedOneWithoutSetoresInput
+    users?: SetorUserCreateNestedManyWithoutSetorInput
+    instances?: SetorInstanceCreateNestedManyWithoutSetorInput
+  }
+
+  export type SetorUncheckedCreateWithoutTicketsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+    users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
+    instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
+  }
+
+  export type SetorCreateOrConnectWithoutTicketsInput = {
+    where: SetorWhereUniqueInput
+    create: XOR<SetorCreateWithoutTicketsInput, SetorUncheckedCreateWithoutTicketsInput>
   }
 
   export type TicketMessageCreateWithoutTicketInput = {
@@ -28460,6 +32981,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketsInput = {
@@ -28490,6 +33012,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTicketsCreatedInput = {
@@ -28511,8 +33034,10 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsCreatedInput = {
@@ -28523,8 +33048,53 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type SetorUpsertWithoutTicketsInput = {
+    update: XOR<SetorUpdateWithoutTicketsInput, SetorUncheckedUpdateWithoutTicketsInput>
+    create: XOR<SetorCreateWithoutTicketsInput, SetorUncheckedCreateWithoutTicketsInput>
+    where?: SetorWhereInput
+  }
+
+  export type SetorUpdateToOneWithWhereWithoutTicketsInput = {
+    where?: SetorWhereInput
+    data: XOR<SetorUpdateWithoutTicketsInput, SetorUncheckedUpdateWithoutTicketsInput>
+  }
+
+  export type SetorUpdateWithoutTicketsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
+    users?: SetorUserUpdateManyWithoutSetorNestedInput
+    instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
+  }
+
+  export type SetorUncheckedUpdateWithoutTicketsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
+    instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
   }
 
   export type TicketMessageUpsertWithWhereUniqueWithoutTicketInput = {
@@ -28571,6 +33141,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutTicketsInput
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
+    setor?: SetorCreateNestedOneWithoutTicketsInput
   }
 
   export type TicketUncheckedCreateWithoutMessagesInput = {
@@ -28588,6 +33159,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     companyId: string
     createdById?: string | null
+    setorId?: string | null
   }
 
   export type TicketCreateOrConnectWithoutMessagesInput = {
@@ -28621,6 +33193,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
+    setor?: SetorUpdateOneWithoutTicketsNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutMessagesInput = {
@@ -28638,6 +33211,577 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CompanyCreateWithoutSetoresInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    triggerOnly?: boolean
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutSetoresInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutSetoresInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutSetoresInput, CompanyUncheckedCreateWithoutSetoresInput>
+  }
+
+  export type SetorUserCreateWithoutSetorInput = {
+    user: UserCreateNestedOneWithoutSetoresInput
+  }
+
+  export type SetorUserUncheckedCreateWithoutSetorInput = {
+    userId: string
+  }
+
+  export type SetorUserCreateOrConnectWithoutSetorInput = {
+    where: SetorUserWhereUniqueInput
+    create: XOR<SetorUserCreateWithoutSetorInput, SetorUserUncheckedCreateWithoutSetorInput>
+  }
+
+  export type SetorUserCreateManySetorInputEnvelope = {
+    data: SetorUserCreateManySetorInput | SetorUserCreateManySetorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SetorInstanceCreateWithoutSetorInput = {
+    instance: WhatsappInstanceCreateNestedOneWithoutSetoresInput
+  }
+
+  export type SetorInstanceUncheckedCreateWithoutSetorInput = {
+    instanceId: string
+  }
+
+  export type SetorInstanceCreateOrConnectWithoutSetorInput = {
+    where: SetorInstanceWhereUniqueInput
+    create: XOR<SetorInstanceCreateWithoutSetorInput, SetorInstanceUncheckedCreateWithoutSetorInput>
+  }
+
+  export type SetorInstanceCreateManySetorInputEnvelope = {
+    data: SetorInstanceCreateManySetorInput | SetorInstanceCreateManySetorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TicketCreateWithoutSetorInput = {
+    id?: string
+    title: string
+    description: string
+    status?: $Enums.TicketStatus
+    priority?: $Enums.TicketPriority
+    category?: string | null
+    phone?: string | null
+    clickupTaskId?: string | null
+    ticketStage?: string | null
+    isInternal?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutTicketsInput
+    createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
+    messages?: TicketMessageCreateNestedManyWithoutTicketInput
+  }
+
+  export type TicketUncheckedCreateWithoutSetorInput = {
+    id?: string
+    title: string
+    description: string
+    status?: $Enums.TicketStatus
+    priority?: $Enums.TicketPriority
+    category?: string | null
+    phone?: string | null
+    clickupTaskId?: string | null
+    ticketStage?: string | null
+    isInternal?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    createdById?: string | null
+    messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
+  }
+
+  export type TicketCreateOrConnectWithoutSetorInput = {
+    where: TicketWhereUniqueInput
+    create: XOR<TicketCreateWithoutSetorInput, TicketUncheckedCreateWithoutSetorInput>
+  }
+
+  export type TicketCreateManySetorInputEnvelope = {
+    data: TicketCreateManySetorInput | TicketCreateManySetorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutSetoresInput = {
+    update: XOR<CompanyUpdateWithoutSetoresInput, CompanyUncheckedUpdateWithoutSetoresInput>
+    create: XOR<CompanyCreateWithoutSetoresInput, CompanyUncheckedCreateWithoutSetoresInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutSetoresInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutSetoresInput, CompanyUncheckedUpdateWithoutSetoresInput>
+  }
+
+  export type CompanyUpdateWithoutSetoresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutSetoresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type SetorUserUpsertWithWhereUniqueWithoutSetorInput = {
+    where: SetorUserWhereUniqueInput
+    update: XOR<SetorUserUpdateWithoutSetorInput, SetorUserUncheckedUpdateWithoutSetorInput>
+    create: XOR<SetorUserCreateWithoutSetorInput, SetorUserUncheckedCreateWithoutSetorInput>
+  }
+
+  export type SetorUserUpdateWithWhereUniqueWithoutSetorInput = {
+    where: SetorUserWhereUniqueInput
+    data: XOR<SetorUserUpdateWithoutSetorInput, SetorUserUncheckedUpdateWithoutSetorInput>
+  }
+
+  export type SetorUserUpdateManyWithWhereWithoutSetorInput = {
+    where: SetorUserScalarWhereInput
+    data: XOR<SetorUserUpdateManyMutationInput, SetorUserUncheckedUpdateManyWithoutSetorInput>
+  }
+
+  export type SetorInstanceUpsertWithWhereUniqueWithoutSetorInput = {
+    where: SetorInstanceWhereUniqueInput
+    update: XOR<SetorInstanceUpdateWithoutSetorInput, SetorInstanceUncheckedUpdateWithoutSetorInput>
+    create: XOR<SetorInstanceCreateWithoutSetorInput, SetorInstanceUncheckedCreateWithoutSetorInput>
+  }
+
+  export type SetorInstanceUpdateWithWhereUniqueWithoutSetorInput = {
+    where: SetorInstanceWhereUniqueInput
+    data: XOR<SetorInstanceUpdateWithoutSetorInput, SetorInstanceUncheckedUpdateWithoutSetorInput>
+  }
+
+  export type SetorInstanceUpdateManyWithWhereWithoutSetorInput = {
+    where: SetorInstanceScalarWhereInput
+    data: XOR<SetorInstanceUpdateManyMutationInput, SetorInstanceUncheckedUpdateManyWithoutSetorInput>
+  }
+
+  export type TicketUpsertWithWhereUniqueWithoutSetorInput = {
+    where: TicketWhereUniqueInput
+    update: XOR<TicketUpdateWithoutSetorInput, TicketUncheckedUpdateWithoutSetorInput>
+    create: XOR<TicketCreateWithoutSetorInput, TicketUncheckedCreateWithoutSetorInput>
+  }
+
+  export type TicketUpdateWithWhereUniqueWithoutSetorInput = {
+    where: TicketWhereUniqueInput
+    data: XOR<TicketUpdateWithoutSetorInput, TicketUncheckedUpdateWithoutSetorInput>
+  }
+
+  export type TicketUpdateManyWithWhereWithoutSetorInput = {
+    where: TicketScalarWhereInput
+    data: XOR<TicketUpdateManyMutationInput, TicketUncheckedUpdateManyWithoutSetorInput>
+  }
+
+  export type SetorCreateWithoutUsersInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+    company: CompanyCreateNestedOneWithoutSetoresInput
+    instances?: SetorInstanceCreateNestedManyWithoutSetorInput
+    tickets?: TicketCreateNestedManyWithoutSetorInput
+  }
+
+  export type SetorUncheckedCreateWithoutUsersInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+    instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
+  }
+
+  export type SetorCreateOrConnectWithoutUsersInput = {
+    where: SetorWhereUniqueInput
+    create: XOR<SetorCreateWithoutUsersInput, SetorUncheckedCreateWithoutUsersInput>
+  }
+
+  export type UserCreateWithoutSetoresInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutSetoresInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    companyId?: string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutSetoresInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSetoresInput, UserUncheckedCreateWithoutSetoresInput>
+  }
+
+  export type SetorUpsertWithoutUsersInput = {
+    update: XOR<SetorUpdateWithoutUsersInput, SetorUncheckedUpdateWithoutUsersInput>
+    create: XOR<SetorCreateWithoutUsersInput, SetorUncheckedCreateWithoutUsersInput>
+    where?: SetorWhereInput
+  }
+
+  export type SetorUpdateToOneWithWhereWithoutUsersInput = {
+    where?: SetorWhereInput
+    data: XOR<SetorUpdateWithoutUsersInput, SetorUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type SetorUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
+    instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
+    tickets?: TicketUpdateManyWithoutSetorNestedInput
+  }
+
+  export type SetorUncheckedUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
+  }
+
+  export type UserUpsertWithoutSetoresInput = {
+    update: XOR<UserUpdateWithoutSetoresInput, UserUncheckedUpdateWithoutSetoresInput>
+    create: XOR<UserCreateWithoutSetoresInput, UserUncheckedCreateWithoutSetoresInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSetoresInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSetoresInput, UserUncheckedUpdateWithoutSetoresInput>
+  }
+
+  export type UserUpdateWithoutSetoresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSetoresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type SetorCreateWithoutInstancesInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+    company: CompanyCreateNestedOneWithoutSetoresInput
+    users?: SetorUserCreateNestedManyWithoutSetorInput
+    tickets?: TicketCreateNestedManyWithoutSetorInput
+  }
+
+  export type SetorUncheckedCreateWithoutInstancesInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+    users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
+  }
+
+  export type SetorCreateOrConnectWithoutInstancesInput = {
+    where: SetorWhereUniqueInput
+    create: XOR<SetorCreateWithoutInstancesInput, SetorUncheckedCreateWithoutInstancesInput>
+  }
+
+  export type WhatsappInstanceCreateWithoutSetoresInput = {
+    id?: string
+    instanceName: string
+    phone?: string | null
+    status?: $Enums.InstanceStatus
+    webhookUrl?: string | null
+    instanceToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
+    messages?: MessageCreateNestedManyWithoutInstanceInput
+  }
+
+  export type WhatsappInstanceUncheckedCreateWithoutSetoresInput = {
+    id?: string
+    instanceName: string
+    phone?: string | null
+    status?: $Enums.InstanceStatus
+    webhookUrl?: string | null
+    instanceToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
+  }
+
+  export type WhatsappInstanceCreateOrConnectWithoutSetoresInput = {
+    where: WhatsappInstanceWhereUniqueInput
+    create: XOR<WhatsappInstanceCreateWithoutSetoresInput, WhatsappInstanceUncheckedCreateWithoutSetoresInput>
+  }
+
+  export type SetorUpsertWithoutInstancesInput = {
+    update: XOR<SetorUpdateWithoutInstancesInput, SetorUncheckedUpdateWithoutInstancesInput>
+    create: XOR<SetorCreateWithoutInstancesInput, SetorUncheckedCreateWithoutInstancesInput>
+    where?: SetorWhereInput
+  }
+
+  export type SetorUpdateToOneWithWhereWithoutInstancesInput = {
+    where?: SetorWhereInput
+    data: XOR<SetorUpdateWithoutInstancesInput, SetorUncheckedUpdateWithoutInstancesInput>
+  }
+
+  export type SetorUpdateWithoutInstancesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
+    users?: SetorUserUpdateManyWithoutSetorNestedInput
+    tickets?: TicketUpdateManyWithoutSetorNestedInput
+  }
+
+  export type SetorUncheckedUpdateWithoutInstancesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
+  }
+
+  export type WhatsappInstanceUpsertWithoutSetoresInput = {
+    update: XOR<WhatsappInstanceUpdateWithoutSetoresInput, WhatsappInstanceUncheckedUpdateWithoutSetoresInput>
+    create: XOR<WhatsappInstanceCreateWithoutSetoresInput, WhatsappInstanceUncheckedCreateWithoutSetoresInput>
+    where?: WhatsappInstanceWhereInput
+  }
+
+  export type WhatsappInstanceUpdateToOneWithWhereWithoutSetoresInput = {
+    where?: WhatsappInstanceWhereInput
+    data: XOR<WhatsappInstanceUpdateWithoutSetoresInput, WhatsappInstanceUncheckedUpdateWithoutSetoresInput>
+  }
+
+  export type WhatsappInstanceUpdateWithoutSetoresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    instanceName?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
+    webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
+    messages?: MessageUpdateManyWithoutInstanceNestedInput
+  }
+
+  export type WhatsappInstanceUncheckedUpdateWithoutSetoresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    instanceName?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
+    webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
   }
 
   export type TicketCreateManyCreatedByInput = {
@@ -28654,6 +33798,11 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
+    setorId?: string | null
+  }
+
+  export type SetorUserCreateManyUserInput = {
+    setorId: string
   }
 
   export type TicketUpdateWithoutCreatedByInput = {
@@ -28670,6 +33819,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
+    setor?: SetorUpdateOneWithoutTicketsNestedInput
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
   }
 
@@ -28687,6 +33837,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
   }
 
@@ -28704,6 +33855,19 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SetorUserUpdateWithoutUserInput = {
+    setor?: SetorUpdateOneRequiredWithoutUsersNestedInput
+  }
+
+  export type SetorUserUncheckedUpdateWithoutUserInput = {
+    setorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SetorUserUncheckedUpdateManyWithoutUserInput = {
+    setorId?: StringFieldUpdateOperationsInput | string
   }
 
   export type CompanyCreateManyParentCompanyInput = {
@@ -28733,6 +33897,7 @@ export namespace Prisma {
     role?: $Enums.UserRole
     createdAt?: Date | string
     updatedAt?: Date | string
+    whatsappSignature?: string | null
   }
 
   export type CampaignCreateManyCompanyInput = {
@@ -28822,6 +33987,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById?: string | null
+    setorId?: string | null
   }
 
   export type TrackingLinkCreateManyCompanyInput = {
@@ -28859,6 +34025,19 @@ export namespace Prisma {
     userId?: string | null
   }
 
+  export type SetorCreateManyCompanyInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+  }
+
   export type CompanyUpdateWithoutParentCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -28887,6 +34066,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutParentCompanyInput = {
@@ -28917,6 +34097,7 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateManyWithoutParentCompanyInput = {
@@ -28946,8 +34127,10 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyInput = {
@@ -28958,8 +34141,10 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCompanyInput = {
@@ -28970,6 +34155,7 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CampaignUpdateWithoutCompanyInput = {
@@ -29102,6 +34288,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUpdateManyWithoutInstanceNestedInput
+    setores?: SetorInstanceUpdateManyWithoutInstanceNestedInput
   }
 
   export type WhatsappInstanceUncheckedUpdateWithoutCompanyInput = {
@@ -29114,6 +34301,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
+    setores?: SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput
   }
 
   export type WhatsappInstanceUncheckedUpdateManyWithoutCompanyInput = {
@@ -29219,6 +34407,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
+    setor?: SetorUpdateOneWithoutTicketsNestedInput
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
   }
 
@@ -29236,6 +34425,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
   }
 
@@ -29253,6 +34443,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TrackingLinkUpdateWithoutCompanyInput = {
@@ -29362,6 +34553,51 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SetorUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    users?: SetorUserUpdateManyWithoutSetorNestedInput
+    instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
+    tickets?: TicketUpdateManyWithoutSetorNestedInput
+  }
+
+  export type SetorUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
+    instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
+  }
+
+  export type SetorUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type LeadCreateManyCampaignInput = {
@@ -29853,6 +35089,10 @@ export namespace Prisma {
     leadId?: string | null
   }
 
+  export type SetorInstanceCreateManyInstanceInput = {
+    setorId: string
+  }
+
   export type MessageUpdateWithoutInstanceInput = {
     id?: StringFieldUpdateOperationsInput | string
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29904,6 +35144,18 @@ export namespace Prisma {
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type SetorInstanceUpdateWithoutInstanceInput = {
+    setor?: SetorUpdateOneRequiredWithoutInstancesNestedInput
+  }
+
+  export type SetorInstanceUncheckedUpdateWithoutInstanceInput = {
+    setorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SetorInstanceUncheckedUpdateManyWithoutInstanceInput = {
+    setorId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type TicketMessageCreateManyTicketInput = {
     id?: string
     body: string
@@ -29940,6 +35192,108 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SetorUserCreateManySetorInput = {
+    userId: string
+  }
+
+  export type SetorInstanceCreateManySetorInput = {
+    instanceId: string
+  }
+
+  export type TicketCreateManySetorInput = {
+    id?: string
+    title: string
+    description: string
+    status?: $Enums.TicketStatus
+    priority?: $Enums.TicketPriority
+    category?: string | null
+    phone?: string | null
+    clickupTaskId?: string | null
+    ticketStage?: string | null
+    isInternal?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    createdById?: string | null
+  }
+
+  export type SetorUserUpdateWithoutSetorInput = {
+    user?: UserUpdateOneRequiredWithoutSetoresNestedInput
+  }
+
+  export type SetorUserUncheckedUpdateWithoutSetorInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SetorUserUncheckedUpdateManyWithoutSetorInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SetorInstanceUpdateWithoutSetorInput = {
+    instance?: WhatsappInstanceUpdateOneRequiredWithoutSetoresNestedInput
+  }
+
+  export type SetorInstanceUncheckedUpdateWithoutSetorInput = {
+    instanceId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SetorInstanceUncheckedUpdateManyWithoutSetorInput = {
+    instanceId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TicketUpdateWithoutSetorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
+    createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
+    messages?: TicketMessageUpdateManyWithoutTicketNestedInput
+  }
+
+  export type TicketUncheckedUpdateWithoutSetorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
+  }
+
+  export type TicketUncheckedUpdateManyWithoutSetorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
 
 
   /**
@@ -29973,6 +35327,10 @@ export namespace Prisma {
      * @deprecated Use TicketCountOutputTypeDefaultArgs instead
      */
     export type TicketCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = TicketCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use SetorCountOutputTypeDefaultArgs instead
+     */
+    export type SetorCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SetorCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserDefaultArgs instead
      */
@@ -30033,6 +35391,18 @@ export namespace Prisma {
      * @deprecated Use TicketMessageDefaultArgs instead
      */
     export type TicketMessageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = TicketMessageDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use SetorDefaultArgs instead
+     */
+    export type SetorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SetorDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use SetorUserDefaultArgs instead
+     */
+    export type SetorUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SetorUserDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use SetorInstanceDefaultArgs instead
+     */
+    export type SetorInstanceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SetorInstanceDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

@@ -6,6 +6,7 @@ import InstancesSection from "./InstancesSection";
 import PipelineSettings from "./PipelineSettings";
 import ClickupSettings from "./ClickupSettings";
 import OpenAISettings from "./OpenAISettings";
+import SetoresSection from "./SetoresSection";
 
 export default async function ConfiguracoesPage({
   searchParams,
@@ -110,6 +111,36 @@ export default async function ConfiguracoesPage({
       <PipelineSettings
         initialStages={pipelineStages}
         companyId={pipelineCompanyId ?? ""}
+      />
+    );
+  } else if (secao === "setores") {
+    const companyId = userCompanyId ?? "";
+    const [setores, allUsers, allInstances] = await Promise.all([
+      prisma.setor.findMany({
+        where: { companyId },
+        include: {
+          users:     { include: { user: { select: { id: true, name: true, email: true } } } },
+          instances: { include: { instance: { select: { id: true, instanceName: true, phone: true, status: true } } } },
+          _count:    { select: { tickets: true } },
+        },
+        orderBy: { name: "asc" },
+      }),
+      prisma.user.findMany({
+        where: { companyId, role: "CLIENT" },
+        select: { id: true, name: true, email: true },
+        orderBy: { name: "asc" },
+      }),
+      prisma.whatsappInstance.findMany({
+        where: { companyId },
+        select: { id: true, instanceName: true, phone: true, status: true },
+        orderBy: { instanceName: "asc" },
+      }),
+    ]);
+    content = (
+      <SetoresSection
+        initialSetores={setores as any}
+        allUsers={allUsers}
+        allInstances={allInstances as any}
       />
     );
   } else {

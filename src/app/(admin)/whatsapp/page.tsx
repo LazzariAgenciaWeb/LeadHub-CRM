@@ -1,5 +1,6 @@
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { getUserPermissions } from "@/lib/user-permissions";
 import WhatsappManager from "./WhatsappManager";
 
 export default async function WhatsappPage({
@@ -15,12 +16,20 @@ export default async function WhatsappPage({
   const companyId = isSuperAdmin ? (sp.companyId ?? "") : (userCompanyId ?? "");
   const defaultPhone = sp.abrir ?? "";
 
+  // Permissões do usuário logado (filtra instâncias pelo setor)
+  const perms = await getUserPermissions(session);
+
   const msgWhere: any = {};
   if (companyId) msgWhere.companyId = companyId;
 
-  // Instâncias (só para poder enviar resposta com a instância conectada)
+  // Instâncias: filtra pelo setor do usuário (se não for admin)
+  const instanceWhere: any = companyId ? { companyId } : {};
+  if (perms && !perms.isAdmin && perms.instanceIds) {
+    instanceWhere.id = { in: perms.instanceIds };
+  }
+
   const instances = await prisma.whatsappInstance.findMany({
-    where: companyId ? { companyId } : {},
+    where: instanceWhere,
     select: {
       id: true,
       instanceName: true,
@@ -29,6 +38,14 @@ export default async function WhatsappPage({
       company: { select: { id: true, name: true } },
     },
   });
+
+  // Conversas: filtra apenas as instâncias que o usuário pode ver
+  if (perms && !perms.isAdmin && perms.instanceIds && perms.instanceIds.length > 0) {
+    msgWhere.instanceId = { in: perms.instanceIds };
+  } else if (perms && !perms.isAdmin && perms.instanceIds?.length === 0) {
+    // Sem nenhuma instância no setor → sem conversas
+    msgWhere.id = "NOOP_NO_ACCESS";
+  }
 
   // Conversas agrupadas por telefone
   const phones = await prisma.message.groupBy({
@@ -65,7 +82,6 @@ export default async function WhatsappPage({
         }),
         prisma.message.count({ where: { phone: p.phone, companyId: p.companyId, direction: "INBOUND" } }),
         prisma.message.count({ where: { phone: p.phone, companyId: p.companyId, direction: "OUTBOUND" } }),
-        // Verifica se este telefone é contato de alguma empresa cadastrada
         prisma.companyContact.findFirst({
           where: { phone: p.phone },
           select: {
@@ -78,12 +94,21 @@ export default async function WhatsappPage({
     })
   );
 
-  // Stages finais (isFinal = true) para ocultar pill quando lead/oportunidade estiver concluída
   const finalStageConfigs = await prisma.pipelineStageConfig.findMany({
     where: { isFinal: true, ...(companyId ? { companyId } : {}) },
     select: { name: true },
   });
   const finalStageNames = [...new Set(finalStageConfigs.map((s) => s.name))];
+
+  // Busca assinatura e nome do usuário logado direto do banco (evita JWT stale)
+  const currentUser = session?.user as any;
+  const userId: string | undefined = currentUser?.id;
+  const dbUser = userId
+    ? await prisma.user.findUnique({
+        where: { id: userId },
+        select: { name: true, whatsappSignature: true },
+      })
+    : null;
 
   return (
     <WhatsappManager
@@ -93,6 +118,8 @@ export default async function WhatsappPage({
       conversations={conversations as any}
       defaultPhone={defaultPhone}
       finalStageNames={finalStageNames}
+      userSignature={dbUser?.whatsappSignature ?? ""}
+      userName={dbUser?.name ?? currentUser?.name ?? ""}
     />
   );
 }
