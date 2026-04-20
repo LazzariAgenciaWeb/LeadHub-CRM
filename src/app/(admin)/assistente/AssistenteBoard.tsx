@@ -607,7 +607,7 @@ export default function AssistenteBoard({
       )}
 
       {/* ── Main content: conversations + action items ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 items-start">
 
         {/* ── Left: Conversations ── */}
         <div className="lg:col-span-3 space-y-3">
