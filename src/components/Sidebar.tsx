@@ -8,11 +8,12 @@ import { Session } from "next-auth";
 
 interface SidebarProps {
   session: Session;
+  onClose?: () => void;
 }
 
 const CRM_ROUTES = ["/crm/prospeccao", "/crm/leads", "/crm/oportunidades"];
 
-export default function Sidebar({ session }: SidebarProps) {
+export default function Sidebar({ session, onClose }: SidebarProps) {
   const pathname = usePathname();
   const isSuperAdmin = (session.user as any)?.role === "SUPER_ADMIN";
 
@@ -48,15 +49,24 @@ export default function Sidebar({ session }: SidebarProps) {
     <aside className="w-[220px] min-w-[220px] bg-[#0f1623] border-r border-[#1e2d45] flex flex-col">
       {/* Logo */}
       <div className="px-4 py-5 border-b border-[#1e2d45] flex items-center gap-2.5">
-        <div className="w-8 h-8 rounded-[9px] bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-sm">
+        <div className="w-8 h-8 rounded-[9px] bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-sm flex-shrink-0">
           ⚡
         </div>
-        <div>
+        <div className="flex-1 min-w-0">
           <div className="text-white font-bold text-base leading-none">LeadHub</div>
           <div className="text-slate-500 text-[10px] mt-0.5">
             {isSuperAdmin ? "Super Admin" : "Marketing CRM"}
           </div>
         </div>
+        {onClose && (
+          <button
+            onClick={onClose}
+            aria-label="Fechar menu"
+            className="w-7 h-7 flex items-center justify-center rounded-lg text-slate-500 hover:text-white hover:bg-[#1e2d45] transition-colors flex-shrink-0"
+          >
+            ✕
+          </button>
+        )}
       </div>
 
       {/* Nav */}
