@@ -88,6 +88,8 @@ export default function CRMBoard({
   const [savingComment, setSavingComment] = useState(false);
   const [editingValue, setEditingValue] = useState(false);
   const [valueInput, setValueInput] = useState("");
+  const [editingNotes, setEditingNotes] = useState(false);
+  const [notesInput, setNotesInput] = useState("");
 
   // Adicionar novo lead/prospect manualmente
   const [showAddModal, setShowAddModal] = useState(false);
@@ -172,6 +174,8 @@ export default function CRMBoard({
     setNewComment("");
     setEditingValue(false);
     setValueInput(lead.value?.toString() ?? "");
+    setEditingNotes(false);
+    setNotesInput(lead.notes ?? "");
     setConfirmDelete(false);
     setShowLinkConv(false);
     setLinkPhone("");
@@ -214,6 +218,20 @@ export default function CRMBoard({
     setSelected({ ...selected, value: val });
     setLeads((prev) => prev.map((l) => (l.id === selected.id ? { ...l, value: val } : l)));
     setEditingValue(false);
+  }
+
+  async function handleSaveNotes(e: React.FormEvent) {
+    e.preventDefault();
+    if (!selected) return;
+    const notes = notesInput.trim() || null;
+    await fetch(`/api/leads/${selected.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ notes }),
+    });
+    setSelected({ ...selected, notes });
+    setLeads((prev) => prev.map((l) => (l.id === selected.id ? { ...l, notes } : l)));
+    setEditingNotes(false);
   }
 
   async function handleSaveClickup(e: React.FormEvent) {
@@ -684,47 +702,67 @@ export default function CRMBoard({
                 )}
               </div>
 
-              {/* Notas do BDR / informações do prospect */}
-              {selected.notes && (
-                <div className="bg-violet-500/5 border border-violet-500/20 rounded-xl p-4 space-y-3">
+              {/* Descrição / Notas */}
+              <div className="bg-violet-500/5 border border-violet-500/20 rounded-xl p-4">
+                <div className="flex items-center justify-between mb-2">
                   <div className="text-violet-400 text-[10px] font-semibold uppercase tracking-wide">
-                    📋 Informações do Prospect
+                    📋 Descrição / Observações
                   </div>
-                  {selected.notes.split("\n\n").map((block, i) => {
-                    const lines = block.split("\n");
-                    return (
-                      <div key={i} className="space-y-1">
-                        {lines.map((line, j) => {
-                          // Links clicáveis para site e instagram
-                          const urlMatch = line.match(/(https?:\/\/[^\s]+)/);
-                          const isInstagram = line.startsWith("📸");
-                          const isSite = line.startsWith("🌐");
-                          const isMensagem = line.startsWith("📨");
-                          return (
-                            <div key={j} className={`text-xs leading-relaxed ${isMensagem ? "text-slate-300 bg-[#0a0f1a] rounded p-2 italic" : "text-slate-400"}`}>
-                              {urlMatch ? (
-                                <>
-                                  {line.substring(0, line.indexOf(urlMatch[0]))}
-                                  <a
-                                    href={urlMatch[0]}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={`underline ${isSite ? "text-cyan-400 hover:text-cyan-300" : isInstagram ? "text-pink-400 hover:text-pink-300" : "text-indigo-400"}`}
-                                  >
-                                    {urlMatch[0]}
-                                  </a>
-                                </>
-                              ) : (
-                                line
-                              )}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    );
-                  })}
+                  {!editingNotes && (
+                    <button
+                      onClick={() => { setNotesInput(selected.notes ?? ""); setEditingNotes(true); }}
+                      className="text-slate-600 hover:text-slate-400 text-xs"
+                    >
+                      ✏️ {selected.notes ? "Editar" : "Adicionar"}
+                    </button>
+                  )}
                 </div>
-              )}
+
+                {editingNotes ? (
+                  <form onSubmit={handleSaveNotes} className="space-y-2">
+                    <textarea
+                      autoFocus
+                      value={notesInput}
+                      onChange={(e) => setNotesInput(e.target.value)}
+                      rows={5}
+                      placeholder="Descreva a demanda, contexto, informações relevantes..."
+                      className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-violet-500 resize-none"
+                    />
+                    <div className="flex gap-2">
+                      <button type="submit" className="px-3 py-1.5 rounded-lg bg-violet-600 text-white text-xs font-medium hover:bg-violet-500">
+                        Salvar
+                      </button>
+                      <button type="button" onClick={() => setEditingNotes(false)} className="text-slate-500 text-xs hover:text-white">
+                        Cancelar
+                      </button>
+                    </div>
+                  </form>
+                ) : selected.notes ? (
+                  <div className="space-y-1">
+                    {selected.notes.split("\n").map((line, j) => {
+                      const urlMatch = line.match(/(https?:\/\/[^\s]+)/);
+                      const isInstagram = line.startsWith("📸");
+                      const isSite = line.startsWith("🌐");
+                      const isMensagem = line.startsWith("📨");
+                      return (
+                        <div key={j} className={`text-xs leading-relaxed ${isMensagem ? "text-slate-300 bg-[#0a0f1a] rounded p-2 italic" : "text-slate-400"}`}>
+                          {urlMatch ? (
+                            <>
+                              {line.substring(0, line.indexOf(urlMatch[0]))}
+                              <a href={urlMatch[0]} target="_blank" rel="noopener noreferrer"
+                                className={`underline ${isSite ? "text-cyan-400 hover:text-cyan-300" : isInstagram ? "text-pink-400 hover:text-pink-300" : "text-indigo-400"}`}>
+                                {urlMatch[0]}
+                              </a>
+                            </>
+                          ) : line}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <p className="text-xs text-slate-600 italic">Nenhuma descrição ainda. Clique em &quot;Adicionar&quot; para descrever a demanda.</p>
+                )}
+              </div>
 
               {/* Valor (só em Oportunidades) */}
               {pipeline === "OPORTUNIDADES" && (
