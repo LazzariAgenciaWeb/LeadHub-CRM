@@ -54,6 +54,7 @@ export default function LinksManager({
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
+  const [copiedDest, setCopiedDest] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [activeTab, setActiveTab] = useState<"links" | "report">("links");
   const [expandedLink, setExpandedLink] = useState<string | null>(null);
@@ -502,9 +503,16 @@ export default function LinksManager({
                               {isExpanded ? "▴ Fechar" : "▾ Internos"}
                             </button>
                           )}
-                          <button onClick={() => copyLink(link.code)}
-                            className="px-2 py-1 rounded bg-indigo-500/10 text-indigo-400 text-[10px] hover:bg-indigo-500/20 transition-colors">
-                            📋 Copiar
+                          <button
+                            onClick={() => {
+                              navigator.clipboard.writeText(link.destination);
+                              setCopiedDest(link.id);
+                              setTimeout(() => setCopiedDest(null), 2000);
+                            }}
+                            className="px-2 py-1 rounded bg-slate-500/10 text-slate-400 text-[10px] hover:bg-slate-500/20 transition-colors"
+                            title="Copiar URL original (sem registrar clique)"
+                          >
+                            {copiedDest === link.id ? "✓ Copiado!" : "🔗 URL original"}
                           </button>
                           <button onClick={() => handleDelete(link.id)} disabled={deleting === link.id}
                             className="px-2 py-1 rounded bg-white/5 text-slate-600 text-[10px] hover:text-red-400 transition-colors">
