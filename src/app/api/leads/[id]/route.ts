@@ -54,7 +54,7 @@ export async function PATCH(
   }
 
   const body = await req.json();
-  const { name, phone, email, source, status, notes, value, campaignId, pipeline, pipelineStage, attendanceStatus, expectedReturnAt, clickupTaskId } = body;
+  const { name, phone, email, source, status, notes, value, campaignId, pipeline, pipelineStage, attendanceStatus, expectedReturnAt, clickupTaskId, trackingLinkId } = body;
 
   const lead = await prisma.lead.update({
     where: { id },
@@ -66,10 +66,12 @@ export async function PATCH(
       ...(attendanceStatus !== undefined && { attendanceStatus: attendanceStatus ?? null }),
       ...(expectedReturnAt !== undefined && { expectedReturnAt: expectedReturnAt ? new Date(expectedReturnAt) : null }),
       ...(clickupTaskId !== undefined && { clickupTaskId: clickupTaskId ?? null }),
+      ...(trackingLinkId !== undefined && { trackingLinkId: trackingLinkId ?? null }),
     },
     include: {
       company: { select: { id: true, name: true } },
       campaign: { select: { id: true, name: true } },
+      trackingLink: { select: { id: true, code: true, label: true, clicks: true, destination: true, _count: { select: { clickEvents: true } } } },
     },
   });
 

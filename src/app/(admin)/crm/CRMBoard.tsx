@@ -30,6 +30,15 @@ export interface CRMLead {
   campaign: { id: string; name: string } | null;
   company: { id: string; name: string } | null;
   clickupTaskId: string | null;
+  trackingLinkId: string | null;
+  trackingLink: {
+    id: string;
+    code: string;
+    label: string | null;
+    clicks: number;
+    destination: string;
+    _count: { clickEvents: number };
+  } | null;
 }
 
 export interface LeadComment {
@@ -93,6 +102,13 @@ export default function CRMBoard({
   const [valueInput, setValueInput] = useState("");
   const [editingNotes, setEditingNotes] = useState(false);
   const [notesInput, setNotesInput] = useState("");
+
+  // Vincular tracking link
+  const [showLinkTracker, setShowLinkTracker] = useState(false);
+  const [trackerLinks, setTrackerLinks] = useState<CRMLead["trackingLink"][]>([]);
+  const [loadingTrackerLinks, setLoadingTrackerLinks] = useState(false);
+  const [trackerSearch, setTrackerSearch] = useState("");
+  const [savingTracker, setSavingTracker] = useState(false);
 
   // Adicionar novo lead/prospect manualmente
   const [showAddModal, setShowAddModal] = useState(false);
@@ -179,6 +195,9 @@ export default function CRMBoard({
     setValueInput(lead.value?.toString() ?? "");
     setEditingNotes(false);
     setNotesInput(lead.notes ?? "");
+    setShowLinkTracker(false);
+    setTrackerLinks([]);
+    setTrackerSearch("");
     setConfirmDelete(false);
     setShowLinkConv(false);
     setLinkPhone("");
@@ -235,6 +254,39 @@ export default function CRMBoard({
     setSelected({ ...selected, notes });
     setLeads((prev) => prev.map((l) => (l.id === selected.id ? { ...l, notes } : l)));
     setEditingNotes(false);
+  }
+
+  async function loadTrackerLinks() {
+    if (loadingTrackerLinks || trackerLinks.length > 0) return;
+    setLoadingTrackerLinks(true);
+    try {
+      const companyId = selected?.company?.id ?? defaultCompanyId ?? "";
+      const res = await fetch(`/api/tracking-links?companyId=${companyId}`);
+      if (res.ok) {
+        const data = await res.json();
+        setTrackerLinks(data);
+      }
+    } catch { /* ignore */ } finally {
+      setLoadingTrackerLinks(false);
+    }
+  }
+
+  async function handleLinkTracker(linkId: string | null) {
+    if (!selected) return;
+    setSavingTracker(true);
+    const res = await fetch(`/api/leads/${selected.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ trackingLinkId: linkId }),
+    });
+    if (res.ok) {
+      const updated = await res.json();
+      const newLink = updated.trackingLink ?? null;
+      setSelected({ ...selected, trackingLinkId: linkId, trackingLink: newLink });
+      setLeads((prev) => prev.map((l) => l.id === selected.id ? { ...l, trackingLinkId: linkId, trackingLink: newLink } : l));
+      setShowLinkTracker(false);
+    }
+    setSavingTracker(false);
   }
 
   async function handleSaveClickup(e: React.FormEvent) {
@@ -872,6 +924,120 @@ export default function CRMBoard({
                         {syncingClickup ? <><span className="animate-spin">⏳</span> Criando...</> : "✅ Criar no ClickUp"}
                       </button>
                       {syncClickupError && <p className="text-red-400 text-[10px] bg-red-500/10 border border-red-500/20 rounded p-2">{syncClickupError}</p>}
+                    </div>
+                  )}
+                </div>
+
+                {/* Links de rastreamento */}
+                <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="text-slate-500 text-[10px] uppercase tracking-wide">🔗 Link de rastreamento</div>
+                    {selected.trackingLink && !showLinkTracker && (
+                      <button
+                        onClick={() => { setShowLinkTracker(true); loadTrackerLinks(); }}
+                        className="text-slate-600 hover:text-slate-400 text-xs"
+                      >
+                        Trocar
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Link já vinculado */}
+                  {selected.trackingLink && !showLinkTracker ? (
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <a
+                          href={`/r/${selected.trackingLink.code}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-indigo-400 hover:text-indigo-300 text-sm font-medium underline"
+                        >
+                          {selected.trackingLink.label ?? selected.trackingLink.code}
+                        </a>
+                        <span className="text-[10px] text-slate-500 font-mono">/r/{selected.trackingLink.code}</span>
+                      </div>
+                      <div className="flex items-center gap-4 text-xs">
+                        <span className="text-slate-400">
+                          <span className="text-white font-semibold">{selected.trackingLink.clicks}</span> cliques externos
+                        </span>
+                        <span className="text-slate-400">
+                          <span className="text-white font-semibold">{selected.trackingLink._count.clickEvents}</span> cliques internos
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => navigator.clipboard.writeText(`${window.location.origin}/r/${selected.trackingLink!.code}`)}
+                          className="text-[10px] px-2 py-1 rounded bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 hover:bg-indigo-500/20 transition-colors"
+                        >
+                          📋 Copiar link
+                        </button>
+                        <button
+                          onClick={() => handleLinkTracker(null)}
+                          disabled={savingTracker}
+                          className="text-[10px] px-2 py-1 rounded bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 transition-colors disabled:opacity-50"
+                        >
+                          Desvincular
+                        </button>
+                      </div>
+                    </div>
+                  ) : !showLinkTracker ? (
+                    <button
+                      onClick={() => { setShowLinkTracker(true); loadTrackerLinks(); }}
+                      className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-[#161f30] border border-dashed border-[#2a3d5a] text-slate-500 hover:text-slate-300 hover:border-[#3a5070] text-xs transition-colors"
+                    >
+                      + Vincular link de rastreamento
+                    </button>
+                  ) : null}
+
+                  {/* Seletor de links */}
+                  {showLinkTracker && (
+                    <div className="space-y-2">
+                      <input
+                        autoFocus
+                        type="text"
+                        value={trackerSearch}
+                        onChange={(e) => setTrackerSearch(e.target.value)}
+                        placeholder="Buscar link pelo nome..."
+                        className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                      />
+                      {loadingTrackerLinks ? (
+                        <div className="text-center text-slate-600 text-xs py-3">Carregando links...</div>
+                      ) : (
+                        <div className="max-h-44 overflow-y-auto space-y-1">
+                          {(trackerLinks as any[])
+                            .filter((l: any) =>
+                              !trackerSearch || (l.label ?? l.code).toLowerCase().includes(trackerSearch.toLowerCase())
+                            )
+                            .slice(0, 20)
+                            .map((l: any) => (
+                              <button
+                                key={l.id}
+                                onClick={() => handleLinkTracker(l.id)}
+                                disabled={savingTracker}
+                                className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-colors disabled:opacity-50 ${
+                                  selected.trackingLinkId === l.id
+                                    ? "bg-indigo-500/20 border border-indigo-500/40 text-indigo-300"
+                                    : "bg-[#0a0f1a] border border-[#1e2d45] text-slate-300 hover:bg-[#161f30] hover:text-white"
+                                }`}
+                              >
+                                <div className="flex items-center justify-between gap-2">
+                                  <span className="font-medium truncate">{l.label ?? l.code}</span>
+                                  <span className="text-slate-500 flex-shrink-0">{l.clicks} cliques</span>
+                                </div>
+                                <div className="text-slate-600 text-[10px] truncate mt-0.5">{l.destination}</div>
+                              </button>
+                            ))}
+                          {trackerLinks.length === 0 && !loadingTrackerLinks && (
+                            <p className="text-slate-600 text-xs text-center py-3">Nenhum link cadastrado.</p>
+                          )}
+                        </div>
+                      )}
+                      <button
+                        onClick={() => setShowLinkTracker(false)}
+                        className="text-slate-500 text-xs hover:text-white transition-colors"
+                      >
+                        Cancelar
+                      </button>
                     </div>
                   )}
                 </div>

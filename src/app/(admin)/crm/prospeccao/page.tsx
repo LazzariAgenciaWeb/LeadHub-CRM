@@ -72,6 +72,7 @@ export default async function ProspeccaoPage({
     include: {
       campaign: { select: { id: true, name: true } },
       company: { select: { id: true, name: true } },
+      trackingLink: { select: { id: true, code: true, label: true, clicks: true, destination: true, _count: { select: { clickEvents: true } } } },
     },
   });
 
