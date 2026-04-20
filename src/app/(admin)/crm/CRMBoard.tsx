@@ -24,6 +24,9 @@ export interface CRMLead {
   pipelineStage: string | null;
   value: number | null;
   createdAt: string;
+  updatedAt: string;
+  expectedReturnAt: string | null;
+  attendanceStatus: string | null;
   campaign: { id: string; name: string } | null;
   company: { id: string; name: string } | null;
   clickupTaskId: string | null;
@@ -654,118 +657,101 @@ export default function CRMBoard({
         </div>
       )}
 
-      {/* Modal de detalhe do card */}
+      {/* ── Modal de detalhe do card — 2 colunas ── */}
       {selected && (
-        <div className="fixed inset-0 z-50 flex items-center justify-end">
-          <div className="absolute inset-0 bg-black/60" onClick={() => setSelected(null)} />
-          <div className="relative bg-[#0c1220] border-l border-[#1e2d45] w-full max-w-[420px] h-full flex flex-col shadow-2xl overflow-hidden">
-            {/* Modal header */}
-            <div className="px-5 py-4 border-b border-[#1e2d45] flex items-start justify-between flex-shrink-0">
-              <div>
-                <div className="text-white font-bold text-base">{selected.name ?? selected.phone}</div>
-                {selected.name && <div className="text-slate-500 text-xs mt-0.5">{selected.phone}</div>}
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4">
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/70" onClick={() => setSelected(null)} />
+
+          {/* Modal */}
+          <div className="relative bg-[#0c1220] border border-[#1e2d45] w-full h-full sm:h-auto sm:max-h-[92vh] sm:max-w-5xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+
+            {/* ── Header ── */}
+            <div className="flex items-start justify-between gap-3 px-5 py-4 border-b border-[#1e2d45] flex-shrink-0 bg-[#0f1825]">
+              <div className="min-w-0">
+                <h2 className="text-white font-bold text-lg truncate">{selected.name ?? selected.phone}</h2>
+                <div className="flex items-center gap-3 mt-0.5 flex-wrap">
+                  {selected.name && <span className="text-slate-500 text-xs font-mono">{selected.phone}</span>}
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-[#1e2d45] text-slate-400">
+                    {pipelineInfo.icon} {pipelineInfo.label}
+                  </span>
+                  {selected.pipelineStage && (
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/25">
+                      {selected.pipelineStage}
+                    </span>
+                  )}
+                </div>
               </div>
-              <div className="flex items-center gap-2 flex-shrink-0 ml-3">
+
+              <div className="flex items-center gap-2 flex-shrink-0">
                 <a
                   href={`/whatsapp?abrir=${encodeURIComponent(selected.phone)}`}
-                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-500/15 border border-indigo-500/25 text-indigo-400 hover:bg-indigo-500/25 text-xs font-medium transition-colors"
-                  title="Abrir conversa no WhatsApp"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-500/15 border border-green-500/25 text-green-400 hover:bg-green-500/25 text-xs font-medium transition-colors whitespace-nowrap"
                 >
-                  💬 Ver conversa
+                  💬 WhatsApp
                 </a>
-                <button onClick={() => setSelected(null)} className="text-slate-500 hover:text-white text-xl">×</button>
+                {selected.clickupTaskId && (
+                  <a
+                    href={selected.clickupTaskId.startsWith("http") ? selected.clickupTaskId : `https://app.clickup.com/t/${selected.clickupTaskId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-500/15 border border-indigo-500/25 text-indigo-400 hover:bg-indigo-500/25 text-xs font-medium transition-colors whitespace-nowrap"
+                  >
+                    ✅ ClickUp
+                  </a>
+                )}
+                <button onClick={() => setSelected(null)} className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-500 hover:text-white hover:bg-[#1e2d45] transition-colors text-lg">
+                  ×
+                </button>
               </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-5 space-y-5">
-              {/* Info */}
-              <div className="grid grid-cols-2 gap-2">
-                <div className="bg-[#161f30] rounded-lg p-3">
-                  <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-1">Pipeline</div>
-                  <div className="text-white text-sm">{pipelineInfo.icon} {pipelineInfo.label}</div>
-                </div>
-                <div className="bg-[#161f30] rounded-lg p-3">
-                  <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-1">Etapa</div>
-                  <div className="text-white text-sm">{selected.pipelineStage ?? "—"}</div>
-                </div>
-                {selected.email && (
-                  <div className="bg-[#161f30] rounded-lg p-3 col-span-2">
-                    <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-1">E-mail</div>
-                    <div className="text-white text-sm">{selected.email}</div>
-                  </div>
-                )}
-                {selected.campaign && (
-                  <div className="bg-[#161f30] rounded-lg p-3 col-span-2">
-                    <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-1">Campanha</div>
-                    <div className="text-white text-sm">📣 {selected.campaign.name}</div>
-                  </div>
-                )}
-              </div>
+            {/* ── Corpo: 2 colunas ── */}
+            <div className="flex-1 overflow-hidden flex flex-col md:flex-row min-h-0">
 
-              {/* Descrição / Notas */}
-              <div className="bg-violet-500/5 border border-violet-500/20 rounded-xl p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="text-violet-400 text-[10px] font-semibold uppercase tracking-wide">
-                    📋 Descrição / Observações
+              {/* ── Coluna esquerda: informações ── */}
+              <div className="flex-1 overflow-y-auto p-5 space-y-4 md:border-r border-[#1e2d45]">
+
+                {/* Grid de dados principais */}
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="bg-[#161f30] rounded-lg p-3">
+                    <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-1">Abertura</div>
+                    <div className="text-white text-sm">
+                      {new Date(selected.createdAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" })}
+                    </div>
                   </div>
-                  {!editingNotes && (
-                    <button
-                      onClick={() => { setNotesInput(selected.notes ?? ""); setEditingNotes(true); }}
-                      className="text-slate-600 hover:text-slate-400 text-xs"
-                    >
-                      ✏️ {selected.notes ? "Editar" : "Adicionar"}
-                    </button>
+                  <div className="bg-[#161f30] rounded-lg p-3">
+                    <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-1">Previsão de retorno</div>
+                    <div className={`text-sm ${selected.expectedReturnAt ? "text-amber-400" : "text-slate-600"}`}>
+                      {selected.expectedReturnAt
+                        ? new Date(selected.expectedReturnAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" })
+                        : "—"}
+                    </div>
+                  </div>
+
+                  {selected.email && (
+                    <div className="bg-[#161f30] rounded-lg p-3 col-span-2">
+                      <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-1">E-mail</div>
+                      <div className="text-white text-sm">{selected.email}</div>
+                    </div>
+                  )}
+
+                  {selected.company && (
+                    <div className="bg-[#161f30] rounded-lg p-3 col-span-2">
+                      <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-1">Empresa</div>
+                      <div className="text-white text-sm">🏢 {selected.company.name}</div>
+                    </div>
+                  )}
+
+                  {selected.campaign && (
+                    <div className="bg-[#161f30] rounded-lg p-3 col-span-2">
+                      <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-1">Campanha</div>
+                      <div className="text-white text-sm">📣 {selected.campaign.name}</div>
+                    </div>
                   )}
                 </div>
 
-                {editingNotes ? (
-                  <form onSubmit={handleSaveNotes} className="space-y-2">
-                    <textarea
-                      autoFocus
-                      value={notesInput}
-                      onChange={(e) => setNotesInput(e.target.value)}
-                      rows={5}
-                      placeholder="Descreva a demanda, contexto, informações relevantes..."
-                      className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-violet-500 resize-none"
-                    />
-                    <div className="flex gap-2">
-                      <button type="submit" className="px-3 py-1.5 rounded-lg bg-violet-600 text-white text-xs font-medium hover:bg-violet-500">
-                        Salvar
-                      </button>
-                      <button type="button" onClick={() => setEditingNotes(false)} className="text-slate-500 text-xs hover:text-white">
-                        Cancelar
-                      </button>
-                    </div>
-                  </form>
-                ) : selected.notes ? (
-                  <div className="space-y-1">
-                    {selected.notes.split("\n").map((line, j) => {
-                      const urlMatch = line.match(/(https?:\/\/[^\s]+)/);
-                      const isInstagram = line.startsWith("📸");
-                      const isSite = line.startsWith("🌐");
-                      const isMensagem = line.startsWith("📨");
-                      return (
-                        <div key={j} className={`text-xs leading-relaxed ${isMensagem ? "text-slate-300 bg-[#0a0f1a] rounded p-2 italic" : "text-slate-400"}`}>
-                          {urlMatch ? (
-                            <>
-                              {line.substring(0, line.indexOf(urlMatch[0]))}
-                              <a href={urlMatch[0]} target="_blank" rel="noopener noreferrer"
-                                className={`underline ${isSite ? "text-cyan-400 hover:text-cyan-300" : isInstagram ? "text-pink-400 hover:text-pink-300" : "text-indigo-400"}`}>
-                                {urlMatch[0]}
-                              </a>
-                            </>
-                          ) : line}
-                        </div>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <p className="text-xs text-slate-600 italic">Nenhuma descrição ainda. Clique em &quot;Adicionar&quot; para descrever a demanda.</p>
-                )}
-              </div>
-
-              {/* Valor (só em Oportunidades) */}
-              {pipeline === "OPORTUNIDADES" && (
+                {/* Valor */}
                 <div className="bg-green-500/5 border border-green-500/20 rounded-lg p-3">
                   <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-2">Valor do negócio</div>
                   {editingValue ? (
@@ -790,25 +776,66 @@ export default function CRMBoard({
                     </div>
                   )}
                 </div>
-              )}
 
-              {/* ClickUp Task ID (só Oportunidades) */}
-              {pipeline === "OPORTUNIDADES" && (
-                <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
+                {/* Descrição / Notas */}
+                <div className="bg-violet-500/5 border border-violet-500/20 rounded-xl p-4">
                   <div className="flex items-center justify-between mb-2">
-                    <div className="text-slate-500 text-[10px] uppercase tracking-wide flex items-center gap-1.5">
-                      ✅ ClickUp
+                    <div className="text-violet-400 text-[10px] font-semibold uppercase tracking-wide">
+                      📋 Descrição / Observações
                     </div>
-                    {!editingClickup && selected.clickupTaskId && (
+                    {!editingNotes && (
                       <button
-                        onClick={() => { setEditingClickup(true); setClickupInput(selected.clickupTaskId ?? ""); }}
-                        className="text-slate-600 hover:text-slate-400 text-xs transition-colors"
+                        onClick={() => { setNotesInput(selected.notes ?? ""); setEditingNotes(true); }}
+                        className="text-slate-600 hover:text-slate-400 text-xs"
                       >
-                        ✏️ Editar
+                        ✏️ {selected.notes ? "Editar" : "Adicionar"}
                       </button>
                     )}
                   </div>
+                  {editingNotes ? (
+                    <form onSubmit={handleSaveNotes} className="space-y-2">
+                      <textarea
+                        autoFocus
+                        value={notesInput}
+                        onChange={(e) => setNotesInput(e.target.value)}
+                        rows={5}
+                        placeholder="Descreva a demanda, contexto, informações relevantes..."
+                        className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-violet-500 resize-none"
+                      />
+                      <div className="flex gap-2">
+                        <button type="submit" className="px-3 py-1.5 rounded-lg bg-violet-600 text-white text-xs font-medium hover:bg-violet-500">Salvar</button>
+                        <button type="button" onClick={() => setEditingNotes(false)} className="text-slate-500 text-xs hover:text-white">Cancelar</button>
+                      </div>
+                    </form>
+                  ) : selected.notes ? (
+                    <div className="space-y-1">
+                      {selected.notes.split("\n").map((line, j) => {
+                        const urlMatch = line.match(/(https?:\/\/[^\s]+)/);
+                        return (
+                          <div key={j} className="text-xs leading-relaxed text-slate-300">
+                            {urlMatch ? (
+                              <>
+                                {line.substring(0, line.indexOf(urlMatch[0]))}
+                                <a href={urlMatch[0]} target="_blank" rel="noopener noreferrer" className="underline text-indigo-400 hover:text-indigo-300">{urlMatch[0]}</a>
+                              </>
+                            ) : line}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-slate-600 italic">Clique em &quot;Adicionar&quot; para descrever a demanda.</p>
+                  )}
+                </div>
 
+                {/* ClickUp */}
+                <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="text-slate-500 text-[10px] uppercase tracking-wide">✅ ClickUp</div>
+                    {!editingClickup && selected.clickupTaskId && (
+                      <button onClick={() => { setEditingClickup(true); setClickupInput(selected.clickupTaskId ?? ""); }} className="text-slate-600 hover:text-slate-400 text-xs">✏️ Editar</button>
+                    )}
+                  </div>
                   {editingClickup ? (
                     <form onSubmit={handleSaveClickup} className="space-y-2">
                       <input
@@ -820,184 +847,151 @@ export default function CRMBoard({
                         className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
                       />
                       <div className="flex gap-2">
-                        <button
-                          type="submit"
-                          disabled={savingClickup}
-                          className="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-medium hover:bg-indigo-500 disabled:opacity-50 transition-colors"
-                        >
+                        <button type="submit" disabled={savingClickup} className="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-medium hover:bg-indigo-500 disabled:opacity-50">
                           {savingClickup ? "Salvando..." : "Salvar"}
                         </button>
-                        <button
-                          type="button"
-                          onClick={() => setEditingClickup(false)}
-                          className="text-slate-500 text-xs hover:text-white transition-colors"
-                        >
-                          Cancelar
-                        </button>
+                        <button type="button" onClick={() => setEditingClickup(false)} className="text-slate-500 text-xs hover:text-white">Cancelar</button>
                       </div>
                     </form>
                   ) : selected.clickupTaskId ? (
-                    <div className="flex items-center gap-2">
-                      <a
-                        href={selected.clickupTaskId.startsWith("http") ? selected.clickupTaskId : `https://app.clickup.com/t/${selected.clickupTaskId}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/20 border border-indigo-500/30 text-indigo-400 hover:bg-indigo-600/30 hover:text-indigo-300 text-xs font-medium transition-colors"
-                      >
-                        ↗ Abrir no ClickUp
-                      </a>
-                    </div>
+                    <a
+                      href={selected.clickupTaskId.startsWith("http") ? selected.clickupTaskId : `https://app.clickup.com/t/${selected.clickupTaskId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/20 border border-indigo-500/30 text-indigo-400 hover:bg-indigo-600/30 text-xs font-medium transition-colors w-fit"
+                    >
+                      ↗ Abrir no ClickUp
+                    </a>
                   ) : (
                     <div className="space-y-2">
                       <button
                         onClick={handleSyncClickup}
                         disabled={syncingClickup}
-                        className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-indigo-600/10 border border-indigo-500/20 text-indigo-400 hover:bg-indigo-600/20 hover:border-indigo-500/40 hover:text-indigo-300 text-xs font-medium transition-colors disabled:opacity-50"
+                        className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-indigo-600/10 border border-indigo-500/20 text-indigo-400 hover:bg-indigo-600/20 text-xs font-medium transition-colors disabled:opacity-50"
                       >
-                        {syncingClickup ? (
-                          <>
-                            <span className="animate-spin">⏳</span> Criando tarefa...
-                          </>
-                        ) : (
-                          <>✅ Criar no ClickUp</>
-                        )}
+                        {syncingClickup ? <><span className="animate-spin">⏳</span> Criando...</> : "✅ Criar no ClickUp"}
                       </button>
-                      {syncClickupError && (
-                        <p className="text-red-400 text-[10px] leading-relaxed bg-red-500/10 border border-red-500/20 rounded p-2">
-                          {syncClickupError}
-                        </p>
-                      )}
+                      {syncClickupError && <p className="text-red-400 text-[10px] bg-red-500/10 border border-red-500/20 rounded p-2">{syncClickupError}</p>}
                     </div>
                   )}
                 </div>
-              )}
 
-              {/* Mover entre etapas */}
-              {stages.length > 1 && (
+                {/* Mover etapas */}
+                {stages.length > 1 && (
+                  <div>
+                    <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-2">Mover para etapa</div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {stages.filter((s) => s.name !== selected.pipelineStage).map((s) => (
+                        <button
+                          key={s.id}
+                          onClick={() => { moveToStage(selected.id, s.name); setSelected({ ...selected, pipelineStage: s.name }); }}
+                          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white text-xs font-medium transition-colors"
+                        >
+                          <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: s.color }} />
+                          {s.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Mover pipelines */}
                 <div>
-                  <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-2">Mover para etapa</div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {stages.filter((s) => s.name !== selected.pipelineStage).map((s) => (
+                  <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-2">Mover para outro pipeline</div>
+                  <div className="flex gap-2 flex-wrap">
+                    {(OTHER_PIPELINES[pipeline] ?? []).map((p) => (
                       <button
-                        key={s.id}
-                        onClick={() => { moveToStage(selected.id, s.name); setSelected({ ...selected, pipelineStage: s.name }); }}
-                        className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white text-xs font-medium transition-colors"
+                        key={p.key}
+                        onClick={() => moveToPipeline(selected.id, p.key)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 hover:bg-indigo-500/20 text-xs font-medium transition-colors"
                       >
-                        <span className="w-2 h-2 rounded-full" style={{ backgroundColor: s.color }} />
-                        {s.name}
+                        {PIPELINE_LABELS[p.key]?.icon} {p.label} →
                       </button>
                     ))}
                   </div>
                 </div>
-              )}
 
-              {/* Mover entre pipelines */}
-              <div>
-                <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-2">Avançar para outra pipeline</div>
-                <div className="flex gap-2">
-                  {(OTHER_PIPELINES[pipeline] ?? []).map((p) => (
-                    <button
-                      key={p.key}
-                      onClick={() => moveToPipeline(selected.id, p.key)}
-                      className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 hover:bg-indigo-500/20 text-xs font-medium transition-colors"
-                    >
-                      {PIPELINE_LABELS[p.key]?.icon} {p.label} →
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Vincular conversa WhatsApp */}
-              <div>
-                <button
-                  onClick={() => { setShowLinkConv(!showLinkConv); setLinkResult(null); setLinkPhone(""); }}
-                  className="text-slate-500 text-[10px] uppercase tracking-wide hover:text-slate-300 transition-colors flex items-center gap-1"
-                >
-                  🔗 Vincular conversa WhatsApp {showLinkConv ? "▴" : "▾"}
-                </button>
-                {showLinkConv && (
-                  <div className="mt-2 space-y-2">
-                    <p className="text-slate-600 text-[10px]">
-                      Cole o telefone da conversa (ex: 5511999999999) para vincular as mensagens a este lead.
-                    </p>
-                    <div className="flex gap-2">
-                      <input
-                        type="text"
-                        value={linkPhone}
-                        onChange={(e) => setLinkPhone(e.target.value)}
-                        placeholder="5511999999999"
-                        className="flex-1 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
-                      />
-                      <button
-                        onClick={handleLinkConversation}
-                        disabled={linkingConv || !linkPhone.trim()}
-                        className="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium disabled:opacity-50 transition-colors"
-                      >
-                        {linkingConv ? "..." : "Vincular"}
-                      </button>
-                    </div>
-                    {linkResult && (
-                      <p className="text-xs">{linkResult}</p>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              {/* Ações destrutivas */}
-              <div className="border-t border-[#1e2d45] pt-4 space-y-2">
-                <button
-                  onClick={handleRemoveFromPipeline}
-                  className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-yellow-400 hover:border-yellow-500/30 text-xs font-medium transition-colors"
-                >
-                  📥 Mover para Caixa de Entrada
-                </button>
-
-                {!confirmDelete ? (
+                {/* Vincular conversa */}
+                <div>
                   <button
-                    onClick={() => setConfirmDelete(true)}
-                    className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-500 hover:text-red-400 hover:border-red-500/30 text-xs font-medium transition-colors"
+                    onClick={() => { setShowLinkConv(!showLinkConv); setLinkResult(null); setLinkPhone(""); }}
+                    className="text-slate-500 text-[10px] uppercase tracking-wide hover:text-slate-300 transition-colors flex items-center gap-1"
                   >
-                    🗑️ Deletar este lead
+                    🔗 Vincular conversa WhatsApp {showLinkConv ? "▴" : "▾"}
                   </button>
-                ) : (
-                  <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 space-y-2">
-                    <p className="text-red-400 text-xs text-center">Tem certeza? Esta ação não pode ser desfeita.</p>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={handleDeleteLead}
-                        disabled={deletingLead}
-                        className="flex-1 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-semibold disabled:opacity-50 transition-colors"
-                      >
-                        {deletingLead ? "Deletando..." : "Confirmar exclusão"}
-                      </button>
-                      <button
-                        onClick={() => setConfirmDelete(false)}
-                        className="px-3 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 text-xs hover:text-white transition-colors"
-                      >
-                        Cancelar
-                      </button>
+                  {showLinkConv && (
+                    <div className="mt-2 space-y-2">
+                      <p className="text-slate-600 text-[10px]">Cole o telefone da conversa para vincular as mensagens a este lead.</p>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={linkPhone}
+                          onChange={(e) => setLinkPhone(e.target.value)}
+                          placeholder="5511999999999"
+                          className="flex-1 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
+                        />
+                        <button
+                          onClick={handleLinkConversation}
+                          disabled={linkingConv || !linkPhone.trim()}
+                          className="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium disabled:opacity-50 transition-colors"
+                        >
+                          {linkingConv ? "..." : "Vincular"}
+                        </button>
+                      </div>
+                      {linkResult && <p className="text-xs">{linkResult}</p>}
                     </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Comentários */}
-              <div>
-                <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-2 flex items-center gap-2">
-                  💬 Comentários
-                  {comments.length > 0 && (
-                    <span className="text-[10px] bg-white/10 text-slate-400 px-1.5 py-0.5 rounded-full">{comments.length}</span>
                   )}
                 </div>
 
-                {/* Input novo comentário */}
-                <form onSubmit={handleAddComment} className="mb-3">
+                {/* Ações destrutivas */}
+                <div className="border-t border-[#1e2d45] pt-4 space-y-2">
+                  <button
+                    onClick={handleRemoveFromPipeline}
+                    className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-yellow-400 hover:border-yellow-500/30 text-xs font-medium transition-colors"
+                  >
+                    📥 Mover para Caixa de Entrada
+                  </button>
+                  {!confirmDelete ? (
+                    <button
+                      onClick={() => setConfirmDelete(true)}
+                      className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-500 hover:text-red-400 hover:border-red-500/30 text-xs font-medium transition-colors"
+                    >
+                      🗑️ Deletar este lead
+                    </button>
+                  ) : (
+                    <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 space-y-2">
+                      <p className="text-red-400 text-xs text-center">Tem certeza? Esta ação não pode ser desfeita.</p>
+                      <div className="flex gap-2">
+                        <button onClick={handleDeleteLead} disabled={deletingLead} className="flex-1 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-semibold disabled:opacity-50">
+                          {deletingLead ? "Deletando..." : "Confirmar exclusão"}
+                        </button>
+                        <button onClick={() => setConfirmDelete(false)} className="px-3 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 text-xs hover:text-white">Cancelar</button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* ── Coluna direita: anotações ── */}
+              <div className="md:w-80 lg:w-96 flex flex-col flex-shrink-0 border-t md:border-t-0 border-[#1e2d45] min-h-0">
+                {/* Header comentários */}
+                <div className="px-4 py-3 border-b border-[#1e2d45] flex-shrink-0 flex items-center gap-2 bg-[#0f1825]">
+                  <span className="text-sm font-semibold text-white">💬 Anotações</span>
+                  {comments.length > 0 && (
+                    <span className="text-[10px] bg-indigo-500/20 text-indigo-400 px-1.5 py-0.5 rounded-full border border-indigo-500/30">
+                      {comments.length}
+                    </span>
+                  )}
+                </div>
+
+                {/* Novo comentário */}
+                <form onSubmit={handleAddComment} className="px-4 py-3 border-b border-[#1e2d45] flex-shrink-0 space-y-2">
                   <textarea
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
-                    placeholder="Adicionar anotação... (ex: cliente ligou pedindo desconto, follow-up amanhã)"
+                    placeholder="Nova anotação... (Ctrl+Enter para salvar)"
                     rows={3}
-                    className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none mb-2"
+                    className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) handleAddComment(e as any);
                     }}
@@ -1005,35 +999,36 @@ export default function CRMBoard({
                   <button
                     type="submit"
                     disabled={savingComment || !newComment.trim()}
-                    className="w-full py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-medium hover:bg-indigo-500 disabled:opacity-40 transition-colors"
+                    className="w-full py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-500 disabled:opacity-40 transition-colors"
                   >
-                    {savingComment ? "Salvando..." : "Adicionar comentário ↵"}
+                    {savingComment ? "Salvando..." : "Adicionar anotação"}
                   </button>
                 </form>
 
                 {/* Lista de comentários */}
-                {loadingComments ? (
-                  <div className="text-slate-600 text-xs text-center py-3">Carregando...</div>
-                ) : comments.length === 0 ? (
-                  <div className="text-slate-700 text-xs text-center py-3">Nenhuma anotação ainda.</div>
-                ) : (
-                  <div className="space-y-2">
-                    {comments.map((c) => (
-                      <div key={c.id} className="bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2.5">
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-indigo-400 text-[10px] font-semibold">{c.authorName}</span>
-                          <span className="text-slate-700 text-[10px] font-mono">
-                            {new Date(c.createdAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" })}
+                <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                  {loadingComments ? (
+                    <div className="text-slate-600 text-xs text-center py-6">Carregando...</div>
+                  ) : comments.length === 0 ? (
+                    <div className="text-slate-700 text-xs text-center py-6">Nenhuma anotação ainda.<br />Use o campo acima para registrar informações.</div>
+                  ) : (
+                    comments.map((c) => (
+                      <div key={c.id} className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl px-4 py-3">
+                        <div className="flex items-center justify-between mb-1.5">
+                          <span className="text-indigo-400 text-[11px] font-semibold">{c.authorName}</span>
+                          <span className="text-slate-600 text-[10px]">
+                            {new Date(c.createdAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })}
                             {" "}
                             {new Date(c.createdAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
                           </span>
                         </div>
-                        <p className="text-slate-200 text-xs leading-relaxed whitespace-pre-wrap">{c.body}</p>
+                        <p className="text-slate-200 text-sm leading-relaxed whitespace-pre-wrap">{c.body}</p>
                       </div>
-                    ))}
-                  </div>
-                )}
+                    ))
+                  )}
+                </div>
               </div>
+
             </div>
           </div>
         </div>
