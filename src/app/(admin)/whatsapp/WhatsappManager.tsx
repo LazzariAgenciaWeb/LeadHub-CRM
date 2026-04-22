@@ -1176,7 +1176,7 @@ export default function WhatsappManager({
         c.companyContact?.name?.toLowerCase().includes(lower)
       )
       .slice(0, 8)
-      .map((c) => ({ phone: c.phone, name: c.lead?.name ?? c.companyContact?.name ?? null }));
+      .map((c) => ({ phone: c.phone, name: c.companyContact?.name ?? c.lead?.name ?? null }));
     setMergeResults(results);
   }
 
@@ -1684,7 +1684,7 @@ export default function WhatsappManager({
                             <div className="min-w-0 pt-0.5">
                               <div className="flex items-center gap-1.5">
                                 <span className="text-white text-[13px] font-semibold truncate leading-tight">
-                                  {groupNameOverrides[conv.phone] ?? conv.lead?.name ?? conv.companyContact?.name ?? conv.phone}
+                                  {groupNameOverrides[conv.phone] ?? conv.companyContact?.name ?? conv.lead?.name ?? conv.phone}
                                 </span>
                                         {conv.phone.includes("@g.us") && (
                                   <span title="Grupo" className="text-slate-400 text-[11px] flex-shrink-0">👥</span>
@@ -1811,7 +1811,7 @@ export default function WhatsappManager({
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
                         <span className="text-white font-semibold truncate">
-                          {groupNameOverrides[selectedConv.phone] ?? selectedConv.lead?.name ?? selectedConv.companyContact?.name ?? selectedConv.phone}
+                          {groupNameOverrides[selectedConv.phone] ?? selectedConv.companyContact?.name ?? selectedConv.lead?.name ?? selectedConv.phone}
                         </span>
                         {/* Refresh nome do grupo */}
                         {selectedConv.phone.includes("@g.us") && (
@@ -1855,7 +1855,7 @@ export default function WhatsappManager({
                         </button>
                         )}
                       </div>
-                      {selectedConv.lead?.name && !selectedConv.phone.includes("@g.us") && (
+                      {(selectedConv.companyContact?.name || selectedConv.lead?.name) && !selectedConv.phone.includes("@g.us") && (
                         <div className="text-slate-500 text-xs">{selectedConv.phone}</div>
                       )}
                       {/* Grupo: lista de participantes únicos */}
@@ -2488,7 +2488,7 @@ export default function WhatsappManager({
 
                     // Nome do remetente para mensagens recebidas (conversa individual)
                     const contactDisplayName = !isGroupConv && !isOut
-                      ? (selectedConv?.lead?.name ?? selectedConv?.companyContact?.name ?? selectedConv?.phone)
+                      ? (selectedConv?.companyContact?.name ?? selectedConv?.lead?.name ?? selectedConv?.phone)
                       : null;
 
                     // Estilo do bubble
