@@ -155,9 +155,11 @@ export default function CRMBoard({
   for (const s of stages) byStage[s.name] = [];
   // Leads sem etapa vão para a primeira coluna
   const firstStage = stages[0]?.name ?? "__sem_etapa__";
+  const stageNames = new Set(stages.map((s) => s.name));
   for (const lead of filteredLeads) {
-    const stageName = lead.pipelineStage ?? firstStage;
-    if (!byStage[stageName]) byStage[stageName] = [];
+    const raw = lead.pipelineStage ?? firstStage;
+    // Se a etapa não existe mais nas configurações, cai na primeira coluna
+    const stageName = stageNames.has(raw) ? raw : firstStage;
     byStage[stageName].push(lead);
   }
 
@@ -431,7 +433,7 @@ export default function CRMBoard({
   }
 
   const totalValue = pipeline === "OPORTUNIDADES"
-    ? leads.filter((l) => l.value != null).reduce((s, l) => s + (l.value ?? 0), 0)
+    ? filteredLeads.filter((l) => l.value != null).reduce((s, l) => s + (l.value ?? 0), 0)
     : 0;
 
   return (
