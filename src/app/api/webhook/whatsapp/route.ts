@@ -12,7 +12,7 @@ import { processInboundMessage } from "@/lib/whatsapp";
  *   - messages.upsert (mensagem recebida)
  */
 // Armazena os últimos 5 payloads recebidos para diagnóstico
-const recentPayloads: { ts: string; event: string; instance: string; skipped?: string }[] = [];
+const recentPayloads: { ts: string; event: string; instance: string; skipped?: string; debug?: any }[] = [];
 
 export async function POST(request: NextRequest) {
   try {
@@ -56,6 +56,15 @@ export async function POST(request: NextRequest) {
     if (normalizedEvent === "messages.update") {
       const { prisma } = await import("@/lib/prisma");
       const updates: any[] = Array.isArray(data) ? data : (data ? [data] : []);
+
+      // Debug: armazena primeiro item para diagnóstico
+      const debugItem = updates[0];
+      recentPayloads[0].debug = {
+        msgId: debugItem?.key?.id,
+        rawAck: debugItem?.update?.status,
+        fromMe: debugItem?.key?.fromMe,
+      };
+
       for (const item of updates) {
         const msgId: string | undefined = item?.key?.id;
         const rawAck = item?.update?.status;
@@ -70,10 +79,11 @@ export async function POST(request: NextRequest) {
           typeof rawAck === "string" ? (ACK_MAP[rawAck] ?? null) : null;
 
         if (ackInt !== null) {
-          await prisma.message.updateMany({
+          const result = await prisma.message.updateMany({
             where: { externalId: msgId },
             data: { ack: ackInt },
           });
+          console.log(`[ACK] msgId=${msgId} ack=${ackInt} updated=${result.count}`);
         }
       }
       return NextResponse.json({ ok: true, event: "messages.update" });
