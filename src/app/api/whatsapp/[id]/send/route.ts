@@ -52,6 +52,7 @@ export async function POST(
         phone: canonicalPhone,
         instanceId: id,
         companyId: instance.companyId,
+        ack: 0,
         ...(quoted ? { quotedId: quotedExternalId, quotedBody: quotedBody ?? null } : {}),
       },
       include: { instance: { select: { instanceName: true } }, campaign: { select: { id: true, name: true } } },
