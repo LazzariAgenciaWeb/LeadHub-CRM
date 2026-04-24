@@ -13,6 +13,7 @@ services:
       NEXTAUTH_URL: https://app.azzagencia.com.br
       NEXTAUTH_SECRET: dK7mP9xQ2rL5nW8vY1tA4uJ6hF3cE0bG
       NEXT_PUBLIC_BASE_URL: https://app.azzagencia.com.br
+      NODE_OPTIONS: "--max-old-space-size=400"
     depends_on:
       - db
 
