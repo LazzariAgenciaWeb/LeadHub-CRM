@@ -110,6 +110,9 @@ export default function CRMBoard({
   const [trackerSearch, setTrackerSearch] = useState("");
   const [savingTracker, setSavingTracker] = useState(false);
 
+  // Prospecção Automática (iframe externo)
+  const [showAutoProspect, setShowAutoProspect] = useState(false);
+
   // Adicionar novo lead/prospect manualmente
   const [showAddModal, setShowAddModal] = useState(false);
   const [addForm, setAddForm] = useState({ name: "", phone: "", notes: "", value: "", companyId: defaultCompanyId ?? "" });
@@ -465,13 +468,21 @@ export default function CRMBoard({
           />
           {pipeline === "PROSPECCAO" && (
             <div className="flex flex-col items-end gap-1">
-              <button
-                onClick={handleBdrSync}
-                disabled={syncing}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors flex-shrink-0 disabled:opacity-60"
-              >
-                {syncing ? "⏳ Importando..." : "☁️ Importar Supabase"}
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setShowAutoProspect(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors flex-shrink-0"
+                >
+                  🤖 Prospecção Automática
+                </button>
+                <button
+                  onClick={handleBdrSync}
+                  disabled={syncing}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors flex-shrink-0 disabled:opacity-60"
+                >
+                  {syncing ? "⏳ Importando..." : "☁️ Importar Supabase"}
+                </button>
+              </div>
               {syncResult && (
                 <span className="text-[10px] text-slate-400">
                   {syncResult.imported > 0
@@ -1199,6 +1210,36 @@ export default function CRMBoard({
 
             </div>
           </div>
+        </div>
+      )}
+
+      {/* ── Modal: Prospecção Automática ── */}
+      {showAutoProspect && (
+        <div className="fixed inset-0 z-50 flex flex-col">
+          {/* Header do modal */}
+          <div className="flex items-center justify-between px-5 py-3 bg-[#0c1220] border-b border-[#1e2d45] flex-shrink-0">
+            <div className="flex items-center gap-2.5">
+              <span className="text-lg">🤖</span>
+              <div>
+                <h2 className="text-white font-bold text-sm leading-none">Prospecção Automática</h2>
+                <p className="text-slate-500 text-[11px] mt-0.5">Ferramenta externa de prospecção</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setShowAutoProspect(false)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white text-sm transition-colors"
+            >
+              ✕ Fechar
+            </button>
+          </div>
+
+          {/* iframe */}
+          <iframe
+            src="https://webhooks.azzagencia.com.br/webhook/c96d1a1b-14dd-457e-a6a9-d2a765328d88"
+            className="flex-1 w-full border-0 bg-white"
+            title="Prospecção Automática"
+            allow="clipboard-read; clipboard-write"
+          />
         </div>
       )}
     </div>
