@@ -127,9 +127,11 @@ export async function evolutionGetStatus(instanceName: string, instanceToken?: s
 /** Atualiza os eventos do webhook de uma instância existente */
 export async function evolutionSetWebhookEvents(instanceName: string, webhookUrl: string) {
   const { baseUrl, apiKey } = await getConfig();
+  // Evolution API v2: webhook/set também exige token da instância
+  const token = await evolutionGetInstanceToken(instanceName) ?? apiKey;
   const res = await fetch(`${baseUrl}/webhook/set/${instanceName}`, {
     method: "POST",
-    headers: headers(apiKey),
+    headers: headers(token),
     body: JSON.stringify({
       url: webhookUrl,
       byEvents: false,
