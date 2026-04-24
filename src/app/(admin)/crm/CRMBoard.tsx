@@ -469,12 +469,14 @@ export default function CRMBoard({
           {pipeline === "PROSPECCAO" && (
             <div className="flex flex-col items-end gap-1">
               <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setShowAutoProspect(true)}
+                <a
+                  href="https://webhooks.azzagencia.com.br/webhook/c96d1a1b-14dd-457e-a6a9-d2a765328d88"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors flex-shrink-0"
                 >
                   🤖 Prospecção Automática
-                </button>
+                </a>
                 <button
                   onClick={handleBdrSync}
                   disabled={syncing}
