@@ -134,6 +134,7 @@ export async function evolutionSetWebhookEvents(instanceName: string, webhookUrl
     headers: headers(token),
     body: JSON.stringify({
       webhook: {
+        enabled: true,
         url: webhookUrl,
         byEvents: false,
         base64: false,
