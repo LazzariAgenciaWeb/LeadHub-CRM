@@ -11,8 +11,9 @@ import { processInboundMessage } from "@/lib/whatsapp";
  * Eventos suportados:
  *   - messages.upsert (mensagem recebida)
  */
-// Armazena os últimos 5 payloads recebidos para diagnóstico
+// Armazena os últimos payloads para diagnóstico (separados por tipo)
 const recentPayloads: { ts: string; event: string; instance: string; skipped?: string; debug?: any }[] = [];
+const recentAckPayloads: { ts: string; instance: string; debug: any }[] = [];
 
 export async function POST(request: NextRequest) {
   try {
@@ -57,13 +58,19 @@ export async function POST(request: NextRequest) {
       const { prisma } = await import("@/lib/prisma");
       const updates: any[] = Array.isArray(data) ? data : (data ? [data] : []);
 
-      // Debug: armazena primeiro item para diagnóstico
+      // Debug: armazena em array separado (não é sobrescrito por upserts de grupo)
       const debugItem = updates[0];
-      recentPayloads[0].debug = {
-        msgId: debugItem?.key?.id,
-        rawAck: debugItem?.update?.status,
-        fromMe: debugItem?.key?.fromMe,
-      };
+      recentAckPayloads.unshift({
+        ts: new Date().toISOString(),
+        instance,
+        debug: {
+          msgId: debugItem?.key?.id,
+          rawAck: debugItem?.update?.status,
+          fromMe: debugItem?.key?.fromMe,
+          count: updates.length,
+        },
+      });
+      if (recentAckPayloads.length > 10) recentAckPayloads.pop();
 
       for (const item of updates) {
         const msgId: string | undefined = item?.key?.id;
@@ -245,5 +252,5 @@ export async function POST(request: NextRequest) {
 // A Evolution API pode fazer um GET para verificar o webhook
 // Também retorna os últimos payloads recebidos para diagnóstico
 export async function GET() {
-  return NextResponse.json({ ok: true, service: "LeadHub Webhook", recentPayloads });
+  return NextResponse.json({ ok: true, service: "LeadHub Webhook", recentPayloads, recentAckPayloads });
 }
