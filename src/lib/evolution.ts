@@ -133,10 +133,12 @@ export async function evolutionSetWebhookEvents(instanceName: string, webhookUrl
     method: "POST",
     headers: headers(token),
     body: JSON.stringify({
-      url: webhookUrl,
-      byEvents: false,
-      base64: false,
-      events: ["MESSAGES_UPSERT", "MESSAGES_UPDATE", "CONNECTION_UPDATE", "QRCODE_UPDATED"],
+      webhook: {
+        url: webhookUrl,
+        byEvents: false,
+        base64: false,
+        events: ["MESSAGES_UPSERT", "MESSAGES_UPDATE", "CONNECTION_UPDATE", "QRCODE_UPDATED"],
+      },
     }),
   });
   if (!res.ok) {
