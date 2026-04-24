@@ -124,6 +124,26 @@ export async function evolutionGetStatus(instanceName: string, instanceToken?: s
   return null;
 }
 
+/** Atualiza os eventos do webhook de uma instância existente */
+export async function evolutionSetWebhookEvents(instanceName: string, webhookUrl: string) {
+  const { baseUrl, apiKey } = await getConfig();
+  const res = await fetch(`${baseUrl}/webhook/set/${instanceName}`, {
+    method: "POST",
+    headers: headers(apiKey),
+    body: JSON.stringify({
+      url: webhookUrl,
+      byEvents: false,
+      base64: false,
+      events: ["MESSAGES_UPSERT", "MESSAGES_UPDATE", "CONNECTION_UPDATE", "QRCODE_UPDATED"],
+    }),
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Evolution set webhook: ${res.status} ${err}`);
+  }
+  return res.json();
+}
+
 /** Envia mensagem de texto (com citação opcional) */
 export async function evolutionSendText(
   instanceName: string,
