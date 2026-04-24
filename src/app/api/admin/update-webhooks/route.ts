@@ -12,9 +12,15 @@ import { evolutionSetWebhookEvents } from "@/lib/evolution";
  * Rode uma única vez após o deploy que adicionou o suporte a ACK.
  */
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session || (session.user as any)?.role !== "SUPER_ADMIN") {
-    return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+  // Aceita autenticação via sessão de Super Admin OU via chave secreta interna
+  const adminSecret = req.headers.get("x-admin-secret");
+  const validSecret = adminSecret === (process.env.SYNC_SECRET ?? "leadhub-sync-secret");
+
+  if (!validSecret) {
+    const session = await getServerSession(authOptions);
+    if (!session || (session.user as any)?.role !== "SUPER_ADMIN") {
+      return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+    }
   }
 
   const baseUrl = req.nextUrl.origin;
