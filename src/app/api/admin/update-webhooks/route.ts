@@ -27,14 +27,14 @@ export async function POST(req: NextRequest) {
   const webhookUrl = `${baseUrl}/api/webhook/whatsapp`;
 
   const instances = await prisma.whatsappInstance.findMany({
-    select: { id: true, instanceName: true },
+    select: { id: true, instanceName: true, instanceToken: true },
   });
 
   const results: { instanceName: string; ok: boolean; error?: string }[] = [];
 
   for (const inst of instances) {
     try {
-      await evolutionSetWebhookEvents(inst.instanceName, webhookUrl);
+      await evolutionSetWebhookEvents(inst.instanceName, webhookUrl, (inst as any).instanceToken ?? null);
       results.push({ instanceName: inst.instanceName, ok: true });
     } catch (err: any) {
       results.push({ instanceName: inst.instanceName, ok: false, error: err.message });
