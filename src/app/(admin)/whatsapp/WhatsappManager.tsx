@@ -44,6 +44,7 @@ interface Conversation {
 
 interface WaMessage {
   id: string;
+  externalId?: string | null;
   body: string;
   direction: string;
   receivedAt: string;
@@ -51,6 +52,9 @@ interface WaMessage {
   participantName: string | null;
   instance: { instanceName: string } | null;
   campaign: { id: string; name: string } | null;
+  ack?: number | null;
+  quotedId?: string | null;
+  quotedBody?: string | null;
 }
 
 const LEAD_STATUS_COLOR: Record<string, string> = {
@@ -190,6 +194,8 @@ export default function WhatsappManager({
   const [replyError, setReplyError] = useState<string | null>(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const replyTextareaRef = useRef<HTMLTextAreaElement>(null);
+  // Citação (responder mensagem específica)
+  const [replyingTo, setReplyingTo] = useState<WaMessage | null>(null);
 
   // Scroll to bottom button visibility
   const [showScrollBtn, setShowScrollBtn] = useState(false);
@@ -1020,10 +1026,17 @@ export default function WhatsappManager({
     setSendingReply(true);
     setReplyError(null);
 
+    const payload: Record<string, unknown> = { phone: selectedConv.phone, text: replyText.trim() };
+    if (replyingTo?.externalId) {
+      payload.quotedExternalId = replyingTo.externalId;
+      payload.quotedBody = replyingTo.body;
+      payload.quotedFromMe = replyingTo.direction === "OUTBOUND";
+    }
+
     const res = await fetch(`/api/whatsapp/${inst.id}/send`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ phone: selectedConv.phone, text: replyText.trim() }),
+      body: JSON.stringify(payload),
     });
 
     setSendingReply(false);
@@ -1032,10 +1045,11 @@ export default function WhatsappManager({
       const data = await res.json();
       setReplyError(data.error ?? "Erro ao enviar mensagem");
     } else {
+      const data = await res.json();
       forceScrollRef.current = true; // sempre vai ao fundo ao enviar mensagem
       setConvMessages((prev) => [
         ...prev,
-        {
+        data.message ?? {
           id: `tmp-${Date.now()}`,
           body: replyText.trim(),
           direction: "OUTBOUND",
@@ -1044,9 +1058,13 @@ export default function WhatsappManager({
           participantName: null,
           instance: { instanceName: inst.instanceName },
           campaign: null,
+          ack: 0,
+          quotedId: replyingTo?.externalId ?? null,
+          quotedBody: replyingTo?.body ?? null,
         },
       ]);
-      // Após enviar, volta à assinatura (pronta para próxima mensagem)
+      // Após enviar, limpa citação e volta à assinatura
+      setReplyingTo(null);
       setReplyText(userSignature ? `-- ${userSignature}\n\n` : "");
     }
   }
@@ -2497,8 +2515,17 @@ export default function WhatsappManager({
                       : "bg-[#0f1623] border border-[#1e2d45] text-slate-200 rounded-tl-none";
                     const bubbleAlign = isOut || isOursInGroup ? "items-end" : "items-start";
 
+                    // ACK icon para mensagens OUTBOUND
+                    const ackIcon = (isOut || isOursInGroup) ? (() => {
+                      if (msg.ack === null || msg.ack === undefined) return null;
+                      if (msg.ack <= 0)  return <span className="text-[11px] text-indigo-300/50" title="Pendente">🕐</span>;
+                      if (msg.ack === 1) return <span className="text-[11px] text-indigo-300/60" title="Enviado">✓</span>;
+                      if (msg.ack === 2) return <span className="text-[11px] text-indigo-300/80" title="Entregue">✓✓</span>;
+                      return <span className="text-[11px] text-blue-300" title="Lido">✓✓</span>; // 3=read 4=played
+                    })() : null;
+
                     return (
-                      <div key={msg.id}>
+                      <div key={msg.id} className="group/msg">
                         {showDivider && (
                           <div className="flex items-center gap-3 my-3">
                             <div className="flex-1 h-px bg-[#1e2d45]" />
@@ -2508,50 +2535,73 @@ export default function WhatsappManager({
                             <div className="flex-1 h-px bg-[#1e2d45]" />
                           </div>
                         )}
-                      <div className={`flex flex-col ${bubbleAlign}`}>
-                        <div className={`max-w-[75%] rounded-2xl px-4 py-2.5 ${bubbleStyle}`}>
+                      <div className={`flex items-end gap-1.5 ${isOut || isOursInGroup ? "flex-row-reverse" : "flex-row"}`}>
+                        {/* Botão Responder — aparece no hover, para mensagens recebidas */}
+                        {!isOut && !isOursInGroup && (
+                          <button
+                            onClick={() => { setReplyingTo(msg); replyTextareaRef.current?.focus(); }}
+                            className="opacity-0 group-hover/msg:opacity-100 transition-opacity flex-shrink-0 mb-1 w-6 h-6 rounded-full bg-[#1e2d45] hover:bg-[#2a3d5a] flex items-center justify-center text-slate-400 hover:text-white text-[11px]"
+                            title="Responder"
+                          >
+                            ↩
+                          </button>
+                        )}
 
-                          {/* Grupo: participante é um dos nossos números → nome da instância */}
-                          {isGroupConv && groupParticipant?.isOurs && (
-                            <div className={`text-[10px] font-bold mb-1 truncate ${getInstanceBadgeColor(groupParticipant.label).split(" ").filter(c => c.startsWith("text-")).join(" ")}`}>
-                              📤 {groupParticipant.label}
-                            </div>
-                          )}
+                        <div className={`flex flex-col ${bubbleAlign} max-w-[75%]`}>
+                          <div className={`rounded-2xl px-4 py-2.5 ${bubbleStyle}`}>
 
-                          {/* Grupo: participante é cliente — cor estável + clicável para nomear */}
-                          {isGroupConv && groupParticipant && !groupParticipant.isOurs && (
-                            <button
-                              onClick={() => handleOpenParticipantEdit(groupParticipant.rawNorm)}
-                              className={`text-[10px] font-bold mb-1 truncate text-left max-w-full flex items-center gap-1 group/participant hover:opacity-80 ${getParticipantColor(groupParticipant.rawNorm)}`}
-                              title="Clique para nomear este contato"
-                            >
-                              👤 {groupParticipant.label}
-                              <span className="opacity-0 group-hover/participant:opacity-60 text-[9px]">✏️</span>
-                            </button>
-                          )}
-
-                          {/* Individual recebido: nome do contato */}
-                          {contactDisplayName && (
-                            <div className="text-[10px] text-cyan-400 font-semibold mb-1 truncate">
-                              {contactDisplayName}
-                            </div>
-                          )}
-
-                          {/* Individual enviado / outbound direto: via instância */}
-                          {isOut && msg.instance && (
-                            <div className={`text-[10px] font-semibold mb-1 truncate ${getInstanceBadgeColor(msg.instance.instanceName).split(" ").filter(c => c.startsWith("text-")).join(" ")}`}>
-                              Via {msg.instance.instanceName}
-                            </div>
-                          )}
-
-                          <p className={`text-sm whitespace-pre-wrap break-words ${isMedia ? (isOut || isOursInGroup ? "italic text-indigo-200" : "italic text-slate-400") : ""}`}>{msg.body}</p>
-                          <div className={`flex items-center gap-2 mt-1 flex-wrap ${isOut || isOursInGroup ? "justify-end" : "justify-start"}`}>
-                            <span className={`text-[10px] ${isOut || isOursInGroup ? "text-indigo-200/60" : "text-slate-600"}`}>
-                              {new Date(msg.receivedAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
-                            </span>
-                            {msg.campaign && (
-                              <span className="text-[10px] text-indigo-400/70">📣 {msg.campaign.name}</span>
+                            {/* Grupo: participante é um dos nossos números → nome da instância */}
+                            {isGroupConv && groupParticipant?.isOurs && (
+                              <div className={`text-[10px] font-bold mb-1 truncate ${getInstanceBadgeColor(groupParticipant.label).split(" ").filter(c => c.startsWith("text-")).join(" ")}`}>
+                                📤 {groupParticipant.label}
+                              </div>
                             )}
+
+                            {/* Grupo: participante é cliente — cor estável + clicável para nomear */}
+                            {isGroupConv && groupParticipant && !groupParticipant.isOurs && (
+                              <button
+                                onClick={() => handleOpenParticipantEdit(groupParticipant.rawNorm)}
+                                className={`text-[10px] font-bold mb-1 truncate text-left max-w-full flex items-center gap-1 group/participant hover:opacity-80 ${getParticipantColor(groupParticipant.rawNorm)}`}
+                                title="Clique para nomear este contato"
+                              >
+                                👤 {groupParticipant.label}
+                                <span className="opacity-0 group-hover/participant:opacity-60 text-[9px]">✏️</span>
+                              </button>
+                            )}
+
+                            {/* Individual recebido: nome do contato */}
+                            {contactDisplayName && (
+                              <div className="text-[10px] text-cyan-400 font-semibold mb-1 truncate">
+                                {contactDisplayName}
+                              </div>
+                            )}
+
+                            {/* Individual enviado / outbound direto: via instância */}
+                            {isOut && msg.instance && (
+                              <div className={`text-[10px] font-semibold mb-1 truncate ${getInstanceBadgeColor(msg.instance.instanceName).split(" ").filter(c => c.startsWith("text-")).join(" ")}`}>
+                                Via {msg.instance.instanceName}
+                              </div>
+                            )}
+
+                            {/* Bloco de citação (mensagem respondida) */}
+                            {msg.quotedBody && (
+                              <div className={`mb-2 pl-2 border-l-2 ${isOut || isOursInGroup ? "border-indigo-300/40" : "border-slate-500/50"} rounded-sm`}>
+                                <p className={`text-[11px] italic truncate ${isOut || isOursInGroup ? "text-indigo-200/70" : "text-slate-500"}`}>
+                                  {msg.quotedBody}
+                                </p>
+                              </div>
+                            )}
+
+                            <p className={`text-sm whitespace-pre-wrap break-words ${isMedia ? (isOut || isOursInGroup ? "italic text-indigo-200" : "italic text-slate-400") : ""}`}>{msg.body}</p>
+                            <div className={`flex items-center gap-1.5 mt-1 flex-wrap ${isOut || isOursInGroup ? "justify-end" : "justify-start"}`}>
+                              <span className={`text-[10px] ${isOut || isOursInGroup ? "text-indigo-200/60" : "text-slate-600"}`}>
+                                {new Date(msg.receivedAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
+                              </span>
+                              {ackIcon}
+                              {msg.campaign && (
+                                <span className="text-[10px] text-indigo-400/70">📣 {msg.campaign.name}</span>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -2974,6 +3024,22 @@ export default function WhatsappManager({
                       </div>
                     );
                   })()}
+
+                  {/* Preview da citação (ao clicar Responder) */}
+                  {replyingTo && (
+                    <div className="mx-1 mb-1 flex items-start gap-2 bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2">
+                      <div className="flex-1 min-w-0 border-l-2 border-indigo-400 pl-2">
+                        <p className="text-[10px] text-indigo-400 font-semibold mb-0.5">
+                          {replyingTo.direction === "OUTBOUND" ? "Você" : (selectedConv?.companyContact?.name ?? selectedConv?.lead?.name ?? selectedConv?.phone)}
+                        </p>
+                        <p className="text-[11px] text-slate-400 truncate">{replyingTo.body}</p>
+                      </div>
+                      <button
+                        onClick={() => setReplyingTo(null)}
+                        className="text-slate-600 hover:text-white text-sm flex-shrink-0 mt-0.5"
+                      >✕</button>
+                    </div>
+                  )}
 
                   <div className="flex-1 relative">
                     <textarea

@@ -316,6 +316,9 @@ model Message {
   processed        Boolean     @default(false)
   rawPayload       Json?
   receivedAt       DateTime    @default(now())
+  ack              Int? // ACK: 0=pending 1=server 2=delivered 3=read 4=played
+  quotedId         String? // externalId da mensagem citada
+  quotedBody       String?     @db.Text // snapshot do corpo da mensagem citada
 
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String

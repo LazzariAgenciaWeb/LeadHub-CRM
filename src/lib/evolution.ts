@@ -37,7 +37,7 @@ export async function evolutionCreateInstance(instanceName: string, webhookUrl: 
         url: webhookUrl,
         byEvents: false,
         base64: false,
-        events: ["MESSAGES_UPSERT", "CONNECTION_UPDATE", "QRCODE_UPDATED"],
+        events: ["MESSAGES_UPSERT", "MESSAGES_UPDATE", "CONNECTION_UPDATE", "QRCODE_UPDATED"],
       },
     }),
   });
@@ -124,8 +124,14 @@ export async function evolutionGetStatus(instanceName: string, instanceToken?: s
   return null;
 }
 
-/** Envia mensagem de texto */
-export async function evolutionSendText(instanceName: string, phone: string, text: string, instanceToken?: string | null) {
+/** Envia mensagem de texto (com citação opcional) */
+export async function evolutionSendText(
+  instanceName: string,
+  phone: string,
+  text: string,
+  instanceToken?: string | null,
+  quoted?: { externalId: string; body: string; fromMe: boolean } | null
+) {
   const { baseUrl, apiKey } = await getConfig();
 
   // No v2, endpoints de instância exigem o token da instância
@@ -134,13 +140,24 @@ export async function evolutionSendText(instanceName: string, phone: string, tex
   // Para grupos: preservar o JID completo; para individuais: só dígitos
   const number = phone.includes("@g.us") ? phone : phone.replace(/\D/g, "");
 
+  const body: Record<string, unknown> = { number, text };
+
+  // Adicionar citação se fornecida
+  if (quoted) {
+    body.quoted = {
+      key: {
+        remoteJid: phone.includes("@g.us") ? phone : `${number}@s.whatsapp.net`,
+        fromMe: quoted.fromMe,
+        id: quoted.externalId,
+      },
+      message: { conversation: quoted.body },
+    };
+  }
+
   const res = await fetch(`${baseUrl}/message/sendText/${instanceName}`, {
     method: "POST",
     headers: headers(authKey),
-    body: JSON.stringify({
-      number,
-      text,
-    }),
+    body: JSON.stringify(body),
   });
 
   if (!res.ok) {

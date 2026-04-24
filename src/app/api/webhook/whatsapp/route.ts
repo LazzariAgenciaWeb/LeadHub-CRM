@@ -52,6 +52,33 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: true, skipped: "connection_update" });
     }
 
+    // ── MESSAGES_UPDATE → atualizar ACK (entregue / lido) ───────────────────
+    if (normalizedEvent === "messages.update") {
+      const { prisma } = await import("@/lib/prisma");
+      const updates: any[] = Array.isArray(data) ? data : (data ? [data] : []);
+      for (const item of updates) {
+        const msgId: string | undefined = item?.key?.id;
+        const rawAck = item?.update?.status;
+        if (!msgId || rawAck === undefined) continue;
+
+        // Normaliza ACK para inteiro (Evolution pode enviar string ou número)
+        const ACK_MAP: Record<string, number> = {
+          ERROR: -1, PENDING: 0, SERVER_ACK: 1, DELIVERY_ACK: 2, READ: 3, PLAYED: 4,
+        };
+        const ackInt: number | null =
+          typeof rawAck === "number" ? rawAck :
+          typeof rawAck === "string" ? (ACK_MAP[rawAck] ?? null) : null;
+
+        if (ackInt !== null) {
+          await prisma.message.updateMany({
+            where: { externalId: msgId },
+            data: { ack: ackInt },
+          });
+        }
+      }
+      return NextResponse.json({ ok: true, event: "messages.update" });
+    }
+
     // Processar apenas mensagens recebidas
     // A Evolution pode enviar como "messages.upsert" ou "MESSAGES_UPSERT" (webhookByEvents=true)
     if (normalizedEvent !== "messages.upsert") {
@@ -61,6 +88,29 @@ export async function POST(request: NextRequest) {
     const message = data?.message;
     const key = data?.key;
     const fromMe = key?.fromMe === true;
+
+    // Timestamp real da mensagem (segundos → ms); fallback: agora
+    const receivedAt = data?.messageTimestamp
+      ? new Date(Number(data.messageTimestamp) * 1000)
+      : new Date();
+
+    // Citação: verifica contextInfo dentro das mensagens que suportam isso
+    const contextInfo =
+      message?.extendedTextMessage?.contextInfo ??
+      message?.imageMessage?.contextInfo ??
+      message?.videoMessage?.contextInfo ??
+      message?.documentMessage?.contextInfo ??
+      message?.audioMessage?.contextInfo ??
+      message?.stickerMessage?.contextInfo ??
+      null;
+    const quotedId: string | null = contextInfo?.stanzaId ?? null;
+    const quotedBody: string | null = contextInfo?.quotedMessage
+      ? (contextInfo.quotedMessage.conversation ??
+         contextInfo.quotedMessage.extendedTextMessage?.text ??
+         contextInfo.quotedMessage.imageMessage?.caption ??
+         contextInfo.quotedMessage.videoMessage?.caption ??
+         "📎 Mídia")
+      : null;
 
     // Extrair telefone do contato (sempre o remoteJid)
     const rawPhone = key?.remoteJid ?? "";
@@ -146,8 +196,10 @@ export async function POST(request: NextRequest) {
               direction: "OUTBOUND",
               processed: true,
               rawPayload: body,
+              receivedAt,
               companyId: waInstance.companyId,
               instanceId: waInstance.id,
+              ...(quotedId ? { quotedId, quotedBody } : {}),
             },
           });
         }
@@ -164,6 +216,9 @@ export async function POST(request: NextRequest) {
       contactName,
       participantPhone,
       participantName,
+      receivedAt,
+      quotedId,
+      quotedBody,
     });
 
     return NextResponse.json({

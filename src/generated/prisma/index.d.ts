@@ -13738,8 +13738,18 @@ export namespace Prisma {
 
   export type AggregateMessage = {
     _count: MessageCountAggregateOutputType | null
+    _avg: MessageAvgAggregateOutputType | null
+    _sum: MessageSumAggregateOutputType | null
     _min: MessageMinAggregateOutputType | null
     _max: MessageMaxAggregateOutputType | null
+  }
+
+  export type MessageAvgAggregateOutputType = {
+    ack: number | null
+  }
+
+  export type MessageSumAggregateOutputType = {
+    ack: number | null
   }
 
   export type MessageMinAggregateOutputType = {
@@ -13753,6 +13763,9 @@ export namespace Prisma {
     identifiedAs: $Enums.LeadStatus | null
     processed: boolean | null
     receivedAt: Date | null
+    ack: number | null
+    quotedId: string | null
+    quotedBody: string | null
     companyId: string | null
     instanceId: string | null
     campaignId: string | null
@@ -13770,6 +13783,9 @@ export namespace Prisma {
     identifiedAs: $Enums.LeadStatus | null
     processed: boolean | null
     receivedAt: Date | null
+    ack: number | null
+    quotedId: string | null
+    quotedBody: string | null
     companyId: string | null
     instanceId: string | null
     campaignId: string | null
@@ -13788,6 +13804,9 @@ export namespace Prisma {
     processed: number
     rawPayload: number
     receivedAt: number
+    ack: number
+    quotedId: number
+    quotedBody: number
     companyId: number
     instanceId: number
     campaignId: number
@@ -13795,6 +13814,14 @@ export namespace Prisma {
     _all: number
   }
 
+
+  export type MessageAvgAggregateInputType = {
+    ack?: true
+  }
+
+  export type MessageSumAggregateInputType = {
+    ack?: true
+  }
 
   export type MessageMinAggregateInputType = {
     id?: true
@@ -13807,6 +13834,9 @@ export namespace Prisma {
     identifiedAs?: true
     processed?: true
     receivedAt?: true
+    ack?: true
+    quotedId?: true
+    quotedBody?: true
     companyId?: true
     instanceId?: true
     campaignId?: true
@@ -13824,6 +13854,9 @@ export namespace Prisma {
     identifiedAs?: true
     processed?: true
     receivedAt?: true
+    ack?: true
+    quotedId?: true
+    quotedBody?: true
     companyId?: true
     instanceId?: true
     campaignId?: true
@@ -13842,6 +13875,9 @@ export namespace Prisma {
     processed?: true
     rawPayload?: true
     receivedAt?: true
+    ack?: true
+    quotedId?: true
+    quotedBody?: true
     companyId?: true
     instanceId?: true
     campaignId?: true
@@ -13887,6 +13923,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: MessageAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MessageSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: MessageMinAggregateInputType
@@ -13917,6 +13965,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: MessageCountAggregateInputType | true
+    _avg?: MessageAvgAggregateInputType
+    _sum?: MessageSumAggregateInputType
     _min?: MessageMinAggregateInputType
     _max?: MessageMaxAggregateInputType
   }
@@ -13933,11 +13983,16 @@ export namespace Prisma {
     processed: boolean
     rawPayload: JsonValue | null
     receivedAt: Date
+    ack: number | null
+    quotedId: string | null
+    quotedBody: string | null
     companyId: string
     instanceId: string | null
     campaignId: string | null
     leadId: string | null
     _count: MessageCountAggregateOutputType | null
+    _avg: MessageAvgAggregateOutputType | null
+    _sum: MessageSumAggregateOutputType | null
     _min: MessageMinAggregateOutputType | null
     _max: MessageMaxAggregateOutputType | null
   }
@@ -13968,6 +14023,9 @@ export namespace Prisma {
     processed?: boolean
     rawPayload?: boolean
     receivedAt?: boolean
+    ack?: boolean
+    quotedId?: boolean
+    quotedBody?: boolean
     companyId?: boolean
     instanceId?: boolean
     campaignId?: boolean
@@ -13990,6 +14048,9 @@ export namespace Prisma {
     processed?: boolean
     rawPayload?: boolean
     receivedAt?: boolean
+    ack?: boolean
+    quotedId?: boolean
+    quotedBody?: boolean
     companyId?: boolean
     instanceId?: boolean
     campaignId?: boolean
@@ -14012,6 +14073,9 @@ export namespace Prisma {
     processed?: boolean
     rawPayload?: boolean
     receivedAt?: boolean
+    ack?: boolean
+    quotedId?: boolean
+    quotedBody?: boolean
     companyId?: boolean
     instanceId?: boolean
     campaignId?: boolean
@@ -14051,6 +14115,9 @@ export namespace Prisma {
       processed: boolean
       rawPayload: Prisma.JsonValue | null
       receivedAt: Date
+      ack: number | null
+      quotedId: string | null
+      quotedBody: string | null
       companyId: string
       instanceId: string | null
       campaignId: string | null
@@ -14463,6 +14530,9 @@ export namespace Prisma {
     readonly processed: FieldRef<"Message", 'Boolean'>
     readonly rawPayload: FieldRef<"Message", 'Json'>
     readonly receivedAt: FieldRef<"Message", 'DateTime'>
+    readonly ack: FieldRef<"Message", 'Int'>
+    readonly quotedId: FieldRef<"Message", 'String'>
+    readonly quotedBody: FieldRef<"Message", 'String'>
     readonly companyId: FieldRef<"Message", 'String'>
     readonly instanceId: FieldRef<"Message", 'String'>
     readonly campaignId: FieldRef<"Message", 'String'>
@@ -21868,6 +21938,9 @@ export namespace Prisma {
     processed: 'processed',
     rawPayload: 'rawPayload',
     receivedAt: 'receivedAt',
+    ack: 'ack',
+    quotedId: 'quotedId',
+    quotedBody: 'quotedBody',
     companyId: 'companyId',
     instanceId: 'instanceId',
     campaignId: 'campaignId',
@@ -23152,6 +23225,9 @@ export namespace Prisma {
     processed?: BoolFilter<"Message"> | boolean
     rawPayload?: JsonNullableFilter<"Message">
     receivedAt?: DateTimeFilter<"Message"> | Date | string
+    ack?: IntNullableFilter<"Message"> | number | null
+    quotedId?: StringNullableFilter<"Message"> | string | null
+    quotedBody?: StringNullableFilter<"Message"> | string | null
     companyId?: StringFilter<"Message"> | string
     instanceId?: StringNullableFilter<"Message"> | string | null
     campaignId?: StringNullableFilter<"Message"> | string | null
@@ -23174,6 +23250,9 @@ export namespace Prisma {
     processed?: SortOrder
     rawPayload?: SortOrderInput | SortOrder
     receivedAt?: SortOrder
+    ack?: SortOrderInput | SortOrder
+    quotedId?: SortOrderInput | SortOrder
+    quotedBody?: SortOrderInput | SortOrder
     companyId?: SortOrder
     instanceId?: SortOrderInput | SortOrder
     campaignId?: SortOrderInput | SortOrder
@@ -23199,6 +23278,9 @@ export namespace Prisma {
     processed?: BoolFilter<"Message"> | boolean
     rawPayload?: JsonNullableFilter<"Message">
     receivedAt?: DateTimeFilter<"Message"> | Date | string
+    ack?: IntNullableFilter<"Message"> | number | null
+    quotedId?: StringNullableFilter<"Message"> | string | null
+    quotedBody?: StringNullableFilter<"Message"> | string | null
     companyId?: StringFilter<"Message"> | string
     instanceId?: StringNullableFilter<"Message"> | string | null
     campaignId?: StringNullableFilter<"Message"> | string | null
@@ -23221,13 +23303,18 @@ export namespace Prisma {
     processed?: SortOrder
     rawPayload?: SortOrderInput | SortOrder
     receivedAt?: SortOrder
+    ack?: SortOrderInput | SortOrder
+    quotedId?: SortOrderInput | SortOrder
+    quotedBody?: SortOrderInput | SortOrder
     companyId?: SortOrder
     instanceId?: SortOrderInput | SortOrder
     campaignId?: SortOrderInput | SortOrder
     leadId?: SortOrderInput | SortOrder
     _count?: MessageCountOrderByAggregateInput
+    _avg?: MessageAvgOrderByAggregateInput
     _max?: MessageMaxOrderByAggregateInput
     _min?: MessageMinOrderByAggregateInput
+    _sum?: MessageSumOrderByAggregateInput
   }
 
   export type MessageScalarWhereWithAggregatesInput = {
@@ -23245,6 +23332,9 @@ export namespace Prisma {
     processed?: BoolWithAggregatesFilter<"Message"> | boolean
     rawPayload?: JsonNullableWithAggregatesFilter<"Message">
     receivedAt?: DateTimeWithAggregatesFilter<"Message"> | Date | string
+    ack?: IntNullableWithAggregatesFilter<"Message"> | number | null
+    quotedId?: StringNullableWithAggregatesFilter<"Message"> | string | null
+    quotedBody?: StringNullableWithAggregatesFilter<"Message"> | string | null
     companyId?: StringWithAggregatesFilter<"Message"> | string
     instanceId?: StringNullableWithAggregatesFilter<"Message"> | string | null
     campaignId?: StringNullableWithAggregatesFilter<"Message"> | string | null
@@ -24769,6 +24859,9 @@ export namespace Prisma {
     processed?: boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
@@ -24787,6 +24880,9 @@ export namespace Prisma {
     processed?: boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
     companyId: string
     instanceId?: string | null
     campaignId?: string | null
@@ -24805,6 +24901,9 @@ export namespace Prisma {
     processed?: BoolFieldUpdateOperationsInput | boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
@@ -24823,6 +24922,9 @@ export namespace Prisma {
     processed?: BoolFieldUpdateOperationsInput | boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24841,6 +24943,9 @@ export namespace Prisma {
     processed?: boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
     companyId: string
     instanceId?: string | null
     campaignId?: string | null
@@ -24859,6 +24964,9 @@ export namespace Prisma {
     processed?: BoolFieldUpdateOperationsInput | boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageUncheckedUpdateManyInput = {
@@ -24873,6 +24981,9 @@ export namespace Prisma {
     processed?: BoolFieldUpdateOperationsInput | boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26331,6 +26442,17 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type WhatsappInstanceNullableRelationFilter = {
     is?: WhatsappInstanceWhereInput | null
     isNot?: WhatsappInstanceWhereInput | null
@@ -26353,10 +26475,17 @@ export namespace Prisma {
     processed?: SortOrder
     rawPayload?: SortOrder
     receivedAt?: SortOrder
+    ack?: SortOrder
+    quotedId?: SortOrder
+    quotedBody?: SortOrder
     companyId?: SortOrder
     instanceId?: SortOrder
     campaignId?: SortOrder
     leadId?: SortOrder
+  }
+
+  export type MessageAvgOrderByAggregateInput = {
+    ack?: SortOrder
   }
 
   export type MessageMaxOrderByAggregateInput = {
@@ -26370,6 +26499,9 @@ export namespace Prisma {
     identifiedAs?: SortOrder
     processed?: SortOrder
     receivedAt?: SortOrder
+    ack?: SortOrder
+    quotedId?: SortOrder
+    quotedBody?: SortOrder
     companyId?: SortOrder
     instanceId?: SortOrder
     campaignId?: SortOrder
@@ -26387,10 +26519,17 @@ export namespace Prisma {
     identifiedAs?: SortOrder
     processed?: SortOrder
     receivedAt?: SortOrder
+    ack?: SortOrder
+    quotedId?: SortOrder
+    quotedBody?: SortOrder
     companyId?: SortOrder
     instanceId?: SortOrder
     campaignId?: SortOrder
     leadId?: SortOrder
+  }
+
+  export type MessageSumOrderByAggregateInput = {
+    ack?: SortOrder
   }
 
   export type EnumMessageDirWithAggregatesFilter<$PrismaModel = never> = {
@@ -26436,6 +26575,22 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedJsonNullableFilter<$PrismaModel>
     _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type KeywordRuleCountOrderByAggregateInput = {
@@ -28068,6 +28223,14 @@ export namespace Prisma {
     set?: $Enums.LeadStatus | null
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type CompanyUpdateOneRequiredWithoutMessagesNestedInput = {
     create?: XOR<CompanyCreateWithoutMessagesInput, CompanyUncheckedCreateWithoutMessagesInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutMessagesInput
@@ -28803,6 +28966,22 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
   export type NestedEnumTicketStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.TicketStatus | EnumTicketStatusFieldRefInput<$PrismaModel>
     in?: $Enums.TicketStatus[] | ListEnumTicketStatusFieldRefInput<$PrismaModel>
@@ -29495,6 +29674,9 @@ export namespace Prisma {
     processed?: boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
@@ -29512,6 +29694,9 @@ export namespace Prisma {
     processed?: boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
     instanceId?: string | null
     campaignId?: string | null
     leadId?: string | null
@@ -30028,6 +30213,9 @@ export namespace Prisma {
     processed?: BoolFilter<"Message"> | boolean
     rawPayload?: JsonNullableFilter<"Message">
     receivedAt?: DateTimeFilter<"Message"> | Date | string
+    ack?: IntNullableFilter<"Message"> | number | null
+    quotedId?: StringNullableFilter<"Message"> | string | null
+    quotedBody?: StringNullableFilter<"Message"> | string | null
     companyId?: StringFilter<"Message"> | string
     instanceId?: StringNullableFilter<"Message"> | string | null
     campaignId?: StringNullableFilter<"Message"> | string | null
@@ -30344,6 +30532,9 @@ export namespace Prisma {
     processed?: boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
@@ -30361,6 +30552,9 @@ export namespace Prisma {
     processed?: boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
     companyId: string
     instanceId?: string | null
     leadId?: string | null
@@ -31173,6 +31367,9 @@ export namespace Prisma {
     processed?: boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
@@ -31190,6 +31387,9 @@ export namespace Prisma {
     processed?: boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
     companyId: string
     instanceId?: string | null
     campaignId?: string | null
@@ -31978,6 +32178,9 @@ export namespace Prisma {
     processed?: boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
     company: CompanyCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
@@ -31995,6 +32198,9 @@ export namespace Prisma {
     processed?: boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
     companyId: string
     campaignId?: string | null
     leadId?: string | null
@@ -33959,6 +34165,9 @@ export namespace Prisma {
     processed?: boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
     instanceId?: string | null
     campaignId?: string | null
     leadId?: string | null
@@ -34327,6 +34536,9 @@ export namespace Prisma {
     processed?: BoolFieldUpdateOperationsInput | boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
@@ -34344,6 +34556,9 @@ export namespace Prisma {
     processed?: BoolFieldUpdateOperationsInput | boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34361,6 +34576,9 @@ export namespace Prisma {
     processed?: BoolFieldUpdateOperationsInput | boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34634,6 +34852,9 @@ export namespace Prisma {
     processed?: boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
     companyId: string
     instanceId?: string | null
     leadId?: string | null
@@ -34744,6 +34965,9 @@ export namespace Prisma {
     processed?: BoolFieldUpdateOperationsInput | boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
@@ -34761,6 +34985,9 @@ export namespace Prisma {
     processed?: BoolFieldUpdateOperationsInput | boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34778,6 +35005,9 @@ export namespace Prisma {
     processed?: BoolFieldUpdateOperationsInput | boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34988,6 +35218,9 @@ export namespace Prisma {
     processed?: boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
     companyId: string
     instanceId?: string | null
     campaignId?: string | null
@@ -35012,6 +35245,9 @@ export namespace Prisma {
     processed?: BoolFieldUpdateOperationsInput | boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
@@ -35029,6 +35265,9 @@ export namespace Prisma {
     processed?: BoolFieldUpdateOperationsInput | boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35046,6 +35285,9 @@ export namespace Prisma {
     processed?: BoolFieldUpdateOperationsInput | boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35084,6 +35326,9 @@ export namespace Prisma {
     processed?: boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
     companyId: string
     campaignId?: string | null
     leadId?: string | null
@@ -35105,6 +35350,9 @@ export namespace Prisma {
     processed?: BoolFieldUpdateOperationsInput | boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
@@ -35122,6 +35370,9 @@ export namespace Prisma {
     processed?: BoolFieldUpdateOperationsInput | boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35139,6 +35390,9 @@ export namespace Prisma {
     processed?: BoolFieldUpdateOperationsInput | boolean
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null

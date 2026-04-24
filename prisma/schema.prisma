@@ -27,9 +27,9 @@ model User {
   company   Company? @relation(fields: [companyId], references: [id])
   companyId String?
 
-  ticketsCreated  Ticket[]        @relation("TicketCreatedBy")
-  companyContact  CompanyContact? @relation("ContactUser")
-  setores         SetorUser[]
+  ticketsCreated Ticket[]        @relation("TicketCreatedBy")
+  companyContact CompanyContact? @relation("ContactUser")
+  setores        SetorUser[]
 
   @@index([companyId])
 }
@@ -55,10 +55,10 @@ model Company {
   updatedAt DateTime      @updatedAt
 
   // Acesso ao sistema e módulos habilitados
-  hasSystemAccess Boolean @default(false)  // pode fazer login no portal?
-  moduleWhatsapp  Boolean @default(false)  // módulo WhatsApp
-  moduleCrm       Boolean @default(true)   // módulo CRM (padrão ligado)
-  moduleTickets   Boolean @default(false)  // módulo Chamados
+  hasSystemAccess Boolean @default(false) // pode fazer login no portal?
+  moduleWhatsapp  Boolean @default(false) // módulo WhatsApp
+  moduleCrm       Boolean @default(true) // módulo CRM (padrão ligado)
+  moduleTickets   Boolean @default(false) // módulo Chamados
 
   // Hierarquia: empresa-pai gerencia sub-empresas (clientes da empresa)
   parentCompanyId String?
@@ -76,7 +76,7 @@ model Company {
   pipelineStages    PipelineStageConfig[]
   contacts          CompanyContact[]
   setores           Setor[]
-  triggerOnly       Boolean @default(false)
+  triggerOnly       Boolean               @default(false)
 
   @@index([parentCompanyId])
 }
@@ -131,16 +131,16 @@ enum CampaignStatus {
 // ─── Links de Rastreio ────────────────────────────────────────────────────────
 
 model TrackingLink {
-  id          String   @id @default(cuid())
-  code        String   @unique
-  label       String?
-  destination String
-  destType    String   @default("url")
-  clicks      Int      @default(0)
-  ogTitle     String?
-  ogDescription String? @db.Text
-  ogImage     String?
-  createdAt   DateTime @default(now())
+  id            String   @id @default(cuid())
+  code          String   @unique
+  label         String?
+  destination   String
+  destType      String   @default("url")
+  clicks        Int      @default(0)
+  ogTitle       String?
+  ogDescription String?  @db.Text
+  ogImage       String?
+  createdAt     DateTime @default(now())
 
   campaign   Campaign? @relation(fields: [campaignId], references: [id], onDelete: Cascade)
   campaignId String?
@@ -156,12 +156,12 @@ model TrackingLink {
 }
 
 model ClickEvent {
-  id            String   @id @default(cuid())
-  trackingLink  TrackingLink @relation(fields: [trackingLinkId], references: [id], onDelete: Cascade)
+  id             String       @id @default(cuid())
+  trackingLink   TrackingLink @relation(fields: [trackingLinkId], references: [id], onDelete: Cascade)
   trackingLinkId String
-  targetUrl     String   @db.Text
-  targetLabel   String?
-  createdAt     DateTime @default(now())
+  targetUrl      String       @db.Text
+  targetLabel    String?
+  createdAt      DateTime     @default(now())
 
   @@index([trackingLinkId])
 }
@@ -181,16 +181,16 @@ model Lead {
   updatedAt DateTime   @updatedAt
 
   // CRM Pipeline
-  pipeline      String?  // "PROSPECCAO" | "LEADS" | "OPORTUNIDADES"
-  pipelineStage String?  // nome da etapa configurável
-  externalId    String?  // ID externo (ex: id do Supabase BDR para evitar duplicatas)
+  pipeline      String? // "PROSPECCAO" | "LEADS" | "OPORTUNIDADES"
+  pipelineStage String? // nome da etapa configurável
+  externalId    String? // ID externo (ex: id do Supabase BDR para evitar duplicatas)
 
   // Atendimento WhatsApp
-  attendanceStatus  String?   // "WAITING" | "IN_PROGRESS" | "RESOLVED" | "SCHEDULED"
-  expectedReturnAt  DateTime? // previsão de retorno quando agendado
+  attendanceStatus String? // "WAITING" | "IN_PROGRESS" | "RESOLVED" | "SCHEDULED"
+  expectedReturnAt DateTime? // previsão de retorno quando agendado
 
   // Integração ClickUp
-  clickupTaskId     String?   // ID ou URL da tarefa no ClickUp
+  clickupTaskId String? // ID ou URL da tarefa no ClickUp
 
   // Visibilidade: isInternal=true → visível apenas ao SUPER_ADMIN (não aparece no portal do cliente)
   isInternal Boolean @default(false)
@@ -239,12 +239,12 @@ model LeadComment {
 // ─── Etapas de Pipeline Configuráveis ────────────────────────────────────────
 
 model PipelineStageConfig {
-  id        String  @id @default(cuid())
-  pipeline  String  // "PROSPECCAO" | "LEADS" | "OPORTUNIDADES"
-  name      String
-  color     String  @default("#6366f1")
-  order     Int     @default(0)
-  isFinal   Boolean @default(false) // FECHADO / PERDIDO — etapas de encerramento
+  id       String  @id @default(cuid())
+  pipeline String // "PROSPECCAO" | "LEADS" | "OPORTUNIDADES"
+  name     String
+  color    String  @default("#6366f1")
+  order    Int     @default(0)
+  isFinal  Boolean @default(false) // FECHADO / PERDIDO — etapas de encerramento
 
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
@@ -256,23 +256,23 @@ model PipelineStageConfig {
 
 model CompanyContact {
   id        String   @id @default(cuid())
-  name      String?                      // nome do contato / grupo
-  phone     String                       // número (55...) ou group-id (@g.us)
-  isGroup   Boolean  @default(false)     // true = grupo do WhatsApp
+  name      String? // nome do contato / grupo
+  phone     String // número (55...) ou group-id (@g.us)
+  isGroup   Boolean  @default(false) // true = grupo do WhatsApp
   role      String   @default("CONTACT") // "CONTACT" | "DECISION_MAKER" | "TECHNICAL" | "FINANCIAL"
-  hasAccess Boolean  @default(false)     // acesso ao portal do cliente
+  hasAccess Boolean  @default(false) // acesso ao portal do cliente
   notes     String?
   createdAt DateTime @default(now())
 
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
 
   // Quando hasAccess = true, pode ter um User vinculado (login no portal)
-  user      User?   @relation("ContactUser", fields: [userId], references: [id])
-  userId    String? @unique
+  user   User?   @relation("ContactUser", fields: [userId], references: [id])
+  userId String? @unique
 
-  @@index([companyId])
   @@unique([companyId, phone])
+  @@index([companyId])
 }
 
 // ─── Instâncias WhatsApp ──────────────────────────────────────────────────────
@@ -283,7 +283,7 @@ model WhatsappInstance {
   phone         String?
   status        InstanceStatus @default(DISCONNECTED)
   webhookUrl    String?
-  instanceToken String?        // token da instância na Evolution API (para auth em endpoints específicos)
+  instanceToken String? // token da instância na Evolution API (para auth em endpoints específicos)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 
@@ -307,15 +307,18 @@ enum InstanceStatus {
 model Message {
   id               String      @id @default(cuid())
   externalId       String?     @unique
-  phone            String      // telefone individual ou JID do grupo (@g.us)
-  participantPhone String?     // quem enviou dentro do grupo (preenchido só para mensagens de grupo)
-  participantName  String?     // nome do participante do grupo (pushName da Evolution API)
+  phone            String // telefone individual ou JID do grupo (@g.us)
+  participantPhone String? // quem enviou dentro do grupo (preenchido só para mensagens de grupo)
+  participantName  String? // nome do participante do grupo (pushName da Evolution API)
   body             String      @db.Text
   direction        MessageDir  @default(INBOUND)
   identifiedAs     LeadStatus?
   processed        Boolean     @default(false)
   rawPayload       Json?
   receivedAt       DateTime    @default(now())
+  ack              Int?        // ACK: 0=pending 1=server 2=delivered 3=read 4=played
+  quotedId         String?     // externalId da mensagem citada
+  quotedBody       String?     @db.Text // snapshot do corpo da mensagem citada
 
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
@@ -326,7 +329,7 @@ model Message {
   campaign   Campaign? @relation(fields: [campaignId], references: [id])
   campaignId String?
 
-  lead   Lead? @relation(fields: [leadId], references: [id])
+  lead   Lead?   @relation(fields: [leadId], references: [id])
   leadId String?
 
   @@index([companyId])
@@ -368,19 +371,19 @@ model Setting {
 // ─── Chamados (Helpdesk) ──────────────────────────────────────────────────────
 
 model Ticket {
-  id          String         @id @default(cuid())
-  title       String
-  description String         @db.Text
-  status      TicketStatus   @default(OPEN)
-  priority    TicketPriority @default(MEDIUM)
-  category    String?
-  phone       String?        // telefone WhatsApp de origem (quando criado via WhatsApp)
-  clickupTaskId String?      // ID ou URL da tarefa no ClickUp
-  ticketStage String?        // etapa configurável do kanban de chamados
+  id            String         @id @default(cuid())
+  title         String
+  description   String         @db.Text
+  status        TicketStatus   @default(OPEN)
+  priority      TicketPriority @default(MEDIUM)
+  category      String?
+  phone         String? // telefone WhatsApp de origem (quando criado via WhatsApp)
+  clickupTaskId String? // ID ou URL da tarefa no ClickUp
+  ticketStage   String? // etapa configurável do kanban de chamados
   // Visibilidade: isInternal=true → visível apenas ao SUPER_ADMIN (não aparece no portal do cliente)
-  isInternal  Boolean        @default(false)
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  isInternal    Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
@@ -439,12 +442,12 @@ model Setor {
   companyId String
 
   // Permissões do setor
-  canManageUsers     Boolean @default(false) // cadastrar/editar usuários
-  canViewLeads       Boolean @default(true)  // ver prospects/leads/oportunidades
-  canCreateLeads     Boolean @default(false) // cadastrar/mover leads
-  canViewTickets     Boolean @default(true)  // ver chamados do setor
-  canCreateTickets   Boolean @default(true)  // abrir chamados
-  canViewConfig      Boolean @default(false) // acessar configurações
+  canManageUsers   Boolean @default(false) // cadastrar/editar usuários
+  canViewLeads     Boolean @default(true) // ver prospects/leads/oportunidades
+  canCreateLeads   Boolean @default(false) // cadastrar/mover leads
+  canViewTickets   Boolean @default(true) // ver chamados do setor
+  canCreateTickets Boolean @default(true) // abrir chamados
+  canViewConfig    Boolean @default(false) // acessar configurações
 
   users     SetorUser[]
   instances SetorInstance[]
