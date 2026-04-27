@@ -204,6 +204,11 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
                             Chamados
                           </span>
                         )}
+                        {(company as any).moduleAI && (
+                          <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400">
+                            IA
+                          </span>
+                        )}
                       </>
                     )}
                   </div>

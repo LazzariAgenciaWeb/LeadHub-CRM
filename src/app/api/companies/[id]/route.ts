@@ -17,9 +17,19 @@ export async function GET(
   const userRole = (session.user as any).role;
   const userCompanyId = (session.user as any).companyId;
 
-  // Clientes só podem ver a própria empresa
-  if (userRole !== "SUPER_ADMIN" && userCompanyId !== id) {
-    return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
+  // SUPER_ADMIN: acesso total
+  // ADMIN: pode ver a própria empresa e sub-empresas (clientes)
+  // CLIENT: apenas a própria empresa
+  if (userRole !== "SUPER_ADMIN") {
+    if (userCompanyId === id) {
+      // própria empresa — sempre permitido
+    } else if (userRole === "ADMIN") {
+      // verifica se é sub-empresa do ADMIN
+      const sub = await prisma.company.findFirst({ where: { id, parentCompanyId: userCompanyId } });
+      if (!sub) return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
+    } else {
+      return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
+    }
   }
 
   const company = await prisma.company.findUnique({
@@ -47,19 +57,29 @@ export async function PATCH(
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
   const { id } = await params;
-  const isSuperAdmin = (session.user as any).role === "SUPER_ADMIN";
+  const userRole = (session.user as any).role;
+  const isSuperAdmin = userRole === "SUPER_ADMIN";
   const userCompanyId = (session.user as any).companyId as string | undefined;
 
-  // CLIENT só pode editar a própria empresa
-  if (!isSuperAdmin && userCompanyId !== id) {
-    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  // SUPER_ADMIN: acesso total
+  // ADMIN: pode editar a própria empresa e sub-empresas
+  // CLIENT: apenas a própria empresa
+  if (!isSuperAdmin) {
+    if (userCompanyId === id) {
+      // própria empresa — ok
+    } else if (userRole === "ADMIN") {
+      const sub = await prisma.company.findFirst({ where: { id, parentCompanyId: userCompanyId } });
+      if (!sub) return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+    } else {
+      return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+    }
   }
 
   const body = await request.json();
   const {
     name, segment, phone, email, website, logoUrl, status, triggerOnly,
     // SUPER_ADMIN only
-    hasSystemAccess, moduleWhatsapp, moduleCrm, moduleTickets, parentCompanyId,
+    hasSystemAccess, moduleWhatsapp, moduleCrm, moduleTickets, moduleAI, parentCompanyId,
   } = body;
 
   // Campos que apenas SUPER_ADMIN pode alterar
@@ -71,6 +91,7 @@ export async function PATCH(
         ...(moduleWhatsapp !== undefined && { moduleWhatsapp }),
         ...(moduleCrm !== undefined && { moduleCrm }),
         ...(moduleTickets !== undefined && { moduleTickets }),
+        ...(moduleAI !== undefined && { moduleAI }),
         ...(parentCompanyId !== undefined && { parentCompanyId: parentCompanyId || null }),
       }
     : {};
