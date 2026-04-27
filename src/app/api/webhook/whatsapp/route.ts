@@ -35,22 +35,54 @@ export async function POST(request: NextRequest) {
 
     const normalizedEvent = event.toLowerCase().replace(/_/g, ".");
 
-    // CONNECTION_UPDATE → salvar telefone da instância quando conecta
+    // CONNECTION_UPDATE → salvar telefone + garantir webhook configurado
     if (normalizedEvent === "connection.update") {
       const state = data?.state ?? data?.instance?.state;
       if (state === "open") {
-        // Evolution v2 envia me.id = "5511999@s.whatsapp.net"
+        const { prisma } = await import("@/lib/prisma");
+        const { evolutionSetWebhookEvents } = await import("@/lib/evolution");
+
+        // Salvar telefone da instância (vem em me.id = "5511999@s.whatsapp.net")
         const meId: string | undefined = data?.me?.id ?? data?.instance?.owner;
         if (meId) {
           const phone = meId.replace("@s.whatsapp.net", "").replace(/\D/g, "");
-          await (await import("@/lib/prisma")).prisma.whatsappInstance.updateMany({
+          await prisma.whatsappInstance.updateMany({
             where: { instanceName: instance },
-            data: { phone },
+            data: { phone, status: "CONNECTED" },
           });
           console.log(`[Webhook WA] Instância ${instance} conectada com phone=${phone}`);
         }
+
+        // Configurar webhook automaticamente para garantir que eventos sejam enviados
+        // (cobre casos de nova instância ou reconexão após troca de servidor)
+        try {
+          const baseUrl = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, "") ?? "";
+          if (baseUrl) {
+            const webhookUrl = `${baseUrl}/api/webhook/whatsapp`;
+            // Buscar token da instância no banco
+            const inst = await prisma.whatsappInstance.findFirst({
+              where: { instanceName: instance },
+              select: { instanceToken: true },
+            });
+            await evolutionSetWebhookEvents(instance, webhookUrl, (inst as any)?.instanceToken ?? null);
+            console.log(`[Webhook WA] Webhook reconfigurado para ${instance} → ${webhookUrl}`);
+          }
+        } catch (webhookErr) {
+          // Não bloqueia o fluxo — apenas loga
+          console.warn(`[Webhook WA] Falha ao reconfigurar webhook de ${instance}:`, webhookErr);
+        }
       }
-      return NextResponse.json({ ok: true, skipped: "connection_update" });
+
+      // Atualizar status para DISCONNECTED quando desconecta
+      if (state === "close" || state === "connecting") {
+        const { prisma } = await import("@/lib/prisma");
+        await prisma.whatsappInstance.updateMany({
+          where: { instanceName: instance },
+          data: { status: state === "connecting" ? "CONNECTING" : "DISCONNECTED" },
+        }).catch(() => {});
+      }
+
+      return NextResponse.json({ ok: true, event: "connection_update", state });
     }
 
     // ── MESSAGES_UPDATE → atualizar ACK (entregue / lido) ───────────────────
