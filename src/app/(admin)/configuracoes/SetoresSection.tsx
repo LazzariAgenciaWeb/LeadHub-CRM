@@ -19,6 +19,11 @@ interface Setor {
   canViewTickets: boolean;
   canCreateTickets: boolean;
   canViewConfig: boolean;
+  canUseAI: boolean;
+  canViewInbox: boolean;
+  canSendMessages: boolean;
+  canViewCompanies: boolean;
+  canCreateCompanies: boolean;
   users: SetorUser[];
   instances: SetorInstance[];
   _count: { tickets: number };
@@ -27,15 +32,63 @@ interface Setor {
 interface User     { id: string; name: string; email: string }
 interface Instance { id: string; instanceName: string; phone: string | null; status: string }
 
-type PermKey = "canManageUsers" | "canViewLeads" | "canCreateLeads" | "canViewTickets" | "canCreateTickets" | "canViewConfig";
-const PERMS: { key: PermKey; label: string; desc: string }[] = [
-  { key: "canViewLeads",     label: "Ver CRM",              desc: "Prospects, Leads e Oportunidades" },
-  { key: "canCreateLeads",   label: "Cadastrar no CRM",     desc: "Criar e mover leads" },
-  { key: "canViewTickets",   label: "Ver Chamados",         desc: "Chamados atribuídos ao setor" },
-  { key: "canCreateTickets", label: "Abrir Chamados",       desc: "Criar novos chamados" },
-  { key: "canViewConfig",    label: "Configurações",        desc: "Acessar área de configurações" },
-  { key: "canManageUsers",   label: "Gerenciar Usuários",   desc: "Cadastrar e editar usuários" },
+type PermKey =
+  | "canManageUsers" | "canViewLeads" | "canCreateLeads"
+  | "canViewTickets" | "canCreateTickets" | "canViewConfig"
+  | "canUseAI" | "canViewInbox" | "canSendMessages"
+  | "canViewCompanies" | "canCreateCompanies";
+
+interface PermGroup {
+  label: string;
+  perms: { key: PermKey; label: string; desc: string }[];
+}
+
+const PERM_GROUPS: PermGroup[] = [
+  {
+    label: "Mensagens (WhatsApp)",
+    perms: [
+      { key: "canViewInbox",      label: "Ver Mensagens",      desc: "Acessar a caixa de entrada" },
+      { key: "canSendMessages",   label: "Enviar Mensagens",   desc: "Responder conversas" },
+    ],
+  },
+  {
+    label: "CRM",
+    perms: [
+      { key: "canViewLeads",      label: "Ver CRM",            desc: "Prospects, Leads e Oportunidades" },
+      { key: "canCreateLeads",    label: "Cadastrar no CRM",   desc: "Criar e mover leads" },
+    ],
+  },
+  {
+    label: "Chamados",
+    perms: [
+      { key: "canViewTickets",    label: "Ver Chamados",       desc: "Chamados atribuídos ao setor" },
+      { key: "canCreateTickets",  label: "Abrir Chamados",     desc: "Criar novos chamados" },
+    ],
+  },
+  {
+    label: "Inteligência Artificial",
+    perms: [
+      { key: "canUseAI",          label: "Usar Assistente IA", desc: "Análises e chat com IA" },
+    ],
+  },
+  {
+    label: "Empresas",
+    perms: [
+      { key: "canViewCompanies",  label: "Ver Empresas",       desc: "Lista de clientes/empresas" },
+      { key: "canCreateCompanies",label: "Criar Empresas",     desc: "Cadastrar novas empresas" },
+    ],
+  },
+  {
+    label: "Administração",
+    perms: [
+      { key: "canViewConfig",     label: "Configurações",      desc: "Acessar área de configurações" },
+      { key: "canManageUsers",    label: "Gerenciar Usuários", desc: "Cadastrar e editar usuários" },
+    ],
+  },
 ];
+
+// flat list for the permission badge summary on the card
+const ALL_PERMS = PERM_GROUPS.flatMap((g) => g.perms);
 
 const STATUS_DOT: Record<string, string> = {
   CONNECTED:    "bg-green-400",
@@ -57,14 +110,19 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean
 
 const EMPTY_FORM = {
   name: "",
-  canManageUsers: false,
-  canViewLeads: true,
-  canCreateLeads: false,
-  canViewTickets: true,
-  canCreateTickets: true,
-  canViewConfig: false,
-  userIds: [] as string[],
-  instanceIds: [] as string[],
+  canManageUsers:    false,
+  canViewLeads:      true,
+  canCreateLeads:    false,
+  canViewTickets:    true,
+  canCreateTickets:  true,
+  canViewConfig:     false,
+  canUseAI:          false,
+  canViewInbox:      true,
+  canSendMessages:   true,
+  canViewCompanies:  false,
+  canCreateCompanies:false,
+  userIds:           [] as string[],
+  instanceIds:       [] as string[],
 };
 
 export default function SetoresSection({
@@ -95,15 +153,20 @@ export default function SetoresSection({
     setCreating(false);
     setSaveError(null);
     setForm({
-      name:             s.name,
-      canManageUsers:   s.canManageUsers,
-      canViewLeads:     s.canViewLeads,
-      canCreateLeads:   s.canCreateLeads,
-      canViewTickets:   s.canViewTickets,
-      canCreateTickets: s.canCreateTickets,
-      canViewConfig:    s.canViewConfig,
-      userIds:          s.users.map((u) => u.userId),
-      instanceIds:      s.instances.map((i) => i.instanceId),
+      name:               s.name,
+      canManageUsers:     s.canManageUsers,
+      canViewLeads:       s.canViewLeads,
+      canCreateLeads:     s.canCreateLeads,
+      canViewTickets:     s.canViewTickets,
+      canCreateTickets:   s.canCreateTickets,
+      canViewConfig:      s.canViewConfig,
+      canUseAI:           s.canUseAI,
+      canViewInbox:       s.canViewInbox,
+      canSendMessages:    s.canSendMessages,
+      canViewCompanies:   s.canViewCompanies,
+      canCreateCompanies: s.canCreateCompanies,
+      userIds:            s.users.map((u) => u.userId),
+      instanceIds:        s.instances.map((i) => i.instanceId),
     });
     setEditing(s);
   }
@@ -238,7 +301,7 @@ export default function SetoresSection({
 
                 {/* Resumo de permissões */}
                 <div className="flex flex-wrap gap-1 mt-2.5">
-                  {PERMS.filter((p) => (s as any)[p.key] as boolean).map((p) => (
+                  {ALL_PERMS.filter((p) => (s as any)[p.key] as boolean).map((p) => (
                     <span key={p.key} className="text-[10px] px-1.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400">
                       {p.label}
                     </span>
@@ -288,17 +351,24 @@ export default function SetoresSection({
             {/* Permissões */}
             <div className="mb-6">
               <label className="text-slate-400 text-xs font-semibold uppercase tracking-wider block mb-3">Permissões</label>
-              <div className="space-y-2.5">
-                {PERMS.map((p) => (
-                  <div key={p.key} className="flex items-center justify-between gap-4 px-3 py-2.5 rounded-lg bg-[#0c1220] border border-[#1e2d45]">
-                    <div>
-                      <p className="text-white text-xs font-medium">{p.label}</p>
-                      <p className="text-slate-600 text-[10px]">{p.desc}</p>
+              <div className="space-y-4">
+                {PERM_GROUPS.map((group) => (
+                  <div key={group.label}>
+                    <p className="text-slate-600 text-[10px] font-semibold uppercase tracking-wider mb-1.5 px-1">{group.label}</p>
+                    <div className="space-y-1.5">
+                      {group.perms.map((p) => (
+                        <div key={p.key} className="flex items-center justify-between gap-4 px-3 py-2.5 rounded-lg bg-[#0c1220] border border-[#1e2d45]">
+                          <div>
+                            <p className="text-white text-xs font-medium">{p.label}</p>
+                            <p className="text-slate-600 text-[10px]">{p.desc}</p>
+                          </div>
+                          <Toggle
+                            checked={(form as any)[p.key] as boolean}
+                            onChange={(v) => setForm((prev) => ({ ...prev, [p.key]: v }))}
+                          />
+                        </div>
+                      ))}
                     </div>
-                    <Toggle
-                      checked={(form as any)[p.key] as boolean}
-                      onChange={(v) => setForm((prev) => ({ ...prev, [p.key]: v }))}
-                    />
                   </div>
                 ))}
               </div>

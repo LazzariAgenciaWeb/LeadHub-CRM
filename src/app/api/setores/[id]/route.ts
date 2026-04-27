@@ -53,6 +53,11 @@ export async function PATCH(
     canViewTickets,
     canCreateTickets,
     canViewConfig,
+    canUseAI,
+    canViewInbox,
+    canSendMessages,
+    canViewCompanies,
+    canCreateCompanies,
     userIds,     // string[] | undefined — substitui lista completa se fornecido
     instanceIds, // string[] | undefined — substitui lista completa se fornecido
   } = body;
@@ -61,13 +66,18 @@ export async function PATCH(
   const setor = await prisma.setor.update({
     where: { id },
     data: {
-      ...(name !== undefined             && { name: name.trim() }),
-      ...(canManageUsers !== undefined   && { canManageUsers }),
-      ...(canViewLeads !== undefined     && { canViewLeads }),
-      ...(canCreateLeads !== undefined   && { canCreateLeads }),
-      ...(canViewTickets !== undefined   && { canViewTickets }),
-      ...(canCreateTickets !== undefined && { canCreateTickets }),
-      ...(canViewConfig !== undefined    && { canViewConfig }),
+      ...(name !== undefined               && { name: name.trim() }),
+      ...(canManageUsers !== undefined     && { canManageUsers }),
+      ...(canViewLeads !== undefined       && { canViewLeads }),
+      ...(canCreateLeads !== undefined     && { canCreateLeads }),
+      ...(canViewTickets !== undefined     && { canViewTickets }),
+      ...(canCreateTickets !== undefined   && { canCreateTickets }),
+      ...(canViewConfig !== undefined      && { canViewConfig }),
+      ...(canUseAI !== undefined           && { canUseAI }),
+      ...(canViewInbox !== undefined       && { canViewInbox }),
+      ...(canSendMessages !== undefined    && { canSendMessages }),
+      ...(canViewCompanies !== undefined   && { canViewCompanies }),
+      ...(canCreateCompanies !== undefined && { canCreateCompanies }),
     },
   });
 
