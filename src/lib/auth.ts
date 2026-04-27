@@ -16,7 +16,20 @@ export const authOptions: NextAuthOptions = {
 
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
-          include: { company: true },
+          include: {
+            company: {
+              select: {
+                moduleAI: true,
+                moduleCrm: true,
+                moduleWhatsapp: true,
+                moduleTickets: true,
+              },
+            },
+            setores: {
+              include: { setor: true },
+              take: 1,
+            },
+          },
         });
 
         if (!user) return null;
@@ -28,12 +41,34 @@ export const authOptions: NextAuthOptions = {
 
         if (!passwordMatch) return null;
 
+        const primarySetor = user.setores[0]?.setor ?? null;
+
         return {
           id: user.id,
           name: user.name,
           email: user.email,
           role: user.role,
           companyId: user.companyId ?? undefined,
+          setorId: primarySetor?.id ?? undefined,
+          permissions: primarySetor ? {
+            canManageUsers:     primarySetor.canManageUsers,
+            canViewLeads:       primarySetor.canViewLeads,
+            canCreateLeads:     primarySetor.canCreateLeads,
+            canViewTickets:     primarySetor.canViewTickets,
+            canCreateTickets:   primarySetor.canCreateTickets,
+            canViewConfig:      primarySetor.canViewConfig,
+            canUseAI:           (primarySetor as any).canUseAI ?? false,
+            canViewInbox:       (primarySetor as any).canViewInbox ?? true,
+            canSendMessages:    (primarySetor as any).canSendMessages ?? true,
+            canViewCompanies:   (primarySetor as any).canViewCompanies ?? false,
+            canCreateCompanies: (primarySetor as any).canCreateCompanies ?? false,
+          } : null,
+          modules: {
+            ai:       (user.company as any)?.moduleAI ?? false,
+            crm:      user.company?.moduleCrm ?? true,
+            whatsapp: user.company?.moduleWhatsapp ?? false,
+            tickets:  user.company?.moduleTickets ?? false,
+          },
         };
       },
     }),
@@ -44,6 +79,9 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.role = (user as any).role;
         token.companyId = (user as any).companyId;
+        token.setorId = (user as any).setorId;
+        token.permissions = (user as any).permissions;
+        token.modules = (user as any).modules;
       }
       return token;
     },
@@ -52,6 +90,9 @@ export const authOptions: NextAuthOptions = {
         (session.user as any).id = token.sub;
         (session.user as any).role = token.role;
         (session.user as any).companyId = token.companyId;
+        (session.user as any).setorId = token.setorId;
+        (session.user as any).permissions = token.permissions;
+        (session.user as any).modules = token.modules;
       }
       return session;
     },

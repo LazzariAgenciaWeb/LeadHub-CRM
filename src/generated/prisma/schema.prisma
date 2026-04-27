@@ -36,7 +36,8 @@ model User {
 
 enum UserRole {
   SUPER_ADMIN
-  CLIENT
+  ADMIN // admin da empresa (gerencia usuários, setores, config)
+  CLIENT // agente/atendente — permissões controladas pelo setor
 }
 
 // ─── Empresas ─────────────────────────────────────────────────────────────────
@@ -59,6 +60,7 @@ model Company {
   moduleWhatsapp  Boolean @default(false) // módulo WhatsApp
   moduleCrm       Boolean @default(true) // módulo CRM (padrão ligado)
   moduleTickets   Boolean @default(false) // módulo Chamados
+  moduleAI        Boolean @default(false) // módulo Assistente IA
 
   // Hierarquia: empresa-pai gerencia sub-empresas (clientes da empresa)
   parentCompanyId String?
@@ -442,12 +444,17 @@ model Setor {
   companyId String
 
   // Permissões do setor
-  canManageUsers   Boolean @default(false) // cadastrar/editar usuários
-  canViewLeads     Boolean @default(true) // ver prospects/leads/oportunidades
-  canCreateLeads   Boolean @default(false) // cadastrar/mover leads
-  canViewTickets   Boolean @default(true) // ver chamados do setor
-  canCreateTickets Boolean @default(true) // abrir chamados
-  canViewConfig    Boolean @default(false) // acessar configurações
+  canManageUsers     Boolean @default(false) // cadastrar/editar usuários
+  canViewLeads       Boolean @default(true) // ver prospects/leads/oportunidades
+  canCreateLeads     Boolean @default(false) // cadastrar/mover leads
+  canViewTickets     Boolean @default(true) // ver chamados do setor
+  canCreateTickets   Boolean @default(true) // abrir chamados
+  canViewConfig      Boolean @default(false) // acessar configurações
+  canUseAI           Boolean @default(false) // usar Assistente IA e sugestões
+  canViewInbox       Boolean @default(true) // acessar caixa de entrada WhatsApp
+  canSendMessages    Boolean @default(true) // enviar mensagens WhatsApp
+  canViewCompanies   Boolean @default(false) // ver lista de empresas/clientes
+  canCreateCompanies Boolean @default(false) // cadastrar novas empresas
 
   users     SetorUser[]
   instances SetorInstance[]

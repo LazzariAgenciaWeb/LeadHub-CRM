@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { isSuperAdmin, isAdmin, can } from "@/lib/permissions";
 
 // GET /api/companies?search= — Lista empresas
-// SUPER_ADMIN: vê todas (sem parentCompanyId = empresas de nível 1)
-// CLIENT: vê as sub-empresas cadastradas por ele (parentCompanyId = sua companyId)
+// SUPER_ADMIN: vê todos os tenants (empresas de nível 1)
+// ADMIN: vê sua empresa e sub-empresas (clientes)
+// CLIENT com canViewCompanies: vê sub-empresas da sua empresa
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
@@ -14,10 +16,18 @@ export async function GET(req: NextRequest) {
   const userCompanyId = (session.user as any).companyId;
   const search = new URL(req.url).searchParams.get("search");
 
+  // CLIENT sem canViewCompanies → bloqueado
+  if (role === "CLIENT" && !can(session, "canViewCompanies")) {
+    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  }
+
   const where: any = {};
 
-  if (role !== "SUPER_ADMIN") {
-    // CLIENT: lista seus clientes (sub-empresas onde parentCompanyId = minha empresa)
+  if (isSuperAdmin(session)) {
+    // SUPER_ADMIN: vê todos os tenants (sem parentCompanyId = nível 1)
+    where.parentCompanyId = null;
+  } else {
+    // ADMIN e CLIENT: vê sub-empresas da sua empresa (clientes)
     if (!userCompanyId) return NextResponse.json([]);
     where.parentCompanyId = userCompanyId;
   }
@@ -75,8 +85,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Nome é obrigatório" }, { status: 400 });
   }
 
-  // CLIENT só pode criar sub-empresa vinculada a si mesmo
-  if (role !== "SUPER_ADMIN" && !userCompanyId) {
+  // CLIENT sem canCreateCompanies → bloqueado
+  if (role === "CLIENT" && !can(session, "canCreateCompanies")) {
+    return NextResponse.json({ error: "Sem permissão para criar empresas" }, { status: 403 });
+  }
+
+  if (!isSuperAdmin(session) && !userCompanyId) {
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
 
@@ -99,7 +113,7 @@ export async function POST(request: NextRequest) {
     website: website || null,
   };
 
-  if (role === "SUPER_ADMIN") {
+  if (isSuperAdmin(session)) {
     // SUPER_ADMIN pode definir tudo
     if (hasSystemAccess !== undefined) data.hasSystemAccess = hasSystemAccess;
     if (moduleWhatsapp !== undefined) data.moduleWhatsapp = moduleWhatsapp;
@@ -107,7 +121,7 @@ export async function POST(request: NextRequest) {
     if (moduleTickets !== undefined) data.moduleTickets = moduleTickets;
     if (parentCompanyId) data.parentCompanyId = parentCompanyId;
   } else {
-    // CLIENT: sub-empresa sem acesso ao sistema, vinculada ao criador
+    // ADMIN e CLIENT: sub-empresa vinculada à sua empresa
     data.hasSystemAccess = false;
     data.parentCompanyId = userCompanyId;
   }

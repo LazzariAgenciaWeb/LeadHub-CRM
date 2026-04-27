@@ -150,6 +150,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   moduleWhatsapp: 'moduleWhatsapp',
   moduleCrm: 'moduleCrm',
   moduleTickets: 'moduleTickets',
+  moduleAI: 'moduleAI',
   parentCompanyId: 'parentCompanyId',
   triggerOnly: 'triggerOnly'
 };
@@ -333,7 +334,12 @@ exports.Prisma.SetorScalarFieldEnum = {
   canCreateLeads: 'canCreateLeads',
   canViewTickets: 'canViewTickets',
   canCreateTickets: 'canCreateTickets',
-  canViewConfig: 'canViewConfig'
+  canViewConfig: 'canViewConfig',
+  canUseAI: 'canUseAI',
+  canViewInbox: 'canViewInbox',
+  canSendMessages: 'canSendMessages',
+  canViewCompanies: 'canViewCompanies',
+  canCreateCompanies: 'canCreateCompanies'
 };
 
 exports.Prisma.SetorUserScalarFieldEnum = {
@@ -373,6 +379,7 @@ exports.Prisma.JsonNullValueFilter = {
 };
 exports.UserRole = exports.$Enums.UserRole = {
   SUPER_ADMIN: 'SUPER_ADMIN',
+  ADMIN: 'ADMIN',
   CLIENT: 'CLIENT'
 };
 

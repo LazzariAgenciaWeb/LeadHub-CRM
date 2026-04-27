@@ -110,6 +110,7 @@ export type SetorInstance = $Result.DefaultSelection<Prisma.$SetorInstancePayloa
 export namespace $Enums {
   export const UserRole: {
   SUPER_ADMIN: 'SUPER_ADMIN',
+  ADMIN: 'ADMIN',
   CLIENT: 'CLIENT'
 };
 
@@ -3949,6 +3950,7 @@ export namespace Prisma {
     moduleWhatsapp: boolean | null
     moduleCrm: boolean | null
     moduleTickets: boolean | null
+    moduleAI: boolean | null
     parentCompanyId: string | null
     triggerOnly: boolean | null
   }
@@ -3969,6 +3971,7 @@ export namespace Prisma {
     moduleWhatsapp: boolean | null
     moduleCrm: boolean | null
     moduleTickets: boolean | null
+    moduleAI: boolean | null
     parentCompanyId: string | null
     triggerOnly: boolean | null
   }
@@ -3989,6 +3992,7 @@ export namespace Prisma {
     moduleWhatsapp: number
     moduleCrm: number
     moduleTickets: number
+    moduleAI: number
     parentCompanyId: number
     triggerOnly: number
     _all: number
@@ -4011,6 +4015,7 @@ export namespace Prisma {
     moduleWhatsapp?: true
     moduleCrm?: true
     moduleTickets?: true
+    moduleAI?: true
     parentCompanyId?: true
     triggerOnly?: true
   }
@@ -4031,6 +4036,7 @@ export namespace Prisma {
     moduleWhatsapp?: true
     moduleCrm?: true
     moduleTickets?: true
+    moduleAI?: true
     parentCompanyId?: true
     triggerOnly?: true
   }
@@ -4051,6 +4057,7 @@ export namespace Prisma {
     moduleWhatsapp?: true
     moduleCrm?: true
     moduleTickets?: true
+    moduleAI?: true
     parentCompanyId?: true
     triggerOnly?: true
     _all?: true
@@ -4144,6 +4151,7 @@ export namespace Prisma {
     moduleWhatsapp: boolean
     moduleCrm: boolean
     moduleTickets: boolean
+    moduleAI: boolean
     parentCompanyId: string | null
     triggerOnly: boolean
     _count: CompanyCountAggregateOutputType | null
@@ -4181,6 +4189,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
     parentCompany?: boolean | Company$parentCompanyArgs<ExtArgs>
@@ -4215,6 +4224,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
     parentCompany?: boolean | Company$parentCompanyArgs<ExtArgs>
@@ -4236,6 +4246,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
   }
@@ -4293,6 +4304,7 @@ export namespace Prisma {
       moduleWhatsapp: boolean
       moduleCrm: boolean
       moduleTickets: boolean
+      moduleAI: boolean
       parentCompanyId: string | null
       triggerOnly: boolean
     }, ExtArgs["result"]["company"]>
@@ -4716,6 +4728,7 @@ export namespace Prisma {
     readonly moduleWhatsapp: FieldRef<"Company", 'Boolean'>
     readonly moduleCrm: FieldRef<"Company", 'Boolean'>
     readonly moduleTickets: FieldRef<"Company", 'Boolean'>
+    readonly moduleAI: FieldRef<"Company", 'Boolean'>
     readonly parentCompanyId: FieldRef<"Company", 'String'>
     readonly triggerOnly: FieldRef<"Company", 'Boolean'>
   }
@@ -18883,6 +18896,11 @@ export namespace Prisma {
     canViewTickets: boolean | null
     canCreateTickets: boolean | null
     canViewConfig: boolean | null
+    canUseAI: boolean | null
+    canViewInbox: boolean | null
+    canSendMessages: boolean | null
+    canViewCompanies: boolean | null
+    canCreateCompanies: boolean | null
   }
 
   export type SetorMaxAggregateOutputType = {
@@ -18897,6 +18915,11 @@ export namespace Prisma {
     canViewTickets: boolean | null
     canCreateTickets: boolean | null
     canViewConfig: boolean | null
+    canUseAI: boolean | null
+    canViewInbox: boolean | null
+    canSendMessages: boolean | null
+    canViewCompanies: boolean | null
+    canCreateCompanies: boolean | null
   }
 
   export type SetorCountAggregateOutputType = {
@@ -18911,6 +18934,11 @@ export namespace Prisma {
     canViewTickets: number
     canCreateTickets: number
     canViewConfig: number
+    canUseAI: number
+    canViewInbox: number
+    canSendMessages: number
+    canViewCompanies: number
+    canCreateCompanies: number
     _all: number
   }
 
@@ -18927,6 +18955,11 @@ export namespace Prisma {
     canViewTickets?: true
     canCreateTickets?: true
     canViewConfig?: true
+    canUseAI?: true
+    canViewInbox?: true
+    canSendMessages?: true
+    canViewCompanies?: true
+    canCreateCompanies?: true
   }
 
   export type SetorMaxAggregateInputType = {
@@ -18941,6 +18974,11 @@ export namespace Prisma {
     canViewTickets?: true
     canCreateTickets?: true
     canViewConfig?: true
+    canUseAI?: true
+    canViewInbox?: true
+    canSendMessages?: true
+    canViewCompanies?: true
+    canCreateCompanies?: true
   }
 
   export type SetorCountAggregateInputType = {
@@ -18955,6 +18993,11 @@ export namespace Prisma {
     canViewTickets?: true
     canCreateTickets?: true
     canViewConfig?: true
+    canUseAI?: true
+    canViewInbox?: true
+    canSendMessages?: true
+    canViewCompanies?: true
+    canCreateCompanies?: true
     _all?: true
   }
 
@@ -19042,6 +19085,11 @@ export namespace Prisma {
     canViewTickets: boolean
     canCreateTickets: boolean
     canViewConfig: boolean
+    canUseAI: boolean
+    canViewInbox: boolean
+    canSendMessages: boolean
+    canViewCompanies: boolean
+    canCreateCompanies: boolean
     _count: SetorCountAggregateOutputType | null
     _min: SetorMinAggregateOutputType | null
     _max: SetorMaxAggregateOutputType | null
@@ -19073,6 +19121,11 @@ export namespace Prisma {
     canViewTickets?: boolean
     canCreateTickets?: boolean
     canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     users?: boolean | Setor$usersArgs<ExtArgs>
     instances?: boolean | Setor$instancesArgs<ExtArgs>
@@ -19092,6 +19145,11 @@ export namespace Prisma {
     canViewTickets?: boolean
     canCreateTickets?: boolean
     canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["setor"]>
 
@@ -19107,6 +19165,11 @@ export namespace Prisma {
     canViewTickets?: boolean
     canCreateTickets?: boolean
     canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
   }
 
   export type SetorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -19140,6 +19203,11 @@ export namespace Prisma {
       canViewTickets: boolean
       canCreateTickets: boolean
       canViewConfig: boolean
+      canUseAI: boolean
+      canViewInbox: boolean
+      canSendMessages: boolean
+      canViewCompanies: boolean
+      canCreateCompanies: boolean
     }, ExtArgs["result"]["setor"]>
     composites: {}
   }
@@ -19548,6 +19616,11 @@ export namespace Prisma {
     readonly canViewTickets: FieldRef<"Setor", 'Boolean'>
     readonly canCreateTickets: FieldRef<"Setor", 'Boolean'>
     readonly canViewConfig: FieldRef<"Setor", 'Boolean'>
+    readonly canUseAI: FieldRef<"Setor", 'Boolean'>
+    readonly canViewInbox: FieldRef<"Setor", 'Boolean'>
+    readonly canSendMessages: FieldRef<"Setor", 'Boolean'>
+    readonly canViewCompanies: FieldRef<"Setor", 'Boolean'>
+    readonly canCreateCompanies: FieldRef<"Setor", 'Boolean'>
   }
     
 
@@ -21791,6 +21864,7 @@ export namespace Prisma {
     moduleWhatsapp: 'moduleWhatsapp',
     moduleCrm: 'moduleCrm',
     moduleTickets: 'moduleTickets',
+    moduleAI: 'moduleAI',
     parentCompanyId: 'parentCompanyId',
     triggerOnly: 'triggerOnly'
   };
@@ -22016,7 +22090,12 @@ export namespace Prisma {
     canCreateLeads: 'canCreateLeads',
     canViewTickets: 'canViewTickets',
     canCreateTickets: 'canCreateTickets',
-    canViewConfig: 'canViewConfig'
+    canViewConfig: 'canViewConfig',
+    canUseAI: 'canUseAI',
+    canViewInbox: 'canViewInbox',
+    canSendMessages: 'canSendMessages',
+    canViewCompanies: 'canViewCompanies',
+    canCreateCompanies: 'canCreateCompanies'
   };
 
   export type SetorScalarFieldEnum = (typeof SetorScalarFieldEnum)[keyof typeof SetorScalarFieldEnum]
@@ -22386,6 +22465,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFilter<"Company"> | boolean
     moduleCrm?: BoolFilter<"Company"> | boolean
     moduleTickets?: BoolFilter<"Company"> | boolean
+    moduleAI?: BoolFilter<"Company"> | boolean
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
     parentCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
@@ -22419,6 +22499,7 @@ export namespace Prisma {
     moduleWhatsapp?: SortOrder
     moduleCrm?: SortOrder
     moduleTickets?: SortOrder
+    moduleAI?: SortOrder
     parentCompanyId?: SortOrderInput | SortOrder
     triggerOnly?: SortOrder
     parentCompany?: CompanyOrderByWithRelationInput
@@ -22455,6 +22536,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFilter<"Company"> | boolean
     moduleCrm?: BoolFilter<"Company"> | boolean
     moduleTickets?: BoolFilter<"Company"> | boolean
+    moduleAI?: BoolFilter<"Company"> | boolean
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
     parentCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
@@ -22488,6 +22570,7 @@ export namespace Prisma {
     moduleWhatsapp?: SortOrder
     moduleCrm?: SortOrder
     moduleTickets?: SortOrder
+    moduleAI?: SortOrder
     parentCompanyId?: SortOrderInput | SortOrder
     triggerOnly?: SortOrder
     _count?: CompanyCountOrderByAggregateInput
@@ -22514,6 +22597,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleCrm?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleTickets?: BoolWithAggregatesFilter<"Company"> | boolean
+    moduleAI?: BoolWithAggregatesFilter<"Company"> | boolean
     parentCompanyId?: StringNullableWithAggregatesFilter<"Company"> | string | null
     triggerOnly?: BoolWithAggregatesFilter<"Company"> | boolean
   }
@@ -23642,6 +23726,11 @@ export namespace Prisma {
     canViewTickets?: BoolFilter<"Setor"> | boolean
     canCreateTickets?: BoolFilter<"Setor"> | boolean
     canViewConfig?: BoolFilter<"Setor"> | boolean
+    canUseAI?: BoolFilter<"Setor"> | boolean
+    canViewInbox?: BoolFilter<"Setor"> | boolean
+    canSendMessages?: BoolFilter<"Setor"> | boolean
+    canViewCompanies?: BoolFilter<"Setor"> | boolean
+    canCreateCompanies?: BoolFilter<"Setor"> | boolean
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     users?: SetorUserListRelationFilter
     instances?: SetorInstanceListRelationFilter
@@ -23660,6 +23749,11 @@ export namespace Prisma {
     canViewTickets?: SortOrder
     canCreateTickets?: SortOrder
     canViewConfig?: SortOrder
+    canUseAI?: SortOrder
+    canViewInbox?: SortOrder
+    canSendMessages?: SortOrder
+    canViewCompanies?: SortOrder
+    canCreateCompanies?: SortOrder
     company?: CompanyOrderByWithRelationInput
     users?: SetorUserOrderByRelationAggregateInput
     instances?: SetorInstanceOrderByRelationAggregateInput
@@ -23681,6 +23775,11 @@ export namespace Prisma {
     canViewTickets?: BoolFilter<"Setor"> | boolean
     canCreateTickets?: BoolFilter<"Setor"> | boolean
     canViewConfig?: BoolFilter<"Setor"> | boolean
+    canUseAI?: BoolFilter<"Setor"> | boolean
+    canViewInbox?: BoolFilter<"Setor"> | boolean
+    canSendMessages?: BoolFilter<"Setor"> | boolean
+    canViewCompanies?: BoolFilter<"Setor"> | boolean
+    canCreateCompanies?: BoolFilter<"Setor"> | boolean
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     users?: SetorUserListRelationFilter
     instances?: SetorInstanceListRelationFilter
@@ -23699,6 +23798,11 @@ export namespace Prisma {
     canViewTickets?: SortOrder
     canCreateTickets?: SortOrder
     canViewConfig?: SortOrder
+    canUseAI?: SortOrder
+    canViewInbox?: SortOrder
+    canSendMessages?: SortOrder
+    canViewCompanies?: SortOrder
+    canCreateCompanies?: SortOrder
     _count?: SetorCountOrderByAggregateInput
     _max?: SetorMaxOrderByAggregateInput
     _min?: SetorMinOrderByAggregateInput
@@ -23719,6 +23823,11 @@ export namespace Prisma {
     canViewTickets?: BoolWithAggregatesFilter<"Setor"> | boolean
     canCreateTickets?: BoolWithAggregatesFilter<"Setor"> | boolean
     canViewConfig?: BoolWithAggregatesFilter<"Setor"> | boolean
+    canUseAI?: BoolWithAggregatesFilter<"Setor"> | boolean
+    canViewInbox?: BoolWithAggregatesFilter<"Setor"> | boolean
+    canSendMessages?: BoolWithAggregatesFilter<"Setor"> | boolean
+    canViewCompanies?: BoolWithAggregatesFilter<"Setor"> | boolean
+    canCreateCompanies?: BoolWithAggregatesFilter<"Setor"> | boolean
   }
 
   export type SetorUserWhereInput = {
@@ -23920,6 +24029,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     triggerOnly?: boolean
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
@@ -23952,6 +24062,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -23984,6 +24095,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
@@ -24016,6 +24128,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -24048,6 +24161,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
   }
@@ -24068,6 +24182,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -24087,6 +24202,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
   }
@@ -25300,6 +25416,11 @@ export namespace Prisma {
     canViewTickets?: boolean
     canCreateTickets?: boolean
     canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
     company: CompanyCreateNestedOneWithoutSetoresInput
     users?: SetorUserCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
@@ -25318,6 +25439,11 @@ export namespace Prisma {
     canViewTickets?: boolean
     canCreateTickets?: boolean
     canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
@@ -25334,6 +25460,11 @@ export namespace Prisma {
     canViewTickets?: BoolFieldUpdateOperationsInput | boolean
     canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
     canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
@@ -25352,6 +25483,11 @@ export namespace Prisma {
     canViewTickets?: BoolFieldUpdateOperationsInput | boolean
     canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
     canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
@@ -25369,6 +25505,11 @@ export namespace Prisma {
     canViewTickets?: boolean
     canCreateTickets?: boolean
     canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
   }
 
   export type SetorUpdateManyMutationInput = {
@@ -25382,6 +25523,11 @@ export namespace Prisma {
     canViewTickets?: BoolFieldUpdateOperationsInput | boolean
     canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
     canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type SetorUncheckedUpdateManyInput = {
@@ -25396,6 +25542,11 @@ export namespace Prisma {
     canViewTickets?: BoolFieldUpdateOperationsInput | boolean
     canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
     canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type SetorUserCreateInput = {
@@ -25783,6 +25934,7 @@ export namespace Prisma {
     moduleWhatsapp?: SortOrder
     moduleCrm?: SortOrder
     moduleTickets?: SortOrder
+    moduleAI?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
   }
@@ -25803,6 +25955,7 @@ export namespace Prisma {
     moduleWhatsapp?: SortOrder
     moduleCrm?: SortOrder
     moduleTickets?: SortOrder
+    moduleAI?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
   }
@@ -25823,6 +25976,7 @@ export namespace Prisma {
     moduleWhatsapp?: SortOrder
     moduleCrm?: SortOrder
     moduleTickets?: SortOrder
+    moduleAI?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
   }
@@ -26796,6 +26950,11 @@ export namespace Prisma {
     canViewTickets?: SortOrder
     canCreateTickets?: SortOrder
     canViewConfig?: SortOrder
+    canUseAI?: SortOrder
+    canViewInbox?: SortOrder
+    canSendMessages?: SortOrder
+    canViewCompanies?: SortOrder
+    canCreateCompanies?: SortOrder
   }
 
   export type SetorMaxOrderByAggregateInput = {
@@ -26810,6 +26969,11 @@ export namespace Prisma {
     canViewTickets?: SortOrder
     canCreateTickets?: SortOrder
     canViewConfig?: SortOrder
+    canUseAI?: SortOrder
+    canViewInbox?: SortOrder
+    canSendMessages?: SortOrder
+    canViewCompanies?: SortOrder
+    canCreateCompanies?: SortOrder
   }
 
   export type SetorMinOrderByAggregateInput = {
@@ -26824,6 +26988,11 @@ export namespace Prisma {
     canViewTickets?: SortOrder
     canCreateTickets?: SortOrder
     canViewConfig?: SortOrder
+    canUseAI?: SortOrder
+    canViewInbox?: SortOrder
+    canSendMessages?: SortOrder
+    canViewCompanies?: SortOrder
+    canCreateCompanies?: SortOrder
   }
 
   export type SetorRelationFilter = {
@@ -29032,6 +29201,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     triggerOnly?: boolean
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
@@ -29063,6 +29233,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -29203,6 +29374,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
@@ -29234,6 +29406,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -29361,6 +29534,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     triggerOnly?: boolean
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -29392,6 +29566,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -29428,6 +29603,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     triggerOnly?: boolean
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -29459,6 +29635,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     triggerOnly?: boolean
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -29901,6 +30078,11 @@ export namespace Prisma {
     canViewTickets?: boolean
     canCreateTickets?: boolean
     canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
     users?: SetorUserCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
@@ -29917,6 +30099,11 @@ export namespace Prisma {
     canViewTickets?: boolean
     canCreateTickets?: boolean
     canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
@@ -29959,6 +30146,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -29990,6 +30178,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -30040,6 +30229,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFilter<"Company"> | boolean
     moduleCrm?: BoolFilter<"Company"> | boolean
     moduleTickets?: BoolFilter<"Company"> | boolean
+    moduleAI?: BoolFilter<"Company"> | boolean
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
   }
@@ -30393,6 +30583,11 @@ export namespace Prisma {
     canViewTickets?: BoolFilter<"Setor"> | boolean
     canCreateTickets?: BoolFilter<"Setor"> | boolean
     canViewConfig?: BoolFilter<"Setor"> | boolean
+    canUseAI?: BoolFilter<"Setor"> | boolean
+    canViewInbox?: BoolFilter<"Setor"> | boolean
+    canSendMessages?: BoolFilter<"Setor"> | boolean
+    canViewCompanies?: BoolFilter<"Setor"> | boolean
+    canCreateCompanies?: BoolFilter<"Setor"> | boolean
   }
 
   export type CompanyCreateWithoutCampaignsInput = {
@@ -30411,6 +30606,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     triggerOnly?: boolean
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
@@ -30442,6 +30638,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -30667,6 +30864,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
@@ -30698,6 +30896,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -30834,6 +31033,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     triggerOnly?: boolean
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
@@ -30865,6 +31065,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -31041,6 +31242,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
@@ -31072,6 +31274,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -31226,6 +31429,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     triggerOnly?: boolean
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
@@ -31257,6 +31461,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -31456,6 +31661,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
@@ -31487,6 +31693,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -31763,6 +31970,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     triggerOnly?: boolean
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
@@ -31794,6 +32002,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -31841,6 +32050,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
@@ -31872,6 +32082,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -31903,6 +32114,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     triggerOnly?: boolean
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
@@ -31934,6 +32146,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -32014,6 +32227,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
@@ -32045,6 +32259,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -32115,6 +32330,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     triggerOnly?: boolean
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
@@ -32146,6 +32362,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -32261,6 +32478,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
@@ -32292,6 +32510,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -32363,6 +32582,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     triggerOnly?: boolean
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
@@ -32394,6 +32614,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -32566,6 +32787,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
@@ -32597,6 +32819,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -32771,6 +32994,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     triggerOnly?: boolean
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
@@ -32802,6 +33026,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -32890,6 +33115,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
@@ -32921,6 +33147,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -32999,6 +33226,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     triggerOnly?: boolean
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
@@ -33030,6 +33258,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -33094,6 +33323,11 @@ export namespace Prisma {
     canViewTickets?: boolean
     canCreateTickets?: boolean
     canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
     company: CompanyCreateNestedOneWithoutSetoresInput
     users?: SetorUserCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
@@ -33111,6 +33345,11 @@ export namespace Prisma {
     canViewTickets?: boolean
     canCreateTickets?: boolean
     canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
   }
@@ -33175,6 +33414,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
@@ -33206,6 +33446,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -33282,6 +33523,11 @@ export namespace Prisma {
     canViewTickets?: BoolFieldUpdateOperationsInput | boolean
     canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
     canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
@@ -33299,6 +33545,11 @@ export namespace Prisma {
     canViewTickets?: BoolFieldUpdateOperationsInput | boolean
     canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
     canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
   }
@@ -33436,6 +33687,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     triggerOnly?: boolean
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
@@ -33467,6 +33719,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -33596,6 +33849,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
@@ -33627,6 +33881,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -33701,6 +33956,11 @@ export namespace Prisma {
     canViewTickets?: boolean
     canCreateTickets?: boolean
     canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
     company: CompanyCreateNestedOneWithoutSetoresInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
@@ -33718,6 +33978,11 @@ export namespace Prisma {
     canViewTickets?: boolean
     canCreateTickets?: boolean
     canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
   }
@@ -33782,6 +34047,11 @@ export namespace Prisma {
     canViewTickets?: BoolFieldUpdateOperationsInput | boolean
     canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
     canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
@@ -33799,6 +34069,11 @@ export namespace Prisma {
     canViewTickets?: BoolFieldUpdateOperationsInput | boolean
     canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
     canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
   }
@@ -33853,6 +34128,11 @@ export namespace Prisma {
     canViewTickets?: boolean
     canCreateTickets?: boolean
     canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
     company: CompanyCreateNestedOneWithoutSetoresInput
     users?: SetorUserCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
@@ -33870,6 +34150,11 @@ export namespace Prisma {
     canViewTickets?: boolean
     canCreateTickets?: boolean
     canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
   }
@@ -33932,6 +34217,11 @@ export namespace Prisma {
     canViewTickets?: BoolFieldUpdateOperationsInput | boolean
     canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
     canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
@@ -33949,6 +34239,11 @@ export namespace Prisma {
     canViewTickets?: BoolFieldUpdateOperationsInput | boolean
     canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
     canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
   }
@@ -34092,6 +34387,7 @@ export namespace Prisma {
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
+    moduleAI?: boolean
     triggerOnly?: boolean
   }
 
@@ -34245,6 +34541,11 @@ export namespace Prisma {
     canViewTickets?: boolean
     canCreateTickets?: boolean
     canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
   }
 
   export type CompanyUpdateWithoutParentCompanyInput = {
@@ -34263,6 +34564,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -34294,6 +34596,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -34325,6 +34628,7 @@ export namespace Prisma {
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -34784,6 +35088,11 @@ export namespace Prisma {
     canViewTickets?: BoolFieldUpdateOperationsInput | boolean
     canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
     canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
@@ -34800,6 +35109,11 @@ export namespace Prisma {
     canViewTickets?: BoolFieldUpdateOperationsInput | boolean
     canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
     canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
@@ -34816,6 +35130,11 @@ export namespace Prisma {
     canViewTickets?: BoolFieldUpdateOperationsInput | boolean
     canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
     canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type LeadCreateManyCampaignInput = {
