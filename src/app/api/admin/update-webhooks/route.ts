@@ -23,7 +23,8 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const baseUrl = req.nextUrl.origin;
+  // Usar NEXT_PUBLIC_BASE_URL para evitar endereço interno do Docker (0.0.0.0:3000)
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, "") ?? req.nextUrl.origin;
   const webhookUrl = `${baseUrl}/api/webhook/whatsapp`;
 
   const instances = await prisma.whatsappInstance.findMany({
