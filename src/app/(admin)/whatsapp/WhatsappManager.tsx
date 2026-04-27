@@ -572,8 +572,13 @@ export default function WhatsappManager({
 
   async function handleNewConv(e: React.FormEvent) {
     e.preventDefault();
-    const phone = newConvPhone.trim().replace(/\D/g, "");
+    let phone = newConvPhone.trim().replace(/\D/g, "");
     if (!phone || !newConvMsg.trim()) return;
+    // Garante código do país Brasil (+55) se o número parece brasileiro sem DDI
+    // Números brasileiros: DDD (2) + 8 ou 9 dígitos = 10 ou 11 dígitos no total
+    if (!phone.startsWith("55") && (phone.length === 10 || phone.length === 11)) {
+      phone = "55" + phone;
+    }
     const instId = newConvInstanceId || instances.find((i) => i.status === "CONNECTED")?.id;
     if (!instId) { setNewConvError("Nenhuma instância conectada."); return; }
     setSendingNewConv(true);
