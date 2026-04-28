@@ -37,19 +37,38 @@ export async function POST(
     const instanceToken = (instance as any).instanceToken as string | null | undefined;
     const result = await evolutionSendText(instance.instanceName, phone, text, instanceToken, quoted);
 
-    // Usar o remoteJid confirmado pela Evolution como phone canônico (evita conversa duplicada)
+    // Extrair externalId do retorno da Evolution (múltiplos paths por segurança)
+    const externalId: string =
+      result?.key?.id ??
+      result?.id ??
+      `out-${Date.now()}`;
+
+    console.log(`[Send] externalId=${externalId} result.key.id=${result?.key?.id} result.id=${result?.id}`);
+
+    // Phone para salvar a mensagem: usar o phone da conversa (parâmetro recebido) para manter
+    // consistência com as demais mensagens do histórico.
+    // canonicalPhone (do remoteJid da Evolution) é usado apenas para lookup de lead, pois pode
+    // ter formato diferente (com/sem DDI 55) do que está armazenado no banco.
     const rawJid: string | undefined = result?.key?.remoteJid;
     const canonicalPhone = rawJid && !rawJid.includes("@g.us")
       ? rawJid.replace("@s.whatsapp.net", "").replace(/\D/g, "")
       : phone;
 
+    // Para salvar a mensagem: manter o phone original (formato da conversa no banco)
+    // Exceção: nova conversa sem histórico → usar canonicalPhone para ter o formato
+    // que a Evolution usará nas mensagens inbound (evita conversa duplicada).
+    const existingCount = phone.includes("@g.us") ? 1 : await prisma.message.count({
+      where: { phone, companyId: instance.companyId },
+    });
+    const phoneForStorage = existingCount > 0 ? phone : canonicalPhone;
+
     // Save the sent message locally
     const saved = await prisma.message.create({
       data: {
-        externalId: result?.key?.id ?? `out-${Date.now()}`,
+        externalId,
         body: text,
         direction: "OUTBOUND",
-        phone: canonicalPhone,
+        phone: phoneForStorage,
         instanceId: id,
         companyId: instance.companyId,
         ack: 0,
@@ -60,7 +79,11 @@ export async function POST(
 
     // Para grupos não há lead vinculado — pular atualização de atendimento
     if (!canonicalPhone.includes("@g.us")) {
-      const lead = await prisma.lead.findFirst({ where: { phone: canonicalPhone, companyId: instance.companyId }, orderBy: { createdAt: "desc" } });
+      // Tenta ambos os formatos de phone no lookup do lead
+      const lead = await prisma.lead.findFirst({
+        where: { phone: { in: [phone, canonicalPhone] }, companyId: instance.companyId },
+        orderBy: { createdAt: "desc" },
+      });
       if (lead && lead.attendanceStatus === "WAITING") {
         await prisma.lead.update({ where: { id: lead.id }, data: { attendanceStatus: "IN_PROGRESS" } });
       }

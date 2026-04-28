@@ -232,25 +232,53 @@ export async function POST(request: NextRequest) {
         where: { instanceName: instance },
       });
       if (waInstance && key?.id) {
-        // upsert: atômico — evita duplicate key se o webhook chegar duas vezes
-        await prisma.message.upsert({
-          where: { externalId: key.id },
-          create: {
-            externalId: key.id,
-            phone,
-            participantPhone: isGroup ? (data?.participant ?? key?.participant ?? undefined) : undefined,
-            participantName: isGroup ? (data?.pushName ?? undefined) : undefined,
-            body: body_text,
-            direction: "OUTBOUND",
-            processed: true,
-            rawPayload: body,
-            receivedAt,
-            companyId: waInstance.companyId,
-            instanceId: waInstance.id,
-            ...(quotedId ? { quotedId, quotedBody } : {}),
-          },
-          update: {}, // já existe (salvo pelo send API) → não sobrescrever
-        });
+        // 1. Verificar se o registro já existe pelo externalId real → não fazer nada
+        const existing = await prisma.message.findUnique({ where: { externalId: key.id } });
+
+        if (!existing) {
+          // 2. Tentar encontrar um registro salvo com ID-fallback "out-*" para o mesmo phone+body
+          //    (criado pelo send/route.ts quando Evolution não retornou o ID no momento do envio)
+          const thirtySecsAgo = new Date(Date.now() - 30_000);
+          const fallback = await prisma.message.findFirst({
+            where: {
+              companyId: waInstance.companyId,
+              phone,
+              body: body_text,
+              direction: "OUTBOUND",
+              externalId: { startsWith: "out-" },
+              receivedAt: { gte: thirtySecsAgo },
+            },
+            orderBy: { receivedAt: "desc" },
+          });
+
+          if (fallback) {
+            // Atualiza o ID fallback → ID real para que o ACK funcione corretamente
+            await prisma.message.update({
+              where: { id: fallback.id },
+              data: { externalId: key.id },
+            });
+            console.log(`[WA fromMe] fallback externalId ${fallback.externalId} → ${key.id}`);
+          } else {
+            // Nenhum registro existente → criar (mensagem enviada pelo celular/outro cliente)
+            await prisma.message.create({
+              data: {
+                externalId: key.id,
+                phone,
+                participantPhone: isGroup ? (data?.participant ?? key?.participant ?? undefined) : undefined,
+                participantName: isGroup ? (data?.pushName ?? undefined) : undefined,
+                body: body_text,
+                direction: "OUTBOUND",
+                processed: true,
+                rawPayload: body,
+                receivedAt,
+                companyId: waInstance.companyId,
+                instanceId: waInstance.id,
+                ...(quotedId ? { quotedId, quotedBody } : {}),
+              },
+            });
+          }
+        }
+        // Se existing !== null → já foi salvo corretamente pelo send/route.ts → não tocar
       }
       return NextResponse.json({ ok: true, saved: "outbound" });
     }
