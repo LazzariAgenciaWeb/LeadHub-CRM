@@ -69,8 +69,7 @@ export async function POST(
     return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
   }
 
-  const { id } = await params;
-  const { name, phone, isGroup, role, notes } = await req.json();
+  const { name, phone, isGroup, role: contactRole, notes } = await req.json();
 
   if (!phone?.trim()) {
     return NextResponse.json({ error: "Telefone/ID é obrigatório" }, { status: 400 });
@@ -94,7 +93,7 @@ export async function POST(
       phone: normalizedPhone,
       name: name?.trim() || null,
       isGroup: isGroup ?? false,
-      role: role ?? "CONTACT",
+      role: contactRole ?? "CONTACT",
       notes: notes?.trim() || null,
     },
     include: { user: { select: { id: true, name: true, email: true } } },
