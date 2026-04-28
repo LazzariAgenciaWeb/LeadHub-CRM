@@ -1705,24 +1705,6 @@ export default function WhatsappManager({
                   </button>
                 </div>
 
-                {/* Reconfigurar webhooks (SUPER_ADMIN) */}
-                {isSuperAdmin && (
-                  <div className="px-3 pb-3 border-t border-[#1e2d45] pt-2">
-                    <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2">Admin</p>
-                    <button
-                      onClick={async () => {
-                        const r = await fetch("/api/admin/update-webhooks", { method: "POST" });
-                        const d = await r.json();
-                        alert(`Webhooks: ${d.updated} OK, ${d.failed} falha`);
-                      }}
-                      className="flex items-center gap-2 w-full px-2 py-1.5 rounded-lg text-[11px] font-medium hover:bg-white/5 text-slate-500 hover:text-slate-300 transition-colors"
-                    >
-                      <span>🔗</span>
-                      <span>Reconfigurar webhooks</span>
-                    </button>
-                  </div>
-                )}
-
                 {/* Rodapé com limpar */}
                 {(statusFilter || instanceFilter || hideGroups) && (
                   <div className="px-3 py-2 border-t border-[#1e2d45] flex items-center justify-between">

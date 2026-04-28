@@ -55,6 +55,10 @@ export default function InstancesSection({
   const [qrLoading, setQrLoading] = useState(false);
   const [qrError, setQrError] = useState<string | null>(null);
 
+  // Reconfigurar webhooks
+  const [updatingWebhooks, setUpdatingWebhooks] = useState(false);
+  const [webhookResult, setWebhookResult] = useState<string | null>(null);
+
   const webhookUrl = `${webhookBaseUrl}/api/webhook/whatsapp`;
 
   function copyToClipboard(text: string, key: string) {
@@ -148,6 +152,20 @@ export default function InstancesSection({
     }
   }
 
+  async function handleUpdateWebhooks() {
+    setUpdatingWebhooks(true);
+    setWebhookResult(null);
+    try {
+      const r = await fetch("/api/admin/update-webhooks", { method: "POST" });
+      const d = await r.json();
+      setWebhookResult(`✅ ${d.updated} instância${d.updated !== 1 ? "s" : ""} reconfigurada${d.updated !== 1 ? "s" : ""}${d.failed > 0 ? ` · ⚠️ ${d.failed} falha${d.failed !== 1 ? "s" : ""}` : ""}`);
+    } catch {
+      setWebhookResult("❌ Erro ao reconfigurar webhooks");
+    } finally {
+      setUpdatingWebhooks(false);
+    }
+  }
+
   async function refreshQR() {
     if (!qrModal) return;
     setQrBase64(null);
@@ -229,12 +247,29 @@ export default function InstancesSection({
           <h2 className="text-white font-bold text-lg">💬 Instâncias WhatsApp</h2>
           <p className="text-slate-500 text-sm mt-0.5">Números conectados via Evolution API</p>
         </div>
-        <button
-          onClick={() => setShowForm(true)}
-          className="px-4 py-2 rounded-lg bg-green-600 text-white text-sm font-medium hover:bg-green-500 transition-colors"
-        >
-          + Nova Instância
-        </button>
+        <div className="flex items-center gap-2">
+          {isSuperAdmin && (
+            <div className="flex flex-col items-end gap-1">
+              <button
+                onClick={handleUpdateWebhooks}
+                disabled={updatingWebhooks}
+                title="Reconfigurar eventos de webhook em todas as instâncias"
+                className="px-3 py-2 rounded-lg bg-indigo-500/15 border border-indigo-500/30 text-indigo-400 text-xs font-medium hover:bg-indigo-500/25 disabled:opacity-50 transition-colors"
+              >
+                {updatingWebhooks ? "⏳ Reconfigurando…" : "🔗 Reconfigurar webhooks"}
+              </button>
+              {webhookResult && (
+                <span className="text-[10px] text-slate-400">{webhookResult}</span>
+              )}
+            </div>
+          )}
+          <button
+            onClick={() => setShowForm(true)}
+            className="px-4 py-2 rounded-lg bg-green-600 text-white text-sm font-medium hover:bg-green-500 transition-colors"
+          >
+            + Nova Instância
+          </button>
+        </div>
       </div>
 
       {/* Webhook URL */}
