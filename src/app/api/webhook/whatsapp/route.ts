@@ -24,9 +24,11 @@ export async function POST(request: NextRequest) {
     const instance = body?.instance;
     const data = body?.data;
 
-    // Log para diagnóstico
-    console.log("[Webhook WA] Recebido:", JSON.stringify({ event, instance, hasData: !!data }));
-    recentPayloads.unshift({ ts: new Date().toISOString(), event: event ?? "?", instance: instance ?? "?" });
+    // Log para diagnóstico — aparece nos logs do servidor independente de serverless
+    const logPhone = data?.key?.remoteJid ?? data?.remoteJid ?? "?";
+    const logFromMe = data?.key?.fromMe ?? "?";
+    console.log(`[Webhook WA] event=${event} instance=${instance} phone=${logPhone} fromMe=${logFromMe}`);
+    recentPayloads.unshift({ ts: new Date().toISOString(), event: event ?? "?", instance: instance ?? "?", debug: { phone: logPhone, fromMe: logFromMe } });
     if (recentPayloads.length > 5) recentPayloads.pop();
 
     if (!event || !instance || !data) {

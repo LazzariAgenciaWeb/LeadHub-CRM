@@ -80,6 +80,9 @@ export async function processInboundMessage(payload: {
 }) {
   const { instanceName, phone, body, externalId, rawPayload, contactName, participantPhone, participantName, receivedAt, quotedId, quotedBody } = payload;
 
+  // Log de entrada — visível nos logs do servidor (Railway/Vercel)
+  console.log(`[WA inbound] instance=${instanceName} phone=${phone} externalId=${externalId ?? "?"} body="${body.slice(0, 60)}"`);
+
   // Mensagens de grupo → salvar na caixa de entrada, sem criar lead
   if (phone.includes("@g.us")) {
     const instance = await prisma.whatsappInstance.findFirst({ where: { instanceName } });
@@ -124,7 +127,7 @@ export async function processInboundMessage(payload: {
   });
 
   if (!instance) {
-    console.warn(`[WA] Instância não encontrada: ${instanceName}`);
+    console.warn(`[WA inbound] INSTANCIA NAO ENCONTRADA: "${instanceName}" — verifique se o nome no banco bate com o enviado pela Evolution`);
     return null;
   }
 
@@ -134,6 +137,8 @@ export async function processInboundMessage(payload: {
   // Checar se há regras cadastradas para esta empresa
   const rulesCount = await prisma.keywordRule.count({ where: { companyId } });
 
+  console.log(`[WA inbound] instance=${instanceName} company=${instance.company?.name ?? companyId} triggerOnly=${triggerOnly} rulesCount=${rulesCount}`);
+
   let matchResult: MatchResult | null = null;
 
   if (rulesCount > 0) {
@@ -142,7 +147,7 @@ export async function processInboundMessage(payload: {
     // Modo gatilho: se tem regras mas nenhuma bateu, ignora a mensagem
     if (!matchResult) {
       if (triggerOnly) {
-        console.log(`[WA] Mensagem ignorada (sem match de gatilho): ${phone}`);
+        console.log(`[WA inbound] triggerOnly=true, sem match de keyword — salvando na inbox sem lead: phone=${phone}`);
         // Salva a mensagem sem vincular a lead (upsert: idempotente)
         await safeCreateMessage({
           externalId: externalId ?? undefined,
