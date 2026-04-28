@@ -13,6 +13,7 @@ interface Company {
   moduleCrm: boolean;
   moduleTickets: boolean;
   parentCompanyId: string | null;
+  parentCompany: { id: string; name: string } | null;
   _count: { leads: number; campaigns: number; whatsappInstances: number; subCompanies: number };
 }
 
@@ -33,7 +34,8 @@ function setPinned(ids: string[]) {
 
 export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyName }: Props) {
   const [pinnedIds, setPinnedIds] = useState<string[]>([]);
-  const [filter, setFilter] = useState<"all" | "access" | "crm">("all");
+  const [filter, setFilter] = useState<"all" | "access" | "crm" | "root" | "sub">("all");
+  const [search, setSearch] = useState("");
 
   useEffect(() => { setPinnedIds(getPinned()); }, []);
 
@@ -44,8 +46,21 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
   }
 
   const filtered = companies.filter(c => {
-    if (filter === "access") return c.hasSystemAccess;
-    if (filter === "crm") return !c.hasSystemAccess;
+    // Filtro de tipo
+    if (filter === "access") { if (!c.hasSystemAccess) return false; }
+    else if (filter === "crm") { if (c.hasSystemAccess) return false; }
+    else if (filter === "root") { if (c.parentCompanyId !== null) return false; }
+    else if (filter === "sub")  { if (c.parentCompanyId === null) return false; }
+
+    // Busca por nome ou empresa-mãe
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      return (
+        c.name.toLowerCase().includes(q) ||
+        (c.segment ?? "").toLowerCase().includes(q) ||
+        (c.parentCompany?.name ?? "").toLowerCase().includes(q)
+      );
+    }
     return true;
   });
 
@@ -56,7 +71,9 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
   });
 
   const countAccess = companies.filter(c => c.hasSystemAccess).length;
-  const countCrm = companies.filter(c => !c.hasSystemAccess).length;
+  const countCrm    = companies.filter(c => !c.hasSystemAccess).length;
+  const countRoot   = companies.filter(c => c.parentCompanyId === null).length;
+  const countSub    = companies.filter(c => c.parentCompanyId !== null).length;
 
   return (
     <div className="p-6">
@@ -68,7 +85,7 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
           </h1>
           <p className="text-slate-500 text-sm mt-0.5">
             {isSuperAdmin
-              ? `${companies.length} empresa${companies.length !== 1 ? "s" : ""} cadastrada${companies.length !== 1 ? "s" : ""}`
+              ? `${filtered.length} de ${companies.length} empresa${companies.length !== 1 ? "s" : ""}`
               : `Clientes cadastrados${parentCompanyName ? ` por ${parentCompanyName}` : ""}`}
             {pinnedIds.length > 0 && (
               <span className="ml-2 text-yellow-500/70 text-xs">📌 {pinnedIds.length} fixada{pinnedIds.length !== 1 ? "s" : ""}</span>
@@ -83,16 +100,27 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
         </Link>
       </div>
 
-      {/* Filtros (apenas SUPER_ADMIN) */}
+      {/* Busca + Filtros (apenas SUPER_ADMIN) */}
       {isSuperAdmin && (
-        <div className="flex gap-2 mb-5">
-          {(["all", "access", "crm"] as const).map((f) => {
-            const labels = {
-              all: `Todas (${companies.length})`,
-              access: `🔐 Com acesso (${countAccess})`,
-              crm: `📋 Só CRM (${countCrm})`,
-            };
-            return (
+        <div className="flex flex-col gap-3 mb-5">
+          {/* Campo de busca */}
+          <input
+            type="text"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="Buscar por nome, segmento ou empresa-mãe…"
+            className="w-full bg-[#0f1623] border border-[#1e2d45] text-white text-sm rounded-lg px-3 py-2 placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50"
+          />
+
+          {/* Filtros por tipo */}
+          <div className="flex flex-wrap gap-2">
+            {([
+              ["all",    `Todas (${companies.length})`],
+              ["root",   `🏢 Raiz (${countRoot})`],
+              ["sub",    `↳ Sub-empresas (${countSub})`],
+              ["access", `🔐 Com acesso (${countAccess})`],
+              ["crm",    `📋 Só CRM (${countCrm})`],
+            ] as const).map(([f, label]) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
@@ -102,10 +130,10 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
                     : "border-[#1e2d45] text-slate-500 hover:text-slate-300 hover:border-slate-600"
                 }`}
               >
-                {labels[f]}
+                {label}
               </button>
-            );
-          })}
+            ))}
+          </div>
         </div>
       )}
 
@@ -163,6 +191,12 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
                       <h2 className="text-white font-bold text-[15px] truncate">{company.name}</h2>
                     </div>
                     <p className="text-slate-500 text-xs mt-0.5">{company.segment ?? "Sem segmento"}</p>
+                    {/* Tag de empresa-mãe */}
+                    {company.parentCompany && (
+                      <p className="text-amber-400/80 text-[10px] mt-1 font-medium">
+                        ↳ Sub de: {company.parentCompany.name}
+                      </p>
+                    )}
                   </div>
                   <span
                     className={`ml-2 shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full border ${

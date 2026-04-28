@@ -25,6 +25,7 @@ export default async function EmpresasPage() {
         _count: {
           select: { leads: true, campaigns: true, whatsappInstances: true, subCompanies: true },
         },
+        parentCompany: { select: { id: true, name: true } },
       },
     });
   } else if (userCompanyId) {
