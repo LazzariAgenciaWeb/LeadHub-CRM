@@ -2,6 +2,28 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { can } from "@/lib/permissions";
+
+/** Verifica se o usuário tem acesso à empresa alvo (companyId = [id]).
+ *  SUPER_ADMIN → sempre.
+ *  ADMIN / CLIENT → a empresa deve ser sub-empresa da empresa do usuário
+ *                   OU ser a própria empresa do usuário.
+ */
+async function canAccessCompany(session: any, targetCompanyId: string): Promise<boolean> {
+  const role        = (session?.user as any)?.role as string;
+  const userCompany = (session?.user as any)?.companyId as string | undefined;
+
+  if (role === "SUPER_ADMIN") return true;
+  if (!userCompany) return false;
+  if (userCompany === targetCompanyId) return true;
+
+  // Verifica se targetCompany é sub-empresa do usuário
+  const sub = await prisma.company.findFirst({
+    where: { id: targetCompanyId, parentCompanyId: userCompany },
+    select: { id: true },
+  });
+  return !!sub;
+}
 
 // GET /api/companies/[id]/contacts
 export async function GET(
@@ -9,11 +31,14 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
-  if ((session?.user as any)?.role !== "SUPER_ADMIN") {
-    return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
-  }
+  if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
   const { id } = await params;
+
+  if (!(await canAccessCompany(session, id))) {
+    return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
+  }
+
   const contacts = await prisma.companyContact.findMany({
     where: { companyId: id },
     orderBy: { createdAt: "asc" },
@@ -29,8 +54,19 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
-  if ((session?.user as any)?.role !== "SUPER_ADMIN") {
-    return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+  if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const role = (session?.user as any)?.role as string;
+
+  // CLIENT precisa de canCreateCompanies para vincular contatos
+  if (role === "CLIENT" && !can(session, "canCreateCompanies")) {
+    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  }
+
+  const { id } = await params;
+
+  if (!(await canAccessCompany(session, id))) {
+    return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
   }
 
   const { id } = await params;
