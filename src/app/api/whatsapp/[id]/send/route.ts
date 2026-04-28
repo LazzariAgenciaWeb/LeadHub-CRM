@@ -49,15 +49,17 @@ export async function POST(
     // consistência com as demais mensagens do histórico.
     // canonicalPhone (do remoteJid da Evolution) é usado apenas para lookup de lead, pois pode
     // ter formato diferente (com/sem DDI 55) do que está armazenado no banco.
+    // @lid = identificador anônimo do WhatsApp Business — manter JID inteiro, não extrair dígitos.
     const rawJid: string | undefined = result?.key?.remoteJid;
-    const canonicalPhone = rawJid && !rawJid.includes("@g.us")
-      ? rawJid.replace("@s.whatsapp.net", "").replace(/\D/g, "")
-      : phone;
+    const canonicalPhone =
+      rawJid && !rawJid.includes("@g.us") && !rawJid.includes("@lid")
+        ? rawJid.replace("@s.whatsapp.net", "").replace(/\D/g, "")
+        : phone;
 
     // Para salvar a mensagem: manter o phone original (formato da conversa no banco)
     // Exceção: nova conversa sem histórico → usar canonicalPhone para ter o formato
     // que a Evolution usará nas mensagens inbound (evita conversa duplicada).
-    const existingCount = phone.includes("@g.us") ? 1 : await prisma.message.count({
+    const existingCount = (phone.includes("@g.us") || phone.includes("@lid")) ? 1 : await prisma.message.count({
       where: { phone, companyId: instance.companyId },
     });
     const phoneForStorage = existingCount > 0 ? phone : canonicalPhone;
@@ -77,8 +79,8 @@ export async function POST(
       include: { instance: { select: { instanceName: true } }, campaign: { select: { id: true, name: true } } },
     });
 
-    // Para grupos não há lead vinculado — pular atualização de atendimento
-    if (!canonicalPhone.includes("@g.us")) {
+    // Para grupos e @lid não há lead vinculado — pular atualização de atendimento
+    if (!canonicalPhone.includes("@g.us") && !canonicalPhone.includes("@lid")) {
       // Tenta ambos os formatos de phone no lookup do lead
       const lead = await prisma.lead.findFirst({
         where: { phone: { in: [phone, canonicalPhone] }, companyId: instance.companyId },

@@ -183,10 +183,12 @@ export async function POST(request: NextRequest) {
     // Extrair telefone do contato (sempre o remoteJid)
     const rawPhone = key?.remoteJid ?? "";
     const isGroup = rawPhone.includes("@g.us");
+    // @lid = Linked Identity do WhatsApp Business (identificador anônimo, não é telefone real)
+    const isLid = rawPhone.includes("@lid");
 
-    // Para grupos: manter o JID completo como identificador; para individuais: só dígitos
-    const phone = isGroup
-      ? rawPhone                                              // "120363...@g.us"
+    // Para grupos e @lid: manter o JID completo como identificador; para individuais: só dígitos
+    const phone = isGroup || isLid
+      ? rawPhone                                              // "120363...@g.us" ou "276690...@lid"
       : rawPhone.replace("@s.whatsapp.net", "").replace(/\D/g, "");
 
     // Quem enviou dentro do grupo (participante)

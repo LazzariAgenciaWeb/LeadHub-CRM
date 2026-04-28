@@ -25,5 +25,45 @@ export async function GET() {
     results.instanceToken = `✗ Erro: ${e.message}`;
   }
 
+  // Backfill: popular CompanyContact com nomes de Leads existentes
+  // Garante que contatos nomeados apareçam nas buscas e tenham telefone formatado na inbox
+  try {
+    const namedLeads = await prisma.lead.findMany({
+      where: { name: { not: null } },
+      select: { phone: true, name: true, companyId: true },
+      orderBy: { createdAt: "asc" }, // mais antigos primeiro → mais recentes sobrescrevem
+    });
+
+    let created = 0;
+    let updated = 0;
+
+    for (const lead of namedLeads) {
+      if (!lead.name || lead.phone.includes("@g.us") || lead.phone.includes("@lid")) continue;
+
+      const existing = await prisma.companyContact.findUnique({
+        where: { companyId_phone: { companyId: lead.companyId, phone: lead.phone } },
+        select: { id: true, name: true },
+      });
+
+      if (!existing) {
+        await prisma.companyContact.create({
+          data: { phone: lead.phone, name: lead.name, isGroup: false, companyId: lead.companyId },
+        }).catch(() => {}); // ignora race condition
+        created++;
+      } else if (!existing.name) {
+        await prisma.companyContact.update({
+          where: { id: existing.id },
+          data: { name: lead.name },
+        });
+        updated++;
+      }
+      // Se já tem nome → respeitar o nome existente (pode ter sido customizado)
+    }
+
+    results.backfillContacts = `✓ Backfill de nomes: ${created} criados, ${updated} atualizados (de ${namedLeads.length} leads com nome)`;
+  } catch (e: any) {
+    results.backfillContacts = `✗ Erro no backfill: ${e.message}`;
+  }
+
   return NextResponse.json({ ok: true, results });
 }

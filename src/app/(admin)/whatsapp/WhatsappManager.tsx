@@ -4,6 +4,34 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+/**
+ * Formata um número de telefone para exibição amigável.
+ * - @g.us → "(grupo)"
+ * - @lid  → "(id interno)" — identificador anônimo do WhatsApp Business
+ * - Brasil (+55): +55 (XX) XXXXX-XXXX
+ * - Outros: exibe com + e separadores
+ */
+function formatPhone(phone: string): string {
+  if (phone.includes("@g.us")) return "(grupo)";
+  if (phone.includes("@lid")) return "(id interno)";
+  if (phone.includes("@")) return phone.split("@")[0];
+
+  const digits = phone.replace(/\D/g, "");
+
+  // Brasil: 55 + DDD (2) + número (8 ou 9)
+  if (digits.startsWith("55") && (digits.length === 12 || digits.length === 13)) {
+    const ddd  = digits.slice(2, 4);
+    const num  = digits.slice(4);
+    const part = num.length === 9
+      ? `${num.slice(0, 5)}-${num.slice(5)}`
+      : `${num.slice(0, 4)}-${num.slice(4)}`;
+    return `+55 (${ddd}) ${part}`;
+  }
+
+  // Genérico: +XXXXXXXXXXXXX
+  return `+${digits}`;
+}
+
 interface Instance {
   id: string;
   instanceName: string;
@@ -1802,7 +1830,7 @@ export default function WhatsappManager({
                                 )}
                               </div>
                               {(conv.lead?.name || conv.companyContact?.name) && !conv.phone.includes("@g.us") && (
-                                <div className="text-slate-600 text-[10px] leading-tight">{conv.phone}</div>
+                                <div className="text-slate-600 text-[10px] leading-tight">{formatPhone(conv.phone)}</div>
                               )}
                               {conv.companyContact && (
                                 <div className="text-amber-400/70 text-[10px] leading-tight truncate">
@@ -1961,7 +1989,7 @@ export default function WhatsappManager({
                         )}
                       </div>
                       {(selectedConv.companyContact?.name || selectedConv.lead?.name) && !selectedConv.phone.includes("@g.us") && (
-                        <div className="text-slate-500 text-xs">{selectedConv.phone}</div>
+                        <div className="text-slate-500 text-xs">{formatPhone(selectedConv.phone)}</div>
                       )}
                       {/* Grupo: lista de participantes únicos */}
                       {selectedConv.phone.includes("@g.us") && convMessages.length > 0 && (() => {

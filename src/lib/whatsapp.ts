@@ -2,6 +2,21 @@ import { Prisma, LeadStatus } from "@/generated/prisma";
 import { prisma } from "./prisma";
 
 /**
+ * Salva (ou atualiza) o nome de exibição do WhatsApp (pushName) em CompanyContact.
+ * Usado para contatos individuais que ficam apenas na inbox sem gerar lead.
+ * Só preenche o nome — não sobrescreve um nome já preenchido anteriormente,
+ * exceto se o registro ainda não tinha nome (evitar apagar nome customizado no CRM).
+ */
+async function saveWAContactName(phone: string, name: string, companyId: string) {
+  await prisma.companyContact.upsert({
+    where: { companyId_phone: { companyId, phone } },
+    create: { phone, name, isGroup: false, companyId },
+    // Atualiza sempre — pushName pode mudar; na UI, Lead.name tem prioridade sobre CompanyContact.name
+    update: { name },
+  }).catch(() => {}); // Ignora erros transitórios — não crítico
+}
+
+/**
  * Cria uma Message de forma idempotente.
  * Se externalId for fornecido usa upsert (update: {}) para ser atômico e evitar
  * o race condition de dois webhooks simultâneos para a mesma mensagem.
@@ -83,8 +98,8 @@ export async function processInboundMessage(payload: {
   // Log de entrada — visível nos logs do servidor (Railway/Vercel)
   console.log(`[WA inbound] instance=${instanceName} phone=${phone} externalId=${externalId ?? "?"} body="${body.slice(0, 60)}"`);
 
-  // Mensagens de grupo → salvar na caixa de entrada, sem criar lead
-  if (phone.includes("@g.us")) {
+  // Mensagens de grupo e @lid (identidade anônima WhatsApp Business) → salvar na inbox, sem criar lead
+  if (phone.includes("@g.us") || phone.includes("@lid")) {
     const instance = await prisma.whatsappInstance.findFirst({ where: { instanceName } });
     if (!instance) return null;
     // safeCreateMessage usa upsert para ser atômico — evita duplicate key em webhooks simultâneos
@@ -159,6 +174,8 @@ export async function processInboundMessage(payload: {
           companyId,
           instanceId: instance.id,
         });
+        // Persiste o pushName para aparecer na lista de conversas mesmo sem lead
+        if (contactName) await saveWAContactName(phone, contactName, companyId);
         return null;
       }
       // Se não é triggerOnly mas tem regras, cria lead NEW sem campanha
@@ -191,6 +208,8 @@ export async function processInboundMessage(payload: {
       companyId,
       instanceId: instance.id,
     });
+    // Persiste o pushName para aparecer na lista de conversas mesmo sem lead
+    if (contactName) await saveWAContactName(phone, contactName, companyId);
     return null;
   }
 
@@ -254,6 +273,10 @@ export async function processInboundMessage(payload: {
       data: { attendanceStatus: "WAITING" },
     });
   }
+
+  // Persistir pushName no CompanyContact para aparecer nas buscas/filtros da inbox
+  // (Lead.name tem prioridade na UI; isto é o fallback e serve de indexação)
+  if (contactName) await saveWAContactName(phone, contactName, companyId);
 
   // Salvar a mensagem (upsert: idempotente mesmo com webhooks duplicados)
   const message = await safeCreateMessage({
