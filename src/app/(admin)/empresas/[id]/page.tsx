@@ -1,8 +1,8 @@
-import { getServerSession } from "next-auth";
 import { redirect, notFound } from "next/navigation";
 import { cookies } from "next/headers";
-import { authOptions } from "@/lib/auth";
 import { IMPERSONATE_COOKIE } from "@/lib/effective-session";
+import { getEffectiveSession } from "@/lib/effective-session";
+import { can } from "@/lib/permissions";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import DeleteCompanyButton from "./DeleteCompanyButton";
@@ -14,11 +14,14 @@ export default async function EmpresaDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const session = await getServerSession(authOptions);
+  const session = await getEffectiveSession();
   const role = (session?.user as any)?.role;
   const userCompanyId = (session?.user as any)?.companyId;
 
-  if (!session || (role !== "SUPER_ADMIN" && role !== "ADMIN")) redirect("/dashboard");
+  if (!session) redirect("/login");
+
+  // CLIENT sem canViewCompanies → sem acesso
+  if (role === "CLIENT" && !can(session, "canViewCompanies")) redirect("/dashboard");
 
   const { id } = await params;
   const isSuperAdmin = role === "SUPER_ADMIN";
