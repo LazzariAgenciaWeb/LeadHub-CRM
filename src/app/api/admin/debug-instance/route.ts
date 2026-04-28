@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
   // 1. Todas as instâncias (filtradas por empresa se informado)
   const instances = await prisma.whatsappInstance.findMany({
     where: companyQuery
-      ? { company: { name: { contains: companyQuery } } }
+      ? { company: { name: { contains: companyQuery, mode: "insensitive" } } }
       : {},
     include: {
       company: { select: { id: true, name: true, triggerOnly: true } },
