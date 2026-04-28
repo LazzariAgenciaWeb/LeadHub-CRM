@@ -2520,7 +2520,7 @@ export default function WhatsappManager({
               )}
 
               {/* Painel: Mesclar contatos */}
-              {showMergePanel && selectedConv.lead && (
+              {showMergePanel && (
                 <div className="px-5 py-3.5 border-b border-[#1e2d45] bg-cyan-500/5 flex-shrink-0">
                   <p className="text-cyan-400 text-xs font-semibold mb-1">🔗 Mesclar com contato duplicado</p>
                   <p className="text-slate-500 text-[10px] mb-3">
@@ -3104,15 +3104,13 @@ export default function WhatsappManager({
                                     🏢 {selectedConv.companyContact ? "Mudar empresa" : "Atribuir empresa"}
                                   </button>
                                 )}
-                                {selectedConv.lead && (
-                                  <button
-                                    type="button"
-                                    onClick={() => { setShowMergePanel(!showMergePanel); setShowActionsMenu(false); setMergeSearch(""); setMergeResults([]); }}
-                                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
-                                  >
-                                    🔗 Mesclar contato
-                                  </button>
-                                )}
+                                <button
+                                  type="button"
+                                  onClick={() => { setShowMergePanel(!showMergePanel); setShowActionsMenu(false); setMergeSearch(""); setMergeResults([]); }}
+                                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
+                                >
+                                  🔗 Mesclar contato
+                                </button>
                               </div>
                             </div>
 

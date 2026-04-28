@@ -2,6 +2,8 @@ import { redirect, notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import { IMPERSONATE_COOKIE } from "@/lib/effective-session";
 import { getEffectiveSession } from "@/lib/effective-session";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { can } from "@/lib/permissions";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
@@ -14,8 +16,14 @@ export default async function EmpresaDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const session = await getEffectiveSession();
+  // Use effective session for general access control (respects impersonation role)
+  // Use real session to determine if the actual logged-in user is SUPER_ADMIN
+  const [session, realSession] = await Promise.all([
+    getEffectiveSession(),
+    getServerSession(authOptions),
+  ]);
   const role = (session?.user as any)?.role;
+  const realRole = (realSession?.user as any)?.role;
   const userCompanyId = (session?.user as any)?.companyId;
 
   if (!session) redirect("/login");
@@ -24,9 +32,12 @@ export default async function EmpresaDetailPage({
   if (role === "CLIENT" && !can(session, "canViewCompanies")) redirect("/dashboard");
 
   const { id } = await params;
-  const isSuperAdmin = role === "SUPER_ADMIN";
+  // isSuperAdmin must be based on the REAL session, not the effective session.
+  // When impersonating, getEffectiveSession() returns role="ADMIN", which would
+  // prevent auto-exit and hide the module editing controls.
+  const isSuperAdmin = realRole === "SUPER_ADMIN";
 
-  // SUPER_ADMIN: clear impersonation so sidebar shows global context
+  // SUPER_ADMIN: clear impersonation so the page shows real SUPER_ADMIN context
   if (isSuperAdmin) {
     const cookieStore = await cookies();
     const impersonating = cookieStore.get(IMPERSONATE_COOKIE)?.value;
