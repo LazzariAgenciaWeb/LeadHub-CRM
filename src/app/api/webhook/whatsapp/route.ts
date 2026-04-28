@@ -232,26 +232,25 @@ export async function POST(request: NextRequest) {
         where: { instanceName: instance },
       });
       if (waInstance && key?.id) {
-        // Evitar duplicatas checando se já existe
-        const exists = await prisma.message.findUnique({ where: { externalId: key.id } });
-        if (!exists) {
-          await prisma.message.create({
-            data: {
-              externalId: key.id,
-              phone,
-              participantPhone: isGroup ? (data?.participant ?? key?.participant ?? undefined) : undefined,
-              participantName: isGroup ? (data?.pushName ?? undefined) : undefined,
-              body: body_text,
-              direction: "OUTBOUND",
-              processed: true,
-              rawPayload: body,
-              receivedAt,
-              companyId: waInstance.companyId,
-              instanceId: waInstance.id,
-              ...(quotedId ? { quotedId, quotedBody } : {}),
-            },
-          });
-        }
+        // upsert: atômico — evita duplicate key se o webhook chegar duas vezes
+        await prisma.message.upsert({
+          where: { externalId: key.id },
+          create: {
+            externalId: key.id,
+            phone,
+            participantPhone: isGroup ? (data?.participant ?? key?.participant ?? undefined) : undefined,
+            participantName: isGroup ? (data?.pushName ?? undefined) : undefined,
+            body: body_text,
+            direction: "OUTBOUND",
+            processed: true,
+            rawPayload: body,
+            receivedAt,
+            companyId: waInstance.companyId,
+            instanceId: waInstance.id,
+            ...(quotedId ? { quotedId, quotedBody } : {}),
+          },
+          update: {}, // já existe (salvo pelo send API) → não sobrescrever
+        });
       }
       return NextResponse.json({ ok: true, saved: "outbound" });
     }

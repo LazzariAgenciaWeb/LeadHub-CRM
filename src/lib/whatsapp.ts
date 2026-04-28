@@ -1,5 +1,23 @@
-import { LeadStatus } from "@/generated/prisma";
+import { Prisma, LeadStatus } from "@/generated/prisma";
 import { prisma } from "./prisma";
+
+/**
+ * Cria uma Message de forma idempotente.
+ * Se externalId for fornecido usa upsert (update: {}) para ser atômico e evitar
+ * o race condition de dois webhooks simultâneos para a mesma mensagem.
+ * Sem externalId faz create normal.
+ */
+async function safeCreateMessage(data: Prisma.MessageUncheckedCreateInput) {
+  const externalId = data.externalId ?? undefined;
+  if (externalId) {
+    return prisma.message.upsert({
+      where: { externalId },
+      create: data,
+      update: {}, // já existe → ignorar silenciosamente
+    });
+  }
+  return prisma.message.create({ data });
+}
 
 /**
  * Resultado da identificação por palavra-chave.
@@ -66,24 +84,18 @@ export async function processInboundMessage(payload: {
   if (phone.includes("@g.us")) {
     const instance = await prisma.whatsappInstance.findFirst({ where: { instanceName } });
     if (!instance) return null;
-    // Deduplicar: mesma mensagem chega em todas as instâncias do grupo
-    if (externalId) {
-      const exists = await prisma.message.findUnique({ where: { externalId } });
-      if (exists) return null;
-    }
-    await prisma.message.create({
-      data: {
-        externalId: externalId ?? undefined,
-        phone,
-        participantPhone: participantPhone ?? undefined,
-        participantName: participantName ?? undefined,
-        body,
-        direction: "INBOUND",
-        processed: false,
-        rawPayload: rawPayload ? (rawPayload as any) : undefined,
-        companyId: instance.companyId,
-        instanceId: instance.id,
-      },
+    // safeCreateMessage usa upsert para ser atômico — evita duplicate key em webhooks simultâneos
+    await safeCreateMessage({
+      externalId: externalId ?? undefined,
+      phone,
+      participantPhone: participantPhone ?? undefined,
+      participantName: participantName ?? undefined,
+      body,
+      direction: "INBOUND",
+      processed: false,
+      rawPayload: rawPayload ? (rawPayload as any) : undefined,
+      companyId: instance.companyId,
+      instanceId: instance.id,
     });
 
     // Upsert do CompanyContact com nome do grupo (busca na Evolution se ainda não tem nome)
@@ -131,18 +143,16 @@ export async function processInboundMessage(payload: {
     if (!matchResult) {
       if (triggerOnly) {
         console.log(`[WA] Mensagem ignorada (sem match de gatilho): ${phone}`);
-        // Salva a mensagem sem vincular a lead
-        await prisma.message.create({
-          data: {
-            externalId: externalId ?? undefined,
-            phone,
-            body,
-            direction: "INBOUND",
-            processed: false,
-            rawPayload: rawPayload ? (rawPayload as any) : undefined,
-            companyId,
-            instanceId: instance.id,
-          },
+        // Salva a mensagem sem vincular a lead (upsert: idempotente)
+        await safeCreateMessage({
+          externalId: externalId ?? undefined,
+          phone,
+          body,
+          direction: "INBOUND",
+          processed: false,
+          rawPayload: rawPayload ? (rawPayload as any) : undefined,
+          companyId,
+          instanceId: instance.id,
         });
         return null;
       }
@@ -166,17 +176,15 @@ export async function processInboundMessage(payload: {
   if (!lead && !matchResult) {
     // Sem regras e sem lead existente → salva na caixa de entrada sem vincular a lead
     console.log(`[WA] Mensagem salva na caixa de entrada (sem lead): ${phone}`);
-    await prisma.message.create({
-      data: {
-        externalId: externalId ?? undefined,
-        phone,
-        body,
-        direction: "INBOUND",
-        processed: false,
-        rawPayload: rawPayload ? (rawPayload as any) : undefined,
-        companyId,
-        instanceId: instance.id,
-      },
+    await safeCreateMessage({
+      externalId: externalId ?? undefined,
+      phone,
+      body,
+      direction: "INBOUND",
+      processed: false,
+      rawPayload: rawPayload ? (rawPayload as any) : undefined,
+      companyId,
+      instanceId: instance.id,
     });
     return null;
   }
@@ -242,23 +250,21 @@ export async function processInboundMessage(payload: {
     });
   }
 
-  // Salvar a mensagem
-  const message = await prisma.message.create({
-    data: {
-      externalId: externalId ?? undefined,
-      phone,
-      body,
-      direction: "INBOUND",
-      identifiedAs,
-      processed: true,
-      rawPayload: rawPayload ? (rawPayload as any) : undefined,
-      companyId,
-      instanceId: instance.id,
-      campaignId: campaignId ?? undefined,
-      leadId: lead.id,
-      ...(receivedAt ? { receivedAt } : {}),
-      ...(quotedId ? { quotedId, quotedBody: quotedBody ?? null } : {}),
-    },
+  // Salvar a mensagem (upsert: idempotente mesmo com webhooks duplicados)
+  const message = await safeCreateMessage({
+    externalId: externalId ?? undefined,
+    phone,
+    body,
+    direction: "INBOUND",
+    identifiedAs,
+    processed: true,
+    rawPayload: rawPayload ? (rawPayload as any) : undefined,
+    companyId,
+    instanceId: instance.id,
+    campaignId: campaignId ?? undefined,
+    leadId: lead.id,
+    ...(receivedAt ? { receivedAt } : {}),
+    ...(quotedId ? { quotedId, quotedBody: quotedBody ?? null } : {}),
   });
 
   return { lead, message, identifiedAs, campaignId };
