@@ -45,14 +45,31 @@ export async function POST(request: NextRequest) {
         const { evolutionSetWebhookEvents } = await import("@/lib/evolution");
 
         // Salvar telefone da instância (vem em me.id = "5511999@s.whatsapp.net")
+        // Só salva se for um JID pessoal válido (@s.whatsapp.net), nunca @g.us ou @lid
         const meId: string | undefined = data?.me?.id ?? data?.instance?.owner;
-        if (meId) {
+        if (meId && meId.includes("@s.whatsapp.net")) {
           const phone = meId.replace("@s.whatsapp.net", "").replace(/\D/g, "");
+          // Valida: telefone real tem entre 10 e 15 dígitos (nunca um ID interno longo)
+          if (phone.length >= 10 && phone.length <= 15) {
+            await prisma.whatsappInstance.updateMany({
+              where: { instanceName: instance },
+              data: { phone, status: "CONNECTED" },
+            });
+            console.log(`[Webhook WA] Instância ${instance} conectada com phone=${phone}`);
+          } else {
+            console.warn(`[Webhook WA] meId inválido ignorado para ${instance}: ${meId} → digits="${phone}" (${phone.length} dígitos)`);
+            // Marca como CONNECTED sem alterar o telefone
+            await prisma.whatsappInstance.updateMany({
+              where: { instanceName: instance },
+              data: { status: "CONNECTED" },
+            });
+          }
+        } else if (meId) {
+          console.warn(`[Webhook WA] meId sem @s.whatsapp.net ignorado para ${instance}: ${meId}`);
           await prisma.whatsappInstance.updateMany({
             where: { instanceName: instance },
-            data: { phone, status: "CONNECTED" },
+            data: { status: "CONNECTED" },
           });
-          console.log(`[Webhook WA] Instância ${instance} conectada com phone=${phone}`);
         }
 
         // Configurar webhook automaticamente para garantir que eventos sejam enviados
