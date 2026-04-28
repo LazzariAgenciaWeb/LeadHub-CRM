@@ -345,7 +345,8 @@ export default function WhatsappManager({
     if (!el) return;
     const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 120;
     if (force || nearBottom) {
-      messagesEndRef.current?.scrollIntoView({ behavior: force ? "instant" : "smooth" });
+      // Scroll direto no container (evita scrollIntoView scrollar o body/page errado)
+      el.scrollTop = el.scrollHeight;
     }
   }
 
@@ -359,7 +360,15 @@ export default function WhatsappManager({
   useEffect(() => {
     const force = forceScrollRef.current;
     forceScrollRef.current = false;
-    scrollToBottom(force);
+    if (force) {
+      // Ao abrir conversa: aguarda o browser completar o layout antes de scrollar
+      requestAnimationFrame(() => {
+        const el = messagesContainerRef.current;
+        if (el) el.scrollTop = el.scrollHeight;
+      });
+    } else {
+      scrollToBottom(false);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [convMessages]);
 
@@ -1668,6 +1677,24 @@ export default function WhatsappManager({
                   </button>
                 </div>
 
+                {/* Reconfigurar webhooks (SUPER_ADMIN) */}
+                {isSuperAdmin && (
+                  <div className="px-3 pb-3 border-t border-[#1e2d45] pt-2">
+                    <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2">Admin</p>
+                    <button
+                      onClick={async () => {
+                        const r = await fetch("/api/admin/update-webhooks", { method: "POST" });
+                        const d = await r.json();
+                        alert(`Webhooks: ${d.updated} OK, ${d.failed} falha`);
+                      }}
+                      className="flex items-center gap-2 w-full px-2 py-1.5 rounded-lg text-[11px] font-medium hover:bg-white/5 text-slate-500 hover:text-slate-300 transition-colors"
+                    >
+                      <span>🔗</span>
+                      <span>Reconfigurar webhooks</span>
+                    </button>
+                  </div>
+                )}
+
                 {/* Rodapé com limpar */}
                 {(statusFilter || instanceFilter || hideGroups) && (
                   <div className="px-3 py-2 border-t border-[#1e2d45] flex items-center justify-between">
@@ -2529,7 +2556,7 @@ export default function WhatsappManager({
               {showScrollBtn && (
                 <div className="absolute bottom-[80px] right-6 z-20">
                   <button
-                    onClick={() => { forceScrollRef.current = true; scrollToBottom(true); }}
+                    onClick={() => { const el = messagesContainerRef.current; if (el) el.scrollTop = el.scrollHeight; }}
                     className="w-9 h-9 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg flex items-center justify-center text-base transition-colors"
                     title="Ir para o final"
                   >
