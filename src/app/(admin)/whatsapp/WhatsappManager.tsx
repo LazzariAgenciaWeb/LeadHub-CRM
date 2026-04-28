@@ -432,6 +432,20 @@ export default function WhatsappManager({
     return () => clearInterval(interval);
   }, [router]);
 
+  // Auto-sync: se alguma instância está em CONNECTING mas a Evolution já reconectou,
+  // consulta o status real via API após 12 s e atualiza o banco + UI
+  useEffect(() => {
+    const connecting = instances.filter((i) => i.status === "CONNECTING");
+    if (connecting.length === 0) return;
+    const timer = setTimeout(async () => {
+      await Promise.all(connecting.map((inst) =>
+        fetch(`/api/whatsapp/${inst.id}/sync`, { method: "POST" }).catch(() => {})
+      ));
+      router.refresh();
+    }, 12_000);
+    return () => clearTimeout(timer);
+  }, [instances, router]);
+
   // Auto-abrir conversa quando vindo do CRM via ?abrir=PHONE
   useEffect(() => {
     if (!defaultPhone || conversations.length === 0) return;

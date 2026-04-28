@@ -93,6 +93,58 @@ export const authOptions: NextAuthOptions = {
         (session.user as any).setorId = token.setorId;
         (session.user as any).permissions = token.permissions;
         (session.user as any).modules = token.modules;
+
+        // Para usuários CLIENT: sempre busca permissões e módulos frescos do banco.
+        // Isso garante que alterações no Setor ou nos módulos da empresa reflitam
+        // imediatamente, sem exigir logout/login do usuário.
+        if ((token.role as string) === "CLIENT" && token.sub) {
+          try {
+            const dbUser = await prisma.user.findUnique({
+              where: { id: token.sub as string },
+              select: {
+                companyId: true,
+                company: {
+                  select: {
+                    moduleAI: true,
+                    moduleCrm: true,
+                    moduleWhatsapp: true,
+                    moduleTickets: true,
+                  },
+                },
+                setores: {
+                  include: { setor: true },
+                  take: 1,
+                },
+              },
+            });
+            if (dbUser) {
+              const setor = dbUser.setores[0]?.setor;
+              (session.user as any).companyId = dbUser.companyId ?? (token.companyId as string | undefined);
+              (session.user as any).permissions = setor ? {
+                canManageUsers:     setor.canManageUsers,
+                canViewLeads:       setor.canViewLeads,
+                canCreateLeads:     setor.canCreateLeads,
+                canViewTickets:     setor.canViewTickets,
+                canCreateTickets:   setor.canCreateTickets,
+                canViewConfig:      setor.canViewConfig,
+                canUseAI:           (setor as any).canUseAI           ?? false,
+                canViewInbox:       (setor as any).canViewInbox        ?? true,
+                canSendMessages:    (setor as any).canSendMessages     ?? true,
+                canViewCompanies:   (setor as any).canViewCompanies    ?? false,
+                canCreateCompanies: (setor as any).canCreateCompanies  ?? false,
+              } : null;
+              (session.user as any).modules = {
+                ai:       (dbUser.company as any)?.moduleAI       ?? false,
+                crm:      dbUser.company?.moduleCrm   ?? true,
+                whatsapp: dbUser.company?.moduleWhatsapp ?? false,
+                tickets:  dbUser.company?.moduleTickets  ?? false,
+              };
+            }
+          } catch (err) {
+            // Fallback gracioso: mantém os valores do JWT caso o banco falhe
+            console.warn("[Auth] Erro ao atualizar permissões do CLIENT via DB:", err);
+          }
+        }
       }
       return session;
     },

@@ -1,16 +1,18 @@
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import EmpresasClient from "./EmpresasClient";
+import { getEffectiveSession } from "@/lib/effective-session";
+import { can } from "@/lib/permissions";
 
 export default async function EmpresasPage() {
-  const session = await getServerSession(authOptions);
+  const session = await getEffectiveSession();
   const role = (session?.user as any)?.role;
   const userCompanyId = (session?.user as any)?.companyId;
 
-  // Acesso: SUPER_ADMIN vê tudo; CLIENT vê seus próprios clientes
   if (!session) redirect("/login");
+
+  // CLIENT sem canViewCompanies → sem acesso
+  if (role === "CLIENT" && !can(session, "canViewCompanies")) redirect("/dashboard");
 
   let companies: any[] = [];
   let isSuperAdmin = role === "SUPER_ADMIN";
