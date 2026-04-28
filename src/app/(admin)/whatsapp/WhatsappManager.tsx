@@ -233,6 +233,18 @@ export default function WhatsappManager({
   const [instanceFilter, setInstanceFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [showFilters, setShowFilters] = useState(false);
+  // Ocultar grupos — persiste no localStorage
+  const [hideGroups, setHideGroups] = useState<boolean>(() => {
+    if (typeof window !== "undefined") return localStorage.getItem("wa_hide_groups") === "1";
+    return false;
+  });
+  function toggleHideGroups() {
+    setHideGroups((prev) => {
+      const next = !prev;
+      if (typeof window !== "undefined") localStorage.setItem("wa_hide_groups", next ? "1" : "0");
+      return next;
+    });
+  }
 
   // Atendimento
   const [attendanceStatus, setAttendanceStatus] = useState<string | null>(null);
@@ -431,14 +443,21 @@ export default function WhatsappManager({
   // Unique instances that appear in conversations (for filter)
   const conversationInstances = useMemo(() => {
     const names = conversations
+      .filter((c) => !(!isSuperAdmin && defaultCompanyId && c.companyId !== defaultCompanyId))
       .map((c) => c.lastMsg?.instance?.instanceName)
       .filter(Boolean) as string[];
     return [...new Set(names)];
-  }, [conversations]);
+  }, [conversations, isSuperAdmin, defaultCompanyId]);
 
   // Filtered conversations
   const filteredConvs = useMemo(() => {
     return conversations.filter((c) => {
+      // Filtro de empresa (client-side, defesa contra dados misturados no refresh)
+      if (!isSuperAdmin && defaultCompanyId && c.companyId !== defaultCompanyId) return false;
+
+      // Ocultar grupos
+      if (hideGroups && c.phone.includes("@g.us")) return false;
+
       // Busca por texto
       if (search) {
         const q = search.toLowerCase();
@@ -471,13 +490,15 @@ export default function WhatsappManager({
       }
       return true;
     });
-  }, [conversations, search, instanceFilter, statusFilter, localAttendanceOverrides]);
+  }, [conversations, search, instanceFilter, statusFilter, localAttendanceOverrides, hideGroups, isSuperAdmin, defaultCompanyId]);
 
   // Contagem por filtro de status (para mostrar badges nos chips)
   const filterCounts = useMemo(() => {
     const counts: Record<string, number> = { URGENT: 0, UNANSWERED: 0, IN_PROGRESS: 0, RESOLVED: 0, SCHEDULED: 0, CLIENTS: 0, NO_LEAD: 0 };
     const now = Date.now();
     for (const c of conversations) {
+      // Respeita filtro de empresa client-side
+      if (!isSuperAdmin && defaultCompanyId && c.companyId !== defaultCompanyId) continue;
       const isInbound = c.lastMsg?.direction === "INBOUND";
       const mins = isInbound ? Math.floor((now - new Date(c.lastMsg!.receivedAt).getTime()) / 60_000) : -1;
       // Usa override local se existir
@@ -491,7 +512,7 @@ export default function WhatsappManager({
       if (!c.lead?.pipeline)           counts.NO_LEAD++;
     }
     return counts;
-  }, [conversations, localAttendanceOverrides]);
+  }, [conversations, localAttendanceOverrides, isSuperAdmin, defaultCompanyId]);
 
   // Mapa phone → instanceName para identificar "nossos números" em grupos.
   // Indexa TODAS as variantes (com/sem 55, com/sem o 9 extra) para cobrir inconsistências
@@ -1515,8 +1536,8 @@ export default function WhatsappManager({
 
               {/* Botão filtro */}
               {(() => {
-                const hasFilter = !!(statusFilter || instanceFilter);
-                const activeCount = (statusFilter ? 1 : 0) + (instanceFilter ? 1 : 0);
+                const hasFilter = !!(statusFilter || instanceFilter || hideGroups);
+                const activeCount = (statusFilter ? 1 : 0) + (instanceFilter ? 1 : 0) + (hideGroups ? 1 : 0);
                 return (
                   <button
                     onClick={() => setShowFilters(!showFilters)}
@@ -1614,14 +1635,33 @@ export default function WhatsappManager({
                   </div>
                 )}
 
+                {/* Ocultar grupos */}
+                <div className="px-3 pb-3 border-t border-[#1e2d45] pt-2">
+                  <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2">Grupos</p>
+                  <button
+                    onClick={toggleHideGroups}
+                    className={`flex items-center gap-2 w-full px-2 py-1.5 rounded-lg text-[11px] font-medium transition-colors ${
+                      hideGroups
+                        ? "bg-indigo-600 text-white"
+                        : "hover:bg-white/5 text-slate-500 hover:text-slate-300"
+                    }`}
+                  >
+                    <span className="text-[12px]">👥</span>
+                    <span className="flex-1 text-left">Ocultar grupos</span>
+                    <span className={`w-7 h-4 rounded-full flex items-center transition-colors ${hideGroups ? "bg-indigo-400" : "bg-slate-700"}`}>
+                      <span className={`w-3 h-3 rounded-full bg-white shadow transition-transform mx-0.5 ${hideGroups ? "translate-x-3" : "translate-x-0"}`} />
+                    </span>
+                  </button>
+                </div>
+
                 {/* Rodapé com limpar */}
-                {(statusFilter || instanceFilter) && (
+                {(statusFilter || instanceFilter || hideGroups) && (
                   <div className="px-3 py-2 border-t border-[#1e2d45] flex items-center justify-between">
                     <span className="text-slate-600 text-[10px]">
                       {filteredConvs.length} de {conversations.length}
                     </span>
                     <button
-                      onClick={() => { setStatusFilter(""); setInstanceFilter(""); }}
+                      onClick={() => { setStatusFilter(""); setInstanceFilter(""); setHideGroups(false); localStorage.setItem("wa_hide_groups", "0"); }}
                       className="text-[10px] text-indigo-400 hover:text-indigo-300 font-medium"
                     >
                       Limpar filtros ✕
@@ -1632,13 +1672,14 @@ export default function WhatsappManager({
             )}
 
             {/* Indicador compacto de filtro ativo (quando painel fechado) */}
-            {!showFilters && (statusFilter || instanceFilter) && (
+            {!showFilters && (statusFilter || instanceFilter || hideGroups) && (
               <div className="flex items-center justify-between mt-1.5">
                 <span className="text-slate-600 text-[10px]">
                   {filteredConvs.length} de {conversations.length} conversas
+                  {hideGroups && <span className="ml-1 text-indigo-400">· sem grupos</span>}
                 </span>
                 <button
-                  onClick={() => { setStatusFilter(""); setInstanceFilter(""); }}
+                  onClick={() => { setStatusFilter(""); setInstanceFilter(""); setHideGroups(false); localStorage.setItem("wa_hide_groups", "0"); }}
                   className="text-[10px] text-indigo-400 hover:text-indigo-300"
                 >
                   Limpar ✕
