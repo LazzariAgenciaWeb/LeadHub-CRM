@@ -321,6 +321,8 @@ model Message {
   ack              Int?        // ACK: 0=pending 1=server 2=delivered 3=read 4=played
   quotedId         String?     // externalId da mensagem citada
   quotedBody       String?     @db.Text // snapshot do corpo da mensagem citada
+  mediaBase64      String?     @db.Text // base64 da mídia (imagem/áudio) — vídeo/doc ignorados por tamanho
+  mediaType        String?              // MIME type: "image/jpeg", "audio/ogg; codecs=opus", etc.
 
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String

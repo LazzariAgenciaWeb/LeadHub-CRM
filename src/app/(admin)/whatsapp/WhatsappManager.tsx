@@ -83,6 +83,8 @@ interface WaMessage {
   ack?: number | null;
   quotedId?: string | null;
   quotedBody?: string | null;
+  mediaBase64?: string | null;
+  mediaType?: string | null;
 }
 
 const LEAD_STATUS_COLOR: Record<string, string> = {
@@ -2745,7 +2747,22 @@ export default function WhatsappManager({
                               </div>
                             )}
 
-                            <p className={`text-sm whitespace-pre-wrap break-words ${isMedia ? (isOut || isOursInGroup ? "italic text-indigo-200" : "italic text-slate-400") : ""}`}>{msg.body}</p>
+                            {/* Imagem inline */}
+                            {msg.mediaBase64 && msg.mediaType?.startsWith("image/") ? (
+                              <img
+                                src={`data:${msg.mediaType};base64,${msg.mediaBase64}`}
+                                alt="Imagem"
+                                className="max-w-full rounded-lg max-h-64 object-contain cursor-pointer"
+                                onClick={() => window.open(`data:${msg.mediaType};base64,${msg.mediaBase64}`, "_blank")}
+                              />
+                            ) : msg.mediaBase64 && msg.mediaType?.startsWith("audio/") ? (
+                              /* Player de áudio */
+                              <audio controls className="w-full mt-1" style={{ minWidth: 200, maxWidth: 280 }}>
+                                <source src={`data:${msg.mediaType};base64,${msg.mediaBase64}`} />
+                              </audio>
+                            ) : (
+                              <p className={`text-sm whitespace-pre-wrap break-words ${isMedia ? (isOut || isOursInGroup ? "italic text-indigo-200" : "italic text-slate-400") : ""}`}>{msg.body}</p>
+                            )}
                             <div className={`flex items-center gap-1.5 mt-1 flex-wrap ${isOut || isOursInGroup ? "justify-end" : "justify-start"}`}>
                               <span className={`text-[10px] ${isOut || isOursInGroup ? "text-indigo-200/60" : "text-slate-600"}`}>
                                 {new Date(msg.receivedAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}

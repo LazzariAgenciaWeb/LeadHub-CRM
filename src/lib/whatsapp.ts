@@ -92,8 +92,10 @@ export async function processInboundMessage(payload: {
   receivedAt?: Date;
   quotedId?: string | null;
   quotedBody?: string | null;
+  mediaBase64?: string | null;
+  mediaType?: string | null;
 }) {
-  const { instanceName, phone, body, externalId, rawPayload, contactName, participantPhone, participantName, receivedAt, quotedId, quotedBody } = payload;
+  const { instanceName, phone, body, externalId, rawPayload, contactName, participantPhone, participantName, receivedAt, quotedId, quotedBody, mediaBase64, mediaType } = payload;
 
   // Log de entrada — visível nos logs do servidor (Railway/Vercel)
   console.log(`[WA inbound] instance=${instanceName} phone=${phone} externalId=${externalId ?? "?"} body="${body.slice(0, 60)}"`);
@@ -128,6 +130,7 @@ export async function processInboundMessage(payload: {
       rawPayload: rawPayload ? (rawPayload as any) : undefined,
       companyId: instance.companyId,
       instanceId: instance.id,
+      ...(mediaBase64 ? { mediaBase64, mediaType: mediaType ?? null } : {}),
     });
 
     // Upsert do CompanyContact com nome do grupo (busca na Evolution se ainda não tem nome)
@@ -187,6 +190,7 @@ export async function processInboundMessage(payload: {
           rawPayload: rawPayload ? (rawPayload as any) : undefined,
           companyId,
           instanceId: instance.id,
+          ...(mediaBase64 ? { mediaBase64, mediaType: mediaType ?? null } : {}),
         });
         // Persiste o pushName para aparecer na lista de conversas mesmo sem lead
         if (contactName) await saveWAContactName(phone, contactName, companyId);
@@ -221,6 +225,7 @@ export async function processInboundMessage(payload: {
       rawPayload: rawPayload ? (rawPayload as any) : undefined,
       companyId,
       instanceId: instance.id,
+      ...(mediaBase64 ? { mediaBase64, mediaType: mediaType ?? null } : {}),
     });
     // Persiste o pushName para aparecer na lista de conversas mesmo sem lead
     if (contactName) await saveWAContactName(phone, contactName, companyId);
@@ -307,6 +312,7 @@ export async function processInboundMessage(payload: {
     leadId: lead.id,
     ...(receivedAt ? { receivedAt } : {}),
     ...(quotedId ? { quotedId, quotedBody: quotedBody ?? null } : {}),
+    ...(mediaBase64 ? { mediaBase64, mediaType: mediaType ?? null } : {}),
   });
 
   return { lead, message, identifiedAs, campaignId };

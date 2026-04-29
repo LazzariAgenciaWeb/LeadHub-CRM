@@ -246,6 +246,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: true, skipped: "no_text" });
     }
 
+    // Extrair base64 apenas para imagem e áudio (vídeo/doc ignorados por tamanho)
+    const mediaBase64: string | null =
+      message?.imageMessage?.base64 ??
+      message?.audioMessage?.base64 ??
+      message?.pttMessage?.base64 ??
+      null;
+    const mediaType: string | null = mediaBase64
+      ? (message?.imageMessage?.mimetype ??
+         message?.audioMessage?.mimetype ??
+         message?.pttMessage?.mimetype ??
+         null)
+      : null;
+
     // Mensagem enviada pelo celular da instância (fromMe=true) → salvar como OUTBOUND
     if (fromMe) {
       const { prisma } = await import("@/lib/prisma");
@@ -330,6 +343,8 @@ export async function POST(request: NextRequest) {
       receivedAt,
       quotedId,
       quotedBody,
+      mediaBase64,
+      mediaType,
     });
 
     return NextResponse.json({
