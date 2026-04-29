@@ -257,13 +257,26 @@ export async function POST(request: NextRequest) {
         const existing = await prisma.message.findUnique({ where: { externalId: key.id } });
 
         if (!existing) {
+          // Resolver alias @lid → número real (ocorre quando Evolution devolve remoteJid=@lid
+          // mesmo que a mensagem foi enviada pelo app para o número real após um merge)
+          let phoneForLookup = phone;
+          if (phone.includes("@lid")) {
+            const alias = await prisma.setting.findUnique({
+              where: { key: `phone_alias:${waInstance.companyId}:${phone}` },
+            });
+            if (alias?.value) {
+              phoneForLookup = alias.value;
+              console.log(`[WA fromMe] @lid alias ${phone} → ${phoneForLookup}`);
+            }
+          }
+
           // 2. Tentar encontrar um registro salvo com ID-fallback "out-*" para o mesmo phone+body
           //    (criado pelo send/route.ts quando Evolution não retornou o ID no momento do envio)
           const thirtySecsAgo = new Date(Date.now() - 30_000);
           const fallback = await prisma.message.findFirst({
             where: {
               companyId: waInstance.companyId,
-              phone,
+              phone: phoneForLookup,
               body: body_text,
               direction: "OUTBOUND",
               externalId: { startsWith: "out-" },
@@ -279,12 +292,13 @@ export async function POST(request: NextRequest) {
               data: { externalId: key.id },
             });
             console.log(`[WA fromMe] fallback externalId ${fallback.externalId} → ${key.id}`);
-          } else {
+          } else if (!phone.includes("@lid") || phoneForLookup === phone) {
             // Nenhum registro existente → criar (mensagem enviada pelo celular/outro cliente)
+            // Para @lid com alias resolvido: NÃO criar nova mensagem — ela já existe sob o número real.
             await prisma.message.create({
               data: {
                 externalId: key.id,
-                phone,
+                phone: phoneForLookup,
                 participantPhone: isGroup ? (data?.participant ?? key?.participant ?? undefined) : undefined,
                 participantName: isGroup ? (data?.pushName ?? undefined) : undefined,
                 body: body_text,

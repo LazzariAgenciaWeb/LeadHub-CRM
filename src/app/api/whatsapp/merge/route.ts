@@ -83,5 +83,19 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  // Se mergePhone é um @lid → salva mapeamento permanente para redirecionar mensagens futuras.
+  // Isso impede que novos webhooks do @lid reconstruam a conversa separada.
+  if (mergePhone.includes("@lid") || keepPhone.includes("@lid")) {
+    const [lidPhone, realPhone] = mergePhone.includes("@lid")
+      ? [mergePhone, keepPhone]
+      : [keepPhone, mergePhone];
+
+    await prisma.setting.upsert({
+      where: { key: `phone_alias:${effectiveCompanyId}:${lidPhone}` },
+      create: { key: `phone_alias:${effectiveCompanyId}:${lidPhone}`, value: realPhone },
+      update: { value: realPhone },
+    });
+  }
+
   return NextResponse.json({ success: true, keepPhone, mergePhone });
 }

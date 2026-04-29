@@ -102,6 +102,20 @@ export async function processInboundMessage(payload: {
   if (phone.includes("@g.us") || phone.includes("@lid")) {
     const instance = await prisma.whatsappInstance.findFirst({ where: { instanceName } });
     if (!instance) return null;
+
+    // @lid: verificar se este identificador foi mesclado com um número real.
+    // Se sim, redireciona para o processamento normal com o número real —
+    // evita que futuros webhooks do @lid reconstruam a conversa separada.
+    if (phone.includes("@lid")) {
+      const alias = await prisma.setting.findUnique({
+        where: { key: `phone_alias:${instance.companyId}:${phone}` },
+      });
+      if (alias?.value) {
+        console.log(`[WA inbound] @lid alias ${phone} → ${alias.value}`);
+        return processInboundMessage({ ...payload, phone: alias.value });
+      }
+    }
+
     // safeCreateMessage usa upsert para ser atômico — evita duplicate key em webhooks simultâneos
     await safeCreateMessage({
       externalId: externalId ?? undefined,
