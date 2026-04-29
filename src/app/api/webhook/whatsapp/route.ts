@@ -251,12 +251,13 @@ export async function POST(request: NextRequest) {
     const isImageMsg = messageType === "imageMessage" || !!message?.imageMessage;
     const isAudioMsg = messageType === "audioMessage" || messageType === "pttMessage" || !!message?.audioMessage || !!message?.pttMessage;
 
-    // Evolution API pode colocar o base64 em locais diferentes dependendo da versão:
-    // data.base64 | data.message.base64 | data.message.imageMessage.base64 | etc.
+    // Evolution API pode colocar o base64 em locais diferentes dependendo da versão.
+    // jpegThumbnail é sempre presente em imageMessage (preview de baixa resolução).
     const rawBase64: string | null =
       data?.base64 ??
       data?.message?.base64 ??
       message?.imageMessage?.base64 ??
+      message?.imageMessage?.jpegThumbnail ??   // preview sempre disponível
       message?.audioMessage?.base64 ??
       message?.pttMessage?.base64 ??
       null;
