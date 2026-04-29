@@ -2998,7 +2998,12 @@ export default function WhatsappManager({
                     </select>
                   </div>
                 )}
-                {replyError && <div className="text-red-400 text-xs mb-2">{replyError}</div>}
+                {replyError && (
+                  <div className="mb-2 flex items-start gap-2 bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-2">
+                    <span className="text-red-400 text-sm flex-shrink-0">⚠️</span>
+                    <span className="text-red-400 text-xs">{replyError}</span>
+                  </div>
+                )}
 
                 {/* Emoji picker simples */}
                 {showEmojiPicker && (

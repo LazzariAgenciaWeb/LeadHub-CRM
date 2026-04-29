@@ -34,8 +34,10 @@ export async function getUserPermissions(session: any): Promise<UserPermissions 
 
   if (!companyId || !userId) return null;
 
-  // SUPER_ADMIN → sem nenhuma restrição
-  if (role === "SUPER_ADMIN") {
+  // SUPER_ADMIN e ADMIN → sem nenhuma restrição de setor
+  // ADMIN é o administrador da empresa: gerencia usuários, setores e configurações.
+  // Mesmo que esteja em algum setor, deve ter acesso irrestrito.
+  if (role === "SUPER_ADMIN" || role === "ADMIN") {
     return {
       isAdmin: true,
       companyId,
