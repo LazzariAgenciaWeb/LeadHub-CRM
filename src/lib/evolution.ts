@@ -36,7 +36,7 @@ export async function evolutionCreateInstance(instanceName: string, webhookUrl: 
       webhook: {
         url: webhookUrl,
         byEvents: false,
-        base64: false,
+        base64: true,
         events: ["MESSAGES_UPSERT", "MESSAGES_UPDATE", "CONNECTION_UPDATE", "QRCODE_UPDATED"],
       },
     }),
@@ -137,7 +137,7 @@ export async function evolutionSetWebhookEvents(instanceName: string, webhookUrl
         enabled: true,
         url: webhookUrl,
         byEvents: false,
-        base64: false,
+        base64: true,
         events: ["MESSAGES_UPSERT", "MESSAGES_UPDATE", "CONNECTION_UPDATE", "QRCODE_UPDATED"],
       },
     }),
