@@ -1572,9 +1572,11 @@ export default function WhatsappManager({
 
       {/* Body */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Conversation list — full width on mobile, fixed 300px on md+.
-            Hidden on mobile when a conversation is open (chat takes over). */}
-        <div className={`${selectedConv ? "hidden md:flex" : "flex"} w-full md:w-[300px] md:min-w-[300px] border-r border-[#1e2d45] flex-col overflow-hidden`}>
+        {/* Conversation list
+            Desktop (md+): sempre visível, largura fixa 300px — comportamento original.
+            Mobile (<md): ocupa 100% quando nenhuma conversa está aberta;
+                          some quando uma conversa é selecionada. */}
+        <div className={`w-[300px] min-w-[300px] flex-shrink-0 border-r border-[#1e2d45] flex flex-col overflow-hidden ${selectedConv ? "max-md:hidden" : "max-md:w-full max-md:min-w-0"}`}>
 
           {/* ── Busca + botão de filtro ── */}
           <div className="px-3 pt-3 pb-2 flex-shrink-0">
@@ -1897,8 +1899,10 @@ export default function WhatsappManager({
           )}
         </div>
 
-        {/* Conversation detail — hidden on mobile until a conversation is selected */}
-        <div className={`${!selectedConv ? "hidden md:flex" : "flex"} flex-1 flex-col overflow-hidden relative`}>
+        {/* Conversation detail
+            Desktop (md+): sempre visível como flex-1 — comportamento original.
+            Mobile (<md): some enquanto nenhuma conversa estiver aberta. */}
+        <div className={`flex-1 flex flex-col overflow-hidden relative ${!selectedConv ? "max-md:hidden" : ""}`}>
           {!selectedConv ? (
             <div className="flex-1 flex items-center justify-center text-center p-8">
               <div>
