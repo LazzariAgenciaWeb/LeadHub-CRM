@@ -1457,17 +1457,18 @@ export default function WhatsappManager({
   return (
     <div className="flex flex-col h-full overflow-hidden">
       {/* Header */}
-      <div className="px-6 pt-5 pb-3 flex-shrink-0 border-b border-[#1e2d45]">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-white font-bold text-xl">🗨️ Mensagens</h1>
-            <p className="text-slate-500 text-sm mt-0.5">
+      <div className="px-4 md:px-6 pt-4 md:pt-5 pb-3 flex-shrink-0 border-b border-[#1e2d45]">
+        <div className="flex items-center justify-between gap-2">
+          <div className="min-w-0">
+            <h1 className="text-white font-bold text-lg md:text-xl">🗨️ Mensagens</h1>
+            <p className="text-slate-500 text-xs md:text-sm mt-0.5">
               {conversations.length} conversa{conversations.length !== 1 ? "s" : ""}
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
+            {/* Indicadores de instância — ocultos no mobile para economizar espaço */}
+            <div className="hidden sm:flex items-center gap-2">
               {instances.slice(0, 4).map((inst) => {
                 const s = INSTANCE_STATUS[inst.status] ?? INSTANCE_STATUS.DISCONNECTED;
                 return (
@@ -1488,15 +1489,16 @@ export default function WhatsappManager({
             <button
               onClick={() => { setShowNewConv(!showNewConv); setNewConvError(null); }}
               title="Nova conversa"
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${showNewConv ? "bg-indigo-600 border-indigo-500 text-white" : "bg-[#0f1623] border-[#1e2d45] text-slate-300 hover:text-white hover:border-slate-500"}`}
+              className={`flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${showNewConv ? "bg-indigo-600 border-indigo-500 text-white" : "bg-[#0f1623] border-[#1e2d45] text-slate-300 hover:text-white hover:border-slate-500"}`}
             >
-              ✉️ Nova
+              ✉️ <span className="hidden sm:inline">Nova</span>
             </button>
             <Link
               href="/configuracoes?secao=instancias"
-              className="px-3 py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] text-slate-400 hover:text-white text-xs transition-colors"
+              className="px-2.5 md:px-3 py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] text-slate-400 hover:text-white text-xs transition-colors"
+              title="Instâncias"
             >
-              ⚙️ Instâncias
+              ⚙️ <span className="hidden sm:inline">Instâncias</span>
             </Link>
           </div>
         </div>
@@ -1570,8 +1572,9 @@ export default function WhatsappManager({
 
       {/* Body */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Conversation list */}
-        <div className="w-[300px] min-w-[300px] border-r border-[#1e2d45] flex flex-col overflow-hidden">
+        {/* Conversation list — full width on mobile, fixed 300px on md+.
+            Hidden on mobile when a conversation is open (chat takes over). */}
+        <div className={`${selectedConv ? "hidden md:flex" : "flex"} w-full md:w-[300px] md:min-w-[300px] border-r border-[#1e2d45] flex-col overflow-hidden`}>
 
           {/* ── Busca + botão de filtro ── */}
           <div className="px-3 pt-3 pb-2 flex-shrink-0">
@@ -1579,6 +1582,7 @@ export default function WhatsappManager({
               {/* Campo de busca */}
               <input
                 type="text"
+                autoComplete="off"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Buscar por nome ou telefone..."
@@ -1889,8 +1893,8 @@ export default function WhatsappManager({
           )}
         </div>
 
-        {/* Conversation detail */}
-        <div className="flex-1 flex flex-col overflow-hidden relative">
+        {/* Conversation detail — hidden on mobile until a conversation is selected */}
+        <div className={`${!selectedConv ? "hidden md:flex" : "flex"} flex-1 flex-col overflow-hidden relative`}>
           {!selectedConv ? (
             <div className="flex-1 flex items-center justify-center text-center p-8">
               <div>
@@ -1902,9 +1906,19 @@ export default function WhatsappManager({
           ) : (
             <>
               {/* Conv header */}
-              <div className="px-5 py-3.5 border-b border-[#1e2d45] flex items-center justify-between flex-shrink-0 gap-3">
+              <div className="px-3 md:px-5 py-3.5 border-b border-[#1e2d45] flex items-center justify-between flex-shrink-0 gap-2">
+                {/* Botão voltar — apenas mobile */}
+                <button
+                  className="md:hidden flex-shrink-0 p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors"
+                  onClick={() => setSelectedConv(null)}
+                  title="Voltar"
+                >
+                  <svg viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                    <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd"/>
+                  </svg>
+                </button>
                 {/* Nome / edição */}
-                <div className="flex items-center gap-3 min-w-0">
+                <div className="flex items-center gap-3 min-w-0 flex-1">
                   {editingName ? (
                     <form onSubmit={handleSaveName} className="flex items-center gap-2">
                       <input
