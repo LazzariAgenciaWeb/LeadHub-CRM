@@ -1774,7 +1774,7 @@ export default function WhatsappManager({
               </div>
             </div>
           ) : (
-            <div className="flex-1 overflow-y-auto divide-y divide-[#1e2d45]/50">
+            <div className="flex-1 overflow-y-auto divide-y divide-[#1e2d45]/50 flex flex-col">
               {filteredConvs.map((conv) => {
                 const instanceName = conv.lastMsg?.instance?.instanceName;
                 const isSelected = selectedConv?.phone === conv.phone;
