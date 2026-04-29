@@ -247,15 +247,16 @@ export async function POST(request: NextRequest) {
     }
 
     // Extrair base64 apenas para imagem e áudio (vídeo/doc ignorados por tamanho)
-    // Evolution API coloca o base64 em data.base64 (nível do data, não dentro do message)
-    // Fallback: alguns builds colocam dentro do tipo específico
     const messageType: string | undefined = data?.messageType;
     const isImageMsg = messageType === "imageMessage" || !!message?.imageMessage;
     const isAudioMsg = messageType === "audioMessage" || messageType === "pttMessage" || !!message?.audioMessage || !!message?.pttMessage;
 
+    // Evolution API pode colocar o base64 em locais diferentes dependendo da versão:
+    // data.base64 | data.message.base64 | data.message.imageMessage.base64 | etc.
     const rawBase64: string | null =
-      data?.base64 ??                          // Evolution v2: campo no nível do data
-      message?.imageMessage?.base64 ??          // fallback aninhado
+      data?.base64 ??
+      data?.message?.base64 ??
+      message?.imageMessage?.base64 ??
       message?.audioMessage?.base64 ??
       message?.pttMessage?.base64 ??
       null;
@@ -269,7 +270,12 @@ export async function POST(request: NextRequest) {
          (isImageMsg ? "image/jpeg" : "audio/ogg; codecs=opus"))
       : null;
 
-    console.log(`[Webhook WA] mediaBase64=${mediaBase64 ? `present(${mediaBase64.length} chars)` : "null"} mediaType=${mediaType} messageType=${messageType}`);
+    // Log diagnóstico — mostra chaves disponíveis no data quando base64 é nulo
+    if (!mediaBase64 && (isImageMsg || isAudioMsg)) {
+      console.log(`[Webhook WA] base64 não encontrado. messageType=${messageType} data_keys=${Object.keys(data ?? {}).join(",")} msg_keys=${Object.keys(message ?? {}).join(",")}`);
+    } else {
+      console.log(`[Webhook WA] mediaBase64=${mediaBase64 ? `present(${mediaBase64.length} chars)` : "null"} mediaType=${mediaType} messageType=${messageType}`);
+    }
 
     // Mensagem enviada pelo celular da instância (fromMe=true) → salvar como OUTBOUND
     if (fromMe) {

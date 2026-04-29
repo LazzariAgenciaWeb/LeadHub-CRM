@@ -25,11 +25,17 @@ async function saveWAContactName(phone: string, name: string, companyId: string)
 async function safeCreateMessage(data: Prisma.MessageUncheckedCreateInput) {
   const externalId = data.externalId ?? undefined;
   if (externalId) {
-    return prisma.message.upsert({
-      where: { externalId },
-      create: data,
-      update: {}, // já existe → ignorar silenciosamente
-    });
+    try {
+      return await prisma.message.upsert({
+        where: { externalId },
+        create: data,
+        update: {}, // já existe → ignorar silenciosamente
+      });
+    } catch (e: any) {
+      // P2002 = race condition: outra instância inseriu antes (grupos com várias instâncias)
+      if (e?.code === "P2002") return null;
+      throw e;
+    }
   }
   return prisma.message.create({ data });
 }
