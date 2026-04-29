@@ -1579,10 +1579,14 @@ export default function WhatsappManager({
           {/* ── Busca + botão de filtro ── */}
           <div className="px-3 pt-3 pb-2 flex-shrink-0">
             <div className="flex gap-2">
-              {/* Campo de busca */}
+              {/* Campo de busca — autoComplete="new-password" suprime o dropdown
+                  nativo do browser em todos os navegadores, inclusive Safari/iOS */}
               <input
                 type="text"
-                autoComplete="off"
+                autoComplete="new-password"
+                autoCorrect="off"
+                autoCapitalize="none"
+                spellCheck={false}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Buscar por nome ou telefone..."
