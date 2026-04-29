@@ -1208,6 +1208,18 @@ export default function WhatsappManager({
   async function handleAddAsContact() {
     if (!selectedConv || !addContactForm.companyId) return;
     setSavingContact(true);
+
+    // Se já tem empresa vinculada e é diferente → remove vínculo anterior antes de criar novo
+    if (
+      selectedConv.companyContact &&
+      selectedConv.companyContact.company.id !== addContactForm.companyId
+    ) {
+      await fetch(
+        `/api/companies/${selectedConv.companyContact.company.id}/contacts/${selectedConv.companyContact.id}`,
+        { method: "DELETE" }
+      );
+    }
+
     const res = await fetch(`/api/companies/${addContactForm.companyId}/contacts`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -2278,9 +2290,13 @@ export default function WhatsappManager({
               )}
 
               {/* Painel: Adicionar como contato de empresa */}
-              {showAddCompany && !selectedConv.companyContact && (
+              {showAddCompany && (
                 <div className="px-5 py-4 border-b border-[#1e2d45] bg-amber-500/5 flex-shrink-0">
-                  <p className="text-amber-400 text-xs font-semibold mb-3">⭐ Vincular como cliente de uma empresa</p>
+                  <p className="text-amber-400 text-xs font-semibold mb-3">
+                    {selectedConv.companyContact
+                      ? `🏢 Mudar empresa (atual: ${selectedConv.companyContact.company.name})`
+                      : "⭐ Vincular como cliente de uma empresa"}
+                  </p>
 
                   {!addContactForm.companyId ? (
                     /* Passo 1: buscar empresa */
@@ -2371,7 +2387,7 @@ export default function WhatsappManager({
                           disabled={savingContact}
                           className="px-4 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold disabled:opacity-50"
                         >
-                          {savingContact ? "Salvando..." : "⭐ Confirmar como cliente"}
+                          {savingContact ? "Salvando..." : (selectedConv.companyContact ? "🏢 Confirmar mudança" : "⭐ Confirmar como cliente")}
                         </button>
                         <button onClick={() => setShowAddCompany(false)} className="px-3 py-1.5 rounded-lg bg-white/5 text-slate-400 text-xs hover:text-white">
                           Cancelar
@@ -3103,13 +3119,13 @@ export default function WhatsappManager({
                                     🎫 Abrir Chamado
                                   </button>
                                 )}
-                                {!selectedConv.companyContact && !selectedConv.phone.includes("@g.us") && (
+                                {!selectedConv.phone.includes("@g.us") && (
                                   <button
                                     type="button"
-                                    onClick={() => { setShowAddCompany(true); setShowConvertForm(false); setShowTicketForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowActionsMenu(false); }}
+                                    onClick={() => { setShowAddCompany(true); setShowConvertForm(false); setShowTicketForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowActionsMenu(false); setAddContactForm({ companyId: "", companyName: "", contactName: "", role: "CONTACT" }); setCompanySearch(""); setCompanyResults([]); }}
                                     className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
                                   >
-                                    ⭐ É Cliente
+                                    {selectedConv.companyContact ? "🏢 Mudar empresa" : "⭐ É Cliente"}
                                   </button>
                                 )}
                                 <button
