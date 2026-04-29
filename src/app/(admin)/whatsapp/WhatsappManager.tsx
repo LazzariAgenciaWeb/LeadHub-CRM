@@ -257,6 +257,15 @@ export default function WhatsappManager({
   const [savingNote, setSavingNote] = useState(false);
 
   // Filters
+  // Detecção de mobile (< 768px) via JS — mais confiável que breakpoints Tailwind em SSR
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   const [search, setSearch] = useState("");
   const [instanceFilter, setInstanceFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
@@ -1573,10 +1582,16 @@ export default function WhatsappManager({
       {/* Body */}
       <div className="flex flex-1 overflow-hidden">
         {/* Conversation list
-            Desktop (md+): sempre visível, largura fixa 300px — comportamento original.
-            Mobile (<md): ocupa 100% quando nenhuma conversa está aberta;
-                          some quando uma conversa é selecionada. */}
-        <div className={`w-[300px] min-w-[300px] flex-shrink-0 border-r border-[#1e2d45] flex flex-col overflow-hidden ${selectedConv ? "max-md:hidden" : "max-md:w-full max-md:min-w-0"}`}>
+            Desktop: sempre visível, largura fixa 300px.
+            Mobile: ocupa 100% quando sem conversa; some quando conversa aberta. */}
+        <div
+          className="border-r border-[#1e2d45] flex flex-col overflow-hidden flex-shrink-0"
+          style={{
+            width:    isMobile ? (selectedConv ? "0" : "100%") : "300px",
+            minWidth: isMobile ? (selectedConv ? "0" : "100%") : "300px",
+            display:  isMobile && selectedConv ? "none" : undefined,
+          }}
+        >
 
           {/* ── Busca + botão de filtro ── */}
           <div className="px-3 pt-3 pb-2 flex-shrink-0">
@@ -1900,9 +1915,12 @@ export default function WhatsappManager({
         </div>
 
         {/* Conversation detail
-            Desktop (md+): sempre visível como flex-1 — comportamento original.
-            Mobile (<md): some enquanto nenhuma conversa estiver aberta. */}
-        <div className={`flex-1 flex flex-col overflow-hidden relative ${!selectedConv ? "max-md:hidden" : ""}`}>
+            Desktop: sempre visível como flex-1.
+            Mobile: some quando nenhuma conversa estiver aberta. */}
+        <div
+          className="flex-1 flex flex-col overflow-hidden relative"
+          style={{ display: isMobile && !selectedConv ? "none" : undefined }}
+        >
           {!selectedConv ? (
             <div className="flex-1 flex items-center justify-center text-center p-8">
               <div>
