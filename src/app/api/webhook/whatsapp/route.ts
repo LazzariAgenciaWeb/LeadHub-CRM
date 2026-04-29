@@ -292,9 +292,9 @@ export async function POST(request: NextRequest) {
               data: { externalId: key.id },
             });
             console.log(`[WA fromMe] fallback externalId ${fallback.externalId} → ${key.id}`);
-          } else if (!phone.includes("@lid") || phoneForLookup === phone) {
+          } else {
             // Nenhum registro existente → criar (mensagem enviada pelo celular/outro cliente)
-            // Para @lid com alias resolvido: NÃO criar nova mensagem — ela já existe sob o número real.
+            // Para @lid com alias resolvido: usa phoneForLookup (número real) para salvar sob a conversa correta.
             await prisma.message.create({
               data: {
                 externalId: key.id,
