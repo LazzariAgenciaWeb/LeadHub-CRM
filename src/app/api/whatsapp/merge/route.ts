@@ -83,18 +83,29 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // Se mergePhone é um @lid → salva mapeamento permanente para redirecionar mensagens futuras.
-  // Isso impede que novos webhooks do @lid reconstruam a conversa separada.
+  // Se um dos phones é @lid → salva dois aliases permanentes:
+  //   1) phone_alias (inbound): @lid → keepPhone  — redireciona webhooks inbound do @lid
+  //   2) phone_alias_reverse (outbound): keepPhone → @lid — garante que o envio use o JID @lid
+  //      (contatos WhatsApp Business @lid só recebem mensagens pelo JID, não pelo número real)
   if (mergePhone.includes("@lid") || keepPhone.includes("@lid")) {
-    const [lidPhone, realPhone] = mergePhone.includes("@lid")
-      ? [mergePhone, keepPhone]
-      : [keepPhone, mergePhone];
+    const lidPhone  = mergePhone.includes("@lid") ? mergePhone : keepPhone;
+    const realPhone = mergePhone.includes("@lid") ? keepPhone  : mergePhone;
+    const realDigits = realPhone.replace(/\D/g, "");
 
-    await prisma.setting.upsert({
-      where: { key: `phone_alias:${effectiveCompanyId}:${lidPhone}` },
-      create: { key: `phone_alias:${effectiveCompanyId}:${lidPhone}`, value: realPhone },
-      update: { value: realPhone },
-    });
+    await Promise.all([
+      // Inbound: @lid → real (para redirecionar mensagens recebidas do @lid)
+      prisma.setting.upsert({
+        where:  { key: `phone_alias:${effectiveCompanyId}:${lidPhone}` },
+        create: { key: `phone_alias:${effectiveCompanyId}:${lidPhone}`, value: realPhone },
+        update: { value: realPhone },
+      }),
+      // Outbound: real → @lid (para enviar usando o JID correto do contato)
+      prisma.setting.upsert({
+        where:  { key: `phone_alias_reverse:${effectiveCompanyId}:${realDigits}` },
+        create: { key: `phone_alias_reverse:${effectiveCompanyId}:${realDigits}`, value: lidPhone },
+        update: { value: lidPhone },
+      }),
+    ]);
   }
 
   return NextResponse.json({ success: true, keepPhone, mergePhone });

@@ -35,7 +35,21 @@ export async function POST(
 
   try {
     const instanceToken = (instance as any).instanceToken as string | null | undefined;
-    const result = await evolutionSendText(instance.instanceName, phone, text, instanceToken, quoted);
+
+    // Verificar alias reverso: se este número real foi mesclado com um @lid,
+    // a Evolution precisa do JID @lid para entregar a mensagem ao contato.
+    const phoneDigits = phone.replace(/\D/g, "");
+    const reverseAlias = (!phone.includes("@g.us") && !phone.includes("@lid"))
+      ? await prisma.setting.findUnique({
+          where: { key: `phone_alias_reverse:${instance.companyId}:${phoneDigits}` },
+        })
+      : null;
+    const phoneForEvolution = reverseAlias?.value ?? phone;
+    if (reverseAlias?.value) {
+      console.log(`[Send] @lid reverse alias: ${phone} → ${phoneForEvolution}`);
+    }
+
+    const result = await evolutionSendText(instance.instanceName, phoneForEvolution, text, instanceToken, quoted);
 
     // Extrair externalId do retorno da Evolution (múltiplos paths por segurança)
     const externalId: string =
