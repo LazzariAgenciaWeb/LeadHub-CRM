@@ -2753,7 +2753,13 @@ export default function WhatsappManager({
                                 src={`data:${msg.mediaType};base64,${msg.mediaBase64}`}
                                 alt="Imagem"
                                 className="max-w-full rounded-lg max-h-64 object-contain cursor-pointer"
-                                onClick={() => window.open(`data:${msg.mediaType};base64,${msg.mediaBase64}`, "_blank")}
+                                onClick={() => {
+                                  // data: URLs são bloqueadas por window.open — usar Blob URL
+                                  const bytes = Uint8Array.from(atob(msg.mediaBase64!), c => c.charCodeAt(0));
+                                  const blob = new Blob([bytes], { type: msg.mediaType ?? "image/jpeg" });
+                                  const url = URL.createObjectURL(blob);
+                                  window.open(url, "_blank");
+                                }}
                               />
                             ) : msg.mediaBase64 && msg.mediaType?.startsWith("audio/") ? (
                               /* Player de áudio */
