@@ -74,7 +74,11 @@ export async function POST(
       instanceId: id,
     });
 
-    // Save the sent message locally
+    // Save the sent message locally.
+    // ack=1 (SERVER_ACK): a Evolution já confirmou que recebeu — mensagem está ao menos
+    // no servidor. O webhook MESSAGES_UPDATE depois eleva pra 2 (entregue) e 3 (lido).
+    // Pendente (ack=0) só faria sentido se a chamada acima tivesse falhado, e nesse caso
+    // entraríamos no catch.
     const saved = await prisma.message.create({
       data: {
         externalId,
@@ -84,7 +88,7 @@ export async function POST(
         instanceId: id,
         companyId: instance.companyId,
         conversationId: conv.id,
-        ack: 0,
+        ack: 1,
         ...(quoted ? { quotedId: quotedExternalId, quotedBody: quotedBody ?? null } : {}),
       },
       include: { instance: { select: { instanceName: true } }, campaign: { select: { id: true, name: true } } },
