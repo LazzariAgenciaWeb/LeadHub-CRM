@@ -18,10 +18,12 @@ const SECTIONS: SectionItem[] = [
       { key: "integracoes-evolution", icon: "⚡", label: "Evolution API", desc: "WhatsApp gateway" },
       { key: "integracoes-clickup",  icon: "✅", label: "ClickUp",       desc: "Tarefas e projetos" },
       { key: "integracoes-openai",   icon: "🤖", label: "OpenAI",        desc: "IA e automação" },
+      { key: "integracoes-webhook",  icon: "🔗", label: "Webhook de Leads", desc: "Receba leads de qualquer fonte" },
     ],
   },
-  { type: "item", key: "pipeline", icon: "🫧", label: "CRM / Pipeline", desc: "Etapas e configurações" },
-  { type: "item", key: "setores",  icon: "🏷️", label: "Setores",         desc: "Times, acesso e permissões" },
+  { type: "item", key: "pipeline",    icon: "🫧", label: "CRM / Pipeline", desc: "Etapas e configurações" },
+  { type: "item", key: "setores",     icon: "🏷️", label: "Setores",         desc: "Times, acesso e permissões" },
+  { type: "item", key: "atendimento", icon: "⏱️", label: "Atendimento",     desc: "SLA, fila e regras de inbox" },
 ];
 
 function isIntegSubKey(key: string) {

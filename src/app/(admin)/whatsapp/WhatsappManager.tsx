@@ -3,6 +3,18 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Check, CheckCheck, Clock, AlertCircle } from "lucide-react";
+
+type ConvStatus = "OPEN" | "PENDING" | "IN_PROGRESS" | "WAITING_CUSTOMER" | "CLOSED";
+
+const CONV_STATUS_META: Record<ConvStatus, { label: string; dot: string; chip: string }> = {
+  OPEN:             { label: "Aberta",            dot: "bg-cyan-400",                      chip: "bg-cyan-500/15 text-cyan-300 border-cyan-500/25" },
+  PENDING:          { label: "Sem atendimento",   dot: "bg-red-400 animate-pulse",         chip: "bg-red-500/15 text-red-300 border-red-500/25" },
+  IN_PROGRESS:      { label: "Em atendimento",    dot: "bg-yellow-400",                    chip: "bg-yellow-500/15 text-yellow-300 border-yellow-500/25" },
+  WAITING_CUSTOMER: { label: "Aguardando cliente", dot: "bg-blue-400",                     chip: "bg-blue-500/15 text-blue-300 border-blue-500/25" },
+  CLOSED:           { label: "Finalizada",        dot: "bg-slate-500",                     chip: "bg-slate-500/15 text-slate-400 border-slate-500/25" },
+};
+
 
 /**
  * Formata um número de telefone para exibição amigável.
@@ -68,6 +80,17 @@ interface Conversation {
     instance: { instanceName: string } | null;
   } | null;
   companyContact: CompanyContactInfo | null;
+  // Dados da Conversation (Sprint 3) — populado por page.tsx via convByKey
+  conversation: {
+    id: string;
+    status: ConvStatus;
+    statusUpdatedAt: string;
+    unreadCount: number;
+    assigneeId: string | null;
+    assignee: { id: string; name: string } | null;
+    setorId: string | null;
+    setor: { id: string; name: string } | null;
+  } | null;
 }
 
 interface WaMessage {
@@ -185,6 +208,8 @@ export default function WhatsappManager({
   finalStageNames = [],
   userSignature = "",
   userName = "",
+  currentUserId = "",
+  availableSetores = [],
 }: {
   instances: Instance[];
   isSuperAdmin: boolean;
@@ -194,7 +219,20 @@ export default function WhatsappManager({
   finalStageNames?: string[];
   userSignature?: string;
   userName?: string;
+  currentUserId?: string;
+  availableSetores?: { id: string; name: string }[];
 }) {
+  // Toggle de assinatura por mensagem (Sprint 3)
+  const [includeSignature, setIncludeSignature] = useState<boolean>(!!userSignature);
+  // Estado local de status da conversa (atualização otimista após Pegar/Finalizar)
+  const [convStatusOverride, setConvStatusOverride] = useState<Map<string, ConvStatus>>(new Map());
+  const [convAssigneeOverride, setConvAssigneeOverride] = useState<Map<string, { id: string; name: string } | null>>(new Map());
+  const [convActionLoading, setConvActionLoading] = useState(false);
+  // Modal de transferência (Sprint 4)
+  const [showTransferModal, setShowTransferModal] = useState(false);
+  const [transferSetorId, setTransferSetorId] = useState("");
+  const [transferNote, setTransferNote] = useState("");
+  const [transferring, setTransferring] = useState(false);
   const router = useRouter();
 
   const [selectedConv, setSelectedConv] = useState<Conversation | null>(null);
@@ -531,50 +569,51 @@ export default function WhatsappManager({
       // Filtro de instância
       if (instanceFilter && c.lastMsg?.instance?.instanceName !== instanceFilter) return false;
 
-      // Filtros de status
+      // Filtros de status — agora baseados em Conversation.status (Sprint 3)
+      // URGENT     → status PENDING (SLA estourou via job de cron)
+      // UNANSWERED → status OPEN ou PENDING (cliente esperando)
+      // IN_PROGRESS → status IN_PROGRESS
+      // RESOLVED   → status CLOSED
+      // SCHEDULED  → lead com expectedReturnAt definido (orthogonal ao status)
       if (statusFilter) {
-        const isInbound = c.lastMsg?.direction === "INBOUND";
-        const mins = isInbound
-          ? Math.floor((Date.now() - new Date(c.lastMsg!.receivedAt).getTime()) / 60_000)
-          : -1;
-        // Usa override local se existir (atualização otimista antes do router.refresh)
-        const atStatus = localAttendanceOverrides.get(c.phone) ?? c.lead?.attendanceStatus;
+        const overrideStatus = convStatusOverride.get(c.phone);
+        const cStatus: ConvStatus | undefined = (overrideStatus ?? c.conversation?.status) as ConvStatus | undefined;
+        const hasReturn = !!c.lead?.expectedReturnAt;
 
         switch (statusFilter) {
-          case "URGENT":      if (!(isInbound && mins >= 20)) return false; break;
-          case "UNANSWERED":  if (!isInbound || atStatus === "RESOLVED") return false; break;
-          case "IN_PROGRESS": if (atStatus !== "IN_PROGRESS") return false; break;
-          case "RESOLVED":    if (atStatus !== "RESOLVED") return false; break;
-          case "SCHEDULED":   if (atStatus !== "SCHEDULED") return false; break;
+          case "URGENT":      if (cStatus !== "PENDING") return false; break;
+          case "UNANSWERED":  if (cStatus !== "OPEN" && cStatus !== "PENDING") return false; break;
+          case "IN_PROGRESS": if (cStatus !== "IN_PROGRESS") return false; break;
+          case "RESOLVED":    if (cStatus !== "CLOSED") return false; break;
+          case "SCHEDULED":   if (!hasReturn) return false; break;
           case "CLIENTS":     if (!c.companyContact) return false; break;
           case "NO_LEAD":     if (c.lead?.pipeline) return false; break;
         }
       }
       return true;
     });
-  }, [conversations, search, instanceFilter, statusFilter, localAttendanceOverrides, hideGroups, isSuperAdmin, defaultCompanyId]);
+  }, [conversations, search, instanceFilter, statusFilter, convStatusOverride, hideGroups, isSuperAdmin, defaultCompanyId]);
 
   // Contagem por filtro de status (para mostrar badges nos chips)
   const filterCounts = useMemo(() => {
     const counts: Record<string, number> = { URGENT: 0, UNANSWERED: 0, IN_PROGRESS: 0, RESOLVED: 0, SCHEDULED: 0, CLIENTS: 0, NO_LEAD: 0 };
-    const now = Date.now();
     for (const c of conversations) {
       // Respeita filtro de empresa client-side
       if (!isSuperAdmin && defaultCompanyId && c.companyId !== defaultCompanyId) continue;
-      const isInbound = c.lastMsg?.direction === "INBOUND";
-      const mins = isInbound ? Math.floor((now - new Date(c.lastMsg!.receivedAt).getTime()) / 60_000) : -1;
-      // Usa override local se existir
-      const atStatus = localAttendanceOverrides.get(c.phone) ?? c.lead?.attendanceStatus;
-      if (isInbound && mins >= 20) counts.URGENT++;
-      if (isInbound && atStatus !== "RESOLVED") counts.UNANSWERED++;
-      if (atStatus === "IN_PROGRESS") counts.IN_PROGRESS++;
-      if (atStatus === "RESOLVED")    counts.RESOLVED++;
-      if (atStatus === "SCHEDULED")   counts.SCHEDULED++;
-      if (c.companyContact)            counts.CLIENTS++;
-      if (!c.lead?.pipeline)           counts.NO_LEAD++;
+      const overrideStatus = convStatusOverride.get(c.phone);
+      const cStatus: ConvStatus | undefined = (overrideStatus ?? c.conversation?.status) as ConvStatus | undefined;
+      const hasReturn = !!c.lead?.expectedReturnAt;
+
+      if (cStatus === "PENDING")     counts.URGENT++;
+      if (cStatus === "OPEN" || cStatus === "PENDING") counts.UNANSWERED++;
+      if (cStatus === "IN_PROGRESS") counts.IN_PROGRESS++;
+      if (cStatus === "CLOSED")      counts.RESOLVED++;
+      if (hasReturn)                 counts.SCHEDULED++;
+      if (c.companyContact)          counts.CLIENTS++;
+      if (!c.lead?.pipeline)         counts.NO_LEAD++;
     }
     return counts;
-  }, [conversations, localAttendanceOverrides, isSuperAdmin, defaultCompanyId]);
+  }, [conversations, convStatusOverride, isSuperAdmin, defaultCompanyId]);
 
   // Mapa phone → instanceName para identificar "nossos números" em grupos.
   // Indexa TODAS as variantes (com/sem 55, com/sem o 9 extra) para cobrir inconsistências
@@ -651,6 +690,100 @@ export default function WhatsappManager({
     let h = 0;
     for (let i = 0; i < phone.length; i++) h = (Math.imul(31, h) + phone.charCodeAt(i)) | 0;
     return palette[Math.abs(h) % palette.length];
+  }
+
+  // Ações de status da Conversation (Sprint 3)
+  // action: "take" → atendente pega a conversa
+  //         "close" → finaliza
+  //         "reopen" → reabre uma fechada
+  async function handleConvAction(conversationId: string | undefined, action: "take" | "close" | "reopen") {
+    if (!conversationId || !selectedConv) return;
+    setConvActionLoading(true);
+    try {
+      const res = await fetch(`/api/conversations/${conversationId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        // Atualização otimista local
+        setConvStatusOverride((prev) => {
+          const m = new Map(prev);
+          m.set(selectedConv.phone, data.status);
+          return m;
+        });
+        if (action === "take") {
+          setConvAssigneeOverride((prev) => {
+            const m = new Map(prev);
+            m.set(selectedConv.phone, { id: currentUserId, name: userName });
+            return m;
+          });
+        }
+        // Reflete no objeto selecionado (para o header reagir imediatamente)
+        if (selectedConv.conversation) {
+          setSelectedConv({
+            ...selectedConv,
+            conversation: {
+              ...selectedConv.conversation,
+              status: data.status,
+              ...(action === "take" ? { assigneeId: currentUserId, assignee: { id: currentUserId, name: userName } } : {}),
+            },
+          });
+        }
+        router.refresh();
+      }
+    } finally {
+      setConvActionLoading(false);
+    }
+  }
+
+  // Transferência de conversa entre setores (Sprint 4)
+  async function handleTransfer() {
+    if (!selectedConv?.conversation?.id || !transferSetorId) return;
+    setTransferring(true);
+    try {
+      const res = await fetch(`/api/conversations/${selectedConv.conversation.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          setorId: transferSetorId,
+          assigneeId: null, // limpa atendente — quem pegar do novo setor assume
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        // Se foi enviada uma nota interna, salva via endpoint de notes
+        if (transferNote.trim()) {
+          await fetch(`/api/conversations/${selectedConv.conversation.id}/notes`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ body: transferNote.trim() }),
+          }).catch(() => { /* não crítico */ });
+        }
+        setSelectedConv({
+          ...selectedConv,
+          conversation: {
+            ...selectedConv.conversation,
+            setorId: data.setorId,
+            setor: data.setor,
+            assigneeId: null,
+            assignee: null,
+          },
+        });
+        setConvAssigneeOverride((prev) => {
+          const m = new Map(prev);
+          m.set(selectedConv.phone, null);
+          return m;
+        });
+        setShowTransferModal(false);
+        setTransferSetorId("");
+        setTransferNote("");
+        router.refresh();
+      }
+    } finally {
+      setTransferring(false);
+    }
   }
 
   async function handleNewConv(e: React.FormEvent) {
@@ -924,8 +1057,8 @@ export default function WhatsappManager({
     setTicketCreated(false);
     setShowLinkProspect(false);
     setConvMessages([]);
-    // Pré-preenche com a assinatura do usuário (topo da mensagem)
-    setReplyText(userSignature ? `-- ${userSignature}\n\n` : "");
+    // O texto começa vazio — a assinatura agora é anexada no envio se o toggle estiver ligado
+    setReplyText("");
     setReplyError(null);
     setEditingName(false);
     setLeadName(conv.lead?.name ?? "");
@@ -946,6 +1079,15 @@ export default function WhatsappManager({
     setAiIntent(null);
     setAiSuggestedReply(null);
     setLoadingMsgs(true);
+
+    // Marca a conversa como lida (zera unreadCount no backend)
+    if (conv.conversation?.id && conv.conversation.unreadCount > 0) {
+      fetch(`/api/conversations/${conv.conversation.id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "markRead" }),
+      }).catch(() => { /* não crítico */ });
+    }
 
     const params = new URLSearchParams({ phone: conv.phone });
     if (conv.companyId) params.set("companyId", conv.companyId);
@@ -1114,7 +1256,12 @@ export default function WhatsappManager({
     setSendingReply(true);
     setReplyError(null);
 
-    const payload: Record<string, unknown> = { phone: selectedConv.phone, text: replyText.trim() };
+    // Se o usuário ativou a assinatura, anexa "-- {nome}" ao final da mensagem
+    const finalText = (includeSignature && userSignature)
+      ? `${replyText.trim()}\n\n-- ${userSignature}`
+      : replyText.trim();
+
+    const payload: Record<string, unknown> = { phone: selectedConv.phone, text: finalText };
     if (replyingTo?.externalId) {
       payload.quotedExternalId = replyingTo.externalId;
       payload.quotedBody = replyingTo.body;
@@ -1139,7 +1286,7 @@ export default function WhatsappManager({
         ...prev,
         data.message ?? {
           id: `tmp-${Date.now()}`,
-          body: replyText.trim(),
+          body: finalText,
           direction: "OUTBOUND",
           receivedAt: new Date().toISOString(),
           participantPhone: null,
@@ -1151,9 +1298,9 @@ export default function WhatsappManager({
           quotedBody: replyingTo?.body ?? null,
         },
       ]);
-      // Após enviar, limpa citação e volta à assinatura
+      // Após enviar, limpa citação e textarea (assinatura é anexada na hora do envio, não no texto editável)
       setReplyingTo(null);
-      setReplyText(userSignature ? `-- ${userSignature}\n\n` : "");
+      setReplyText("");
     }
   }
 
@@ -1861,12 +2008,31 @@ export default function WhatsappManager({
                               {conv.phone.includes("@g.us") && !conv.companyContact && (
                                 <div className="text-slate-700 text-[10px] leading-tight">Sem empresa</div>
                               )}
+
+                              {/* Chip de status da Conversation (Sprint 3) */}
+                              {conv.conversation && (() => {
+                                const currentStatus: ConvStatus = (convStatusOverride.get(conv.phone) ?? conv.conversation.status) as ConvStatus;
+                                const meta = CONV_STATUS_META[currentStatus];
+                                return (
+                                  <div className="flex items-center gap-1 mt-0.5">
+                                    <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${meta.dot}`} />
+                                    <span className="text-[10px] text-slate-500 truncate">{meta.label}</span>
+                                  </div>
+                                );
+                              })()}
                             </div>
                           </div>
 
-                          <span className="text-slate-600 text-[10px] flex-shrink-0 ml-2 pt-0.5">
-                            {conv.lastMsg ? formatTime(conv.lastMsg.receivedAt) : ""}
-                          </span>
+                          <div className="flex flex-col items-end gap-0.5 flex-shrink-0 ml-2 pt-0.5">
+                            <span className="text-slate-600 text-[10px]">
+                              {conv.lastMsg ? formatTime(conv.lastMsg.receivedAt) : ""}
+                            </span>
+                            {conv.conversation && conv.conversation.unreadCount > 0 && (
+                              <span className="text-[9px] font-bold bg-emerald-500 text-white px-1.5 py-0.5 rounded-full min-w-[16px] text-center leading-none">
+                                {conv.conversation.unreadCount > 99 ? "99+" : conv.conversation.unreadCount}
+                              </span>
+                            )}
+                          </div>
                         </div>
 
                         {/* Linha 2: prévia da mensagem */}
@@ -2024,6 +2190,73 @@ export default function WhatsappManager({
                         </button>
                         )}
                       </div>
+
+                      {/* Status da Conversation + ações (Sprint 3) */}
+                      {(() => {
+                        const conv = selectedConv.conversation;
+                        if (!conv) return null;
+                        const currentStatus: ConvStatus = (convStatusOverride.get(selectedConv.phone) ?? conv.status) as ConvStatus;
+                        const meta = CONV_STATUS_META[currentStatus];
+                        const assignee = convAssigneeOverride.has(selectedConv.phone)
+                          ? convAssigneeOverride.get(selectedConv.phone)
+                          : conv.assignee;
+                        const isMine = assignee?.id === currentUserId;
+                        return (
+                          <div className="flex flex-wrap items-center gap-1.5 mt-1.5">
+                            <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium border ${meta.chip}`}>
+                              <span className={`w-1.5 h-1.5 rounded-full ${meta.dot}`} />
+                              {meta.label}
+                            </span>
+                            {assignee && (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
+                                {isMine ? "Você" : assignee.name}
+                              </span>
+                            )}
+                            {currentStatus !== "CLOSED" && !isMine && (
+                              <button
+                                onClick={() => handleConvAction(conv.id, "take")}
+                                disabled={convActionLoading}
+                                className="text-[10px] px-2 py-0.5 rounded-full bg-yellow-500/15 text-yellow-300 border border-yellow-500/25 hover:bg-yellow-500/25 transition-colors disabled:opacity-50"
+                              >
+                                Pegar
+                              </button>
+                            )}
+                            {currentStatus !== "CLOSED" && (
+                              <button
+                                onClick={() => handleConvAction(conv.id, "close")}
+                                disabled={convActionLoading}
+                                className="text-[10px] px-2 py-0.5 rounded-full bg-slate-500/15 text-slate-300 border border-slate-500/25 hover:bg-slate-500/25 transition-colors disabled:opacity-50"
+                              >
+                                Finalizar
+                              </button>
+                            )}
+                            {currentStatus === "CLOSED" && (
+                              <button
+                                onClick={() => handleConvAction(conv.id, "reopen")}
+                                disabled={convActionLoading}
+                                className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 hover:bg-emerald-500/25 transition-colors disabled:opacity-50"
+                              >
+                                Reabrir
+                              </button>
+                            )}
+                            {availableSetores.length > 1 && currentStatus !== "CLOSED" && (
+                              <button
+                                onClick={() => { setShowTransferModal(true); setTransferSetorId(conv.setorId ?? ""); setTransferNote(""); }}
+                                disabled={convActionLoading}
+                                className="text-[10px] px-2 py-0.5 rounded-full bg-violet-500/15 text-violet-300 border border-violet-500/25 hover:bg-violet-500/25 transition-colors disabled:opacity-50"
+                              >
+                                Transferir
+                              </button>
+                            )}
+                            {conv.setor && (
+                              <span className="text-[10px] text-slate-500">
+                                · setor: <span className="text-slate-300">{conv.setor.name}</span>
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })()}
+
                       {(selectedConv.companyContact?.name || selectedConv.lead?.name) && !selectedConv.phone.includes("@g.us") && (
                         <div className="text-slate-500 text-xs">{formatPhone(selectedConv.phone)}</div>
                       )}
@@ -2670,13 +2903,13 @@ export default function WhatsappManager({
                       : "bg-[#0f1623] border border-[#1e2d45] text-slate-200 rounded-tl-none";
                     const bubbleAlign = isOut || isOursInGroup ? "items-end" : "items-start";
 
-                    // ACK icon para mensagens OUTBOUND
+                    // ACK icon para mensagens OUTBOUND (Lucide, monotônico — Sprint 3)
                     const ackIcon = (isOut || isOursInGroup) ? (() => {
                       if (msg.ack === null || msg.ack === undefined) return null;
-                      if (msg.ack <= 0)  return <span className="text-[11px] text-indigo-300/50" title="Pendente">🕐</span>;
-                      if (msg.ack === 1) return <span className="text-[11px] text-indigo-300/60" title="Enviado">✓</span>;
-                      if (msg.ack === 2) return <span className="text-[11px] text-indigo-300/80" title="Entregue">✓✓</span>;
-                      return <span className="text-[11px] text-blue-300" title="Lido">✓✓</span>; // 3=read 4=played
+                      if (msg.ack <= 0)  return <Clock     className="w-3 h-3 text-indigo-300/50"     strokeWidth={2.5} aria-label="Pendente" />;
+                      if (msg.ack === 1) return <Check     className="w-3 h-3 text-indigo-300/70"     strokeWidth={2.5} aria-label="Enviado" />;
+                      if (msg.ack === 2) return <CheckCheck className="w-3.5 h-3.5 text-indigo-300/80" strokeWidth={2.5} aria-label="Entregue" />;
+                      return            <CheckCheck className="w-3.5 h-3.5 text-sky-400"           strokeWidth={2.5} aria-label="Lido" />; // 3=read 4=played
                     })() : null;
 
                     return (
@@ -3262,12 +3495,89 @@ export default function WhatsappManager({
                     {sendingReply ? "..." : "↑"}
                   </button>
                 </form>
-                <p className="text-slate-700 text-[10px] mt-1">Enter envia · Ctrl+Enter quebra linha</p>
+                <div className="flex items-center justify-between mt-1 gap-3">
+                  <p className="text-slate-700 text-[10px]">Enter envia · Ctrl+Enter quebra linha</p>
+                  {userSignature && (
+                    <label className="flex items-center gap-1.5 cursor-pointer select-none group" title={`Anexa "-- ${userSignature}" no fim`}>
+                      <input
+                        type="checkbox"
+                        checked={includeSignature}
+                        onChange={(e) => setIncludeSignature(e.target.checked)}
+                        className="w-3 h-3 rounded accent-indigo-500"
+                      />
+                      <span className={`text-[10px] transition-colors ${includeSignature ? "text-indigo-400" : "text-slate-600 group-hover:text-slate-400"}`}>
+                        Assinar como {userSignature}
+                      </span>
+                    </label>
+                  )}
+                </div>
               </div>
             </>
           )}
         </div>
       </div>
+
+      {/* Modal de Transferência (Sprint 4) */}
+      {showTransferModal && selectedConv?.conversation && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/70" onClick={() => setShowTransferModal(false)} />
+          <div className="relative bg-[#0c1220] border border-[#1e2d45] rounded-2xl w-full max-w-md mx-4 shadow-2xl">
+            <div className="px-6 py-4 border-b border-[#1e2d45] flex items-center justify-between">
+              <div>
+                <h2 className="text-white font-bold text-base">Transferir conversa</h2>
+                <p className="text-slate-500 text-xs mt-0.5">Atribuir para outro setor — limpa o atendente atual</p>
+              </div>
+              <button onClick={() => setShowTransferModal(false)} className="text-slate-500 hover:text-white text-2xl leading-none">×</button>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="block text-slate-400 text-xs font-medium mb-1.5">Setor de destino</label>
+                <select
+                  value={transferSetorId}
+                  onChange={(e) => setTransferSetorId(e.target.value)}
+                  className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
+                >
+                  <option value="">— Selecione —</option>
+                  {availableSetores
+                    .filter((s) => s.id !== selectedConv.conversation?.setorId)
+                    .map((s) => (
+                      <option key={s.id} value={s.id}>{s.name}</option>
+                    ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-slate-400 text-xs font-medium mb-1.5">Nota interna (opcional)</label>
+                <textarea
+                  value={transferNote}
+                  onChange={(e) => setTransferNote(e.target.value)}
+                  rows={3}
+                  placeholder="Ex: cliente já recebeu orçamento, agora quer revisar boleto"
+                  className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
+                />
+                <p className="text-slate-600 text-[10px] mt-1">Visível apenas internamente — não é enviada ao cliente.</p>
+              </div>
+
+              <div className="flex gap-2 pt-1">
+                <button
+                  onClick={handleTransfer}
+                  disabled={transferring || !transferSetorId}
+                  className="flex-1 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium disabled:opacity-50 transition-colors"
+                >
+                  {transferring ? "Transferindo..." : "Transferir"}
+                </button>
+                <button
+                  onClick={() => setShowTransferModal(false)}
+                  className="px-4 py-2 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white text-sm transition-colors"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

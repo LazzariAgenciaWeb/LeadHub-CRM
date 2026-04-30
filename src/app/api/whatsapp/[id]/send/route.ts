@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { evolutionSendText } from "@/lib/evolution";
+import { upsertConversation } from "@/lib/whatsapp";
 
 // POST /api/whatsapp/[id]/send
 // Body: { phone: string, text: string }
@@ -64,6 +65,15 @@ export async function POST(
     });
     const phoneForStorage = existingCount > 0 ? phone : canonicalPhone;
 
+    // Upsert da Conversation — fonte da verdade do status de atendimento
+    const conv = await upsertConversation({
+      companyId: instance.companyId,
+      phone: phoneForStorage,
+      direction: "OUTBOUND",
+      body: text,
+      instanceId: id,
+    });
+
     // Save the sent message locally
     const saved = await prisma.message.create({
       data: {
@@ -73,6 +83,7 @@ export async function POST(
         phone: phoneForStorage,
         instanceId: id,
         companyId: instance.companyId,
+        conversationId: conv.id,
         ack: 0,
         ...(quoted ? { quotedId: quotedExternalId, quotedBody: quotedBody ?? null } : {}),
       },
@@ -81,13 +92,16 @@ export async function POST(
 
     // Para grupos e @lid não há lead vinculado — pular atualização de atendimento
     if (!canonicalPhone.includes("@g.us") && !canonicalPhone.includes("@lid")) {
-      // Tenta ambos os formatos de phone no lookup do lead
+      // Vincula o lead à conversa (se existir e ainda não estiver vinculado)
       const lead = await prisma.lead.findFirst({
         where: { phone: { in: [phone, canonicalPhone] }, companyId: instance.companyId },
         orderBy: { createdAt: "desc" },
       });
-      if (lead && lead.attendanceStatus === "WAITING") {
-        await prisma.lead.update({ where: { id: lead.id }, data: { attendanceStatus: "IN_PROGRESS" } });
+      if (lead && lead.conversationId !== conv.id) {
+        await prisma.lead.update({
+          where: { id: lead.id },
+          data: { conversationId: conv.id },
+        }).catch(() => {/* não crítico */});
       }
     }
 

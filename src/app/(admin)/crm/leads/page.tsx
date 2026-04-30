@@ -78,6 +78,19 @@ export default async function LeadsPage({
     ? await prisma.company.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } })
     : [];
 
+  // Detecta integrações ativas
+  const [clickupSetting, whatsappInstanceCount, currentCompany] = await Promise.all([
+    prisma.setting.findUnique({ where: { key: "clickup_api_token" }, select: { value: true } }),
+    effectiveCompanyId
+      ? prisma.whatsappInstance.count({ where: { companyId: effectiveCompanyId } })
+      : Promise.resolve(0),
+    effectiveCompanyId
+      ? prisma.company.findUnique({ where: { id: effectiveCompanyId }, select: { moduleWhatsapp: true } })
+      : Promise.resolve(null),
+  ]);
+  const clickupEnabled  = !!clickupSetting?.value;
+  const whatsappEnabled = isRealSuperAdmin || (currentCompany?.moduleWhatsapp === true && whatsappInstanceCount > 0);
+
   return (
     <CRMBoard
       pipeline={PIPELINE}
@@ -87,6 +100,8 @@ export default async function LeadsPage({
       companies={companies}
       defaultLeadId={defaultLeadId}
       defaultCompanyId={defaultCompanyId}
+      whatsappEnabled={whatsappEnabled}
+      clickupEnabled={clickupEnabled}
     />
   );
 }

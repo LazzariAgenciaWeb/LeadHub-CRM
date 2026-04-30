@@ -3,6 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+interface CompanyOption {
+  id: string;
+  name: string;
+}
+
 interface Stage {
   id: string;
   pipeline: string;
@@ -28,9 +33,15 @@ const COLOR_PRESETS = [
 export default function PipelineSettings({
   initialStages,
   companyId,
+  isSuperAdmin = false,
+  allCompanies = [],
+  selectedCompanyId = "",
 }: {
   initialStages: Stage[];
   companyId: string;
+  isSuperAdmin?: boolean;
+  allCompanies?: CompanyOption[];
+  selectedCompanyId?: string;
 }) {
   const router = useRouter();
   const [stages, setStages] = useState(initialStages);
@@ -184,9 +195,28 @@ export default function PipelineSettings({
   return (
     <div className="p-6 max-w-2xl">
       <h2 className="text-white font-bold text-lg mb-1">CRM / Pipeline</h2>
-      <p className="text-slate-500 text-sm mb-6">
+      <p className="text-slate-500 text-sm mb-4">
         Configure as etapas de cada pipeline. Arraste para reordenar ou use as setas.
       </p>
+
+      {/* Seletor de empresa — visível apenas para SuperAdmin */}
+      {isSuperAdmin && allCompanies.length > 0 && (
+        <div className="mb-6">
+          <label className="block text-slate-400 text-xs font-semibold mb-1.5">
+            Empresa
+          </label>
+          <select
+            value={selectedCompanyId}
+            onChange={(e) => router.push(`/configuracoes?secao=pipeline&companyId=${e.target.value}`)}
+            className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 cursor-pointer"
+          >
+            <option value="" disabled>Selecione uma empresa...</option>
+            {allCompanies.map((c) => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
+        </div>
+      )}
 
       {/* Tabs de pipeline */}
       <div className="flex gap-1 mb-6 bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-1">

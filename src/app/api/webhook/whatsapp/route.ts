@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { processInboundMessage } from "@/lib/whatsapp";
+import { processInboundMessage, upsertConversation } from "@/lib/whatsapp";
 
 /**
  * POST /api/webhook/whatsapp
@@ -137,8 +137,14 @@ export async function POST(request: NextRequest) {
           typeof rawAck === "string" ? (ACK_MAP[rawAck] ?? null) : null;
 
         if (ackInt !== null) {
+          // ACK só sobe, nunca regride. Em grupos com 4 instâncias, eventos podem
+          // chegar fora de ordem (ex: ack=3 chega antes de ack=2). Filtra por
+          // `ack: { lt: novoAck } OR ack: null` para garantir progressão monotônica.
           const result = await prisma.message.updateMany({
-            where: { externalId: msgId },
+            where: {
+              externalId: msgId,
+              OR: [{ ack: null }, { ack: { lt: ackInt } }],
+            },
             data: { ack: ackInt },
           });
           console.log(`[ACK] msgId=${msgId} ack=${ackInt} updated=${result.count}`);
@@ -325,7 +331,16 @@ export async function POST(request: NextRequest) {
             });
             console.log(`[WA fromMe] fallback externalId ${fallback.externalId} → ${key.id}`);
           } else {
-            // Nenhum registro existente → criar (mensagem enviada pelo celular/outro cliente)
+            // Mensagem enviada pelo celular (não passou pela API) → upsert da Conversation antes
+            const conv = await upsertConversation({
+              companyId: waInstance.companyId,
+              phone: phoneForLookup,
+              direction: "OUTBOUND",
+              body: body_text,
+              instanceId: waInstance.id,
+              receivedAt,
+            });
+
             // Para @lid com alias resolvido: usa phoneForLookup (número real) para salvar sob a conversa correta.
             await prisma.message.create({
               data: {
@@ -340,6 +355,7 @@ export async function POST(request: NextRequest) {
                 receivedAt,
                 companyId: waInstance.companyId,
                 instanceId: waInstance.id,
+                conversationId: conv.id,
                 ...(quotedId ? { quotedId, quotedBody } : {}),
               },
             });

@@ -27,9 +27,10 @@ model User {
   company   Company? @relation(fields: [companyId], references: [id])
   companyId String?
 
-  ticketsCreated Ticket[]        @relation("TicketCreatedBy")
-  companyContact CompanyContact? @relation("ContactUser")
-  setores        SetorUser[]
+  ticketsCreated        Ticket[]        @relation("TicketCreatedBy")
+  companyContact        CompanyContact? @relation("ContactUser")
+  setores               SetorUser[]
+  conversationsAssigned Conversation[]  @relation("ConversationAssignee")
 
   @@index([companyId])
 }
@@ -78,7 +79,10 @@ model Company {
   pipelineStages    PipelineStageConfig[]
   contacts          CompanyContact[]
   setores           Setor[]
+  conversations     Conversation[]
+  activities        Activity[]
   triggerOnly       Boolean               @default(false)
+  webhookToken      String?               @unique // token público para receber leads via webhook
 
   @@index([parentCompanyId])
 }
@@ -206,14 +210,20 @@ model Lead {
   trackingLink   TrackingLink? @relation(fields: [trackingLinkId], references: [id])
   trackingLinkId String?
 
-  messages Message[]
-  comments LeadComment[]
+  // Conversa unificada (uma conversa por telefone × empresa, criada no Sprint 1)
+  conversation   Conversation? @relation(fields: [conversationId], references: [id])
+  conversationId String?
+
+  messages   Message[]
+  comments   LeadComment[]
+  activities Activity[]
 
   @@index([companyId])
   @@index([campaignId])
   @@index([phone, companyId])
   @@index([pipeline, companyId])
   @@index([externalId])
+  @@index([conversationId])
 }
 
 enum LeadStatus {
@@ -321,6 +331,8 @@ model Message {
   ack              Int? // ACK: 0=pending 1=server 2=delivered 3=read 4=played
   quotedId         String? // externalId da mensagem citada
   quotedBody       String?     @db.Text // snapshot do corpo da mensagem citada
+  mediaBase64      String?     @db.Text // base64 da mídia (imagem/áudio) — vídeo/doc ignorados por tamanho
+  mediaType        String? // MIME type: "image/jpeg", "audio/ogg; codecs=opus", etc.
 
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
@@ -334,9 +346,14 @@ model Message {
   lead   Lead?   @relation(fields: [leadId], references: [id])
   leadId String?
 
+  // Conversa unificada — populada pelo backfill (Sprint 1) e por toda mensagem nova (Sprint 2)
+  conversation   Conversation? @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversationId String?
+
   @@index([companyId])
   @@index([phone, companyId])
   @@index([processed])
+  @@index([conversationId, receivedAt])
 }
 
 enum MessageDir {
@@ -370,6 +387,129 @@ model Setting {
   value String @db.Text
 }
 
+// ─── Conversation (CRM-style inbox) ──────────────────────────────────────────
+// Uma Conversation envolve TODAS as mensagens trocadas com um telefone
+// (individual ou grupo) dentro de uma empresa. Status, atribuição e SLA
+// vivem aqui — não mais em Lead.attendanceStatus.
+
+model Conversation {
+  id String @id @default(cuid())
+
+  // Identificação (telefone individual ou JID do grupo)
+  phone   String
+  isGroup Boolean @default(false)
+
+  // Status e fluxo de atendimento
+  status          ConversationStatus @default(OPEN)
+  statusUpdatedAt DateTime           @default(now())
+
+  // Atribuição
+  assigneeId String? // User responsável (atendente que pegou)
+  assignee   User?   @relation("ConversationAssignee", fields: [assigneeId], references: [id])
+  setorId    String? // setor responsável (herdado da primeira instância que recebeu)
+  setor      Setor?  @relation(fields: [setorId], references: [id])
+
+  // Pré-cálculo da última mensagem (ordenação eficiente sem subquery)
+  lastMessageAt        DateTime?
+  lastMessageBody      String?     @db.Text
+  lastMessageDirection MessageDir?
+  unreadCount          Int         @default(0) // mensagens INBOUND não lidas pelo atendente
+
+  // SLA
+  firstResponseAt DateTime? // primeira resposta do atendente (calcula tempo de resposta)
+  closedAt        DateTime?
+
+  // Multi-tenant
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  // Metadados
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relações inversas
+  messages   Message[]
+  notes      ConversationNote[]
+  activities Activity[]
+  leads      Lead[]
+
+  @@unique([companyId, phone])
+  @@index([companyId, status])
+  @@index([companyId, lastMessageAt])
+  @@index([assigneeId])
+  @@index([setorId])
+}
+
+enum ConversationStatus {
+  OPEN // 🟢 nova, aguardando ação
+  PENDING // 🔴 sem atendimento (passou SLA)
+  IN_PROGRESS // 🟡 atendente atribuído e ativo
+  WAITING_CUSTOMER // 🔵 respondemos, esperando cliente
+  CLOSED // ⚪ finalizada
+}
+
+model ConversationNote {
+  id         String   @id @default(cuid())
+  body       String   @db.Text
+  authorId   String?
+  authorName String   @default("Sistema")
+  createdAt  DateTime @default(now())
+
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversationId String
+
+  @@index([conversationId])
+}
+
+// ─── Activity (log universal) ─────────────────────────────────────────────────
+// Registra eventos relevantes em Conversation, Lead ou Ticket. É o que
+// alimenta a "linha do tempo" no modal e dashboards. NÃO duplica Message —
+// mensagens vivem em Message; aqui ficam mudanças de estado, atribuições etc.
+
+model Activity {
+  id         String       @id @default(cuid())
+  type       ActivityType
+  body       String?      @db.Text
+  meta       Json?
+  authorId   String?
+  authorName String?
+  createdAt  DateTime     @default(now())
+
+  // Pode pertencer a Conversation, Lead, Ticket (nullable — pelo menos um deve estar setado)
+  conversation   Conversation? @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversationId String?
+  lead           Lead?         @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  leadId         String?
+  ticket         Ticket?       @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  ticketId       String?
+
+  // Multi-tenant
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  @@index([conversationId, createdAt])
+  @@index([leadId, createdAt])
+  @@index([ticketId, createdAt])
+  @@index([companyId, createdAt])
+}
+
+enum ActivityType {
+  STATUS_CHANGED
+  ASSIGNEE_CHANGED
+  SECTOR_CHANGED
+  STAGE_CHANGED
+  PIPELINE_CHANGED
+  VALUE_CHANGED
+  NOTE_ADDED
+  CLICKUP_LINKED
+  TRACKING_LINK_SET
+  LEAD_LINKED
+  CONVERSATION_REOPENED
+  CONVERSATION_CLOSED
+  TRANSFERRED
+  // Extensível conforme necessário
+}
+
 // ─── Chamados (Helpdesk) ──────────────────────────────────────────────────────
 
 model Ticket {
@@ -397,7 +537,8 @@ model Ticket {
   setor   Setor?  @relation(fields: [setorId], references: [id])
   setorId String?
 
-  messages TicketMessage[]
+  messages   TicketMessage[]
+  activities Activity[]
 
   @@index([companyId])
   @@index([status])
@@ -456,9 +597,10 @@ model Setor {
   canViewCompanies   Boolean @default(false) // ver lista de empresas/clientes
   canCreateCompanies Boolean @default(false) // cadastrar novas empresas
 
-  users     SetorUser[]
-  instances SetorInstance[]
-  tickets   Ticket[]
+  users         SetorUser[]
+  instances     SetorInstance[]
+  tickets       Ticket[]
+  conversations Conversation[]
 
   @@index([companyId])
 }

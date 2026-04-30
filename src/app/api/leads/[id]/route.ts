@@ -75,6 +75,26 @@ export async function PATCH(
     },
   });
 
+  // Compatibilidade com botões antigos (UI legacy ainda usa attendanceStatus):
+  // quando o lead tem Conversation vinculada, propaga a mudança para Conversation.status.
+  // Mapping: WAITING → OPEN, IN_PROGRESS → IN_PROGRESS, RESOLVED → CLOSED, SCHEDULED → mantém
+  if (attendanceStatus !== undefined && lead.conversationId) {
+    const map: Record<string, "OPEN" | "IN_PROGRESS" | "CLOSED" | null> = {
+      WAITING: "OPEN", IN_PROGRESS: "IN_PROGRESS", RESOLVED: "CLOSED", SCHEDULED: null,
+    };
+    const newConvStatus = attendanceStatus ? map[attendanceStatus] : null;
+    if (newConvStatus) {
+      await prisma.conversation.update({
+        where: { id: lead.conversationId },
+        data: {
+          status: newConvStatus,
+          statusUpdatedAt: new Date(),
+          ...(newConvStatus === "CLOSED" ? { closedAt: new Date() } : { closedAt: null }),
+        },
+      }).catch(() => { /* não crítico */ });
+    }
+  }
+
   // ── ClickUp auto-sync (Oportunidades only) ────────────────────────────
   const effectivePipeline = pipeline ?? existing.pipeline;
   if (effectivePipeline === "OPORTUNIDADES") {

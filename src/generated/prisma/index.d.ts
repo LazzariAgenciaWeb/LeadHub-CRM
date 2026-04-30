@@ -79,6 +79,21 @@ export type KeywordRule = $Result.DefaultSelection<Prisma.$KeywordRulePayload>
  */
 export type Setting = $Result.DefaultSelection<Prisma.$SettingPayload>
 /**
+ * Model Conversation
+ * 
+ */
+export type Conversation = $Result.DefaultSelection<Prisma.$ConversationPayload>
+/**
+ * Model ConversationNote
+ * 
+ */
+export type ConversationNote = $Result.DefaultSelection<Prisma.$ConversationNotePayload>
+/**
+ * Model Activity
+ * 
+ */
+export type Activity = $Result.DefaultSelection<Prisma.$ActivityPayload>
+/**
  * Model Ticket
  * 
  */
@@ -174,6 +189,36 @@ export const MessageDir: {
 export type MessageDir = (typeof MessageDir)[keyof typeof MessageDir]
 
 
+export const ConversationStatus: {
+  OPEN: 'OPEN',
+  PENDING: 'PENDING',
+  IN_PROGRESS: 'IN_PROGRESS',
+  WAITING_CUSTOMER: 'WAITING_CUSTOMER',
+  CLOSED: 'CLOSED'
+};
+
+export type ConversationStatus = (typeof ConversationStatus)[keyof typeof ConversationStatus]
+
+
+export const ActivityType: {
+  STATUS_CHANGED: 'STATUS_CHANGED',
+  ASSIGNEE_CHANGED: 'ASSIGNEE_CHANGED',
+  SECTOR_CHANGED: 'SECTOR_CHANGED',
+  STAGE_CHANGED: 'STAGE_CHANGED',
+  PIPELINE_CHANGED: 'PIPELINE_CHANGED',
+  VALUE_CHANGED: 'VALUE_CHANGED',
+  NOTE_ADDED: 'NOTE_ADDED',
+  CLICKUP_LINKED: 'CLICKUP_LINKED',
+  TRACKING_LINK_SET: 'TRACKING_LINK_SET',
+  LEAD_LINKED: 'LEAD_LINKED',
+  CONVERSATION_REOPENED: 'CONVERSATION_REOPENED',
+  CONVERSATION_CLOSED: 'CONVERSATION_CLOSED',
+  TRANSFERRED: 'TRANSFERRED'
+};
+
+export type ActivityType = (typeof ActivityType)[keyof typeof ActivityType]
+
+
 export const TicketStatus: {
   OPEN: 'OPEN',
   IN_PROGRESS: 'IN_PROGRESS',
@@ -222,6 +267,14 @@ export const InstanceStatus: typeof $Enums.InstanceStatus
 export type MessageDir = $Enums.MessageDir
 
 export const MessageDir: typeof $Enums.MessageDir
+
+export type ConversationStatus = $Enums.ConversationStatus
+
+export const ConversationStatus: typeof $Enums.ConversationStatus
+
+export type ActivityType = $Enums.ActivityType
+
+export const ActivityType: typeof $Enums.ActivityType
 
 export type TicketStatus = $Enums.TicketStatus
 
@@ -483,6 +536,36 @@ export class PrismaClient<
     * ```
     */
   get setting(): Prisma.SettingDelegate<ExtArgs>;
+
+  /**
+   * `prisma.conversation`: Exposes CRUD operations for the **Conversation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Conversations
+    * const conversations = await prisma.conversation.findMany()
+    * ```
+    */
+  get conversation(): Prisma.ConversationDelegate<ExtArgs>;
+
+  /**
+   * `prisma.conversationNote`: Exposes CRUD operations for the **ConversationNote** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ConversationNotes
+    * const conversationNotes = await prisma.conversationNote.findMany()
+    * ```
+    */
+  get conversationNote(): Prisma.ConversationNoteDelegate<ExtArgs>;
+
+  /**
+   * `prisma.activity`: Exposes CRUD operations for the **Activity** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Activities
+    * const activities = await prisma.activity.findMany()
+    * ```
+    */
+  get activity(): Prisma.ActivityDelegate<ExtArgs>;
 
   /**
    * `prisma.ticket`: Exposes CRUD operations for the **Ticket** model.
@@ -987,6 +1070,9 @@ export namespace Prisma {
     Message: 'Message',
     KeywordRule: 'KeywordRule',
     Setting: 'Setting',
+    Conversation: 'Conversation',
+    ConversationNote: 'ConversationNote',
+    Activity: 'Activity',
     Ticket: 'Ticket',
     TicketMessage: 'TicketMessage',
     Setor: 'Setor',
@@ -1007,7 +1093,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "ticket" | "ticketMessage" | "setor" | "setorUser" | "setorInstance"
+      modelProps: "user" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorUser" | "setorInstance"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1921,6 +2007,216 @@ export namespace Prisma {
           }
         }
       }
+      Conversation: {
+        payload: Prisma.$ConversationPayload<ExtArgs>
+        fields: Prisma.ConversationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ConversationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConversationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ConversationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConversationPayload>
+          }
+          findFirst: {
+            args: Prisma.ConversationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConversationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ConversationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConversationPayload>
+          }
+          findMany: {
+            args: Prisma.ConversationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConversationPayload>[]
+          }
+          create: {
+            args: Prisma.ConversationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConversationPayload>
+          }
+          createMany: {
+            args: Prisma.ConversationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ConversationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConversationPayload>[]
+          }
+          delete: {
+            args: Prisma.ConversationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConversationPayload>
+          }
+          update: {
+            args: Prisma.ConversationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConversationPayload>
+          }
+          deleteMany: {
+            args: Prisma.ConversationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ConversationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ConversationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConversationPayload>
+          }
+          aggregate: {
+            args: Prisma.ConversationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateConversation>
+          }
+          groupBy: {
+            args: Prisma.ConversationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ConversationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ConversationCountArgs<ExtArgs>
+            result: $Utils.Optional<ConversationCountAggregateOutputType> | number
+          }
+        }
+      }
+      ConversationNote: {
+        payload: Prisma.$ConversationNotePayload<ExtArgs>
+        fields: Prisma.ConversationNoteFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ConversationNoteFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConversationNotePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ConversationNoteFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConversationNotePayload>
+          }
+          findFirst: {
+            args: Prisma.ConversationNoteFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConversationNotePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ConversationNoteFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConversationNotePayload>
+          }
+          findMany: {
+            args: Prisma.ConversationNoteFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConversationNotePayload>[]
+          }
+          create: {
+            args: Prisma.ConversationNoteCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConversationNotePayload>
+          }
+          createMany: {
+            args: Prisma.ConversationNoteCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ConversationNoteCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConversationNotePayload>[]
+          }
+          delete: {
+            args: Prisma.ConversationNoteDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConversationNotePayload>
+          }
+          update: {
+            args: Prisma.ConversationNoteUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConversationNotePayload>
+          }
+          deleteMany: {
+            args: Prisma.ConversationNoteDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ConversationNoteUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ConversationNoteUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConversationNotePayload>
+          }
+          aggregate: {
+            args: Prisma.ConversationNoteAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateConversationNote>
+          }
+          groupBy: {
+            args: Prisma.ConversationNoteGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ConversationNoteGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ConversationNoteCountArgs<ExtArgs>
+            result: $Utils.Optional<ConversationNoteCountAggregateOutputType> | number
+          }
+        }
+      }
+      Activity: {
+        payload: Prisma.$ActivityPayload<ExtArgs>
+        fields: Prisma.ActivityFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ActivityFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ActivityFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload>
+          }
+          findFirst: {
+            args: Prisma.ActivityFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ActivityFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload>
+          }
+          findMany: {
+            args: Prisma.ActivityFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload>[]
+          }
+          create: {
+            args: Prisma.ActivityCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload>
+          }
+          createMany: {
+            args: Prisma.ActivityCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ActivityCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload>[]
+          }
+          delete: {
+            args: Prisma.ActivityDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload>
+          }
+          update: {
+            args: Prisma.ActivityUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload>
+          }
+          deleteMany: {
+            args: Prisma.ActivityDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ActivityUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ActivityUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload>
+          }
+          aggregate: {
+            args: Prisma.ActivityAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateActivity>
+          }
+          groupBy: {
+            args: Prisma.ActivityGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ActivityGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ActivityCountArgs<ExtArgs>
+            result: $Utils.Optional<ActivityCountAggregateOutputType> | number
+          }
+        }
+      }
       Ticket: {
         payload: Prisma.$TicketPayload<ExtArgs>
         fields: Prisma.TicketFieldRefs
@@ -2434,11 +2730,13 @@ export namespace Prisma {
   export type UserCountOutputType = {
     ticketsCreated: number
     setores: number
+    conversationsAssigned: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ticketsCreated?: boolean | UserCountOutputTypeCountTicketsCreatedArgs
     setores?: boolean | UserCountOutputTypeCountSetoresArgs
+    conversationsAssigned?: boolean | UserCountOutputTypeCountConversationsAssignedArgs
   }
 
   // Custom InputTypes
@@ -2466,6 +2764,13 @@ export namespace Prisma {
     where?: SetorUserWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountConversationsAssignedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConversationWhereInput
+  }
+
 
   /**
    * Count Type CompanyCountOutputType
@@ -2484,6 +2789,8 @@ export namespace Prisma {
     pipelineStages: number
     contacts: number
     setores: number
+    conversations: number
+    activities: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2499,6 +2806,8 @@ export namespace Prisma {
     pipelineStages?: boolean | CompanyCountOutputTypeCountPipelineStagesArgs
     contacts?: boolean | CompanyCountOutputTypeCountContactsArgs
     setores?: boolean | CompanyCountOutputTypeCountSetoresArgs
+    conversations?: boolean | CompanyCountOutputTypeCountConversationsArgs
+    activities?: boolean | CompanyCountOutputTypeCountActivitiesArgs
   }
 
   // Custom InputTypes
@@ -2594,6 +2903,20 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountSetoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SetorWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountConversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConversationWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivityWhereInput
   }
 
 
@@ -2702,11 +3025,13 @@ export namespace Prisma {
   export type LeadCountOutputType = {
     messages: number
     comments: number
+    activities: number
   }
 
   export type LeadCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | LeadCountOutputTypeCountMessagesArgs
     comments?: boolean | LeadCountOutputTypeCountCommentsArgs
+    activities?: boolean | LeadCountOutputTypeCountActivitiesArgs
   }
 
   // Custom InputTypes
@@ -2732,6 +3057,13 @@ export namespace Prisma {
    */
   export type LeadCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LeadCommentWhereInput
+  }
+
+  /**
+   * LeadCountOutputType without action
+   */
+  export type LeadCountOutputTypeCountActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivityWhereInput
   }
 
 
@@ -2776,15 +3108,75 @@ export namespace Prisma {
 
 
   /**
+   * Count Type ConversationCountOutputType
+   */
+
+  export type ConversationCountOutputType = {
+    messages: number
+    notes: number
+    activities: number
+    leads: number
+  }
+
+  export type ConversationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    messages?: boolean | ConversationCountOutputTypeCountMessagesArgs
+    notes?: boolean | ConversationCountOutputTypeCountNotesArgs
+    activities?: boolean | ConversationCountOutputTypeCountActivitiesArgs
+    leads?: boolean | ConversationCountOutputTypeCountLeadsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ConversationCountOutputType without action
+   */
+  export type ConversationCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConversationCountOutputType
+     */
+    select?: ConversationCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ConversationCountOutputType without action
+   */
+  export type ConversationCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MessageWhereInput
+  }
+
+  /**
+   * ConversationCountOutputType without action
+   */
+  export type ConversationCountOutputTypeCountNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConversationNoteWhereInput
+  }
+
+  /**
+   * ConversationCountOutputType without action
+   */
+  export type ConversationCountOutputTypeCountActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivityWhereInput
+  }
+
+  /**
+   * ConversationCountOutputType without action
+   */
+  export type ConversationCountOutputTypeCountLeadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeadWhereInput
+  }
+
+
+  /**
    * Count Type TicketCountOutputType
    */
 
   export type TicketCountOutputType = {
     messages: number
+    activities: number
   }
 
   export type TicketCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | TicketCountOutputTypeCountMessagesArgs
+    activities?: boolean | TicketCountOutputTypeCountActivitiesArgs
   }
 
   // Custom InputTypes
@@ -2805,6 +3197,13 @@ export namespace Prisma {
     where?: TicketMessageWhereInput
   }
 
+  /**
+   * TicketCountOutputType without action
+   */
+  export type TicketCountOutputTypeCountActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivityWhereInput
+  }
+
 
   /**
    * Count Type SetorCountOutputType
@@ -2814,12 +3213,14 @@ export namespace Prisma {
     users: number
     instances: number
     tickets: number
+    conversations: number
   }
 
   export type SetorCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | SetorCountOutputTypeCountUsersArgs
     instances?: boolean | SetorCountOutputTypeCountInstancesArgs
     tickets?: boolean | SetorCountOutputTypeCountTicketsArgs
+    conversations?: boolean | SetorCountOutputTypeCountConversationsArgs
   }
 
   // Custom InputTypes
@@ -2852,6 +3253,13 @@ export namespace Prisma {
    */
   export type SetorCountOutputTypeCountTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TicketWhereInput
+  }
+
+  /**
+   * SetorCountOutputType without action
+   */
+  export type SetorCountOutputTypeCountConversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConversationWhereInput
   }
 
 
@@ -3059,6 +3467,7 @@ export namespace Prisma {
     ticketsCreated?: boolean | User$ticketsCreatedArgs<ExtArgs>
     companyContact?: boolean | User$companyContactArgs<ExtArgs>
     setores?: boolean | User$setoresArgs<ExtArgs>
+    conversationsAssigned?: boolean | User$conversationsAssignedArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3092,6 +3501,7 @@ export namespace Prisma {
     ticketsCreated?: boolean | User$ticketsCreatedArgs<ExtArgs>
     companyContact?: boolean | User$companyContactArgs<ExtArgs>
     setores?: boolean | User$setoresArgs<ExtArgs>
+    conversationsAssigned?: boolean | User$conversationsAssignedArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3105,6 +3515,7 @@ export namespace Prisma {
       ticketsCreated: Prisma.$TicketPayload<ExtArgs>[]
       companyContact: Prisma.$CompanyContactPayload<ExtArgs> | null
       setores: Prisma.$SetorUserPayload<ExtArgs>[]
+      conversationsAssigned: Prisma.$ConversationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3484,6 +3895,7 @@ export namespace Prisma {
     ticketsCreated<T extends User$ticketsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$ticketsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany"> | Null>
     companyContact<T extends User$companyContactArgs<ExtArgs> = {}>(args?: Subset<T, User$companyContactArgs<ExtArgs>>): Prisma__CompanyContactClient<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     setores<T extends User$setoresArgs<ExtArgs> = {}>(args?: Subset<T, User$setoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorUserPayload<ExtArgs>, T, "findMany"> | Null>
+    conversationsAssigned<T extends User$conversationsAssignedArgs<ExtArgs> = {}>(args?: Subset<T, User$conversationsAssignedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3910,6 +4322,26 @@ export namespace Prisma {
   }
 
   /**
+   * User.conversationsAssigned
+   */
+  export type User$conversationsAssignedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Conversation
+     */
+    select?: ConversationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationInclude<ExtArgs> | null
+    where?: ConversationWhereInput
+    orderBy?: ConversationOrderByWithRelationInput | ConversationOrderByWithRelationInput[]
+    cursor?: ConversationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConversationScalarFieldEnum | ConversationScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3953,6 +4385,7 @@ export namespace Prisma {
     moduleAI: boolean | null
     parentCompanyId: string | null
     triggerOnly: boolean | null
+    webhookToken: string | null
   }
 
   export type CompanyMaxAggregateOutputType = {
@@ -3974,6 +4407,7 @@ export namespace Prisma {
     moduleAI: boolean | null
     parentCompanyId: string | null
     triggerOnly: boolean | null
+    webhookToken: string | null
   }
 
   export type CompanyCountAggregateOutputType = {
@@ -3995,6 +4429,7 @@ export namespace Prisma {
     moduleAI: number
     parentCompanyId: number
     triggerOnly: number
+    webhookToken: number
     _all: number
   }
 
@@ -4018,6 +4453,7 @@ export namespace Prisma {
     moduleAI?: true
     parentCompanyId?: true
     triggerOnly?: true
+    webhookToken?: true
   }
 
   export type CompanyMaxAggregateInputType = {
@@ -4039,6 +4475,7 @@ export namespace Prisma {
     moduleAI?: true
     parentCompanyId?: true
     triggerOnly?: true
+    webhookToken?: true
   }
 
   export type CompanyCountAggregateInputType = {
@@ -4060,6 +4497,7 @@ export namespace Prisma {
     moduleAI?: true
     parentCompanyId?: true
     triggerOnly?: true
+    webhookToken?: true
     _all?: true
   }
 
@@ -4154,6 +4592,7 @@ export namespace Prisma {
     moduleAI: boolean
     parentCompanyId: string | null
     triggerOnly: boolean
+    webhookToken: string | null
     _count: CompanyCountAggregateOutputType | null
     _min: CompanyMinAggregateOutputType | null
     _max: CompanyMaxAggregateOutputType | null
@@ -4192,6 +4631,7 @@ export namespace Prisma {
     moduleAI?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
+    webhookToken?: boolean
     parentCompany?: boolean | Company$parentCompanyArgs<ExtArgs>
     subCompanies?: boolean | Company$subCompaniesArgs<ExtArgs>
     users?: boolean | Company$usersArgs<ExtArgs>
@@ -4205,6 +4645,8 @@ export namespace Prisma {
     pipelineStages?: boolean | Company$pipelineStagesArgs<ExtArgs>
     contacts?: boolean | Company$contactsArgs<ExtArgs>
     setores?: boolean | Company$setoresArgs<ExtArgs>
+    conversations?: boolean | Company$conversationsArgs<ExtArgs>
+    activities?: boolean | Company$activitiesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -4227,6 +4669,7 @@ export namespace Prisma {
     moduleAI?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
+    webhookToken?: boolean
     parentCompany?: boolean | Company$parentCompanyArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -4249,6 +4692,7 @@ export namespace Prisma {
     moduleAI?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
+    webhookToken?: boolean
   }
 
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4265,6 +4709,8 @@ export namespace Prisma {
     pipelineStages?: boolean | Company$pipelineStagesArgs<ExtArgs>
     contacts?: boolean | Company$contactsArgs<ExtArgs>
     setores?: boolean | Company$setoresArgs<ExtArgs>
+    conversations?: boolean | Company$conversationsArgs<ExtArgs>
+    activities?: boolean | Company$activitiesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4287,6 +4733,8 @@ export namespace Prisma {
       pipelineStages: Prisma.$PipelineStageConfigPayload<ExtArgs>[]
       contacts: Prisma.$CompanyContactPayload<ExtArgs>[]
       setores: Prisma.$SetorPayload<ExtArgs>[]
+      conversations: Prisma.$ConversationPayload<ExtArgs>[]
+      activities: Prisma.$ActivityPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4307,6 +4755,7 @@ export namespace Prisma {
       moduleAI: boolean
       parentCompanyId: string | null
       triggerOnly: boolean
+      webhookToken: string | null
     }, ExtArgs["result"]["company"]>
     composites: {}
   }
@@ -4684,6 +5133,8 @@ export namespace Prisma {
     pipelineStages<T extends Company$pipelineStagesArgs<ExtArgs> = {}>(args?: Subset<T, Company$pipelineStagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PipelineStageConfigPayload<ExtArgs>, T, "findMany"> | Null>
     contacts<T extends Company$contactsArgs<ExtArgs> = {}>(args?: Subset<T, Company$contactsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "findMany"> | Null>
     setores<T extends Company$setoresArgs<ExtArgs> = {}>(args?: Subset<T, Company$setoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "findMany"> | Null>
+    conversations<T extends Company$conversationsArgs<ExtArgs> = {}>(args?: Subset<T, Company$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany"> | Null>
+    activities<T extends Company$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, Company$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4731,6 +5182,7 @@ export namespace Prisma {
     readonly moduleAI: FieldRef<"Company", 'Boolean'>
     readonly parentCompanyId: FieldRef<"Company", 'String'>
     readonly triggerOnly: FieldRef<"Company", 'Boolean'>
+    readonly webhookToken: FieldRef<"Company", 'String'>
   }
     
 
@@ -5301,6 +5753,46 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SetorScalarFieldEnum | SetorScalarFieldEnum[]
+  }
+
+  /**
+   * Company.conversations
+   */
+  export type Company$conversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Conversation
+     */
+    select?: ConversationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationInclude<ExtArgs> | null
+    where?: ConversationWhereInput
+    orderBy?: ConversationOrderByWithRelationInput | ConversationOrderByWithRelationInput[]
+    cursor?: ConversationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConversationScalarFieldEnum | ConversationScalarFieldEnum[]
+  }
+
+  /**
+   * Company.activities
+   */
+  export type Company$activitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    where?: ActivityWhereInput
+    orderBy?: ActivityOrderByWithRelationInput | ActivityOrderByWithRelationInput[]
+    cursor?: ActivityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ActivityScalarFieldEnum | ActivityScalarFieldEnum[]
   }
 
   /**
@@ -8578,6 +9070,7 @@ export namespace Prisma {
     companyId: string | null
     campaignId: string | null
     trackingLinkId: string | null
+    conversationId: string | null
   }
 
   export type LeadMaxAggregateOutputType = {
@@ -8601,6 +9094,7 @@ export namespace Prisma {
     companyId: string | null
     campaignId: string | null
     trackingLinkId: string | null
+    conversationId: string | null
   }
 
   export type LeadCountAggregateOutputType = {
@@ -8624,6 +9118,7 @@ export namespace Prisma {
     companyId: number
     campaignId: number
     trackingLinkId: number
+    conversationId: number
     _all: number
   }
 
@@ -8657,6 +9152,7 @@ export namespace Prisma {
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
+    conversationId?: true
   }
 
   export type LeadMaxAggregateInputType = {
@@ -8680,6 +9176,7 @@ export namespace Prisma {
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
+    conversationId?: true
   }
 
   export type LeadCountAggregateInputType = {
@@ -8703,6 +9200,7 @@ export namespace Prisma {
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
+    conversationId?: true
     _all?: true
   }
 
@@ -8813,6 +9311,7 @@ export namespace Prisma {
     companyId: string
     campaignId: string | null
     trackingLinkId: string | null
+    conversationId: string | null
     _count: LeadCountAggregateOutputType | null
     _avg: LeadAvgAggregateOutputType | null
     _sum: LeadSumAggregateOutputType | null
@@ -8855,11 +9354,14 @@ export namespace Prisma {
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
+    conversationId?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     campaign?: boolean | Lead$campaignArgs<ExtArgs>
     trackingLink?: boolean | Lead$trackingLinkArgs<ExtArgs>
+    conversation?: boolean | Lead$conversationArgs<ExtArgs>
     messages?: boolean | Lead$messagesArgs<ExtArgs>
     comments?: boolean | Lead$commentsArgs<ExtArgs>
+    activities?: boolean | Lead$activitiesArgs<ExtArgs>
     _count?: boolean | LeadCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["lead"]>
 
@@ -8884,9 +9386,11 @@ export namespace Prisma {
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
+    conversationId?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     campaign?: boolean | Lead$campaignArgs<ExtArgs>
     trackingLink?: boolean | Lead$trackingLinkArgs<ExtArgs>
+    conversation?: boolean | Lead$conversationArgs<ExtArgs>
   }, ExtArgs["result"]["lead"]>
 
   export type LeadSelectScalar = {
@@ -8910,20 +9414,24 @@ export namespace Prisma {
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
+    conversationId?: boolean
   }
 
   export type LeadInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     campaign?: boolean | Lead$campaignArgs<ExtArgs>
     trackingLink?: boolean | Lead$trackingLinkArgs<ExtArgs>
+    conversation?: boolean | Lead$conversationArgs<ExtArgs>
     messages?: boolean | Lead$messagesArgs<ExtArgs>
     comments?: boolean | Lead$commentsArgs<ExtArgs>
+    activities?: boolean | Lead$activitiesArgs<ExtArgs>
     _count?: boolean | LeadCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type LeadIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     campaign?: boolean | Lead$campaignArgs<ExtArgs>
     trackingLink?: boolean | Lead$trackingLinkArgs<ExtArgs>
+    conversation?: boolean | Lead$conversationArgs<ExtArgs>
   }
 
   export type $LeadPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8932,8 +9440,10 @@ export namespace Prisma {
       company: Prisma.$CompanyPayload<ExtArgs>
       campaign: Prisma.$CampaignPayload<ExtArgs> | null
       trackingLink: Prisma.$TrackingLinkPayload<ExtArgs> | null
+      conversation: Prisma.$ConversationPayload<ExtArgs> | null
       messages: Prisma.$MessagePayload<ExtArgs>[]
       comments: Prisma.$LeadCommentPayload<ExtArgs>[]
+      activities: Prisma.$ActivityPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8956,6 +9466,7 @@ export namespace Prisma {
       companyId: string
       campaignId: string | null
       trackingLinkId: string | null
+      conversationId: string | null
     }, ExtArgs["result"]["lead"]>
     composites: {}
   }
@@ -9323,8 +9834,10 @@ export namespace Prisma {
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     campaign<T extends Lead$campaignArgs<ExtArgs> = {}>(args?: Subset<T, Lead$campaignArgs<ExtArgs>>): Prisma__CampaignClient<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     trackingLink<T extends Lead$trackingLinkArgs<ExtArgs> = {}>(args?: Subset<T, Lead$trackingLinkArgs<ExtArgs>>): Prisma__TrackingLinkClient<$Result.GetResult<Prisma.$TrackingLinkPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    conversation<T extends Lead$conversationArgs<ExtArgs> = {}>(args?: Subset<T, Lead$conversationArgs<ExtArgs>>): Prisma__ConversationClient<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     messages<T extends Lead$messagesArgs<ExtArgs> = {}>(args?: Subset<T, Lead$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany"> | Null>
     comments<T extends Lead$commentsArgs<ExtArgs> = {}>(args?: Subset<T, Lead$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadCommentPayload<ExtArgs>, T, "findMany"> | Null>
+    activities<T extends Lead$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, Lead$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9374,6 +9887,7 @@ export namespace Prisma {
     readonly companyId: FieldRef<"Lead", 'String'>
     readonly campaignId: FieldRef<"Lead", 'String'>
     readonly trackingLinkId: FieldRef<"Lead", 'String'>
+    readonly conversationId: FieldRef<"Lead", 'String'>
   }
     
 
@@ -9722,6 +10236,21 @@ export namespace Prisma {
   }
 
   /**
+   * Lead.conversation
+   */
+  export type Lead$conversationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Conversation
+     */
+    select?: ConversationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationInclude<ExtArgs> | null
+    where?: ConversationWhereInput
+  }
+
+  /**
    * Lead.messages
    */
   export type Lead$messagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9759,6 +10288,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: LeadCommentScalarFieldEnum | LeadCommentScalarFieldEnum[]
+  }
+
+  /**
+   * Lead.activities
+   */
+  export type Lead$activitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    where?: ActivityWhereInput
+    orderBy?: ActivityOrderByWithRelationInput | ActivityOrderByWithRelationInput[]
+    cursor?: ActivityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ActivityScalarFieldEnum | ActivityScalarFieldEnum[]
   }
 
   /**
@@ -13779,10 +14328,13 @@ export namespace Prisma {
     ack: number | null
     quotedId: string | null
     quotedBody: string | null
+    mediaBase64: string | null
+    mediaType: string | null
     companyId: string | null
     instanceId: string | null
     campaignId: string | null
     leadId: string | null
+    conversationId: string | null
   }
 
   export type MessageMaxAggregateOutputType = {
@@ -13799,10 +14351,13 @@ export namespace Prisma {
     ack: number | null
     quotedId: string | null
     quotedBody: string | null
+    mediaBase64: string | null
+    mediaType: string | null
     companyId: string | null
     instanceId: string | null
     campaignId: string | null
     leadId: string | null
+    conversationId: string | null
   }
 
   export type MessageCountAggregateOutputType = {
@@ -13820,10 +14375,13 @@ export namespace Prisma {
     ack: number
     quotedId: number
     quotedBody: number
+    mediaBase64: number
+    mediaType: number
     companyId: number
     instanceId: number
     campaignId: number
     leadId: number
+    conversationId: number
     _all: number
   }
 
@@ -13850,10 +14408,13 @@ export namespace Prisma {
     ack?: true
     quotedId?: true
     quotedBody?: true
+    mediaBase64?: true
+    mediaType?: true
     companyId?: true
     instanceId?: true
     campaignId?: true
     leadId?: true
+    conversationId?: true
   }
 
   export type MessageMaxAggregateInputType = {
@@ -13870,10 +14431,13 @@ export namespace Prisma {
     ack?: true
     quotedId?: true
     quotedBody?: true
+    mediaBase64?: true
+    mediaType?: true
     companyId?: true
     instanceId?: true
     campaignId?: true
     leadId?: true
+    conversationId?: true
   }
 
   export type MessageCountAggregateInputType = {
@@ -13891,10 +14455,13 @@ export namespace Prisma {
     ack?: true
     quotedId?: true
     quotedBody?: true
+    mediaBase64?: true
+    mediaType?: true
     companyId?: true
     instanceId?: true
     campaignId?: true
     leadId?: true
+    conversationId?: true
     _all?: true
   }
 
@@ -13999,10 +14566,13 @@ export namespace Prisma {
     ack: number | null
     quotedId: string | null
     quotedBody: string | null
+    mediaBase64: string | null
+    mediaType: string | null
     companyId: string
     instanceId: string | null
     campaignId: string | null
     leadId: string | null
+    conversationId: string | null
     _count: MessageCountAggregateOutputType | null
     _avg: MessageAvgAggregateOutputType | null
     _sum: MessageSumAggregateOutputType | null
@@ -14039,14 +14609,18 @@ export namespace Prisma {
     ack?: boolean
     quotedId?: boolean
     quotedBody?: boolean
+    mediaBase64?: boolean
+    mediaType?: boolean
     companyId?: boolean
     instanceId?: boolean
     campaignId?: boolean
     leadId?: boolean
+    conversationId?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     instance?: boolean | Message$instanceArgs<ExtArgs>
     campaign?: boolean | Message$campaignArgs<ExtArgs>
     lead?: boolean | Message$leadArgs<ExtArgs>
+    conversation?: boolean | Message$conversationArgs<ExtArgs>
   }, ExtArgs["result"]["message"]>
 
   export type MessageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -14064,14 +14638,18 @@ export namespace Prisma {
     ack?: boolean
     quotedId?: boolean
     quotedBody?: boolean
+    mediaBase64?: boolean
+    mediaType?: boolean
     companyId?: boolean
     instanceId?: boolean
     campaignId?: boolean
     leadId?: boolean
+    conversationId?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     instance?: boolean | Message$instanceArgs<ExtArgs>
     campaign?: boolean | Message$campaignArgs<ExtArgs>
     lead?: boolean | Message$leadArgs<ExtArgs>
+    conversation?: boolean | Message$conversationArgs<ExtArgs>
   }, ExtArgs["result"]["message"]>
 
   export type MessageSelectScalar = {
@@ -14089,10 +14667,13 @@ export namespace Prisma {
     ack?: boolean
     quotedId?: boolean
     quotedBody?: boolean
+    mediaBase64?: boolean
+    mediaType?: boolean
     companyId?: boolean
     instanceId?: boolean
     campaignId?: boolean
     leadId?: boolean
+    conversationId?: boolean
   }
 
   export type MessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14100,12 +14681,14 @@ export namespace Prisma {
     instance?: boolean | Message$instanceArgs<ExtArgs>
     campaign?: boolean | Message$campaignArgs<ExtArgs>
     lead?: boolean | Message$leadArgs<ExtArgs>
+    conversation?: boolean | Message$conversationArgs<ExtArgs>
   }
   export type MessageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     instance?: boolean | Message$instanceArgs<ExtArgs>
     campaign?: boolean | Message$campaignArgs<ExtArgs>
     lead?: boolean | Message$leadArgs<ExtArgs>
+    conversation?: boolean | Message$conversationArgs<ExtArgs>
   }
 
   export type $MessagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14115,6 +14698,7 @@ export namespace Prisma {
       instance: Prisma.$WhatsappInstancePayload<ExtArgs> | null
       campaign: Prisma.$CampaignPayload<ExtArgs> | null
       lead: Prisma.$LeadPayload<ExtArgs> | null
+      conversation: Prisma.$ConversationPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -14131,10 +14715,13 @@ export namespace Prisma {
       ack: number | null
       quotedId: string | null
       quotedBody: string | null
+      mediaBase64: string | null
+      mediaType: string | null
       companyId: string
       instanceId: string | null
       campaignId: string | null
       leadId: string | null
+      conversationId: string | null
     }, ExtArgs["result"]["message"]>
     composites: {}
   }
@@ -14503,6 +15090,7 @@ export namespace Prisma {
     instance<T extends Message$instanceArgs<ExtArgs> = {}>(args?: Subset<T, Message$instanceArgs<ExtArgs>>): Prisma__WhatsappInstanceClient<$Result.GetResult<Prisma.$WhatsappInstancePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     campaign<T extends Message$campaignArgs<ExtArgs> = {}>(args?: Subset<T, Message$campaignArgs<ExtArgs>>): Prisma__CampaignClient<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     lead<T extends Message$leadArgs<ExtArgs> = {}>(args?: Subset<T, Message$leadArgs<ExtArgs>>): Prisma__LeadClient<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    conversation<T extends Message$conversationArgs<ExtArgs> = {}>(args?: Subset<T, Message$conversationArgs<ExtArgs>>): Prisma__ConversationClient<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14546,10 +15134,13 @@ export namespace Prisma {
     readonly ack: FieldRef<"Message", 'Int'>
     readonly quotedId: FieldRef<"Message", 'String'>
     readonly quotedBody: FieldRef<"Message", 'String'>
+    readonly mediaBase64: FieldRef<"Message", 'String'>
+    readonly mediaType: FieldRef<"Message", 'String'>
     readonly companyId: FieldRef<"Message", 'String'>
     readonly instanceId: FieldRef<"Message", 'String'>
     readonly campaignId: FieldRef<"Message", 'String'>
     readonly leadId: FieldRef<"Message", 'String'>
+    readonly conversationId: FieldRef<"Message", 'String'>
   }
     
 
@@ -14910,6 +15501,21 @@ export namespace Prisma {
      */
     include?: LeadInclude<ExtArgs> | null
     where?: LeadWhereInput
+  }
+
+  /**
+   * Message.conversation
+   */
+  export type Message$conversationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Conversation
+     */
+    select?: ConversationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationInclude<ExtArgs> | null
+    where?: ConversationWhereInput
   }
 
   /**
@@ -16797,6 +17403,3254 @@ export namespace Prisma {
 
 
   /**
+   * Model Conversation
+   */
+
+  export type AggregateConversation = {
+    _count: ConversationCountAggregateOutputType | null
+    _avg: ConversationAvgAggregateOutputType | null
+    _sum: ConversationSumAggregateOutputType | null
+    _min: ConversationMinAggregateOutputType | null
+    _max: ConversationMaxAggregateOutputType | null
+  }
+
+  export type ConversationAvgAggregateOutputType = {
+    unreadCount: number | null
+  }
+
+  export type ConversationSumAggregateOutputType = {
+    unreadCount: number | null
+  }
+
+  export type ConversationMinAggregateOutputType = {
+    id: string | null
+    phone: string | null
+    isGroup: boolean | null
+    status: $Enums.ConversationStatus | null
+    statusUpdatedAt: Date | null
+    assigneeId: string | null
+    setorId: string | null
+    lastMessageAt: Date | null
+    lastMessageBody: string | null
+    lastMessageDirection: $Enums.MessageDir | null
+    unreadCount: number | null
+    firstResponseAt: Date | null
+    closedAt: Date | null
+    companyId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ConversationMaxAggregateOutputType = {
+    id: string | null
+    phone: string | null
+    isGroup: boolean | null
+    status: $Enums.ConversationStatus | null
+    statusUpdatedAt: Date | null
+    assigneeId: string | null
+    setorId: string | null
+    lastMessageAt: Date | null
+    lastMessageBody: string | null
+    lastMessageDirection: $Enums.MessageDir | null
+    unreadCount: number | null
+    firstResponseAt: Date | null
+    closedAt: Date | null
+    companyId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ConversationCountAggregateOutputType = {
+    id: number
+    phone: number
+    isGroup: number
+    status: number
+    statusUpdatedAt: number
+    assigneeId: number
+    setorId: number
+    lastMessageAt: number
+    lastMessageBody: number
+    lastMessageDirection: number
+    unreadCount: number
+    firstResponseAt: number
+    closedAt: number
+    companyId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ConversationAvgAggregateInputType = {
+    unreadCount?: true
+  }
+
+  export type ConversationSumAggregateInputType = {
+    unreadCount?: true
+  }
+
+  export type ConversationMinAggregateInputType = {
+    id?: true
+    phone?: true
+    isGroup?: true
+    status?: true
+    statusUpdatedAt?: true
+    assigneeId?: true
+    setorId?: true
+    lastMessageAt?: true
+    lastMessageBody?: true
+    lastMessageDirection?: true
+    unreadCount?: true
+    firstResponseAt?: true
+    closedAt?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ConversationMaxAggregateInputType = {
+    id?: true
+    phone?: true
+    isGroup?: true
+    status?: true
+    statusUpdatedAt?: true
+    assigneeId?: true
+    setorId?: true
+    lastMessageAt?: true
+    lastMessageBody?: true
+    lastMessageDirection?: true
+    unreadCount?: true
+    firstResponseAt?: true
+    closedAt?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ConversationCountAggregateInputType = {
+    id?: true
+    phone?: true
+    isGroup?: true
+    status?: true
+    statusUpdatedAt?: true
+    assigneeId?: true
+    setorId?: true
+    lastMessageAt?: true
+    lastMessageBody?: true
+    lastMessageDirection?: true
+    unreadCount?: true
+    firstResponseAt?: true
+    closedAt?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ConversationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Conversation to aggregate.
+     */
+    where?: ConversationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Conversations to fetch.
+     */
+    orderBy?: ConversationOrderByWithRelationInput | ConversationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ConversationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Conversations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Conversations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Conversations
+    **/
+    _count?: true | ConversationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ConversationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ConversationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ConversationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ConversationMaxAggregateInputType
+  }
+
+  export type GetConversationAggregateType<T extends ConversationAggregateArgs> = {
+        [P in keyof T & keyof AggregateConversation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateConversation[P]>
+      : GetScalarType<T[P], AggregateConversation[P]>
+  }
+
+
+
+
+  export type ConversationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConversationWhereInput
+    orderBy?: ConversationOrderByWithAggregationInput | ConversationOrderByWithAggregationInput[]
+    by: ConversationScalarFieldEnum[] | ConversationScalarFieldEnum
+    having?: ConversationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ConversationCountAggregateInputType | true
+    _avg?: ConversationAvgAggregateInputType
+    _sum?: ConversationSumAggregateInputType
+    _min?: ConversationMinAggregateInputType
+    _max?: ConversationMaxAggregateInputType
+  }
+
+  export type ConversationGroupByOutputType = {
+    id: string
+    phone: string
+    isGroup: boolean
+    status: $Enums.ConversationStatus
+    statusUpdatedAt: Date
+    assigneeId: string | null
+    setorId: string | null
+    lastMessageAt: Date | null
+    lastMessageBody: string | null
+    lastMessageDirection: $Enums.MessageDir | null
+    unreadCount: number
+    firstResponseAt: Date | null
+    closedAt: Date | null
+    companyId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: ConversationCountAggregateOutputType | null
+    _avg: ConversationAvgAggregateOutputType | null
+    _sum: ConversationSumAggregateOutputType | null
+    _min: ConversationMinAggregateOutputType | null
+    _max: ConversationMaxAggregateOutputType | null
+  }
+
+  type GetConversationGroupByPayload<T extends ConversationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ConversationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ConversationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ConversationGroupByOutputType[P]>
+            : GetScalarType<T[P], ConversationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ConversationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    phone?: boolean
+    isGroup?: boolean
+    status?: boolean
+    statusUpdatedAt?: boolean
+    assigneeId?: boolean
+    setorId?: boolean
+    lastMessageAt?: boolean
+    lastMessageBody?: boolean
+    lastMessageDirection?: boolean
+    unreadCount?: boolean
+    firstResponseAt?: boolean
+    closedAt?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    assignee?: boolean | Conversation$assigneeArgs<ExtArgs>
+    setor?: boolean | Conversation$setorArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    messages?: boolean | Conversation$messagesArgs<ExtArgs>
+    notes?: boolean | Conversation$notesArgs<ExtArgs>
+    activities?: boolean | Conversation$activitiesArgs<ExtArgs>
+    leads?: boolean | Conversation$leadsArgs<ExtArgs>
+    _count?: boolean | ConversationCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["conversation"]>
+
+  export type ConversationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    phone?: boolean
+    isGroup?: boolean
+    status?: boolean
+    statusUpdatedAt?: boolean
+    assigneeId?: boolean
+    setorId?: boolean
+    lastMessageAt?: boolean
+    lastMessageBody?: boolean
+    lastMessageDirection?: boolean
+    unreadCount?: boolean
+    firstResponseAt?: boolean
+    closedAt?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    assignee?: boolean | Conversation$assigneeArgs<ExtArgs>
+    setor?: boolean | Conversation$setorArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["conversation"]>
+
+  export type ConversationSelectScalar = {
+    id?: boolean
+    phone?: boolean
+    isGroup?: boolean
+    status?: boolean
+    statusUpdatedAt?: boolean
+    assigneeId?: boolean
+    setorId?: boolean
+    lastMessageAt?: boolean
+    lastMessageBody?: boolean
+    lastMessageDirection?: boolean
+    unreadCount?: boolean
+    firstResponseAt?: boolean
+    closedAt?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ConversationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assignee?: boolean | Conversation$assigneeArgs<ExtArgs>
+    setor?: boolean | Conversation$setorArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    messages?: boolean | Conversation$messagesArgs<ExtArgs>
+    notes?: boolean | Conversation$notesArgs<ExtArgs>
+    activities?: boolean | Conversation$activitiesArgs<ExtArgs>
+    leads?: boolean | Conversation$leadsArgs<ExtArgs>
+    _count?: boolean | ConversationCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ConversationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assignee?: boolean | Conversation$assigneeArgs<ExtArgs>
+    setor?: boolean | Conversation$setorArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $ConversationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Conversation"
+    objects: {
+      assignee: Prisma.$UserPayload<ExtArgs> | null
+      setor: Prisma.$SetorPayload<ExtArgs> | null
+      company: Prisma.$CompanyPayload<ExtArgs>
+      messages: Prisma.$MessagePayload<ExtArgs>[]
+      notes: Prisma.$ConversationNotePayload<ExtArgs>[]
+      activities: Prisma.$ActivityPayload<ExtArgs>[]
+      leads: Prisma.$LeadPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      phone: string
+      isGroup: boolean
+      status: $Enums.ConversationStatus
+      statusUpdatedAt: Date
+      assigneeId: string | null
+      setorId: string | null
+      lastMessageAt: Date | null
+      lastMessageBody: string | null
+      lastMessageDirection: $Enums.MessageDir | null
+      unreadCount: number
+      firstResponseAt: Date | null
+      closedAt: Date | null
+      companyId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["conversation"]>
+    composites: {}
+  }
+
+  type ConversationGetPayload<S extends boolean | null | undefined | ConversationDefaultArgs> = $Result.GetResult<Prisma.$ConversationPayload, S>
+
+  type ConversationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ConversationFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ConversationCountAggregateInputType | true
+    }
+
+  export interface ConversationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Conversation'], meta: { name: 'Conversation' } }
+    /**
+     * Find zero or one Conversation that matches the filter.
+     * @param {ConversationFindUniqueArgs} args - Arguments to find a Conversation
+     * @example
+     * // Get one Conversation
+     * const conversation = await prisma.conversation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ConversationFindUniqueArgs>(args: SelectSubset<T, ConversationFindUniqueArgs<ExtArgs>>): Prisma__ConversationClient<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Conversation that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ConversationFindUniqueOrThrowArgs} args - Arguments to find a Conversation
+     * @example
+     * // Get one Conversation
+     * const conversation = await prisma.conversation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ConversationFindUniqueOrThrowArgs>(args: SelectSubset<T, ConversationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ConversationClient<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Conversation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConversationFindFirstArgs} args - Arguments to find a Conversation
+     * @example
+     * // Get one Conversation
+     * const conversation = await prisma.conversation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ConversationFindFirstArgs>(args?: SelectSubset<T, ConversationFindFirstArgs<ExtArgs>>): Prisma__ConversationClient<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Conversation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConversationFindFirstOrThrowArgs} args - Arguments to find a Conversation
+     * @example
+     * // Get one Conversation
+     * const conversation = await prisma.conversation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ConversationFindFirstOrThrowArgs>(args?: SelectSubset<T, ConversationFindFirstOrThrowArgs<ExtArgs>>): Prisma__ConversationClient<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Conversations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConversationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Conversations
+     * const conversations = await prisma.conversation.findMany()
+     * 
+     * // Get first 10 Conversations
+     * const conversations = await prisma.conversation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const conversationWithIdOnly = await prisma.conversation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ConversationFindManyArgs>(args?: SelectSubset<T, ConversationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Conversation.
+     * @param {ConversationCreateArgs} args - Arguments to create a Conversation.
+     * @example
+     * // Create one Conversation
+     * const Conversation = await prisma.conversation.create({
+     *   data: {
+     *     // ... data to create a Conversation
+     *   }
+     * })
+     * 
+     */
+    create<T extends ConversationCreateArgs>(args: SelectSubset<T, ConversationCreateArgs<ExtArgs>>): Prisma__ConversationClient<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Conversations.
+     * @param {ConversationCreateManyArgs} args - Arguments to create many Conversations.
+     * @example
+     * // Create many Conversations
+     * const conversation = await prisma.conversation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ConversationCreateManyArgs>(args?: SelectSubset<T, ConversationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Conversations and returns the data saved in the database.
+     * @param {ConversationCreateManyAndReturnArgs} args - Arguments to create many Conversations.
+     * @example
+     * // Create many Conversations
+     * const conversation = await prisma.conversation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Conversations and only return the `id`
+     * const conversationWithIdOnly = await prisma.conversation.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ConversationCreateManyAndReturnArgs>(args?: SelectSubset<T, ConversationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Conversation.
+     * @param {ConversationDeleteArgs} args - Arguments to delete one Conversation.
+     * @example
+     * // Delete one Conversation
+     * const Conversation = await prisma.conversation.delete({
+     *   where: {
+     *     // ... filter to delete one Conversation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ConversationDeleteArgs>(args: SelectSubset<T, ConversationDeleteArgs<ExtArgs>>): Prisma__ConversationClient<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Conversation.
+     * @param {ConversationUpdateArgs} args - Arguments to update one Conversation.
+     * @example
+     * // Update one Conversation
+     * const conversation = await prisma.conversation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ConversationUpdateArgs>(args: SelectSubset<T, ConversationUpdateArgs<ExtArgs>>): Prisma__ConversationClient<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Conversations.
+     * @param {ConversationDeleteManyArgs} args - Arguments to filter Conversations to delete.
+     * @example
+     * // Delete a few Conversations
+     * const { count } = await prisma.conversation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ConversationDeleteManyArgs>(args?: SelectSubset<T, ConversationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Conversations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConversationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Conversations
+     * const conversation = await prisma.conversation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ConversationUpdateManyArgs>(args: SelectSubset<T, ConversationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Conversation.
+     * @param {ConversationUpsertArgs} args - Arguments to update or create a Conversation.
+     * @example
+     * // Update or create a Conversation
+     * const conversation = await prisma.conversation.upsert({
+     *   create: {
+     *     // ... data to create a Conversation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Conversation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ConversationUpsertArgs>(args: SelectSubset<T, ConversationUpsertArgs<ExtArgs>>): Prisma__ConversationClient<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Conversations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConversationCountArgs} args - Arguments to filter Conversations to count.
+     * @example
+     * // Count the number of Conversations
+     * const count = await prisma.conversation.count({
+     *   where: {
+     *     // ... the filter for the Conversations we want to count
+     *   }
+     * })
+    **/
+    count<T extends ConversationCountArgs>(
+      args?: Subset<T, ConversationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ConversationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Conversation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConversationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ConversationAggregateArgs>(args: Subset<T, ConversationAggregateArgs>): Prisma.PrismaPromise<GetConversationAggregateType<T>>
+
+    /**
+     * Group by Conversation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConversationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ConversationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ConversationGroupByArgs['orderBy'] }
+        : { orderBy?: ConversationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ConversationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetConversationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Conversation model
+   */
+  readonly fields: ConversationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Conversation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ConversationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    assignee<T extends Conversation$assigneeArgs<ExtArgs> = {}>(args?: Subset<T, Conversation$assigneeArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    setor<T extends Conversation$setorArgs<ExtArgs> = {}>(args?: Subset<T, Conversation$setorArgs<ExtArgs>>): Prisma__SetorClient<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    messages<T extends Conversation$messagesArgs<ExtArgs> = {}>(args?: Subset<T, Conversation$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany"> | Null>
+    notes<T extends Conversation$notesArgs<ExtArgs> = {}>(args?: Subset<T, Conversation$notesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationNotePayload<ExtArgs>, T, "findMany"> | Null>
+    activities<T extends Conversation$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, Conversation$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany"> | Null>
+    leads<T extends Conversation$leadsArgs<ExtArgs> = {}>(args?: Subset<T, Conversation$leadsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Conversation model
+   */ 
+  interface ConversationFieldRefs {
+    readonly id: FieldRef<"Conversation", 'String'>
+    readonly phone: FieldRef<"Conversation", 'String'>
+    readonly isGroup: FieldRef<"Conversation", 'Boolean'>
+    readonly status: FieldRef<"Conversation", 'ConversationStatus'>
+    readonly statusUpdatedAt: FieldRef<"Conversation", 'DateTime'>
+    readonly assigneeId: FieldRef<"Conversation", 'String'>
+    readonly setorId: FieldRef<"Conversation", 'String'>
+    readonly lastMessageAt: FieldRef<"Conversation", 'DateTime'>
+    readonly lastMessageBody: FieldRef<"Conversation", 'String'>
+    readonly lastMessageDirection: FieldRef<"Conversation", 'MessageDir'>
+    readonly unreadCount: FieldRef<"Conversation", 'Int'>
+    readonly firstResponseAt: FieldRef<"Conversation", 'DateTime'>
+    readonly closedAt: FieldRef<"Conversation", 'DateTime'>
+    readonly companyId: FieldRef<"Conversation", 'String'>
+    readonly createdAt: FieldRef<"Conversation", 'DateTime'>
+    readonly updatedAt: FieldRef<"Conversation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Conversation findUnique
+   */
+  export type ConversationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Conversation
+     */
+    select?: ConversationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationInclude<ExtArgs> | null
+    /**
+     * Filter, which Conversation to fetch.
+     */
+    where: ConversationWhereUniqueInput
+  }
+
+  /**
+   * Conversation findUniqueOrThrow
+   */
+  export type ConversationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Conversation
+     */
+    select?: ConversationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationInclude<ExtArgs> | null
+    /**
+     * Filter, which Conversation to fetch.
+     */
+    where: ConversationWhereUniqueInput
+  }
+
+  /**
+   * Conversation findFirst
+   */
+  export type ConversationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Conversation
+     */
+    select?: ConversationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationInclude<ExtArgs> | null
+    /**
+     * Filter, which Conversation to fetch.
+     */
+    where?: ConversationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Conversations to fetch.
+     */
+    orderBy?: ConversationOrderByWithRelationInput | ConversationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Conversations.
+     */
+    cursor?: ConversationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Conversations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Conversations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Conversations.
+     */
+    distinct?: ConversationScalarFieldEnum | ConversationScalarFieldEnum[]
+  }
+
+  /**
+   * Conversation findFirstOrThrow
+   */
+  export type ConversationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Conversation
+     */
+    select?: ConversationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationInclude<ExtArgs> | null
+    /**
+     * Filter, which Conversation to fetch.
+     */
+    where?: ConversationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Conversations to fetch.
+     */
+    orderBy?: ConversationOrderByWithRelationInput | ConversationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Conversations.
+     */
+    cursor?: ConversationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Conversations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Conversations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Conversations.
+     */
+    distinct?: ConversationScalarFieldEnum | ConversationScalarFieldEnum[]
+  }
+
+  /**
+   * Conversation findMany
+   */
+  export type ConversationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Conversation
+     */
+    select?: ConversationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationInclude<ExtArgs> | null
+    /**
+     * Filter, which Conversations to fetch.
+     */
+    where?: ConversationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Conversations to fetch.
+     */
+    orderBy?: ConversationOrderByWithRelationInput | ConversationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Conversations.
+     */
+    cursor?: ConversationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Conversations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Conversations.
+     */
+    skip?: number
+    distinct?: ConversationScalarFieldEnum | ConversationScalarFieldEnum[]
+  }
+
+  /**
+   * Conversation create
+   */
+  export type ConversationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Conversation
+     */
+    select?: ConversationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Conversation.
+     */
+    data: XOR<ConversationCreateInput, ConversationUncheckedCreateInput>
+  }
+
+  /**
+   * Conversation createMany
+   */
+  export type ConversationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Conversations.
+     */
+    data: ConversationCreateManyInput | ConversationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Conversation createManyAndReturn
+   */
+  export type ConversationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Conversation
+     */
+    select?: ConversationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Conversations.
+     */
+    data: ConversationCreateManyInput | ConversationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Conversation update
+   */
+  export type ConversationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Conversation
+     */
+    select?: ConversationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Conversation.
+     */
+    data: XOR<ConversationUpdateInput, ConversationUncheckedUpdateInput>
+    /**
+     * Choose, which Conversation to update.
+     */
+    where: ConversationWhereUniqueInput
+  }
+
+  /**
+   * Conversation updateMany
+   */
+  export type ConversationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Conversations.
+     */
+    data: XOR<ConversationUpdateManyMutationInput, ConversationUncheckedUpdateManyInput>
+    /**
+     * Filter which Conversations to update
+     */
+    where?: ConversationWhereInput
+  }
+
+  /**
+   * Conversation upsert
+   */
+  export type ConversationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Conversation
+     */
+    select?: ConversationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Conversation to update in case it exists.
+     */
+    where: ConversationWhereUniqueInput
+    /**
+     * In case the Conversation found by the `where` argument doesn't exist, create a new Conversation with this data.
+     */
+    create: XOR<ConversationCreateInput, ConversationUncheckedCreateInput>
+    /**
+     * In case the Conversation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ConversationUpdateInput, ConversationUncheckedUpdateInput>
+  }
+
+  /**
+   * Conversation delete
+   */
+  export type ConversationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Conversation
+     */
+    select?: ConversationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationInclude<ExtArgs> | null
+    /**
+     * Filter which Conversation to delete.
+     */
+    where: ConversationWhereUniqueInput
+  }
+
+  /**
+   * Conversation deleteMany
+   */
+  export type ConversationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Conversations to delete
+     */
+    where?: ConversationWhereInput
+  }
+
+  /**
+   * Conversation.assignee
+   */
+  export type Conversation$assigneeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * Conversation.setor
+   */
+  export type Conversation$setorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setor
+     */
+    select?: SetorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorInclude<ExtArgs> | null
+    where?: SetorWhereInput
+  }
+
+  /**
+   * Conversation.messages
+   */
+  export type Conversation$messagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Message
+     */
+    select?: MessageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageInclude<ExtArgs> | null
+    where?: MessageWhereInput
+    orderBy?: MessageOrderByWithRelationInput | MessageOrderByWithRelationInput[]
+    cursor?: MessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MessageScalarFieldEnum | MessageScalarFieldEnum[]
+  }
+
+  /**
+   * Conversation.notes
+   */
+  export type Conversation$notesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConversationNote
+     */
+    select?: ConversationNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationNoteInclude<ExtArgs> | null
+    where?: ConversationNoteWhereInput
+    orderBy?: ConversationNoteOrderByWithRelationInput | ConversationNoteOrderByWithRelationInput[]
+    cursor?: ConversationNoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConversationNoteScalarFieldEnum | ConversationNoteScalarFieldEnum[]
+  }
+
+  /**
+   * Conversation.activities
+   */
+  export type Conversation$activitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    where?: ActivityWhereInput
+    orderBy?: ActivityOrderByWithRelationInput | ActivityOrderByWithRelationInput[]
+    cursor?: ActivityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ActivityScalarFieldEnum | ActivityScalarFieldEnum[]
+  }
+
+  /**
+   * Conversation.leads
+   */
+  export type Conversation$leadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Lead
+     */
+    select?: LeadSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadInclude<ExtArgs> | null
+    where?: LeadWhereInput
+    orderBy?: LeadOrderByWithRelationInput | LeadOrderByWithRelationInput[]
+    cursor?: LeadWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LeadScalarFieldEnum | LeadScalarFieldEnum[]
+  }
+
+  /**
+   * Conversation without action
+   */
+  export type ConversationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Conversation
+     */
+    select?: ConversationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ConversationNote
+   */
+
+  export type AggregateConversationNote = {
+    _count: ConversationNoteCountAggregateOutputType | null
+    _min: ConversationNoteMinAggregateOutputType | null
+    _max: ConversationNoteMaxAggregateOutputType | null
+  }
+
+  export type ConversationNoteMinAggregateOutputType = {
+    id: string | null
+    body: string | null
+    authorId: string | null
+    authorName: string | null
+    createdAt: Date | null
+    conversationId: string | null
+  }
+
+  export type ConversationNoteMaxAggregateOutputType = {
+    id: string | null
+    body: string | null
+    authorId: string | null
+    authorName: string | null
+    createdAt: Date | null
+    conversationId: string | null
+  }
+
+  export type ConversationNoteCountAggregateOutputType = {
+    id: number
+    body: number
+    authorId: number
+    authorName: number
+    createdAt: number
+    conversationId: number
+    _all: number
+  }
+
+
+  export type ConversationNoteMinAggregateInputType = {
+    id?: true
+    body?: true
+    authorId?: true
+    authorName?: true
+    createdAt?: true
+    conversationId?: true
+  }
+
+  export type ConversationNoteMaxAggregateInputType = {
+    id?: true
+    body?: true
+    authorId?: true
+    authorName?: true
+    createdAt?: true
+    conversationId?: true
+  }
+
+  export type ConversationNoteCountAggregateInputType = {
+    id?: true
+    body?: true
+    authorId?: true
+    authorName?: true
+    createdAt?: true
+    conversationId?: true
+    _all?: true
+  }
+
+  export type ConversationNoteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ConversationNote to aggregate.
+     */
+    where?: ConversationNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConversationNotes to fetch.
+     */
+    orderBy?: ConversationNoteOrderByWithRelationInput | ConversationNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ConversationNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConversationNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConversationNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ConversationNotes
+    **/
+    _count?: true | ConversationNoteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ConversationNoteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ConversationNoteMaxAggregateInputType
+  }
+
+  export type GetConversationNoteAggregateType<T extends ConversationNoteAggregateArgs> = {
+        [P in keyof T & keyof AggregateConversationNote]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateConversationNote[P]>
+      : GetScalarType<T[P], AggregateConversationNote[P]>
+  }
+
+
+
+
+  export type ConversationNoteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConversationNoteWhereInput
+    orderBy?: ConversationNoteOrderByWithAggregationInput | ConversationNoteOrderByWithAggregationInput[]
+    by: ConversationNoteScalarFieldEnum[] | ConversationNoteScalarFieldEnum
+    having?: ConversationNoteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ConversationNoteCountAggregateInputType | true
+    _min?: ConversationNoteMinAggregateInputType
+    _max?: ConversationNoteMaxAggregateInputType
+  }
+
+  export type ConversationNoteGroupByOutputType = {
+    id: string
+    body: string
+    authorId: string | null
+    authorName: string
+    createdAt: Date
+    conversationId: string
+    _count: ConversationNoteCountAggregateOutputType | null
+    _min: ConversationNoteMinAggregateOutputType | null
+    _max: ConversationNoteMaxAggregateOutputType | null
+  }
+
+  type GetConversationNoteGroupByPayload<T extends ConversationNoteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ConversationNoteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ConversationNoteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ConversationNoteGroupByOutputType[P]>
+            : GetScalarType<T[P], ConversationNoteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ConversationNoteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    body?: boolean
+    authorId?: boolean
+    authorName?: boolean
+    createdAt?: boolean
+    conversationId?: boolean
+    conversation?: boolean | ConversationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["conversationNote"]>
+
+  export type ConversationNoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    body?: boolean
+    authorId?: boolean
+    authorName?: boolean
+    createdAt?: boolean
+    conversationId?: boolean
+    conversation?: boolean | ConversationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["conversationNote"]>
+
+  export type ConversationNoteSelectScalar = {
+    id?: boolean
+    body?: boolean
+    authorId?: boolean
+    authorName?: boolean
+    createdAt?: boolean
+    conversationId?: boolean
+  }
+
+  export type ConversationNoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    conversation?: boolean | ConversationDefaultArgs<ExtArgs>
+  }
+  export type ConversationNoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    conversation?: boolean | ConversationDefaultArgs<ExtArgs>
+  }
+
+  export type $ConversationNotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ConversationNote"
+    objects: {
+      conversation: Prisma.$ConversationPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      body: string
+      authorId: string | null
+      authorName: string
+      createdAt: Date
+      conversationId: string
+    }, ExtArgs["result"]["conversationNote"]>
+    composites: {}
+  }
+
+  type ConversationNoteGetPayload<S extends boolean | null | undefined | ConversationNoteDefaultArgs> = $Result.GetResult<Prisma.$ConversationNotePayload, S>
+
+  type ConversationNoteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ConversationNoteFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ConversationNoteCountAggregateInputType | true
+    }
+
+  export interface ConversationNoteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ConversationNote'], meta: { name: 'ConversationNote' } }
+    /**
+     * Find zero or one ConversationNote that matches the filter.
+     * @param {ConversationNoteFindUniqueArgs} args - Arguments to find a ConversationNote
+     * @example
+     * // Get one ConversationNote
+     * const conversationNote = await prisma.conversationNote.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ConversationNoteFindUniqueArgs>(args: SelectSubset<T, ConversationNoteFindUniqueArgs<ExtArgs>>): Prisma__ConversationNoteClient<$Result.GetResult<Prisma.$ConversationNotePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ConversationNote that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ConversationNoteFindUniqueOrThrowArgs} args - Arguments to find a ConversationNote
+     * @example
+     * // Get one ConversationNote
+     * const conversationNote = await prisma.conversationNote.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ConversationNoteFindUniqueOrThrowArgs>(args: SelectSubset<T, ConversationNoteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ConversationNoteClient<$Result.GetResult<Prisma.$ConversationNotePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ConversationNote that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConversationNoteFindFirstArgs} args - Arguments to find a ConversationNote
+     * @example
+     * // Get one ConversationNote
+     * const conversationNote = await prisma.conversationNote.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ConversationNoteFindFirstArgs>(args?: SelectSubset<T, ConversationNoteFindFirstArgs<ExtArgs>>): Prisma__ConversationNoteClient<$Result.GetResult<Prisma.$ConversationNotePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ConversationNote that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConversationNoteFindFirstOrThrowArgs} args - Arguments to find a ConversationNote
+     * @example
+     * // Get one ConversationNote
+     * const conversationNote = await prisma.conversationNote.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ConversationNoteFindFirstOrThrowArgs>(args?: SelectSubset<T, ConversationNoteFindFirstOrThrowArgs<ExtArgs>>): Prisma__ConversationNoteClient<$Result.GetResult<Prisma.$ConversationNotePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ConversationNotes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConversationNoteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ConversationNotes
+     * const conversationNotes = await prisma.conversationNote.findMany()
+     * 
+     * // Get first 10 ConversationNotes
+     * const conversationNotes = await prisma.conversationNote.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const conversationNoteWithIdOnly = await prisma.conversationNote.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ConversationNoteFindManyArgs>(args?: SelectSubset<T, ConversationNoteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationNotePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ConversationNote.
+     * @param {ConversationNoteCreateArgs} args - Arguments to create a ConversationNote.
+     * @example
+     * // Create one ConversationNote
+     * const ConversationNote = await prisma.conversationNote.create({
+     *   data: {
+     *     // ... data to create a ConversationNote
+     *   }
+     * })
+     * 
+     */
+    create<T extends ConversationNoteCreateArgs>(args: SelectSubset<T, ConversationNoteCreateArgs<ExtArgs>>): Prisma__ConversationNoteClient<$Result.GetResult<Prisma.$ConversationNotePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ConversationNotes.
+     * @param {ConversationNoteCreateManyArgs} args - Arguments to create many ConversationNotes.
+     * @example
+     * // Create many ConversationNotes
+     * const conversationNote = await prisma.conversationNote.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ConversationNoteCreateManyArgs>(args?: SelectSubset<T, ConversationNoteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ConversationNotes and returns the data saved in the database.
+     * @param {ConversationNoteCreateManyAndReturnArgs} args - Arguments to create many ConversationNotes.
+     * @example
+     * // Create many ConversationNotes
+     * const conversationNote = await prisma.conversationNote.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ConversationNotes and only return the `id`
+     * const conversationNoteWithIdOnly = await prisma.conversationNote.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ConversationNoteCreateManyAndReturnArgs>(args?: SelectSubset<T, ConversationNoteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationNotePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ConversationNote.
+     * @param {ConversationNoteDeleteArgs} args - Arguments to delete one ConversationNote.
+     * @example
+     * // Delete one ConversationNote
+     * const ConversationNote = await prisma.conversationNote.delete({
+     *   where: {
+     *     // ... filter to delete one ConversationNote
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ConversationNoteDeleteArgs>(args: SelectSubset<T, ConversationNoteDeleteArgs<ExtArgs>>): Prisma__ConversationNoteClient<$Result.GetResult<Prisma.$ConversationNotePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ConversationNote.
+     * @param {ConversationNoteUpdateArgs} args - Arguments to update one ConversationNote.
+     * @example
+     * // Update one ConversationNote
+     * const conversationNote = await prisma.conversationNote.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ConversationNoteUpdateArgs>(args: SelectSubset<T, ConversationNoteUpdateArgs<ExtArgs>>): Prisma__ConversationNoteClient<$Result.GetResult<Prisma.$ConversationNotePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ConversationNotes.
+     * @param {ConversationNoteDeleteManyArgs} args - Arguments to filter ConversationNotes to delete.
+     * @example
+     * // Delete a few ConversationNotes
+     * const { count } = await prisma.conversationNote.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ConversationNoteDeleteManyArgs>(args?: SelectSubset<T, ConversationNoteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ConversationNotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConversationNoteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ConversationNotes
+     * const conversationNote = await prisma.conversationNote.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ConversationNoteUpdateManyArgs>(args: SelectSubset<T, ConversationNoteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ConversationNote.
+     * @param {ConversationNoteUpsertArgs} args - Arguments to update or create a ConversationNote.
+     * @example
+     * // Update or create a ConversationNote
+     * const conversationNote = await prisma.conversationNote.upsert({
+     *   create: {
+     *     // ... data to create a ConversationNote
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ConversationNote we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ConversationNoteUpsertArgs>(args: SelectSubset<T, ConversationNoteUpsertArgs<ExtArgs>>): Prisma__ConversationNoteClient<$Result.GetResult<Prisma.$ConversationNotePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ConversationNotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConversationNoteCountArgs} args - Arguments to filter ConversationNotes to count.
+     * @example
+     * // Count the number of ConversationNotes
+     * const count = await prisma.conversationNote.count({
+     *   where: {
+     *     // ... the filter for the ConversationNotes we want to count
+     *   }
+     * })
+    **/
+    count<T extends ConversationNoteCountArgs>(
+      args?: Subset<T, ConversationNoteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ConversationNoteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ConversationNote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConversationNoteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ConversationNoteAggregateArgs>(args: Subset<T, ConversationNoteAggregateArgs>): Prisma.PrismaPromise<GetConversationNoteAggregateType<T>>
+
+    /**
+     * Group by ConversationNote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConversationNoteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ConversationNoteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ConversationNoteGroupByArgs['orderBy'] }
+        : { orderBy?: ConversationNoteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ConversationNoteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetConversationNoteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ConversationNote model
+   */
+  readonly fields: ConversationNoteFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ConversationNote.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ConversationNoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    conversation<T extends ConversationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ConversationDefaultArgs<ExtArgs>>): Prisma__ConversationClient<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ConversationNote model
+   */ 
+  interface ConversationNoteFieldRefs {
+    readonly id: FieldRef<"ConversationNote", 'String'>
+    readonly body: FieldRef<"ConversationNote", 'String'>
+    readonly authorId: FieldRef<"ConversationNote", 'String'>
+    readonly authorName: FieldRef<"ConversationNote", 'String'>
+    readonly createdAt: FieldRef<"ConversationNote", 'DateTime'>
+    readonly conversationId: FieldRef<"ConversationNote", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ConversationNote findUnique
+   */
+  export type ConversationNoteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConversationNote
+     */
+    select?: ConversationNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which ConversationNote to fetch.
+     */
+    where: ConversationNoteWhereUniqueInput
+  }
+
+  /**
+   * ConversationNote findUniqueOrThrow
+   */
+  export type ConversationNoteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConversationNote
+     */
+    select?: ConversationNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which ConversationNote to fetch.
+     */
+    where: ConversationNoteWhereUniqueInput
+  }
+
+  /**
+   * ConversationNote findFirst
+   */
+  export type ConversationNoteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConversationNote
+     */
+    select?: ConversationNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which ConversationNote to fetch.
+     */
+    where?: ConversationNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConversationNotes to fetch.
+     */
+    orderBy?: ConversationNoteOrderByWithRelationInput | ConversationNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ConversationNotes.
+     */
+    cursor?: ConversationNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConversationNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConversationNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ConversationNotes.
+     */
+    distinct?: ConversationNoteScalarFieldEnum | ConversationNoteScalarFieldEnum[]
+  }
+
+  /**
+   * ConversationNote findFirstOrThrow
+   */
+  export type ConversationNoteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConversationNote
+     */
+    select?: ConversationNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which ConversationNote to fetch.
+     */
+    where?: ConversationNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConversationNotes to fetch.
+     */
+    orderBy?: ConversationNoteOrderByWithRelationInput | ConversationNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ConversationNotes.
+     */
+    cursor?: ConversationNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConversationNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConversationNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ConversationNotes.
+     */
+    distinct?: ConversationNoteScalarFieldEnum | ConversationNoteScalarFieldEnum[]
+  }
+
+  /**
+   * ConversationNote findMany
+   */
+  export type ConversationNoteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConversationNote
+     */
+    select?: ConversationNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which ConversationNotes to fetch.
+     */
+    where?: ConversationNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConversationNotes to fetch.
+     */
+    orderBy?: ConversationNoteOrderByWithRelationInput | ConversationNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ConversationNotes.
+     */
+    cursor?: ConversationNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConversationNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConversationNotes.
+     */
+    skip?: number
+    distinct?: ConversationNoteScalarFieldEnum | ConversationNoteScalarFieldEnum[]
+  }
+
+  /**
+   * ConversationNote create
+   */
+  export type ConversationNoteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConversationNote
+     */
+    select?: ConversationNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationNoteInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ConversationNote.
+     */
+    data: XOR<ConversationNoteCreateInput, ConversationNoteUncheckedCreateInput>
+  }
+
+  /**
+   * ConversationNote createMany
+   */
+  export type ConversationNoteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ConversationNotes.
+     */
+    data: ConversationNoteCreateManyInput | ConversationNoteCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ConversationNote createManyAndReturn
+   */
+  export type ConversationNoteCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConversationNote
+     */
+    select?: ConversationNoteSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ConversationNotes.
+     */
+    data: ConversationNoteCreateManyInput | ConversationNoteCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationNoteIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ConversationNote update
+   */
+  export type ConversationNoteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConversationNote
+     */
+    select?: ConversationNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationNoteInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ConversationNote.
+     */
+    data: XOR<ConversationNoteUpdateInput, ConversationNoteUncheckedUpdateInput>
+    /**
+     * Choose, which ConversationNote to update.
+     */
+    where: ConversationNoteWhereUniqueInput
+  }
+
+  /**
+   * ConversationNote updateMany
+   */
+  export type ConversationNoteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ConversationNotes.
+     */
+    data: XOR<ConversationNoteUpdateManyMutationInput, ConversationNoteUncheckedUpdateManyInput>
+    /**
+     * Filter which ConversationNotes to update
+     */
+    where?: ConversationNoteWhereInput
+  }
+
+  /**
+   * ConversationNote upsert
+   */
+  export type ConversationNoteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConversationNote
+     */
+    select?: ConversationNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationNoteInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ConversationNote to update in case it exists.
+     */
+    where: ConversationNoteWhereUniqueInput
+    /**
+     * In case the ConversationNote found by the `where` argument doesn't exist, create a new ConversationNote with this data.
+     */
+    create: XOR<ConversationNoteCreateInput, ConversationNoteUncheckedCreateInput>
+    /**
+     * In case the ConversationNote was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ConversationNoteUpdateInput, ConversationNoteUncheckedUpdateInput>
+  }
+
+  /**
+   * ConversationNote delete
+   */
+  export type ConversationNoteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConversationNote
+     */
+    select?: ConversationNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationNoteInclude<ExtArgs> | null
+    /**
+     * Filter which ConversationNote to delete.
+     */
+    where: ConversationNoteWhereUniqueInput
+  }
+
+  /**
+   * ConversationNote deleteMany
+   */
+  export type ConversationNoteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ConversationNotes to delete
+     */
+    where?: ConversationNoteWhereInput
+  }
+
+  /**
+   * ConversationNote without action
+   */
+  export type ConversationNoteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConversationNote
+     */
+    select?: ConversationNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationNoteInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Activity
+   */
+
+  export type AggregateActivity = {
+    _count: ActivityCountAggregateOutputType | null
+    _min: ActivityMinAggregateOutputType | null
+    _max: ActivityMaxAggregateOutputType | null
+  }
+
+  export type ActivityMinAggregateOutputType = {
+    id: string | null
+    type: $Enums.ActivityType | null
+    body: string | null
+    authorId: string | null
+    authorName: string | null
+    createdAt: Date | null
+    conversationId: string | null
+    leadId: string | null
+    ticketId: string | null
+    companyId: string | null
+  }
+
+  export type ActivityMaxAggregateOutputType = {
+    id: string | null
+    type: $Enums.ActivityType | null
+    body: string | null
+    authorId: string | null
+    authorName: string | null
+    createdAt: Date | null
+    conversationId: string | null
+    leadId: string | null
+    ticketId: string | null
+    companyId: string | null
+  }
+
+  export type ActivityCountAggregateOutputType = {
+    id: number
+    type: number
+    body: number
+    meta: number
+    authorId: number
+    authorName: number
+    createdAt: number
+    conversationId: number
+    leadId: number
+    ticketId: number
+    companyId: number
+    _all: number
+  }
+
+
+  export type ActivityMinAggregateInputType = {
+    id?: true
+    type?: true
+    body?: true
+    authorId?: true
+    authorName?: true
+    createdAt?: true
+    conversationId?: true
+    leadId?: true
+    ticketId?: true
+    companyId?: true
+  }
+
+  export type ActivityMaxAggregateInputType = {
+    id?: true
+    type?: true
+    body?: true
+    authorId?: true
+    authorName?: true
+    createdAt?: true
+    conversationId?: true
+    leadId?: true
+    ticketId?: true
+    companyId?: true
+  }
+
+  export type ActivityCountAggregateInputType = {
+    id?: true
+    type?: true
+    body?: true
+    meta?: true
+    authorId?: true
+    authorName?: true
+    createdAt?: true
+    conversationId?: true
+    leadId?: true
+    ticketId?: true
+    companyId?: true
+    _all?: true
+  }
+
+  export type ActivityAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Activity to aggregate.
+     */
+    where?: ActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Activities to fetch.
+     */
+    orderBy?: ActivityOrderByWithRelationInput | ActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Activities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Activities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Activities
+    **/
+    _count?: true | ActivityCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ActivityMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ActivityMaxAggregateInputType
+  }
+
+  export type GetActivityAggregateType<T extends ActivityAggregateArgs> = {
+        [P in keyof T & keyof AggregateActivity]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateActivity[P]>
+      : GetScalarType<T[P], AggregateActivity[P]>
+  }
+
+
+
+
+  export type ActivityGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivityWhereInput
+    orderBy?: ActivityOrderByWithAggregationInput | ActivityOrderByWithAggregationInput[]
+    by: ActivityScalarFieldEnum[] | ActivityScalarFieldEnum
+    having?: ActivityScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ActivityCountAggregateInputType | true
+    _min?: ActivityMinAggregateInputType
+    _max?: ActivityMaxAggregateInputType
+  }
+
+  export type ActivityGroupByOutputType = {
+    id: string
+    type: $Enums.ActivityType
+    body: string | null
+    meta: JsonValue | null
+    authorId: string | null
+    authorName: string | null
+    createdAt: Date
+    conversationId: string | null
+    leadId: string | null
+    ticketId: string | null
+    companyId: string
+    _count: ActivityCountAggregateOutputType | null
+    _min: ActivityMinAggregateOutputType | null
+    _max: ActivityMaxAggregateOutputType | null
+  }
+
+  type GetActivityGroupByPayload<T extends ActivityGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ActivityGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ActivityGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ActivityGroupByOutputType[P]>
+            : GetScalarType<T[P], ActivityGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ActivitySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    body?: boolean
+    meta?: boolean
+    authorId?: boolean
+    authorName?: boolean
+    createdAt?: boolean
+    conversationId?: boolean
+    leadId?: boolean
+    ticketId?: boolean
+    companyId?: boolean
+    conversation?: boolean | Activity$conversationArgs<ExtArgs>
+    lead?: boolean | Activity$leadArgs<ExtArgs>
+    ticket?: boolean | Activity$ticketArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["activity"]>
+
+  export type ActivitySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    body?: boolean
+    meta?: boolean
+    authorId?: boolean
+    authorName?: boolean
+    createdAt?: boolean
+    conversationId?: boolean
+    leadId?: boolean
+    ticketId?: boolean
+    companyId?: boolean
+    conversation?: boolean | Activity$conversationArgs<ExtArgs>
+    lead?: boolean | Activity$leadArgs<ExtArgs>
+    ticket?: boolean | Activity$ticketArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["activity"]>
+
+  export type ActivitySelectScalar = {
+    id?: boolean
+    type?: boolean
+    body?: boolean
+    meta?: boolean
+    authorId?: boolean
+    authorName?: boolean
+    createdAt?: boolean
+    conversationId?: boolean
+    leadId?: boolean
+    ticketId?: boolean
+    companyId?: boolean
+  }
+
+  export type ActivityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    conversation?: boolean | Activity$conversationArgs<ExtArgs>
+    lead?: boolean | Activity$leadArgs<ExtArgs>
+    ticket?: boolean | Activity$ticketArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type ActivityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    conversation?: boolean | Activity$conversationArgs<ExtArgs>
+    lead?: boolean | Activity$leadArgs<ExtArgs>
+    ticket?: boolean | Activity$ticketArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $ActivityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Activity"
+    objects: {
+      conversation: Prisma.$ConversationPayload<ExtArgs> | null
+      lead: Prisma.$LeadPayload<ExtArgs> | null
+      ticket: Prisma.$TicketPayload<ExtArgs> | null
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      type: $Enums.ActivityType
+      body: string | null
+      meta: Prisma.JsonValue | null
+      authorId: string | null
+      authorName: string | null
+      createdAt: Date
+      conversationId: string | null
+      leadId: string | null
+      ticketId: string | null
+      companyId: string
+    }, ExtArgs["result"]["activity"]>
+    composites: {}
+  }
+
+  type ActivityGetPayload<S extends boolean | null | undefined | ActivityDefaultArgs> = $Result.GetResult<Prisma.$ActivityPayload, S>
+
+  type ActivityCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ActivityFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ActivityCountAggregateInputType | true
+    }
+
+  export interface ActivityDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Activity'], meta: { name: 'Activity' } }
+    /**
+     * Find zero or one Activity that matches the filter.
+     * @param {ActivityFindUniqueArgs} args - Arguments to find a Activity
+     * @example
+     * // Get one Activity
+     * const activity = await prisma.activity.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ActivityFindUniqueArgs>(args: SelectSubset<T, ActivityFindUniqueArgs<ExtArgs>>): Prisma__ActivityClient<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Activity that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ActivityFindUniqueOrThrowArgs} args - Arguments to find a Activity
+     * @example
+     * // Get one Activity
+     * const activity = await prisma.activity.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ActivityFindUniqueOrThrowArgs>(args: SelectSubset<T, ActivityFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ActivityClient<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Activity that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityFindFirstArgs} args - Arguments to find a Activity
+     * @example
+     * // Get one Activity
+     * const activity = await prisma.activity.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ActivityFindFirstArgs>(args?: SelectSubset<T, ActivityFindFirstArgs<ExtArgs>>): Prisma__ActivityClient<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Activity that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityFindFirstOrThrowArgs} args - Arguments to find a Activity
+     * @example
+     * // Get one Activity
+     * const activity = await prisma.activity.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ActivityFindFirstOrThrowArgs>(args?: SelectSubset<T, ActivityFindFirstOrThrowArgs<ExtArgs>>): Prisma__ActivityClient<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Activities that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Activities
+     * const activities = await prisma.activity.findMany()
+     * 
+     * // Get first 10 Activities
+     * const activities = await prisma.activity.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const activityWithIdOnly = await prisma.activity.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ActivityFindManyArgs>(args?: SelectSubset<T, ActivityFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Activity.
+     * @param {ActivityCreateArgs} args - Arguments to create a Activity.
+     * @example
+     * // Create one Activity
+     * const Activity = await prisma.activity.create({
+     *   data: {
+     *     // ... data to create a Activity
+     *   }
+     * })
+     * 
+     */
+    create<T extends ActivityCreateArgs>(args: SelectSubset<T, ActivityCreateArgs<ExtArgs>>): Prisma__ActivityClient<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Activities.
+     * @param {ActivityCreateManyArgs} args - Arguments to create many Activities.
+     * @example
+     * // Create many Activities
+     * const activity = await prisma.activity.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ActivityCreateManyArgs>(args?: SelectSubset<T, ActivityCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Activities and returns the data saved in the database.
+     * @param {ActivityCreateManyAndReturnArgs} args - Arguments to create many Activities.
+     * @example
+     * // Create many Activities
+     * const activity = await prisma.activity.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Activities and only return the `id`
+     * const activityWithIdOnly = await prisma.activity.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ActivityCreateManyAndReturnArgs>(args?: SelectSubset<T, ActivityCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Activity.
+     * @param {ActivityDeleteArgs} args - Arguments to delete one Activity.
+     * @example
+     * // Delete one Activity
+     * const Activity = await prisma.activity.delete({
+     *   where: {
+     *     // ... filter to delete one Activity
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ActivityDeleteArgs>(args: SelectSubset<T, ActivityDeleteArgs<ExtArgs>>): Prisma__ActivityClient<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Activity.
+     * @param {ActivityUpdateArgs} args - Arguments to update one Activity.
+     * @example
+     * // Update one Activity
+     * const activity = await prisma.activity.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ActivityUpdateArgs>(args: SelectSubset<T, ActivityUpdateArgs<ExtArgs>>): Prisma__ActivityClient<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Activities.
+     * @param {ActivityDeleteManyArgs} args - Arguments to filter Activities to delete.
+     * @example
+     * // Delete a few Activities
+     * const { count } = await prisma.activity.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ActivityDeleteManyArgs>(args?: SelectSubset<T, ActivityDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Activities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Activities
+     * const activity = await prisma.activity.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ActivityUpdateManyArgs>(args: SelectSubset<T, ActivityUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Activity.
+     * @param {ActivityUpsertArgs} args - Arguments to update or create a Activity.
+     * @example
+     * // Update or create a Activity
+     * const activity = await prisma.activity.upsert({
+     *   create: {
+     *     // ... data to create a Activity
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Activity we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ActivityUpsertArgs>(args: SelectSubset<T, ActivityUpsertArgs<ExtArgs>>): Prisma__ActivityClient<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Activities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityCountArgs} args - Arguments to filter Activities to count.
+     * @example
+     * // Count the number of Activities
+     * const count = await prisma.activity.count({
+     *   where: {
+     *     // ... the filter for the Activities we want to count
+     *   }
+     * })
+    **/
+    count<T extends ActivityCountArgs>(
+      args?: Subset<T, ActivityCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ActivityCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Activity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ActivityAggregateArgs>(args: Subset<T, ActivityAggregateArgs>): Prisma.PrismaPromise<GetActivityAggregateType<T>>
+
+    /**
+     * Group by Activity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ActivityGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ActivityGroupByArgs['orderBy'] }
+        : { orderBy?: ActivityGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ActivityGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetActivityGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Activity model
+   */
+  readonly fields: ActivityFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Activity.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ActivityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    conversation<T extends Activity$conversationArgs<ExtArgs> = {}>(args?: Subset<T, Activity$conversationArgs<ExtArgs>>): Prisma__ConversationClient<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    lead<T extends Activity$leadArgs<ExtArgs> = {}>(args?: Subset<T, Activity$leadArgs<ExtArgs>>): Prisma__LeadClient<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    ticket<T extends Activity$ticketArgs<ExtArgs> = {}>(args?: Subset<T, Activity$ticketArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Activity model
+   */ 
+  interface ActivityFieldRefs {
+    readonly id: FieldRef<"Activity", 'String'>
+    readonly type: FieldRef<"Activity", 'ActivityType'>
+    readonly body: FieldRef<"Activity", 'String'>
+    readonly meta: FieldRef<"Activity", 'Json'>
+    readonly authorId: FieldRef<"Activity", 'String'>
+    readonly authorName: FieldRef<"Activity", 'String'>
+    readonly createdAt: FieldRef<"Activity", 'DateTime'>
+    readonly conversationId: FieldRef<"Activity", 'String'>
+    readonly leadId: FieldRef<"Activity", 'String'>
+    readonly ticketId: FieldRef<"Activity", 'String'>
+    readonly companyId: FieldRef<"Activity", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Activity findUnique
+   */
+  export type ActivityFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which Activity to fetch.
+     */
+    where: ActivityWhereUniqueInput
+  }
+
+  /**
+   * Activity findUniqueOrThrow
+   */
+  export type ActivityFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which Activity to fetch.
+     */
+    where: ActivityWhereUniqueInput
+  }
+
+  /**
+   * Activity findFirst
+   */
+  export type ActivityFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which Activity to fetch.
+     */
+    where?: ActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Activities to fetch.
+     */
+    orderBy?: ActivityOrderByWithRelationInput | ActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Activities.
+     */
+    cursor?: ActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Activities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Activities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Activities.
+     */
+    distinct?: ActivityScalarFieldEnum | ActivityScalarFieldEnum[]
+  }
+
+  /**
+   * Activity findFirstOrThrow
+   */
+  export type ActivityFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which Activity to fetch.
+     */
+    where?: ActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Activities to fetch.
+     */
+    orderBy?: ActivityOrderByWithRelationInput | ActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Activities.
+     */
+    cursor?: ActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Activities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Activities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Activities.
+     */
+    distinct?: ActivityScalarFieldEnum | ActivityScalarFieldEnum[]
+  }
+
+  /**
+   * Activity findMany
+   */
+  export type ActivityFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which Activities to fetch.
+     */
+    where?: ActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Activities to fetch.
+     */
+    orderBy?: ActivityOrderByWithRelationInput | ActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Activities.
+     */
+    cursor?: ActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Activities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Activities.
+     */
+    skip?: number
+    distinct?: ActivityScalarFieldEnum | ActivityScalarFieldEnum[]
+  }
+
+  /**
+   * Activity create
+   */
+  export type ActivityCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Activity.
+     */
+    data: XOR<ActivityCreateInput, ActivityUncheckedCreateInput>
+  }
+
+  /**
+   * Activity createMany
+   */
+  export type ActivityCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Activities.
+     */
+    data: ActivityCreateManyInput | ActivityCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Activity createManyAndReturn
+   */
+  export type ActivityCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Activities.
+     */
+    data: ActivityCreateManyInput | ActivityCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Activity update
+   */
+  export type ActivityUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Activity.
+     */
+    data: XOR<ActivityUpdateInput, ActivityUncheckedUpdateInput>
+    /**
+     * Choose, which Activity to update.
+     */
+    where: ActivityWhereUniqueInput
+  }
+
+  /**
+   * Activity updateMany
+   */
+  export type ActivityUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Activities.
+     */
+    data: XOR<ActivityUpdateManyMutationInput, ActivityUncheckedUpdateManyInput>
+    /**
+     * Filter which Activities to update
+     */
+    where?: ActivityWhereInput
+  }
+
+  /**
+   * Activity upsert
+   */
+  export type ActivityUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Activity to update in case it exists.
+     */
+    where: ActivityWhereUniqueInput
+    /**
+     * In case the Activity found by the `where` argument doesn't exist, create a new Activity with this data.
+     */
+    create: XOR<ActivityCreateInput, ActivityUncheckedCreateInput>
+    /**
+     * In case the Activity was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ActivityUpdateInput, ActivityUncheckedUpdateInput>
+  }
+
+  /**
+   * Activity delete
+   */
+  export type ActivityDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    /**
+     * Filter which Activity to delete.
+     */
+    where: ActivityWhereUniqueInput
+  }
+
+  /**
+   * Activity deleteMany
+   */
+  export type ActivityDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Activities to delete
+     */
+    where?: ActivityWhereInput
+  }
+
+  /**
+   * Activity.conversation
+   */
+  export type Activity$conversationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Conversation
+     */
+    select?: ConversationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationInclude<ExtArgs> | null
+    where?: ConversationWhereInput
+  }
+
+  /**
+   * Activity.lead
+   */
+  export type Activity$leadArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Lead
+     */
+    select?: LeadSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadInclude<ExtArgs> | null
+    where?: LeadWhereInput
+  }
+
+  /**
+   * Activity.ticket
+   */
+  export type Activity$ticketArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ticket
+     */
+    select?: TicketSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketInclude<ExtArgs> | null
+    where?: TicketWhereInput
+  }
+
+  /**
+   * Activity without action
+   */
+  export type ActivityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Ticket
    */
 
@@ -17044,6 +20898,7 @@ export namespace Prisma {
     createdBy?: boolean | Ticket$createdByArgs<ExtArgs>
     setor?: boolean | Ticket$setorArgs<ExtArgs>
     messages?: boolean | Ticket$messagesArgs<ExtArgs>
+    activities?: boolean | Ticket$activitiesArgs<ExtArgs>
     _count?: boolean | TicketCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["ticket"]>
 
@@ -17091,6 +20946,7 @@ export namespace Prisma {
     createdBy?: boolean | Ticket$createdByArgs<ExtArgs>
     setor?: boolean | Ticket$setorArgs<ExtArgs>
     messages?: boolean | Ticket$messagesArgs<ExtArgs>
+    activities?: boolean | Ticket$activitiesArgs<ExtArgs>
     _count?: boolean | TicketCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TicketIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17106,6 +20962,7 @@ export namespace Prisma {
       createdBy: Prisma.$UserPayload<ExtArgs> | null
       setor: Prisma.$SetorPayload<ExtArgs> | null
       messages: Prisma.$TicketMessagePayload<ExtArgs>[]
+      activities: Prisma.$ActivityPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -17491,6 +21348,7 @@ export namespace Prisma {
     createdBy<T extends Ticket$createdByArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     setor<T extends Ticket$setorArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$setorArgs<ExtArgs>>): Prisma__SetorClient<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     messages<T extends Ticket$messagesArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketMessagePayload<ExtArgs>, T, "findMany"> | Null>
+    activities<T extends Ticket$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17900,6 +21758,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TicketMessageScalarFieldEnum | TicketMessageScalarFieldEnum[]
+  }
+
+  /**
+   * Ticket.activities
+   */
+  export type Ticket$activitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    where?: ActivityWhereInput
+    orderBy?: ActivityOrderByWithRelationInput | ActivityOrderByWithRelationInput[]
+    cursor?: ActivityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ActivityScalarFieldEnum | ActivityScalarFieldEnum[]
   }
 
   /**
@@ -19130,6 +23008,7 @@ export namespace Prisma {
     users?: boolean | Setor$usersArgs<ExtArgs>
     instances?: boolean | Setor$instancesArgs<ExtArgs>
     tickets?: boolean | Setor$ticketsArgs<ExtArgs>
+    conversations?: boolean | Setor$conversationsArgs<ExtArgs>
     _count?: boolean | SetorCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["setor"]>
 
@@ -19177,6 +23056,7 @@ export namespace Prisma {
     users?: boolean | Setor$usersArgs<ExtArgs>
     instances?: boolean | Setor$instancesArgs<ExtArgs>
     tickets?: boolean | Setor$ticketsArgs<ExtArgs>
+    conversations?: boolean | Setor$conversationsArgs<ExtArgs>
     _count?: boolean | SetorCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SetorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -19190,6 +23070,7 @@ export namespace Prisma {
       users: Prisma.$SetorUserPayload<ExtArgs>[]
       instances: Prisma.$SetorInstancePayload<ExtArgs>[]
       tickets: Prisma.$TicketPayload<ExtArgs>[]
+      conversations: Prisma.$ConversationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -19576,6 +23457,7 @@ export namespace Prisma {
     users<T extends Setor$usersArgs<ExtArgs> = {}>(args?: Subset<T, Setor$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorUserPayload<ExtArgs>, T, "findMany"> | Null>
     instances<T extends Setor$instancesArgs<ExtArgs> = {}>(args?: Subset<T, Setor$instancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorInstancePayload<ExtArgs>, T, "findMany"> | Null>
     tickets<T extends Setor$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, Setor$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany"> | Null>
+    conversations<T extends Setor$conversationsArgs<ExtArgs> = {}>(args?: Subset<T, Setor$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -19996,6 +23878,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TicketScalarFieldEnum | TicketScalarFieldEnum[]
+  }
+
+  /**
+   * Setor.conversations
+   */
+  export type Setor$conversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Conversation
+     */
+    select?: ConversationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationInclude<ExtArgs> | null
+    where?: ConversationWhereInput
+    orderBy?: ConversationOrderByWithRelationInput | ConversationOrderByWithRelationInput[]
+    cursor?: ConversationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConversationScalarFieldEnum | ConversationScalarFieldEnum[]
   }
 
   /**
@@ -21866,7 +25768,8 @@ export namespace Prisma {
     moduleTickets: 'moduleTickets',
     moduleAI: 'moduleAI',
     parentCompanyId: 'parentCompanyId',
-    triggerOnly: 'triggerOnly'
+    triggerOnly: 'triggerOnly',
+    webhookToken: 'webhookToken'
   };
 
   export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
@@ -21939,7 +25842,8 @@ export namespace Prisma {
     isInternal: 'isInternal',
     companyId: 'companyId',
     campaignId: 'campaignId',
-    trackingLinkId: 'trackingLinkId'
+    trackingLinkId: 'trackingLinkId',
+    conversationId: 'conversationId'
   };
 
   export type LeadScalarFieldEnum = (typeof LeadScalarFieldEnum)[keyof typeof LeadScalarFieldEnum]
@@ -22015,10 +25919,13 @@ export namespace Prisma {
     ack: 'ack',
     quotedId: 'quotedId',
     quotedBody: 'quotedBody',
+    mediaBase64: 'mediaBase64',
+    mediaType: 'mediaType',
     companyId: 'companyId',
     instanceId: 'instanceId',
     campaignId: 'campaignId',
-    leadId: 'leadId'
+    leadId: 'leadId',
+    conversationId: 'conversationId'
   };
 
   export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
@@ -22043,6 +25950,57 @@ export namespace Prisma {
   };
 
   export type SettingScalarFieldEnum = (typeof SettingScalarFieldEnum)[keyof typeof SettingScalarFieldEnum]
+
+
+  export const ConversationScalarFieldEnum: {
+    id: 'id',
+    phone: 'phone',
+    isGroup: 'isGroup',
+    status: 'status',
+    statusUpdatedAt: 'statusUpdatedAt',
+    assigneeId: 'assigneeId',
+    setorId: 'setorId',
+    lastMessageAt: 'lastMessageAt',
+    lastMessageBody: 'lastMessageBody',
+    lastMessageDirection: 'lastMessageDirection',
+    unreadCount: 'unreadCount',
+    firstResponseAt: 'firstResponseAt',
+    closedAt: 'closedAt',
+    companyId: 'companyId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ConversationScalarFieldEnum = (typeof ConversationScalarFieldEnum)[keyof typeof ConversationScalarFieldEnum]
+
+
+  export const ConversationNoteScalarFieldEnum: {
+    id: 'id',
+    body: 'body',
+    authorId: 'authorId',
+    authorName: 'authorName',
+    createdAt: 'createdAt',
+    conversationId: 'conversationId'
+  };
+
+  export type ConversationNoteScalarFieldEnum = (typeof ConversationNoteScalarFieldEnum)[keyof typeof ConversationNoteScalarFieldEnum]
+
+
+  export const ActivityScalarFieldEnum: {
+    id: 'id',
+    type: 'type',
+    body: 'body',
+    meta: 'meta',
+    authorId: 'authorId',
+    authorName: 'authorName',
+    createdAt: 'createdAt',
+    conversationId: 'conversationId',
+    leadId: 'leadId',
+    ticketId: 'ticketId',
+    companyId: 'companyId'
+  };
+
+  export type ActivityScalarFieldEnum = (typeof ActivityScalarFieldEnum)[keyof typeof ActivityScalarFieldEnum]
 
 
   export const TicketScalarFieldEnum: {
@@ -22332,6 +26290,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ConversationStatus'
+   */
+  export type EnumConversationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConversationStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ConversationStatus[]'
+   */
+  export type ListEnumConversationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConversationStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ActivityType'
+   */
+  export type EnumActivityTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ActivityType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ActivityType[]'
+   */
+  export type ListEnumActivityTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ActivityType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'TicketStatus'
    */
   export type EnumTicketStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketStatus'>
@@ -22379,6 +26365,7 @@ export namespace Prisma {
     ticketsCreated?: TicketListRelationFilter
     companyContact?: XOR<CompanyContactNullableRelationFilter, CompanyContactWhereInput> | null
     setores?: SetorUserListRelationFilter
+    conversationsAssigned?: ConversationListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -22395,6 +26382,7 @@ export namespace Prisma {
     ticketsCreated?: TicketOrderByRelationAggregateInput
     companyContact?: CompanyContactOrderByWithRelationInput
     setores?: SetorUserOrderByRelationAggregateInput
+    conversationsAssigned?: ConversationOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -22414,6 +26402,7 @@ export namespace Prisma {
     ticketsCreated?: TicketListRelationFilter
     companyContact?: XOR<CompanyContactNullableRelationFilter, CompanyContactWhereInput> | null
     setores?: SetorUserListRelationFilter
+    conversationsAssigned?: ConversationListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -22468,6 +26457,7 @@ export namespace Prisma {
     moduleAI?: BoolFilter<"Company"> | boolean
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
+    webhookToken?: StringNullableFilter<"Company"> | string | null
     parentCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     subCompanies?: CompanyListRelationFilter
     users?: UserListRelationFilter
@@ -22481,6 +26471,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigListRelationFilter
     contacts?: CompanyContactListRelationFilter
     setores?: SetorListRelationFilter
+    conversations?: ConversationListRelationFilter
+    activities?: ActivityListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -22502,6 +26494,7 @@ export namespace Prisma {
     moduleAI?: SortOrder
     parentCompanyId?: SortOrderInput | SortOrder
     triggerOnly?: SortOrder
+    webhookToken?: SortOrderInput | SortOrder
     parentCompany?: CompanyOrderByWithRelationInput
     subCompanies?: CompanyOrderByRelationAggregateInput
     users?: UserOrderByRelationAggregateInput
@@ -22515,11 +26508,14 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigOrderByRelationAggregateInput
     contacts?: CompanyContactOrderByRelationAggregateInput
     setores?: SetorOrderByRelationAggregateInput
+    conversations?: ConversationOrderByRelationAggregateInput
+    activities?: ActivityOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     slug?: string
+    webhookToken?: string
     AND?: CompanyWhereInput | CompanyWhereInput[]
     OR?: CompanyWhereInput[]
     NOT?: CompanyWhereInput | CompanyWhereInput[]
@@ -22552,7 +26548,9 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigListRelationFilter
     contacts?: CompanyContactListRelationFilter
     setores?: SetorListRelationFilter
-  }, "id" | "slug">
+    conversations?: ConversationListRelationFilter
+    activities?: ActivityListRelationFilter
+  }, "id" | "slug" | "webhookToken">
 
   export type CompanyOrderByWithAggregationInput = {
     id?: SortOrder
@@ -22573,6 +26571,7 @@ export namespace Prisma {
     moduleAI?: SortOrder
     parentCompanyId?: SortOrderInput | SortOrder
     triggerOnly?: SortOrder
+    webhookToken?: SortOrderInput | SortOrder
     _count?: CompanyCountOrderByAggregateInput
     _max?: CompanyMaxOrderByAggregateInput
     _min?: CompanyMinOrderByAggregateInput
@@ -22600,6 +26599,7 @@ export namespace Prisma {
     moduleAI?: BoolWithAggregatesFilter<"Company"> | boolean
     parentCompanyId?: StringNullableWithAggregatesFilter<"Company"> | string | null
     triggerOnly?: BoolWithAggregatesFilter<"Company"> | boolean
+    webhookToken?: StringNullableWithAggregatesFilter<"Company"> | string | null
   }
 
   export type CampaignWhereInput = {
@@ -22887,11 +26887,14 @@ export namespace Prisma {
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
+    conversationId?: StringNullableFilter<"Lead"> | string | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
     trackingLink?: XOR<TrackingLinkNullableRelationFilter, TrackingLinkWhereInput> | null
+    conversation?: XOR<ConversationNullableRelationFilter, ConversationWhereInput> | null
     messages?: MessageListRelationFilter
     comments?: LeadCommentListRelationFilter
+    activities?: ActivityListRelationFilter
   }
 
   export type LeadOrderByWithRelationInput = {
@@ -22915,11 +26918,14 @@ export namespace Prisma {
     companyId?: SortOrder
     campaignId?: SortOrderInput | SortOrder
     trackingLinkId?: SortOrderInput | SortOrder
+    conversationId?: SortOrderInput | SortOrder
     company?: CompanyOrderByWithRelationInput
     campaign?: CampaignOrderByWithRelationInput
     trackingLink?: TrackingLinkOrderByWithRelationInput
+    conversation?: ConversationOrderByWithRelationInput
     messages?: MessageOrderByRelationAggregateInput
     comments?: LeadCommentOrderByRelationAggregateInput
+    activities?: ActivityOrderByRelationAggregateInput
   }
 
   export type LeadWhereUniqueInput = Prisma.AtLeast<{
@@ -22946,11 +26952,14 @@ export namespace Prisma {
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
+    conversationId?: StringNullableFilter<"Lead"> | string | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
     trackingLink?: XOR<TrackingLinkNullableRelationFilter, TrackingLinkWhereInput> | null
+    conversation?: XOR<ConversationNullableRelationFilter, ConversationWhereInput> | null
     messages?: MessageListRelationFilter
     comments?: LeadCommentListRelationFilter
+    activities?: ActivityListRelationFilter
   }, "id">
 
   export type LeadOrderByWithAggregationInput = {
@@ -22974,6 +26983,7 @@ export namespace Prisma {
     companyId?: SortOrder
     campaignId?: SortOrderInput | SortOrder
     trackingLinkId?: SortOrderInput | SortOrder
+    conversationId?: SortOrderInput | SortOrder
     _count?: LeadCountOrderByAggregateInput
     _avg?: LeadAvgOrderByAggregateInput
     _max?: LeadMaxOrderByAggregateInput
@@ -23005,6 +27015,7 @@ export namespace Prisma {
     companyId?: StringWithAggregatesFilter<"Lead"> | string
     campaignId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    conversationId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
   }
 
   export type LeadCommentWhereInput = {
@@ -23312,14 +27323,18 @@ export namespace Prisma {
     ack?: IntNullableFilter<"Message"> | number | null
     quotedId?: StringNullableFilter<"Message"> | string | null
     quotedBody?: StringNullableFilter<"Message"> | string | null
+    mediaBase64?: StringNullableFilter<"Message"> | string | null
+    mediaType?: StringNullableFilter<"Message"> | string | null
     companyId?: StringFilter<"Message"> | string
     instanceId?: StringNullableFilter<"Message"> | string | null
     campaignId?: StringNullableFilter<"Message"> | string | null
     leadId?: StringNullableFilter<"Message"> | string | null
+    conversationId?: StringNullableFilter<"Message"> | string | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
     lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
+    conversation?: XOR<ConversationNullableRelationFilter, ConversationWhereInput> | null
   }
 
   export type MessageOrderByWithRelationInput = {
@@ -23337,14 +27352,18 @@ export namespace Prisma {
     ack?: SortOrderInput | SortOrder
     quotedId?: SortOrderInput | SortOrder
     quotedBody?: SortOrderInput | SortOrder
+    mediaBase64?: SortOrderInput | SortOrder
+    mediaType?: SortOrderInput | SortOrder
     companyId?: SortOrder
     instanceId?: SortOrderInput | SortOrder
     campaignId?: SortOrderInput | SortOrder
     leadId?: SortOrderInput | SortOrder
+    conversationId?: SortOrderInput | SortOrder
     company?: CompanyOrderByWithRelationInput
     instance?: WhatsappInstanceOrderByWithRelationInput
     campaign?: CampaignOrderByWithRelationInput
     lead?: LeadOrderByWithRelationInput
+    conversation?: ConversationOrderByWithRelationInput
   }
 
   export type MessageWhereUniqueInput = Prisma.AtLeast<{
@@ -23365,14 +27384,18 @@ export namespace Prisma {
     ack?: IntNullableFilter<"Message"> | number | null
     quotedId?: StringNullableFilter<"Message"> | string | null
     quotedBody?: StringNullableFilter<"Message"> | string | null
+    mediaBase64?: StringNullableFilter<"Message"> | string | null
+    mediaType?: StringNullableFilter<"Message"> | string | null
     companyId?: StringFilter<"Message"> | string
     instanceId?: StringNullableFilter<"Message"> | string | null
     campaignId?: StringNullableFilter<"Message"> | string | null
     leadId?: StringNullableFilter<"Message"> | string | null
+    conversationId?: StringNullableFilter<"Message"> | string | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
     lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
+    conversation?: XOR<ConversationNullableRelationFilter, ConversationWhereInput> | null
   }, "id" | "externalId">
 
   export type MessageOrderByWithAggregationInput = {
@@ -23390,10 +27413,13 @@ export namespace Prisma {
     ack?: SortOrderInput | SortOrder
     quotedId?: SortOrderInput | SortOrder
     quotedBody?: SortOrderInput | SortOrder
+    mediaBase64?: SortOrderInput | SortOrder
+    mediaType?: SortOrderInput | SortOrder
     companyId?: SortOrder
     instanceId?: SortOrderInput | SortOrder
     campaignId?: SortOrderInput | SortOrder
     leadId?: SortOrderInput | SortOrder
+    conversationId?: SortOrderInput | SortOrder
     _count?: MessageCountOrderByAggregateInput
     _avg?: MessageAvgOrderByAggregateInput
     _max?: MessageMaxOrderByAggregateInput
@@ -23419,10 +27445,13 @@ export namespace Prisma {
     ack?: IntNullableWithAggregatesFilter<"Message"> | number | null
     quotedId?: StringNullableWithAggregatesFilter<"Message"> | string | null
     quotedBody?: StringNullableWithAggregatesFilter<"Message"> | string | null
+    mediaBase64?: StringNullableWithAggregatesFilter<"Message"> | string | null
+    mediaType?: StringNullableWithAggregatesFilter<"Message"> | string | null
     companyId?: StringWithAggregatesFilter<"Message"> | string
     instanceId?: StringNullableWithAggregatesFilter<"Message"> | string | null
     campaignId?: StringNullableWithAggregatesFilter<"Message"> | string | null
     leadId?: StringNullableWithAggregatesFilter<"Message"> | string | null
+    conversationId?: StringNullableWithAggregatesFilter<"Message"> | string | null
   }
 
   export type KeywordRuleWhereInput = {
@@ -23532,6 +27561,291 @@ export namespace Prisma {
     value?: StringWithAggregatesFilter<"Setting"> | string
   }
 
+  export type ConversationWhereInput = {
+    AND?: ConversationWhereInput | ConversationWhereInput[]
+    OR?: ConversationWhereInput[]
+    NOT?: ConversationWhereInput | ConversationWhereInput[]
+    id?: StringFilter<"Conversation"> | string
+    phone?: StringFilter<"Conversation"> | string
+    isGroup?: BoolFilter<"Conversation"> | boolean
+    status?: EnumConversationStatusFilter<"Conversation"> | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFilter<"Conversation"> | Date | string
+    assigneeId?: StringNullableFilter<"Conversation"> | string | null
+    setorId?: StringNullableFilter<"Conversation"> | string | null
+    lastMessageAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    lastMessageBody?: StringNullableFilter<"Conversation"> | string | null
+    lastMessageDirection?: EnumMessageDirNullableFilter<"Conversation"> | $Enums.MessageDir | null
+    unreadCount?: IntFilter<"Conversation"> | number
+    firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    companyId?: StringFilter<"Conversation"> | string
+    createdAt?: DateTimeFilter<"Conversation"> | Date | string
+    updatedAt?: DateTimeFilter<"Conversation"> | Date | string
+    assignee?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    setor?: XOR<SetorNullableRelationFilter, SetorWhereInput> | null
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    messages?: MessageListRelationFilter
+    notes?: ConversationNoteListRelationFilter
+    activities?: ActivityListRelationFilter
+    leads?: LeadListRelationFilter
+  }
+
+  export type ConversationOrderByWithRelationInput = {
+    id?: SortOrder
+    phone?: SortOrder
+    isGroup?: SortOrder
+    status?: SortOrder
+    statusUpdatedAt?: SortOrder
+    assigneeId?: SortOrderInput | SortOrder
+    setorId?: SortOrderInput | SortOrder
+    lastMessageAt?: SortOrderInput | SortOrder
+    lastMessageBody?: SortOrderInput | SortOrder
+    lastMessageDirection?: SortOrderInput | SortOrder
+    unreadCount?: SortOrder
+    firstResponseAt?: SortOrderInput | SortOrder
+    closedAt?: SortOrderInput | SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    assignee?: UserOrderByWithRelationInput
+    setor?: SetorOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
+    messages?: MessageOrderByRelationAggregateInput
+    notes?: ConversationNoteOrderByRelationAggregateInput
+    activities?: ActivityOrderByRelationAggregateInput
+    leads?: LeadOrderByRelationAggregateInput
+  }
+
+  export type ConversationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_phone?: ConversationCompanyIdPhoneCompoundUniqueInput
+    AND?: ConversationWhereInput | ConversationWhereInput[]
+    OR?: ConversationWhereInput[]
+    NOT?: ConversationWhereInput | ConversationWhereInput[]
+    phone?: StringFilter<"Conversation"> | string
+    isGroup?: BoolFilter<"Conversation"> | boolean
+    status?: EnumConversationStatusFilter<"Conversation"> | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFilter<"Conversation"> | Date | string
+    assigneeId?: StringNullableFilter<"Conversation"> | string | null
+    setorId?: StringNullableFilter<"Conversation"> | string | null
+    lastMessageAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    lastMessageBody?: StringNullableFilter<"Conversation"> | string | null
+    lastMessageDirection?: EnumMessageDirNullableFilter<"Conversation"> | $Enums.MessageDir | null
+    unreadCount?: IntFilter<"Conversation"> | number
+    firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    companyId?: StringFilter<"Conversation"> | string
+    createdAt?: DateTimeFilter<"Conversation"> | Date | string
+    updatedAt?: DateTimeFilter<"Conversation"> | Date | string
+    assignee?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    setor?: XOR<SetorNullableRelationFilter, SetorWhereInput> | null
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    messages?: MessageListRelationFilter
+    notes?: ConversationNoteListRelationFilter
+    activities?: ActivityListRelationFilter
+    leads?: LeadListRelationFilter
+  }, "id" | "companyId_phone">
+
+  export type ConversationOrderByWithAggregationInput = {
+    id?: SortOrder
+    phone?: SortOrder
+    isGroup?: SortOrder
+    status?: SortOrder
+    statusUpdatedAt?: SortOrder
+    assigneeId?: SortOrderInput | SortOrder
+    setorId?: SortOrderInput | SortOrder
+    lastMessageAt?: SortOrderInput | SortOrder
+    lastMessageBody?: SortOrderInput | SortOrder
+    lastMessageDirection?: SortOrderInput | SortOrder
+    unreadCount?: SortOrder
+    firstResponseAt?: SortOrderInput | SortOrder
+    closedAt?: SortOrderInput | SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ConversationCountOrderByAggregateInput
+    _avg?: ConversationAvgOrderByAggregateInput
+    _max?: ConversationMaxOrderByAggregateInput
+    _min?: ConversationMinOrderByAggregateInput
+    _sum?: ConversationSumOrderByAggregateInput
+  }
+
+  export type ConversationScalarWhereWithAggregatesInput = {
+    AND?: ConversationScalarWhereWithAggregatesInput | ConversationScalarWhereWithAggregatesInput[]
+    OR?: ConversationScalarWhereWithAggregatesInput[]
+    NOT?: ConversationScalarWhereWithAggregatesInput | ConversationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Conversation"> | string
+    phone?: StringWithAggregatesFilter<"Conversation"> | string
+    isGroup?: BoolWithAggregatesFilter<"Conversation"> | boolean
+    status?: EnumConversationStatusWithAggregatesFilter<"Conversation"> | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeWithAggregatesFilter<"Conversation"> | Date | string
+    assigneeId?: StringNullableWithAggregatesFilter<"Conversation"> | string | null
+    setorId?: StringNullableWithAggregatesFilter<"Conversation"> | string | null
+    lastMessageAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
+    lastMessageBody?: StringNullableWithAggregatesFilter<"Conversation"> | string | null
+    lastMessageDirection?: EnumMessageDirNullableWithAggregatesFilter<"Conversation"> | $Enums.MessageDir | null
+    unreadCount?: IntWithAggregatesFilter<"Conversation"> | number
+    firstResponseAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
+    closedAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
+    companyId?: StringWithAggregatesFilter<"Conversation"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Conversation"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Conversation"> | Date | string
+  }
+
+  export type ConversationNoteWhereInput = {
+    AND?: ConversationNoteWhereInput | ConversationNoteWhereInput[]
+    OR?: ConversationNoteWhereInput[]
+    NOT?: ConversationNoteWhereInput | ConversationNoteWhereInput[]
+    id?: StringFilter<"ConversationNote"> | string
+    body?: StringFilter<"ConversationNote"> | string
+    authorId?: StringNullableFilter<"ConversationNote"> | string | null
+    authorName?: StringFilter<"ConversationNote"> | string
+    createdAt?: DateTimeFilter<"ConversationNote"> | Date | string
+    conversationId?: StringFilter<"ConversationNote"> | string
+    conversation?: XOR<ConversationRelationFilter, ConversationWhereInput>
+  }
+
+  export type ConversationNoteOrderByWithRelationInput = {
+    id?: SortOrder
+    body?: SortOrder
+    authorId?: SortOrderInput | SortOrder
+    authorName?: SortOrder
+    createdAt?: SortOrder
+    conversationId?: SortOrder
+    conversation?: ConversationOrderByWithRelationInput
+  }
+
+  export type ConversationNoteWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ConversationNoteWhereInput | ConversationNoteWhereInput[]
+    OR?: ConversationNoteWhereInput[]
+    NOT?: ConversationNoteWhereInput | ConversationNoteWhereInput[]
+    body?: StringFilter<"ConversationNote"> | string
+    authorId?: StringNullableFilter<"ConversationNote"> | string | null
+    authorName?: StringFilter<"ConversationNote"> | string
+    createdAt?: DateTimeFilter<"ConversationNote"> | Date | string
+    conversationId?: StringFilter<"ConversationNote"> | string
+    conversation?: XOR<ConversationRelationFilter, ConversationWhereInput>
+  }, "id">
+
+  export type ConversationNoteOrderByWithAggregationInput = {
+    id?: SortOrder
+    body?: SortOrder
+    authorId?: SortOrderInput | SortOrder
+    authorName?: SortOrder
+    createdAt?: SortOrder
+    conversationId?: SortOrder
+    _count?: ConversationNoteCountOrderByAggregateInput
+    _max?: ConversationNoteMaxOrderByAggregateInput
+    _min?: ConversationNoteMinOrderByAggregateInput
+  }
+
+  export type ConversationNoteScalarWhereWithAggregatesInput = {
+    AND?: ConversationNoteScalarWhereWithAggregatesInput | ConversationNoteScalarWhereWithAggregatesInput[]
+    OR?: ConversationNoteScalarWhereWithAggregatesInput[]
+    NOT?: ConversationNoteScalarWhereWithAggregatesInput | ConversationNoteScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ConversationNote"> | string
+    body?: StringWithAggregatesFilter<"ConversationNote"> | string
+    authorId?: StringNullableWithAggregatesFilter<"ConversationNote"> | string | null
+    authorName?: StringWithAggregatesFilter<"ConversationNote"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ConversationNote"> | Date | string
+    conversationId?: StringWithAggregatesFilter<"ConversationNote"> | string
+  }
+
+  export type ActivityWhereInput = {
+    AND?: ActivityWhereInput | ActivityWhereInput[]
+    OR?: ActivityWhereInput[]
+    NOT?: ActivityWhereInput | ActivityWhereInput[]
+    id?: StringFilter<"Activity"> | string
+    type?: EnumActivityTypeFilter<"Activity"> | $Enums.ActivityType
+    body?: StringNullableFilter<"Activity"> | string | null
+    meta?: JsonNullableFilter<"Activity">
+    authorId?: StringNullableFilter<"Activity"> | string | null
+    authorName?: StringNullableFilter<"Activity"> | string | null
+    createdAt?: DateTimeFilter<"Activity"> | Date | string
+    conversationId?: StringNullableFilter<"Activity"> | string | null
+    leadId?: StringNullableFilter<"Activity"> | string | null
+    ticketId?: StringNullableFilter<"Activity"> | string | null
+    companyId?: StringFilter<"Activity"> | string
+    conversation?: XOR<ConversationNullableRelationFilter, ConversationWhereInput> | null
+    lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
+    ticket?: XOR<TicketNullableRelationFilter, TicketWhereInput> | null
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type ActivityOrderByWithRelationInput = {
+    id?: SortOrder
+    type?: SortOrder
+    body?: SortOrderInput | SortOrder
+    meta?: SortOrderInput | SortOrder
+    authorId?: SortOrderInput | SortOrder
+    authorName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    conversationId?: SortOrderInput | SortOrder
+    leadId?: SortOrderInput | SortOrder
+    ticketId?: SortOrderInput | SortOrder
+    companyId?: SortOrder
+    conversation?: ConversationOrderByWithRelationInput
+    lead?: LeadOrderByWithRelationInput
+    ticket?: TicketOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type ActivityWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ActivityWhereInput | ActivityWhereInput[]
+    OR?: ActivityWhereInput[]
+    NOT?: ActivityWhereInput | ActivityWhereInput[]
+    type?: EnumActivityTypeFilter<"Activity"> | $Enums.ActivityType
+    body?: StringNullableFilter<"Activity"> | string | null
+    meta?: JsonNullableFilter<"Activity">
+    authorId?: StringNullableFilter<"Activity"> | string | null
+    authorName?: StringNullableFilter<"Activity"> | string | null
+    createdAt?: DateTimeFilter<"Activity"> | Date | string
+    conversationId?: StringNullableFilter<"Activity"> | string | null
+    leadId?: StringNullableFilter<"Activity"> | string | null
+    ticketId?: StringNullableFilter<"Activity"> | string | null
+    companyId?: StringFilter<"Activity"> | string
+    conversation?: XOR<ConversationNullableRelationFilter, ConversationWhereInput> | null
+    lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
+    ticket?: XOR<TicketNullableRelationFilter, TicketWhereInput> | null
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id">
+
+  export type ActivityOrderByWithAggregationInput = {
+    id?: SortOrder
+    type?: SortOrder
+    body?: SortOrderInput | SortOrder
+    meta?: SortOrderInput | SortOrder
+    authorId?: SortOrderInput | SortOrder
+    authorName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    conversationId?: SortOrderInput | SortOrder
+    leadId?: SortOrderInput | SortOrder
+    ticketId?: SortOrderInput | SortOrder
+    companyId?: SortOrder
+    _count?: ActivityCountOrderByAggregateInput
+    _max?: ActivityMaxOrderByAggregateInput
+    _min?: ActivityMinOrderByAggregateInput
+  }
+
+  export type ActivityScalarWhereWithAggregatesInput = {
+    AND?: ActivityScalarWhereWithAggregatesInput | ActivityScalarWhereWithAggregatesInput[]
+    OR?: ActivityScalarWhereWithAggregatesInput[]
+    NOT?: ActivityScalarWhereWithAggregatesInput | ActivityScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Activity"> | string
+    type?: EnumActivityTypeWithAggregatesFilter<"Activity"> | $Enums.ActivityType
+    body?: StringNullableWithAggregatesFilter<"Activity"> | string | null
+    meta?: JsonNullableWithAggregatesFilter<"Activity">
+    authorId?: StringNullableWithAggregatesFilter<"Activity"> | string | null
+    authorName?: StringNullableWithAggregatesFilter<"Activity"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Activity"> | Date | string
+    conversationId?: StringNullableWithAggregatesFilter<"Activity"> | string | null
+    leadId?: StringNullableWithAggregatesFilter<"Activity"> | string | null
+    ticketId?: StringNullableWithAggregatesFilter<"Activity"> | string | null
+    companyId?: StringWithAggregatesFilter<"Activity"> | string
+  }
+
   export type TicketWhereInput = {
     AND?: TicketWhereInput | TicketWhereInput[]
     OR?: TicketWhereInput[]
@@ -23555,6 +27869,7 @@ export namespace Prisma {
     createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     setor?: XOR<SetorNullableRelationFilter, SetorWhereInput> | null
     messages?: TicketMessageListRelationFilter
+    activities?: ActivityListRelationFilter
   }
 
   export type TicketOrderByWithRelationInput = {
@@ -23577,6 +27892,7 @@ export namespace Prisma {
     createdBy?: UserOrderByWithRelationInput
     setor?: SetorOrderByWithRelationInput
     messages?: TicketMessageOrderByRelationAggregateInput
+    activities?: ActivityOrderByRelationAggregateInput
   }
 
   export type TicketWhereUniqueInput = Prisma.AtLeast<{
@@ -23602,6 +27918,7 @@ export namespace Prisma {
     createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     setor?: XOR<SetorNullableRelationFilter, SetorWhereInput> | null
     messages?: TicketMessageListRelationFilter
+    activities?: ActivityListRelationFilter
   }, "id">
 
   export type TicketOrderByWithAggregationInput = {
@@ -23735,6 +28052,7 @@ export namespace Prisma {
     users?: SetorUserListRelationFilter
     instances?: SetorInstanceListRelationFilter
     tickets?: TicketListRelationFilter
+    conversations?: ConversationListRelationFilter
   }
 
   export type SetorOrderByWithRelationInput = {
@@ -23758,6 +28076,7 @@ export namespace Prisma {
     users?: SetorUserOrderByRelationAggregateInput
     instances?: SetorInstanceOrderByRelationAggregateInput
     tickets?: TicketOrderByRelationAggregateInput
+    conversations?: ConversationOrderByRelationAggregateInput
   }
 
   export type SetorWhereUniqueInput = Prisma.AtLeast<{
@@ -23784,6 +28103,7 @@ export namespace Prisma {
     users?: SetorUserListRelationFilter
     instances?: SetorInstanceListRelationFilter
     tickets?: TicketListRelationFilter
+    conversations?: ConversationListRelationFilter
   }, "id">
 
   export type SetorOrderByWithAggregationInput = {
@@ -23931,6 +28251,7 @@ export namespace Prisma {
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
     setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -23946,6 +28267,7 @@ export namespace Prisma {
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
   }
 
   export type UserUpdateInput = {
@@ -23961,6 +28283,7 @@ export namespace Prisma {
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
     setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -23976,6 +28299,7 @@ export namespace Prisma {
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -24031,6 +28355,7 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     triggerOnly?: boolean
+    webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -24044,6 +28369,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -24065,6 +28392,7 @@ export namespace Prisma {
     moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
+    webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
@@ -24077,6 +28405,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -24097,6 +28427,7 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -24110,6 +28441,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -24131,6 +28464,7 @@ export namespace Prisma {
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
@@ -24143,6 +28477,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -24164,6 +28500,7 @@ export namespace Prisma {
     moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
+    webhookToken?: string | null
   }
 
   export type CompanyUpdateManyMutationInput = {
@@ -24184,6 +28521,7 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CompanyUncheckedUpdateManyInput = {
@@ -24205,6 +28543,7 @@ export namespace Prisma {
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CampaignCreateInput = {
@@ -24514,8 +28853,10 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    conversation?: ConversationCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
+    activities?: ActivityCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateInput = {
@@ -24539,8 +28880,10 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUpdateInput = {
@@ -24564,8 +28907,10 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateInput = {
@@ -24589,8 +28934,10 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadCreateManyInput = {
@@ -24614,6 +28961,7 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    conversationId?: string | null
   }
 
   export type LeadUpdateManyMutationInput = {
@@ -24657,6 +29005,7 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LeadCommentCreateInput = {
@@ -24978,10 +29327,13 @@ export namespace Prisma {
     ack?: number | null
     quotedId?: string | null
     quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
+    conversation?: ConversationCreateNestedOneWithoutMessagesInput
   }
 
   export type MessageUncheckedCreateInput = {
@@ -24999,10 +29351,13 @@ export namespace Prisma {
     ack?: number | null
     quotedId?: string | null
     quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
     companyId: string
     instanceId?: string | null
     campaignId?: string | null
     leadId?: string | null
+    conversationId?: string | null
   }
 
   export type MessageUpdateInput = {
@@ -25020,10 +29375,13 @@ export namespace Prisma {
     ack?: NullableIntFieldUpdateOperationsInput | number | null
     quotedId?: NullableStringFieldUpdateOperationsInput | string | null
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
+    conversation?: ConversationUpdateOneWithoutMessagesNestedInput
   }
 
   export type MessageUncheckedUpdateInput = {
@@ -25041,10 +29399,13 @@ export namespace Prisma {
     ack?: NullableIntFieldUpdateOperationsInput | number | null
     quotedId?: NullableStringFieldUpdateOperationsInput | string | null
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageCreateManyInput = {
@@ -25062,10 +29423,13 @@ export namespace Prisma {
     ack?: number | null
     quotedId?: string | null
     quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
     companyId: string
     instanceId?: string | null
     campaignId?: string | null
     leadId?: string | null
+    conversationId?: string | null
   }
 
   export type MessageUpdateManyMutationInput = {
@@ -25083,6 +29447,8 @@ export namespace Prisma {
     ack?: NullableIntFieldUpdateOperationsInput | number | null
     quotedId?: NullableStringFieldUpdateOperationsInput | string | null
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageUncheckedUpdateManyInput = {
@@ -25100,10 +29466,13 @@ export namespace Prisma {
     ack?: NullableIntFieldUpdateOperationsInput | number | null
     quotedId?: NullableStringFieldUpdateOperationsInput | string | null
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type KeywordRuleCreateInput = {
@@ -25209,6 +29578,308 @@ export namespace Prisma {
     value?: StringFieldUpdateOperationsInput | string
   }
 
+  export type ConversationCreateInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assignee?: UserCreateNestedOneWithoutConversationsAssignedInput
+    setor?: SetorCreateNestedOneWithoutConversationsInput
+    company: CompanyCreateNestedOneWithoutConversationsInput
+    messages?: MessageCreateNestedManyWithoutConversationInput
+    notes?: ConversationNoteCreateNestedManyWithoutConversationInput
+    activities?: ActivityCreateNestedManyWithoutConversationInput
+    leads?: LeadCreateNestedManyWithoutConversationInput
+  }
+
+  export type ConversationUncheckedCreateInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    assigneeId?: string | null
+    setorId?: string | null
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: MessageUncheckedCreateNestedManyWithoutConversationInput
+    notes?: ConversationNoteUncheckedCreateNestedManyWithoutConversationInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutConversationInput
+    leads?: LeadUncheckedCreateNestedManyWithoutConversationInput
+  }
+
+  export type ConversationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignee?: UserUpdateOneWithoutConversationsAssignedNestedInput
+    setor?: SetorUpdateOneWithoutConversationsNestedInput
+    company?: CompanyUpdateOneRequiredWithoutConversationsNestedInput
+    messages?: MessageUpdateManyWithoutConversationNestedInput
+    notes?: ConversationNoteUpdateManyWithoutConversationNestedInput
+    activities?: ActivityUpdateManyWithoutConversationNestedInput
+    leads?: LeadUpdateManyWithoutConversationNestedInput
+  }
+
+  export type ConversationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUncheckedUpdateManyWithoutConversationNestedInput
+    notes?: ConversationNoteUncheckedUpdateManyWithoutConversationNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutConversationNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutConversationNestedInput
+  }
+
+  export type ConversationCreateManyInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    assigneeId?: string | null
+    setorId?: string | null
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConversationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConversationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConversationNoteCreateInput = {
+    id?: string
+    body: string
+    authorId?: string | null
+    authorName?: string
+    createdAt?: Date | string
+    conversation: ConversationCreateNestedOneWithoutNotesInput
+  }
+
+  export type ConversationNoteUncheckedCreateInput = {
+    id?: string
+    body: string
+    authorId?: string | null
+    authorName?: string
+    createdAt?: Date | string
+    conversationId: string
+  }
+
+  export type ConversationNoteUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversation?: ConversationUpdateOneRequiredWithoutNotesNestedInput
+  }
+
+  export type ConversationNoteUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversationId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ConversationNoteCreateManyInput = {
+    id?: string
+    body: string
+    authorId?: string | null
+    authorName?: string
+    createdAt?: Date | string
+    conversationId: string
+  }
+
+  export type ConversationNoteUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConversationNoteUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversationId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ActivityCreateInput = {
+    id?: string
+    type: $Enums.ActivityType
+    body?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: string | null
+    authorName?: string | null
+    createdAt?: Date | string
+    conversation?: ConversationCreateNestedOneWithoutActivitiesInput
+    lead?: LeadCreateNestedOneWithoutActivitiesInput
+    ticket?: TicketCreateNestedOneWithoutActivitiesInput
+    company: CompanyCreateNestedOneWithoutActivitiesInput
+  }
+
+  export type ActivityUncheckedCreateInput = {
+    id?: string
+    type: $Enums.ActivityType
+    body?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: string | null
+    authorName?: string | null
+    createdAt?: Date | string
+    conversationId?: string | null
+    leadId?: string | null
+    ticketId?: string | null
+    companyId: string
+  }
+
+  export type ActivityUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversation?: ConversationUpdateOneWithoutActivitiesNestedInput
+    lead?: LeadUpdateOneWithoutActivitiesNestedInput
+    ticket?: TicketUpdateOneWithoutActivitiesNestedInput
+    company?: CompanyUpdateOneRequiredWithoutActivitiesNestedInput
+  }
+
+  export type ActivityUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ActivityCreateManyInput = {
+    id?: string
+    type: $Enums.ActivityType
+    body?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: string | null
+    authorName?: string | null
+    createdAt?: Date | string
+    conversationId?: string | null
+    leadId?: string | null
+    ticketId?: string | null
+    companyId: string
+  }
+
+  export type ActivityUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActivityUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type TicketCreateInput = {
     id?: string
     title: string
@@ -25226,6 +29897,7 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
     setor?: SetorCreateNestedOneWithoutTicketsInput
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
+    activities?: ActivityCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateInput = {
@@ -25245,6 +29917,7 @@ export namespace Prisma {
     createdById?: string | null
     setorId?: string | null
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUpdateInput = {
@@ -25264,6 +29937,7 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
     setor?: SetorUpdateOneWithoutTicketsNestedInput
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
+    activities?: ActivityUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateInput = {
@@ -25283,6 +29957,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketCreateManyInput = {
@@ -25425,6 +30100,7 @@ export namespace Prisma {
     users?: SetorUserCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
+    conversations?: ConversationCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUncheckedCreateInput = {
@@ -25447,6 +30123,7 @@ export namespace Prisma {
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUpdateInput = {
@@ -25469,6 +30146,7 @@ export namespace Prisma {
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
+    conversations?: ConversationUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateInput = {
@@ -25491,6 +30169,7 @@ export namespace Prisma {
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorCreateManyInput = {
@@ -25687,6 +30366,12 @@ export namespace Prisma {
     none?: SetorUserWhereInput
   }
 
+  export type ConversationListRelationFilter = {
+    every?: ConversationWhereInput
+    some?: ConversationWhereInput
+    none?: ConversationWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -25697,6 +30382,10 @@ export namespace Prisma {
   }
 
   export type SetorUserOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ConversationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -25874,6 +30563,12 @@ export namespace Prisma {
     none?: SetorWhereInput
   }
 
+  export type ActivityListRelationFilter = {
+    every?: ActivityWhereInput
+    some?: ActivityWhereInput
+    none?: ActivityWhereInput
+  }
+
   export type CompanyOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -25918,6 +30613,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type ActivityOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type CompanyCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -25937,6 +30636,7 @@ export namespace Prisma {
     moduleAI?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
+    webhookToken?: SortOrder
   }
 
   export type CompanyMaxOrderByAggregateInput = {
@@ -25958,6 +30658,7 @@ export namespace Prisma {
     moduleAI?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
+    webhookToken?: SortOrder
   }
 
   export type CompanyMinOrderByAggregateInput = {
@@ -25979,6 +30680,7 @@ export namespace Prisma {
     moduleAI?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
+    webhookToken?: SortOrder
   }
 
   export type EnumCompanyStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -26284,6 +30986,11 @@ export namespace Prisma {
     isNot?: TrackingLinkWhereInput | null
   }
 
+  export type ConversationNullableRelationFilter = {
+    is?: ConversationWhereInput | null
+    isNot?: ConversationWhereInput | null
+  }
+
   export type LeadCommentListRelationFilter = {
     every?: LeadCommentWhereInput
     some?: LeadCommentWhereInput
@@ -26315,6 +31022,7 @@ export namespace Prisma {
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
+    conversationId?: SortOrder
   }
 
   export type LeadAvgOrderByAggregateInput = {
@@ -26342,6 +31050,7 @@ export namespace Prisma {
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
+    conversationId?: SortOrder
   }
 
   export type LeadMinOrderByAggregateInput = {
@@ -26365,6 +31074,7 @@ export namespace Prisma {
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
+    conversationId?: SortOrder
   }
 
   export type LeadSumOrderByAggregateInput = {
@@ -26632,10 +31342,13 @@ export namespace Prisma {
     ack?: SortOrder
     quotedId?: SortOrder
     quotedBody?: SortOrder
+    mediaBase64?: SortOrder
+    mediaType?: SortOrder
     companyId?: SortOrder
     instanceId?: SortOrder
     campaignId?: SortOrder
     leadId?: SortOrder
+    conversationId?: SortOrder
   }
 
   export type MessageAvgOrderByAggregateInput = {
@@ -26656,10 +31369,13 @@ export namespace Prisma {
     ack?: SortOrder
     quotedId?: SortOrder
     quotedBody?: SortOrder
+    mediaBase64?: SortOrder
+    mediaType?: SortOrder
     companyId?: SortOrder
     instanceId?: SortOrder
     campaignId?: SortOrder
     leadId?: SortOrder
+    conversationId?: SortOrder
   }
 
   export type MessageMinOrderByAggregateInput = {
@@ -26676,10 +31392,13 @@ export namespace Prisma {
     ack?: SortOrder
     quotedId?: SortOrder
     quotedBody?: SortOrder
+    mediaBase64?: SortOrder
+    mediaType?: SortOrder
     companyId?: SortOrder
     instanceId?: SortOrder
     campaignId?: SortOrder
     leadId?: SortOrder
+    conversationId?: SortOrder
   }
 
   export type MessageSumOrderByAggregateInput = {
@@ -26800,6 +31519,219 @@ export namespace Prisma {
     value?: SortOrder
   }
 
+  export type EnumConversationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConversationStatus | EnumConversationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ConversationStatus[] | ListEnumConversationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ConversationStatus[] | ListEnumConversationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumConversationStatusFilter<$PrismaModel> | $Enums.ConversationStatus
+  }
+
+  export type EnumMessageDirNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.MessageDir | EnumMessageDirFieldRefInput<$PrismaModel> | null
+    in?: $Enums.MessageDir[] | ListEnumMessageDirFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.MessageDir[] | ListEnumMessageDirFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumMessageDirNullableFilter<$PrismaModel> | $Enums.MessageDir | null
+  }
+
+  export type SetorNullableRelationFilter = {
+    is?: SetorWhereInput | null
+    isNot?: SetorWhereInput | null
+  }
+
+  export type ConversationNoteListRelationFilter = {
+    every?: ConversationNoteWhereInput
+    some?: ConversationNoteWhereInput
+    none?: ConversationNoteWhereInput
+  }
+
+  export type ConversationNoteOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ConversationCompanyIdPhoneCompoundUniqueInput = {
+    companyId: string
+    phone: string
+  }
+
+  export type ConversationCountOrderByAggregateInput = {
+    id?: SortOrder
+    phone?: SortOrder
+    isGroup?: SortOrder
+    status?: SortOrder
+    statusUpdatedAt?: SortOrder
+    assigneeId?: SortOrder
+    setorId?: SortOrder
+    lastMessageAt?: SortOrder
+    lastMessageBody?: SortOrder
+    lastMessageDirection?: SortOrder
+    unreadCount?: SortOrder
+    firstResponseAt?: SortOrder
+    closedAt?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ConversationAvgOrderByAggregateInput = {
+    unreadCount?: SortOrder
+  }
+
+  export type ConversationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    phone?: SortOrder
+    isGroup?: SortOrder
+    status?: SortOrder
+    statusUpdatedAt?: SortOrder
+    assigneeId?: SortOrder
+    setorId?: SortOrder
+    lastMessageAt?: SortOrder
+    lastMessageBody?: SortOrder
+    lastMessageDirection?: SortOrder
+    unreadCount?: SortOrder
+    firstResponseAt?: SortOrder
+    closedAt?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ConversationMinOrderByAggregateInput = {
+    id?: SortOrder
+    phone?: SortOrder
+    isGroup?: SortOrder
+    status?: SortOrder
+    statusUpdatedAt?: SortOrder
+    assigneeId?: SortOrder
+    setorId?: SortOrder
+    lastMessageAt?: SortOrder
+    lastMessageBody?: SortOrder
+    lastMessageDirection?: SortOrder
+    unreadCount?: SortOrder
+    firstResponseAt?: SortOrder
+    closedAt?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ConversationSumOrderByAggregateInput = {
+    unreadCount?: SortOrder
+  }
+
+  export type EnumConversationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConversationStatus | EnumConversationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ConversationStatus[] | ListEnumConversationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ConversationStatus[] | ListEnumConversationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumConversationStatusWithAggregatesFilter<$PrismaModel> | $Enums.ConversationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumConversationStatusFilter<$PrismaModel>
+    _max?: NestedEnumConversationStatusFilter<$PrismaModel>
+  }
+
+  export type EnumMessageDirNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MessageDir | EnumMessageDirFieldRefInput<$PrismaModel> | null
+    in?: $Enums.MessageDir[] | ListEnumMessageDirFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.MessageDir[] | ListEnumMessageDirFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumMessageDirNullableWithAggregatesFilter<$PrismaModel> | $Enums.MessageDir | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumMessageDirNullableFilter<$PrismaModel>
+    _max?: NestedEnumMessageDirNullableFilter<$PrismaModel>
+  }
+
+  export type ConversationRelationFilter = {
+    is?: ConversationWhereInput
+    isNot?: ConversationWhereInput
+  }
+
+  export type ConversationNoteCountOrderByAggregateInput = {
+    id?: SortOrder
+    body?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
+    createdAt?: SortOrder
+    conversationId?: SortOrder
+  }
+
+  export type ConversationNoteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    body?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
+    createdAt?: SortOrder
+    conversationId?: SortOrder
+  }
+
+  export type ConversationNoteMinOrderByAggregateInput = {
+    id?: SortOrder
+    body?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
+    createdAt?: SortOrder
+    conversationId?: SortOrder
+  }
+
+  export type EnumActivityTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ActivityType | EnumActivityTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ActivityType[] | ListEnumActivityTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ActivityType[] | ListEnumActivityTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumActivityTypeFilter<$PrismaModel> | $Enums.ActivityType
+  }
+
+  export type TicketNullableRelationFilter = {
+    is?: TicketWhereInput | null
+    isNot?: TicketWhereInput | null
+  }
+
+  export type ActivityCountOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    body?: SortOrder
+    meta?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
+    createdAt?: SortOrder
+    conversationId?: SortOrder
+    leadId?: SortOrder
+    ticketId?: SortOrder
+    companyId?: SortOrder
+  }
+
+  export type ActivityMaxOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    body?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
+    createdAt?: SortOrder
+    conversationId?: SortOrder
+    leadId?: SortOrder
+    ticketId?: SortOrder
+    companyId?: SortOrder
+  }
+
+  export type ActivityMinOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    body?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
+    createdAt?: SortOrder
+    conversationId?: SortOrder
+    leadId?: SortOrder
+    ticketId?: SortOrder
+    companyId?: SortOrder
+  }
+
+  export type EnumActivityTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ActivityType | EnumActivityTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ActivityType[] | ListEnumActivityTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ActivityType[] | ListEnumActivityTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumActivityTypeWithAggregatesFilter<$PrismaModel> | $Enums.ActivityType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumActivityTypeFilter<$PrismaModel>
+    _max?: NestedEnumActivityTypeFilter<$PrismaModel>
+  }
+
   export type EnumTicketStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.TicketStatus | EnumTicketStatusFieldRefInput<$PrismaModel>
     in?: $Enums.TicketStatus[] | ListEnumTicketStatusFieldRefInput<$PrismaModel>
@@ -26812,11 +31744,6 @@ export namespace Prisma {
     in?: $Enums.TicketPriority[] | ListEnumTicketPriorityFieldRefInput<$PrismaModel>
     notIn?: $Enums.TicketPriority[] | ListEnumTicketPriorityFieldRefInput<$PrismaModel>
     not?: NestedEnumTicketPriorityFilter<$PrismaModel> | $Enums.TicketPriority
-  }
-
-  export type SetorNullableRelationFilter = {
-    is?: SetorWhereInput | null
-    isNot?: SetorWhereInput | null
   }
 
   export type TicketMessageListRelationFilter = {
@@ -27076,6 +32003,13 @@ export namespace Prisma {
     connect?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
   }
 
+  export type ConversationCreateNestedManyWithoutAssigneeInput = {
+    create?: XOR<ConversationCreateWithoutAssigneeInput, ConversationUncheckedCreateWithoutAssigneeInput> | ConversationCreateWithoutAssigneeInput[] | ConversationUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: ConversationCreateOrConnectWithoutAssigneeInput | ConversationCreateOrConnectWithoutAssigneeInput[]
+    createMany?: ConversationCreateManyAssigneeInputEnvelope
+    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+  }
+
   export type TicketUncheckedCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -27094,6 +32028,13 @@ export namespace Prisma {
     connectOrCreate?: SetorUserCreateOrConnectWithoutUserInput | SetorUserCreateOrConnectWithoutUserInput[]
     createMany?: SetorUserCreateManyUserInputEnvelope
     connect?: SetorUserWhereUniqueInput | SetorUserWhereUniqueInput[]
+  }
+
+  export type ConversationUncheckedCreateNestedManyWithoutAssigneeInput = {
+    create?: XOR<ConversationCreateWithoutAssigneeInput, ConversationUncheckedCreateWithoutAssigneeInput> | ConversationCreateWithoutAssigneeInput[] | ConversationUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: ConversationCreateOrConnectWithoutAssigneeInput | ConversationCreateOrConnectWithoutAssigneeInput[]
+    createMany?: ConversationCreateManyAssigneeInputEnvelope
+    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -27160,6 +32101,20 @@ export namespace Prisma {
     deleteMany?: SetorUserScalarWhereInput | SetorUserScalarWhereInput[]
   }
 
+  export type ConversationUpdateManyWithoutAssigneeNestedInput = {
+    create?: XOR<ConversationCreateWithoutAssigneeInput, ConversationUncheckedCreateWithoutAssigneeInput> | ConversationCreateWithoutAssigneeInput[] | ConversationUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: ConversationCreateOrConnectWithoutAssigneeInput | ConversationCreateOrConnectWithoutAssigneeInput[]
+    upsert?: ConversationUpsertWithWhereUniqueWithoutAssigneeInput | ConversationUpsertWithWhereUniqueWithoutAssigneeInput[]
+    createMany?: ConversationCreateManyAssigneeInputEnvelope
+    set?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    disconnect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    delete?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    update?: ConversationUpdateWithWhereUniqueWithoutAssigneeInput | ConversationUpdateWithWhereUniqueWithoutAssigneeInput[]
+    updateMany?: ConversationUpdateManyWithWhereWithoutAssigneeInput | ConversationUpdateManyWithWhereWithoutAssigneeInput[]
+    deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
+  }
+
   export type TicketUncheckedUpdateManyWithoutCreatedByNestedInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -27196,6 +32151,20 @@ export namespace Prisma {
     update?: SetorUserUpdateWithWhereUniqueWithoutUserInput | SetorUserUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: SetorUserUpdateManyWithWhereWithoutUserInput | SetorUserUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: SetorUserScalarWhereInput | SetorUserScalarWhereInput[]
+  }
+
+  export type ConversationUncheckedUpdateManyWithoutAssigneeNestedInput = {
+    create?: XOR<ConversationCreateWithoutAssigneeInput, ConversationUncheckedCreateWithoutAssigneeInput> | ConversationCreateWithoutAssigneeInput[] | ConversationUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: ConversationCreateOrConnectWithoutAssigneeInput | ConversationCreateOrConnectWithoutAssigneeInput[]
+    upsert?: ConversationUpsertWithWhereUniqueWithoutAssigneeInput | ConversationUpsertWithWhereUniqueWithoutAssigneeInput[]
+    createMany?: ConversationCreateManyAssigneeInputEnvelope
+    set?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    disconnect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    delete?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    update?: ConversationUpdateWithWhereUniqueWithoutAssigneeInput | ConversationUpdateWithWhereUniqueWithoutAssigneeInput[]
+    updateMany?: ConversationUpdateManyWithWhereWithoutAssigneeInput | ConversationUpdateManyWithWhereWithoutAssigneeInput[]
+    deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutSubCompaniesInput = {
@@ -27288,6 +32257,20 @@ export namespace Prisma {
     connect?: SetorWhereUniqueInput | SetorWhereUniqueInput[]
   }
 
+  export type ConversationCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<ConversationCreateWithoutCompanyInput, ConversationUncheckedCreateWithoutCompanyInput> | ConversationCreateWithoutCompanyInput[] | ConversationUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ConversationCreateOrConnectWithoutCompanyInput | ConversationCreateOrConnectWithoutCompanyInput[]
+    createMany?: ConversationCreateManyCompanyInputEnvelope
+    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+  }
+
+  export type ActivityCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<ActivityCreateWithoutCompanyInput, ActivityUncheckedCreateWithoutCompanyInput> | ActivityCreateWithoutCompanyInput[] | ActivityUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutCompanyInput | ActivityCreateOrConnectWithoutCompanyInput[]
+    createMany?: ActivityCreateManyCompanyInputEnvelope
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+  }
+
   export type CompanyUncheckedCreateNestedManyWithoutParentCompanyInput = {
     create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
@@ -27370,6 +32353,20 @@ export namespace Prisma {
     connectOrCreate?: SetorCreateOrConnectWithoutCompanyInput | SetorCreateOrConnectWithoutCompanyInput[]
     createMany?: SetorCreateManyCompanyInputEnvelope
     connect?: SetorWhereUniqueInput | SetorWhereUniqueInput[]
+  }
+
+  export type ConversationUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<ConversationCreateWithoutCompanyInput, ConversationUncheckedCreateWithoutCompanyInput> | ConversationCreateWithoutCompanyInput[] | ConversationUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ConversationCreateOrConnectWithoutCompanyInput | ConversationCreateOrConnectWithoutCompanyInput[]
+    createMany?: ConversationCreateManyCompanyInputEnvelope
+    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+  }
+
+  export type ActivityUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<ActivityCreateWithoutCompanyInput, ActivityUncheckedCreateWithoutCompanyInput> | ActivityCreateWithoutCompanyInput[] | ActivityUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutCompanyInput | ActivityCreateOrConnectWithoutCompanyInput[]
+    createMany?: ActivityCreateManyCompanyInputEnvelope
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
   }
 
   export type EnumCompanyStatusFieldUpdateOperationsInput = {
@@ -27558,6 +32555,34 @@ export namespace Prisma {
     deleteMany?: SetorScalarWhereInput | SetorScalarWhereInput[]
   }
 
+  export type ConversationUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<ConversationCreateWithoutCompanyInput, ConversationUncheckedCreateWithoutCompanyInput> | ConversationCreateWithoutCompanyInput[] | ConversationUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ConversationCreateOrConnectWithoutCompanyInput | ConversationCreateOrConnectWithoutCompanyInput[]
+    upsert?: ConversationUpsertWithWhereUniqueWithoutCompanyInput | ConversationUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: ConversationCreateManyCompanyInputEnvelope
+    set?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    disconnect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    delete?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    update?: ConversationUpdateWithWhereUniqueWithoutCompanyInput | ConversationUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: ConversationUpdateManyWithWhereWithoutCompanyInput | ConversationUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
+  }
+
+  export type ActivityUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<ActivityCreateWithoutCompanyInput, ActivityUncheckedCreateWithoutCompanyInput> | ActivityCreateWithoutCompanyInput[] | ActivityUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutCompanyInput | ActivityCreateOrConnectWithoutCompanyInput[]
+    upsert?: ActivityUpsertWithWhereUniqueWithoutCompanyInput | ActivityUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: ActivityCreateManyCompanyInputEnvelope
+    set?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    disconnect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    delete?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    update?: ActivityUpdateWithWhereUniqueWithoutCompanyInput | ActivityUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: ActivityUpdateManyWithWhereWithoutCompanyInput | ActivityUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
+  }
+
   export type CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput = {
     create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
@@ -27724,6 +32749,34 @@ export namespace Prisma {
     update?: SetorUpdateWithWhereUniqueWithoutCompanyInput | SetorUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: SetorUpdateManyWithWhereWithoutCompanyInput | SetorUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: SetorScalarWhereInput | SetorScalarWhereInput[]
+  }
+
+  export type ConversationUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<ConversationCreateWithoutCompanyInput, ConversationUncheckedCreateWithoutCompanyInput> | ConversationCreateWithoutCompanyInput[] | ConversationUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ConversationCreateOrConnectWithoutCompanyInput | ConversationCreateOrConnectWithoutCompanyInput[]
+    upsert?: ConversationUpsertWithWhereUniqueWithoutCompanyInput | ConversationUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: ConversationCreateManyCompanyInputEnvelope
+    set?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    disconnect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    delete?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    update?: ConversationUpdateWithWhereUniqueWithoutCompanyInput | ConversationUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: ConversationUpdateManyWithWhereWithoutCompanyInput | ConversationUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
+  }
+
+  export type ActivityUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<ActivityCreateWithoutCompanyInput, ActivityUncheckedCreateWithoutCompanyInput> | ActivityCreateWithoutCompanyInput[] | ActivityUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutCompanyInput | ActivityCreateOrConnectWithoutCompanyInput[]
+    upsert?: ActivityUpsertWithWhereUniqueWithoutCompanyInput | ActivityUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: ActivityCreateManyCompanyInputEnvelope
+    set?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    disconnect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    delete?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    update?: ActivityUpdateWithWhereUniqueWithoutCompanyInput | ActivityUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: ActivityUpdateManyWithWhereWithoutCompanyInput | ActivityUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutCampaignsInput = {
@@ -28084,6 +33137,12 @@ export namespace Prisma {
     connect?: TrackingLinkWhereUniqueInput
   }
 
+  export type ConversationCreateNestedOneWithoutLeadsInput = {
+    create?: XOR<ConversationCreateWithoutLeadsInput, ConversationUncheckedCreateWithoutLeadsInput>
+    connectOrCreate?: ConversationCreateOrConnectWithoutLeadsInput
+    connect?: ConversationWhereUniqueInput
+  }
+
   export type MessageCreateNestedManyWithoutLeadInput = {
     create?: XOR<MessageCreateWithoutLeadInput, MessageUncheckedCreateWithoutLeadInput> | MessageCreateWithoutLeadInput[] | MessageUncheckedCreateWithoutLeadInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutLeadInput | MessageCreateOrConnectWithoutLeadInput[]
@@ -28098,6 +33157,13 @@ export namespace Prisma {
     connect?: LeadCommentWhereUniqueInput | LeadCommentWhereUniqueInput[]
   }
 
+  export type ActivityCreateNestedManyWithoutLeadInput = {
+    create?: XOR<ActivityCreateWithoutLeadInput, ActivityUncheckedCreateWithoutLeadInput> | ActivityCreateWithoutLeadInput[] | ActivityUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutLeadInput | ActivityCreateOrConnectWithoutLeadInput[]
+    createMany?: ActivityCreateManyLeadInputEnvelope
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+  }
+
   export type MessageUncheckedCreateNestedManyWithoutLeadInput = {
     create?: XOR<MessageCreateWithoutLeadInput, MessageUncheckedCreateWithoutLeadInput> | MessageCreateWithoutLeadInput[] | MessageUncheckedCreateWithoutLeadInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutLeadInput | MessageCreateOrConnectWithoutLeadInput[]
@@ -28110,6 +33176,13 @@ export namespace Prisma {
     connectOrCreate?: LeadCommentCreateOrConnectWithoutLeadInput | LeadCommentCreateOrConnectWithoutLeadInput[]
     createMany?: LeadCommentCreateManyLeadInputEnvelope
     connect?: LeadCommentWhereUniqueInput | LeadCommentWhereUniqueInput[]
+  }
+
+  export type ActivityUncheckedCreateNestedManyWithoutLeadInput = {
+    create?: XOR<ActivityCreateWithoutLeadInput, ActivityUncheckedCreateWithoutLeadInput> | ActivityCreateWithoutLeadInput[] | ActivityUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutLeadInput | ActivityCreateOrConnectWithoutLeadInput[]
+    createMany?: ActivityCreateManyLeadInputEnvelope
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
   }
 
   export type EnumLeadStatusFieldUpdateOperationsInput = {
@@ -28144,6 +33217,16 @@ export namespace Prisma {
     update?: XOR<XOR<TrackingLinkUpdateToOneWithWhereWithoutLeadsInput, TrackingLinkUpdateWithoutLeadsInput>, TrackingLinkUncheckedUpdateWithoutLeadsInput>
   }
 
+  export type ConversationUpdateOneWithoutLeadsNestedInput = {
+    create?: XOR<ConversationCreateWithoutLeadsInput, ConversationUncheckedCreateWithoutLeadsInput>
+    connectOrCreate?: ConversationCreateOrConnectWithoutLeadsInput
+    upsert?: ConversationUpsertWithoutLeadsInput
+    disconnect?: ConversationWhereInput | boolean
+    delete?: ConversationWhereInput | boolean
+    connect?: ConversationWhereUniqueInput
+    update?: XOR<XOR<ConversationUpdateToOneWithWhereWithoutLeadsInput, ConversationUpdateWithoutLeadsInput>, ConversationUncheckedUpdateWithoutLeadsInput>
+  }
+
   export type MessageUpdateManyWithoutLeadNestedInput = {
     create?: XOR<MessageCreateWithoutLeadInput, MessageUncheckedCreateWithoutLeadInput> | MessageCreateWithoutLeadInput[] | MessageUncheckedCreateWithoutLeadInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutLeadInput | MessageCreateOrConnectWithoutLeadInput[]
@@ -28172,6 +33255,20 @@ export namespace Prisma {
     deleteMany?: LeadCommentScalarWhereInput | LeadCommentScalarWhereInput[]
   }
 
+  export type ActivityUpdateManyWithoutLeadNestedInput = {
+    create?: XOR<ActivityCreateWithoutLeadInput, ActivityUncheckedCreateWithoutLeadInput> | ActivityCreateWithoutLeadInput[] | ActivityUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutLeadInput | ActivityCreateOrConnectWithoutLeadInput[]
+    upsert?: ActivityUpsertWithWhereUniqueWithoutLeadInput | ActivityUpsertWithWhereUniqueWithoutLeadInput[]
+    createMany?: ActivityCreateManyLeadInputEnvelope
+    set?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    disconnect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    delete?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    update?: ActivityUpdateWithWhereUniqueWithoutLeadInput | ActivityUpdateWithWhereUniqueWithoutLeadInput[]
+    updateMany?: ActivityUpdateManyWithWhereWithoutLeadInput | ActivityUpdateManyWithWhereWithoutLeadInput[]
+    deleteMany?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
+  }
+
   export type MessageUncheckedUpdateManyWithoutLeadNestedInput = {
     create?: XOR<MessageCreateWithoutLeadInput, MessageUncheckedCreateWithoutLeadInput> | MessageCreateWithoutLeadInput[] | MessageUncheckedCreateWithoutLeadInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutLeadInput | MessageCreateOrConnectWithoutLeadInput[]
@@ -28198,6 +33295,20 @@ export namespace Prisma {
     update?: LeadCommentUpdateWithWhereUniqueWithoutLeadInput | LeadCommentUpdateWithWhereUniqueWithoutLeadInput[]
     updateMany?: LeadCommentUpdateManyWithWhereWithoutLeadInput | LeadCommentUpdateManyWithWhereWithoutLeadInput[]
     deleteMany?: LeadCommentScalarWhereInput | LeadCommentScalarWhereInput[]
+  }
+
+  export type ActivityUncheckedUpdateManyWithoutLeadNestedInput = {
+    create?: XOR<ActivityCreateWithoutLeadInput, ActivityUncheckedCreateWithoutLeadInput> | ActivityCreateWithoutLeadInput[] | ActivityUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutLeadInput | ActivityCreateOrConnectWithoutLeadInput[]
+    upsert?: ActivityUpsertWithWhereUniqueWithoutLeadInput | ActivityUpsertWithWhereUniqueWithoutLeadInput[]
+    createMany?: ActivityCreateManyLeadInputEnvelope
+    set?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    disconnect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    delete?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    update?: ActivityUpdateWithWhereUniqueWithoutLeadInput | ActivityUpdateWithWhereUniqueWithoutLeadInput[]
+    updateMany?: ActivityUpdateManyWithWhereWithoutLeadInput | ActivityUpdateManyWithWhereWithoutLeadInput[]
+    deleteMany?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
   }
 
   export type LeadCreateNestedOneWithoutCommentsInput = {
@@ -28384,6 +33495,12 @@ export namespace Prisma {
     connect?: LeadWhereUniqueInput
   }
 
+  export type ConversationCreateNestedOneWithoutMessagesInput = {
+    create?: XOR<ConversationCreateWithoutMessagesInput, ConversationUncheckedCreateWithoutMessagesInput>
+    connectOrCreate?: ConversationCreateOrConnectWithoutMessagesInput
+    connect?: ConversationWhereUniqueInput
+  }
+
   export type EnumMessageDirFieldUpdateOperationsInput = {
     set?: $Enums.MessageDir
   }
@@ -28438,6 +33555,16 @@ export namespace Prisma {
     update?: XOR<XOR<LeadUpdateToOneWithWhereWithoutMessagesInput, LeadUpdateWithoutMessagesInput>, LeadUncheckedUpdateWithoutMessagesInput>
   }
 
+  export type ConversationUpdateOneWithoutMessagesNestedInput = {
+    create?: XOR<ConversationCreateWithoutMessagesInput, ConversationUncheckedCreateWithoutMessagesInput>
+    connectOrCreate?: ConversationCreateOrConnectWithoutMessagesInput
+    upsert?: ConversationUpsertWithoutMessagesInput
+    disconnect?: ConversationWhereInput | boolean
+    delete?: ConversationWhereInput | boolean
+    connect?: ConversationWhereUniqueInput
+    update?: XOR<XOR<ConversationUpdateToOneWithWhereWithoutMessagesInput, ConversationUpdateWithoutMessagesInput>, ConversationUncheckedUpdateWithoutMessagesInput>
+  }
+
   export type CompanyCreateNestedOneWithoutKeywordRulesInput = {
     create?: XOR<CompanyCreateWithoutKeywordRulesInput, CompanyUncheckedCreateWithoutKeywordRulesInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutKeywordRulesInput
@@ -28470,6 +33597,308 @@ export namespace Prisma {
     update?: XOR<XOR<CampaignUpdateToOneWithWhereWithoutKeywordRulesInput, CampaignUpdateWithoutKeywordRulesInput>, CampaignUncheckedUpdateWithoutKeywordRulesInput>
   }
 
+  export type UserCreateNestedOneWithoutConversationsAssignedInput = {
+    create?: XOR<UserCreateWithoutConversationsAssignedInput, UserUncheckedCreateWithoutConversationsAssignedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutConversationsAssignedInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type SetorCreateNestedOneWithoutConversationsInput = {
+    create?: XOR<SetorCreateWithoutConversationsInput, SetorUncheckedCreateWithoutConversationsInput>
+    connectOrCreate?: SetorCreateOrConnectWithoutConversationsInput
+    connect?: SetorWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutConversationsInput = {
+    create?: XOR<CompanyCreateWithoutConversationsInput, CompanyUncheckedCreateWithoutConversationsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutConversationsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type MessageCreateNestedManyWithoutConversationInput = {
+    create?: XOR<MessageCreateWithoutConversationInput, MessageUncheckedCreateWithoutConversationInput> | MessageCreateWithoutConversationInput[] | MessageUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutConversationInput | MessageCreateOrConnectWithoutConversationInput[]
+    createMany?: MessageCreateManyConversationInputEnvelope
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type ConversationNoteCreateNestedManyWithoutConversationInput = {
+    create?: XOR<ConversationNoteCreateWithoutConversationInput, ConversationNoteUncheckedCreateWithoutConversationInput> | ConversationNoteCreateWithoutConversationInput[] | ConversationNoteUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: ConversationNoteCreateOrConnectWithoutConversationInput | ConversationNoteCreateOrConnectWithoutConversationInput[]
+    createMany?: ConversationNoteCreateManyConversationInputEnvelope
+    connect?: ConversationNoteWhereUniqueInput | ConversationNoteWhereUniqueInput[]
+  }
+
+  export type ActivityCreateNestedManyWithoutConversationInput = {
+    create?: XOR<ActivityCreateWithoutConversationInput, ActivityUncheckedCreateWithoutConversationInput> | ActivityCreateWithoutConversationInput[] | ActivityUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutConversationInput | ActivityCreateOrConnectWithoutConversationInput[]
+    createMany?: ActivityCreateManyConversationInputEnvelope
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+  }
+
+  export type LeadCreateNestedManyWithoutConversationInput = {
+    create?: XOR<LeadCreateWithoutConversationInput, LeadUncheckedCreateWithoutConversationInput> | LeadCreateWithoutConversationInput[] | LeadUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: LeadCreateOrConnectWithoutConversationInput | LeadCreateOrConnectWithoutConversationInput[]
+    createMany?: LeadCreateManyConversationInputEnvelope
+    connect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+  }
+
+  export type MessageUncheckedCreateNestedManyWithoutConversationInput = {
+    create?: XOR<MessageCreateWithoutConversationInput, MessageUncheckedCreateWithoutConversationInput> | MessageCreateWithoutConversationInput[] | MessageUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutConversationInput | MessageCreateOrConnectWithoutConversationInput[]
+    createMany?: MessageCreateManyConversationInputEnvelope
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type ConversationNoteUncheckedCreateNestedManyWithoutConversationInput = {
+    create?: XOR<ConversationNoteCreateWithoutConversationInput, ConversationNoteUncheckedCreateWithoutConversationInput> | ConversationNoteCreateWithoutConversationInput[] | ConversationNoteUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: ConversationNoteCreateOrConnectWithoutConversationInput | ConversationNoteCreateOrConnectWithoutConversationInput[]
+    createMany?: ConversationNoteCreateManyConversationInputEnvelope
+    connect?: ConversationNoteWhereUniqueInput | ConversationNoteWhereUniqueInput[]
+  }
+
+  export type ActivityUncheckedCreateNestedManyWithoutConversationInput = {
+    create?: XOR<ActivityCreateWithoutConversationInput, ActivityUncheckedCreateWithoutConversationInput> | ActivityCreateWithoutConversationInput[] | ActivityUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutConversationInput | ActivityCreateOrConnectWithoutConversationInput[]
+    createMany?: ActivityCreateManyConversationInputEnvelope
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+  }
+
+  export type LeadUncheckedCreateNestedManyWithoutConversationInput = {
+    create?: XOR<LeadCreateWithoutConversationInput, LeadUncheckedCreateWithoutConversationInput> | LeadCreateWithoutConversationInput[] | LeadUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: LeadCreateOrConnectWithoutConversationInput | LeadCreateOrConnectWithoutConversationInput[]
+    createMany?: LeadCreateManyConversationInputEnvelope
+    connect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+  }
+
+  export type EnumConversationStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ConversationStatus
+  }
+
+  export type NullableEnumMessageDirFieldUpdateOperationsInput = {
+    set?: $Enums.MessageDir | null
+  }
+
+  export type UserUpdateOneWithoutConversationsAssignedNestedInput = {
+    create?: XOR<UserCreateWithoutConversationsAssignedInput, UserUncheckedCreateWithoutConversationsAssignedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutConversationsAssignedInput
+    upsert?: UserUpsertWithoutConversationsAssignedInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutConversationsAssignedInput, UserUpdateWithoutConversationsAssignedInput>, UserUncheckedUpdateWithoutConversationsAssignedInput>
+  }
+
+  export type SetorUpdateOneWithoutConversationsNestedInput = {
+    create?: XOR<SetorCreateWithoutConversationsInput, SetorUncheckedCreateWithoutConversationsInput>
+    connectOrCreate?: SetorCreateOrConnectWithoutConversationsInput
+    upsert?: SetorUpsertWithoutConversationsInput
+    disconnect?: SetorWhereInput | boolean
+    delete?: SetorWhereInput | boolean
+    connect?: SetorWhereUniqueInput
+    update?: XOR<XOR<SetorUpdateToOneWithWhereWithoutConversationsInput, SetorUpdateWithoutConversationsInput>, SetorUncheckedUpdateWithoutConversationsInput>
+  }
+
+  export type CompanyUpdateOneRequiredWithoutConversationsNestedInput = {
+    create?: XOR<CompanyCreateWithoutConversationsInput, CompanyUncheckedCreateWithoutConversationsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutConversationsInput
+    upsert?: CompanyUpsertWithoutConversationsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutConversationsInput, CompanyUpdateWithoutConversationsInput>, CompanyUncheckedUpdateWithoutConversationsInput>
+  }
+
+  export type MessageUpdateManyWithoutConversationNestedInput = {
+    create?: XOR<MessageCreateWithoutConversationInput, MessageUncheckedCreateWithoutConversationInput> | MessageCreateWithoutConversationInput[] | MessageUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutConversationInput | MessageCreateOrConnectWithoutConversationInput[]
+    upsert?: MessageUpsertWithWhereUniqueWithoutConversationInput | MessageUpsertWithWhereUniqueWithoutConversationInput[]
+    createMany?: MessageCreateManyConversationInputEnvelope
+    set?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    disconnect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    delete?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    update?: MessageUpdateWithWhereUniqueWithoutConversationInput | MessageUpdateWithWhereUniqueWithoutConversationInput[]
+    updateMany?: MessageUpdateManyWithWhereWithoutConversationInput | MessageUpdateManyWithWhereWithoutConversationInput[]
+    deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
+  export type ConversationNoteUpdateManyWithoutConversationNestedInput = {
+    create?: XOR<ConversationNoteCreateWithoutConversationInput, ConversationNoteUncheckedCreateWithoutConversationInput> | ConversationNoteCreateWithoutConversationInput[] | ConversationNoteUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: ConversationNoteCreateOrConnectWithoutConversationInput | ConversationNoteCreateOrConnectWithoutConversationInput[]
+    upsert?: ConversationNoteUpsertWithWhereUniqueWithoutConversationInput | ConversationNoteUpsertWithWhereUniqueWithoutConversationInput[]
+    createMany?: ConversationNoteCreateManyConversationInputEnvelope
+    set?: ConversationNoteWhereUniqueInput | ConversationNoteWhereUniqueInput[]
+    disconnect?: ConversationNoteWhereUniqueInput | ConversationNoteWhereUniqueInput[]
+    delete?: ConversationNoteWhereUniqueInput | ConversationNoteWhereUniqueInput[]
+    connect?: ConversationNoteWhereUniqueInput | ConversationNoteWhereUniqueInput[]
+    update?: ConversationNoteUpdateWithWhereUniqueWithoutConversationInput | ConversationNoteUpdateWithWhereUniqueWithoutConversationInput[]
+    updateMany?: ConversationNoteUpdateManyWithWhereWithoutConversationInput | ConversationNoteUpdateManyWithWhereWithoutConversationInput[]
+    deleteMany?: ConversationNoteScalarWhereInput | ConversationNoteScalarWhereInput[]
+  }
+
+  export type ActivityUpdateManyWithoutConversationNestedInput = {
+    create?: XOR<ActivityCreateWithoutConversationInput, ActivityUncheckedCreateWithoutConversationInput> | ActivityCreateWithoutConversationInput[] | ActivityUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutConversationInput | ActivityCreateOrConnectWithoutConversationInput[]
+    upsert?: ActivityUpsertWithWhereUniqueWithoutConversationInput | ActivityUpsertWithWhereUniqueWithoutConversationInput[]
+    createMany?: ActivityCreateManyConversationInputEnvelope
+    set?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    disconnect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    delete?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    update?: ActivityUpdateWithWhereUniqueWithoutConversationInput | ActivityUpdateWithWhereUniqueWithoutConversationInput[]
+    updateMany?: ActivityUpdateManyWithWhereWithoutConversationInput | ActivityUpdateManyWithWhereWithoutConversationInput[]
+    deleteMany?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
+  }
+
+  export type LeadUpdateManyWithoutConversationNestedInput = {
+    create?: XOR<LeadCreateWithoutConversationInput, LeadUncheckedCreateWithoutConversationInput> | LeadCreateWithoutConversationInput[] | LeadUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: LeadCreateOrConnectWithoutConversationInput | LeadCreateOrConnectWithoutConversationInput[]
+    upsert?: LeadUpsertWithWhereUniqueWithoutConversationInput | LeadUpsertWithWhereUniqueWithoutConversationInput[]
+    createMany?: LeadCreateManyConversationInputEnvelope
+    set?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    disconnect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    delete?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    connect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    update?: LeadUpdateWithWhereUniqueWithoutConversationInput | LeadUpdateWithWhereUniqueWithoutConversationInput[]
+    updateMany?: LeadUpdateManyWithWhereWithoutConversationInput | LeadUpdateManyWithWhereWithoutConversationInput[]
+    deleteMany?: LeadScalarWhereInput | LeadScalarWhereInput[]
+  }
+
+  export type MessageUncheckedUpdateManyWithoutConversationNestedInput = {
+    create?: XOR<MessageCreateWithoutConversationInput, MessageUncheckedCreateWithoutConversationInput> | MessageCreateWithoutConversationInput[] | MessageUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutConversationInput | MessageCreateOrConnectWithoutConversationInput[]
+    upsert?: MessageUpsertWithWhereUniqueWithoutConversationInput | MessageUpsertWithWhereUniqueWithoutConversationInput[]
+    createMany?: MessageCreateManyConversationInputEnvelope
+    set?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    disconnect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    delete?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    update?: MessageUpdateWithWhereUniqueWithoutConversationInput | MessageUpdateWithWhereUniqueWithoutConversationInput[]
+    updateMany?: MessageUpdateManyWithWhereWithoutConversationInput | MessageUpdateManyWithWhereWithoutConversationInput[]
+    deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
+  export type ConversationNoteUncheckedUpdateManyWithoutConversationNestedInput = {
+    create?: XOR<ConversationNoteCreateWithoutConversationInput, ConversationNoteUncheckedCreateWithoutConversationInput> | ConversationNoteCreateWithoutConversationInput[] | ConversationNoteUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: ConversationNoteCreateOrConnectWithoutConversationInput | ConversationNoteCreateOrConnectWithoutConversationInput[]
+    upsert?: ConversationNoteUpsertWithWhereUniqueWithoutConversationInput | ConversationNoteUpsertWithWhereUniqueWithoutConversationInput[]
+    createMany?: ConversationNoteCreateManyConversationInputEnvelope
+    set?: ConversationNoteWhereUniqueInput | ConversationNoteWhereUniqueInput[]
+    disconnect?: ConversationNoteWhereUniqueInput | ConversationNoteWhereUniqueInput[]
+    delete?: ConversationNoteWhereUniqueInput | ConversationNoteWhereUniqueInput[]
+    connect?: ConversationNoteWhereUniqueInput | ConversationNoteWhereUniqueInput[]
+    update?: ConversationNoteUpdateWithWhereUniqueWithoutConversationInput | ConversationNoteUpdateWithWhereUniqueWithoutConversationInput[]
+    updateMany?: ConversationNoteUpdateManyWithWhereWithoutConversationInput | ConversationNoteUpdateManyWithWhereWithoutConversationInput[]
+    deleteMany?: ConversationNoteScalarWhereInput | ConversationNoteScalarWhereInput[]
+  }
+
+  export type ActivityUncheckedUpdateManyWithoutConversationNestedInput = {
+    create?: XOR<ActivityCreateWithoutConversationInput, ActivityUncheckedCreateWithoutConversationInput> | ActivityCreateWithoutConversationInput[] | ActivityUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutConversationInput | ActivityCreateOrConnectWithoutConversationInput[]
+    upsert?: ActivityUpsertWithWhereUniqueWithoutConversationInput | ActivityUpsertWithWhereUniqueWithoutConversationInput[]
+    createMany?: ActivityCreateManyConversationInputEnvelope
+    set?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    disconnect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    delete?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    update?: ActivityUpdateWithWhereUniqueWithoutConversationInput | ActivityUpdateWithWhereUniqueWithoutConversationInput[]
+    updateMany?: ActivityUpdateManyWithWhereWithoutConversationInput | ActivityUpdateManyWithWhereWithoutConversationInput[]
+    deleteMany?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
+  }
+
+  export type LeadUncheckedUpdateManyWithoutConversationNestedInput = {
+    create?: XOR<LeadCreateWithoutConversationInput, LeadUncheckedCreateWithoutConversationInput> | LeadCreateWithoutConversationInput[] | LeadUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: LeadCreateOrConnectWithoutConversationInput | LeadCreateOrConnectWithoutConversationInput[]
+    upsert?: LeadUpsertWithWhereUniqueWithoutConversationInput | LeadUpsertWithWhereUniqueWithoutConversationInput[]
+    createMany?: LeadCreateManyConversationInputEnvelope
+    set?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    disconnect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    delete?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    connect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    update?: LeadUpdateWithWhereUniqueWithoutConversationInput | LeadUpdateWithWhereUniqueWithoutConversationInput[]
+    updateMany?: LeadUpdateManyWithWhereWithoutConversationInput | LeadUpdateManyWithWhereWithoutConversationInput[]
+    deleteMany?: LeadScalarWhereInput | LeadScalarWhereInput[]
+  }
+
+  export type ConversationCreateNestedOneWithoutNotesInput = {
+    create?: XOR<ConversationCreateWithoutNotesInput, ConversationUncheckedCreateWithoutNotesInput>
+    connectOrCreate?: ConversationCreateOrConnectWithoutNotesInput
+    connect?: ConversationWhereUniqueInput
+  }
+
+  export type ConversationUpdateOneRequiredWithoutNotesNestedInput = {
+    create?: XOR<ConversationCreateWithoutNotesInput, ConversationUncheckedCreateWithoutNotesInput>
+    connectOrCreate?: ConversationCreateOrConnectWithoutNotesInput
+    upsert?: ConversationUpsertWithoutNotesInput
+    connect?: ConversationWhereUniqueInput
+    update?: XOR<XOR<ConversationUpdateToOneWithWhereWithoutNotesInput, ConversationUpdateWithoutNotesInput>, ConversationUncheckedUpdateWithoutNotesInput>
+  }
+
+  export type ConversationCreateNestedOneWithoutActivitiesInput = {
+    create?: XOR<ConversationCreateWithoutActivitiesInput, ConversationUncheckedCreateWithoutActivitiesInput>
+    connectOrCreate?: ConversationCreateOrConnectWithoutActivitiesInput
+    connect?: ConversationWhereUniqueInput
+  }
+
+  export type LeadCreateNestedOneWithoutActivitiesInput = {
+    create?: XOR<LeadCreateWithoutActivitiesInput, LeadUncheckedCreateWithoutActivitiesInput>
+    connectOrCreate?: LeadCreateOrConnectWithoutActivitiesInput
+    connect?: LeadWhereUniqueInput
+  }
+
+  export type TicketCreateNestedOneWithoutActivitiesInput = {
+    create?: XOR<TicketCreateWithoutActivitiesInput, TicketUncheckedCreateWithoutActivitiesInput>
+    connectOrCreate?: TicketCreateOrConnectWithoutActivitiesInput
+    connect?: TicketWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutActivitiesInput = {
+    create?: XOR<CompanyCreateWithoutActivitiesInput, CompanyUncheckedCreateWithoutActivitiesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutActivitiesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type EnumActivityTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ActivityType
+  }
+
+  export type ConversationUpdateOneWithoutActivitiesNestedInput = {
+    create?: XOR<ConversationCreateWithoutActivitiesInput, ConversationUncheckedCreateWithoutActivitiesInput>
+    connectOrCreate?: ConversationCreateOrConnectWithoutActivitiesInput
+    upsert?: ConversationUpsertWithoutActivitiesInput
+    disconnect?: ConversationWhereInput | boolean
+    delete?: ConversationWhereInput | boolean
+    connect?: ConversationWhereUniqueInput
+    update?: XOR<XOR<ConversationUpdateToOneWithWhereWithoutActivitiesInput, ConversationUpdateWithoutActivitiesInput>, ConversationUncheckedUpdateWithoutActivitiesInput>
+  }
+
+  export type LeadUpdateOneWithoutActivitiesNestedInput = {
+    create?: XOR<LeadCreateWithoutActivitiesInput, LeadUncheckedCreateWithoutActivitiesInput>
+    connectOrCreate?: LeadCreateOrConnectWithoutActivitiesInput
+    upsert?: LeadUpsertWithoutActivitiesInput
+    disconnect?: LeadWhereInput | boolean
+    delete?: LeadWhereInput | boolean
+    connect?: LeadWhereUniqueInput
+    update?: XOR<XOR<LeadUpdateToOneWithWhereWithoutActivitiesInput, LeadUpdateWithoutActivitiesInput>, LeadUncheckedUpdateWithoutActivitiesInput>
+  }
+
+  export type TicketUpdateOneWithoutActivitiesNestedInput = {
+    create?: XOR<TicketCreateWithoutActivitiesInput, TicketUncheckedCreateWithoutActivitiesInput>
+    connectOrCreate?: TicketCreateOrConnectWithoutActivitiesInput
+    upsert?: TicketUpsertWithoutActivitiesInput
+    disconnect?: TicketWhereInput | boolean
+    delete?: TicketWhereInput | boolean
+    connect?: TicketWhereUniqueInput
+    update?: XOR<XOR<TicketUpdateToOneWithWhereWithoutActivitiesInput, TicketUpdateWithoutActivitiesInput>, TicketUncheckedUpdateWithoutActivitiesInput>
+  }
+
+  export type CompanyUpdateOneRequiredWithoutActivitiesNestedInput = {
+    create?: XOR<CompanyCreateWithoutActivitiesInput, CompanyUncheckedCreateWithoutActivitiesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutActivitiesInput
+    upsert?: CompanyUpsertWithoutActivitiesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutActivitiesInput, CompanyUpdateWithoutActivitiesInput>, CompanyUncheckedUpdateWithoutActivitiesInput>
+  }
+
   export type CompanyCreateNestedOneWithoutTicketsInput = {
     create?: XOR<CompanyCreateWithoutTicketsInput, CompanyUncheckedCreateWithoutTicketsInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutTicketsInput
@@ -28495,11 +33924,25 @@ export namespace Prisma {
     connect?: TicketMessageWhereUniqueInput | TicketMessageWhereUniqueInput[]
   }
 
+  export type ActivityCreateNestedManyWithoutTicketInput = {
+    create?: XOR<ActivityCreateWithoutTicketInput, ActivityUncheckedCreateWithoutTicketInput> | ActivityCreateWithoutTicketInput[] | ActivityUncheckedCreateWithoutTicketInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutTicketInput | ActivityCreateOrConnectWithoutTicketInput[]
+    createMany?: ActivityCreateManyTicketInputEnvelope
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+  }
+
   export type TicketMessageUncheckedCreateNestedManyWithoutTicketInput = {
     create?: XOR<TicketMessageCreateWithoutTicketInput, TicketMessageUncheckedCreateWithoutTicketInput> | TicketMessageCreateWithoutTicketInput[] | TicketMessageUncheckedCreateWithoutTicketInput[]
     connectOrCreate?: TicketMessageCreateOrConnectWithoutTicketInput | TicketMessageCreateOrConnectWithoutTicketInput[]
     createMany?: TicketMessageCreateManyTicketInputEnvelope
     connect?: TicketMessageWhereUniqueInput | TicketMessageWhereUniqueInput[]
+  }
+
+  export type ActivityUncheckedCreateNestedManyWithoutTicketInput = {
+    create?: XOR<ActivityCreateWithoutTicketInput, ActivityUncheckedCreateWithoutTicketInput> | ActivityCreateWithoutTicketInput[] | ActivityUncheckedCreateWithoutTicketInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutTicketInput | ActivityCreateOrConnectWithoutTicketInput[]
+    createMany?: ActivityCreateManyTicketInputEnvelope
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
   }
 
   export type EnumTicketStatusFieldUpdateOperationsInput = {
@@ -28552,6 +33995,20 @@ export namespace Prisma {
     deleteMany?: TicketMessageScalarWhereInput | TicketMessageScalarWhereInput[]
   }
 
+  export type ActivityUpdateManyWithoutTicketNestedInput = {
+    create?: XOR<ActivityCreateWithoutTicketInput, ActivityUncheckedCreateWithoutTicketInput> | ActivityCreateWithoutTicketInput[] | ActivityUncheckedCreateWithoutTicketInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutTicketInput | ActivityCreateOrConnectWithoutTicketInput[]
+    upsert?: ActivityUpsertWithWhereUniqueWithoutTicketInput | ActivityUpsertWithWhereUniqueWithoutTicketInput[]
+    createMany?: ActivityCreateManyTicketInputEnvelope
+    set?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    disconnect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    delete?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    update?: ActivityUpdateWithWhereUniqueWithoutTicketInput | ActivityUpdateWithWhereUniqueWithoutTicketInput[]
+    updateMany?: ActivityUpdateManyWithWhereWithoutTicketInput | ActivityUpdateManyWithWhereWithoutTicketInput[]
+    deleteMany?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
+  }
+
   export type TicketMessageUncheckedUpdateManyWithoutTicketNestedInput = {
     create?: XOR<TicketMessageCreateWithoutTicketInput, TicketMessageUncheckedCreateWithoutTicketInput> | TicketMessageCreateWithoutTicketInput[] | TicketMessageUncheckedCreateWithoutTicketInput[]
     connectOrCreate?: TicketMessageCreateOrConnectWithoutTicketInput | TicketMessageCreateOrConnectWithoutTicketInput[]
@@ -28564,6 +34021,20 @@ export namespace Prisma {
     update?: TicketMessageUpdateWithWhereUniqueWithoutTicketInput | TicketMessageUpdateWithWhereUniqueWithoutTicketInput[]
     updateMany?: TicketMessageUpdateManyWithWhereWithoutTicketInput | TicketMessageUpdateManyWithWhereWithoutTicketInput[]
     deleteMany?: TicketMessageScalarWhereInput | TicketMessageScalarWhereInput[]
+  }
+
+  export type ActivityUncheckedUpdateManyWithoutTicketNestedInput = {
+    create?: XOR<ActivityCreateWithoutTicketInput, ActivityUncheckedCreateWithoutTicketInput> | ActivityCreateWithoutTicketInput[] | ActivityUncheckedCreateWithoutTicketInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutTicketInput | ActivityCreateOrConnectWithoutTicketInput[]
+    upsert?: ActivityUpsertWithWhereUniqueWithoutTicketInput | ActivityUpsertWithWhereUniqueWithoutTicketInput[]
+    createMany?: ActivityCreateManyTicketInputEnvelope
+    set?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    disconnect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    delete?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    update?: ActivityUpdateWithWhereUniqueWithoutTicketInput | ActivityUpdateWithWhereUniqueWithoutTicketInput[]
+    updateMany?: ActivityUpdateManyWithWhereWithoutTicketInput | ActivityUpdateManyWithWhereWithoutTicketInput[]
+    deleteMany?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
   }
 
   export type TicketCreateNestedOneWithoutMessagesInput = {
@@ -28607,6 +34078,13 @@ export namespace Prisma {
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
   }
 
+  export type ConversationCreateNestedManyWithoutSetorInput = {
+    create?: XOR<ConversationCreateWithoutSetorInput, ConversationUncheckedCreateWithoutSetorInput> | ConversationCreateWithoutSetorInput[] | ConversationUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: ConversationCreateOrConnectWithoutSetorInput | ConversationCreateOrConnectWithoutSetorInput[]
+    createMany?: ConversationCreateManySetorInputEnvelope
+    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+  }
+
   export type SetorUserUncheckedCreateNestedManyWithoutSetorInput = {
     create?: XOR<SetorUserCreateWithoutSetorInput, SetorUserUncheckedCreateWithoutSetorInput> | SetorUserCreateWithoutSetorInput[] | SetorUserUncheckedCreateWithoutSetorInput[]
     connectOrCreate?: SetorUserCreateOrConnectWithoutSetorInput | SetorUserCreateOrConnectWithoutSetorInput[]
@@ -28626,6 +34104,13 @@ export namespace Prisma {
     connectOrCreate?: TicketCreateOrConnectWithoutSetorInput | TicketCreateOrConnectWithoutSetorInput[]
     createMany?: TicketCreateManySetorInputEnvelope
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+  }
+
+  export type ConversationUncheckedCreateNestedManyWithoutSetorInput = {
+    create?: XOR<ConversationCreateWithoutSetorInput, ConversationUncheckedCreateWithoutSetorInput> | ConversationCreateWithoutSetorInput[] | ConversationUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: ConversationCreateOrConnectWithoutSetorInput | ConversationCreateOrConnectWithoutSetorInput[]
+    createMany?: ConversationCreateManySetorInputEnvelope
+    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
   }
 
   export type CompanyUpdateOneRequiredWithoutSetoresNestedInput = {
@@ -28678,6 +34163,20 @@ export namespace Prisma {
     deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
   }
 
+  export type ConversationUpdateManyWithoutSetorNestedInput = {
+    create?: XOR<ConversationCreateWithoutSetorInput, ConversationUncheckedCreateWithoutSetorInput> | ConversationCreateWithoutSetorInput[] | ConversationUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: ConversationCreateOrConnectWithoutSetorInput | ConversationCreateOrConnectWithoutSetorInput[]
+    upsert?: ConversationUpsertWithWhereUniqueWithoutSetorInput | ConversationUpsertWithWhereUniqueWithoutSetorInput[]
+    createMany?: ConversationCreateManySetorInputEnvelope
+    set?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    disconnect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    delete?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    update?: ConversationUpdateWithWhereUniqueWithoutSetorInput | ConversationUpdateWithWhereUniqueWithoutSetorInput[]
+    updateMany?: ConversationUpdateManyWithWhereWithoutSetorInput | ConversationUpdateManyWithWhereWithoutSetorInput[]
+    deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
+  }
+
   export type SetorUserUncheckedUpdateManyWithoutSetorNestedInput = {
     create?: XOR<SetorUserCreateWithoutSetorInput, SetorUserUncheckedCreateWithoutSetorInput> | SetorUserCreateWithoutSetorInput[] | SetorUserUncheckedCreateWithoutSetorInput[]
     connectOrCreate?: SetorUserCreateOrConnectWithoutSetorInput | SetorUserCreateOrConnectWithoutSetorInput[]
@@ -28718,6 +34217,20 @@ export namespace Prisma {
     update?: TicketUpdateWithWhereUniqueWithoutSetorInput | TicketUpdateWithWhereUniqueWithoutSetorInput[]
     updateMany?: TicketUpdateManyWithWhereWithoutSetorInput | TicketUpdateManyWithWhereWithoutSetorInput[]
     deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
+  export type ConversationUncheckedUpdateManyWithoutSetorNestedInput = {
+    create?: XOR<ConversationCreateWithoutSetorInput, ConversationUncheckedCreateWithoutSetorInput> | ConversationCreateWithoutSetorInput[] | ConversationUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: ConversationCreateOrConnectWithoutSetorInput | ConversationCreateOrConnectWithoutSetorInput[]
+    upsert?: ConversationUpsertWithWhereUniqueWithoutSetorInput | ConversationUpsertWithWhereUniqueWithoutSetorInput[]
+    createMany?: ConversationCreateManySetorInputEnvelope
+    set?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    disconnect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    delete?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    update?: ConversationUpdateWithWhereUniqueWithoutSetorInput | ConversationUpdateWithWhereUniqueWithoutSetorInput[]
+    updateMany?: ConversationUpdateManyWithWhereWithoutSetorInput | ConversationUpdateManyWithWhereWithoutSetorInput[]
+    deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
   }
 
   export type SetorCreateNestedOneWithoutUsersInput = {
@@ -29151,6 +34664,57 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumConversationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConversationStatus | EnumConversationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ConversationStatus[] | ListEnumConversationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ConversationStatus[] | ListEnumConversationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumConversationStatusFilter<$PrismaModel> | $Enums.ConversationStatus
+  }
+
+  export type NestedEnumMessageDirNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.MessageDir | EnumMessageDirFieldRefInput<$PrismaModel> | null
+    in?: $Enums.MessageDir[] | ListEnumMessageDirFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.MessageDir[] | ListEnumMessageDirFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumMessageDirNullableFilter<$PrismaModel> | $Enums.MessageDir | null
+  }
+
+  export type NestedEnumConversationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConversationStatus | EnumConversationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ConversationStatus[] | ListEnumConversationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ConversationStatus[] | ListEnumConversationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumConversationStatusWithAggregatesFilter<$PrismaModel> | $Enums.ConversationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumConversationStatusFilter<$PrismaModel>
+    _max?: NestedEnumConversationStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumMessageDirNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MessageDir | EnumMessageDirFieldRefInput<$PrismaModel> | null
+    in?: $Enums.MessageDir[] | ListEnumMessageDirFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.MessageDir[] | ListEnumMessageDirFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumMessageDirNullableWithAggregatesFilter<$PrismaModel> | $Enums.MessageDir | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumMessageDirNullableFilter<$PrismaModel>
+    _max?: NestedEnumMessageDirNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumActivityTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ActivityType | EnumActivityTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ActivityType[] | ListEnumActivityTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ActivityType[] | ListEnumActivityTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumActivityTypeFilter<$PrismaModel> | $Enums.ActivityType
+  }
+
+  export type NestedEnumActivityTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ActivityType | EnumActivityTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ActivityType[] | ListEnumActivityTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ActivityType[] | ListEnumActivityTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumActivityTypeWithAggregatesFilter<$PrismaModel> | $Enums.ActivityType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumActivityTypeFilter<$PrismaModel>
+    _max?: NestedEnumActivityTypeFilter<$PrismaModel>
+  }
+
   export type NestedEnumTicketStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.TicketStatus | EnumTicketStatusFieldRefInput<$PrismaModel>
     in?: $Enums.TicketStatus[] | ListEnumTicketStatusFieldRefInput<$PrismaModel>
@@ -29203,6 +34767,7 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     triggerOnly?: boolean
+    webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
@@ -29215,6 +34780,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -29236,6 +34803,7 @@ export namespace Prisma {
     moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
+    webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -29247,6 +34815,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -29270,6 +34840,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutTicketsInput
     setor?: SetorCreateNestedOneWithoutTicketsInput
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
+    activities?: ActivityCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutCreatedByInput = {
@@ -29288,6 +34859,7 @@ export namespace Prisma {
     companyId: string
     setorId?: string | null
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutCreatedByInput = {
@@ -29347,6 +34919,60 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ConversationCreateWithoutAssigneeInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    setor?: SetorCreateNestedOneWithoutConversationsInput
+    company: CompanyCreateNestedOneWithoutConversationsInput
+    messages?: MessageCreateNestedManyWithoutConversationInput
+    notes?: ConversationNoteCreateNestedManyWithoutConversationInput
+    activities?: ActivityCreateNestedManyWithoutConversationInput
+    leads?: LeadCreateNestedManyWithoutConversationInput
+  }
+
+  export type ConversationUncheckedCreateWithoutAssigneeInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    setorId?: string | null
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: MessageUncheckedCreateNestedManyWithoutConversationInput
+    notes?: ConversationNoteUncheckedCreateNestedManyWithoutConversationInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutConversationInput
+    leads?: LeadUncheckedCreateNestedManyWithoutConversationInput
+  }
+
+  export type ConversationCreateOrConnectWithoutAssigneeInput = {
+    where: ConversationWhereUniqueInput
+    create: XOR<ConversationCreateWithoutAssigneeInput, ConversationUncheckedCreateWithoutAssigneeInput>
+  }
+
+  export type ConversationCreateManyAssigneeInputEnvelope = {
+    data: ConversationCreateManyAssigneeInput | ConversationCreateManyAssigneeInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutUsersInput = {
     update: XOR<CompanyUpdateWithoutUsersInput, CompanyUncheckedUpdateWithoutUsersInput>
     create: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
@@ -29376,6 +35002,7 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
@@ -29388,6 +35015,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -29409,6 +35038,7 @@ export namespace Prisma {
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -29420,6 +35050,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type TicketUpsertWithWhereUniqueWithoutCreatedByInput = {
@@ -29518,6 +35150,44 @@ export namespace Prisma {
     userId?: StringFilter<"SetorUser"> | string
   }
 
+  export type ConversationUpsertWithWhereUniqueWithoutAssigneeInput = {
+    where: ConversationWhereUniqueInput
+    update: XOR<ConversationUpdateWithoutAssigneeInput, ConversationUncheckedUpdateWithoutAssigneeInput>
+    create: XOR<ConversationCreateWithoutAssigneeInput, ConversationUncheckedCreateWithoutAssigneeInput>
+  }
+
+  export type ConversationUpdateWithWhereUniqueWithoutAssigneeInput = {
+    where: ConversationWhereUniqueInput
+    data: XOR<ConversationUpdateWithoutAssigneeInput, ConversationUncheckedUpdateWithoutAssigneeInput>
+  }
+
+  export type ConversationUpdateManyWithWhereWithoutAssigneeInput = {
+    where: ConversationScalarWhereInput
+    data: XOR<ConversationUpdateManyMutationInput, ConversationUncheckedUpdateManyWithoutAssigneeInput>
+  }
+
+  export type ConversationScalarWhereInput = {
+    AND?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
+    OR?: ConversationScalarWhereInput[]
+    NOT?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
+    id?: StringFilter<"Conversation"> | string
+    phone?: StringFilter<"Conversation"> | string
+    isGroup?: BoolFilter<"Conversation"> | boolean
+    status?: EnumConversationStatusFilter<"Conversation"> | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFilter<"Conversation"> | Date | string
+    assigneeId?: StringNullableFilter<"Conversation"> | string | null
+    setorId?: StringNullableFilter<"Conversation"> | string | null
+    lastMessageAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    lastMessageBody?: StringNullableFilter<"Conversation"> | string | null
+    lastMessageDirection?: EnumMessageDirNullableFilter<"Conversation"> | $Enums.MessageDir | null
+    unreadCount?: IntFilter<"Conversation"> | number
+    firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    companyId?: StringFilter<"Conversation"> | string
+    createdAt?: DateTimeFilter<"Conversation"> | Date | string
+    updatedAt?: DateTimeFilter<"Conversation"> | Date | string
+  }
+
   export type CompanyCreateWithoutSubCompaniesInput = {
     id?: string
     name: string
@@ -29536,6 +35206,7 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     triggerOnly?: boolean
+    webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     users?: UserCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
@@ -29548,6 +35219,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSubCompaniesInput = {
@@ -29569,6 +35242,7 @@ export namespace Prisma {
     moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
+    webhookToken?: string | null
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -29580,6 +35254,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSubCompaniesInput = {
@@ -29605,6 +35281,7 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     triggerOnly?: boolean
+    webhookToken?: string | null
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
@@ -29617,6 +35294,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutParentCompanyInput = {
@@ -29637,6 +35316,7 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     triggerOnly?: boolean
+    webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
@@ -29649,6 +35329,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutParentCompanyInput = {
@@ -29673,6 +35355,7 @@ export namespace Prisma {
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
     setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
   }
 
   export type UserUncheckedCreateWithoutCompanyInput = {
@@ -29687,6 +35370,7 @@ export namespace Prisma {
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
   }
 
   export type UserCreateOrConnectWithoutCompanyInput = {
@@ -29765,8 +35449,10 @@ export namespace Prisma {
     isInternal?: boolean
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    conversation?: ConversationCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
+    activities?: ActivityCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutCompanyInput = {
@@ -29789,8 +35475,10 @@ export namespace Prisma {
     isInternal?: boolean
     campaignId?: string | null
     trackingLinkId?: string | null
+    conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutCompanyInput = {
@@ -29854,9 +35542,12 @@ export namespace Prisma {
     ack?: number | null
     quotedId?: string | null
     quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
+    conversation?: ConversationCreateNestedOneWithoutMessagesInput
   }
 
   export type MessageUncheckedCreateWithoutCompanyInput = {
@@ -29874,9 +35565,12 @@ export namespace Prisma {
     ack?: number | null
     quotedId?: string | null
     quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
     instanceId?: string | null
     campaignId?: string | null
     leadId?: string | null
+    conversationId?: string | null
   }
 
   export type MessageCreateOrConnectWithoutCompanyInput = {
@@ -29933,6 +35627,7 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
     setor?: SetorCreateNestedOneWithoutTicketsInput
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
+    activities?: ActivityCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutCompanyInput = {
@@ -29951,6 +35646,7 @@ export namespace Prisma {
     createdById?: string | null
     setorId?: string | null
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutCompanyInput = {
@@ -30086,6 +35782,7 @@ export namespace Prisma {
     users?: SetorUserCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
+    conversations?: ConversationCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUncheckedCreateWithoutCompanyInput = {
@@ -30107,6 +35804,7 @@ export namespace Prisma {
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
   }
 
   export type SetorCreateOrConnectWithoutCompanyInput = {
@@ -30116,6 +35814,96 @@ export namespace Prisma {
 
   export type SetorCreateManyCompanyInputEnvelope = {
     data: SetorCreateManyCompanyInput | SetorCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ConversationCreateWithoutCompanyInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assignee?: UserCreateNestedOneWithoutConversationsAssignedInput
+    setor?: SetorCreateNestedOneWithoutConversationsInput
+    messages?: MessageCreateNestedManyWithoutConversationInput
+    notes?: ConversationNoteCreateNestedManyWithoutConversationInput
+    activities?: ActivityCreateNestedManyWithoutConversationInput
+    leads?: LeadCreateNestedManyWithoutConversationInput
+  }
+
+  export type ConversationUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    assigneeId?: string | null
+    setorId?: string | null
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: MessageUncheckedCreateNestedManyWithoutConversationInput
+    notes?: ConversationNoteUncheckedCreateNestedManyWithoutConversationInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutConversationInput
+    leads?: LeadUncheckedCreateNestedManyWithoutConversationInput
+  }
+
+  export type ConversationCreateOrConnectWithoutCompanyInput = {
+    where: ConversationWhereUniqueInput
+    create: XOR<ConversationCreateWithoutCompanyInput, ConversationUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type ConversationCreateManyCompanyInputEnvelope = {
+    data: ConversationCreateManyCompanyInput | ConversationCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ActivityCreateWithoutCompanyInput = {
+    id?: string
+    type: $Enums.ActivityType
+    body?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: string | null
+    authorName?: string | null
+    createdAt?: Date | string
+    conversation?: ConversationCreateNestedOneWithoutActivitiesInput
+    lead?: LeadCreateNestedOneWithoutActivitiesInput
+    ticket?: TicketCreateNestedOneWithoutActivitiesInput
+  }
+
+  export type ActivityUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    type: $Enums.ActivityType
+    body?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: string | null
+    authorName?: string | null
+    createdAt?: Date | string
+    conversationId?: string | null
+    leadId?: string | null
+    ticketId?: string | null
+  }
+
+  export type ActivityCreateOrConnectWithoutCompanyInput = {
+    where: ActivityWhereUniqueInput
+    create: XOR<ActivityCreateWithoutCompanyInput, ActivityUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type ActivityCreateManyCompanyInputEnvelope = {
+    data: ActivityCreateManyCompanyInput | ActivityCreateManyCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -30148,6 +35936,7 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
@@ -30160,6 +35949,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSubCompaniesInput = {
@@ -30181,6 +35972,7 @@ export namespace Prisma {
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -30192,6 +35984,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUpsertWithWhereUniqueWithoutParentCompanyInput = {
@@ -30232,6 +36026,7 @@ export namespace Prisma {
     moduleAI?: BoolFilter<"Company"> | boolean
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
+    webhookToken?: StringNullableFilter<"Company"> | string | null
   }
 
   export type UserUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -30339,6 +36134,7 @@ export namespace Prisma {
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
+    conversationId?: StringNullableFilter<"Lead"> | string | null
   }
 
   export type WhatsappInstanceUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -30406,10 +36202,13 @@ export namespace Prisma {
     ack?: IntNullableFilter<"Message"> | number | null
     quotedId?: StringNullableFilter<"Message"> | string | null
     quotedBody?: StringNullableFilter<"Message"> | string | null
+    mediaBase64?: StringNullableFilter<"Message"> | string | null
+    mediaType?: StringNullableFilter<"Message"> | string | null
     companyId?: StringFilter<"Message"> | string
     instanceId?: StringNullableFilter<"Message"> | string | null
     campaignId?: StringNullableFilter<"Message"> | string | null
     leadId?: StringNullableFilter<"Message"> | string | null
+    conversationId?: StringNullableFilter<"Message"> | string | null
   }
 
   export type KeywordRuleUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -30590,6 +36389,55 @@ export namespace Prisma {
     canCreateCompanies?: BoolFilter<"Setor"> | boolean
   }
 
+  export type ConversationUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: ConversationWhereUniqueInput
+    update: XOR<ConversationUpdateWithoutCompanyInput, ConversationUncheckedUpdateWithoutCompanyInput>
+    create: XOR<ConversationCreateWithoutCompanyInput, ConversationUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type ConversationUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: ConversationWhereUniqueInput
+    data: XOR<ConversationUpdateWithoutCompanyInput, ConversationUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type ConversationUpdateManyWithWhereWithoutCompanyInput = {
+    where: ConversationScalarWhereInput
+    data: XOR<ConversationUpdateManyMutationInput, ConversationUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type ActivityUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: ActivityWhereUniqueInput
+    update: XOR<ActivityUpdateWithoutCompanyInput, ActivityUncheckedUpdateWithoutCompanyInput>
+    create: XOR<ActivityCreateWithoutCompanyInput, ActivityUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type ActivityUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: ActivityWhereUniqueInput
+    data: XOR<ActivityUpdateWithoutCompanyInput, ActivityUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type ActivityUpdateManyWithWhereWithoutCompanyInput = {
+    where: ActivityScalarWhereInput
+    data: XOR<ActivityUpdateManyMutationInput, ActivityUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type ActivityScalarWhereInput = {
+    AND?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
+    OR?: ActivityScalarWhereInput[]
+    NOT?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
+    id?: StringFilter<"Activity"> | string
+    type?: EnumActivityTypeFilter<"Activity"> | $Enums.ActivityType
+    body?: StringNullableFilter<"Activity"> | string | null
+    meta?: JsonNullableFilter<"Activity">
+    authorId?: StringNullableFilter<"Activity"> | string | null
+    authorName?: StringNullableFilter<"Activity"> | string | null
+    createdAt?: DateTimeFilter<"Activity"> | Date | string
+    conversationId?: StringNullableFilter<"Activity"> | string | null
+    leadId?: StringNullableFilter<"Activity"> | string | null
+    ticketId?: StringNullableFilter<"Activity"> | string | null
+    companyId?: StringFilter<"Activity"> | string
+  }
+
   export type CompanyCreateWithoutCampaignsInput = {
     id?: string
     name: string
@@ -30608,6 +36456,7 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     triggerOnly?: boolean
+    webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -30620,6 +36469,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCampaignsInput = {
@@ -30641,6 +36492,7 @@ export namespace Prisma {
     moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
+    webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -30652,6 +36504,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCampaignsInput = {
@@ -30679,8 +36533,10 @@ export namespace Prisma {
     isInternal?: boolean
     company: CompanyCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    conversation?: ConversationCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
+    activities?: ActivityCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutCampaignInput = {
@@ -30703,8 +36559,10 @@ export namespace Prisma {
     isInternal?: boolean
     companyId: string
     trackingLinkId?: string | null
+    conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutCampaignInput = {
@@ -30732,9 +36590,12 @@ export namespace Prisma {
     ack?: number | null
     quotedId?: string | null
     quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
+    conversation?: ConversationCreateNestedOneWithoutMessagesInput
   }
 
   export type MessageUncheckedCreateWithoutCampaignInput = {
@@ -30752,9 +36613,12 @@ export namespace Prisma {
     ack?: number | null
     quotedId?: string | null
     quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
     companyId: string
     instanceId?: string | null
     leadId?: string | null
+    conversationId?: string | null
   }
 
   export type MessageCreateOrConnectWithoutCampaignInput = {
@@ -30866,6 +36730,7 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -30878,6 +36743,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCampaignsInput = {
@@ -30899,6 +36766,7 @@ export namespace Prisma {
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -30910,6 +36778,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -31035,6 +36905,7 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     triggerOnly?: boolean
+    webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -31047,6 +36918,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTrackingLinksInput = {
@@ -31068,6 +36941,7 @@ export namespace Prisma {
     moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
+    webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
@@ -31079,6 +36953,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTrackingLinksInput = {
@@ -31106,8 +36982,10 @@ export namespace Prisma {
     isInternal?: boolean
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
+    conversation?: ConversationCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
+    activities?: ActivityCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutTrackingLinkInput = {
@@ -31130,8 +37008,10 @@ export namespace Prisma {
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
+    conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutTrackingLinkInput = {
@@ -31244,6 +37124,7 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -31256,6 +37137,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTrackingLinksInput = {
@@ -31277,6 +37160,7 @@ export namespace Prisma {
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
@@ -31288,6 +37172,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutTrackingLinkInput = {
@@ -31431,6 +37317,7 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     triggerOnly?: boolean
+    webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -31443,6 +37330,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutLeadsInput = {
@@ -31464,6 +37353,7 @@ export namespace Prisma {
     moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
+    webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
@@ -31475,6 +37365,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutLeadsInput = {
@@ -31560,6 +37452,55 @@ export namespace Prisma {
     create: XOR<TrackingLinkCreateWithoutLeadsInput, TrackingLinkUncheckedCreateWithoutLeadsInput>
   }
 
+  export type ConversationCreateWithoutLeadsInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assignee?: UserCreateNestedOneWithoutConversationsAssignedInput
+    setor?: SetorCreateNestedOneWithoutConversationsInput
+    company: CompanyCreateNestedOneWithoutConversationsInput
+    messages?: MessageCreateNestedManyWithoutConversationInput
+    notes?: ConversationNoteCreateNestedManyWithoutConversationInput
+    activities?: ActivityCreateNestedManyWithoutConversationInput
+  }
+
+  export type ConversationUncheckedCreateWithoutLeadsInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    assigneeId?: string | null
+    setorId?: string | null
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: MessageUncheckedCreateNestedManyWithoutConversationInput
+    notes?: ConversationNoteUncheckedCreateNestedManyWithoutConversationInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutConversationInput
+  }
+
+  export type ConversationCreateOrConnectWithoutLeadsInput = {
+    where: ConversationWhereUniqueInput
+    create: XOR<ConversationCreateWithoutLeadsInput, ConversationUncheckedCreateWithoutLeadsInput>
+  }
+
   export type MessageCreateWithoutLeadInput = {
     id?: string
     externalId?: string | null
@@ -31575,9 +37516,12 @@ export namespace Prisma {
     ack?: number | null
     quotedId?: string | null
     quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
+    conversation?: ConversationCreateNestedOneWithoutMessagesInput
   }
 
   export type MessageUncheckedCreateWithoutLeadInput = {
@@ -31595,9 +37539,12 @@ export namespace Prisma {
     ack?: number | null
     quotedId?: string | null
     quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
     companyId: string
     instanceId?: string | null
     campaignId?: string | null
+    conversationId?: string | null
   }
 
   export type MessageCreateOrConnectWithoutLeadInput = {
@@ -31634,6 +37581,42 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ActivityCreateWithoutLeadInput = {
+    id?: string
+    type: $Enums.ActivityType
+    body?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: string | null
+    authorName?: string | null
+    createdAt?: Date | string
+    conversation?: ConversationCreateNestedOneWithoutActivitiesInput
+    ticket?: TicketCreateNestedOneWithoutActivitiesInput
+    company: CompanyCreateNestedOneWithoutActivitiesInput
+  }
+
+  export type ActivityUncheckedCreateWithoutLeadInput = {
+    id?: string
+    type: $Enums.ActivityType
+    body?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: string | null
+    authorName?: string | null
+    createdAt?: Date | string
+    conversationId?: string | null
+    ticketId?: string | null
+    companyId: string
+  }
+
+  export type ActivityCreateOrConnectWithoutLeadInput = {
+    where: ActivityWhereUniqueInput
+    create: XOR<ActivityCreateWithoutLeadInput, ActivityUncheckedCreateWithoutLeadInput>
+  }
+
+  export type ActivityCreateManyLeadInputEnvelope = {
+    data: ActivityCreateManyLeadInput | ActivityCreateManyLeadInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutLeadsInput = {
     update: XOR<CompanyUpdateWithoutLeadsInput, CompanyUncheckedUpdateWithoutLeadsInput>
     create: XOR<CompanyCreateWithoutLeadsInput, CompanyUncheckedCreateWithoutLeadsInput>
@@ -31663,6 +37646,7 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -31675,6 +37659,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutLeadsInput = {
@@ -31696,6 +37682,7 @@ export namespace Prisma {
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
@@ -31707,6 +37694,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutLeadsInput = {
@@ -31799,6 +37788,61 @@ export namespace Prisma {
     clickEvents?: ClickEventUncheckedUpdateManyWithoutTrackingLinkNestedInput
   }
 
+  export type ConversationUpsertWithoutLeadsInput = {
+    update: XOR<ConversationUpdateWithoutLeadsInput, ConversationUncheckedUpdateWithoutLeadsInput>
+    create: XOR<ConversationCreateWithoutLeadsInput, ConversationUncheckedCreateWithoutLeadsInput>
+    where?: ConversationWhereInput
+  }
+
+  export type ConversationUpdateToOneWithWhereWithoutLeadsInput = {
+    where?: ConversationWhereInput
+    data: XOR<ConversationUpdateWithoutLeadsInput, ConversationUncheckedUpdateWithoutLeadsInput>
+  }
+
+  export type ConversationUpdateWithoutLeadsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignee?: UserUpdateOneWithoutConversationsAssignedNestedInput
+    setor?: SetorUpdateOneWithoutConversationsNestedInput
+    company?: CompanyUpdateOneRequiredWithoutConversationsNestedInput
+    messages?: MessageUpdateManyWithoutConversationNestedInput
+    notes?: ConversationNoteUpdateManyWithoutConversationNestedInput
+    activities?: ActivityUpdateManyWithoutConversationNestedInput
+  }
+
+  export type ConversationUncheckedUpdateWithoutLeadsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUncheckedUpdateManyWithoutConversationNestedInput
+    notes?: ConversationNoteUncheckedUpdateManyWithoutConversationNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutConversationNestedInput
+  }
+
   export type MessageUpsertWithWhereUniqueWithoutLeadInput = {
     where: MessageWhereUniqueInput
     update: XOR<MessageUpdateWithoutLeadInput, MessageUncheckedUpdateWithoutLeadInput>
@@ -31842,6 +37886,22 @@ export namespace Prisma {
     leadId?: StringFilter<"LeadComment"> | string
   }
 
+  export type ActivityUpsertWithWhereUniqueWithoutLeadInput = {
+    where: ActivityWhereUniqueInput
+    update: XOR<ActivityUpdateWithoutLeadInput, ActivityUncheckedUpdateWithoutLeadInput>
+    create: XOR<ActivityCreateWithoutLeadInput, ActivityUncheckedCreateWithoutLeadInput>
+  }
+
+  export type ActivityUpdateWithWhereUniqueWithoutLeadInput = {
+    where: ActivityWhereUniqueInput
+    data: XOR<ActivityUpdateWithoutLeadInput, ActivityUncheckedUpdateWithoutLeadInput>
+  }
+
+  export type ActivityUpdateManyWithWhereWithoutLeadInput = {
+    where: ActivityScalarWhereInput
+    data: XOR<ActivityUpdateManyMutationInput, ActivityUncheckedUpdateManyWithoutLeadInput>
+  }
+
   export type LeadCreateWithoutCommentsInput = {
     id?: string
     name?: string | null
@@ -31863,7 +37923,9 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    conversation?: ConversationCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
+    activities?: ActivityCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutCommentsInput = {
@@ -31887,7 +37949,9 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutCommentsInput = {
@@ -31927,7 +37991,9 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutCommentsInput = {
@@ -31951,7 +38017,9 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type CompanyCreateWithoutPipelineStagesInput = {
@@ -31972,6 +38040,7 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     triggerOnly?: boolean
+    webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -31984,6 +38053,8 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPipelineStagesInput = {
@@ -32005,6 +38076,7 @@ export namespace Prisma {
     moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
+    webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
@@ -32016,6 +38088,8 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPipelineStagesInput = {
@@ -32052,6 +38126,7 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -32064,6 +38139,8 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPipelineStagesInput = {
@@ -32085,6 +38162,7 @@ export namespace Prisma {
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
@@ -32096,6 +38174,8 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutContactsInput = {
@@ -32116,6 +38196,7 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     triggerOnly?: boolean
+    webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -32128,6 +38209,8 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutContactsInput = {
@@ -32149,6 +38232,7 @@ export namespace Prisma {
     moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
+    webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
@@ -32160,6 +38244,8 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutContactsInput = {
@@ -32179,6 +38265,7 @@ export namespace Prisma {
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
   }
 
   export type UserUncheckedCreateWithoutCompanyContactInput = {
@@ -32193,6 +38280,7 @@ export namespace Prisma {
     companyId?: string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
   }
 
   export type UserCreateOrConnectWithoutCompanyContactInput = {
@@ -32229,6 +38317,7 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -32241,6 +38330,8 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutContactsInput = {
@@ -32262,6 +38353,7 @@ export namespace Prisma {
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
@@ -32273,6 +38365,8 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutCompanyContactInput = {
@@ -32298,6 +38392,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyContactInput = {
@@ -32312,6 +38407,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
   }
 
   export type CompanyCreateWithoutWhatsappInstancesInput = {
@@ -32332,6 +38428,7 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     triggerOnly?: boolean
+    webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -32344,6 +38441,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWhatsappInstancesInput = {
@@ -32365,6 +38464,7 @@ export namespace Prisma {
     moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
+    webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
@@ -32376,6 +38476,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWhatsappInstancesInput = {
@@ -32398,9 +38500,12 @@ export namespace Prisma {
     ack?: number | null
     quotedId?: string | null
     quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
     company: CompanyCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
+    conversation?: ConversationCreateNestedOneWithoutMessagesInput
   }
 
   export type MessageUncheckedCreateWithoutInstanceInput = {
@@ -32418,9 +38523,12 @@ export namespace Prisma {
     ack?: number | null
     quotedId?: string | null
     quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
     companyId: string
     campaignId?: string | null
     leadId?: string | null
+    conversationId?: string | null
   }
 
   export type MessageCreateOrConnectWithoutInstanceInput = {
@@ -32480,6 +38588,7 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -32492,6 +38601,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWhatsappInstancesInput = {
@@ -32513,6 +38624,7 @@ export namespace Prisma {
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
@@ -32524,6 +38636,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutInstanceInput = {
@@ -32584,6 +38698,7 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     triggerOnly?: boolean
+    webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -32596,6 +38711,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMessagesInput = {
@@ -32617,6 +38734,7 @@ export namespace Prisma {
     moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
+    webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
@@ -32628,6 +38746,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMessagesInput = {
@@ -32728,7 +38848,9 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    conversation?: ConversationCreateNestedOneWithoutLeadsInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
+    activities?: ActivityCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutMessagesInput = {
@@ -32752,12 +38874,63 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    conversationId?: string | null
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutMessagesInput = {
     where: LeadWhereUniqueInput
     create: XOR<LeadCreateWithoutMessagesInput, LeadUncheckedCreateWithoutMessagesInput>
+  }
+
+  export type ConversationCreateWithoutMessagesInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assignee?: UserCreateNestedOneWithoutConversationsAssignedInput
+    setor?: SetorCreateNestedOneWithoutConversationsInput
+    company: CompanyCreateNestedOneWithoutConversationsInput
+    notes?: ConversationNoteCreateNestedManyWithoutConversationInput
+    activities?: ActivityCreateNestedManyWithoutConversationInput
+    leads?: LeadCreateNestedManyWithoutConversationInput
+  }
+
+  export type ConversationUncheckedCreateWithoutMessagesInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    assigneeId?: string | null
+    setorId?: string | null
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: ConversationNoteUncheckedCreateNestedManyWithoutConversationInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutConversationInput
+    leads?: LeadUncheckedCreateNestedManyWithoutConversationInput
+  }
+
+  export type ConversationCreateOrConnectWithoutMessagesInput = {
+    where: ConversationWhereUniqueInput
+    create: XOR<ConversationCreateWithoutMessagesInput, ConversationUncheckedCreateWithoutMessagesInput>
   }
 
   export type CompanyUpsertWithoutMessagesInput = {
@@ -32789,6 +38962,7 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -32801,6 +38975,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMessagesInput = {
@@ -32822,6 +38998,7 @@ export namespace Prisma {
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
@@ -32833,6 +39010,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutMessagesInput = {
@@ -32951,7 +39130,9 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutMessagesInput = {
@@ -32975,7 +39156,64 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
+  }
+
+  export type ConversationUpsertWithoutMessagesInput = {
+    update: XOR<ConversationUpdateWithoutMessagesInput, ConversationUncheckedUpdateWithoutMessagesInput>
+    create: XOR<ConversationCreateWithoutMessagesInput, ConversationUncheckedCreateWithoutMessagesInput>
+    where?: ConversationWhereInput
+  }
+
+  export type ConversationUpdateToOneWithWhereWithoutMessagesInput = {
+    where?: ConversationWhereInput
+    data: XOR<ConversationUpdateWithoutMessagesInput, ConversationUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type ConversationUpdateWithoutMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignee?: UserUpdateOneWithoutConversationsAssignedNestedInput
+    setor?: SetorUpdateOneWithoutConversationsNestedInput
+    company?: CompanyUpdateOneRequiredWithoutConversationsNestedInput
+    notes?: ConversationNoteUpdateManyWithoutConversationNestedInput
+    activities?: ActivityUpdateManyWithoutConversationNestedInput
+    leads?: LeadUpdateManyWithoutConversationNestedInput
+  }
+
+  export type ConversationUncheckedUpdateWithoutMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: ConversationNoteUncheckedUpdateManyWithoutConversationNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutConversationNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutConversationNestedInput
   }
 
   export type CompanyCreateWithoutKeywordRulesInput = {
@@ -32996,6 +39234,7 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     triggerOnly?: boolean
+    webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -33008,6 +39247,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutKeywordRulesInput = {
@@ -33029,6 +39270,7 @@ export namespace Prisma {
     moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
+    webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
@@ -33040,6 +39282,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutKeywordRulesInput = {
@@ -33117,6 +39361,7 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -33129,6 +39374,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutKeywordRulesInput = {
@@ -33150,6 +39397,7 @@ export namespace Prisma {
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
@@ -33161,6 +39409,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutKeywordRulesInput = {
@@ -33210,6 +39460,1174 @@ export namespace Prisma {
     links?: TrackingLinkUncheckedUpdateManyWithoutCampaignNestedInput
   }
 
+  export type UserCreateWithoutConversationsAssignedInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutConversationsAssignedInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    companyId?: string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutConversationsAssignedInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutConversationsAssignedInput, UserUncheckedCreateWithoutConversationsAssignedInput>
+  }
+
+  export type SetorCreateWithoutConversationsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
+    company: CompanyCreateNestedOneWithoutSetoresInput
+    users?: SetorUserCreateNestedManyWithoutSetorInput
+    instances?: SetorInstanceCreateNestedManyWithoutSetorInput
+    tickets?: TicketCreateNestedManyWithoutSetorInput
+  }
+
+  export type SetorUncheckedCreateWithoutConversationsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
+    users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
+    instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
+  }
+
+  export type SetorCreateOrConnectWithoutConversationsInput = {
+    where: SetorWhereUniqueInput
+    create: XOR<SetorCreateWithoutConversationsInput, SetorUncheckedCreateWithoutConversationsInput>
+  }
+
+  export type CompanyCreateWithoutConversationsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutConversationsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutConversationsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutConversationsInput, CompanyUncheckedCreateWithoutConversationsInput>
+  }
+
+  export type MessageCreateWithoutConversationInput = {
+    id?: string
+    externalId?: string | null
+    phone: string
+    participantPhone?: string | null
+    participantName?: string | null
+    body: string
+    direction?: $Enums.MessageDir
+    identifiedAs?: $Enums.LeadStatus | null
+    processed?: boolean
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
+    company: CompanyCreateNestedOneWithoutMessagesInput
+    instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
+    campaign?: CampaignCreateNestedOneWithoutMessagesInput
+    lead?: LeadCreateNestedOneWithoutMessagesInput
+  }
+
+  export type MessageUncheckedCreateWithoutConversationInput = {
+    id?: string
+    externalId?: string | null
+    phone: string
+    participantPhone?: string | null
+    participantName?: string | null
+    body: string
+    direction?: $Enums.MessageDir
+    identifiedAs?: $Enums.LeadStatus | null
+    processed?: boolean
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
+    companyId: string
+    instanceId?: string | null
+    campaignId?: string | null
+    leadId?: string | null
+  }
+
+  export type MessageCreateOrConnectWithoutConversationInput = {
+    where: MessageWhereUniqueInput
+    create: XOR<MessageCreateWithoutConversationInput, MessageUncheckedCreateWithoutConversationInput>
+  }
+
+  export type MessageCreateManyConversationInputEnvelope = {
+    data: MessageCreateManyConversationInput | MessageCreateManyConversationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ConversationNoteCreateWithoutConversationInput = {
+    id?: string
+    body: string
+    authorId?: string | null
+    authorName?: string
+    createdAt?: Date | string
+  }
+
+  export type ConversationNoteUncheckedCreateWithoutConversationInput = {
+    id?: string
+    body: string
+    authorId?: string | null
+    authorName?: string
+    createdAt?: Date | string
+  }
+
+  export type ConversationNoteCreateOrConnectWithoutConversationInput = {
+    where: ConversationNoteWhereUniqueInput
+    create: XOR<ConversationNoteCreateWithoutConversationInput, ConversationNoteUncheckedCreateWithoutConversationInput>
+  }
+
+  export type ConversationNoteCreateManyConversationInputEnvelope = {
+    data: ConversationNoteCreateManyConversationInput | ConversationNoteCreateManyConversationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ActivityCreateWithoutConversationInput = {
+    id?: string
+    type: $Enums.ActivityType
+    body?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: string | null
+    authorName?: string | null
+    createdAt?: Date | string
+    lead?: LeadCreateNestedOneWithoutActivitiesInput
+    ticket?: TicketCreateNestedOneWithoutActivitiesInput
+    company: CompanyCreateNestedOneWithoutActivitiesInput
+  }
+
+  export type ActivityUncheckedCreateWithoutConversationInput = {
+    id?: string
+    type: $Enums.ActivityType
+    body?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: string | null
+    authorName?: string | null
+    createdAt?: Date | string
+    leadId?: string | null
+    ticketId?: string | null
+    companyId: string
+  }
+
+  export type ActivityCreateOrConnectWithoutConversationInput = {
+    where: ActivityWhereUniqueInput
+    create: XOR<ActivityCreateWithoutConversationInput, ActivityUncheckedCreateWithoutConversationInput>
+  }
+
+  export type ActivityCreateManyConversationInputEnvelope = {
+    data: ActivityCreateManyConversationInput | ActivityCreateManyConversationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LeadCreateWithoutConversationInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    email?: string | null
+    source?: string | null
+    status?: $Enums.LeadStatus
+    notes?: string | null
+    value?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
+    isInternal?: boolean
+    company: CompanyCreateNestedOneWithoutLeadsInput
+    campaign?: CampaignCreateNestedOneWithoutLeadsInput
+    trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    messages?: MessageCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentCreateNestedManyWithoutLeadInput
+    activities?: ActivityCreateNestedManyWithoutLeadInput
+  }
+
+  export type LeadUncheckedCreateWithoutConversationInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    email?: string | null
+    source?: string | null
+    status?: $Enums.LeadStatus
+    notes?: string | null
+    value?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
+    isInternal?: boolean
+    companyId: string
+    campaignId?: string | null
+    trackingLinkId?: string | null
+    messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
+  }
+
+  export type LeadCreateOrConnectWithoutConversationInput = {
+    where: LeadWhereUniqueInput
+    create: XOR<LeadCreateWithoutConversationInput, LeadUncheckedCreateWithoutConversationInput>
+  }
+
+  export type LeadCreateManyConversationInputEnvelope = {
+    data: LeadCreateManyConversationInput | LeadCreateManyConversationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutConversationsAssignedInput = {
+    update: XOR<UserUpdateWithoutConversationsAssignedInput, UserUncheckedUpdateWithoutConversationsAssignedInput>
+    create: XOR<UserCreateWithoutConversationsAssignedInput, UserUncheckedCreateWithoutConversationsAssignedInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutConversationsAssignedInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutConversationsAssignedInput, UserUncheckedUpdateWithoutConversationsAssignedInput>
+  }
+
+  export type UserUpdateWithoutConversationsAssignedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutConversationsAssignedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type SetorUpsertWithoutConversationsInput = {
+    update: XOR<SetorUpdateWithoutConversationsInput, SetorUncheckedUpdateWithoutConversationsInput>
+    create: XOR<SetorCreateWithoutConversationsInput, SetorUncheckedCreateWithoutConversationsInput>
+    where?: SetorWhereInput
+  }
+
+  export type SetorUpdateToOneWithWhereWithoutConversationsInput = {
+    where?: SetorWhereInput
+    data: XOR<SetorUpdateWithoutConversationsInput, SetorUncheckedUpdateWithoutConversationsInput>
+  }
+
+  export type SetorUpdateWithoutConversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
+    users?: SetorUserUpdateManyWithoutSetorNestedInput
+    instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
+    tickets?: TicketUpdateManyWithoutSetorNestedInput
+  }
+
+  export type SetorUncheckedUpdateWithoutConversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
+    instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
+  }
+
+  export type CompanyUpsertWithoutConversationsInput = {
+    update: XOR<CompanyUpdateWithoutConversationsInput, CompanyUncheckedUpdateWithoutConversationsInput>
+    create: XOR<CompanyCreateWithoutConversationsInput, CompanyUncheckedCreateWithoutConversationsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutConversationsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutConversationsInput, CompanyUncheckedUpdateWithoutConversationsInput>
+  }
+
+  export type CompanyUpdateWithoutConversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutConversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type MessageUpsertWithWhereUniqueWithoutConversationInput = {
+    where: MessageWhereUniqueInput
+    update: XOR<MessageUpdateWithoutConversationInput, MessageUncheckedUpdateWithoutConversationInput>
+    create: XOR<MessageCreateWithoutConversationInput, MessageUncheckedCreateWithoutConversationInput>
+  }
+
+  export type MessageUpdateWithWhereUniqueWithoutConversationInput = {
+    where: MessageWhereUniqueInput
+    data: XOR<MessageUpdateWithoutConversationInput, MessageUncheckedUpdateWithoutConversationInput>
+  }
+
+  export type MessageUpdateManyWithWhereWithoutConversationInput = {
+    where: MessageScalarWhereInput
+    data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutConversationInput>
+  }
+
+  export type ConversationNoteUpsertWithWhereUniqueWithoutConversationInput = {
+    where: ConversationNoteWhereUniqueInput
+    update: XOR<ConversationNoteUpdateWithoutConversationInput, ConversationNoteUncheckedUpdateWithoutConversationInput>
+    create: XOR<ConversationNoteCreateWithoutConversationInput, ConversationNoteUncheckedCreateWithoutConversationInput>
+  }
+
+  export type ConversationNoteUpdateWithWhereUniqueWithoutConversationInput = {
+    where: ConversationNoteWhereUniqueInput
+    data: XOR<ConversationNoteUpdateWithoutConversationInput, ConversationNoteUncheckedUpdateWithoutConversationInput>
+  }
+
+  export type ConversationNoteUpdateManyWithWhereWithoutConversationInput = {
+    where: ConversationNoteScalarWhereInput
+    data: XOR<ConversationNoteUpdateManyMutationInput, ConversationNoteUncheckedUpdateManyWithoutConversationInput>
+  }
+
+  export type ConversationNoteScalarWhereInput = {
+    AND?: ConversationNoteScalarWhereInput | ConversationNoteScalarWhereInput[]
+    OR?: ConversationNoteScalarWhereInput[]
+    NOT?: ConversationNoteScalarWhereInput | ConversationNoteScalarWhereInput[]
+    id?: StringFilter<"ConversationNote"> | string
+    body?: StringFilter<"ConversationNote"> | string
+    authorId?: StringNullableFilter<"ConversationNote"> | string | null
+    authorName?: StringFilter<"ConversationNote"> | string
+    createdAt?: DateTimeFilter<"ConversationNote"> | Date | string
+    conversationId?: StringFilter<"ConversationNote"> | string
+  }
+
+  export type ActivityUpsertWithWhereUniqueWithoutConversationInput = {
+    where: ActivityWhereUniqueInput
+    update: XOR<ActivityUpdateWithoutConversationInput, ActivityUncheckedUpdateWithoutConversationInput>
+    create: XOR<ActivityCreateWithoutConversationInput, ActivityUncheckedCreateWithoutConversationInput>
+  }
+
+  export type ActivityUpdateWithWhereUniqueWithoutConversationInput = {
+    where: ActivityWhereUniqueInput
+    data: XOR<ActivityUpdateWithoutConversationInput, ActivityUncheckedUpdateWithoutConversationInput>
+  }
+
+  export type ActivityUpdateManyWithWhereWithoutConversationInput = {
+    where: ActivityScalarWhereInput
+    data: XOR<ActivityUpdateManyMutationInput, ActivityUncheckedUpdateManyWithoutConversationInput>
+  }
+
+  export type LeadUpsertWithWhereUniqueWithoutConversationInput = {
+    where: LeadWhereUniqueInput
+    update: XOR<LeadUpdateWithoutConversationInput, LeadUncheckedUpdateWithoutConversationInput>
+    create: XOR<LeadCreateWithoutConversationInput, LeadUncheckedCreateWithoutConversationInput>
+  }
+
+  export type LeadUpdateWithWhereUniqueWithoutConversationInput = {
+    where: LeadWhereUniqueInput
+    data: XOR<LeadUpdateWithoutConversationInput, LeadUncheckedUpdateWithoutConversationInput>
+  }
+
+  export type LeadUpdateManyWithWhereWithoutConversationInput = {
+    where: LeadScalarWhereInput
+    data: XOR<LeadUpdateManyMutationInput, LeadUncheckedUpdateManyWithoutConversationInput>
+  }
+
+  export type ConversationCreateWithoutNotesInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assignee?: UserCreateNestedOneWithoutConversationsAssignedInput
+    setor?: SetorCreateNestedOneWithoutConversationsInput
+    company: CompanyCreateNestedOneWithoutConversationsInput
+    messages?: MessageCreateNestedManyWithoutConversationInput
+    activities?: ActivityCreateNestedManyWithoutConversationInput
+    leads?: LeadCreateNestedManyWithoutConversationInput
+  }
+
+  export type ConversationUncheckedCreateWithoutNotesInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    assigneeId?: string | null
+    setorId?: string | null
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: MessageUncheckedCreateNestedManyWithoutConversationInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutConversationInput
+    leads?: LeadUncheckedCreateNestedManyWithoutConversationInput
+  }
+
+  export type ConversationCreateOrConnectWithoutNotesInput = {
+    where: ConversationWhereUniqueInput
+    create: XOR<ConversationCreateWithoutNotesInput, ConversationUncheckedCreateWithoutNotesInput>
+  }
+
+  export type ConversationUpsertWithoutNotesInput = {
+    update: XOR<ConversationUpdateWithoutNotesInput, ConversationUncheckedUpdateWithoutNotesInput>
+    create: XOR<ConversationCreateWithoutNotesInput, ConversationUncheckedCreateWithoutNotesInput>
+    where?: ConversationWhereInput
+  }
+
+  export type ConversationUpdateToOneWithWhereWithoutNotesInput = {
+    where?: ConversationWhereInput
+    data: XOR<ConversationUpdateWithoutNotesInput, ConversationUncheckedUpdateWithoutNotesInput>
+  }
+
+  export type ConversationUpdateWithoutNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignee?: UserUpdateOneWithoutConversationsAssignedNestedInput
+    setor?: SetorUpdateOneWithoutConversationsNestedInput
+    company?: CompanyUpdateOneRequiredWithoutConversationsNestedInput
+    messages?: MessageUpdateManyWithoutConversationNestedInput
+    activities?: ActivityUpdateManyWithoutConversationNestedInput
+    leads?: LeadUpdateManyWithoutConversationNestedInput
+  }
+
+  export type ConversationUncheckedUpdateWithoutNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUncheckedUpdateManyWithoutConversationNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutConversationNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutConversationNestedInput
+  }
+
+  export type ConversationCreateWithoutActivitiesInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assignee?: UserCreateNestedOneWithoutConversationsAssignedInput
+    setor?: SetorCreateNestedOneWithoutConversationsInput
+    company: CompanyCreateNestedOneWithoutConversationsInput
+    messages?: MessageCreateNestedManyWithoutConversationInput
+    notes?: ConversationNoteCreateNestedManyWithoutConversationInput
+    leads?: LeadCreateNestedManyWithoutConversationInput
+  }
+
+  export type ConversationUncheckedCreateWithoutActivitiesInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    assigneeId?: string | null
+    setorId?: string | null
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: MessageUncheckedCreateNestedManyWithoutConversationInput
+    notes?: ConversationNoteUncheckedCreateNestedManyWithoutConversationInput
+    leads?: LeadUncheckedCreateNestedManyWithoutConversationInput
+  }
+
+  export type ConversationCreateOrConnectWithoutActivitiesInput = {
+    where: ConversationWhereUniqueInput
+    create: XOR<ConversationCreateWithoutActivitiesInput, ConversationUncheckedCreateWithoutActivitiesInput>
+  }
+
+  export type LeadCreateWithoutActivitiesInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    email?: string | null
+    source?: string | null
+    status?: $Enums.LeadStatus
+    notes?: string | null
+    value?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
+    isInternal?: boolean
+    company: CompanyCreateNestedOneWithoutLeadsInput
+    campaign?: CampaignCreateNestedOneWithoutLeadsInput
+    trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    conversation?: ConversationCreateNestedOneWithoutLeadsInput
+    messages?: MessageCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentCreateNestedManyWithoutLeadInput
+  }
+
+  export type LeadUncheckedCreateWithoutActivitiesInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    email?: string | null
+    source?: string | null
+    status?: $Enums.LeadStatus
+    notes?: string | null
+    value?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
+    isInternal?: boolean
+    companyId: string
+    campaignId?: string | null
+    trackingLinkId?: string | null
+    conversationId?: string | null
+    messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
+  }
+
+  export type LeadCreateOrConnectWithoutActivitiesInput = {
+    where: LeadWhereUniqueInput
+    create: XOR<LeadCreateWithoutActivitiesInput, LeadUncheckedCreateWithoutActivitiesInput>
+  }
+
+  export type TicketCreateWithoutActivitiesInput = {
+    id?: string
+    title: string
+    description: string
+    status?: $Enums.TicketStatus
+    priority?: $Enums.TicketPriority
+    category?: string | null
+    phone?: string | null
+    clickupTaskId?: string | null
+    ticketStage?: string | null
+    isInternal?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutTicketsInput
+    createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
+    setor?: SetorCreateNestedOneWithoutTicketsInput
+    messages?: TicketMessageCreateNestedManyWithoutTicketInput
+  }
+
+  export type TicketUncheckedCreateWithoutActivitiesInput = {
+    id?: string
+    title: string
+    description: string
+    status?: $Enums.TicketStatus
+    priority?: $Enums.TicketPriority
+    category?: string | null
+    phone?: string | null
+    clickupTaskId?: string | null
+    ticketStage?: string | null
+    isInternal?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    createdById?: string | null
+    setorId?: string | null
+    messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
+  }
+
+  export type TicketCreateOrConnectWithoutActivitiesInput = {
+    where: TicketWhereUniqueInput
+    create: XOR<TicketCreateWithoutActivitiesInput, TicketUncheckedCreateWithoutActivitiesInput>
+  }
+
+  export type CompanyCreateWithoutActivitiesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutActivitiesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutActivitiesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutActivitiesInput, CompanyUncheckedCreateWithoutActivitiesInput>
+  }
+
+  export type ConversationUpsertWithoutActivitiesInput = {
+    update: XOR<ConversationUpdateWithoutActivitiesInput, ConversationUncheckedUpdateWithoutActivitiesInput>
+    create: XOR<ConversationCreateWithoutActivitiesInput, ConversationUncheckedCreateWithoutActivitiesInput>
+    where?: ConversationWhereInput
+  }
+
+  export type ConversationUpdateToOneWithWhereWithoutActivitiesInput = {
+    where?: ConversationWhereInput
+    data: XOR<ConversationUpdateWithoutActivitiesInput, ConversationUncheckedUpdateWithoutActivitiesInput>
+  }
+
+  export type ConversationUpdateWithoutActivitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignee?: UserUpdateOneWithoutConversationsAssignedNestedInput
+    setor?: SetorUpdateOneWithoutConversationsNestedInput
+    company?: CompanyUpdateOneRequiredWithoutConversationsNestedInput
+    messages?: MessageUpdateManyWithoutConversationNestedInput
+    notes?: ConversationNoteUpdateManyWithoutConversationNestedInput
+    leads?: LeadUpdateManyWithoutConversationNestedInput
+  }
+
+  export type ConversationUncheckedUpdateWithoutActivitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUncheckedUpdateManyWithoutConversationNestedInput
+    notes?: ConversationNoteUncheckedUpdateManyWithoutConversationNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutConversationNestedInput
+  }
+
+  export type LeadUpsertWithoutActivitiesInput = {
+    update: XOR<LeadUpdateWithoutActivitiesInput, LeadUncheckedUpdateWithoutActivitiesInput>
+    create: XOR<LeadCreateWithoutActivitiesInput, LeadUncheckedCreateWithoutActivitiesInput>
+    where?: LeadWhereInput
+  }
+
+  export type LeadUpdateToOneWithWhereWithoutActivitiesInput = {
+    where?: LeadWhereInput
+    data: XOR<LeadUpdateWithoutActivitiesInput, LeadUncheckedUpdateWithoutActivitiesInput>
+  }
+
+  export type LeadUpdateWithoutActivitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
+    campaign?: CampaignUpdateOneWithoutLeadsNestedInput
+    trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    conversation?: ConversationUpdateOneWithoutLeadsNestedInput
+    messages?: MessageUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUpdateManyWithoutLeadNestedInput
+  }
+
+  export type LeadUncheckedUpdateWithoutActivitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
+  }
+
+  export type TicketUpsertWithoutActivitiesInput = {
+    update: XOR<TicketUpdateWithoutActivitiesInput, TicketUncheckedUpdateWithoutActivitiesInput>
+    create: XOR<TicketCreateWithoutActivitiesInput, TicketUncheckedCreateWithoutActivitiesInput>
+    where?: TicketWhereInput
+  }
+
+  export type TicketUpdateToOneWithWhereWithoutActivitiesInput = {
+    where?: TicketWhereInput
+    data: XOR<TicketUpdateWithoutActivitiesInput, TicketUncheckedUpdateWithoutActivitiesInput>
+  }
+
+  export type TicketUpdateWithoutActivitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
+    createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
+    setor?: SetorUpdateOneWithoutTicketsNestedInput
+    messages?: TicketMessageUpdateManyWithoutTicketNestedInput
+  }
+
+  export type TicketUncheckedUpdateWithoutActivitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+    messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
+  }
+
+  export type CompanyUpsertWithoutActivitiesInput = {
+    update: XOR<CompanyUpdateWithoutActivitiesInput, CompanyUncheckedUpdateWithoutActivitiesInput>
+    create: XOR<CompanyCreateWithoutActivitiesInput, CompanyUncheckedCreateWithoutActivitiesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutActivitiesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutActivitiesInput, CompanyUncheckedUpdateWithoutActivitiesInput>
+  }
+
+  export type CompanyUpdateWithoutActivitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutActivitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
   export type CompanyCreateWithoutTicketsInput = {
     id?: string
     name: string
@@ -33228,6 +40646,7 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     triggerOnly?: boolean
+    webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -33240,6 +40659,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketsInput = {
@@ -33261,6 +40682,7 @@ export namespace Prisma {
     moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
+    webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
@@ -33272,6 +40694,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketsInput = {
@@ -33291,6 +40715,7 @@ export namespace Prisma {
     company?: CompanyCreateNestedOneWithoutUsersInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
     setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
   }
 
   export type UserUncheckedCreateWithoutTicketsCreatedInput = {
@@ -33305,6 +40730,7 @@ export namespace Prisma {
     companyId?: string | null
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
   }
 
   export type UserCreateOrConnectWithoutTicketsCreatedInput = {
@@ -33331,6 +40757,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutSetoresInput
     users?: SetorUserCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
+    conversations?: ConversationCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUncheckedCreateWithoutTicketsInput = {
@@ -33352,6 +40779,7 @@ export namespace Prisma {
     canCreateCompanies?: boolean
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
   }
 
   export type SetorCreateOrConnectWithoutTicketsInput = {
@@ -33387,6 +40815,42 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ActivityCreateWithoutTicketInput = {
+    id?: string
+    type: $Enums.ActivityType
+    body?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: string | null
+    authorName?: string | null
+    createdAt?: Date | string
+    conversation?: ConversationCreateNestedOneWithoutActivitiesInput
+    lead?: LeadCreateNestedOneWithoutActivitiesInput
+    company: CompanyCreateNestedOneWithoutActivitiesInput
+  }
+
+  export type ActivityUncheckedCreateWithoutTicketInput = {
+    id?: string
+    type: $Enums.ActivityType
+    body?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: string | null
+    authorName?: string | null
+    createdAt?: Date | string
+    conversationId?: string | null
+    leadId?: string | null
+    companyId: string
+  }
+
+  export type ActivityCreateOrConnectWithoutTicketInput = {
+    where: ActivityWhereUniqueInput
+    create: XOR<ActivityCreateWithoutTicketInput, ActivityUncheckedCreateWithoutTicketInput>
+  }
+
+  export type ActivityCreateManyTicketInputEnvelope = {
+    data: ActivityCreateManyTicketInput | ActivityCreateManyTicketInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutTicketsInput = {
     update: XOR<CompanyUpdateWithoutTicketsInput, CompanyUncheckedUpdateWithoutTicketsInput>
     create: XOR<CompanyCreateWithoutTicketsInput, CompanyUncheckedCreateWithoutTicketsInput>
@@ -33416,6 +40880,7 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -33428,6 +40893,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketsInput = {
@@ -33449,6 +40916,7 @@ export namespace Prisma {
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
@@ -33460,6 +40928,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTicketsCreatedInput = {
@@ -33485,6 +40955,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneWithoutUsersNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
     setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsCreatedInput = {
@@ -33499,6 +40970,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
   }
 
   export type SetorUpsertWithoutTicketsInput = {
@@ -33531,6 +41003,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
+    conversations?: ConversationUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateWithoutTicketsInput = {
@@ -33552,6 +41025,7 @@ export namespace Prisma {
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
   }
 
   export type TicketMessageUpsertWithWhereUniqueWithoutTicketInput = {
@@ -33583,6 +41057,22 @@ export namespace Prisma {
     ticketId?: StringFilter<"TicketMessage"> | string
   }
 
+  export type ActivityUpsertWithWhereUniqueWithoutTicketInput = {
+    where: ActivityWhereUniqueInput
+    update: XOR<ActivityUpdateWithoutTicketInput, ActivityUncheckedUpdateWithoutTicketInput>
+    create: XOR<ActivityCreateWithoutTicketInput, ActivityUncheckedCreateWithoutTicketInput>
+  }
+
+  export type ActivityUpdateWithWhereUniqueWithoutTicketInput = {
+    where: ActivityWhereUniqueInput
+    data: XOR<ActivityUpdateWithoutTicketInput, ActivityUncheckedUpdateWithoutTicketInput>
+  }
+
+  export type ActivityUpdateManyWithWhereWithoutTicketInput = {
+    where: ActivityScalarWhereInput
+    data: XOR<ActivityUpdateManyMutationInput, ActivityUncheckedUpdateManyWithoutTicketInput>
+  }
+
   export type TicketCreateWithoutMessagesInput = {
     id?: string
     title: string
@@ -33599,6 +41089,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutTicketsInput
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
     setor?: SetorCreateNestedOneWithoutTicketsInput
+    activities?: ActivityCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutMessagesInput = {
@@ -33617,6 +41108,7 @@ export namespace Prisma {
     companyId: string
     createdById?: string | null
     setorId?: string | null
+    activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutMessagesInput = {
@@ -33651,6 +41143,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
     setor?: SetorUpdateOneWithoutTicketsNestedInput
+    activities?: ActivityUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutMessagesInput = {
@@ -33669,6 +41162,7 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
+    activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type CompanyCreateWithoutSetoresInput = {
@@ -33689,6 +41183,7 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     triggerOnly?: boolean
+    webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -33701,6 +41196,8 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSetoresInput = {
@@ -33722,6 +41219,7 @@ export namespace Prisma {
     moduleAI?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
+    webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
@@ -33733,6 +41231,8 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSetoresInput = {
@@ -33792,6 +41292,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutTicketsInput
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
+    activities?: ActivityCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutSetorInput = {
@@ -33810,6 +41311,7 @@ export namespace Prisma {
     companyId: string
     createdById?: string | null
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutSetorInput = {
@@ -33819,6 +41321,60 @@ export namespace Prisma {
 
   export type TicketCreateManySetorInputEnvelope = {
     data: TicketCreateManySetorInput | TicketCreateManySetorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ConversationCreateWithoutSetorInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assignee?: UserCreateNestedOneWithoutConversationsAssignedInput
+    company: CompanyCreateNestedOneWithoutConversationsInput
+    messages?: MessageCreateNestedManyWithoutConversationInput
+    notes?: ConversationNoteCreateNestedManyWithoutConversationInput
+    activities?: ActivityCreateNestedManyWithoutConversationInput
+    leads?: LeadCreateNestedManyWithoutConversationInput
+  }
+
+  export type ConversationUncheckedCreateWithoutSetorInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    assigneeId?: string | null
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: MessageUncheckedCreateNestedManyWithoutConversationInput
+    notes?: ConversationNoteUncheckedCreateNestedManyWithoutConversationInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutConversationInput
+    leads?: LeadUncheckedCreateNestedManyWithoutConversationInput
+  }
+
+  export type ConversationCreateOrConnectWithoutSetorInput = {
+    where: ConversationWhereUniqueInput
+    create: XOR<ConversationCreateWithoutSetorInput, ConversationUncheckedCreateWithoutSetorInput>
+  }
+
+  export type ConversationCreateManySetorInputEnvelope = {
+    data: ConversationCreateManySetorInput | ConversationCreateManySetorInput[]
     skipDuplicates?: boolean
   }
 
@@ -33851,6 +41407,7 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -33863,6 +41420,8 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSetoresInput = {
@@ -33884,6 +41443,7 @@ export namespace Prisma {
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
@@ -33895,6 +41455,8 @@ export namespace Prisma {
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type SetorUserUpsertWithWhereUniqueWithoutSetorInput = {
@@ -33945,6 +41507,22 @@ export namespace Prisma {
     data: XOR<TicketUpdateManyMutationInput, TicketUncheckedUpdateManyWithoutSetorInput>
   }
 
+  export type ConversationUpsertWithWhereUniqueWithoutSetorInput = {
+    where: ConversationWhereUniqueInput
+    update: XOR<ConversationUpdateWithoutSetorInput, ConversationUncheckedUpdateWithoutSetorInput>
+    create: XOR<ConversationCreateWithoutSetorInput, ConversationUncheckedCreateWithoutSetorInput>
+  }
+
+  export type ConversationUpdateWithWhereUniqueWithoutSetorInput = {
+    where: ConversationWhereUniqueInput
+    data: XOR<ConversationUpdateWithoutSetorInput, ConversationUncheckedUpdateWithoutSetorInput>
+  }
+
+  export type ConversationUpdateManyWithWhereWithoutSetorInput = {
+    where: ConversationScalarWhereInput
+    data: XOR<ConversationUpdateManyMutationInput, ConversationUncheckedUpdateManyWithoutSetorInput>
+  }
+
   export type SetorCreateWithoutUsersInput = {
     id?: string
     name: string
@@ -33964,6 +41542,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutSetoresInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
+    conversations?: ConversationCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUncheckedCreateWithoutUsersInput = {
@@ -33985,6 +41564,7 @@ export namespace Prisma {
     canCreateCompanies?: boolean
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
   }
 
   export type SetorCreateOrConnectWithoutUsersInput = {
@@ -34004,6 +41584,7 @@ export namespace Prisma {
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
   }
 
   export type UserUncheckedCreateWithoutSetoresInput = {
@@ -34018,6 +41599,7 @@ export namespace Prisma {
     companyId?: string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
   }
 
   export type UserCreateOrConnectWithoutSetoresInput = {
@@ -34055,6 +41637,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
+    conversations?: ConversationUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateWithoutUsersInput = {
@@ -34076,6 +41659,7 @@ export namespace Prisma {
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
   }
 
   export type UserUpsertWithoutSetoresInput = {
@@ -34101,6 +41685,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSetoresInput = {
@@ -34115,6 +41700,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
   }
 
   export type SetorCreateWithoutInstancesInput = {
@@ -34136,6 +41722,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutSetoresInput
     users?: SetorUserCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
+    conversations?: ConversationCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUncheckedCreateWithoutInstancesInput = {
@@ -34157,6 +41744,7 @@ export namespace Prisma {
     canCreateCompanies?: boolean
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
   }
 
   export type SetorCreateOrConnectWithoutInstancesInput = {
@@ -34225,6 +41813,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
+    conversations?: ConversationUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateWithoutInstancesInput = {
@@ -34246,6 +41835,7 @@ export namespace Prisma {
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutSetoresInput = {
@@ -34306,6 +41896,24 @@ export namespace Prisma {
     setorId: string
   }
 
+  export type ConversationCreateManyAssigneeInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    setorId?: string | null
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type TicketUpdateWithoutCreatedByInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -34322,6 +41930,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
     setor?: SetorUpdateOneWithoutTicketsNestedInput
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
+    activities?: ActivityUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutCreatedByInput = {
@@ -34340,6 +41949,7 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateManyWithoutCreatedByInput = {
@@ -34371,6 +41981,68 @@ export namespace Prisma {
     setorId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type ConversationUpdateWithoutAssigneeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    setor?: SetorUpdateOneWithoutConversationsNestedInput
+    company?: CompanyUpdateOneRequiredWithoutConversationsNestedInput
+    messages?: MessageUpdateManyWithoutConversationNestedInput
+    notes?: ConversationNoteUpdateManyWithoutConversationNestedInput
+    activities?: ActivityUpdateManyWithoutConversationNestedInput
+    leads?: LeadUpdateManyWithoutConversationNestedInput
+  }
+
+  export type ConversationUncheckedUpdateWithoutAssigneeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUncheckedUpdateManyWithoutConversationNestedInput
+    notes?: ConversationNoteUncheckedUpdateManyWithoutConversationNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutConversationNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutConversationNestedInput
+  }
+
+  export type ConversationUncheckedUpdateManyWithoutAssigneeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CompanyCreateManyParentCompanyInput = {
     id?: string
     name: string
@@ -34389,6 +42061,7 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     triggerOnly?: boolean
+    webhookToken?: string | null
   }
 
   export type UserCreateManyCompanyInput = {
@@ -34436,6 +42109,7 @@ export namespace Prisma {
     isInternal?: boolean
     campaignId?: string | null
     trackingLinkId?: string | null
+    conversationId?: string | null
   }
 
   export type WhatsappInstanceCreateManyCompanyInput = {
@@ -34464,9 +42138,12 @@ export namespace Prisma {
     ack?: number | null
     quotedId?: string | null
     quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
     instanceId?: string | null
     campaignId?: string | null
     leadId?: string | null
+    conversationId?: string | null
   }
 
   export type KeywordRuleCreateManyCompanyInput = {
@@ -34548,6 +42225,37 @@ export namespace Prisma {
     canCreateCompanies?: boolean
   }
 
+  export type ConversationCreateManyCompanyInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    assigneeId?: string | null
+    setorId?: string | null
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ActivityCreateManyCompanyInput = {
+    id?: string
+    type: $Enums.ActivityType
+    body?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: string | null
+    authorName?: string | null
+    createdAt?: Date | string
+    conversationId?: string | null
+    leadId?: string | null
+    ticketId?: string | null
+  }
+
   export type CompanyUpdateWithoutParentCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -34566,6 +42274,7 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
@@ -34578,6 +42287,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutParentCompanyInput = {
@@ -34598,6 +42309,7 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
@@ -34610,6 +42322,8 @@ export namespace Prisma {
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateManyWithoutParentCompanyInput = {
@@ -34630,6 +42344,7 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUpdateWithoutCompanyInput = {
@@ -34644,6 +42359,7 @@ export namespace Prisma {
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
     setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyInput = {
@@ -34658,6 +42374,7 @@ export namespace Prisma {
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCompanyInput = {
@@ -34741,8 +42458,10 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutCompanyInput = {
@@ -34765,8 +42484,10 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateManyWithoutCompanyInput = {
@@ -34789,6 +42510,7 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type WhatsappInstanceUpdateWithoutCompanyInput = {
@@ -34843,9 +42565,12 @@ export namespace Prisma {
     ack?: NullableIntFieldUpdateOperationsInput | number | null
     quotedId?: NullableStringFieldUpdateOperationsInput | string | null
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
+    conversation?: ConversationUpdateOneWithoutMessagesNestedInput
   }
 
   export type MessageUncheckedUpdateWithoutCompanyInput = {
@@ -34863,9 +42588,12 @@ export namespace Prisma {
     ack?: NullableIntFieldUpdateOperationsInput | number | null
     quotedId?: NullableStringFieldUpdateOperationsInput | string | null
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageUncheckedUpdateManyWithoutCompanyInput = {
@@ -34883,9 +42611,12 @@ export namespace Prisma {
     ack?: NullableIntFieldUpdateOperationsInput | number | null
     quotedId?: NullableStringFieldUpdateOperationsInput | string | null
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type KeywordRuleUpdateWithoutCompanyInput = {
@@ -34931,6 +42662,7 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
     setor?: SetorUpdateOneWithoutTicketsNestedInput
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
+    activities?: ActivityUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutCompanyInput = {
@@ -34949,6 +42681,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateManyWithoutCompanyInput = {
@@ -35096,6 +42829,7 @@ export namespace Prisma {
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
+    conversations?: ConversationUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateWithoutCompanyInput = {
@@ -35117,6 +42851,7 @@ export namespace Prisma {
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateManyWithoutCompanyInput = {
@@ -35135,6 +42870,107 @@ export namespace Prisma {
     canSendMessages?: BoolFieldUpdateOperationsInput | boolean
     canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type ConversationUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignee?: UserUpdateOneWithoutConversationsAssignedNestedInput
+    setor?: SetorUpdateOneWithoutConversationsNestedInput
+    messages?: MessageUpdateManyWithoutConversationNestedInput
+    notes?: ConversationNoteUpdateManyWithoutConversationNestedInput
+    activities?: ActivityUpdateManyWithoutConversationNestedInput
+    leads?: LeadUpdateManyWithoutConversationNestedInput
+  }
+
+  export type ConversationUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUncheckedUpdateManyWithoutConversationNestedInput
+    notes?: ConversationNoteUncheckedUpdateManyWithoutConversationNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutConversationNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutConversationNestedInput
+  }
+
+  export type ConversationUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActivityUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversation?: ConversationUpdateOneWithoutActivitiesNestedInput
+    lead?: LeadUpdateOneWithoutActivitiesNestedInput
+    ticket?: TicketUpdateOneWithoutActivitiesNestedInput
+  }
+
+  export type ActivityUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ActivityUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LeadCreateManyCampaignInput = {
@@ -35157,6 +42993,7 @@ export namespace Prisma {
     isInternal?: boolean
     companyId: string
     trackingLinkId?: string | null
+    conversationId?: string | null
   }
 
   export type MessageCreateManyCampaignInput = {
@@ -35174,9 +43011,12 @@ export namespace Prisma {
     ack?: number | null
     quotedId?: string | null
     quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
     companyId: string
     instanceId?: string | null
     leadId?: string | null
+    conversationId?: string | null
   }
 
   export type TrackingLinkCreateManyCampaignInput = {
@@ -35222,8 +43062,10 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutCampaignInput = {
@@ -35246,8 +43088,10 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateManyWithoutCampaignInput = {
@@ -35270,6 +43114,7 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageUpdateWithoutCampaignInput = {
@@ -35287,9 +43132,12 @@ export namespace Prisma {
     ack?: NullableIntFieldUpdateOperationsInput | number | null
     quotedId?: NullableStringFieldUpdateOperationsInput | string | null
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
+    conversation?: ConversationUpdateOneWithoutMessagesNestedInput
   }
 
   export type MessageUncheckedUpdateWithoutCampaignInput = {
@@ -35307,9 +43155,12 @@ export namespace Prisma {
     ack?: NullableIntFieldUpdateOperationsInput | number | null
     quotedId?: NullableStringFieldUpdateOperationsInput | string | null
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageUncheckedUpdateManyWithoutCampaignInput = {
@@ -35327,9 +43178,12 @@ export namespace Prisma {
     ack?: NullableIntFieldUpdateOperationsInput | number | null
     quotedId?: NullableStringFieldUpdateOperationsInput | string | null
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TrackingLinkUpdateWithoutCampaignInput = {
@@ -35425,6 +43279,7 @@ export namespace Prisma {
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
+    conversationId?: string | null
   }
 
   export type ClickEventCreateManyTrackingLinkInput = {
@@ -35454,8 +43309,10 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
+    conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutTrackingLinkInput = {
@@ -35478,8 +43335,10 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateManyWithoutTrackingLinkInput = {
@@ -35502,6 +43361,7 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ClickEventUpdateWithoutTrackingLinkInput = {
@@ -35540,9 +43400,12 @@ export namespace Prisma {
     ack?: number | null
     quotedId?: string | null
     quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
     companyId: string
     instanceId?: string | null
     campaignId?: string | null
+    conversationId?: string | null
   }
 
   export type LeadCommentCreateManyLeadInput = {
@@ -35550,6 +43413,19 @@ export namespace Prisma {
     body: string
     authorName?: string
     createdAt?: Date | string
+  }
+
+  export type ActivityCreateManyLeadInput = {
+    id?: string
+    type: $Enums.ActivityType
+    body?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: string | null
+    authorName?: string | null
+    createdAt?: Date | string
+    conversationId?: string | null
+    ticketId?: string | null
+    companyId: string
   }
 
   export type MessageUpdateWithoutLeadInput = {
@@ -35567,9 +43443,12 @@ export namespace Prisma {
     ack?: NullableIntFieldUpdateOperationsInput | number | null
     quotedId?: NullableStringFieldUpdateOperationsInput | string | null
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
+    conversation?: ConversationUpdateOneWithoutMessagesNestedInput
   }
 
   export type MessageUncheckedUpdateWithoutLeadInput = {
@@ -35587,9 +43466,12 @@ export namespace Prisma {
     ack?: NullableIntFieldUpdateOperationsInput | number | null
     quotedId?: NullableStringFieldUpdateOperationsInput | string | null
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageUncheckedUpdateManyWithoutLeadInput = {
@@ -35607,9 +43489,12 @@ export namespace Prisma {
     ack?: NullableIntFieldUpdateOperationsInput | number | null
     quotedId?: NullableStringFieldUpdateOperationsInput | string | null
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LeadCommentUpdateWithoutLeadInput = {
@@ -35633,6 +43518,45 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ActivityUpdateWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversation?: ConversationUpdateOneWithoutActivitiesNestedInput
+    ticket?: TicketUpdateOneWithoutActivitiesNestedInput
+    company?: CompanyUpdateOneRequiredWithoutActivitiesNestedInput
+  }
+
+  export type ActivityUncheckedUpdateWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ActivityUncheckedUpdateManyWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type MessageCreateManyInstanceInput = {
     id?: string
     externalId?: string | null
@@ -35648,9 +43572,12 @@ export namespace Prisma {
     ack?: number | null
     quotedId?: string | null
     quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
     companyId: string
     campaignId?: string | null
     leadId?: string | null
+    conversationId?: string | null
   }
 
   export type SetorInstanceCreateManyInstanceInput = {
@@ -35672,9 +43599,12 @@ export namespace Prisma {
     ack?: NullableIntFieldUpdateOperationsInput | number | null
     quotedId?: NullableStringFieldUpdateOperationsInput | string | null
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
+    conversation?: ConversationUpdateOneWithoutMessagesNestedInput
   }
 
   export type MessageUncheckedUpdateWithoutInstanceInput = {
@@ -35692,9 +43622,12 @@ export namespace Prisma {
     ack?: NullableIntFieldUpdateOperationsInput | number | null
     quotedId?: NullableStringFieldUpdateOperationsInput | string | null
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageUncheckedUpdateManyWithoutInstanceInput = {
@@ -35712,9 +43645,12 @@ export namespace Prisma {
     ack?: NullableIntFieldUpdateOperationsInput | number | null
     quotedId?: NullableStringFieldUpdateOperationsInput | string | null
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SetorInstanceUpdateWithoutInstanceInput = {
@@ -35729,6 +43665,280 @@ export namespace Prisma {
     setorId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type MessageCreateManyConversationInput = {
+    id?: string
+    externalId?: string | null
+    phone: string
+    participantPhone?: string | null
+    participantName?: string | null
+    body: string
+    direction?: $Enums.MessageDir
+    identifiedAs?: $Enums.LeadStatus | null
+    processed?: boolean
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
+    companyId: string
+    instanceId?: string | null
+    campaignId?: string | null
+    leadId?: string | null
+  }
+
+  export type ConversationNoteCreateManyConversationInput = {
+    id?: string
+    body: string
+    authorId?: string | null
+    authorName?: string
+    createdAt?: Date | string
+  }
+
+  export type ActivityCreateManyConversationInput = {
+    id?: string
+    type: $Enums.ActivityType
+    body?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: string | null
+    authorName?: string | null
+    createdAt?: Date | string
+    leadId?: string | null
+    ticketId?: string | null
+    companyId: string
+  }
+
+  export type LeadCreateManyConversationInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    email?: string | null
+    source?: string | null
+    status?: $Enums.LeadStatus
+    notes?: string | null
+    value?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
+    isInternal?: boolean
+    companyId: string
+    campaignId?: string | null
+    trackingLinkId?: string | null
+  }
+
+  export type MessageUpdateWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
+    identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
+    processed?: BoolFieldUpdateOperationsInput | boolean
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
+    instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
+    campaign?: CampaignUpdateOneWithoutMessagesNestedInput
+    lead?: LeadUpdateOneWithoutMessagesNestedInput
+  }
+
+  export type MessageUncheckedUpdateWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
+    identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
+    processed?: BoolFieldUpdateOperationsInput | boolean
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MessageUncheckedUpdateManyWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
+    identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
+    processed?: BoolFieldUpdateOperationsInput | boolean
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ConversationNoteUpdateWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConversationNoteUncheckedUpdateWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConversationNoteUncheckedUpdateManyWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActivityUpdateWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lead?: LeadUpdateOneWithoutActivitiesNestedInput
+    ticket?: TicketUpdateOneWithoutActivitiesNestedInput
+    company?: CompanyUpdateOneRequiredWithoutActivitiesNestedInput
+  }
+
+  export type ActivityUncheckedUpdateWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ActivityUncheckedUpdateManyWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type LeadUpdateWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
+    campaign?: CampaignUpdateOneWithoutLeadsNestedInput
+    trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    messages?: MessageUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUpdateManyWithoutLeadNestedInput
+  }
+
+  export type LeadUncheckedUpdateWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
+  }
+
+  export type LeadUncheckedUpdateManyWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type TicketMessageCreateManyTicketInput = {
     id?: string
     body: string
@@ -35736,6 +43946,19 @@ export namespace Prisma {
     authorName: string
     authorRole?: string
     createdAt?: Date | string
+  }
+
+  export type ActivityCreateManyTicketInput = {
+    id?: string
+    type: $Enums.ActivityType
+    body?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: string | null
+    authorName?: string | null
+    createdAt?: Date | string
+    conversationId?: string | null
+    leadId?: string | null
+    companyId: string
   }
 
   export type TicketMessageUpdateWithoutTicketInput = {
@@ -35765,6 +43988,45 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ActivityUpdateWithoutTicketInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversation?: ConversationUpdateOneWithoutActivitiesNestedInput
+    lead?: LeadUpdateOneWithoutActivitiesNestedInput
+    company?: CompanyUpdateOneRequiredWithoutActivitiesNestedInput
+  }
+
+  export type ActivityUncheckedUpdateWithoutTicketInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ActivityUncheckedUpdateManyWithoutTicketInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type SetorUserCreateManySetorInput = {
     userId: string
   }
@@ -35788,6 +44050,24 @@ export namespace Prisma {
     updatedAt?: Date | string
     companyId: string
     createdById?: string | null
+  }
+
+  export type ConversationCreateManySetorInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    assigneeId?: string | null
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type SetorUserUpdateWithoutSetorInput = {
@@ -35830,6 +44110,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
+    activities?: ActivityUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutSetorInput = {
@@ -35848,6 +44129,7 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateManyWithoutSetorInput = {
@@ -35865,6 +44147,68 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ConversationUpdateWithoutSetorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignee?: UserUpdateOneWithoutConversationsAssignedNestedInput
+    company?: CompanyUpdateOneRequiredWithoutConversationsNestedInput
+    messages?: MessageUpdateManyWithoutConversationNestedInput
+    notes?: ConversationNoteUpdateManyWithoutConversationNestedInput
+    activities?: ActivityUpdateManyWithoutConversationNestedInput
+    leads?: LeadUpdateManyWithoutConversationNestedInput
+  }
+
+  export type ConversationUncheckedUpdateWithoutSetorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUncheckedUpdateManyWithoutConversationNestedInput
+    notes?: ConversationNoteUncheckedUpdateManyWithoutConversationNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutConversationNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutConversationNestedInput
+  }
+
+  export type ConversationUncheckedUpdateManyWithoutSetorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
@@ -35896,6 +44240,10 @@ export namespace Prisma {
      * @deprecated Use WhatsappInstanceCountOutputTypeDefaultArgs instead
      */
     export type WhatsappInstanceCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = WhatsappInstanceCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ConversationCountOutputTypeDefaultArgs instead
+     */
+    export type ConversationCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ConversationCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use TicketCountOutputTypeDefaultArgs instead
      */
@@ -35956,6 +44304,18 @@ export namespace Prisma {
      * @deprecated Use SettingDefaultArgs instead
      */
     export type SettingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SettingDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ConversationDefaultArgs instead
+     */
+    export type ConversationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ConversationDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ConversationNoteDefaultArgs instead
+     */
+    export type ConversationNoteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ConversationNoteDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ActivityDefaultArgs instead
+     */
+    export type ActivityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ActivityDefaultArgs<ExtArgs>
     /**
      * @deprecated Use TicketDefaultArgs instead
      */

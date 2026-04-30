@@ -1,5 +1,159 @@
-import { Prisma, LeadStatus } from "@/generated/prisma";
+import { Prisma, LeadStatus, MessageDir, ConversationStatus, ActivityType } from "@/generated/prisma";
 import { prisma } from "./prisma";
+
+/**
+ * Upsert idempotente de Conversation.
+ *
+ * Cria a conversa se não existir, ou atualiza a existente:
+ *   - lastMessageAt/Body/Direction sempre refletem a mensagem mais recente
+ *   - status segue a máquina de transição abaixo
+ *   - unreadCount: INBOUND incrementa, OUTBOUND zera
+ *   - setor é herdado da instância (via SetorInstance) na primeira mensagem
+ *
+ * Máquina de transição:
+ *   ─ INBOUND chegando ─
+ *     CLOSED              → OPEN (e cria Activity CONVERSATION_REOPENED)
+ *     WAITING_CUSTOMER    → OPEN
+ *     IN_PROGRESS         → IN_PROGRESS (mantém — atendente já está lá)
+ *     OPEN | PENDING      → mantém
+ *     (nova)              → OPEN
+ *   ─ OUTBOUND chegando ─
+ *     qualquer estado     → IN_PROGRESS (atendente respondeu)
+ *     (nova)              → IN_PROGRESS
+ *
+ * Idempotência em race condition: usa o unique constraint (companyId, phone)
+ * via upsert. 4 webhooks simultâneos para o mesmo grupo → só 1 conversa criada.
+ */
+export async function upsertConversation(args: {
+  companyId: string;
+  phone: string;
+  direction: MessageDir;
+  body: string;
+  instanceId?: string | null;
+  receivedAt?: Date;
+}): Promise<{ id: string; statusChanged: boolean; previousStatus: ConversationStatus | null }> {
+  const { companyId, phone, direction, body, instanceId, receivedAt } = args;
+  const now = receivedAt ?? new Date();
+  const isGroup = phone.includes("@g.us") || phone.includes("@lid");
+  const bodyPreview = body.slice(0, 200);
+
+  // Busca conversa existente
+  const existing = await prisma.conversation.findUnique({
+    where: { companyId_phone: { companyId, phone } },
+    select: { id: true, status: true, firstResponseAt: true, setorId: true },
+  });
+
+  // Define o novo status conforme a transição
+  let newStatus: ConversationStatus;
+  if (!existing) {
+    newStatus = direction === "INBOUND" ? "OPEN" : "IN_PROGRESS";
+  } else if (direction === "OUTBOUND") {
+    newStatus = "IN_PROGRESS";
+  } else {
+    // INBOUND
+    if (existing.status === "CLOSED" || existing.status === "WAITING_CUSTOMER") {
+      newStatus = "OPEN";
+    } else {
+      newStatus = existing.status; // mantém IN_PROGRESS / OPEN / PENDING
+    }
+  }
+
+  const statusChanged = !existing || existing.status !== newStatus;
+
+  // Para nova conversa: tenta herdar setor da instância
+  let setorId: string | null = existing?.setorId ?? null;
+  if (!existing && instanceId) {
+    const setorInstance = await prisma.setorInstance.findFirst({
+      where: { instanceId },
+      select: { setorId: true },
+    });
+    setorId = setorInstance?.setorId ?? null;
+  }
+
+  // unreadCount: INBOUND incrementa; OUTBOUND zera
+  // (no upsert do Prisma não dá pra usar increment no create, então tratamos via update)
+  const conversation = await prisma.conversation.upsert({
+    where: { companyId_phone: { companyId, phone } },
+    create: {
+      companyId,
+      phone,
+      isGroup,
+      status: newStatus,
+      statusUpdatedAt: now,
+      lastMessageAt: now,
+      lastMessageBody: bodyPreview,
+      lastMessageDirection: direction,
+      unreadCount: direction === "INBOUND" ? 1 : 0,
+      setorId: setorId ?? undefined,
+      firstResponseAt: direction === "OUTBOUND" ? now : null,
+      closedAt: null,
+    },
+    update: {
+      lastMessageAt: now,
+      lastMessageBody: bodyPreview,
+      lastMessageDirection: direction,
+      ...(statusChanged ? { status: newStatus, statusUpdatedAt: now } : {}),
+      // newStatus nunca é CLOSED via ingestão — toda mensagem nova reabre uma conversa fechada
+      closedAt: null,
+      ...(direction === "INBOUND"
+        ? { unreadCount: { increment: 1 } }
+        : { unreadCount: 0 }),
+      ...(direction === "OUTBOUND" && existing && !existing.firstResponseAt
+        ? { firstResponseAt: now }
+        : {}),
+    },
+    select: { id: true },
+  });
+
+  // Log de reabertura
+  if (existing && existing.status === "CLOSED" && newStatus === "OPEN") {
+    await prisma.activity.create({
+      data: {
+        type: ActivityType.CONVERSATION_REOPENED,
+        body: "Cliente respondeu — conversa reaberta",
+        conversationId: conversation.id,
+        companyId,
+      },
+    }).catch(() => {/* não crítico */});
+  }
+
+  // Sincroniza Lead.attendanceStatus (legacy) com Conversation.status
+  // Mantém telas antigas (Dashboard, AI, filtros) consistentes com a nova fonte da verdade.
+  // Mapping:
+  //   OPEN | PENDING                  → WAITING
+  //   IN_PROGRESS | WAITING_CUSTOMER  → IN_PROGRESS
+  //   CLOSED                          → RESOLVED
+  if (statusChanged) {
+    const legacy = mapConvStatusToLegacy(newStatus);
+    await prisma.lead.updateMany({
+      where: { conversationId: conversation.id, attendanceStatus: { not: legacy } },
+      data:  { attendanceStatus: legacy },
+    }).catch(() => {/* não crítico */});
+  }
+
+  return {
+    id: conversation.id,
+    statusChanged,
+    previousStatus: existing?.status ?? null,
+  };
+}
+
+/**
+ * Traduz Conversation.status → Lead.attendanceStatus legacy.
+ * @deprecated Lead.attendanceStatus está marcado para remoção; use Conversation.status diretamente.
+ */
+export function mapConvStatusToLegacy(status: ConversationStatus): "WAITING" | "IN_PROGRESS" | "RESOLVED" {
+  switch (status) {
+    case "OPEN":
+    case "PENDING":
+      return "WAITING";
+    case "IN_PROGRESS":
+    case "WAITING_CUSTOMER":
+      return "IN_PROGRESS";
+    case "CLOSED":
+      return "RESOLVED";
+  }
+}
 
 /**
  * Salva (ou atualiza) o nome de exibição do WhatsApp (pushName) em CompanyContact.
@@ -124,6 +278,16 @@ export async function processInboundMessage(payload: {
       }
     }
 
+    // Upsert da conversa (grupo) — herda setor da instância na criação
+    const conv = await upsertConversation({
+      companyId: instance.companyId,
+      phone,
+      direction: "INBOUND",
+      body,
+      instanceId: instance.id,
+      receivedAt,
+    });
+
     // safeCreateMessage usa upsert para ser atômico — evita duplicate key em webhooks simultâneos
     await safeCreateMessage({
       externalId: externalId ?? undefined,
@@ -136,6 +300,7 @@ export async function processInboundMessage(payload: {
       rawPayload: rawPayload ? (rawPayload as any) : undefined,
       companyId: instance.companyId,
       instanceId: instance.id,
+      conversationId: conv.id,
       ...(mediaBase64 ? { mediaBase64, mediaType: mediaType ?? null } : {}),
     });
 
@@ -186,6 +351,15 @@ export async function processInboundMessage(payload: {
     if (!matchResult) {
       if (triggerOnly) {
         console.log(`[WA inbound] triggerOnly=true, sem match de keyword — salvando na inbox sem lead: phone=${phone}`);
+        // Upsert da conversa (mesmo sem lead, queremos rastrear a conversa)
+        const conv = await upsertConversation({
+          companyId,
+          phone,
+          direction: "INBOUND",
+          body,
+          instanceId: instance.id,
+          receivedAt,
+        });
         // Salva a mensagem sem vincular a lead (upsert: idempotente)
         await safeCreateMessage({
           externalId: externalId ?? undefined,
@@ -196,6 +370,7 @@ export async function processInboundMessage(payload: {
           rawPayload: rawPayload ? (rawPayload as any) : undefined,
           companyId,
           instanceId: instance.id,
+          conversationId: conv.id,
           ...(mediaBase64 ? { mediaBase64, mediaType: mediaType ?? null } : {}),
         });
         // Persiste o pushName para aparecer na lista de conversas mesmo sem lead
@@ -222,6 +397,14 @@ export async function processInboundMessage(payload: {
   if (!lead && !matchResult) {
     // Sem regras e sem lead existente → salva na caixa de entrada sem vincular a lead
     console.log(`[WA] Mensagem salva na caixa de entrada (sem lead): ${phone}`);
+    const conv = await upsertConversation({
+      companyId,
+      phone,
+      direction: "INBOUND",
+      body,
+      instanceId: instance.id,
+      receivedAt,
+    });
     await safeCreateMessage({
       externalId: externalId ?? undefined,
       phone,
@@ -231,6 +414,7 @@ export async function processInboundMessage(payload: {
       rawPayload: rawPayload ? (rawPayload as any) : undefined,
       companyId,
       instanceId: instance.id,
+      conversationId: conv.id,
       ...(mediaBase64 ? { mediaBase64, mediaType: mediaType ?? null } : {}),
     });
     // Persiste o pushName para aparecer na lista de conversas mesmo sem lead
@@ -290,13 +474,23 @@ export async function processInboundMessage(payload: {
     }
   }
 
-  // Marcar atendimento como "aguardando" quando chega mensagem nova
-  // (não faz regress de RESOLVED para WAITING — fica WAITING apenas se estava em outro estado)
-  if (lead.attendanceStatus !== "WAITING") {
+  // Upsert da Conversation — fonte da verdade do status de atendimento
+  // (substitui o antigo Lead.attendanceStatus = "WAITING")
+  const conv = await upsertConversation({
+    companyId,
+    phone,
+    direction: "INBOUND",
+    body,
+    instanceId: instance.id,
+    receivedAt,
+  });
+
+  // Vincula o Lead à Conversation se ainda não estiver
+  if (lead.conversationId !== conv.id) {
     await prisma.lead.update({
       where: { id: lead.id },
-      data: { attendanceStatus: "WAITING" },
-    });
+      data: { conversationId: conv.id },
+    }).catch(() => {/* não crítico */});
   }
 
   // Persistir pushName no CompanyContact para aparecer nas buscas/filtros da inbox
@@ -316,6 +510,7 @@ export async function processInboundMessage(payload: {
     instanceId: instance.id,
     campaignId: campaignId ?? undefined,
     leadId: lead.id,
+    conversationId: conv.id,
     ...(receivedAt ? { receivedAt } : {}),
     ...(quotedId ? { quotedId, quotedBody: quotedBody ?? null } : {}),
     ...(mediaBase64 ? { mediaBase64, mediaType: mediaType ?? null } : {}),

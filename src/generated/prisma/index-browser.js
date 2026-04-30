@@ -152,7 +152,8 @@ exports.Prisma.CompanyScalarFieldEnum = {
   moduleTickets: 'moduleTickets',
   moduleAI: 'moduleAI',
   parentCompanyId: 'parentCompanyId',
-  triggerOnly: 'triggerOnly'
+  triggerOnly: 'triggerOnly',
+  webhookToken: 'webhookToken'
 };
 
 exports.Prisma.CampaignScalarFieldEnum = {
@@ -213,7 +214,8 @@ exports.Prisma.LeadScalarFieldEnum = {
   isInternal: 'isInternal',
   companyId: 'companyId',
   campaignId: 'campaignId',
-  trackingLinkId: 'trackingLinkId'
+  trackingLinkId: 'trackingLinkId',
+  conversationId: 'conversationId'
 };
 
 exports.Prisma.LeadCommentScalarFieldEnum = {
@@ -274,10 +276,13 @@ exports.Prisma.MessageScalarFieldEnum = {
   ack: 'ack',
   quotedId: 'quotedId',
   quotedBody: 'quotedBody',
+  mediaBase64: 'mediaBase64',
+  mediaType: 'mediaType',
   companyId: 'companyId',
   instanceId: 'instanceId',
   campaignId: 'campaignId',
-  leadId: 'leadId'
+  leadId: 'leadId',
+  conversationId: 'conversationId'
 };
 
 exports.Prisma.KeywordRuleScalarFieldEnum = {
@@ -293,6 +298,48 @@ exports.Prisma.KeywordRuleScalarFieldEnum = {
 exports.Prisma.SettingScalarFieldEnum = {
   key: 'key',
   value: 'value'
+};
+
+exports.Prisma.ConversationScalarFieldEnum = {
+  id: 'id',
+  phone: 'phone',
+  isGroup: 'isGroup',
+  status: 'status',
+  statusUpdatedAt: 'statusUpdatedAt',
+  assigneeId: 'assigneeId',
+  setorId: 'setorId',
+  lastMessageAt: 'lastMessageAt',
+  lastMessageBody: 'lastMessageBody',
+  lastMessageDirection: 'lastMessageDirection',
+  unreadCount: 'unreadCount',
+  firstResponseAt: 'firstResponseAt',
+  closedAt: 'closedAt',
+  companyId: 'companyId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ConversationNoteScalarFieldEnum = {
+  id: 'id',
+  body: 'body',
+  authorId: 'authorId',
+  authorName: 'authorName',
+  createdAt: 'createdAt',
+  conversationId: 'conversationId'
+};
+
+exports.Prisma.ActivityScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  body: 'body',
+  meta: 'meta',
+  authorId: 'authorId',
+  authorName: 'authorName',
+  createdAt: 'createdAt',
+  conversationId: 'conversationId',
+  leadId: 'leadId',
+  ticketId: 'ticketId',
+  companyId: 'companyId'
 };
 
 exports.Prisma.TicketScalarFieldEnum = {
@@ -422,6 +469,30 @@ exports.MessageDir = exports.$Enums.MessageDir = {
   OUTBOUND: 'OUTBOUND'
 };
 
+exports.ConversationStatus = exports.$Enums.ConversationStatus = {
+  OPEN: 'OPEN',
+  PENDING: 'PENDING',
+  IN_PROGRESS: 'IN_PROGRESS',
+  WAITING_CUSTOMER: 'WAITING_CUSTOMER',
+  CLOSED: 'CLOSED'
+};
+
+exports.ActivityType = exports.$Enums.ActivityType = {
+  STATUS_CHANGED: 'STATUS_CHANGED',
+  ASSIGNEE_CHANGED: 'ASSIGNEE_CHANGED',
+  SECTOR_CHANGED: 'SECTOR_CHANGED',
+  STAGE_CHANGED: 'STAGE_CHANGED',
+  PIPELINE_CHANGED: 'PIPELINE_CHANGED',
+  VALUE_CHANGED: 'VALUE_CHANGED',
+  NOTE_ADDED: 'NOTE_ADDED',
+  CLICKUP_LINKED: 'CLICKUP_LINKED',
+  TRACKING_LINK_SET: 'TRACKING_LINK_SET',
+  LEAD_LINKED: 'LEAD_LINKED',
+  CONVERSATION_REOPENED: 'CONVERSATION_REOPENED',
+  CONVERSATION_CLOSED: 'CONVERSATION_CLOSED',
+  TRANSFERRED: 'TRANSFERRED'
+};
+
 exports.TicketStatus = exports.$Enums.TicketStatus = {
   OPEN: 'OPEN',
   IN_PROGRESS: 'IN_PROGRESS',
@@ -450,6 +521,9 @@ exports.Prisma.ModelName = {
   Message: 'Message',
   KeywordRule: 'KeywordRule',
   Setting: 'Setting',
+  Conversation: 'Conversation',
+  ConversationNote: 'ConversationNote',
+  Activity: 'Activity',
   Ticket: 'Ticket',
   TicketMessage: 'TicketMessage',
   Setor: 'Setor',

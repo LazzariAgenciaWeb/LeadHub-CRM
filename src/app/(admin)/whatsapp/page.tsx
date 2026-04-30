@@ -100,11 +100,42 @@ export default async function WhatsappPage({
     })
   );
 
+  // Enriquecimento com dados de Conversation (status, atribuição, unreadCount)
+  const convRows = phones.length > 0
+    ? await prisma.conversation.findMany({
+        where: {
+          OR: phones.map((p) => ({ companyId: p.companyId, phone: p.phone })),
+        },
+        select: {
+          id: true, phone: true, companyId: true,
+          status: true, statusUpdatedAt: true, unreadCount: true,
+          assigneeId: true,
+          assignee: { select: { id: true, name: true } },
+          setorId: true,
+          setor: { select: { id: true, name: true } },
+        },
+      })
+    : [];
+  const convByKey = new Map(convRows.map((c) => [`${c.companyId}:${c.phone}`, c]));
+  const conversationsEnriched = conversations.map((c) => ({
+    ...c,
+    conversation: convByKey.get(`${c.companyId}:${c.phone}`) ?? null,
+  }));
+
   const finalStageConfigs = await prisma.pipelineStageConfig.findMany({
     where: { isFinal: true, ...(companyId ? { companyId } : {}) },
     select: { name: true },
   });
   const finalStageNames = [...new Set(finalStageConfigs.map((s) => s.name))];
+
+  // Setores da empresa para o modal de transferência (Sprint 4)
+  const setores = companyId
+    ? await prisma.setor.findMany({
+        where: { companyId },
+        select: { id: true, name: true },
+        orderBy: { name: "asc" },
+      })
+    : [];
 
   // Busca assinatura e nome do usuário logado direto do banco (evita JWT stale)
   const currentUser = session?.user as any;
@@ -121,11 +152,13 @@ export default async function WhatsappPage({
       instances={instances as any}
       isSuperAdmin={isSuperAdmin}
       defaultCompanyId={companyId}
-      conversations={conversations as any}
+      conversations={conversationsEnriched as any}
       defaultPhone={defaultPhone}
       finalStageNames={finalStageNames}
       userSignature={dbUser?.whatsappSignature ?? ""}
       userName={dbUser?.name ?? currentUser?.name ?? ""}
+      currentUserId={userId ?? ""}
+      availableSetores={setores}
     />
   );
 }

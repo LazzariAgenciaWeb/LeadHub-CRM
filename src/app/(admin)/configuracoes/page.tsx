@@ -7,11 +7,13 @@ import PipelineSettings from "./PipelineSettings";
 import ClickupSettings from "./ClickupSettings";
 import OpenAISettings from "./OpenAISettings";
 import SetoresSection from "./SetoresSection";
+import WebhookSettings from "./WebhookSettings";
+import AtendimentoSettings from "./AtendimentoSettings";
 
 export default async function ConfiguracoesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ secao?: string }>;
+  searchParams: Promise<{ secao?: string; companyId?: string }>;
 }) {
   const session = await getEffectiveSession();
   const isSuperAdmin = (session?.user as any)?.role === "SUPER_ADMIN";
@@ -19,6 +21,7 @@ export default async function ConfiguracoesPage({
 
   const sp = await searchParams;
   const secao = sp.secao ?? "instancias";
+  const qCompanyId = sp.companyId;
 
   const webhookBaseUrl = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
 
@@ -84,6 +87,24 @@ export default async function ConfiguracoesPage({
     for (const s of settingsRaw) settings[s.key] = s.value;
 
     content = <ClickupSettings settings={settings} />;
+  } else if (secao === "integracoes-webhook") {
+    const companyId = userCompanyId ?? "";
+    let webhookToken: string | null = null;
+    if (companyId) {
+      const company = await prisma.company.findUnique({
+        where: { id: companyId },
+        select: { webhookToken: true },
+      });
+      webhookToken = company?.webhookToken ?? null;
+    }
+    const baseUrl = process.env.NEXTAUTH_URL ?? process.env.NEXT_PUBLIC_BASE_URL ?? "";
+    content = (
+      <WebhookSettings
+        companyId={companyId}
+        webhookToken={webhookToken}
+        baseUrl={baseUrl}
+      />
+    );
   } else if (secao === "integracoes-openai") {
     const settingsRaw = await prisma.setting.findMany({
       where: { key: { in: ["openai_api_key", "openai_model"] } },
@@ -93,24 +114,35 @@ export default async function ConfiguracoesPage({
 
     content = <OpenAISettings settings={settings} />;
   } else if (secao === "pipeline") {
-    // Para SUPER_ADMIN sem companyId próprio, usa a primeira empresa do sistema
-    let pipelineCompanyId = userCompanyId;
+    // SuperAdmin pode escolher empresa via ?companyId=X
+    // Se não informado, usa o companyId da sessão (quando impersonando ou é ADMIN)
+    let pipelineCompanyId = isSuperAdmin ? (qCompanyId ?? userCompanyId) : userCompanyId;
+
+    // Fallback: primeira empresa do sistema
     if (!pipelineCompanyId) {
       const firstCompany = await prisma.company.findFirst({ orderBy: { createdAt: "asc" }, select: { id: true } });
       pipelineCompanyId = firstCompany?.id;
     }
 
-    const pipelineStages = pipelineCompanyId
-      ? await prisma.pipelineStageConfig.findMany({
-          where: { companyId: pipelineCompanyId },
-          orderBy: [{ pipeline: "asc" }, { order: "asc" }],
-        })
-      : [];
+    const [pipelineStages, allCompanies] = await Promise.all([
+      pipelineCompanyId
+        ? prisma.pipelineStageConfig.findMany({
+            where: { companyId: pipelineCompanyId },
+            orderBy: [{ pipeline: "asc" }, { order: "asc" }],
+          })
+        : Promise.resolve([]),
+      isSuperAdmin
+        ? prisma.company.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } })
+        : Promise.resolve([]),
+    ]);
 
     content = (
       <PipelineSettings
         initialStages={pipelineStages}
         companyId={pipelineCompanyId ?? ""}
+        isSuperAdmin={isSuperAdmin}
+        allCompanies={allCompanies}
+        selectedCompanyId={pipelineCompanyId ?? ""}
       />
     );
   } else if (secao === "setores") {
@@ -141,6 +173,35 @@ export default async function ConfiguracoesPage({
         initialSetores={setores as any}
         allUsers={allUsers}
         allInstances={allInstances as any}
+      />
+    );
+  } else if (secao === "atendimento") {
+    const cId = userCompanyId ?? "";
+    const settingsRaw = await prisma.setting.findMany({
+      where: {
+        key: { in: [
+          `sla_minutes:${cId}`,
+          `out_of_hours_message:${cId}`,
+          `business_hours:${cId}`,
+        ] },
+      },
+    });
+    const settings: Record<string, string> = {};
+    for (const s of settingsRaw) settings[s.key] = s.value;
+
+    const sla = parseInt(settings[`sla_minutes:${cId}`] ?? "15", 10);
+    const ooh = settings[`out_of_hours_message:${cId}`] ?? "";
+    const bhRaw = settings[`business_hours:${cId}`] ?? "";
+    const bh = bhRaw && bhRaw.includes("-")
+      ? { start: bhRaw.split("-")[0], end: bhRaw.split("-")[1] }
+      : null;
+
+    content = (
+      <AtendimentoSettings
+        companyId={cId}
+        slaMinutes={isNaN(sla) ? 15 : sla}
+        outOfHoursMessage={ooh}
+        businessHours={bh}
       />
     );
   } else {

@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import CRMCharts from "./CRMCharts";
 import UnansweredWidget from "./UnansweredWidget";
+import AtendimentoStats from "./AtendimentoStats";
 
 export default async function DashboardPage() {
   const session = await getEffectiveSession();
@@ -267,6 +268,9 @@ export default async function DashboardPage() {
         <KPI label="Campanhas"    value={campaigns}          sub="Ativas"          subColor="text-amber-400"  barColor="bg-amber-500"    href="/campanhas"       icon="📣" />
         <KPI label="Cliques"      value={totalClicksNum}     sub="Em todos os links" subColor="text-orange-400" barColor="bg-orange-500" href="/links"           icon="🔗" />
       </div>
+
+      {/* KPIs de Atendimento (Sprint 4) */}
+      <AtendimentoStats />
 
       {/* Conversas aguardando resposta */}
       {unansweredConvs.length > 0 && (
