@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LeadHub CRM
 
-## Getting Started
+[![Versão](https://img.shields.io/github/package-json/v/LazzariAgenciaWeb/LeadHub-CRM?label=vers%C3%A3o&color=indigo)](https://github.com/LazzariAgenciaWeb/LeadHub-CRM/blob/main/package.json)
+[![Último commit](https://img.shields.io/github/last-commit/LazzariAgenciaWeb/LeadHub-CRM?label=%C3%BAltimo%20commit&color=blue)](https://github.com/LazzariAgenciaWeb/LeadHub-CRM/commits/main)
+[![Releases](https://img.shields.io/github/v/release/LazzariAgenciaWeb/LeadHub-CRM?label=release&color=emerald&include_prereleases)](https://github.com/LazzariAgenciaWeb/LeadHub-CRM/releases)
 
-First, run the development server:
+SaaS multi-tenant de **marketing + atendimento WhatsApp + CRM**, voltado a agências e PMEs. Inbox unificada, pipeline configurável, integrações Evolution API / ClickUp / OpenAI.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Como verificar a versão em produção
+
+A versão atual aparece no **rodapé do menu lateral** (canto inferior esquerdo do sistema), no formato:
+
+```
+v0.2.0 · abc1234
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Onde `abc1234` é o hash curto do commit do build atual. Clicando, abre o commit correspondente no GitHub.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Detalhes completos em `GET /api/version`:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```json
+{
+  "name": "leadhub",
+  "version": "0.2.0",
+  "commit": "abc1234567890...",
+  "shortCommit": "abc1234",
+  "builtAt": "2026-04-30T18:30:00Z",
+  "commitUrl": "https://github.com/LazzariAgenciaWeb/LeadHub-CRM/commit/abc1234567890...",
+  "releaseUrl": "https://github.com/LazzariAgenciaWeb/LeadHub-CRM/releases/tag/v0.2.0"
+}
+```
 
-## Learn More
+## Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Framework:** Next.js 16 (App Router) + React 19
+- **Banco:** PostgreSQL via Prisma 5
+- **Auth:** NextAuth (Credentials)
+- **WhatsApp:** Evolution API v2 (multi-instância, Baileys)
+- **IA:** OpenAI
+- **Integrações:** ClickUp, Google Sheets (BDR sync)
+- **Deploy:** Docker via Portainer
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Versionamento
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+O projeto segue [SemVer](https://semver.org/lang/pt-BR/) (`MAJOR.MINOR.PATCH`):
 
-## Deploy on Vercel
+- **MAJOR** — quebras incompatíveis (raras)
+- **MINOR** — features novas (releases regulares)
+- **PATCH** — correções de bugs
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+A versão é mantida em `package.json`. Em cada release significativa:
+1. Bump em `package.json`
+2. Tag no git: `git tag vX.Y.Z && git push --tags`
+3. (Opcional) Release notes em [Releases](https://github.com/LazzariAgenciaWeb/LeadHub-CRM/releases)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+O hash do commit é injetado no build via `GIT_COMMIT_SHA` (Dockerfile), permitindo identificar exatamente qual commit está rodando em produção.
+
+## Scripts
+
+```bash
+npm run dev        # Desenvolvimento (porta 3000)
+npm run build      # Build de produção
+npm run start      # Servir build
+npm run lint       # ESLint
+npm run db:migrate # Aplicar migrations Prisma
+npm run db:seed    # Seed inicial
+```
+
+## Documentação
+
+- `SISTEMA.md` — Visão geral, módulos, planos comerciais, roadmap (na raiz do workspace)
+- [`AGENTS.md`](AGENTS.md) — Convenções para edição de código
+
+---
+
+🔗 [Repositório](https://github.com/LazzariAgenciaWeb/LeadHub-CRM) · [Commits](https://github.com/LazzariAgenciaWeb/LeadHub-CRM/commits/main) · [Releases](https://github.com/LazzariAgenciaWeb/LeadHub-CRM/releases)

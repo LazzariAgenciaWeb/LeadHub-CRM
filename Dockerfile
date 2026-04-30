@@ -14,7 +14,15 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN npm run build
+
+# Build args para versionamento (injetados pelo Portainer/CI ou via --build-arg)
+ARG GIT_COMMIT_SHA=unknown
+ARG BUILD_TIMESTAMP
+RUN BUILD_TIMESTAMP="${BUILD_TIMESTAMP:-$(date -u +%Y-%m-%dT%H:%M:%SZ)}" \
+    GIT_COMMIT_SHA="${GIT_COMMIT_SHA}" \
+    npm run build
+ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
+ENV BUILD_TIMESTAMP=${BUILD_TIMESTAMP}
 
 # ─── Runner (imagem final mínima) ─────────────────────────────────────────────
 FROM base AS runner
@@ -43,5 +51,11 @@ USER nextjs
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
+
+# Propaga build args para o runtime (acessíveis via process.env)
+ARG GIT_COMMIT_SHA=unknown
+ARG BUILD_TIMESTAMP
+ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
+ENV BUILD_TIMESTAMP=${BUILD_TIMESTAMP}
 
 CMD ["sh", "start.sh"]

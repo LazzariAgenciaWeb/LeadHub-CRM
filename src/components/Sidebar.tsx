@@ -11,6 +11,7 @@ import {
   Search, Target, Lightbulb, Megaphone, LifeBuoy, Link2, TrendingUp,
   Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, type LucideIcon,
 } from "lucide-react";
+import VersionBadge from "./VersionBadge";
 
 interface SidebarProps {
   session: Session;
@@ -307,6 +308,7 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
           </div>
           <ChevronUp className={`w-3.5 h-3.5 text-slate-500 transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
         </button>
+        <VersionBadge />
       </div>
     </aside>
   );
