@@ -11,15 +11,12 @@ import { prisma } from "./prisma";
  *   - setor é herdado da instância (via SetorInstance) na primeira mensagem
  *
  * Máquina de transição:
- *   ─ INBOUND chegando ─
- *     CLOSED              → OPEN (e cria Activity CONVERSATION_REOPENED)
- *     WAITING_CUSTOMER    → OPEN
- *     IN_PROGRESS         → IN_PROGRESS (mantém — atendente já está lá)
- *     OPEN | PENDING      → mantém
- *     (nova)              → OPEN
- *   ─ OUTBOUND chegando ─
- *     qualquer estado     → IN_PROGRESS (atendente respondeu)
- *     (nova)              → IN_PROGRESS
+ *   ─ INBOUND chegando (cliente mandou mensagem) ─
+ *     SEMPRE vai para OPEN — indica "precisa resposta", para o atendente
+ *     não esquecer de responder. CLOSED → OPEN cria Activity CONVERSATION_REOPENED.
+ *     (Nem mesmo IN_PROGRESS resiste: cliente respondeu = bola está com a gente.)
+ *   ─ OUTBOUND chegando (atendente respondeu) ─
+ *     SEMPRE vai para IN_PROGRESS.
  *
  * Idempotência em race condition: usa o unique constraint (companyId, phone)
  * via upsert. 4 webhooks simultâneos para o mesmo grupo → só 1 conversa criada.
@@ -43,20 +40,11 @@ export async function upsertConversation(args: {
     select: { id: true, status: true, firstResponseAt: true, setorId: true },
   });
 
-  // Define o novo status conforme a transição
-  let newStatus: ConversationStatus;
-  if (!existing) {
-    newStatus = direction === "INBOUND" ? "OPEN" : "IN_PROGRESS";
-  } else if (direction === "OUTBOUND") {
-    newStatus = "IN_PROGRESS";
-  } else {
-    // INBOUND
-    if (existing.status === "CLOSED" || existing.status === "WAITING_CUSTOMER") {
-      newStatus = "OPEN";
-    } else {
-      newStatus = existing.status; // mantém IN_PROGRESS / OPEN / PENDING
-    }
-  }
+  // Define o novo status conforme a transição.
+  // Regra única: INBOUND → OPEN (precisa resposta) · OUTBOUND → IN_PROGRESS (em fluxo).
+  // Cliente respondeu = bola está com a gente, mesmo que atendente já estivesse no caso.
+  // PENDING (= OPEN com SLA estourado) é setado pelo job /api/cron/sla.
+  const newStatus: ConversationStatus = direction === "INBOUND" ? "OPEN" : "IN_PROGRESS";
 
   const statusChanged = !existing || existing.status !== newStatus;
 
