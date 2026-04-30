@@ -210,6 +210,7 @@ export default function WhatsappManager({
   userName = "",
   currentUserId = "",
   availableSetores = [],
+  availableAtendentes = [],
 }: {
   instances: Instance[];
   isSuperAdmin: boolean;
@@ -221,6 +222,7 @@ export default function WhatsappManager({
   userName?: string;
   currentUserId?: string;
   availableSetores?: { id: string; name: string }[];
+  availableAtendentes?: { id: string; name: string; email: string; role: string }[];
 }) {
   // Toggle de assinatura por mensagem (Sprint 3)
   const [includeSignature, setIncludeSignature] = useState<boolean>(!!userSignature);
@@ -228,9 +230,11 @@ export default function WhatsappManager({
   const [convStatusOverride, setConvStatusOverride] = useState<Map<string, ConvStatus>>(new Map());
   const [convAssigneeOverride, setConvAssigneeOverride] = useState<Map<string, { id: string; name: string } | null>>(new Map());
   const [convActionLoading, setConvActionLoading] = useState(false);
-  // Modal de transferência (Sprint 4)
+  // Modal de transferência (Sprint 4) — pode transferir para setor OU atendente
   const [showTransferModal, setShowTransferModal] = useState(false);
+  const [transferTargetType, setTransferTargetType] = useState<"setor" | "atendente">("atendente");
   const [transferSetorId, setTransferSetorId] = useState("");
+  const [transferAssigneeId, setTransferAssigneeId] = useState("");
   const [transferNote, setTransferNote] = useState("");
   const [transferring, setTransferring] = useState(false);
   const router = useRouter();
@@ -452,6 +456,30 @@ export default function WhatsappManager({
   useEffect(() => {
     selectedConvRef.current = selectedConv;
   }, [selectedConv]);
+
+  // Mantém o chip de status do header sincronizado com a lista atualizada do server.
+  // Sem isso, "Pegar/Finalizar/Reabrir" no header ficava com valor diferente do
+  // chip da lista (que recebe dados frescos via router.refresh).
+  useEffect(() => {
+    if (!selectedConv) return;
+    const updated = conversations.find(
+      (c) => c.phone === selectedConv.phone && c.companyId === selectedConv.companyId
+    );
+    if (!updated?.conversation) return;
+    const cur = selectedConv.conversation;
+    const next = updated.conversation;
+    // Atualiza só se realmente mudou — evita loop de render.
+    const drift =
+      !cur ||
+      cur.status     !== next.status ||
+      cur.assigneeId !== next.assigneeId ||
+      cur.setorId    !== next.setorId ||
+      cur.unreadCount !== next.unreadCount;
+    if (drift) {
+      setSelectedConv((prev) => prev ? { ...prev, conversation: next } : prev);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [conversations]);
 
   useEffect(() => {
     openTicketRef.current = openTicket;
@@ -738,22 +766,29 @@ export default function WhatsappManager({
     }
   }
 
-  // Transferência de conversa entre setores (Sprint 4)
+  // Transferência de conversa — para setor OU atendente específico (Sprint 4)
   async function handleTransfer() {
-    if (!selectedConv?.conversation?.id || !transferSetorId) return;
+    if (!selectedConv?.conversation?.id) return;
+    const isSetor     = transferTargetType === "setor";
+    const isAtendente = transferTargetType === "atendente";
+    if (isSetor && !transferSetorId) return;
+    if (isAtendente && !transferAssigneeId) return;
+
     setTransferring(true);
     try {
+      // Setor: limpa atendente (quem pegar do novo setor assume)
+      // Atendente: força status IN_PROGRESS e mantém o setor atual
+      const body: Record<string, unknown> = isSetor
+        ? { setorId: transferSetorId, assigneeId: null }
+        : { assigneeId: transferAssigneeId, status: "IN_PROGRESS" };
+
       const res = await fetch(`/api/conversations/${selectedConv.conversation.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          setorId: transferSetorId,
-          assigneeId: null, // limpa atendente — quem pegar do novo setor assume
-        }),
+        body: JSON.stringify(body),
       });
       if (res.ok) {
         const data = await res.json();
-        // Se foi enviada uma nota interna, salva via endpoint de notes
         if (transferNote.trim()) {
           await fetch(`/api/conversations/${selectedConv.conversation.id}/notes`, {
             method: "POST",
@@ -761,23 +796,34 @@ export default function WhatsappManager({
             body: JSON.stringify({ body: transferNote.trim() }),
           }).catch(() => { /* não crítico */ });
         }
+
         setSelectedConv({
           ...selectedConv,
           conversation: {
             ...selectedConv.conversation,
-            setorId: data.setorId,
-            setor: data.setor,
-            assigneeId: null,
-            assignee: null,
+            setorId:    data.setorId,
+            setor:      data.setor,
+            assigneeId: data.assigneeId,
+            assignee:   data.assignee,
+            status:     isAtendente ? "IN_PROGRESS" : selectedConv.conversation.status,
           },
         });
         setConvAssigneeOverride((prev) => {
           const m = new Map(prev);
-          m.set(selectedConv.phone, null);
+          m.set(selectedConv.phone, data.assignee ?? null);
           return m;
         });
+        if (isAtendente) {
+          setConvStatusOverride((prev) => {
+            const m = new Map(prev);
+            m.set(selectedConv.phone, "IN_PROGRESS");
+            return m;
+          });
+        }
+
         setShowTransferModal(false);
         setTransferSetorId("");
+        setTransferAssigneeId("");
         setTransferNote("");
         router.refresh();
       }
@@ -1584,17 +1630,29 @@ export default function WhatsappManager({
     return d.toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "2-digit", year: "numeric" });
   }
 
-  // Anel de urgência no avatar — cor por tempo sem resposta + prioridade do pipeline
+  // Anel de urgência no avatar — cor por status da Conversation + tempo sem resposta
+  // Anel grosso (ring-4) e cores saturadas para identificação rápida.
   function getUrgencyRing(conv: Conversation): { ring: string; icon: string; pulse: boolean } {
     const isInbound = conv.lastMsg?.direction === "INBOUND";
     const pipeline  = conv.lead?.pipeline;
-    // Usa override local para refletir mudança imediatamente antes do router.refresh()
-    const status    = localAttendanceOverrides.get(conv.phone) ?? conv.lead?.attendanceStatus;
 
-    // Resolvido / Em Atendimento / Agendado → anel de status, sem urgência
-    if (status === "RESOLVED")    return { ring: "ring-1 ring-green-600/50",  icon: "✅", pulse: false };
-    if (status === "IN_PROGRESS") return { ring: "ring-2 ring-blue-500",      icon: "💬", pulse: false };
-    if (status === "SCHEDULED")   return { ring: "ring-2 ring-purple-500/70", icon: "📅", pulse: false };
+    // Status da Conversation é a fonte da verdade (com override local para reflexo imediato)
+    const convStatus: ConvStatus | undefined = (
+      convStatusOverride.get(conv.phone) ?? conv.conversation?.status
+    ) as ConvStatus | undefined;
+
+    if (convStatus === "PENDING")      return { ring: "ring-4 ring-red-500",        icon: "🚨", pulse: true  };
+    if (convStatus === "IN_PROGRESS")  return { ring: "ring-4 ring-yellow-400",     icon: "💬", pulse: false };
+    if (convStatus === "WAITING_CUSTOMER") return { ring: "ring-4 ring-blue-400",   icon: "⏱️", pulse: false };
+    if (convStatus === "CLOSED")       return { ring: "ring-2 ring-slate-600",      icon: "✓",  pulse: false };
+    // OPEN ou sem Conversation → cai no fluxo de urgência por tempo abaixo
+    if (convStatus === "OPEN")         return { ring: "ring-4 ring-cyan-400",       icon: "🆕", pulse: false };
+
+    // Fallback legacy (registros sem Conversation ainda — backfill pendente)
+    const legacy = localAttendanceOverrides.get(conv.phone) ?? conv.lead?.attendanceStatus;
+    if (legacy === "RESOLVED")    return { ring: "ring-2 ring-slate-600",       icon: "✓",  pulse: false };
+    if (legacy === "IN_PROGRESS") return { ring: "ring-4 ring-yellow-400",      icon: "💬", pulse: false };
+    if (legacy === "SCHEDULED")   return { ring: "ring-4 ring-purple-400",      icon: "📅", pulse: false };
 
     // Prospecção: nós quem contactamos — só urgente se ELE respondeu (INBOUND)
     if (pipeline === "PROSPECCAO" && !isInbound) return { ring: "ring-1 ring-white/5", icon: "", pulse: false };
@@ -3309,46 +3367,27 @@ export default function WhatsappManager({
                         {showActionsMenu && (
                           <div className="absolute left-0 bottom-full mb-2 w-64 bg-[#0d1525] border border-[#1e2d45] rounded-xl shadow-2xl z-50 overflow-hidden py-1">
 
-                            {/* ── Status de Atendimento ── */}
+                            {/* ── Agendar retorno ── (substituiu os 4 botões legacy de attendanceStatus
+                                  que duplicavam Pegar/Finalizar/Reabrir do header) */}
                             <div className="px-3 pt-2.5 pb-1.5">
-                              <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2">Atendimento</p>
-                              <div className="grid grid-cols-2 gap-1">
-                                {(["WAITING", "IN_PROGRESS", "RESOLVED", "SCHEDULED"] as const).map((s) => {
-                                  const a = ATTENDANCE[s];
-                                  const isActive = attendanceStatus === s;
-                                  return (
-                                    <button
-                                      key={s}
-                                      type="button"
-                                      onClick={() => { handleSetAttendance(s); if (s !== "SCHEDULED") setShowActionsMenu(false); }}
-                                      disabled={savingAttendance}
-                                      className={`flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-[11px] font-semibold border transition-all disabled:opacity-50 ${
-                                        isActive ? a.btn : "border-[#1e2d45] text-slate-500 hover:text-slate-200 hover:border-slate-600 hover:bg-white/5"
-                                      }`}
-                                    >
-                                      {a.icon} {a.label}
-                                    </button>
-                                  );
-                                })}
+                              <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2">📅 Agendar retorno</p>
+                              <div className="flex gap-2">
+                                <input
+                                  type="datetime-local"
+                                  value={expectedReturn}
+                                  onChange={(e) => setExpectedReturn(e.target.value)}
+                                  className="flex-1 bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-purple-500"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => { handleSetAttendance("SCHEDULED"); setShowActionsMenu(false); }}
+                                  disabled={savingAttendance || !expectedReturn}
+                                  className="px-2.5 py-1.5 rounded-lg bg-purple-600 text-white text-xs font-medium hover:bg-purple-500 disabled:opacity-50"
+                                >
+                                  Salvar
+                                </button>
                               </div>
-                              {attendanceStatus === "SCHEDULED" && (
-                                <div className="flex gap-2 mt-2">
-                                  <input
-                                    type="datetime-local"
-                                    value={expectedReturn}
-                                    onChange={(e) => setExpectedReturn(e.target.value)}
-                                    className="flex-1 bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-purple-500"
-                                  />
-                                  <button
-                                    type="button"
-                                    onClick={() => { handleSetAttendance("SCHEDULED"); setShowActionsMenu(false); }}
-                                    disabled={savingAttendance || !expectedReturn}
-                                    className="px-2.5 py-1.5 rounded-lg bg-purple-600 text-white text-xs font-medium hover:bg-purple-500 disabled:opacity-50"
-                                  >
-                                    Salvar
-                                  </button>
-                                </div>
-                              )}
+                              <p className="text-slate-700 text-[10px] mt-1.5">Use <strong>Pegar / Finalizar</strong> no header para mudar o status da conversa.</p>
                             </div>
 
                             <div className="border-t border-[#1e2d45] my-1" />
@@ -3517,7 +3556,7 @@ export default function WhatsappManager({
         </div>
       </div>
 
-      {/* Modal de Transferência (Sprint 4) */}
+      {/* Modal de Transferência (Sprint 4) — para atendente OU setor */}
       {showTransferModal && selectedConv?.conversation && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="absolute inset-0 bg-black/70" onClick={() => setShowTransferModal(false)} />
@@ -3525,27 +3564,74 @@ export default function WhatsappManager({
             <div className="px-6 py-4 border-b border-[#1e2d45] flex items-center justify-between">
               <div>
                 <h2 className="text-white font-bold text-base">Transferir conversa</h2>
-                <p className="text-slate-500 text-xs mt-0.5">Atribuir para outro setor — limpa o atendente atual</p>
+                <p className="text-slate-500 text-xs mt-0.5">Encaminhe para outro atendente ou troque de setor</p>
               </div>
               <button onClick={() => setShowTransferModal(false)} className="text-slate-500 hover:text-white text-2xl leading-none">×</button>
             </div>
 
             <div className="p-6 space-y-4">
-              <div>
-                <label className="block text-slate-400 text-xs font-medium mb-1.5">Setor de destino</label>
-                <select
-                  value={transferSetorId}
-                  onChange={(e) => setTransferSetorId(e.target.value)}
-                  className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
+              {/* Toggle entre atendente e setor */}
+              <div className="grid grid-cols-2 gap-2 bg-[#080b12] p-1 rounded-lg border border-[#1e2d45]">
+                <button
+                  onClick={() => setTransferTargetType("atendente")}
+                  className={`py-2 rounded-md text-xs font-medium transition-colors ${
+                    transferTargetType === "atendente"
+                      ? "bg-violet-600 text-white"
+                      : "text-slate-400 hover:text-white"
+                  }`}
                 >
-                  <option value="">— Selecione —</option>
-                  {availableSetores
-                    .filter((s) => s.id !== selectedConv.conversation?.setorId)
-                    .map((s) => (
-                      <option key={s.id} value={s.id}>{s.name}</option>
-                    ))}
-                </select>
+                  👤 Atendente
+                </button>
+                <button
+                  onClick={() => setTransferTargetType("setor")}
+                  className={`py-2 rounded-md text-xs font-medium transition-colors ${
+                    transferTargetType === "setor"
+                      ? "bg-violet-600 text-white"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  🏷️ Setor
+                </button>
               </div>
+
+              {/* Selector — atendente ou setor */}
+              {transferTargetType === "atendente" ? (
+                <div>
+                  <label className="block text-slate-400 text-xs font-medium mb-1.5">Atendente de destino</label>
+                  <select
+                    value={transferAssigneeId}
+                    onChange={(e) => setTransferAssigneeId(e.target.value)}
+                    className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
+                  >
+                    <option value="">— Selecione —</option>
+                    {availableAtendentes
+                      .filter((u) => u.id !== selectedConv.conversation?.assigneeId)
+                      .map((u) => (
+                        <option key={u.id} value={u.id}>
+                          {u.name} {u.role === "ADMIN" ? "(Admin)" : ""}
+                        </option>
+                      ))}
+                  </select>
+                  <p className="text-slate-600 text-[10px] mt-1">A conversa entra automaticamente como <strong className="text-yellow-400">Em atendimento</strong>.</p>
+                </div>
+              ) : (
+                <div>
+                  <label className="block text-slate-400 text-xs font-medium mb-1.5">Setor de destino</label>
+                  <select
+                    value={transferSetorId}
+                    onChange={(e) => setTransferSetorId(e.target.value)}
+                    className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
+                  >
+                    <option value="">— Selecione —</option>
+                    {availableSetores
+                      .filter((s) => s.id !== selectedConv.conversation?.setorId)
+                      .map((s) => (
+                        <option key={s.id} value={s.id}>{s.name}</option>
+                      ))}
+                  </select>
+                  <p className="text-slate-600 text-[10px] mt-1">Limpa o atendente atual — quem do novo setor pegar, assume.</p>
+                </div>
+              )}
 
               <div>
                 <label className="block text-slate-400 text-xs font-medium mb-1.5">Nota interna (opcional)</label>
@@ -3562,7 +3648,7 @@ export default function WhatsappManager({
               <div className="flex gap-2 pt-1">
                 <button
                   onClick={handleTransfer}
-                  disabled={transferring || !transferSetorId}
+                  disabled={transferring || (transferTargetType === "atendente" ? !transferAssigneeId : !transferSetorId)}
                   className="flex-1 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium disabled:opacity-50 transition-colors"
                 >
                   {transferring ? "Transferindo..." : "Transferir"}

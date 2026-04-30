@@ -137,6 +137,15 @@ export default async function WhatsappPage({
       })
     : [];
 
+  // Atendentes (usuários da empresa) para transferir conversa entre pessoas
+  const atendentes = companyId
+    ? await prisma.user.findMany({
+        where: { companyId },
+        select: { id: true, name: true, email: true, role: true },
+        orderBy: { name: "asc" },
+      })
+    : [];
+
   // Busca assinatura e nome do usuário logado direto do banco (evita JWT stale)
   const currentUser = session?.user as any;
   const userId: string | undefined = currentUser?.id;
@@ -159,6 +168,7 @@ export default async function WhatsappPage({
       userName={dbUser?.name ?? currentUser?.name ?? ""}
       currentUserId={userId ?? ""}
       availableSetores={setores}
+      availableAtendentes={atendentes}
     />
   );
 }
