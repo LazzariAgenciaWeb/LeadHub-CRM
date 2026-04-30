@@ -20,6 +20,7 @@ interface SidebarProps {
 interface Company {
   id: string;
   name: string;
+  hasSystemAccess?: boolean;
 }
 
 const CRM_ROUTES = ["/crm/prospeccao", "/crm/leads", "/crm/oportunidades"];
@@ -72,7 +73,9 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
 
   function handleImpersonate(companyId: string) {
     setDropdownOpen(false);
-    router.push(`/api/admin/impersonate/${companyId}`);
+    // window.location (não router.push) — a API retorna um redirect HTTP que precisa
+    // ser interpretado pelo browser pra setar o cookie de impersonação.
+    window.location.href = `/api/admin/impersonate/${companyId}`;
   }
 
   function isActive(href: string) {
@@ -241,6 +244,7 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
                     <div className="px-3 py-2 text-slate-500 text-xs">Nenhuma empresa encontrada.</div>
                   )}
                   {companies
+                    .filter((c) => c.hasSystemAccess !== false) // só empresas com acesso ao sistema
                     .filter((c) => c.name.toLowerCase().includes(companySearch.toLowerCase()))
                     .map((company) => (
                       <button
@@ -262,14 +266,14 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
             {/* Impersonando: botão de voltar */}
             {_impersonating && (
               <>
-                <Link
+                <a
                   href="/api/admin/impersonate/exit"
                   onClick={() => setDropdownOpen(false)}
                   className="flex items-center gap-2 px-3 py-2.5 text-xs text-amber-400 hover:bg-amber-500/10 transition-colors"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" strokeWidth={2.25} />
                   <span>Voltar ao Super Admin</span>
-                </Link>
+                </a>
                 <div className="border-t border-[#1e2d45]" />
               </>
             )}

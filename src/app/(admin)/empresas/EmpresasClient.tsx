@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface Company {
   id: string;
@@ -33,11 +34,52 @@ function setPinned(ids: string[]) {
 }
 
 export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyName }: Props) {
+  const router = useRouter();
   const [pinnedIds, setPinnedIds] = useState<string[]>([]);
   const [filter, setFilter] = useState<"all" | "access" | "crm" | "root" | "sub">("all");
   const [search, setSearch] = useState("");
 
+  // Modal de transferência: mover empresa para outra empresa-mãe (parentCompanyId)
+  const [transferTarget, setTransferTarget] = useState<Company | null>(null);
+  const [newParentId, setNewParentId] = useState<string>("");
+  const [transferring, setTransferring] = useState(false);
+  const [transferError, setTransferError] = useState<string | null>(null);
+
   useEffect(() => { setPinnedIds(getPinned()); }, []);
+
+  // Empresas elegíveis para serem "mãe": todas com hasSystemAccess (= têm admin que vai gerenciar).
+  // Não pode escolher a própria empresa nem suas próprias subs.
+  function eligibleParents(forCompany: Company): Company[] {
+    return companies.filter((c) =>
+      c.hasSystemAccess &&
+      c.id !== forCompany.id &&
+      c.parentCompanyId !== forCompany.id // evita ciclo direto
+    );
+  }
+
+  async function handleTransferConfirm() {
+    if (!transferTarget) return;
+    setTransferring(true);
+    setTransferError(null);
+    try {
+      const res = await fetch(`/api/companies/${transferTarget.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ parentCompanyId: newParentId || null }),
+      });
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}));
+        throw new Error(d.error ?? "Falha ao transferir");
+      }
+      setTransferTarget(null);
+      setNewParentId("");
+      router.refresh();
+    } catch (err: any) {
+      setTransferError(err.message ?? "Erro inesperado");
+    } finally {
+      setTransferring(false);
+    }
+  }
 
   function togglePin(id: string) {
     const next = pinnedIds.includes(id) ? pinnedIds.filter(p => p !== id) : [id, ...pinnedIds];
@@ -274,18 +316,88 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
                   >
                     Ver Detalhes
                   </Link>
+                  {isSuperAdmin && (
+                    <button
+                      onClick={() => { setTransferTarget(company); setNewParentId(company.parentCompanyId ?? ""); setTransferError(null); }}
+                      title="Transferir para outra empresa-mãe (admin)"
+                      className="text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/20 text-xs font-semibold py-1.5 px-3 rounded-lg transition-colors"
+                    >
+                      ↗ Transferir
+                    </button>
+                  )}
                   {isSuperAdmin && company.hasSystemAccess && (
-                    <Link
+                    /* <a> em vez de <Link>: navegação real para a API setar o cookie */
+                    <a
                       href={`/api/admin/impersonate/${company.id}`}
                       className="flex-1 text-center text-white bg-gradient-to-r from-indigo-500 to-purple-600 text-xs font-semibold py-1.5 rounded-lg hover:opacity-90 transition-opacity"
                     >
                       👁 Acessar Painel →
-                    </Link>
+                    </a>
                   )}
                 </div>
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* Modal de Transferência (SuperAdmin) */}
+      {transferTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/70" onClick={() => setTransferTarget(null)} />
+          <div className="relative bg-[#0c1220] border border-[#1e2d45] rounded-2xl w-full max-w-md mx-4 shadow-2xl">
+            <div className="px-6 py-4 border-b border-[#1e2d45] flex items-center justify-between">
+              <div>
+                <h2 className="text-white font-bold text-base">↗ Transferir empresa</h2>
+                <p className="text-slate-500 text-xs mt-0.5 truncate">
+                  <strong className="text-slate-300">{transferTarget.name}</strong> {transferTarget.parentCompany ? `· hoje sub de ${transferTarget.parentCompany.name}` : "· hoje no nível raiz"}
+                </p>
+              </div>
+              <button onClick={() => setTransferTarget(null)} className="text-slate-500 hover:text-white text-2xl leading-none">×</button>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="block text-slate-400 text-xs font-medium mb-1.5">Nova empresa-mãe (admin que vai gerenciar)</label>
+                <select
+                  value={newParentId}
+                  onChange={(e) => setNewParentId(e.target.value)}
+                  className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
+                >
+                  <option value="">— Sem empresa-mãe (nível raiz, gerenciado por SuperAdmin) —</option>
+                  {eligibleParents(transferTarget).map((p) => (
+                    <option key={p.id} value={p.id}>{p.name}</option>
+                  ))}
+                </select>
+                <p className="text-slate-600 text-[10px] mt-1.5">
+                  A empresa vai aparecer como sub-empresa do admin selecionado, que passa a poder gerenciá-la.
+                  Leads, instâncias e histórico permanecem intactos.
+                </p>
+              </div>
+
+              {transferError && (
+                <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-xs rounded-lg px-3 py-2">
+                  {transferError}
+                </div>
+              )}
+
+              <div className="flex gap-2 pt-1">
+                <button
+                  onClick={handleTransferConfirm}
+                  disabled={transferring}
+                  className="flex-1 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium disabled:opacity-50 transition-colors"
+                >
+                  {transferring ? "Transferindo..." : "Confirmar transferência"}
+                </button>
+                <button
+                  onClick={() => setTransferTarget(null)}
+                  className="px-4 py-2 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white text-sm transition-colors"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
