@@ -47,21 +47,57 @@ export default async function WhatsappPage({
     msgWhere.id = "NOOP_NO_ACCESS";
   }
 
-  // Conversas agrupadas por telefone
-  const phones = await prisma.message.groupBy({
-    by: ["phone", "companyId"],
-    where: msgWhere,
-    _max: { receivedAt: true },
-    _count: true,
-    orderBy: { _max: { receivedAt: "desc" } },
+  // Fonte da verdade: tabela Conversation (com @@unique([companyId, phone]) — sem duplicatas)
+  // Antes usávamos Message.groupBy(['phone', 'companyId']) que duplicava quando o
+  // mesmo contato tinha mensagens com o phone armazenado em variações sutis
+  // (ex: com/sem @lid resolvido, com/sem código de país).
+  const convFilter: any = {};
+  if (companyId) convFilter.companyId = companyId;
+  // Aplica o mesmo filtro de instância que era usado em msgWhere
+  if (msgWhere.instanceId)  convFilter.companyId = convFilter.companyId; // (placeholder)
+
+  const convRecords = await prisma.conversation.findMany({
+    where: convFilter,
+    orderBy: { lastMessageAt: { sort: "desc", nulls: "last" } },
     take: 100,
+    select: {
+      id: true, phone: true, companyId: true,
+      status: true, statusUpdatedAt: true, unreadCount: true,
+      lastMessageAt: true,
+      assigneeId: true,
+      assignee: { select: { id: true, name: true } },
+      setorId: true,
+      setor: { select: { id: true, name: true } },
+    },
   });
 
+  // Filtro por instância visível ao usuário (setor) — aplicado na lista de conversas
+  let convFiltered = convRecords;
+  if (perms && !perms.isAdmin && perms.instanceIds) {
+    if (perms.instanceIds.length === 0) {
+      convFiltered = [];
+    } else {
+      // Conversation não tem instanceId; descobre via última mensagem
+      const allowedConvIds = new Set(
+        (await prisma.message.findMany({
+          where: {
+            conversationId: { in: convRecords.map((c) => c.id) },
+            instanceId: { in: perms.instanceIds },
+          },
+          select: { conversationId: true },
+          distinct: ["conversationId"],
+        })).map((m) => m.conversationId).filter((id): id is string => id !== null)
+      );
+      convFiltered = convRecords.filter((c) => allowedConvIds.has(c.id));
+    }
+  }
+
+  // Para cada conversation, busca lastMsg (para instanceName/participant), lead, counts e contact em paralelo
   const conversations = await Promise.all(
-    phones.map(async (p) => {
+    convFiltered.map(async (conv) => {
       const [lastMsg, lead, inboundCount, outboundCount, companyContact] = await Promise.all([
         prisma.message.findFirst({
-          where: { phone: p.phone, companyId: p.companyId },
+          where: { conversationId: conv.id },
           orderBy: { receivedAt: "desc" },
           select: {
             body: true,
@@ -72,7 +108,7 @@ export default async function WhatsappPage({
           },
         }),
         prisma.lead.findFirst({
-          where: { phone: p.phone, companyId: p.companyId },
+          where: { OR: [{ conversationId: conv.id }, { phone: conv.phone, companyId: conv.companyId }] },
           orderBy: { createdAt: "desc" },
           select: {
             id: true, name: true, status: true, notes: true,
@@ -80,14 +116,14 @@ export default async function WhatsappPage({
             attendanceStatus: true, expectedReturnAt: true,
           },
         }),
-        prisma.message.count({ where: { phone: p.phone, companyId: p.companyId, direction: "INBOUND" } }),
-        prisma.message.count({ where: { phone: p.phone, companyId: p.companyId, direction: "OUTBOUND" } }),
+        prisma.message.count({ where: { conversationId: conv.id, direction: "INBOUND" } }),
+        prisma.message.count({ where: { conversationId: conv.id, direction: "OUTBOUND" } }),
         prisma.companyContact.findFirst({
           where: {
-            phone: p.phone,
+            phone: conv.phone,
             OR: [
-              { companyId: p.companyId },
-              { company: { parentCompanyId: p.companyId } },
+              { companyId: conv.companyId },
+              { company: { parentCompanyId: conv.companyId } },
             ],
           },
           select: {
@@ -96,31 +132,30 @@ export default async function WhatsappPage({
           },
         }),
       ]);
-      return { phone: p.phone, companyId: p.companyId, lastMsg, lead, totalMessages: p._count, inboundCount, outboundCount, companyContact };
+      return {
+        phone: conv.phone,
+        companyId: conv.companyId,
+        lastMsg,
+        lead,
+        totalMessages: inboundCount + outboundCount,
+        inboundCount,
+        outboundCount,
+        companyContact,
+        conversation: {
+          id: conv.id,
+          status: conv.status,
+          statusUpdatedAt: conv.statusUpdatedAt,
+          unreadCount: conv.unreadCount,
+          assigneeId: conv.assigneeId,
+          assignee: conv.assignee,
+          setorId: conv.setorId,
+          setor: conv.setor,
+        },
+      };
     })
   );
 
-  // Enriquecimento com dados de Conversation (status, atribuição, unreadCount)
-  const convRows = phones.length > 0
-    ? await prisma.conversation.findMany({
-        where: {
-          OR: phones.map((p) => ({ companyId: p.companyId, phone: p.phone })),
-        },
-        select: {
-          id: true, phone: true, companyId: true,
-          status: true, statusUpdatedAt: true, unreadCount: true,
-          assigneeId: true,
-          assignee: { select: { id: true, name: true } },
-          setorId: true,
-          setor: { select: { id: true, name: true } },
-        },
-      })
-    : [];
-  const convByKey = new Map(convRows.map((c) => [`${c.companyId}:${c.phone}`, c]));
-  const conversationsEnriched = conversations.map((c) => ({
-    ...c,
-    conversation: convByKey.get(`${c.companyId}:${c.phone}`) ?? null,
-  }));
+  const conversationsEnriched = conversations;
 
   const finalStageConfigs = await prisma.pipelineStageConfig.findMany({
     where: { isFinal: true, ...(companyId ? { companyId } : {}) },
