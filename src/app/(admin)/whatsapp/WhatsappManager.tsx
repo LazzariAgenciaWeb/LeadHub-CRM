@@ -12,6 +12,42 @@ import {
 
 type ConvStatus = "OPEN" | "PENDING" | "IN_PROGRESS" | "WAITING_CUSTOMER" | "SCHEDULED" | "CLOSED";
 
+/**
+ * Termômetro circular SVG ao redor do avatar.
+ * progress: 0 (vazio) → 1 (cheio) → 1+ (cheio + pulsando para urgência).
+ * O traço se pinta progressivamente, começando do topo (rotacionado -90deg).
+ */
+function UrgencyMeter({ progress, color, pulse, children }: {
+  progress: number; color: string; pulse: boolean; children: React.ReactNode;
+}) {
+  const SIZE = 32;
+  const STROKE = 3;
+  const radius = (SIZE - STROKE) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const clamped = Math.max(0, Math.min(progress, 1));
+  const offset = circumference * (1 - clamped);
+  return (
+    <div className={`relative w-8 h-8 ${pulse ? "animate-pulse" : ""}`}>
+      <svg className="absolute inset-0 -rotate-90" width={SIZE} height={SIZE}>
+        {/* Trilho de fundo (fininho) */}
+        <circle cx={SIZE/2} cy={SIZE/2} r={radius}
+          stroke="rgba(148,163,184,0.15)" strokeWidth={STROKE} fill="none" />
+        {/* Preenchimento (vai enchendo conforme o tempo) */}
+        <circle cx={SIZE/2} cy={SIZE/2} r={radius}
+          stroke={color} strokeWidth={STROKE} fill="none"
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          style={{ transition: "stroke-dashoffset 1s ease, stroke 800ms ease" }} />
+      </svg>
+      {/* Conteúdo central (iniciais do telefone) */}
+      <div className="absolute inset-0 flex items-center justify-center text-[11px] font-bold text-slate-300">
+        {children}
+      </div>
+    </div>
+  );
+}
+
 const CONV_STATUS_META: Record<ConvStatus, { label: string; dot: string; chip: string }> = {
   OPEN:             { label: "Aberta",            dot: "bg-cyan-400",                      chip: "bg-cyan-500/15 text-cyan-300 border-cyan-500/25" },
   PENDING:          { label: "Sem atendimento",   dot: "bg-red-400 animate-pulse",         chip: "bg-red-500/15 text-red-300 border-red-500/25" },
@@ -1654,10 +1690,17 @@ export default function WhatsappManager({
     return d.toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "2-digit", year: "numeric" });
   }
 
-  // Anel de urgência no avatar — cor por status da Conversation + tempo sem resposta
-  // Anel grosso (ring-4) e cores saturadas para identificação rápida.
-  // Ícone agora é Lucide (LucideIcon | null) com cor própria.
-  type UrgencyRing = { ring: string; Icon: LucideIcon | null; iconColor: string; pulse: boolean };
+  // Anel de urgência no avatar — cor por status da Conversation + tempo sem resposta.
+  // Para OPEN, retorna `meter` (progresso 0-1) que é renderizado como termômetro
+  // circular SVG (vai enchendo cyan→amarelo→laranja→vermelho conforme passa o tempo).
+  // Para os demais status, usa anel estático grosso (ring-4).
+  type UrgencyRing = {
+    ring: string;
+    Icon: LucideIcon | null;
+    iconColor: string;
+    pulse: boolean;
+    meter?: { progress: number; color: string }; // 0-1+ — só para OPEN
+  };
   function getUrgencyRing(conv: Conversation): UrgencyRing {
     const isInbound = conv.lastMsg?.direction === "INBOUND";
     const pipeline  = conv.lead?.pipeline;
@@ -1673,20 +1716,43 @@ export default function WhatsappManager({
     if (convStatus === "SCHEDULED")        return { ring: "ring-4 ring-purple-400",     Icon: Calendar,      iconColor: "text-purple-400",  pulse: false };
     if (convStatus === "CLOSED")           return { ring: "ring-2 ring-slate-600",      Icon: CheckCircle2,  iconColor: "text-slate-500",   pulse: false };
 
-    // OPEN com escala de urgência por tempo desde a última INBOUND.
-    // Mostra atraso ANTES do cron SLA (que roda a cada ~90s) promover pra PENDING.
+    // OPEN com termômetro circular: enche cyan→amarelo→laranja→vermelho conforme
+    // passa o tempo desde a última INBOUND. Reflete urgência ANTES do cron SLA promover.
     if (convStatus === "OPEN") {
-      // Sem mensagem recebida (criou manualmente, sem inbound) → cyan padrão
+      // Sem mensagem recebida (criou manualmente, sem inbound) → cyan estático cheio
       if (!isInbound || !conv.lastMsg) {
-        return { ring: "ring-4 ring-cyan-400", Icon: Sparkles, iconColor: "text-cyan-400", pulse: false };
+        return {
+          ring: "ring-4 ring-cyan-400",
+          Icon: Sparkles, iconColor: "text-cyan-400", pulse: false,
+          meter: { progress: 0, color: "#22d3ee" }, // cyan-400
+        };
       }
       const minsOpen = Math.floor((Date.now() - new Date(conv.lastMsg.receivedAt).getTime()) / 60_000);
-      // Oportunidades têm SLA mais curto (mais urgente)
-      const yellowAt = pipeline === "OPORTUNIDADES" ? 3 : 5;
-      const redAt    = pipeline === "OPORTUNIDADES" ? 10 : 15;
-      if (minsOpen >= redAt)    return { ring: "ring-4 ring-red-500",    Icon: AlertCircle, iconColor: "text-red-400",     pulse: true  };
-      if (minsOpen >= yellowAt) return { ring: "ring-4 ring-yellow-400", Icon: Clock,       iconColor: "text-yellow-400",  pulse: false };
-      return                       { ring: "ring-4 ring-cyan-400",       Icon: Sparkles,    iconColor: "text-cyan-400",    pulse: false };
+      // Oportunidades têm SLA mais curto. threshold = minutos para "100% urgente".
+      const threshold = pipeline === "OPORTUNIDADES" ? 10 : 15;
+      const progress  = Math.min(minsOpen / threshold, 1.2); // permite >1 (pulsando vermelho)
+      // Cor por estágio do termômetro
+      const color =
+        progress >= 1     ? "#ef4444" :  // red-500
+        progress >= 0.66  ? "#fb923c" :  // orange-400
+        progress >= 0.33  ? "#facc15" :  // yellow-400
+                            "#22d3ee";   // cyan-400
+      const Icon: LucideIcon =
+        progress >= 1    ? AlertCircle :
+        progress >= 0.66 ? Clock :
+        progress >= 0.33 ? Clock :
+                           Sparkles;
+      const iconColor =
+        progress >= 1    ? "text-red-400" :
+        progress >= 0.66 ? "text-orange-400" :
+        progress >= 0.33 ? "text-yellow-400" :
+                           "text-cyan-400";
+      return {
+        ring: "ring-0", // sem ring estático — o meter SVG faz o papel
+        Icon, iconColor,
+        pulse: progress >= 1,
+        meter: { progress, color },
+      };
     }
 
     // Fallback legacy (registros sem Conversation ainda — backfill pendente)
@@ -2038,7 +2104,7 @@ export default function WhatsappManager({
               {filteredConvs.map((conv) => {
                 const instanceName = conv.lastMsg?.instance?.instanceName;
                 const isSelected = selectedConv?.phone === conv.phone;
-                const { ring, Icon, iconColor, pulse } = getUrgencyRing(conv);
+                const { ring, Icon, iconColor, pulse, meter } = getUrgencyRing(conv);
                 // Grupos: verificar se aguarda resposta nossa (último INBOUND de participante não-instância)
                 const isGroupConvItem = conv.phone.includes("@g.us");
                 const groupWaiting = isGroupConvItem && conv.lastMsg?.direction === "INBOUND" && (() => {
@@ -2070,11 +2136,17 @@ export default function WhatsappManager({
                         <div className="flex items-start justify-between mb-1">
                           <div className="flex items-start gap-2.5 min-w-0">
 
-                            {/* Avatar: anel colorido de urgência + ícone Lucide de status abaixo */}
+                            {/* Avatar: termômetro circular (OPEN) ou anel estático + ícone Lucide */}
                             <div className="flex flex-col items-center gap-0.5 flex-shrink-0 w-8">
-                              <div className={`w-8 h-8 rounded-full bg-[#1e2d45] flex items-center justify-center text-[11px] font-bold text-slate-300 ${ring} ${pulse ? "animate-pulse" : ""}`}>
-                                {conv.phone.slice(-2)}
-                              </div>
+                              {meter ? (
+                                <UrgencyMeter progress={meter.progress} color={meter.color} pulse={pulse}>
+                                  {conv.phone.slice(-2)}
+                                </UrgencyMeter>
+                              ) : (
+                                <div className={`w-8 h-8 rounded-full bg-[#1e2d45] flex items-center justify-center text-[11px] font-bold text-slate-300 ${ring} ${pulse ? "animate-pulse" : ""}`}>
+                                  {conv.phone.slice(-2)}
+                                </div>
+                              )}
                               {Icon && (
                                 <Icon className={`w-3 h-3 ${iconColor}`} strokeWidth={2.5} />
                               )}
