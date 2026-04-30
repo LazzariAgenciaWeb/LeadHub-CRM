@@ -109,32 +109,47 @@ export async function POST(request: NextRequest) {
       const { prisma } = await import("@/lib/prisma");
       const updates: any[] = Array.isArray(data) ? data : (data ? [data] : []);
 
-      // Debug: armazena em array separado (não é sobrescrito por upserts de grupo)
+      // Helpers — tentam múltiplos paths que diferentes versões da Evolution usam
+      function extractMsgId(item: any): string | undefined {
+        return item?.key?.id ?? item?.keyId ?? item?.id ?? item?.messageId;
+      }
+      function extractRawAck(item: any): unknown {
+        return item?.update?.status ?? item?.status ?? item?.update?.ack ?? item?.ack;
+      }
+
+      // Debug: armazena payload bruto + extração para diagnóstico
       const debugItem = updates[0];
       recentAckPayloads.unshift({
         ts: new Date().toISOString(),
         instance,
         debug: {
-          msgId: debugItem?.key?.id,
-          rawAck: debugItem?.update?.status,
-          fromMe: debugItem?.key?.fromMe,
+          msgId: extractMsgId(debugItem),
+          rawAck: extractRawAck(debugItem),
+          fromMe: debugItem?.key?.fromMe ?? debugItem?.fromMe,
           count: updates.length,
+          rawItem: debugItem, // payload bruto para encontrar novos formatos
         },
       });
       if (recentAckPayloads.length > 10) recentAckPayloads.pop();
 
       for (const item of updates) {
-        const msgId: string | undefined = item?.key?.id;
-        const rawAck = item?.update?.status;
-        if (!msgId || rawAck === undefined) continue;
+        const msgId = extractMsgId(item);
+        const rawAck = extractRawAck(item);
+
+        if (!msgId || rawAck === undefined) {
+          console.log(`[ACK] payload sem msgId/status — item=${JSON.stringify(item).slice(0, 300)}`);
+          continue;
+        }
 
         // Normaliza ACK para inteiro (Evolution pode enviar string ou número)
         const ACK_MAP: Record<string, number> = {
           ERROR: -1, PENDING: 0, SERVER_ACK: 1, DELIVERY_ACK: 2, READ: 3, PLAYED: 4,
+          // variações lowercase / camel
+          error: -1, pending: 0, sent: 1, server: 1, delivered: 2, read: 3, played: 4,
         };
         const ackInt: number | null =
           typeof rawAck === "number" ? rawAck :
-          typeof rawAck === "string" ? (ACK_MAP[rawAck] ?? null) : null;
+          typeof rawAck === "string" ? (ACK_MAP[rawAck] ?? ACK_MAP[rawAck.toUpperCase()] ?? null) : null;
 
         if (ackInt !== null) {
           // ACK só sobe, nunca regride. Em grupos com 4 instâncias, eventos podem
@@ -147,7 +162,9 @@ export async function POST(request: NextRequest) {
             },
             data: { ack: ackInt },
           });
-          console.log(`[ACK] msgId=${msgId} ack=${ackInt} updated=${result.count}`);
+          console.log(`[ACK] msgId=${msgId} rawAck=${rawAck} ackInt=${ackInt} updated=${result.count}`);
+        } else {
+          console.log(`[ACK] não consegui mapear rawAck=${JSON.stringify(rawAck)} (msgId=${msgId})`);
         }
       }
       return NextResponse.json({ ok: true, event: "messages.update" });

@@ -59,6 +59,10 @@ export default function InstancesSection({
   const [updatingWebhooks, setUpdatingWebhooks] = useState(false);
   const [webhookResult, setWebhookResult] = useState<string | null>(null);
 
+  // Sincronizar status de todas as instâncias com a Evolution
+  const [syncingAll, setSyncingAll] = useState(false);
+  const [syncAllResult, setSyncAllResult] = useState<string | null>(null);
+
   const webhookUrl = `${webhookBaseUrl}/api/webhook/whatsapp`;
 
   function copyToClipboard(text: string, key: string) {
@@ -166,6 +170,29 @@ export default function InstancesSection({
     }
   }
 
+  async function handleSyncAll() {
+    setSyncingAll(true);
+    setSyncAllResult(null);
+    try {
+      const r = await fetch("/api/whatsapp/sync-all", { method: "POST" });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.error ?? "Erro");
+      const s = d.summary ?? {};
+      setSyncAllResult(
+        `✅ ${s.connected ?? 0} conectada${(s.connected ?? 0) !== 1 ? "s" : ""}` +
+        ` · ${s.connecting ?? 0} conectando` +
+        ` · ${s.disconnected ?? 0} desconectada${(s.disconnected ?? 0) !== 1 ? "s" : ""}` +
+        (s.changed ? ` · ${s.changed} atualizada${s.changed !== 1 ? "s" : ""}` : "") +
+        (s.failed   ? ` · ⚠️ ${s.failed} falha${s.failed !== 1 ? "s" : ""}` : "")
+      );
+      router.refresh();
+    } catch (err: any) {
+      setSyncAllResult(`❌ ${err.message ?? "Erro ao sincronizar"}`);
+    } finally {
+      setSyncingAll(false);
+    }
+  }
+
   async function refreshQR() {
     if (!qrModal) return;
     setQrBase64(null);
@@ -248,6 +275,19 @@ export default function InstancesSection({
           <p className="text-slate-500 text-sm mt-0.5">Números conectados via Evolution API</p>
         </div>
         <div className="flex items-center gap-2">
+          <div className="flex flex-col items-end gap-1">
+            <button
+              onClick={handleSyncAll}
+              disabled={syncingAll}
+              title="Buscar o estado real de cada instância na Evolution e atualizar o status no LeadHub"
+              className="px-3 py-2 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-medium hover:bg-emerald-500/25 disabled:opacity-50 transition-colors"
+            >
+              {syncingAll ? "⏳ Sincronizando…" : "🔄 Sincronizar todas"}
+            </button>
+            {syncAllResult && (
+              <span className="text-[10px] text-slate-400 max-w-md text-right">{syncAllResult}</span>
+            )}
+          </div>
           {isSuperAdmin && (
             <div className="flex flex-col items-end gap-1">
               <button
