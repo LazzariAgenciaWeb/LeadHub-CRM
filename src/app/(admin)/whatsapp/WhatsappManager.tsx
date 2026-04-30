@@ -3,7 +3,12 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Check, CheckCheck, Clock, AlertCircle } from "lucide-react";
+import {
+  Check, CheckCheck, Clock, AlertCircle,
+  MessageCircle, MessageSquare, Hourglass, Calendar,
+  Sparkles, Users, Star, Inbox, CheckCircle2,
+  type LucideIcon,
+} from "lucide-react";
 
 type ConvStatus = "OPEN" | "PENDING" | "IN_PROGRESS" | "WAITING_CUSTOMER" | "SCHEDULED" | "CLOSED";
 
@@ -1651,7 +1656,9 @@ export default function WhatsappManager({
 
   // Anel de urgência no avatar — cor por status da Conversation + tempo sem resposta
   // Anel grosso (ring-4) e cores saturadas para identificação rápida.
-  function getUrgencyRing(conv: Conversation): { ring: string; icon: string; pulse: boolean } {
+  // Ícone agora é Lucide (LucideIcon | null) com cor própria.
+  type UrgencyRing = { ring: string; Icon: LucideIcon | null; iconColor: string; pulse: boolean };
+  function getUrgencyRing(conv: Conversation): UrgencyRing {
     const isInbound = conv.lastMsg?.direction === "INBOUND";
     const pipeline  = conv.lead?.pipeline;
 
@@ -1660,25 +1667,39 @@ export default function WhatsappManager({
       convStatusOverride.get(conv.phone) ?? conv.conversation?.status
     ) as ConvStatus | undefined;
 
-    if (convStatus === "PENDING")      return { ring: "ring-4 ring-red-500",        icon: "🚨", pulse: true  };
-    if (convStatus === "IN_PROGRESS")  return { ring: "ring-4 ring-yellow-400",     icon: "💬", pulse: false };
-    if (convStatus === "WAITING_CUSTOMER") return { ring: "ring-4 ring-blue-400",   icon: "⏱️", pulse: false };
-    if (convStatus === "SCHEDULED")    return { ring: "ring-4 ring-purple-400",     icon: "📅", pulse: false };
-    if (convStatus === "CLOSED")       return { ring: "ring-2 ring-slate-600",      icon: "✓",  pulse: false };
-    // OPEN ou sem Conversation → cai no fluxo de urgência por tempo abaixo
-    if (convStatus === "OPEN")         return { ring: "ring-4 ring-cyan-400",       icon: "🆕", pulse: false };
+    if (convStatus === "PENDING")          return { ring: "ring-4 ring-red-500",        Icon: AlertCircle,   iconColor: "text-red-400",     pulse: true  };
+    if (convStatus === "IN_PROGRESS")      return { ring: "ring-4 ring-yellow-400",     Icon: MessageCircle, iconColor: "text-yellow-400",  pulse: false };
+    if (convStatus === "WAITING_CUSTOMER") return { ring: "ring-4 ring-blue-400",       Icon: Hourglass,     iconColor: "text-blue-400",    pulse: false };
+    if (convStatus === "SCHEDULED")        return { ring: "ring-4 ring-purple-400",     Icon: Calendar,      iconColor: "text-purple-400",  pulse: false };
+    if (convStatus === "CLOSED")           return { ring: "ring-2 ring-slate-600",      Icon: CheckCircle2,  iconColor: "text-slate-500",   pulse: false };
+
+    // OPEN com escala de urgência por tempo desde a última INBOUND.
+    // Mostra atraso ANTES do cron SLA (que roda a cada ~90s) promover pra PENDING.
+    if (convStatus === "OPEN") {
+      // Sem mensagem recebida (criou manualmente, sem inbound) → cyan padrão
+      if (!isInbound || !conv.lastMsg) {
+        return { ring: "ring-4 ring-cyan-400", Icon: Sparkles, iconColor: "text-cyan-400", pulse: false };
+      }
+      const minsOpen = Math.floor((Date.now() - new Date(conv.lastMsg.receivedAt).getTime()) / 60_000);
+      // Oportunidades têm SLA mais curto (mais urgente)
+      const yellowAt = pipeline === "OPORTUNIDADES" ? 3 : 5;
+      const redAt    = pipeline === "OPORTUNIDADES" ? 10 : 15;
+      if (minsOpen >= redAt)    return { ring: "ring-4 ring-red-500",    Icon: AlertCircle, iconColor: "text-red-400",     pulse: true  };
+      if (minsOpen >= yellowAt) return { ring: "ring-4 ring-yellow-400", Icon: Clock,       iconColor: "text-yellow-400",  pulse: false };
+      return                       { ring: "ring-4 ring-cyan-400",       Icon: Sparkles,    iconColor: "text-cyan-400",    pulse: false };
+    }
 
     // Fallback legacy (registros sem Conversation ainda — backfill pendente)
     const legacy = localAttendanceOverrides.get(conv.phone) ?? conv.lead?.attendanceStatus;
-    if (legacy === "RESOLVED")    return { ring: "ring-2 ring-slate-600",       icon: "✓",  pulse: false };
-    if (legacy === "IN_PROGRESS") return { ring: "ring-4 ring-yellow-400",      icon: "💬", pulse: false };
-    if (legacy === "SCHEDULED")   return { ring: "ring-4 ring-purple-400",      icon: "📅", pulse: false };
+    if (legacy === "RESOLVED")    return { ring: "ring-2 ring-slate-600",  Icon: CheckCircle2,  iconColor: "text-slate-500",   pulse: false };
+    if (legacy === "IN_PROGRESS") return { ring: "ring-4 ring-yellow-400", Icon: MessageCircle, iconColor: "text-yellow-400",  pulse: false };
+    if (legacy === "SCHEDULED")   return { ring: "ring-4 ring-purple-400", Icon: Calendar,      iconColor: "text-purple-400",  pulse: false };
 
     // Prospecção: nós quem contactamos — só urgente se ELE respondeu (INBOUND)
-    if (pipeline === "PROSPECCAO" && !isInbound) return { ring: "ring-1 ring-white/5", icon: "", pulse: false };
+    if (pipeline === "PROSPECCAO" && !isInbound) return { ring: "ring-1 ring-white/5", Icon: null, iconColor: "", pulse: false };
 
     // Sem mensagem recebida = sem urgência
-    if (!isInbound) return { ring: "ring-1 ring-white/5", icon: "", pulse: false };
+    if (!isInbound) return { ring: "ring-1 ring-white/5", Icon: null, iconColor: "", pulse: false };
 
     // Calcula minutos aguardando
     const mins = Math.floor((Date.now() - new Date(conv.lastMsg!.receivedAt).getTime()) / 60_000);
@@ -1687,9 +1708,9 @@ export default function WhatsappManager({
     const yellowAt = pipeline === "OPORTUNIDADES" ? 3 : 5;
     const redAt    = pipeline === "OPORTUNIDADES" ? 10 : 20;
 
-    if (mins >= redAt)    return { ring: "ring-2 ring-red-500",    icon: "⏳", pulse: true  };
-    if (mins >= yellowAt) return { ring: "ring-2 ring-yellow-500", icon: "⏳", pulse: false };
-    return                       { ring: "ring-2 ring-green-500",  icon: "⏳", pulse: false };
+    if (mins >= redAt)    return { ring: "ring-2 ring-red-500",    Icon: Hourglass, iconColor: "text-red-400",    pulse: true  };
+    if (mins >= yellowAt) return { ring: "ring-2 ring-yellow-500", Icon: Hourglass, iconColor: "text-yellow-400", pulse: false };
+    return                       { ring: "ring-2 ring-green-500",  Icon: Hourglass, iconColor: "text-green-400",  pulse: false };
   }
 
   // Parse notes into individual entries for display
@@ -1887,15 +1908,15 @@ export default function WhatsappManager({
                   <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2">Atendimento</p>
                   <div className="grid grid-cols-2 gap-1">
                     {([
-                      { key: "",           label: "Todos",       icon: "💬", dim: "text-slate-400" },
-                      { key: "URGENT",     label: "Urgente",     icon: "🔴", dim: "text-red-400",    count: filterCounts.URGENT },
-                      { key: "UNANSWERED", label: "Sem resposta",icon: "⏳", dim: "text-yellow-400", count: filterCounts.UNANSWERED },
-                      { key: "IN_PROGRESS",label: "Em atend.",   icon: "💬", dim: "text-blue-400",   count: filterCounts.IN_PROGRESS },
-                      { key: "RESOLVED",   label: "Resolvidos",  icon: "✅", dim: "text-green-400",  count: filterCounts.RESOLVED },
-                      { key: "SCHEDULED",  label: "Agendados",   icon: "📅", dim: "text-purple-400", count: filterCounts.SCHEDULED },
-                      { key: "CLIENTS",    label: "Clientes",    icon: "⭐", dim: "text-amber-400",  count: filterCounts.CLIENTS },
-                      { key: "NO_LEAD",    label: "Entrada",     icon: "📥", dim: "text-slate-400",  count: filterCounts.NO_LEAD },
-                    ]).map(({ key, label, icon, dim, count }) => {
+                      { key: "",           label: "Todos",       Icon: MessageSquare, dim: "text-slate-400" },
+                      { key: "URGENT",     label: "Urgente",     Icon: AlertCircle,   dim: "text-red-400",    count: filterCounts.URGENT },
+                      { key: "UNANSWERED", label: "Sem resposta",Icon: Clock,         dim: "text-yellow-400", count: filterCounts.UNANSWERED },
+                      { key: "IN_PROGRESS",label: "Em atend.",   Icon: MessageCircle, dim: "text-blue-400",   count: filterCounts.IN_PROGRESS },
+                      { key: "RESOLVED",   label: "Resolvidos",  Icon: CheckCircle2,  dim: "text-green-400",  count: filterCounts.RESOLVED },
+                      { key: "SCHEDULED",  label: "Agendados",   Icon: Calendar,      dim: "text-purple-400", count: filterCounts.SCHEDULED },
+                      { key: "CLIENTS",    label: "Clientes",    Icon: Star,          dim: "text-amber-400",  count: filterCounts.CLIENTS },
+                      { key: "NO_LEAD",    label: "Entrada",     Icon: Inbox,         dim: "text-slate-400",  count: filterCounts.NO_LEAD },
+                    ]).map(({ key, label, Icon, dim, count }) => {
                       const isActive = statusFilter === key;
                       return (
                         <button
@@ -1907,7 +1928,7 @@ export default function WhatsappManager({
                               : "hover:bg-white/5 text-slate-500 hover:text-slate-300"
                           }`}
                         >
-                          <span className="text-[12px]">{icon}</span>
+                          <Icon className={`w-3.5 h-3.5 ${isActive ? "text-white" : dim}`} strokeWidth={2.25} />
                           <span className={`flex-1 text-left ${isActive ? "text-white" : dim}`}>{label}</span>
                           {count !== undefined && count > 0 && (
                             <span className={`text-[9px] font-bold px-1 rounded-full ${isActive ? "bg-white/20 text-white" : "bg-white/8 text-slate-500"}`}>
@@ -1961,7 +1982,7 @@ export default function WhatsappManager({
                         : "hover:bg-white/5 text-slate-500 hover:text-slate-300"
                     }`}
                   >
-                    <span className="text-[12px]">👥</span>
+                    <Users className={`w-3.5 h-3.5 ${hideGroups ? "text-white" : "text-slate-500"}`} strokeWidth={2.25} />
                     <span className="flex-1 text-left">Ocultar grupos</span>
                     <span className={`w-7 h-4 rounded-full flex items-center transition-colors ${hideGroups ? "bg-indigo-400" : "bg-slate-700"}`}>
                       <span className={`w-3 h-3 rounded-full bg-white shadow transition-transform mx-0.5 ${hideGroups ? "translate-x-3" : "translate-x-0"}`} />
@@ -2017,7 +2038,7 @@ export default function WhatsappManager({
               {filteredConvs.map((conv) => {
                 const instanceName = conv.lastMsg?.instance?.instanceName;
                 const isSelected = selectedConv?.phone === conv.phone;
-                const { ring, icon, pulse } = getUrgencyRing(conv);
+                const { ring, Icon, iconColor, pulse } = getUrgencyRing(conv);
                 // Grupos: verificar se aguarda resposta nossa (último INBOUND de participante não-instância)
                 const isGroupConvItem = conv.phone.includes("@g.us");
                 const groupWaiting = isGroupConvItem && conv.lastMsg?.direction === "INBOUND" && (() => {
@@ -2039,9 +2060,9 @@ export default function WhatsappManager({
                       <button
                         onClick={(e) => quickResolve(e, conv)}
                         title="Marcar como resolvido"
-                        className="absolute top-2 right-2 opacity-0 group-hover/item:opacity-100 transition-opacity z-10 w-6 h-6 rounded-full bg-green-500/20 border border-green-500/40 text-green-400 hover:bg-green-500/40 text-[11px] flex items-center justify-center"
+                        className="absolute top-2 right-2 opacity-0 group-hover/item:opacity-100 transition-opacity z-10 w-6 h-6 rounded-full bg-green-500/20 border border-green-500/40 text-green-400 hover:bg-green-500/40 flex items-center justify-center"
                       >
-                        ✅
+                        <CheckCircle2 className="w-3.5 h-3.5" strokeWidth={2.5} />
                       </button>
                     )}
 
@@ -2049,13 +2070,13 @@ export default function WhatsappManager({
                         <div className="flex items-start justify-between mb-1">
                           <div className="flex items-start gap-2.5 min-w-0">
 
-                            {/* Avatar: anel colorido de urgência + ícone de status abaixo */}
+                            {/* Avatar: anel colorido de urgência + ícone Lucide de status abaixo */}
                             <div className="flex flex-col items-center gap-0.5 flex-shrink-0 w-8">
                               <div className={`w-8 h-8 rounded-full bg-[#1e2d45] flex items-center justify-center text-[11px] font-bold text-slate-300 ${ring} ${pulse ? "animate-pulse" : ""}`}>
                                 {conv.phone.slice(-2)}
                               </div>
-                              {icon && (
-                                <span className="text-[11px] leading-none select-none">{icon}</span>
+                              {Icon && (
+                                <Icon className={`w-3 h-3 ${iconColor}`} strokeWidth={2.5} />
                               )}
                             </div>
 
@@ -2065,14 +2086,20 @@ export default function WhatsappManager({
                                 <span className="text-white text-[13px] font-semibold truncate leading-tight">
                                   {groupNameOverrides[conv.phone] ?? conv.companyContact?.name ?? conv.lead?.name ?? conv.phone}
                                 </span>
-                                        {conv.phone.includes("@g.us") && (
-                                  <span title="Grupo" className="text-slate-400 text-[11px] flex-shrink-0">👥</span>
+                                {conv.phone.includes("@g.us") && (
+                                  <span title="Grupo" className="flex-shrink-0">
+                                    <Users className="w-3 h-3 text-slate-400" strokeWidth={2.5} />
+                                  </span>
                                 )}
                                 {groupWaiting && (
-                                  <span title="Aguardando resposta" className="text-yellow-400 text-[11px] flex-shrink-0">⏳</span>
+                                  <span title="Aguardando resposta" className="flex-shrink-0">
+                                    <Hourglass className="w-3 h-3 text-yellow-400" strokeWidth={2.5} />
+                                  </span>
                                 )}
                                 {conv.companyContact && (
-                                  <span title={`Cliente: ${conv.companyContact.company.name}`} className="text-amber-400 text-[11px] flex-shrink-0">⭐</span>
+                                  <span title={`Cliente: ${conv.companyContact.company.name}`} className="flex-shrink-0">
+                                    <Star className="w-3 h-3 text-amber-400 fill-amber-400/30" strokeWidth={2.5} />
+                                  </span>
                                 )}
                               </div>
                               {(conv.lead?.name || conv.companyContact?.name) && !conv.phone.includes("@g.us") && (
