@@ -44,7 +44,16 @@ export async function upsertConversation(args: {
   // Regra única: INBOUND → OPEN (precisa resposta) · OUTBOUND → IN_PROGRESS (em fluxo).
   // Cliente respondeu = bola está com a gente, mesmo que atendente já estivesse no caso.
   // PENDING (= OPEN com SLA estourado) é setado pelo job /api/cron/sla.
-  const newStatus: ConversationStatus = direction === "INBOUND" ? "OPEN" : "IN_PROGRESS";
+  // EXCEÇÃO: SCHEDULED resiste ao OUTBOUND (atendente mandou follow-up mas continua
+  //          aguardando o retorno marcado). Só uma INBOUND quebra o standby.
+  let newStatus: ConversationStatus;
+  if (direction === "INBOUND") {
+    newStatus = "OPEN";
+  } else if (existing?.status === "SCHEDULED") {
+    newStatus = "SCHEDULED"; // mantém standby após follow-up
+  } else {
+    newStatus = "IN_PROGRESS";
+  }
 
   const statusChanged = !existing || existing.status !== newStatus;
 
@@ -130,7 +139,7 @@ export async function upsertConversation(args: {
  * Traduz Conversation.status → Lead.attendanceStatus legacy.
  * @deprecated Lead.attendanceStatus está marcado para remoção; use Conversation.status diretamente.
  */
-export function mapConvStatusToLegacy(status: ConversationStatus): "WAITING" | "IN_PROGRESS" | "RESOLVED" {
+export function mapConvStatusToLegacy(status: ConversationStatus): "WAITING" | "IN_PROGRESS" | "RESOLVED" | "SCHEDULED" {
   switch (status) {
     case "OPEN":
     case "PENDING":
@@ -138,6 +147,8 @@ export function mapConvStatusToLegacy(status: ConversationStatus): "WAITING" | "
     case "IN_PROGRESS":
     case "WAITING_CUSTOMER":
       return "IN_PROGRESS";
+    case "SCHEDULED":
+      return "SCHEDULED";
     case "CLOSED":
       return "RESOLVED";
   }

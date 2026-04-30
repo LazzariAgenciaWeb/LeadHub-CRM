@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { ActivityType, ConversationStatus } from "@/generated/prisma";
 import { mapConvStatusToLegacy } from "@/lib/whatsapp";
 
-const VALID_STATUS: ConversationStatus[] = ["OPEN", "PENDING", "IN_PROGRESS", "WAITING_CUSTOMER", "CLOSED"];
+const VALID_STATUS: ConversationStatus[] = ["OPEN", "PENDING", "IN_PROGRESS", "WAITING_CUSTOMER", "SCHEDULED", "CLOSED"];
 
 // PATCH /api/conversations/[id]
 // Atualiza status, atribuição (assigneeId), setor.

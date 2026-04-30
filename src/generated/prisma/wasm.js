@@ -474,6 +474,7 @@ exports.ConversationStatus = exports.$Enums.ConversationStatus = {
   PENDING: 'PENDING',
   IN_PROGRESS: 'IN_PROGRESS',
   WAITING_CUSTOMER: 'WAITING_CUSTOMER',
+  SCHEDULED: 'SCHEDULED',
   CLOSED: 'CLOSED'
 };
 

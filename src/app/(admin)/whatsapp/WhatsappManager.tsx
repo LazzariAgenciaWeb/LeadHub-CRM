@@ -5,13 +5,14 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Check, CheckCheck, Clock, AlertCircle } from "lucide-react";
 
-type ConvStatus = "OPEN" | "PENDING" | "IN_PROGRESS" | "WAITING_CUSTOMER" | "CLOSED";
+type ConvStatus = "OPEN" | "PENDING" | "IN_PROGRESS" | "WAITING_CUSTOMER" | "SCHEDULED" | "CLOSED";
 
 const CONV_STATUS_META: Record<ConvStatus, { label: string; dot: string; chip: string }> = {
   OPEN:             { label: "Aberta",            dot: "bg-cyan-400",                      chip: "bg-cyan-500/15 text-cyan-300 border-cyan-500/25" },
   PENDING:          { label: "Sem atendimento",   dot: "bg-red-400 animate-pulse",         chip: "bg-red-500/15 text-red-300 border-red-500/25" },
   IN_PROGRESS:      { label: "Em atendimento",    dot: "bg-yellow-400",                    chip: "bg-yellow-500/15 text-yellow-300 border-yellow-500/25" },
   WAITING_CUSTOMER: { label: "Aguardando cliente", dot: "bg-blue-400",                     chip: "bg-blue-500/15 text-blue-300 border-blue-500/25" },
+  SCHEDULED:        { label: "Aguardando retorno", dot: "bg-purple-400",                   chip: "bg-purple-500/15 text-purple-300 border-purple-500/25" },
   CLOSED:           { label: "Finalizada",        dot: "bg-slate-500",                     chip: "bg-slate-500/15 text-slate-400 border-slate-500/25" },
 };
 
@@ -1597,6 +1598,24 @@ export default function WhatsappManager({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
+
+    // Atualização otimista do chip novo: traduz attendanceStatus para ConvStatus
+    // Sem isso o chip do header continua mostrando o status anterior até o
+    // router.refresh() ir e voltar.
+    const convStatusFromLegacy: Record<string, ConvStatus> = {
+      WAITING: "OPEN", IN_PROGRESS: "IN_PROGRESS", SCHEDULED: "SCHEDULED", RESOLVED: "CLOSED",
+    };
+    const newConvStatus = convStatusFromLegacy[status];
+    if (newConvStatus) {
+      setConvStatusOverride(prev => new Map(prev).set(selectedConv.phone, newConvStatus));
+      if (selectedConv.conversation) {
+        setSelectedConv({
+          ...selectedConv,
+          conversation: { ...selectedConv.conversation, status: newConvStatus },
+        });
+      }
+    }
+
     setSavingAttendance(false);
     router.refresh();
   }
@@ -1644,6 +1663,7 @@ export default function WhatsappManager({
     if (convStatus === "PENDING")      return { ring: "ring-4 ring-red-500",        icon: "🚨", pulse: true  };
     if (convStatus === "IN_PROGRESS")  return { ring: "ring-4 ring-yellow-400",     icon: "💬", pulse: false };
     if (convStatus === "WAITING_CUSTOMER") return { ring: "ring-4 ring-blue-400",   icon: "⏱️", pulse: false };
+    if (convStatus === "SCHEDULED")    return { ring: "ring-4 ring-purple-400",     icon: "📅", pulse: false };
     if (convStatus === "CLOSED")       return { ring: "ring-2 ring-slate-600",      icon: "✓",  pulse: false };
     // OPEN ou sem Conversation → cai no fluxo de urgência por tempo abaixo
     if (convStatus === "OPEN")         return { ring: "ring-4 ring-cyan-400",       icon: "🆕", pulse: false };
@@ -2249,7 +2269,22 @@ export default function WhatsappManager({
                         )}
                       </div>
 
-                      {/* Status da Conversation + ações (Sprint 3) */}
+                      {/* Linha de metadados: telefone · setor (compacto, pequeno) */}
+                      {((selectedConv.companyContact?.name || selectedConv.lead?.name) && !selectedConv.phone.includes("@g.us")) || selectedConv.conversation?.setor ? (
+                        <div className="flex items-center gap-2 text-[11px] text-slate-500 mt-0.5">
+                          {(selectedConv.companyContact?.name || selectedConv.lead?.name) && !selectedConv.phone.includes("@g.us") && (
+                            <span>{formatPhone(selectedConv.phone)}</span>
+                          )}
+                          {(selectedConv.companyContact?.name || selectedConv.lead?.name) && !selectedConv.phone.includes("@g.us") && selectedConv.conversation?.setor && (
+                            <span className="text-slate-700">·</span>
+                          )}
+                          {selectedConv.conversation?.setor && (
+                            <span>setor <span className="text-slate-400">{selectedConv.conversation.setor.name}</span></span>
+                          )}
+                        </div>
+                      ) : null}
+
+                      {/* Status da Conversation + ações (Sprint 3) — duas linhas separadas */}
                       {(() => {
                         const conv = selectedConv.conversation;
                         if (!conv) return null;
@@ -2259,65 +2294,67 @@ export default function WhatsappManager({
                           ? convAssigneeOverride.get(selectedConv.phone)
                           : conv.assignee;
                         const isMine = assignee?.id === currentUserId;
+                        const expectedReturn = selectedConv.lead?.expectedReturnAt;
+                        // Quando SCHEDULED + data definida → "Aguardando retorno · DD/MM HH:mm"
+                        const statusLabel = currentStatus === "SCHEDULED" && expectedReturn
+                          ? `${meta.label} · ${new Date(expectedReturn).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}`
+                          : meta.label;
                         return (
-                          <div className="flex flex-wrap items-center gap-1.5 mt-1.5">
-                            <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium border ${meta.chip}`}>
-                              <span className={`w-1.5 h-1.5 rounded-full ${meta.dot}`} />
-                              {meta.label}
-                            </span>
-                            {assignee && (
-                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
-                                {isMine ? "Você" : assignee.name}
+                          <>
+                            {/* Linha de status: chip + atendente */}
+                            <div className="flex flex-wrap items-center gap-1.5 mt-2">
+                              <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium border ${meta.chip}`}>
+                                <span className={`w-1.5 h-1.5 rounded-full ${meta.dot}`} />
+                                {statusLabel}
                               </span>
-                            )}
-                            {currentStatus !== "CLOSED" && !isMine && (
-                              <button
-                                onClick={() => handleConvAction(conv.id, "take")}
-                                disabled={convActionLoading}
-                                className="text-[10px] px-2 py-0.5 rounded-full bg-yellow-500/15 text-yellow-300 border border-yellow-500/25 hover:bg-yellow-500/25 transition-colors disabled:opacity-50"
-                              >
-                                Pegar
-                              </button>
-                            )}
-                            {currentStatus !== "CLOSED" && (
-                              <button
-                                onClick={() => handleConvAction(conv.id, "close")}
-                                disabled={convActionLoading}
-                                className="text-[10px] px-2 py-0.5 rounded-full bg-slate-500/15 text-slate-300 border border-slate-500/25 hover:bg-slate-500/25 transition-colors disabled:opacity-50"
-                              >
-                                Finalizar
-                              </button>
-                            )}
-                            {currentStatus === "CLOSED" && (
-                              <button
-                                onClick={() => handleConvAction(conv.id, "reopen")}
-                                disabled={convActionLoading}
-                                className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 hover:bg-emerald-500/25 transition-colors disabled:opacity-50"
-                              >
-                                Reabrir
-                              </button>
-                            )}
-                            {availableSetores.length > 1 && currentStatus !== "CLOSED" && (
-                              <button
-                                onClick={() => { setShowTransferModal(true); setTransferSetorId(conv.setorId ?? ""); setTransferNote(""); }}
-                                disabled={convActionLoading}
-                                className="text-[10px] px-2 py-0.5 rounded-full bg-violet-500/15 text-violet-300 border border-violet-500/25 hover:bg-violet-500/25 transition-colors disabled:opacity-50"
-                              >
-                                Transferir
-                              </button>
-                            )}
-                            {conv.setor && (
-                              <span className="text-[10px] text-slate-500">
-                                · setor: <span className="text-slate-300">{conv.setor.name}</span>
-                              </span>
-                            )}
-                          </div>
+                              {assignee && (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
+                                  {isMine ? "Você" : assignee.name}
+                                </span>
+                              )}
+                            </div>
+                            {/* Linha de ações: botões agrupados */}
+                            <div className="flex flex-wrap items-center gap-1.5 mt-1.5">
+                              {currentStatus !== "CLOSED" && !isMine && (
+                                <button
+                                  onClick={() => handleConvAction(conv.id, "take")}
+                                  disabled={convActionLoading}
+                                  className="text-[10px] px-2.5 py-1 rounded-md bg-yellow-500/15 text-yellow-300 border border-yellow-500/25 hover:bg-yellow-500/25 transition-colors disabled:opacity-50 font-medium"
+                                >
+                                  Pegar
+                                </button>
+                              )}
+                              {currentStatus !== "CLOSED" && (
+                                <button
+                                  onClick={() => handleConvAction(conv.id, "close")}
+                                  disabled={convActionLoading}
+                                  className="text-[10px] px-2.5 py-1 rounded-md bg-slate-500/15 text-slate-300 border border-slate-500/25 hover:bg-slate-500/25 transition-colors disabled:opacity-50 font-medium"
+                                >
+                                  Finalizar
+                                </button>
+                              )}
+                              {currentStatus === "CLOSED" && (
+                                <button
+                                  onClick={() => handleConvAction(conv.id, "reopen")}
+                                  disabled={convActionLoading}
+                                  className="text-[10px] px-2.5 py-1 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 hover:bg-emerald-500/25 transition-colors disabled:opacity-50 font-medium"
+                                >
+                                  Reabrir
+                                </button>
+                              )}
+                              {(availableSetores.length > 1 || availableAtendentes.length > 1) && currentStatus !== "CLOSED" && (
+                                <button
+                                  onClick={() => { setShowTransferModal(true); setTransferSetorId(conv.setorId ?? ""); setTransferAssigneeId(""); setTransferNote(""); }}
+                                  disabled={convActionLoading}
+                                  className="text-[10px] px-2.5 py-1 rounded-md bg-violet-500/15 text-violet-300 border border-violet-500/25 hover:bg-violet-500/25 transition-colors disabled:opacity-50 font-medium"
+                                >
+                                  Transferir
+                                </button>
+                              )}
+                            </div>
+                          </>
                         );
                       })()}
-
-                      {(selectedConv.companyContact?.name || selectedConv.lead?.name) && !selectedConv.phone.includes("@g.us") && (
-                        <div className="text-slate-500 text-xs">{formatPhone(selectedConv.phone)}</div>
-                      )}
                       {/* Grupo: lista de participantes únicos */}
                       {selectedConv.phone.includes("@g.us") && convMessages.length > 0 && (() => {
                         const unique = new Map<string, ReturnType<typeof resolveParticipant>>();
@@ -3393,23 +3430,48 @@ export default function WhatsappManager({
                             <div className="border-t border-[#1e2d45] my-1" />
 
                             {/* ── Classificar ── */}
-                            <div className="px-3 py-1.5">
-                              <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2">Classificar</p>
-                              <div className="space-y-0.5">
-                                <button
-                                  type="button"
-                                  onClick={() => { setShowConvertForm(true); setShowTicketForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowAddCompany(false); setShowActionsMenu(false); }}
-                                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
-                                >
-                                  🎯 Criar Lead
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => { setShowOportunidadeForm(true); setShowConvertForm(false); setShowTicketForm(false); setShowLinkProspect(false); setShowAddCompany(false); setShowActionsMenu(false); }}
-                                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
-                                >
-                                  💰 Criar Oportunidade
-                                </button>
+                            {(() => {
+                              // Lead/Oportunidade ativo = pipeline definido E estágio NÃO é final (encerrado/perdido).
+                              // Em estágio final, libera criar de novo (caso o cliente reabriu).
+                              const leadPipe  = selectedConv.lead?.pipeline;
+                              const leadStage = selectedConv.lead?.pipelineStage;
+                              const isStageFinal = !!(leadStage && finalStageNames.includes(leadStage));
+                              const isActiveLead        = leadPipe === "LEADS" && !isStageFinal;
+                              const isActiveOportunidade = leadPipe === "OPORTUNIDADES" && !isStageFinal;
+                              return (
+                                <div className="px-3 py-1.5">
+                                  <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2">Classificar</p>
+                                  <div className="space-y-0.5">
+                                    {/* Já é Lead ATIVO ou Oportunidade ATIVA → atalho pro CRM */}
+                                    {(isActiveLead || isActiveOportunidade) && (
+                                      <Link
+                                        href={`/crm/${isActiveOportunidade ? "oportunidades" : "leads"}?lead=${selectedConv.lead!.id}`}
+                                        onClick={() => setShowActionsMenu(false)}
+                                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-emerald-400/80 hover:bg-emerald-500/5 transition-colors text-left"
+                                      >
+                                        {isActiveOportunidade ? "💰" : "🎯"} Já é {isActiveOportunidade ? "Oportunidade" : "Lead"} · ver no CRM
+                                      </Link>
+                                    )}
+                                    {/* Criar Lead — só se não for lead/oportunidade ativos */}
+                                    {!isActiveLead && !isActiveOportunidade && (
+                                      <button
+                                        type="button"
+                                        onClick={() => { setShowConvertForm(true); setShowTicketForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowAddCompany(false); setShowActionsMenu(false); }}
+                                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
+                                      >
+                                        🎯 Criar Lead
+                                      </button>
+                                    )}
+                                    {/* Criar Oportunidade — só se não for oportunidade ativa */}
+                                    {!isActiveOportunidade && (
+                                      <button
+                                        type="button"
+                                        onClick={() => { setShowOportunidadeForm(true); setShowConvertForm(false); setShowTicketForm(false); setShowLinkProspect(false); setShowAddCompany(false); setShowActionsMenu(false); }}
+                                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
+                                      >
+                                        💰 Criar Oportunidade
+                                      </button>
+                                    )}
                                 {(!openTicket || isTicketFinal) && (
                                   <button
                                     type="button"
@@ -3437,6 +3499,8 @@ export default function WhatsappManager({
                                 </button>
                               </div>
                             </div>
+                              );
+                            })()}
 
                             <div className="border-t border-[#1e2d45] my-1" />
 

@@ -443,10 +443,11 @@ model Conversation {
 }
 
 enum ConversationStatus {
-  OPEN              // 🟢 nova, aguardando ação
+  OPEN              // 🆕 nova, aguardando ação (cyan)
   PENDING           // 🔴 sem atendimento (passou SLA)
   IN_PROGRESS       // 🟡 atendente atribuído e ativo
   WAITING_CUSTOMER  // 🔵 respondemos, esperando cliente
+  SCHEDULED         // 🟣 standby — retorno agendado (usa Lead.expectedReturnAt como prazo)
   CLOSED            // ⚪ finalizada
 }
 

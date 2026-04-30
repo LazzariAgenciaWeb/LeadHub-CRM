@@ -77,10 +77,10 @@ export async function PATCH(
 
   // Compatibilidade com botões antigos (UI legacy ainda usa attendanceStatus):
   // quando o lead tem Conversation vinculada, propaga a mudança para Conversation.status.
-  // Mapping: WAITING → OPEN, IN_PROGRESS → IN_PROGRESS, RESOLVED → CLOSED, SCHEDULED → mantém
+  // Mapping: WAITING → OPEN, IN_PROGRESS → IN_PROGRESS, RESOLVED → CLOSED, SCHEDULED → SCHEDULED
   if (attendanceStatus !== undefined && lead.conversationId) {
-    const map: Record<string, "OPEN" | "IN_PROGRESS" | "CLOSED" | null> = {
-      WAITING: "OPEN", IN_PROGRESS: "IN_PROGRESS", RESOLVED: "CLOSED", SCHEDULED: null,
+    const map: Record<string, "OPEN" | "IN_PROGRESS" | "SCHEDULED" | "CLOSED" | null> = {
+      WAITING: "OPEN", IN_PROGRESS: "IN_PROGRESS", SCHEDULED: "SCHEDULED", RESOLVED: "CLOSED",
     };
     const newConvStatus = attendanceStatus ? map[attendanceStatus] : null;
     if (newConvStatus) {
