@@ -17435,6 +17435,8 @@ export namespace Prisma {
     lastMessageBody: string | null
     lastMessageDirection: $Enums.MessageDir | null
     unreadCount: number | null
+    scheduledReturnAt: Date | null
+    returnNote: string | null
     firstResponseAt: Date | null
     closedAt: Date | null
     companyId: string | null
@@ -17454,6 +17456,8 @@ export namespace Prisma {
     lastMessageBody: string | null
     lastMessageDirection: $Enums.MessageDir | null
     unreadCount: number | null
+    scheduledReturnAt: Date | null
+    returnNote: string | null
     firstResponseAt: Date | null
     closedAt: Date | null
     companyId: string | null
@@ -17473,6 +17477,8 @@ export namespace Prisma {
     lastMessageBody: number
     lastMessageDirection: number
     unreadCount: number
+    scheduledReturnAt: number
+    returnNote: number
     firstResponseAt: number
     closedAt: number
     companyId: number
@@ -17502,6 +17508,8 @@ export namespace Prisma {
     lastMessageBody?: true
     lastMessageDirection?: true
     unreadCount?: true
+    scheduledReturnAt?: true
+    returnNote?: true
     firstResponseAt?: true
     closedAt?: true
     companyId?: true
@@ -17521,6 +17529,8 @@ export namespace Prisma {
     lastMessageBody?: true
     lastMessageDirection?: true
     unreadCount?: true
+    scheduledReturnAt?: true
+    returnNote?: true
     firstResponseAt?: true
     closedAt?: true
     companyId?: true
@@ -17540,6 +17550,8 @@ export namespace Prisma {
     lastMessageBody?: true
     lastMessageDirection?: true
     unreadCount?: true
+    scheduledReturnAt?: true
+    returnNote?: true
     firstResponseAt?: true
     closedAt?: true
     companyId?: true
@@ -17646,6 +17658,8 @@ export namespace Prisma {
     lastMessageBody: string | null
     lastMessageDirection: $Enums.MessageDir | null
     unreadCount: number
+    scheduledReturnAt: Date | null
+    returnNote: string | null
     firstResponseAt: Date | null
     closedAt: Date | null
     companyId: string
@@ -17684,6 +17698,8 @@ export namespace Prisma {
     lastMessageBody?: boolean
     lastMessageDirection?: boolean
     unreadCount?: boolean
+    scheduledReturnAt?: boolean
+    returnNote?: boolean
     firstResponseAt?: boolean
     closedAt?: boolean
     companyId?: boolean
@@ -17711,6 +17727,8 @@ export namespace Prisma {
     lastMessageBody?: boolean
     lastMessageDirection?: boolean
     unreadCount?: boolean
+    scheduledReturnAt?: boolean
+    returnNote?: boolean
     firstResponseAt?: boolean
     closedAt?: boolean
     companyId?: boolean
@@ -17733,6 +17751,8 @@ export namespace Prisma {
     lastMessageBody?: boolean
     lastMessageDirection?: boolean
     unreadCount?: boolean
+    scheduledReturnAt?: boolean
+    returnNote?: boolean
     firstResponseAt?: boolean
     closedAt?: boolean
     companyId?: boolean
@@ -17779,6 +17799,8 @@ export namespace Prisma {
       lastMessageBody: string | null
       lastMessageDirection: $Enums.MessageDir | null
       unreadCount: number
+      scheduledReturnAt: Date | null
+      returnNote: string | null
       firstResponseAt: Date | null
       closedAt: Date | null
       companyId: string
@@ -18195,6 +18217,8 @@ export namespace Prisma {
     readonly lastMessageBody: FieldRef<"Conversation", 'String'>
     readonly lastMessageDirection: FieldRef<"Conversation", 'MessageDir'>
     readonly unreadCount: FieldRef<"Conversation", 'Int'>
+    readonly scheduledReturnAt: FieldRef<"Conversation", 'DateTime'>
+    readonly returnNote: FieldRef<"Conversation", 'String'>
     readonly firstResponseAt: FieldRef<"Conversation", 'DateTime'>
     readonly closedAt: FieldRef<"Conversation", 'DateTime'>
     readonly companyId: FieldRef<"Conversation", 'String'>
@@ -25965,6 +25989,8 @@ export namespace Prisma {
     lastMessageBody: 'lastMessageBody',
     lastMessageDirection: 'lastMessageDirection',
     unreadCount: 'unreadCount',
+    scheduledReturnAt: 'scheduledReturnAt',
+    returnNote: 'returnNote',
     firstResponseAt: 'firstResponseAt',
     closedAt: 'closedAt',
     companyId: 'companyId',
@@ -27577,6 +27603,8 @@ export namespace Prisma {
     lastMessageBody?: StringNullableFilter<"Conversation"> | string | null
     lastMessageDirection?: EnumMessageDirNullableFilter<"Conversation"> | $Enums.MessageDir | null
     unreadCount?: IntFilter<"Conversation"> | number
+    scheduledReturnAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    returnNote?: StringNullableFilter<"Conversation"> | string | null
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     companyId?: StringFilter<"Conversation"> | string
@@ -27603,6 +27631,8 @@ export namespace Prisma {
     lastMessageBody?: SortOrderInput | SortOrder
     lastMessageDirection?: SortOrderInput | SortOrder
     unreadCount?: SortOrder
+    scheduledReturnAt?: SortOrderInput | SortOrder
+    returnNote?: SortOrderInput | SortOrder
     firstResponseAt?: SortOrderInput | SortOrder
     closedAt?: SortOrderInput | SortOrder
     companyId?: SortOrder
@@ -27633,6 +27663,8 @@ export namespace Prisma {
     lastMessageBody?: StringNullableFilter<"Conversation"> | string | null
     lastMessageDirection?: EnumMessageDirNullableFilter<"Conversation"> | $Enums.MessageDir | null
     unreadCount?: IntFilter<"Conversation"> | number
+    scheduledReturnAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    returnNote?: StringNullableFilter<"Conversation"> | string | null
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     companyId?: StringFilter<"Conversation"> | string
@@ -27659,6 +27691,8 @@ export namespace Prisma {
     lastMessageBody?: SortOrderInput | SortOrder
     lastMessageDirection?: SortOrderInput | SortOrder
     unreadCount?: SortOrder
+    scheduledReturnAt?: SortOrderInput | SortOrder
+    returnNote?: SortOrderInput | SortOrder
     firstResponseAt?: SortOrderInput | SortOrder
     closedAt?: SortOrderInput | SortOrder
     companyId?: SortOrder
@@ -27686,6 +27720,8 @@ export namespace Prisma {
     lastMessageBody?: StringNullableWithAggregatesFilter<"Conversation"> | string | null
     lastMessageDirection?: EnumMessageDirNullableWithAggregatesFilter<"Conversation"> | $Enums.MessageDir | null
     unreadCount?: IntWithAggregatesFilter<"Conversation"> | number
+    scheduledReturnAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
+    returnNote?: StringNullableWithAggregatesFilter<"Conversation"> | string | null
     firstResponseAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     companyId?: StringWithAggregatesFilter<"Conversation"> | string
@@ -29589,6 +29625,8 @@ export namespace Prisma {
     lastMessageBody?: string | null
     lastMessageDirection?: $Enums.MessageDir | null
     unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -29614,6 +29652,8 @@ export namespace Prisma {
     lastMessageBody?: string | null
     lastMessageDirection?: $Enums.MessageDir | null
     unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -29635,6 +29675,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29660,6 +29702,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -29683,6 +29727,8 @@ export namespace Prisma {
     lastMessageBody?: string | null
     lastMessageDirection?: $Enums.MessageDir | null
     unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -29700,6 +29746,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29718,6 +29766,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -31566,6 +31616,8 @@ export namespace Prisma {
     lastMessageBody?: SortOrder
     lastMessageDirection?: SortOrder
     unreadCount?: SortOrder
+    scheduledReturnAt?: SortOrder
+    returnNote?: SortOrder
     firstResponseAt?: SortOrder
     closedAt?: SortOrder
     companyId?: SortOrder
@@ -31589,6 +31641,8 @@ export namespace Prisma {
     lastMessageBody?: SortOrder
     lastMessageDirection?: SortOrder
     unreadCount?: SortOrder
+    scheduledReturnAt?: SortOrder
+    returnNote?: SortOrder
     firstResponseAt?: SortOrder
     closedAt?: SortOrder
     companyId?: SortOrder
@@ -31608,6 +31662,8 @@ export namespace Prisma {
     lastMessageBody?: SortOrder
     lastMessageDirection?: SortOrder
     unreadCount?: SortOrder
+    scheduledReturnAt?: SortOrder
+    returnNote?: SortOrder
     firstResponseAt?: SortOrder
     closedAt?: SortOrder
     companyId?: SortOrder
@@ -34930,6 +34986,8 @@ export namespace Prisma {
     lastMessageBody?: string | null
     lastMessageDirection?: $Enums.MessageDir | null
     unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -34953,6 +35011,8 @@ export namespace Prisma {
     lastMessageBody?: string | null
     lastMessageDirection?: $Enums.MessageDir | null
     unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -35182,6 +35242,8 @@ export namespace Prisma {
     lastMessageBody?: StringNullableFilter<"Conversation"> | string | null
     lastMessageDirection?: EnumMessageDirNullableFilter<"Conversation"> | $Enums.MessageDir | null
     unreadCount?: IntFilter<"Conversation"> | number
+    scheduledReturnAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    returnNote?: StringNullableFilter<"Conversation"> | string | null
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     companyId?: StringFilter<"Conversation"> | string
@@ -35828,6 +35890,8 @@ export namespace Prisma {
     lastMessageBody?: string | null
     lastMessageDirection?: $Enums.MessageDir | null
     unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -35852,6 +35916,8 @@ export namespace Prisma {
     lastMessageBody?: string | null
     lastMessageDirection?: $Enums.MessageDir | null
     unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -37463,6 +37529,8 @@ export namespace Prisma {
     lastMessageBody?: string | null
     lastMessageDirection?: $Enums.MessageDir | null
     unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -37487,6 +37555,8 @@ export namespace Prisma {
     lastMessageBody?: string | null
     lastMessageDirection?: $Enums.MessageDir | null
     unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -37810,6 +37880,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37834,6 +37906,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -38895,6 +38969,8 @@ export namespace Prisma {
     lastMessageBody?: string | null
     lastMessageDirection?: $Enums.MessageDir | null
     unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -38919,6 +38995,8 @@ export namespace Prisma {
     lastMessageBody?: string | null
     lastMessageDirection?: $Enums.MessageDir | null
     unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -39183,6 +39261,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39207,6 +39287,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -40063,6 +40145,8 @@ export namespace Prisma {
     lastMessageBody?: string | null
     lastMessageDirection?: $Enums.MessageDir | null
     unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -40087,6 +40171,8 @@ export namespace Prisma {
     lastMessageBody?: string | null
     lastMessageDirection?: $Enums.MessageDir | null
     unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -40123,6 +40209,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40147,6 +40235,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -40167,6 +40257,8 @@ export namespace Prisma {
     lastMessageBody?: string | null
     lastMessageDirection?: $Enums.MessageDir | null
     unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -40191,6 +40283,8 @@ export namespace Prisma {
     lastMessageBody?: string | null
     lastMessageDirection?: $Enums.MessageDir | null
     unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -40402,6 +40496,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40426,6 +40522,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -41335,6 +41433,8 @@ export namespace Prisma {
     lastMessageBody?: string | null
     lastMessageDirection?: $Enums.MessageDir | null
     unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -41358,6 +41458,8 @@ export namespace Prisma {
     lastMessageBody?: string | null
     lastMessageDirection?: $Enums.MessageDir | null
     unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -41908,6 +42010,8 @@ export namespace Prisma {
     lastMessageBody?: string | null
     lastMessageDirection?: $Enums.MessageDir | null
     unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -41992,6 +42096,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42015,6 +42121,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -42037,6 +42145,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -42238,6 +42348,8 @@ export namespace Prisma {
     lastMessageBody?: string | null
     lastMessageDirection?: $Enums.MessageDir | null
     unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -42883,6 +42995,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42907,6 +43021,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42929,6 +43045,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -44064,6 +44182,8 @@ export namespace Prisma {
     lastMessageBody?: string | null
     lastMessageDirection?: $Enums.MessageDir | null
     unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -44160,6 +44280,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -44183,6 +44305,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -44205,6 +44329,8 @@ export namespace Prisma {
     lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
     unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string

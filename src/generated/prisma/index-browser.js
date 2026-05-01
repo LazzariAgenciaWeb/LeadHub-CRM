@@ -312,6 +312,8 @@ exports.Prisma.ConversationScalarFieldEnum = {
   lastMessageBody: 'lastMessageBody',
   lastMessageDirection: 'lastMessageDirection',
   unreadCount: 'unreadCount',
+  scheduledReturnAt: 'scheduledReturnAt',
+  returnNote: 'returnNote',
   firstResponseAt: 'firstResponseAt',
   closedAt: 'closedAt',
   companyId: 'companyId',

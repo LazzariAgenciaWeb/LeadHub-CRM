@@ -9,7 +9,7 @@ import { isAdmin, isSuperAdmin, can, hasModule } from "@/lib/permissions";
 import {
   Zap, X, Home, MessageSquare, Sparkles, Building2, Briefcase,
   Search, Target, Lightbulb, Megaphone, LifeBuoy, Link2, TrendingUp,
-  Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, type LucideIcon,
+  Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, CalendarDays, type LucideIcon,
 } from "lucide-react";
 import VersionBadge from "./VersionBadge";
 
@@ -109,6 +109,7 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
   ];
 
   const bottomLinks: { href: string; Icon: LucideIcon; label: string; show: boolean }[] = [
+    { href: "/calendario",    Icon: CalendarDays, label: "Calendário",    show: true },
     { href: "/campanhas",     Icon: Megaphone,    label: "Campanhas",     show: _isAdmin },
     { href: "/chamados",      Icon: LifeBuoy,     label: "Chamados",      show: _isAdmin || (hasModule(session, "tickets") && can(session, "canViewTickets")) },
     { href: "/links",         Icon: Link2,        label: "Links",         show: _isAdmin },
