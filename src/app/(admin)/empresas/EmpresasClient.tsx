@@ -45,6 +45,30 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
   const [transferring, setTransferring] = useState(false);
   const [transferError, setTransferError] = useState<string | null>(null);
 
+  // Modal de confirmação de deleção (SuperAdmin)
+  const [deleteTarget, setDeleteTarget] = useState<Company | null>(null);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  async function handleDeleteConfirm() {
+    if (!deleteTarget) return;
+    setDeleting(true);
+    setDeleteError(null);
+    try {
+      const res = await fetch(`/api/companies/${deleteTarget.id}`, { method: "DELETE" });
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}));
+        throw new Error(d.error ?? "Falha ao deletar");
+      }
+      setDeleteTarget(null);
+      router.refresh();
+    } catch (err: any) {
+      setDeleteError(err.message ?? "Erro inesperado");
+    } finally {
+      setDeleting(false);
+    }
+  }
+
   useEffect(() => { setPinnedIds(getPinned()); }, []);
 
   // Empresas elegíveis para serem "mãe": todas com hasSystemAccess (= têm admin que vai gerenciar).
@@ -325,6 +349,15 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
                       ↗ Transferir
                     </button>
                   )}
+                  {isSuperAdmin && (
+                    <button
+                      onClick={() => { setDeleteTarget(company); setDeleteError(null); }}
+                      title="Deletar esta empresa (apaga leads, mensagens, instâncias, etc.)"
+                      className="text-red-400 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-xs font-semibold py-1.5 px-3 rounded-lg transition-colors"
+                    >
+                      🗑️
+                    </button>
+                  )}
                   {isSuperAdmin && company.hasSystemAccess && (
                     /* <a> em vez de <Link>: navegação real para a API setar o cookie */
                     <a
@@ -391,6 +424,63 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
                 </button>
                 <button
                   onClick={() => setTransferTarget(null)}
+                  className="px-4 py-2 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white text-sm transition-colors"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Deleção (SuperAdmin) */}
+      {deleteTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/70" onClick={() => setDeleteTarget(null)} />
+          <div className="relative bg-[#0c1220] border border-red-500/40 rounded-2xl w-full max-w-md mx-4 shadow-2xl">
+            <div className="px-6 py-4 border-b border-[#1e2d45] flex items-center justify-between">
+              <div>
+                <h2 className="text-red-400 font-bold text-base">🗑️ Deletar empresa</h2>
+                <p className="text-slate-500 text-xs mt-0.5 truncate"><strong className="text-slate-300">{deleteTarget.name}</strong></p>
+              </div>
+              <button onClick={() => setDeleteTarget(null)} className="text-slate-500 hover:text-white text-2xl leading-none">×</button>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <div className="bg-red-500/10 border border-red-500/30 text-red-300 text-xs rounded-lg px-3 py-3 space-y-1">
+                <p className="font-semibold">⚠️ Esta ação NÃO pode ser desfeita.</p>
+                <p>Vai apagar todos os dados vinculados a esta empresa:</p>
+                <ul className="list-disc list-inside space-y-0.5 text-red-300/80">
+                  <li>{deleteTarget._count.leads} leads</li>
+                  <li>{deleteTarget._count.campaigns} campanhas</li>
+                  <li>{deleteTarget._count.whatsappInstances} instâncias WhatsApp</li>
+                  <li>Mensagens, conversas, contatos, setores, tickets, etc.</li>
+                </ul>
+                {deleteTarget._count.subCompanies > 0 && (
+                  <p className="mt-2 font-semibold text-amber-300">
+                    🚫 Esta empresa tem {deleteTarget._count.subCompanies} sub-empresa(s).
+                    Transfira-as para outra empresa-mãe antes de deletar.
+                  </p>
+                )}
+              </div>
+
+              {deleteError && (
+                <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-xs rounded-lg px-3 py-2">
+                  {deleteError}
+                </div>
+              )}
+
+              <div className="flex gap-2 pt-1">
+                <button
+                  onClick={handleDeleteConfirm}
+                  disabled={deleting || deleteTarget._count.subCompanies > 0}
+                  className="flex-1 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white text-sm font-semibold disabled:opacity-50 transition-colors"
+                >
+                  {deleting ? "Deletando..." : "Sim, deletar permanentemente"}
+                </button>
+                <button
+                  onClick={() => setDeleteTarget(null)}
                   className="px-4 py-2 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white text-sm transition-colors"
                 >
                   Cancelar

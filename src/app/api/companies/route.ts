@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { isSuperAdmin, isAdmin, can } from "@/lib/permissions";
 
@@ -8,8 +9,12 @@ import { isSuperAdmin, isAdmin, can } from "@/lib/permissions";
 // SUPER_ADMIN: vê todos os tenants (empresas de nível 1)
 // ADMIN: vê sua empresa e sub-empresas (clientes)
 // CLIENT com canViewCompanies: vê sub-empresas da sua empresa
+//
+// Usa getEffectiveSession para respeitar impersonação — quando o SUPER_ADMIN está
+// impersonando uma empresa, esta lista volta as sub-empresas dela (clientes da AZZ),
+// não os tenants nivel 1 do SUPER_ADMIN.
 export async function GET(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
   const role = (session.user as any).role;

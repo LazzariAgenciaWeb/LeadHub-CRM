@@ -113,6 +113,9 @@ export async function PATCH(
 }
 
 // DELETE /api/companies/[id]
+// Apenas SUPER_ADMIN pode deletar empresas. Cascade nas FKs cuida de leads/mensagens/
+// instâncias/etc., mas se houver sub-empresas filhas, exige limpeza prévia (ou move
+// pra outra parent — mais seguro do que apagar em cascata).
 export async function DELETE(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -123,7 +126,24 @@ export async function DELETE(
   }
 
   const { id } = await params;
-  await prisma.company.delete({ where: { id } });
 
-  return NextResponse.json({ ok: true });
+  // Bloqueia se houver sub-empresas — usuário precisa transferi-las primeiro
+  const subCount = await prisma.company.count({ where: { parentCompanyId: id } });
+  if (subCount > 0) {
+    return NextResponse.json(
+      { error: `Esta empresa tem ${subCount} sub-empresa(s) vinculada(s). Transfira-as primeiro antes de deletar.` },
+      { status: 409 }
+    );
+  }
+
+  try {
+    await prisma.company.delete({ where: { id } });
+    return NextResponse.json({ ok: true });
+  } catch (err: any) {
+    console.error("[DELETE company]", err);
+    return NextResponse.json(
+      { error: err?.message ?? "Não foi possível deletar a empresa." },
+      { status: 500 }
+    );
+  }
 }
