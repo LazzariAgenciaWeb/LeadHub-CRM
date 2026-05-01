@@ -417,6 +417,10 @@ model Conversation {
   lastMessageDirection MessageDir?
   unreadCount          Int         @default(0) // mensagens INBOUND não lidas pelo atendente
 
+  // Retorno agendado
+  scheduledReturnAt DateTime? // data/hora do retorno agendado (usado quando status=SCHEDULED)
+  returnNote        String?   // nota/motivo do agendamento
+
   // SLA
   firstResponseAt DateTime? // primeira resposta do atendente (calcula tempo de resposta)
   closedAt        DateTime?

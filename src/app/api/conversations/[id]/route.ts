@@ -27,7 +27,7 @@ export async function PATCH(
 
   const conv = await prisma.conversation.findUnique({
     where: { id },
-    select: { id: true, companyId: true, status: true, assigneeId: true, setorId: true },
+    select: { id: true, companyId: true, status: true, assigneeId: true, setorId: true, scheduledReturnAt: true, returnNote: true },
   });
   if (!conv) return NextResponse.json({ error: "Conversa não encontrada" }, { status: 404 });
   if (userRole !== "SUPER_ADMIN" && conv.companyId !== userCompanyId) {
@@ -92,6 +92,13 @@ export async function PATCH(
         });
       }
     }
+    // Agendamento de retorno
+    if ("scheduledReturnAt" in body) {
+      data.scheduledReturnAt = body.scheduledReturnAt ? new Date(body.scheduledReturnAt) : null;
+    }
+    if ("returnNote" in body) {
+      data.returnNote = body.returnNote ?? null;
+    }
   }
 
   if (Object.keys(data).length === 0) {
@@ -105,6 +112,7 @@ export async function PATCH(
       id: true, status: true, statusUpdatedAt: true, closedAt: true,
       assigneeId: true, assignee: { select: { id: true, name: true } },
       setorId: true,   setor:    { select: { id: true, name: true } },
+      scheduledReturnAt: true, returnNote: true,
     },
   });
 

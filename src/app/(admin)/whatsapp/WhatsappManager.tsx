@@ -1842,14 +1842,43 @@ export default function WhatsappManager({
   }
 
   // Parse notes into individual entries for display
+  // Date format used by handleAddNote: "DD/MM/YY HH:MM"
   const parsedNotes = useMemo(() => {
     if (!leadNotes) return [];
     return leadNotes.split(/\n\n+/).map((entry) => {
       const match = entry.match(/^\[(.+?)\]\s*([\s\S]*)$/);
-      if (match) return { date: match[1], text: match[2].trim() };
-      return { date: null, text: entry.trim() };
+      if (match) {
+        const dateStr = match[1];
+        // Try parse "DD/MM/YY HH:MM" → Date
+        let dateObj: Date | null = null;
+        const m = dateStr.match(/^(\d{2})\/(\d{2})\/(\d{2,4})\s+(\d{1,2}):(\d{2})$/);
+        if (m) {
+          const [, dd, mm, yy, hh, mi] = m;
+          const year = yy.length === 2 ? 2000 + parseInt(yy, 10) : parseInt(yy, 10);
+          dateObj = new Date(year, parseInt(mm, 10) - 1, parseInt(dd, 10), parseInt(hh, 10), parseInt(mi, 10));
+        }
+        return { date: dateStr, dateObj, text: match[2].trim() };
+      }
+      return { date: null, dateObj: null as Date | null, text: entry.trim() };
     }).filter((n) => n.text);
   }, [leadNotes]);
+
+  // Unified timeline: messages + internal notes sorted chronologically.
+  // Notes without a parseable date go at the very top (legacy entries).
+  const timelineItems = useMemo(() => {
+    type TLMsg = { kind: "msg"; date: Date; msg: WaMessage };
+    type TLNote = { kind: "note"; date: Date | null; text: string; dateLabel: string | null };
+    const msgs: TLMsg[] = convMessages.map((m) => ({ kind: "msg", date: new Date(m.receivedAt), msg: m }));
+    const notes: TLNote[] = parsedNotes.map((n) => ({ kind: "note", date: n.dateObj, text: n.text, dateLabel: n.date }));
+    const merged: (TLMsg | TLNote)[] = [...msgs, ...notes];
+    merged.sort((a, b) => {
+      // Notes without date → keep at top (oldest)
+      const ta = a.date ? a.date.getTime() : -Infinity;
+      const tb = b.date ? b.date.getTime() : -Infinity;
+      return ta - tb;
+    });
+    return merged;
+  }, [convMessages, parsedNotes]);
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
@@ -3061,12 +3090,48 @@ export default function WhatsappManager({
               <div ref={messagesContainerRef} onScroll={handleMessagesScroll} className="flex-1 overflow-y-auto px-5 py-4 space-y-3">
                 {loadingMsgs ? (
                   <div className="flex items-center justify-center py-10 text-slate-500 text-sm">Carregando...</div>
-                ) : convMessages.length === 0 ? (
+                ) : convMessages.length === 0 && parsedNotes.length === 0 ? (
                   <div className="flex items-center justify-center py-10 text-slate-500 text-sm">Nenhuma mensagem.</div>
                 ) : (
                   (() => {
                     let lastDateKey = "";
-                    return convMessages.map((msg) => {
+                    return timelineItems.map((item, itemIdx) => {
+                    // Render internal note as amber centered bubble (Chatwoot-style)
+                    if (item.kind === "note") {
+                      const noteDate = item.date;
+                      const noteDateKey = noteDate ? noteDate.toDateString() : "";
+                      const showNoteDivider = noteDate ? noteDateKey !== lastDateKey : false;
+                      if (noteDate) lastDateKey = noteDateKey;
+                      return (
+                        <div key={`note-${itemIdx}`}>
+                          {showNoteDivider && noteDate && (
+                            <div className="flex items-center gap-3 my-3">
+                              <div className="flex-1 h-px bg-[#1e2d45]" />
+                              <span className="text-[10px] text-slate-600 font-medium px-2 py-0.5 rounded-full bg-[#0f1623] border border-[#1e2d45] whitespace-nowrap">
+                                {formatDateDivider(noteDate.toISOString())}
+                              </span>
+                              <div className="flex-1 h-px bg-[#1e2d45]" />
+                            </div>
+                          )}
+                          <div className="flex justify-center my-2">
+                            <div className="max-w-[80%] rounded-2xl px-4 py-2.5 bg-amber-500/10 border border-amber-500/30 text-amber-100 shadow-sm">
+                              <div className="flex items-center gap-1.5 mb-1">
+                                <StickyNote className="w-3 h-3 text-amber-400" strokeWidth={2.5} />
+                                <span className="text-[10px] text-amber-300/80 font-semibold uppercase tracking-wide">Nota interna</span>
+                              </div>
+                              <p className="text-sm whitespace-pre-wrap break-words text-amber-50/95">{item.text}</p>
+                              {item.dateLabel && (
+                                <div className="text-[10px] text-amber-300/60 mt-1 text-right">
+                                  {item.dateLabel}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+
+                    const msg = item.msg;
                     const msgDateKey = new Date(msg.receivedAt).toDateString();
                     const showDivider = msgDateKey !== lastDateKey;
                     lastDateKey = msgDateKey;
