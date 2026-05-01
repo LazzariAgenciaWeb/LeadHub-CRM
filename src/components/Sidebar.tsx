@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { useState, useEffect, useRef } from "react";
 import { Session } from "next-auth";
@@ -32,6 +32,7 @@ const DASH_ROUTES = ["/dashboard", "/relatorios", "/calendario"];
 export default function Sidebar({ session, onClose }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const _isSuperAdmin = isSuperAdmin(session);
   const _isAdmin = isAdmin(session);
   const role = (session.user as any)?.role;
@@ -90,7 +91,31 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
   }
 
   function isActive(href: string) {
-    return pathname === href || pathname.startsWith(href + "/");
+    // Separa pathname do query string do href
+    const [hrefPath, hrefQuery] = href.split("?");
+
+    // 1. Pathname precisa bater (exato ou descendente)
+    if (pathname !== hrefPath && !pathname.startsWith(hrefPath + "/")) return false;
+
+    // 2. Se href tem query string, todos os params declarados precisam bater na URL atual.
+    //    Ex: "/relatorios?secao=marketing" só ativa quando secao=marketing está na URL.
+    if (hrefQuery) {
+      const hrefParams = new URLSearchParams(hrefQuery);
+      for (const [key, value] of hrefParams) {
+        if (searchParams.get(key) !== value) return false;
+      }
+      return true;
+    }
+
+    // 3. Href sem query: cuidado pra não conflitar com irmãos que usam a mesma rota
+    //    com um param de seção. Ex: "/relatorios" NÃO está ativo quando estamos em
+    //    "/relatorios?secao=marketing" (porque o irmão "Marketing" é o ativo).
+    if (hrefPath === "/relatorios") {
+      const secao = searchParams.get("secao");
+      if (secao && secao !== "geral") return false;
+    }
+
+    return true;
   }
 
   // Label do papel do usuário
