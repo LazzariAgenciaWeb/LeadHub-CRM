@@ -8,7 +8,7 @@ import { Session } from "next-auth";
 import { isAdmin, isSuperAdmin, can, hasModule } from "@/lib/permissions";
 import {
   Zap, X, Home, MessageSquare, Sparkles, Building2, Briefcase,
-  Search, Target, Lightbulb, Megaphone, LifeBuoy, Link2, TrendingUp,
+  Search, Target, Lightbulb, Megaphone, LifeBuoy, Link2,
   Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, CalendarDays,
   BarChart3, type LucideIcon,
 } from "lucide-react";
@@ -136,7 +136,6 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
   const dashSubItems: DashSubItem[] = ([
     { href: "/dashboard",                       Icon: Home,         label: "Visão Geral", grad: "dashboard",  show: true },
     { href: "/relatorios?secao=marketing",      Icon: BarChart3,    label: "Marketing",   grad: "marketing",  show: _isAdmin || can(session, "canViewLeads") },
-    { href: "/relatorios",                      Icon: TrendingUp,   label: "Relatórios",  grad: "relatorios", show: _isAdmin },
     { href: "/calendario",                      Icon: CalendarDays, label: "Calendário",  grad: "calendario", show: true },
   ] satisfies DashSubItem[]).filter((i) => i.show);
 

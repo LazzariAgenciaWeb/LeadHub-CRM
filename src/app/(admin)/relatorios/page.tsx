@@ -25,8 +25,14 @@ export default async function RelatoriosPage({
 
   // ─── Seção: Marketing (não precisa carregar dados pesados de leads/links/etc.) ───
   if (secao === "marketing") {
+    // Apenas empresas com acesso ao painel — quem não loga no sistema não tem
+    // dados de marketing pra mostrar de qualquer forma.
     const companies = isSuperAdmin
-      ? await prisma.company.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } })
+      ? await prisma.company.findMany({
+          where: { hasSystemAccess: true },
+          orderBy: { name: "asc" },
+          select: { id: true, name: true },
+        })
       : [];
     const selectedCompanyId = isSuperAdmin
       ? (sp.companyId ?? "")
