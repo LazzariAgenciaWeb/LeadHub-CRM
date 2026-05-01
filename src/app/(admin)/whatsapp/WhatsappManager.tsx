@@ -3528,55 +3528,54 @@ export default function WhatsappManager({
                               </button>
                             </div>
 
-                            {/* Marcar como Aguardando cliente (manual) — útil quando o atendente
-                                pegou e está esperando algo do cliente sem ter respondido ainda */}
-                            {selectedConv.conversation && selectedConv.conversation.status !== "WAITING_CUSTOMER" && selectedConv.conversation.status !== "CLOSED" && (
-                              <div className="px-3 py-1.5">
-                                <button
-                                  type="button"
-                                  onClick={async () => {
-                                    if (!selectedConv.conversation) return;
-                                    const convId = selectedConv.conversation.id;
-                                    setShowActionsMenu(false);
-                                    setConvStatusOverride((prev) => new Map(prev).set(selectedConv.phone, "WAITING_CUSTOMER"));
-                                    setSelectedConv((prev) => prev?.conversation
-                                      ? { ...prev, conversation: { ...prev.conversation, status: "WAITING_CUSTOMER" } }
-                                      : prev);
-                                    await fetch(`/api/conversations/${convId}`, {
-                                      method: "PATCH",
-                                      headers: { "Content-Type": "application/json" },
-                                      body: JSON.stringify({ status: "WAITING_CUSTOMER" }),
-                                    });
-                                    router.refresh();
-                                  }}
-                                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
-                                >
-                                  <Hourglass className="w-4 h-4 text-blue-400" strokeWidth={2.25} />
-                                  Marcar como aguardando cliente
-                                </button>
-                              </div>
-                            )}
-
                             <div className="border-t border-[#1e2d45] my-1" />
 
-                            {/* ── Agendar retorno ── (substituiu os 4 botões legacy de attendanceStatus
-                                  que duplicavam Pegar/Finalizar/Reabrir do header) */}
+                            {/* ── Aguardando cliente ── (com data limite opcional) */}
                             <div className="px-3 pt-2.5 pb-1.5">
-                              <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2 flex items-center gap-1.5"><Calendar className="w-3 h-3" strokeWidth={2.5} /> Agendar retorno</p>
+                              <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2 flex items-center gap-1.5">
+                                <Hourglass className="w-3 h-3" strokeWidth={2.5} /> Aguardando cliente
+                              </p>
+                              <p className="text-slate-500 text-[10px] mb-2">
+                                Marca como standby. Se preencher data, vira <strong className="text-purple-400">retorno agendado</strong> — ao passar do prazo, lembra de voltar a cobrar.
+                              </p>
                               <div className="flex gap-2">
                                 <input
                                   type="datetime-local"
                                   value={expectedReturn}
                                   onChange={(e) => setExpectedReturn(e.target.value)}
+                                  placeholder="Data opcional"
                                   className="flex-1 bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-purple-500"
                                 />
                                 <button
                                   type="button"
-                                  onClick={() => { handleSetAttendance("SCHEDULED"); setShowActionsMenu(false); }}
-                                  disabled={savingAttendance || !expectedReturn}
-                                  className="px-2.5 py-1.5 rounded-lg bg-purple-600 text-white text-xs font-medium hover:bg-purple-500 disabled:opacity-50"
+                                  onClick={async () => {
+                                    setShowActionsMenu(false);
+                                    if (expectedReturn) {
+                                      // Com data → SCHEDULED + expectedReturnAt (caminho legacy que sincroniza)
+                                      handleSetAttendance("SCHEDULED");
+                                    } else if (selectedConv.conversation) {
+                                      // Sem data → WAITING_CUSTOMER direto via Conversation API
+                                      const convId = selectedConv.conversation.id;
+                                      setConvStatusOverride((prev) => new Map(prev).set(selectedConv.phone, "WAITING_CUSTOMER"));
+                                      setSelectedConv((prev) => prev?.conversation
+                                        ? { ...prev, conversation: { ...prev.conversation, status: "WAITING_CUSTOMER" } }
+                                        : prev);
+                                      await fetch(`/api/conversations/${convId}`, {
+                                        method: "PATCH",
+                                        headers: { "Content-Type": "application/json" },
+                                        body: JSON.stringify({ status: "WAITING_CUSTOMER" }),
+                                      });
+                                      router.refresh();
+                                    }
+                                  }}
+                                  disabled={savingAttendance}
+                                  className={`px-2.5 py-1.5 rounded-lg text-white text-xs font-medium disabled:opacity-50 ${
+                                    expectedReturn
+                                      ? "bg-purple-600 hover:bg-purple-500"
+                                      : "bg-blue-600 hover:bg-blue-500"
+                                  }`}
                                 >
-                                  Salvar
+                                  {expectedReturn ? "Agendar" : "Aguardar"}
                                 </button>
                               </div>
                             </div>
