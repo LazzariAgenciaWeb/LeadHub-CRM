@@ -5,6 +5,7 @@ import Link from "next/link";
 import CompanyContacts from "./CompanyContacts";
 import CompanyVault from "./CompanyVault";
 import CompanyIntegrations from "./CompanyIntegrations";
+import CompanyMarketing from "./CompanyMarketing";
 
 interface Campaign {
   id: string;
@@ -74,9 +75,10 @@ const SOURCE_ICON: Record<string, string> = {
   GOOGLE: "🔍", LINK: "🔗", OTHER: "📌",
 };
 
-type TabId = "campanhas" | "leads" | "oportunidades" | "chamados" | "contatos" | "cofre" | "integracoes";
+type TabId = "campanhas" | "leads" | "oportunidades" | "chamados" | "contatos" | "cofre" | "integracoes" | "marketing";
 
 const TABS: { id: TabId; label: string; icon: string }[] = [
+  { id: "marketing",    label: "Marketing",    icon: "📊" },
   { id: "campanhas",    label: "Campanhas",    icon: "📣" },
   { id: "leads",        label: "Leads",        icon: "🎯" },
   { id: "oportunidades",label: "Oportunidades",icon: "💰" },
@@ -109,6 +111,7 @@ export default function CompanyDetailTabs({
     contatos:      contacts.length,
     cofre:         0, // count carregado dinamicamente dentro do componente
     integracoes:   0, // count carregado dinamicamente dentro do componente
+    marketing:     0, // count carregado dinamicamente dentro do componente
   };
 
   return (
@@ -360,6 +363,11 @@ export default function CompanyDetailTabs({
         {/* ── Integrações ── */}
         {activeTab === "integracoes" && (
           <CompanyIntegrations companyId={companyId} />
+        )}
+
+        {/* ── Marketing (Dashboard) ── */}
+        {activeTab === "marketing" && (
+          <CompanyMarketing companyId={companyId} />
         )}
       </div>
     </div>
