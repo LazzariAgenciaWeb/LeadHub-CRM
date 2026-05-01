@@ -9,6 +9,7 @@ import OpenAISettings from "./OpenAISettings";
 import SetoresSection from "./SetoresSection";
 import WebhookSettings from "./WebhookSettings";
 import AtendimentoSettings from "./AtendimentoSettings";
+import IntegracoesGoogleSection from "./IntegracoesGoogleSection";
 
 export default async function ConfiguracoesPage({
   searchParams,
@@ -103,6 +104,23 @@ export default async function ConfiguracoesPage({
         companyId={companyId}
         webhookToken={webhookToken}
         baseUrl={baseUrl}
+      />
+    );
+  } else if (secao === "integracoes-google") {
+    // Integrações Google (GA4 + Search Console + GBP) — por empresa
+    const companies = isSuperAdmin
+      ? await prisma.company.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } })
+      : [];
+    const selectedCompanyId = isSuperAdmin
+      ? (qCompanyId ?? "")
+      : (userCompanyId ?? "");
+
+    content = (
+      <IntegracoesGoogleSection
+        isSuperAdmin={isSuperAdmin}
+        defaultCompanyId={userCompanyId ?? ""}
+        selectedCompanyId={selectedCompanyId}
+        companies={companies}
       />
     );
   } else if (secao === "integracoes-openai") {

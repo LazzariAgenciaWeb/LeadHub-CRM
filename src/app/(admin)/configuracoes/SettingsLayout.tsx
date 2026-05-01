@@ -15,6 +15,7 @@ const SECTIONS: SectionItem[] = [
     icon: "🔌",
     label: "Integrações",
     children: [
+      { key: "integracoes-google",   icon: "🌐", label: "Google",        desc: "Analytics, Search Console, Meu Negócio" },
       { key: "integracoes-evolution", icon: "⚡", label: "Evolution API", desc: "WhatsApp gateway" },
       { key: "integracoes-clickup",  icon: "✅", label: "ClickUp",       desc: "Tarefas e projetos" },
       { key: "integracoes-openai",   icon: "🤖", label: "OpenAI",        desc: "IA e automação" },
