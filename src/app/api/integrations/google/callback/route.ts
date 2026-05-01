@@ -10,8 +10,9 @@ import {
   type GoogleService,
 } from "@/lib/google-oauth";
 
-// Mapeia serviço autorizado → IntegrationProvider do schema
-const SERVICE_TO_PROVIDER: Record<GoogleService, "GA4" | "SEARCH_CONSOLE" | "BUSINESS_PROFILE"> = {
+// Mapeia serviço autorizado → IntegrationProvider do schema.
+// Calendar não entra aqui — é gerenciado por usuário em UserGoogleConnection.
+const SERVICE_TO_PROVIDER: Partial<Record<GoogleService, "GA4" | "SEARCH_CONSOLE" | "BUSINESS_PROFILE">> = {
   ga4: "GA4",
   sc: "SEARCH_CONSOLE",
   gbp: "BUSINESS_PROFILE",

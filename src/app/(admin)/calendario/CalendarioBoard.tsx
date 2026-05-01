@@ -6,7 +6,7 @@ import Link from "next/link";
 import {
   Calendar, Clock, MessageSquare, LifeBuoy, Target,
   ChevronRight, RefreshCw, AlertTriangle, CheckCircle2,
-  User, Hourglass, X, AlarmClock,
+  User, Hourglass, X, AlarmClock, Video, MapPin, ExternalLink,
 } from "lucide-react";
 
 // ── Tipos ────────────────────────────────────────────────────────────────────
@@ -61,6 +61,18 @@ interface LeadFollowUp {
   status: string;
 }
 
+interface GoogleEvent {
+  id: string;
+  summary: string;
+  description?: string;
+  location?: string;
+  start: { dateTime?: string; date?: string; timeZone?: string };
+  end:   { dateTime?: string; date?: string; timeZone?: string };
+  htmlLink?: string;
+  hangoutLink?: string;
+  attendees?: { email: string; displayName?: string }[];
+}
+
 interface Props {
   scheduledConvs: ScheduledConv[];
   waitingConvs:   WaitingConv[];
@@ -69,6 +81,9 @@ interface Props {
   leadsFollowUp:  LeadFollowUp[];
   currentUserId:  string;
   isSuperAdmin:   boolean;
+  googleConn:     { email: string | null; status: string } | null;
+  googleEvents:   GoogleEvent[];
+  googleError:    string | null;
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -276,6 +291,181 @@ function ScheduleModal({
   );
 }
 
+// ── Card de Conexão Google Calendar ──────────────────────────────────────────
+
+function GoogleCalendarCard({
+  conn,
+  hasEvents,
+  error,
+}: {
+  conn: { email: string | null; status: string } | null;
+  hasEvents: boolean;
+  error: string | null;
+}) {
+  const [disconnecting, setDisconnecting] = useState(false);
+  const router = useRouter();
+
+  async function disconnect() {
+    if (!confirm("Desconectar Google Calendar? Os eventos não aparecerão mais aqui.")) return;
+    setDisconnecting(true);
+    try {
+      await fetch("/api/calendar/google/disconnect", { method: "DELETE" });
+      router.refresh();
+    } finally {
+      setDisconnecting(false);
+    }
+  }
+
+  // Não conectado → CTA
+  if (!conn) {
+    return (
+      <div className="mb-4 bg-gradient-to-br from-sky-500/10 to-blue-500/5 border border-sky-500/20 rounded-2xl p-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-sky-500/15 flex items-center justify-center flex-shrink-0">
+            <Calendar className="w-5 h-5 text-sky-400" strokeWidth={2} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="text-white font-semibold text-[13px]">Conecte sua agenda do Google</div>
+            <div className="text-slate-400 text-[12px] mt-0.5">
+              Veja seus compromissos do dia ao lado dos retornos e chamados.
+            </div>
+          </div>
+          <a
+            href="/api/calendar/google/connect"
+            className="flex-shrink-0 px-4 py-2 rounded-lg text-[12px] font-semibold text-white bg-sky-600 hover:bg-sky-500 transition-colors"
+          >
+            Conectar
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  // Conectado mas com erro
+  if (conn.status !== "ACTIVE" || error) {
+    return (
+      <div className="mb-4 bg-amber-500/10 border border-amber-500/25 rounded-2xl p-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-amber-500/15 flex items-center justify-center flex-shrink-0">
+            <AlertTriangle className="w-5 h-5 text-amber-400" strokeWidth={2} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="text-white font-semibold text-[13px]">Reconectar Google Calendar</div>
+            <div className="text-amber-300/80 text-[12px] mt-0.5 truncate">
+              {error ?? `Conexão em estado ${conn.status}`}
+            </div>
+          </div>
+          <a
+            href="/api/calendar/google/connect"
+            className="flex-shrink-0 px-4 py-2 rounded-lg text-[12px] font-semibold text-white bg-amber-600 hover:bg-amber-500 transition-colors"
+          >
+            Reconectar
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  // Conectado ok — barra discreta
+  return (
+    <div className="mb-3 flex items-center gap-2 px-3 py-2 bg-[#0f1623] border border-[#1e2d45] rounded-xl text-[12px]">
+      <div className="w-5 h-5 rounded-md bg-sky-500/15 flex items-center justify-center flex-shrink-0">
+        <Calendar className="w-3 h-3 text-sky-400" strokeWidth={2.25} />
+      </div>
+      <span className="text-slate-400">Google Calendar:</span>
+      <span className="text-white font-medium truncate">{conn.email ?? "conectado"}</span>
+      {!hasEvents && (
+        <span className="text-slate-600 text-[11px]">· sem eventos hoje</span>
+      )}
+      <button
+        onClick={disconnect}
+        disabled={disconnecting}
+        className="ml-auto text-slate-500 hover:text-red-400 text-[11px] transition-colors disabled:opacity-50"
+        title="Desconectar"
+      >
+        {disconnecting ? "..." : "Desconectar"}
+      </button>
+    </div>
+  );
+}
+
+// ── Linha de evento do Google ────────────────────────────────────────────────
+
+function GoogleEventRow({ ev }: { ev: GoogleEvent }) {
+  const startISO = ev.start.dateTime ?? ev.start.date;
+  const endISO   = ev.end.dateTime   ?? ev.end.date;
+  const isAllDay = !ev.start.dateTime;
+
+  const startTime = startISO && !isAllDay
+    ? new Date(startISO).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })
+    : "Dia todo";
+  const endTime = endISO && !isAllDay
+    ? new Date(endISO).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })
+    : "";
+
+  const meetLink = ev.hangoutLink;
+  const attendeeCount = ev.attendees?.length ?? 0;
+
+  return (
+    <div className="flex items-center gap-3 bg-[#0f1623] border border-[#1e2d45] rounded-xl px-4 py-3 hover:border-sky-500/30 transition-colors">
+      <div className="w-7 h-7 rounded-full bg-sky-500/15 flex items-center justify-center flex-shrink-0">
+        <Calendar className="w-3.5 h-3.5 text-sky-400" strokeWidth={2} />
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2">
+          <span className="text-white text-[13px] font-medium truncate">
+            {ev.summary || "(sem título)"}
+          </span>
+          {meetLink && (
+            <Video className="w-3 h-3 text-emerald-400 flex-shrink-0" strokeWidth={2} />
+          )}
+        </div>
+        <div className="flex items-center gap-2 mt-0.5">
+          <Clock className="w-3 h-3 text-sky-400 flex-shrink-0" strokeWidth={2} />
+          <span className="text-sky-300 text-[11px]">
+            {isAllDay ? startTime : `${startTime} – ${endTime}`}
+          </span>
+          {ev.location && (
+            <>
+              <span className="text-slate-700">·</span>
+              <MapPin className="w-3 h-3 text-slate-500 flex-shrink-0" strokeWidth={2} />
+              <span className="text-slate-500 text-[11px] truncate">{ev.location}</span>
+            </>
+          )}
+          {attendeeCount > 0 && (
+            <span className="text-slate-600 text-[11px]">· {attendeeCount} convidado{attendeeCount > 1 ? "s" : ""}</span>
+          )}
+        </div>
+      </div>
+      <div className="flex items-center gap-2 flex-shrink-0">
+        {meetLink && (
+          <a
+            href={meetLink}
+            target="_blank"
+            rel="noreferrer"
+            className="text-[11px] font-semibold text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1"
+            title="Entrar no Google Meet"
+          >
+            <Video className="w-3 h-3" strokeWidth={2} />
+            Meet
+          </a>
+        )}
+        {ev.htmlLink && (
+          <a
+            href={ev.htmlLink}
+            target="_blank"
+            rel="noreferrer"
+            className="text-slate-500 hover:text-white transition-colors"
+            title="Abrir no Google Calendar"
+          >
+            <ExternalLink className="w-3.5 h-3.5" strokeWidth={2} />
+          </a>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ── Componente principal ──────────────────────────────────────────────────────
 
 export default function CalendarioBoard({
@@ -286,6 +476,9 @@ export default function CalendarioBoard({
   leadsFollowUp,
   currentUserId,
   isSuperAdmin,
+  googleConn,
+  googleEvents,
+  googleError,
 }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -340,12 +533,28 @@ export default function CalendarioBoard({
         </div>
       </div>
 
-      {totalToday === 0 && (
+      {totalToday === 0 && googleEvents.length === 0 && (
         <div className="flex flex-col items-center justify-center py-20 gap-3">
           <CheckCircle2 className="w-12 h-12 text-emerald-500/40" strokeWidth={1.5} />
           <p className="text-slate-400 font-medium">Tudo em dia!</p>
           <p className="text-slate-600 text-sm">Nenhum item pendente para hoje.</p>
         </div>
+      )}
+
+      {/* ── Card de Conexão Google Calendar ────────────────────────────── */}
+      <GoogleCalendarCard conn={googleConn} hasEvents={googleEvents.length > 0} error={googleError} />
+
+      {/* ── Eventos do Google Calendar ────────────────────────────────── */}
+      {googleEvents.length > 0 && (
+        <Section
+          icon={Calendar}
+          iconColor="text-sky-400"
+          accent="bg-sky-500/15"
+          title="Agenda do Google"
+          count={googleEvents.length}
+        >
+          {googleEvents.map((ev) => <GoogleEventRow key={ev.id} ev={ev} />)}
+        </Section>
       )}
 
       {/* ── Retornos Vencidos ──────────────────────────────────────────── */}

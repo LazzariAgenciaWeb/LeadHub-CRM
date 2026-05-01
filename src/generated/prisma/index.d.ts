@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model UserGoogleConnection
+ * 
+ */
+export type UserGoogleConnection = $Result.DefaultSelection<Prisma.$UserGoogleConnectionPayload>
+/**
  * Model Company
  * 
  */
@@ -542,6 +547,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs>;
+
+  /**
+   * `prisma.userGoogleConnection`: Exposes CRUD operations for the **UserGoogleConnection** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserGoogleConnections
+    * const userGoogleConnections = await prisma.userGoogleConnection.findMany()
+    * ```
+    */
+  get userGoogleConnection(): Prisma.UserGoogleConnectionDelegate<ExtArgs>;
 
   /**
    * `prisma.company`: Exposes CRUD operations for the **Company** model.
@@ -1274,6 +1289,7 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
+    UserGoogleConnection: 'UserGoogleConnection',
     Company: 'Company',
     Campaign: 'Campaign',
     TrackingLink: 'TrackingLink',
@@ -1318,7 +1334,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery"
+      modelProps: "user" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1389,6 +1405,76 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserGoogleConnection: {
+        payload: Prisma.$UserGoogleConnectionPayload<ExtArgs>
+        fields: Prisma.UserGoogleConnectionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserGoogleConnectionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGoogleConnectionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserGoogleConnectionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGoogleConnectionPayload>
+          }
+          findFirst: {
+            args: Prisma.UserGoogleConnectionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGoogleConnectionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserGoogleConnectionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGoogleConnectionPayload>
+          }
+          findMany: {
+            args: Prisma.UserGoogleConnectionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGoogleConnectionPayload>[]
+          }
+          create: {
+            args: Prisma.UserGoogleConnectionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGoogleConnectionPayload>
+          }
+          createMany: {
+            args: Prisma.UserGoogleConnectionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserGoogleConnectionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGoogleConnectionPayload>[]
+          }
+          delete: {
+            args: Prisma.UserGoogleConnectionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGoogleConnectionPayload>
+          }
+          update: {
+            args: Prisma.UserGoogleConnectionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGoogleConnectionPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserGoogleConnectionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserGoogleConnectionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.UserGoogleConnectionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGoogleConnectionPayload>
+          }
+          aggregate: {
+            args: Prisma.UserGoogleConnectionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserGoogleConnection>
+          }
+          groupBy: {
+            args: Prisma.UserGoogleConnectionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserGoogleConnectionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserGoogleConnectionCountArgs<ExtArgs>
+            result: $Utils.Optional<UserGoogleConnectionCountAggregateOutputType> | number
           }
         }
       }
@@ -3586,12 +3672,14 @@ export namespace Prisma {
     ticketsCreated: number
     setores: number
     conversationsAssigned: number
+    googleConnections: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ticketsCreated?: boolean | UserCountOutputTypeCountTicketsCreatedArgs
     setores?: boolean | UserCountOutputTypeCountSetoresArgs
     conversationsAssigned?: boolean | UserCountOutputTypeCountConversationsAssignedArgs
+    googleConnections?: boolean | UserCountOutputTypeCountGoogleConnectionsArgs
   }
 
   // Custom InputTypes
@@ -3624,6 +3712,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountConversationsAssignedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ConversationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountGoogleConnectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserGoogleConnectionWhereInput
   }
 
 
@@ -4457,6 +4552,7 @@ export namespace Prisma {
     companyContact?: boolean | User$companyContactArgs<ExtArgs>
     setores?: boolean | User$setoresArgs<ExtArgs>
     conversationsAssigned?: boolean | User$conversationsAssignedArgs<ExtArgs>
+    googleConnections?: boolean | User$googleConnectionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -4491,6 +4587,7 @@ export namespace Prisma {
     companyContact?: boolean | User$companyContactArgs<ExtArgs>
     setores?: boolean | User$setoresArgs<ExtArgs>
     conversationsAssigned?: boolean | User$conversationsAssignedArgs<ExtArgs>
+    googleConnections?: boolean | User$googleConnectionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4505,6 +4602,7 @@ export namespace Prisma {
       companyContact: Prisma.$CompanyContactPayload<ExtArgs> | null
       setores: Prisma.$SetorUserPayload<ExtArgs>[]
       conversationsAssigned: Prisma.$ConversationPayload<ExtArgs>[]
+      googleConnections: Prisma.$UserGoogleConnectionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4885,6 +4983,7 @@ export namespace Prisma {
     companyContact<T extends User$companyContactArgs<ExtArgs> = {}>(args?: Subset<T, User$companyContactArgs<ExtArgs>>): Prisma__CompanyContactClient<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     setores<T extends User$setoresArgs<ExtArgs> = {}>(args?: Subset<T, User$setoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorUserPayload<ExtArgs>, T, "findMany"> | Null>
     conversationsAssigned<T extends User$conversationsAssignedArgs<ExtArgs> = {}>(args?: Subset<T, User$conversationsAssignedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany"> | Null>
+    googleConnections<T extends User$googleConnectionsArgs<ExtArgs> = {}>(args?: Subset<T, User$googleConnectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserGoogleConnectionPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5331,6 +5430,26 @@ export namespace Prisma {
   }
 
   /**
+   * User.googleConnections
+   */
+  export type User$googleConnectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGoogleConnection
+     */
+    select?: UserGoogleConnectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGoogleConnectionInclude<ExtArgs> | null
+    where?: UserGoogleConnectionWhereInput
+    orderBy?: UserGoogleConnectionOrderByWithRelationInput | UserGoogleConnectionOrderByWithRelationInput[]
+    cursor?: UserGoogleConnectionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserGoogleConnectionScalarFieldEnum | UserGoogleConnectionScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5342,6 +5461,1043 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserGoogleConnection
+   */
+
+  export type AggregateUserGoogleConnection = {
+    _count: UserGoogleConnectionCountAggregateOutputType | null
+    _min: UserGoogleConnectionMinAggregateOutputType | null
+    _max: UserGoogleConnectionMaxAggregateOutputType | null
+  }
+
+  export type UserGoogleConnectionMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    service: string | null
+    googleEmail: string | null
+    googleName: string | null
+    accessTokenEnc: string | null
+    refreshTokenEnc: string | null
+    tokenExpiresAt: Date | null
+    status: string | null
+    lastError: string | null
+    lastSyncAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserGoogleConnectionMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    service: string | null
+    googleEmail: string | null
+    googleName: string | null
+    accessTokenEnc: string | null
+    refreshTokenEnc: string | null
+    tokenExpiresAt: Date | null
+    status: string | null
+    lastError: string | null
+    lastSyncAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserGoogleConnectionCountAggregateOutputType = {
+    id: number
+    userId: number
+    service: number
+    googleEmail: number
+    googleName: number
+    accessTokenEnc: number
+    refreshTokenEnc: number
+    tokenExpiresAt: number
+    scopes: number
+    status: number
+    lastError: number
+    lastSyncAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type UserGoogleConnectionMinAggregateInputType = {
+    id?: true
+    userId?: true
+    service?: true
+    googleEmail?: true
+    googleName?: true
+    accessTokenEnc?: true
+    refreshTokenEnc?: true
+    tokenExpiresAt?: true
+    status?: true
+    lastError?: true
+    lastSyncAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserGoogleConnectionMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    service?: true
+    googleEmail?: true
+    googleName?: true
+    accessTokenEnc?: true
+    refreshTokenEnc?: true
+    tokenExpiresAt?: true
+    status?: true
+    lastError?: true
+    lastSyncAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserGoogleConnectionCountAggregateInputType = {
+    id?: true
+    userId?: true
+    service?: true
+    googleEmail?: true
+    googleName?: true
+    accessTokenEnc?: true
+    refreshTokenEnc?: true
+    tokenExpiresAt?: true
+    scopes?: true
+    status?: true
+    lastError?: true
+    lastSyncAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type UserGoogleConnectionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserGoogleConnection to aggregate.
+     */
+    where?: UserGoogleConnectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserGoogleConnections to fetch.
+     */
+    orderBy?: UserGoogleConnectionOrderByWithRelationInput | UserGoogleConnectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserGoogleConnectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserGoogleConnections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserGoogleConnections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserGoogleConnections
+    **/
+    _count?: true | UserGoogleConnectionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserGoogleConnectionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserGoogleConnectionMaxAggregateInputType
+  }
+
+  export type GetUserGoogleConnectionAggregateType<T extends UserGoogleConnectionAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserGoogleConnection]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserGoogleConnection[P]>
+      : GetScalarType<T[P], AggregateUserGoogleConnection[P]>
+  }
+
+
+
+
+  export type UserGoogleConnectionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserGoogleConnectionWhereInput
+    orderBy?: UserGoogleConnectionOrderByWithAggregationInput | UserGoogleConnectionOrderByWithAggregationInput[]
+    by: UserGoogleConnectionScalarFieldEnum[] | UserGoogleConnectionScalarFieldEnum
+    having?: UserGoogleConnectionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserGoogleConnectionCountAggregateInputType | true
+    _min?: UserGoogleConnectionMinAggregateInputType
+    _max?: UserGoogleConnectionMaxAggregateInputType
+  }
+
+  export type UserGoogleConnectionGroupByOutputType = {
+    id: string
+    userId: string
+    service: string
+    googleEmail: string | null
+    googleName: string | null
+    accessTokenEnc: string | null
+    refreshTokenEnc: string | null
+    tokenExpiresAt: Date | null
+    scopes: string[]
+    status: string
+    lastError: string | null
+    lastSyncAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: UserGoogleConnectionCountAggregateOutputType | null
+    _min: UserGoogleConnectionMinAggregateOutputType | null
+    _max: UserGoogleConnectionMaxAggregateOutputType | null
+  }
+
+  type GetUserGoogleConnectionGroupByPayload<T extends UserGoogleConnectionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserGoogleConnectionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserGoogleConnectionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserGoogleConnectionGroupByOutputType[P]>
+            : GetScalarType<T[P], UserGoogleConnectionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserGoogleConnectionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    service?: boolean
+    googleEmail?: boolean
+    googleName?: boolean
+    accessTokenEnc?: boolean
+    refreshTokenEnc?: boolean
+    tokenExpiresAt?: boolean
+    scopes?: boolean
+    status?: boolean
+    lastError?: boolean
+    lastSyncAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userGoogleConnection"]>
+
+  export type UserGoogleConnectionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    service?: boolean
+    googleEmail?: boolean
+    googleName?: boolean
+    accessTokenEnc?: boolean
+    refreshTokenEnc?: boolean
+    tokenExpiresAt?: boolean
+    scopes?: boolean
+    status?: boolean
+    lastError?: boolean
+    lastSyncAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userGoogleConnection"]>
+
+  export type UserGoogleConnectionSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    service?: boolean
+    googleEmail?: boolean
+    googleName?: boolean
+    accessTokenEnc?: boolean
+    refreshTokenEnc?: boolean
+    tokenExpiresAt?: boolean
+    scopes?: boolean
+    status?: boolean
+    lastError?: boolean
+    lastSyncAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type UserGoogleConnectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserGoogleConnectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserGoogleConnectionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserGoogleConnection"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      service: string
+      googleEmail: string | null
+      googleName: string | null
+      accessTokenEnc: string | null
+      refreshTokenEnc: string | null
+      tokenExpiresAt: Date | null
+      scopes: string[]
+      status: string
+      lastError: string | null
+      lastSyncAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["userGoogleConnection"]>
+    composites: {}
+  }
+
+  type UserGoogleConnectionGetPayload<S extends boolean | null | undefined | UserGoogleConnectionDefaultArgs> = $Result.GetResult<Prisma.$UserGoogleConnectionPayload, S>
+
+  type UserGoogleConnectionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<UserGoogleConnectionFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: UserGoogleConnectionCountAggregateInputType | true
+    }
+
+  export interface UserGoogleConnectionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserGoogleConnection'], meta: { name: 'UserGoogleConnection' } }
+    /**
+     * Find zero or one UserGoogleConnection that matches the filter.
+     * @param {UserGoogleConnectionFindUniqueArgs} args - Arguments to find a UserGoogleConnection
+     * @example
+     * // Get one UserGoogleConnection
+     * const userGoogleConnection = await prisma.userGoogleConnection.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserGoogleConnectionFindUniqueArgs>(args: SelectSubset<T, UserGoogleConnectionFindUniqueArgs<ExtArgs>>): Prisma__UserGoogleConnectionClient<$Result.GetResult<Prisma.$UserGoogleConnectionPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one UserGoogleConnection that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {UserGoogleConnectionFindUniqueOrThrowArgs} args - Arguments to find a UserGoogleConnection
+     * @example
+     * // Get one UserGoogleConnection
+     * const userGoogleConnection = await prisma.userGoogleConnection.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserGoogleConnectionFindUniqueOrThrowArgs>(args: SelectSubset<T, UserGoogleConnectionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserGoogleConnectionClient<$Result.GetResult<Prisma.$UserGoogleConnectionPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first UserGoogleConnection that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGoogleConnectionFindFirstArgs} args - Arguments to find a UserGoogleConnection
+     * @example
+     * // Get one UserGoogleConnection
+     * const userGoogleConnection = await prisma.userGoogleConnection.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserGoogleConnectionFindFirstArgs>(args?: SelectSubset<T, UserGoogleConnectionFindFirstArgs<ExtArgs>>): Prisma__UserGoogleConnectionClient<$Result.GetResult<Prisma.$UserGoogleConnectionPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first UserGoogleConnection that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGoogleConnectionFindFirstOrThrowArgs} args - Arguments to find a UserGoogleConnection
+     * @example
+     * // Get one UserGoogleConnection
+     * const userGoogleConnection = await prisma.userGoogleConnection.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserGoogleConnectionFindFirstOrThrowArgs>(args?: SelectSubset<T, UserGoogleConnectionFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserGoogleConnectionClient<$Result.GetResult<Prisma.$UserGoogleConnectionPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more UserGoogleConnections that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGoogleConnectionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserGoogleConnections
+     * const userGoogleConnections = await prisma.userGoogleConnection.findMany()
+     * 
+     * // Get first 10 UserGoogleConnections
+     * const userGoogleConnections = await prisma.userGoogleConnection.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userGoogleConnectionWithIdOnly = await prisma.userGoogleConnection.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserGoogleConnectionFindManyArgs>(args?: SelectSubset<T, UserGoogleConnectionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserGoogleConnectionPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a UserGoogleConnection.
+     * @param {UserGoogleConnectionCreateArgs} args - Arguments to create a UserGoogleConnection.
+     * @example
+     * // Create one UserGoogleConnection
+     * const UserGoogleConnection = await prisma.userGoogleConnection.create({
+     *   data: {
+     *     // ... data to create a UserGoogleConnection
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserGoogleConnectionCreateArgs>(args: SelectSubset<T, UserGoogleConnectionCreateArgs<ExtArgs>>): Prisma__UserGoogleConnectionClient<$Result.GetResult<Prisma.$UserGoogleConnectionPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many UserGoogleConnections.
+     * @param {UserGoogleConnectionCreateManyArgs} args - Arguments to create many UserGoogleConnections.
+     * @example
+     * // Create many UserGoogleConnections
+     * const userGoogleConnection = await prisma.userGoogleConnection.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserGoogleConnectionCreateManyArgs>(args?: SelectSubset<T, UserGoogleConnectionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserGoogleConnections and returns the data saved in the database.
+     * @param {UserGoogleConnectionCreateManyAndReturnArgs} args - Arguments to create many UserGoogleConnections.
+     * @example
+     * // Create many UserGoogleConnections
+     * const userGoogleConnection = await prisma.userGoogleConnection.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserGoogleConnections and only return the `id`
+     * const userGoogleConnectionWithIdOnly = await prisma.userGoogleConnection.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserGoogleConnectionCreateManyAndReturnArgs>(args?: SelectSubset<T, UserGoogleConnectionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserGoogleConnectionPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a UserGoogleConnection.
+     * @param {UserGoogleConnectionDeleteArgs} args - Arguments to delete one UserGoogleConnection.
+     * @example
+     * // Delete one UserGoogleConnection
+     * const UserGoogleConnection = await prisma.userGoogleConnection.delete({
+     *   where: {
+     *     // ... filter to delete one UserGoogleConnection
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserGoogleConnectionDeleteArgs>(args: SelectSubset<T, UserGoogleConnectionDeleteArgs<ExtArgs>>): Prisma__UserGoogleConnectionClient<$Result.GetResult<Prisma.$UserGoogleConnectionPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one UserGoogleConnection.
+     * @param {UserGoogleConnectionUpdateArgs} args - Arguments to update one UserGoogleConnection.
+     * @example
+     * // Update one UserGoogleConnection
+     * const userGoogleConnection = await prisma.userGoogleConnection.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserGoogleConnectionUpdateArgs>(args: SelectSubset<T, UserGoogleConnectionUpdateArgs<ExtArgs>>): Prisma__UserGoogleConnectionClient<$Result.GetResult<Prisma.$UserGoogleConnectionPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more UserGoogleConnections.
+     * @param {UserGoogleConnectionDeleteManyArgs} args - Arguments to filter UserGoogleConnections to delete.
+     * @example
+     * // Delete a few UserGoogleConnections
+     * const { count } = await prisma.userGoogleConnection.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserGoogleConnectionDeleteManyArgs>(args?: SelectSubset<T, UserGoogleConnectionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserGoogleConnections.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGoogleConnectionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserGoogleConnections
+     * const userGoogleConnection = await prisma.userGoogleConnection.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserGoogleConnectionUpdateManyArgs>(args: SelectSubset<T, UserGoogleConnectionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one UserGoogleConnection.
+     * @param {UserGoogleConnectionUpsertArgs} args - Arguments to update or create a UserGoogleConnection.
+     * @example
+     * // Update or create a UserGoogleConnection
+     * const userGoogleConnection = await prisma.userGoogleConnection.upsert({
+     *   create: {
+     *     // ... data to create a UserGoogleConnection
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserGoogleConnection we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserGoogleConnectionUpsertArgs>(args: SelectSubset<T, UserGoogleConnectionUpsertArgs<ExtArgs>>): Prisma__UserGoogleConnectionClient<$Result.GetResult<Prisma.$UserGoogleConnectionPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of UserGoogleConnections.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGoogleConnectionCountArgs} args - Arguments to filter UserGoogleConnections to count.
+     * @example
+     * // Count the number of UserGoogleConnections
+     * const count = await prisma.userGoogleConnection.count({
+     *   where: {
+     *     // ... the filter for the UserGoogleConnections we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserGoogleConnectionCountArgs>(
+      args?: Subset<T, UserGoogleConnectionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserGoogleConnectionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserGoogleConnection.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGoogleConnectionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserGoogleConnectionAggregateArgs>(args: Subset<T, UserGoogleConnectionAggregateArgs>): Prisma.PrismaPromise<GetUserGoogleConnectionAggregateType<T>>
+
+    /**
+     * Group by UserGoogleConnection.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGoogleConnectionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserGoogleConnectionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserGoogleConnectionGroupByArgs['orderBy'] }
+        : { orderBy?: UserGoogleConnectionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserGoogleConnectionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserGoogleConnectionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserGoogleConnection model
+   */
+  readonly fields: UserGoogleConnectionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserGoogleConnection.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserGoogleConnectionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserGoogleConnection model
+   */ 
+  interface UserGoogleConnectionFieldRefs {
+    readonly id: FieldRef<"UserGoogleConnection", 'String'>
+    readonly userId: FieldRef<"UserGoogleConnection", 'String'>
+    readonly service: FieldRef<"UserGoogleConnection", 'String'>
+    readonly googleEmail: FieldRef<"UserGoogleConnection", 'String'>
+    readonly googleName: FieldRef<"UserGoogleConnection", 'String'>
+    readonly accessTokenEnc: FieldRef<"UserGoogleConnection", 'String'>
+    readonly refreshTokenEnc: FieldRef<"UserGoogleConnection", 'String'>
+    readonly tokenExpiresAt: FieldRef<"UserGoogleConnection", 'DateTime'>
+    readonly scopes: FieldRef<"UserGoogleConnection", 'String[]'>
+    readonly status: FieldRef<"UserGoogleConnection", 'String'>
+    readonly lastError: FieldRef<"UserGoogleConnection", 'String'>
+    readonly lastSyncAt: FieldRef<"UserGoogleConnection", 'DateTime'>
+    readonly createdAt: FieldRef<"UserGoogleConnection", 'DateTime'>
+    readonly updatedAt: FieldRef<"UserGoogleConnection", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserGoogleConnection findUnique
+   */
+  export type UserGoogleConnectionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGoogleConnection
+     */
+    select?: UserGoogleConnectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGoogleConnectionInclude<ExtArgs> | null
+    /**
+     * Filter, which UserGoogleConnection to fetch.
+     */
+    where: UserGoogleConnectionWhereUniqueInput
+  }
+
+  /**
+   * UserGoogleConnection findUniqueOrThrow
+   */
+  export type UserGoogleConnectionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGoogleConnection
+     */
+    select?: UserGoogleConnectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGoogleConnectionInclude<ExtArgs> | null
+    /**
+     * Filter, which UserGoogleConnection to fetch.
+     */
+    where: UserGoogleConnectionWhereUniqueInput
+  }
+
+  /**
+   * UserGoogleConnection findFirst
+   */
+  export type UserGoogleConnectionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGoogleConnection
+     */
+    select?: UserGoogleConnectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGoogleConnectionInclude<ExtArgs> | null
+    /**
+     * Filter, which UserGoogleConnection to fetch.
+     */
+    where?: UserGoogleConnectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserGoogleConnections to fetch.
+     */
+    orderBy?: UserGoogleConnectionOrderByWithRelationInput | UserGoogleConnectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserGoogleConnections.
+     */
+    cursor?: UserGoogleConnectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserGoogleConnections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserGoogleConnections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserGoogleConnections.
+     */
+    distinct?: UserGoogleConnectionScalarFieldEnum | UserGoogleConnectionScalarFieldEnum[]
+  }
+
+  /**
+   * UserGoogleConnection findFirstOrThrow
+   */
+  export type UserGoogleConnectionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGoogleConnection
+     */
+    select?: UserGoogleConnectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGoogleConnectionInclude<ExtArgs> | null
+    /**
+     * Filter, which UserGoogleConnection to fetch.
+     */
+    where?: UserGoogleConnectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserGoogleConnections to fetch.
+     */
+    orderBy?: UserGoogleConnectionOrderByWithRelationInput | UserGoogleConnectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserGoogleConnections.
+     */
+    cursor?: UserGoogleConnectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserGoogleConnections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserGoogleConnections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserGoogleConnections.
+     */
+    distinct?: UserGoogleConnectionScalarFieldEnum | UserGoogleConnectionScalarFieldEnum[]
+  }
+
+  /**
+   * UserGoogleConnection findMany
+   */
+  export type UserGoogleConnectionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGoogleConnection
+     */
+    select?: UserGoogleConnectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGoogleConnectionInclude<ExtArgs> | null
+    /**
+     * Filter, which UserGoogleConnections to fetch.
+     */
+    where?: UserGoogleConnectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserGoogleConnections to fetch.
+     */
+    orderBy?: UserGoogleConnectionOrderByWithRelationInput | UserGoogleConnectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserGoogleConnections.
+     */
+    cursor?: UserGoogleConnectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserGoogleConnections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserGoogleConnections.
+     */
+    skip?: number
+    distinct?: UserGoogleConnectionScalarFieldEnum | UserGoogleConnectionScalarFieldEnum[]
+  }
+
+  /**
+   * UserGoogleConnection create
+   */
+  export type UserGoogleConnectionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGoogleConnection
+     */
+    select?: UserGoogleConnectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGoogleConnectionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserGoogleConnection.
+     */
+    data: XOR<UserGoogleConnectionCreateInput, UserGoogleConnectionUncheckedCreateInput>
+  }
+
+  /**
+   * UserGoogleConnection createMany
+   */
+  export type UserGoogleConnectionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserGoogleConnections.
+     */
+    data: UserGoogleConnectionCreateManyInput | UserGoogleConnectionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserGoogleConnection createManyAndReturn
+   */
+  export type UserGoogleConnectionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGoogleConnection
+     */
+    select?: UserGoogleConnectionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many UserGoogleConnections.
+     */
+    data: UserGoogleConnectionCreateManyInput | UserGoogleConnectionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGoogleConnectionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserGoogleConnection update
+   */
+  export type UserGoogleConnectionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGoogleConnection
+     */
+    select?: UserGoogleConnectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGoogleConnectionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserGoogleConnection.
+     */
+    data: XOR<UserGoogleConnectionUpdateInput, UserGoogleConnectionUncheckedUpdateInput>
+    /**
+     * Choose, which UserGoogleConnection to update.
+     */
+    where: UserGoogleConnectionWhereUniqueInput
+  }
+
+  /**
+   * UserGoogleConnection updateMany
+   */
+  export type UserGoogleConnectionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserGoogleConnections.
+     */
+    data: XOR<UserGoogleConnectionUpdateManyMutationInput, UserGoogleConnectionUncheckedUpdateManyInput>
+    /**
+     * Filter which UserGoogleConnections to update
+     */
+    where?: UserGoogleConnectionWhereInput
+  }
+
+  /**
+   * UserGoogleConnection upsert
+   */
+  export type UserGoogleConnectionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGoogleConnection
+     */
+    select?: UserGoogleConnectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGoogleConnectionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserGoogleConnection to update in case it exists.
+     */
+    where: UserGoogleConnectionWhereUniqueInput
+    /**
+     * In case the UserGoogleConnection found by the `where` argument doesn't exist, create a new UserGoogleConnection with this data.
+     */
+    create: XOR<UserGoogleConnectionCreateInput, UserGoogleConnectionUncheckedCreateInput>
+    /**
+     * In case the UserGoogleConnection was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserGoogleConnectionUpdateInput, UserGoogleConnectionUncheckedUpdateInput>
+  }
+
+  /**
+   * UserGoogleConnection delete
+   */
+  export type UserGoogleConnectionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGoogleConnection
+     */
+    select?: UserGoogleConnectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGoogleConnectionInclude<ExtArgs> | null
+    /**
+     * Filter which UserGoogleConnection to delete.
+     */
+    where: UserGoogleConnectionWhereUniqueInput
+  }
+
+  /**
+   * UserGoogleConnection deleteMany
+   */
+  export type UserGoogleConnectionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserGoogleConnections to delete
+     */
+    where?: UserGoogleConnectionWhereInput
+  }
+
+  /**
+   * UserGoogleConnection without action
+   */
+  export type UserGoogleConnectionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGoogleConnection
+     */
+    select?: UserGoogleConnectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGoogleConnectionInclude<ExtArgs> | null
   }
 
 
@@ -36424,6 +37580,26 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const UserGoogleConnectionScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    service: 'service',
+    googleEmail: 'googleEmail',
+    googleName: 'googleName',
+    accessTokenEnc: 'accessTokenEnc',
+    refreshTokenEnc: 'refreshTokenEnc',
+    tokenExpiresAt: 'tokenExpiresAt',
+    scopes: 'scopes',
+    status: 'status',
+    lastError: 'lastError',
+    lastSyncAt: 'lastSyncAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type UserGoogleConnectionScalarFieldEnum = (typeof UserGoogleConnectionScalarFieldEnum)[keyof typeof UserGoogleConnectionScalarFieldEnum]
+
+
   export const CompanyScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -37277,6 +38453,7 @@ export namespace Prisma {
     companyContact?: XOR<CompanyContactNullableRelationFilter, CompanyContactWhereInput> | null
     setores?: SetorUserListRelationFilter
     conversationsAssigned?: ConversationListRelationFilter
+    googleConnections?: UserGoogleConnectionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -37294,6 +38471,7 @@ export namespace Prisma {
     companyContact?: CompanyContactOrderByWithRelationInput
     setores?: SetorUserOrderByRelationAggregateInput
     conversationsAssigned?: ConversationOrderByRelationAggregateInput
+    googleConnections?: UserGoogleConnectionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -37314,6 +38492,7 @@ export namespace Prisma {
     companyContact?: XOR<CompanyContactNullableRelationFilter, CompanyContactWhereInput> | null
     setores?: SetorUserListRelationFilter
     conversationsAssigned?: ConversationListRelationFilter
+    googleConnections?: UserGoogleConnectionListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -37344,6 +38523,107 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     whatsappSignature?: StringNullableWithAggregatesFilter<"User"> | string | null
     companyId?: StringNullableWithAggregatesFilter<"User"> | string | null
+  }
+
+  export type UserGoogleConnectionWhereInput = {
+    AND?: UserGoogleConnectionWhereInput | UserGoogleConnectionWhereInput[]
+    OR?: UserGoogleConnectionWhereInput[]
+    NOT?: UserGoogleConnectionWhereInput | UserGoogleConnectionWhereInput[]
+    id?: StringFilter<"UserGoogleConnection"> | string
+    userId?: StringFilter<"UserGoogleConnection"> | string
+    service?: StringFilter<"UserGoogleConnection"> | string
+    googleEmail?: StringNullableFilter<"UserGoogleConnection"> | string | null
+    googleName?: StringNullableFilter<"UserGoogleConnection"> | string | null
+    accessTokenEnc?: StringNullableFilter<"UserGoogleConnection"> | string | null
+    refreshTokenEnc?: StringNullableFilter<"UserGoogleConnection"> | string | null
+    tokenExpiresAt?: DateTimeNullableFilter<"UserGoogleConnection"> | Date | string | null
+    scopes?: StringNullableListFilter<"UserGoogleConnection">
+    status?: StringFilter<"UserGoogleConnection"> | string
+    lastError?: StringNullableFilter<"UserGoogleConnection"> | string | null
+    lastSyncAt?: DateTimeNullableFilter<"UserGoogleConnection"> | Date | string | null
+    createdAt?: DateTimeFilter<"UserGoogleConnection"> | Date | string
+    updatedAt?: DateTimeFilter<"UserGoogleConnection"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type UserGoogleConnectionOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    service?: SortOrder
+    googleEmail?: SortOrderInput | SortOrder
+    googleName?: SortOrderInput | SortOrder
+    accessTokenEnc?: SortOrderInput | SortOrder
+    refreshTokenEnc?: SortOrderInput | SortOrder
+    tokenExpiresAt?: SortOrderInput | SortOrder
+    scopes?: SortOrder
+    status?: SortOrder
+    lastError?: SortOrderInput | SortOrder
+    lastSyncAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserGoogleConnectionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_service?: UserGoogleConnectionUserIdServiceCompoundUniqueInput
+    AND?: UserGoogleConnectionWhereInput | UserGoogleConnectionWhereInput[]
+    OR?: UserGoogleConnectionWhereInput[]
+    NOT?: UserGoogleConnectionWhereInput | UserGoogleConnectionWhereInput[]
+    userId?: StringFilter<"UserGoogleConnection"> | string
+    service?: StringFilter<"UserGoogleConnection"> | string
+    googleEmail?: StringNullableFilter<"UserGoogleConnection"> | string | null
+    googleName?: StringNullableFilter<"UserGoogleConnection"> | string | null
+    accessTokenEnc?: StringNullableFilter<"UserGoogleConnection"> | string | null
+    refreshTokenEnc?: StringNullableFilter<"UserGoogleConnection"> | string | null
+    tokenExpiresAt?: DateTimeNullableFilter<"UserGoogleConnection"> | Date | string | null
+    scopes?: StringNullableListFilter<"UserGoogleConnection">
+    status?: StringFilter<"UserGoogleConnection"> | string
+    lastError?: StringNullableFilter<"UserGoogleConnection"> | string | null
+    lastSyncAt?: DateTimeNullableFilter<"UserGoogleConnection"> | Date | string | null
+    createdAt?: DateTimeFilter<"UserGoogleConnection"> | Date | string
+    updatedAt?: DateTimeFilter<"UserGoogleConnection"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id" | "userId_service">
+
+  export type UserGoogleConnectionOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    service?: SortOrder
+    googleEmail?: SortOrderInput | SortOrder
+    googleName?: SortOrderInput | SortOrder
+    accessTokenEnc?: SortOrderInput | SortOrder
+    refreshTokenEnc?: SortOrderInput | SortOrder
+    tokenExpiresAt?: SortOrderInput | SortOrder
+    scopes?: SortOrder
+    status?: SortOrder
+    lastError?: SortOrderInput | SortOrder
+    lastSyncAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: UserGoogleConnectionCountOrderByAggregateInput
+    _max?: UserGoogleConnectionMaxOrderByAggregateInput
+    _min?: UserGoogleConnectionMinOrderByAggregateInput
+  }
+
+  export type UserGoogleConnectionScalarWhereWithAggregatesInput = {
+    AND?: UserGoogleConnectionScalarWhereWithAggregatesInput | UserGoogleConnectionScalarWhereWithAggregatesInput[]
+    OR?: UserGoogleConnectionScalarWhereWithAggregatesInput[]
+    NOT?: UserGoogleConnectionScalarWhereWithAggregatesInput | UserGoogleConnectionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserGoogleConnection"> | string
+    userId?: StringWithAggregatesFilter<"UserGoogleConnection"> | string
+    service?: StringWithAggregatesFilter<"UserGoogleConnection"> | string
+    googleEmail?: StringNullableWithAggregatesFilter<"UserGoogleConnection"> | string | null
+    googleName?: StringNullableWithAggregatesFilter<"UserGoogleConnection"> | string | null
+    accessTokenEnc?: StringNullableWithAggregatesFilter<"UserGoogleConnection"> | string | null
+    refreshTokenEnc?: StringNullableWithAggregatesFilter<"UserGoogleConnection"> | string | null
+    tokenExpiresAt?: DateTimeNullableWithAggregatesFilter<"UserGoogleConnection"> | Date | string | null
+    scopes?: StringNullableListFilter<"UserGoogleConnection">
+    status?: StringWithAggregatesFilter<"UserGoogleConnection"> | string
+    lastError?: StringNullableWithAggregatesFilter<"UserGoogleConnection"> | string | null
+    lastSyncAt?: DateTimeNullableWithAggregatesFilter<"UserGoogleConnection"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"UserGoogleConnection"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UserGoogleConnection"> | Date | string
   }
 
   export type CompanyWhereInput = {
@@ -40047,6 +41327,7 @@ export namespace Prisma {
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
     setores?: SetorUserCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -40063,6 +41344,7 @@ export namespace Prisma {
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -40079,6 +41361,7 @@ export namespace Prisma {
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
     setores?: SetorUserUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -40095,6 +41378,7 @@ export namespace Prisma {
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -40130,6 +41414,124 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserGoogleConnectionCreateInput = {
+    id?: string
+    service: string
+    googleEmail?: string | null
+    googleName?: string | null
+    accessTokenEnc?: string | null
+    refreshTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: UserGoogleConnectionCreatescopesInput | string[]
+    status?: string
+    lastError?: string | null
+    lastSyncAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutGoogleConnectionsInput
+  }
+
+  export type UserGoogleConnectionUncheckedCreateInput = {
+    id?: string
+    userId: string
+    service: string
+    googleEmail?: string | null
+    googleName?: string | null
+    accessTokenEnc?: string | null
+    refreshTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: UserGoogleConnectionCreatescopesInput | string[]
+    status?: string
+    lastError?: string | null
+    lastSyncAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserGoogleConnectionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    service?: StringFieldUpdateOperationsInput | string
+    googleEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    googleName?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: UserGoogleConnectionUpdatescopesInput | string[]
+    status?: StringFieldUpdateOperationsInput | string
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutGoogleConnectionsNestedInput
+  }
+
+  export type UserGoogleConnectionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    service?: StringFieldUpdateOperationsInput | string
+    googleEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    googleName?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: UserGoogleConnectionUpdatescopesInput | string[]
+    status?: StringFieldUpdateOperationsInput | string
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserGoogleConnectionCreateManyInput = {
+    id?: string
+    userId: string
+    service: string
+    googleEmail?: string | null
+    googleName?: string | null
+    accessTokenEnc?: string | null
+    refreshTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: UserGoogleConnectionCreatescopesInput | string[]
+    status?: string
+    lastError?: string | null
+    lastSyncAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserGoogleConnectionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    service?: StringFieldUpdateOperationsInput | string
+    googleEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    googleName?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: UserGoogleConnectionUpdatescopesInput | string[]
+    status?: StringFieldUpdateOperationsInput | string
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserGoogleConnectionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    service?: StringFieldUpdateOperationsInput | string
+    googleEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    googleName?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: UserGoogleConnectionUpdatescopesInput | string[]
+    status?: StringFieldUpdateOperationsInput | string
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CompanyCreateInput = {
@@ -43177,6 +44579,12 @@ export namespace Prisma {
     none?: ConversationWhereInput
   }
 
+  export type UserGoogleConnectionListRelationFilter = {
+    every?: UserGoogleConnectionWhereInput
+    some?: UserGoogleConnectionWhereInput
+    none?: UserGoogleConnectionWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -43191,6 +44599,10 @@ export namespace Prisma {
   }
 
   export type ConversationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserGoogleConnectionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -43288,6 +44700,98 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type UserRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type UserGoogleConnectionUserIdServiceCompoundUniqueInput = {
+    userId: string
+    service: string
+  }
+
+  export type UserGoogleConnectionCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    service?: SortOrder
+    googleEmail?: SortOrder
+    googleName?: SortOrder
+    accessTokenEnc?: SortOrder
+    refreshTokenEnc?: SortOrder
+    tokenExpiresAt?: SortOrder
+    scopes?: SortOrder
+    status?: SortOrder
+    lastError?: SortOrder
+    lastSyncAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserGoogleConnectionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    service?: SortOrder
+    googleEmail?: SortOrder
+    googleName?: SortOrder
+    accessTokenEnc?: SortOrder
+    refreshTokenEnc?: SortOrder
+    tokenExpiresAt?: SortOrder
+    status?: SortOrder
+    lastError?: SortOrder
+    lastSyncAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserGoogleConnectionMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    service?: SortOrder
+    googleEmail?: SortOrder
+    googleName?: SortOrder
+    accessTokenEnc?: SortOrder
+    refreshTokenEnc?: SortOrder
+    tokenExpiresAt?: SortOrder
+    status?: SortOrder
+    lastError?: SortOrder
+    lastSyncAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type EnumCompanyStatusFilter<$PrismaModel = never> = {
@@ -43611,17 +45115,6 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type CompanyRelationFilter = {
     is?: CompanyWhereInput
     isNot?: CompanyWhereInput
@@ -43719,20 +45212,6 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -44818,11 +46297,6 @@ export namespace Prisma {
     isNot?: SetorWhereInput
   }
 
-  export type UserRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
-  }
-
   export type SetorUserSetorIdUserIdCompoundUniqueInput = {
     setorId: string
     userId: string
@@ -44880,14 +46354,6 @@ export namespace Prisma {
     in?: $Enums.AssetStatus[] | ListEnumAssetStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.AssetStatus[] | ListEnumAssetStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumAssetStatusFilter<$PrismaModel> | $Enums.AssetStatus
-  }
-
-  export type StringNullableListFilter<$PrismaModel = never> = {
-    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    has?: string | StringFieldRefInput<$PrismaModel> | null
-    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
-    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
-    isEmpty?: boolean
   }
 
   export type CompanyCredentialListRelationFilter = {
@@ -45566,6 +47032,13 @@ export namespace Prisma {
     connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
   }
 
+  export type UserGoogleConnectionCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserGoogleConnectionCreateWithoutUserInput, UserGoogleConnectionUncheckedCreateWithoutUserInput> | UserGoogleConnectionCreateWithoutUserInput[] | UserGoogleConnectionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserGoogleConnectionCreateOrConnectWithoutUserInput | UserGoogleConnectionCreateOrConnectWithoutUserInput[]
+    createMany?: UserGoogleConnectionCreateManyUserInputEnvelope
+    connect?: UserGoogleConnectionWhereUniqueInput | UserGoogleConnectionWhereUniqueInput[]
+  }
+
   export type TicketUncheckedCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -45591,6 +47064,13 @@ export namespace Prisma {
     connectOrCreate?: ConversationCreateOrConnectWithoutAssigneeInput | ConversationCreateOrConnectWithoutAssigneeInput[]
     createMany?: ConversationCreateManyAssigneeInputEnvelope
     connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+  }
+
+  export type UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserGoogleConnectionCreateWithoutUserInput, UserGoogleConnectionUncheckedCreateWithoutUserInput> | UserGoogleConnectionCreateWithoutUserInput[] | UserGoogleConnectionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserGoogleConnectionCreateOrConnectWithoutUserInput | UserGoogleConnectionCreateOrConnectWithoutUserInput[]
+    createMany?: UserGoogleConnectionCreateManyUserInputEnvelope
+    connect?: UserGoogleConnectionWhereUniqueInput | UserGoogleConnectionWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -45671,6 +47151,20 @@ export namespace Prisma {
     deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
   }
 
+  export type UserGoogleConnectionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserGoogleConnectionCreateWithoutUserInput, UserGoogleConnectionUncheckedCreateWithoutUserInput> | UserGoogleConnectionCreateWithoutUserInput[] | UserGoogleConnectionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserGoogleConnectionCreateOrConnectWithoutUserInput | UserGoogleConnectionCreateOrConnectWithoutUserInput[]
+    upsert?: UserGoogleConnectionUpsertWithWhereUniqueWithoutUserInput | UserGoogleConnectionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserGoogleConnectionCreateManyUserInputEnvelope
+    set?: UserGoogleConnectionWhereUniqueInput | UserGoogleConnectionWhereUniqueInput[]
+    disconnect?: UserGoogleConnectionWhereUniqueInput | UserGoogleConnectionWhereUniqueInput[]
+    delete?: UserGoogleConnectionWhereUniqueInput | UserGoogleConnectionWhereUniqueInput[]
+    connect?: UserGoogleConnectionWhereUniqueInput | UserGoogleConnectionWhereUniqueInput[]
+    update?: UserGoogleConnectionUpdateWithWhereUniqueWithoutUserInput | UserGoogleConnectionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserGoogleConnectionUpdateManyWithWhereWithoutUserInput | UserGoogleConnectionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserGoogleConnectionScalarWhereInput | UserGoogleConnectionScalarWhereInput[]
+  }
+
   export type TicketUncheckedUpdateManyWithoutCreatedByNestedInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -45721,6 +47215,47 @@ export namespace Prisma {
     update?: ConversationUpdateWithWhereUniqueWithoutAssigneeInput | ConversationUpdateWithWhereUniqueWithoutAssigneeInput[]
     updateMany?: ConversationUpdateManyWithWhereWithoutAssigneeInput | ConversationUpdateManyWithWhereWithoutAssigneeInput[]
     deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
+  }
+
+  export type UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserGoogleConnectionCreateWithoutUserInput, UserGoogleConnectionUncheckedCreateWithoutUserInput> | UserGoogleConnectionCreateWithoutUserInput[] | UserGoogleConnectionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserGoogleConnectionCreateOrConnectWithoutUserInput | UserGoogleConnectionCreateOrConnectWithoutUserInput[]
+    upsert?: UserGoogleConnectionUpsertWithWhereUniqueWithoutUserInput | UserGoogleConnectionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserGoogleConnectionCreateManyUserInputEnvelope
+    set?: UserGoogleConnectionWhereUniqueInput | UserGoogleConnectionWhereUniqueInput[]
+    disconnect?: UserGoogleConnectionWhereUniqueInput | UserGoogleConnectionWhereUniqueInput[]
+    delete?: UserGoogleConnectionWhereUniqueInput | UserGoogleConnectionWhereUniqueInput[]
+    connect?: UserGoogleConnectionWhereUniqueInput | UserGoogleConnectionWhereUniqueInput[]
+    update?: UserGoogleConnectionUpdateWithWhereUniqueWithoutUserInput | UserGoogleConnectionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserGoogleConnectionUpdateManyWithWhereWithoutUserInput | UserGoogleConnectionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserGoogleConnectionScalarWhereInput | UserGoogleConnectionScalarWhereInput[]
+  }
+
+  export type UserGoogleConnectionCreatescopesInput = {
+    set: string[]
+  }
+
+  export type UserCreateNestedOneWithoutGoogleConnectionsInput = {
+    create?: XOR<UserCreateWithoutGoogleConnectionsInput, UserUncheckedCreateWithoutGoogleConnectionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutGoogleConnectionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type UserGoogleConnectionUpdatescopesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdateOneRequiredWithoutGoogleConnectionsNestedInput = {
+    create?: XOR<UserCreateWithoutGoogleConnectionsInput, UserUncheckedCreateWithoutGoogleConnectionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutGoogleConnectionsInput
+    upsert?: UserUpsertWithoutGoogleConnectionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGoogleConnectionsInput, UserUpdateWithoutGoogleConnectionsInput>, UserUncheckedUpdateWithoutGoogleConnectionsInput>
   }
 
   export type CompanyCreateNestedOneWithoutSubCompaniesInput = {
@@ -46747,10 +48282,6 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type CompanyUpdateOneRequiredWithoutCampaignsNestedInput = {
@@ -48577,6 +50108,31 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type NestedEnumCompanyStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.CompanyStatus | EnumCompanyStatusFieldRefInput<$PrismaModel>
     in?: $Enums.CompanyStatus[] | ListEnumCompanyStatusFieldRefInput<$PrismaModel>
@@ -48632,17 +50188,6 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type NestedEnumCampaignSourceWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.CampaignSource | EnumCampaignSourceFieldRefInput<$PrismaModel>
     in?: $Enums.CampaignSource[] | ListEnumCampaignSourceFieldRefInput<$PrismaModel>
@@ -48677,20 +50222,6 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -49256,6 +50787,48 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UserGoogleConnectionCreateWithoutUserInput = {
+    id?: string
+    service: string
+    googleEmail?: string | null
+    googleName?: string | null
+    accessTokenEnc?: string | null
+    refreshTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: UserGoogleConnectionCreatescopesInput | string[]
+    status?: string
+    lastError?: string | null
+    lastSyncAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserGoogleConnectionUncheckedCreateWithoutUserInput = {
+    id?: string
+    service: string
+    googleEmail?: string | null
+    googleName?: string | null
+    accessTokenEnc?: string | null
+    refreshTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: UserGoogleConnectionCreatescopesInput | string[]
+    status?: string
+    lastError?: string | null
+    lastSyncAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserGoogleConnectionCreateOrConnectWithoutUserInput = {
+    where: UserGoogleConnectionWhereUniqueInput
+    create: XOR<UserGoogleConnectionCreateWithoutUserInput, UserGoogleConnectionUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserGoogleConnectionCreateManyUserInputEnvelope = {
+    data: UserGoogleConnectionCreateManyUserInput | UserGoogleConnectionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutUsersInput = {
     update: XOR<CompanyUpdateWithoutUsersInput, CompanyUncheckedUpdateWithoutUsersInput>
     create: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
@@ -49489,6 +51062,122 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Conversation"> | Date | string
   }
 
+  export type UserGoogleConnectionUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserGoogleConnectionWhereUniqueInput
+    update: XOR<UserGoogleConnectionUpdateWithoutUserInput, UserGoogleConnectionUncheckedUpdateWithoutUserInput>
+    create: XOR<UserGoogleConnectionCreateWithoutUserInput, UserGoogleConnectionUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserGoogleConnectionUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserGoogleConnectionWhereUniqueInput
+    data: XOR<UserGoogleConnectionUpdateWithoutUserInput, UserGoogleConnectionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserGoogleConnectionUpdateManyWithWhereWithoutUserInput = {
+    where: UserGoogleConnectionScalarWhereInput
+    data: XOR<UserGoogleConnectionUpdateManyMutationInput, UserGoogleConnectionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserGoogleConnectionScalarWhereInput = {
+    AND?: UserGoogleConnectionScalarWhereInput | UserGoogleConnectionScalarWhereInput[]
+    OR?: UserGoogleConnectionScalarWhereInput[]
+    NOT?: UserGoogleConnectionScalarWhereInput | UserGoogleConnectionScalarWhereInput[]
+    id?: StringFilter<"UserGoogleConnection"> | string
+    userId?: StringFilter<"UserGoogleConnection"> | string
+    service?: StringFilter<"UserGoogleConnection"> | string
+    googleEmail?: StringNullableFilter<"UserGoogleConnection"> | string | null
+    googleName?: StringNullableFilter<"UserGoogleConnection"> | string | null
+    accessTokenEnc?: StringNullableFilter<"UserGoogleConnection"> | string | null
+    refreshTokenEnc?: StringNullableFilter<"UserGoogleConnection"> | string | null
+    tokenExpiresAt?: DateTimeNullableFilter<"UserGoogleConnection"> | Date | string | null
+    scopes?: StringNullableListFilter<"UserGoogleConnection">
+    status?: StringFilter<"UserGoogleConnection"> | string
+    lastError?: StringNullableFilter<"UserGoogleConnection"> | string | null
+    lastSyncAt?: DateTimeNullableFilter<"UserGoogleConnection"> | Date | string | null
+    createdAt?: DateTimeFilter<"UserGoogleConnection"> | Date | string
+    updatedAt?: DateTimeFilter<"UserGoogleConnection"> | Date | string
+  }
+
+  export type UserCreateWithoutGoogleConnectionsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+  }
+
+  export type UserUncheckedCreateWithoutGoogleConnectionsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    companyId?: string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+  }
+
+  export type UserCreateOrConnectWithoutGoogleConnectionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutGoogleConnectionsInput, UserUncheckedCreateWithoutGoogleConnectionsInput>
+  }
+
+  export type UserUpsertWithoutGoogleConnectionsInput = {
+    update: XOR<UserUpdateWithoutGoogleConnectionsInput, UserUncheckedUpdateWithoutGoogleConnectionsInput>
+    create: XOR<UserCreateWithoutGoogleConnectionsInput, UserUncheckedCreateWithoutGoogleConnectionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutGoogleConnectionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutGoogleConnectionsInput, UserUncheckedUpdateWithoutGoogleConnectionsInput>
+  }
+
+  export type UserUpdateWithoutGoogleConnectionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutGoogleConnectionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+  }
+
   export type CompanyCreateWithoutSubCompaniesInput = {
     id?: string
     name: string
@@ -49689,6 +51378,7 @@ export namespace Prisma {
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
     setores?: SetorUserCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyInput = {
@@ -49704,6 +51394,7 @@ export namespace Prisma {
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyInput = {
@@ -53352,6 +55043,7 @@ export namespace Prisma {
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     setores?: SetorUserCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyContactInput = {
@@ -53367,6 +55059,7 @@ export namespace Prisma {
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyContactInput = {
@@ -53495,6 +55188,7 @@ export namespace Prisma {
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     setores?: SetorUserUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyContactInput = {
@@ -53510,6 +55204,7 @@ export namespace Prisma {
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutWhatsappInstancesInput = {
@@ -54679,6 +56374,7 @@ export namespace Prisma {
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
     setores?: SetorUserCreateNestedManyWithoutUserInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConversationsAssignedInput = {
@@ -54694,6 +56390,7 @@ export namespace Prisma {
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConversationsAssignedInput = {
@@ -55045,6 +56742,7 @@ export namespace Prisma {
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
     setores?: SetorUserUpdateManyWithoutUserNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversationsAssignedInput = {
@@ -55060,6 +56758,7 @@ export namespace Prisma {
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorUpsertWithoutConversationsInput = {
@@ -56018,6 +57717,7 @@ export namespace Prisma {
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
     setores?: SetorUserCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketsCreatedInput = {
@@ -56033,6 +57733,7 @@ export namespace Prisma {
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketsCreatedInput = {
@@ -56274,6 +57975,7 @@ export namespace Prisma {
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
     setores?: SetorUserUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsCreatedInput = {
@@ -56289,6 +57991,7 @@ export namespace Prisma {
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorUpsertWithoutTicketsInput = {
@@ -56939,6 +58642,7 @@ export namespace Prisma {
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSetoresInput = {
@@ -56954,6 +58658,7 @@ export namespace Prisma {
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSetoresInput = {
@@ -57040,6 +58745,7 @@ export namespace Prisma {
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSetoresInput = {
@@ -57055,6 +58761,7 @@ export namespace Prisma {
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorCreateWithoutInstancesInput = {
@@ -59076,6 +60783,22 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type UserGoogleConnectionCreateManyUserInput = {
+    id?: string
+    service: string
+    googleEmail?: string | null
+    googleName?: string | null
+    accessTokenEnc?: string | null
+    refreshTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: UserGoogleConnectionCreatescopesInput | string[]
+    status?: string
+    lastError?: string | null
+    lastSyncAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type TicketUpdateWithoutCreatedByInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -59207,6 +60930,54 @@ export namespace Prisma {
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserGoogleConnectionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    service?: StringFieldUpdateOperationsInput | string
+    googleEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    googleName?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: UserGoogleConnectionUpdatescopesInput | string[]
+    status?: StringFieldUpdateOperationsInput | string
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserGoogleConnectionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    service?: StringFieldUpdateOperationsInput | string
+    googleEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    googleName?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: UserGoogleConnectionUpdatescopesInput | string[]
+    status?: StringFieldUpdateOperationsInput | string
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserGoogleConnectionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    service?: StringFieldUpdateOperationsInput | string
+    googleEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    googleName?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: UserGoogleConnectionUpdatescopesInput | string[]
+    status?: StringFieldUpdateOperationsInput | string
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -59659,6 +61430,7 @@ export namespace Prisma {
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
     setores?: SetorUserUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyInput = {
@@ -59674,6 +61446,7 @@ export namespace Prisma {
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCompanyInput = {
@@ -62032,6 +63805,10 @@ export namespace Prisma {
      * @deprecated Use UserDefaultArgs instead
      */
     export type UserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use UserGoogleConnectionDefaultArgs instead
+     */
+    export type UserGoogleConnectionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserGoogleConnectionDefaultArgs<ExtArgs>
     /**
      * @deprecated Use CompanyDefaultArgs instead
      */

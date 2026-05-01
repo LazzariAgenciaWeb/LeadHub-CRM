@@ -31,8 +31,40 @@ model User {
   companyContact      CompanyContact? @relation("ContactUser")
   setores             SetorUser[]
   conversationsAssigned Conversation[] @relation("ConversationAssignee")
+  googleConnections   UserGoogleConnection[]
 
   @@index([companyId])
+}
+
+// ─── Conexões pessoais com Google (Calendar e futuros serviços por usuário) ───
+// Diferente de MarketingIntegration (por empresa, GA4/SC/GBP), aqui guardamos
+// uma conexão OAuth por USUÁRIO. Cada atendente liga a própria conta Google
+// para que o calendário pessoal apareça na vista "Meu Dia".
+
+model UserGoogleConnection {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  service   String   // "calendar" — extensível pra outros serviços pessoais
+  googleEmail String?
+  googleName  String?
+
+  // OAuth tokens (criptografados via src/lib/crypto.ts — AES-256-GCM)
+  accessTokenEnc  String?  @db.Text
+  refreshTokenEnc String?  @db.Text
+  tokenExpiresAt  DateTime?
+  scopes          String[] @default([])
+
+  status        String   @default("ACTIVE") // ACTIVE | EXPIRED | DISCONNECTED | ERROR
+  lastError     String?  @db.Text
+  lastSyncAt    DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, service])
+  @@index([userId])
 }
 
 enum UserRole {

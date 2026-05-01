@@ -134,6 +134,23 @@ exports.Prisma.UserScalarFieldEnum = {
   companyId: 'companyId'
 };
 
+exports.Prisma.UserGoogleConnectionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  service: 'service',
+  googleEmail: 'googleEmail',
+  googleName: 'googleName',
+  accessTokenEnc: 'accessTokenEnc',
+  refreshTokenEnc: 'refreshTokenEnc',
+  tokenExpiresAt: 'tokenExpiresAt',
+  scopes: 'scopes',
+  status: 'status',
+  lastError: 'lastError',
+  lastSyncAt: 'lastSyncAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.CompanyScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -695,6 +712,7 @@ exports.IntegrationStatus = exports.$Enums.IntegrationStatus = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  UserGoogleConnection: 'UserGoogleConnection',
   Company: 'Company',
   Campaign: 'Campaign',
   TrackingLink: 'TrackingLink',

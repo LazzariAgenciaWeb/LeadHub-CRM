@@ -1,6 +1,7 @@
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
+import { listPrimaryEvents, type GoogleCalendarEvent } from "@/lib/google-calendar";
 import CalendarioBoard from "./CalendarioBoard";
 
 export default async function CalendarioPage() {
@@ -105,6 +106,24 @@ export default async function CalendarioPage() {
       }),
     ]);
 
+  // ── Conexão Google Calendar do usuário (per-user) ─────────────────────────
+  const googleConn = await prisma.userGoogleConnection.findUnique({
+    where: { userId_service: { userId, service: "calendar" } },
+    select: { id: true, googleEmail: true, status: true },
+  });
+
+  // Busca eventos do Google só se houver conexão ativa.
+  // Falhas aqui não devem quebrar a página — degradamos silenciosamente.
+  let googleEvents: GoogleCalendarEvent[] = [];
+  let googleError: string | null = null;
+  if (googleConn && googleConn.status === "ACTIVE") {
+    try {
+      googleEvents = await listPrimaryEvents(googleConn.id, today, todayEnd, 30);
+    } catch (e: any) {
+      googleError = e?.message ?? "Erro ao carregar agenda do Google";
+    }
+  }
+
   return (
     <CalendarioBoard
       scheduledConvs={scheduledConvs as any}
@@ -114,6 +133,9 @@ export default async function CalendarioPage() {
       leadsFollowUp={leadsFollowUp as any}
       currentUserId={userId}
       isSuperAdmin={isSuperAdmin}
+      googleConn={googleConn ? { email: googleConn.googleEmail, status: googleConn.status } : null}
+      googleEvents={googleEvents as any}
+      googleError={googleError}
     />
   );
 }

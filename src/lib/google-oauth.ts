@@ -17,11 +17,12 @@ const CLIENT_SECRET = process.env.GOOGLE_OAUTH_CLIENT_SECRET || "";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
 const REDIRECT_URI = `${BASE_URL.replace(/\/$/, "")}/api/integrations/google/callback`;
+const CALENDAR_REDIRECT_URI = `${BASE_URL.replace(/\/$/, "")}/api/calendar/google/callback`;
 
 const AUTH_URL  = "https://accounts.google.com/o/oauth2/v2/auth";
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
 
-export type GoogleService = "ga4" | "sc" | "gbp";
+export type GoogleService = "ga4" | "sc" | "gbp" | "calendar";
 
 const SCOPES_BY_SERVICE: Record<GoogleService, string[]> = {
   ga4: [
@@ -32,6 +33,9 @@ const SCOPES_BY_SERVICE: Record<GoogleService, string[]> = {
   ],
   gbp: [
     "https://www.googleapis.com/auth/business.manage",
+  ],
+  calendar: [
+    "https://www.googleapis.com/auth/calendar.readonly",
   ],
 };
 
@@ -51,6 +55,7 @@ export function buildAuthorizeUrl(opts: {
   state: string;
   services: GoogleService[];
   loginHint?: string;
+  redirectUri?: string; // opcional — quando omitido, usa o REDIRECT_URI das integrações de marketing
 }): string {
   assertGoogleOAuthConfigured();
   const scopes = new Set<string>(ALWAYS_INCLUDE_SCOPES);
@@ -59,7 +64,7 @@ export function buildAuthorizeUrl(opts: {
   }
   const params = new URLSearchParams({
     client_id: CLIENT_ID,
-    redirect_uri: REDIRECT_URI,
+    redirect_uri: opts.redirectUri ?? REDIRECT_URI,
     response_type: "code",
     scope: Array.from(scopes).join(" "),
     access_type: "offline",       // queremos refresh_token
@@ -81,13 +86,13 @@ export interface GoogleTokenResponse {
 }
 
 /** Troca code por tokens. */
-export async function exchangeCodeForTokens(code: string): Promise<GoogleTokenResponse> {
+export async function exchangeCodeForTokens(code: string, redirectUri?: string): Promise<GoogleTokenResponse> {
   assertGoogleOAuthConfigured();
   const body = new URLSearchParams({
     code,
     client_id: CLIENT_ID,
     client_secret: CLIENT_SECRET,
-    redirect_uri: REDIRECT_URI,
+    redirect_uri: redirectUri ?? REDIRECT_URI,
     grant_type: "authorization_code",
   });
   const r = await fetch(TOKEN_URL, {
@@ -165,8 +170,18 @@ export function detectAuthorizedServices(scopeString: string): GoogleService[] {
   return result;
 }
 
+/** Detecta se o scope inclui Calendar. */
+export function hasCalendarScope(scopeString: string): boolean {
+  return scopeString.split(/\s+/).some((s) =>
+    s === "https://www.googleapis.com/auth/calendar.readonly" ||
+    s === "https://www.googleapis.com/auth/calendar.events" ||
+    s === "https://www.googleapis.com/auth/calendar"
+  );
+}
+
 export const googleConfig = {
   clientId: CLIENT_ID,
   redirectUri: REDIRECT_URI,
+  calendarRedirectUri: CALENDAR_REDIRECT_URI,
   baseUrl: BASE_URL,
 };
