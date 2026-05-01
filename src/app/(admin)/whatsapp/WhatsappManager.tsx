@@ -6,7 +6,7 @@ import Link from "next/link";
 import {
   Check, CheckCheck, Clock, AlertCircle,
   MessageCircle, MessageSquare, Hourglass, Calendar,
-  Sparkles, Users, Star, Inbox, CheckCircle2,
+  Sparkles, Users, Star, Inbox, CheckCircle2, ChevronUp,
   type LucideIcon,
 } from "lucide-react";
 
@@ -272,6 +272,12 @@ export default function WhatsappManager({
   const [convStatusOverride, setConvStatusOverride] = useState<Map<string, ConvStatus>>(new Map());
   const [convAssigneeOverride, setConvAssigneeOverride] = useState<Map<string, { id: string; name: string } | null>>(new Map());
   const [convActionLoading, setConvActionLoading] = useState(false);
+  // Toggle do painel de participantes do grupo (header limpo)
+  const [showParticipants, setShowParticipants] = useState(false);
+  // Override de instância de envio (escolhida pelo usuário no menu + Ações)
+  const [sendInstanceOverride, setSendInstanceOverride] = useState<string>("");
+  // Nota: o useMemo `currentSendInstance` é declarado mais abaixo (precisa de
+  // selectedConv + convMessages + groupInstanceId que são declarados depois).
   // Modal de transferência (Sprint 4) — pode transferir para setor OU atendente
   const [showTransferModal, setShowTransferModal] = useState(false);
   const [transferTargetType, setTransferTargetType] = useState<"setor" | "atendente">("atendente");
@@ -431,6 +437,25 @@ export default function WhatsappManager({
     setGroupInstanceId(id);
     if (typeof window !== "undefined") localStorage.setItem("group_instance_id", id);
   }
+
+  // Instância que SERÁ usada no próximo envio (replica a lógica de handleReply
+  // pra exibir no placeholder e no menu + Ações).
+  const currentSendInstance = useMemo(() => {
+    if (!selectedConv) return null;
+    const isGroup = selectedConv.phone.includes("@g.us");
+    const lastInstanceName =
+      convMessages.length > 0 ? convMessages[convMessages.length - 1].instance?.instanceName : null;
+    return (
+      (sendInstanceOverride ? instances.find((i) => i.id === sendInstanceOverride) : null) ??
+      (isGroup
+        ? (instances.find((i) => i.id === groupInstanceId) ??
+           instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId) ??
+           instances.find((i) => i.company?.id === selectedConv.companyId))
+        : ((lastInstanceName ? instances.find((i) => i.instanceName === lastInstanceName) : null) ??
+           instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId) ??
+           instances.find((i) => i.company?.id === selectedConv.companyId)))
+    ) ?? null;
+  }, [selectedConv, convMessages, instances, sendInstanceOverride, groupInstanceId]);
 
   // Chamado aberto + menu de ações
   const [openTicket, setOpenTicket] = useState<{ id: string; title: string; status: string } | null>(null);
@@ -1323,18 +1348,20 @@ export default function WhatsappManager({
 
     const isGroup = selectedConv.phone.includes("@g.us");
 
-    // Para grupos: usar a instância selecionada pelo usuário
-    // Para individuais: usar a instância da última mensagem → conectada → qualquer
+    // Resolução de instância: override do usuário (menu + Ações) > grupo (groupInstanceId) >
+    // última mensagem da conversa > qualquer conectada da empresa
     const lastInstanceName =
       convMessages.length > 0 ? convMessages[convMessages.length - 1].instance?.instanceName : null;
 
-    const inst = isGroup
-      ? (instances.find((i) => i.id === groupInstanceId) ??
-         instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId) ??
-         instances.find((i) => i.company?.id === selectedConv.companyId))
-      : ((lastInstanceName ? instances.find((i) => i.instanceName === lastInstanceName) : null) ??
-         instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId) ??
-         instances.find((i) => i.company?.id === selectedConv.companyId));
+    const inst =
+      (sendInstanceOverride ? instances.find((i) => i.id === sendInstanceOverride) : null) ??
+      (isGroup
+        ? (instances.find((i) => i.id === groupInstanceId) ??
+           instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId) ??
+           instances.find((i) => i.company?.id === selectedConv.companyId))
+        : ((lastInstanceName ? instances.find((i) => i.instanceName === lastInstanceName) : null) ??
+           instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId) ??
+           instances.find((i) => i.company?.id === selectedConv.companyId)));
 
     if (!inst) {
       setReplyError("Nenhuma instância conectada. Configure em Configurações → Instâncias WhatsApp.");
@@ -2368,93 +2395,7 @@ export default function WhatsappManager({
                         )}
                       </div>
 
-                      {/* Linha de metadados: telefone · setor (compacto, pequeno) */}
-                      {((selectedConv.companyContact?.name || selectedConv.lead?.name) && !selectedConv.phone.includes("@g.us")) || selectedConv.conversation?.setor ? (
-                        <div className="flex items-center gap-2 text-[11px] text-slate-500 mt-0.5">
-                          {(selectedConv.companyContact?.name || selectedConv.lead?.name) && !selectedConv.phone.includes("@g.us") && (
-                            <span>{formatPhone(selectedConv.phone)}</span>
-                          )}
-                          {(selectedConv.companyContact?.name || selectedConv.lead?.name) && !selectedConv.phone.includes("@g.us") && selectedConv.conversation?.setor && (
-                            <span className="text-slate-700">·</span>
-                          )}
-                          {selectedConv.conversation?.setor && (
-                            <span>setor <span className="text-slate-400">{selectedConv.conversation.setor.name}</span></span>
-                          )}
-                        </div>
-                      ) : null}
-
-                      {/* Status da Conversation + ações (Sprint 3) — duas linhas separadas */}
-                      {(() => {
-                        const conv = selectedConv.conversation;
-                        if (!conv) return null;
-                        const currentStatus: ConvStatus = (convStatusOverride.get(selectedConv.phone) ?? conv.status) as ConvStatus;
-                        const meta = CONV_STATUS_META[currentStatus];
-                        const assignee = convAssigneeOverride.has(selectedConv.phone)
-                          ? convAssigneeOverride.get(selectedConv.phone)
-                          : conv.assignee;
-                        const isMine = assignee?.id === currentUserId;
-                        const expectedReturn = selectedConv.lead?.expectedReturnAt;
-                        // Quando SCHEDULED + data definida → "Aguardando retorno · DD/MM HH:mm"
-                        const statusLabel = currentStatus === "SCHEDULED" && expectedReturn
-                          ? `${meta.label} · ${new Date(expectedReturn).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}`
-                          : meta.label;
-                        return (
-                          <>
-                            {/* Linha de status: chip + atendente */}
-                            <div className="flex flex-wrap items-center gap-1.5 mt-2">
-                              <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium border ${meta.chip}`}>
-                                <span className={`w-1.5 h-1.5 rounded-full ${meta.dot}`} />
-                                {statusLabel}
-                              </span>
-                              {assignee && (
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
-                                  {isMine ? "Você" : assignee.name}
-                                </span>
-                              )}
-                            </div>
-                            {/* Linha de ações: botões agrupados */}
-                            <div className="flex flex-wrap items-center gap-1.5 mt-1.5">
-                              {currentStatus !== "CLOSED" && !isMine && (
-                                <button
-                                  onClick={() => handleConvAction(conv.id, "take")}
-                                  disabled={convActionLoading}
-                                  className="text-[10px] px-2.5 py-1 rounded-md bg-yellow-500/15 text-yellow-300 border border-yellow-500/25 hover:bg-yellow-500/25 transition-colors disabled:opacity-50 font-medium"
-                                >
-                                  Pegar
-                                </button>
-                              )}
-                              {currentStatus !== "CLOSED" && (
-                                <button
-                                  onClick={() => handleConvAction(conv.id, "close")}
-                                  disabled={convActionLoading}
-                                  className="text-[10px] px-2.5 py-1 rounded-md bg-slate-500/15 text-slate-300 border border-slate-500/25 hover:bg-slate-500/25 transition-colors disabled:opacity-50 font-medium"
-                                >
-                                  Finalizar
-                                </button>
-                              )}
-                              {currentStatus === "CLOSED" && (
-                                <button
-                                  onClick={() => handleConvAction(conv.id, "reopen")}
-                                  disabled={convActionLoading}
-                                  className="text-[10px] px-2.5 py-1 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 hover:bg-emerald-500/25 transition-colors disabled:opacity-50 font-medium"
-                                >
-                                  Reabrir
-                                </button>
-                              )}
-                              {(availableSetores.length > 1 || availableAtendentes.length > 1) && currentStatus !== "CLOSED" && (
-                                <button
-                                  onClick={() => { setShowTransferModal(true); setTransferSetorId(conv.setorId ?? ""); setTransferAssigneeId(""); setTransferNote(""); }}
-                                  disabled={convActionLoading}
-                                  className="text-[10px] px-2.5 py-1 rounded-md bg-violet-500/15 text-violet-300 border border-violet-500/25 hover:bg-violet-500/25 transition-colors disabled:opacity-50 font-medium"
-                                >
-                                  Transferir
-                                </button>
-                              )}
-                            </div>
-                          </>
-                        );
-                      })()}
-                      {/* Grupo: lista de participantes únicos */}
+                      {/* Toggle de participantes do grupo — colapsado por padrão */}
                       {selectedConv.phone.includes("@g.us") && convMessages.length > 0 && (() => {
                         const unique = new Map<string, ReturnType<typeof resolveParticipant>>();
                         for (const m of convMessages) {
@@ -2465,23 +2406,40 @@ export default function WhatsappManager({
                         const list = [...unique.values()].filter(Boolean) as NonNullable<ReturnType<typeof resolveParticipant>>[];
                         const ours = list.filter(p => p.isOurs);
                         const clients = list.filter(p => !p.isOurs);
+                        const total = list.length;
+                        if (total === 0) return null;
                         return (
-                          <div className="flex flex-wrap gap-1 mt-1">
-                            {ours.map(p => (
-                              <span key={p.rawNorm} className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 ${getInstanceBadgeColor(p.label).split(" ").filter(c => c.startsWith("text-")).join(" ")}`} title={p.rawNorm}>
-                                📤 {p.label}
-                              </span>
-                            ))}
-                            {clients.map(p => (
-                              <button
-                                key={p.rawNorm}
-                                onClick={() => handleOpenParticipantEdit(p.rawNorm)}
-                                className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 hover:border-white/20 transition-colors ${getParticipantColor(p.rawNorm)}`}
-                                title="Clique para nomear"
-                              >
-                                👤 {p.label}
-                              </button>
-                            ))}
+                          <div className="mt-1">
+                            <button
+                              onClick={() => setShowParticipants(!showParticipants)}
+                              className="flex items-center gap-1.5 text-[11px] text-slate-500 hover:text-slate-300 transition-colors"
+                            >
+                              <Users className="w-3 h-3" strokeWidth={2.5} />
+                              <span>{total} participante{total !== 1 ? "s" : ""}</span>
+                              <ChevronUp className={`w-3 h-3 transition-transform ${showParticipants ? "" : "rotate-180"}`} />
+                            </button>
+                            {showParticipants && (
+                              <div className="mt-1.5 flex flex-wrap gap-1 max-w-[600px]">
+                                {ours.map(p => (
+                                  <span key={p.rawNorm} className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 ${getInstanceBadgeColor(p.label).split(" ").filter(c => c.startsWith("text-")).join(" ")}`} title={p.rawNorm}>
+                                    📤 {p.label}
+                                  </span>
+                                ))}
+                                {clients.map(p => (
+                                  <button
+                                    key={p.rawNorm}
+                                    onClick={() => handleOpenParticipantEdit(p.rawNorm)}
+                                    className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 hover:border-white/20 transition-colors ${getParticipantColor(p.rawNorm)}`}
+                                    title={`${p.label} · clique para nomear · ${p.rawNorm}`}
+                                  >
+                                    👤 {p.label}
+                                    {p.rawNorm && !p.rawNorm.includes("@lid") && (
+                                      <span className="opacity-60 ml-1 font-mono">{formatPhone(p.rawNorm)}</span>
+                                    )}
+                                  </button>
+                                ))}
+                              </div>
+                            )}
                           </div>
                         );
                       })()}
@@ -2489,71 +2447,52 @@ export default function WhatsappManager({
                   )}
                 </div>
 
-                {/* Direita: pills de status + menu ações */}
-                <div className="flex items-center gap-2 flex-shrink-0 flex-wrap justify-end">
+                {/* Direita: botão único de ação contextual */}
+                {(() => {
+                  const conv = selectedConv.conversation;
+                  if (!conv) return null;
+                  const currentStatus: ConvStatus = (convStatusOverride.get(selectedConv.phone) ?? conv.status) as ConvStatus;
+                  const assignee = convAssigneeOverride.has(selectedConv.phone)
+                    ? convAssigneeOverride.get(selectedConv.phone)
+                    : conv.assignee;
+                  const isMine = assignee?.id === currentUserId;
+                  const canTransfer = (availableSetores.length > 1 || availableAtendentes.length > 1) && currentStatus !== "CLOSED";
 
-                  {/* ── Pills de status (o que o contato É) ── */}
-                  {/* Helpers */}
-                  {(() => {
-                    const isLeadInFinalStage = !!(selectedConv.lead?.pipelineStage && finalStageNames.includes(selectedConv.lead.pipelineStage));
-                    const isTicketFinal = openTicket?.status === "RESOLVED" || openTicket?.status === "CLOSED";
-                    return (
-                      <>
-                        {/* Cliente vinculado → link para empresa */}
-                        {selectedConv.companyContact && (
-                          <Link
-                            href={`/empresas/${selectedConv.companyContact.company.id}`}
-                            className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold text-amber-400 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition-colors"
-                          >
-                            ⭐ {selectedConv.companyContact.company.name}
-                          </Link>
-                        )}
-
-                        {/* Pipeline → link para CRM (oculto se em etapa final) */}
-                        {selectedConv.lead?.pipeline && selectedConv.lead?.id && !isLeadInFinalStage && (
-                          <Link
-                            href={`/crm/${selectedConv.lead.pipeline === "LEADS" ? "leads" : selectedConv.lead.pipeline === "OPORTUNIDADES" ? "oportunidades" : "prospeccao"}?lead=${selectedConv.lead.id}`}
-                            className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border border-transparent hover:opacity-80 transition-opacity ${PIPELINE_BADGE[selectedConv.lead.pipeline] ?? "text-slate-400 bg-white/5"}`}
-                          >
-                            {PIPELINE_LABEL[selectedConv.lead.pipeline] ?? selectedConv.lead.pipeline}
-                            {selectedConv.lead.pipelineStage ? ` · ${selectedConv.lead.pipelineStage}` : ""}
-                            <span className="ml-0.5 opacity-50 text-[10px]">↗</span>
-                          </Link>
-                        )}
-
-                        {/* Pill de etapa final (concluído/perdido) — clique para ver no CRM */}
-                        {selectedConv.lead?.pipeline && selectedConv.lead?.id && isLeadInFinalStage && (
-                          <Link
-                            href={`/crm/${selectedConv.lead.pipeline === "LEADS" ? "leads" : selectedConv.lead.pipeline === "OPORTUNIDADES" ? "oportunidades" : "prospeccao"}?lead=${selectedConv.lead.id}`}
-                            className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border border-slate-700/50 text-slate-500 bg-white/3 hover:opacity-80 transition-opacity line-through"
-                            title="Concluído — clique para ver"
-                          >
-                            {PIPELINE_LABEL[selectedConv.lead.pipeline] ?? selectedConv.lead.pipeline}
-                            {selectedConv.lead.pipelineStage ? ` · ${selectedConv.lead.pipelineStage}` : ""}
-                          </Link>
-                        )}
-
-                        {/* Chamado aberto → link (oculto se resolvido/fechado) */}
-                        {openTicket && !isTicketFinal && (
-                          <Link
-                            href={`/chamados/${openTicket.id}`}
-                            className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold text-orange-400 bg-orange-500/10 border border-orange-500/20 hover:bg-orange-500/20 transition-colors max-w-[180px]"
-                            title={openTicket.title}
-                          >
-                            🎫 <span className="truncate">{openTicket.title.length > 20 ? openTicket.title.slice(0, 20) + "…" : openTicket.title}</span>
-                            <span className="ml-0.5 opacity-50 text-[10px]">↗</span>
-                          </Link>
-                        )}
-
-                        {/* Chamado encerrado: não exibe pill — "Abrir Chamado" fica disponível no menu + Ações */}
-                      </>
-                    );
-                  })()}
-
-                  {ticketCreated && !openTicket && (
-                    <span className="text-green-400 text-xs">✓ Chamado criado!</span>
-                  )}
-                </div>
+                  // Botão principal contextual
+                  let primaryLabel = "Pegar";
+                  let primaryAction: "take" | "close" | "reopen" = "take";
+                  let primaryClass = "bg-yellow-500/15 text-yellow-300 border-yellow-500/30 hover:bg-yellow-500/25";
+                  if (currentStatus === "CLOSED") {
+                    primaryLabel = "Reabrir";
+                    primaryAction = "reopen";
+                    primaryClass = "bg-emerald-500/15 text-emerald-300 border-emerald-500/30 hover:bg-emerald-500/25";
+                  } else if (isMine) {
+                    primaryLabel = "Finalizar";
+                    primaryAction = "close";
+                    primaryClass = "bg-slate-500/15 text-slate-300 border-slate-500/30 hover:bg-slate-500/25";
+                  }
+                  return (
+                    <div className="flex items-center gap-1.5 flex-shrink-0">
+                      <button
+                        onClick={() => handleConvAction(conv.id, primaryAction)}
+                        disabled={convActionLoading}
+                        className={`px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors disabled:opacity-50 ${primaryClass}`}
+                      >
+                        {primaryLabel}
+                      </button>
+                      {canTransfer && (
+                        <button
+                          onClick={() => { setShowTransferModal(true); setTransferSetorId(conv.setorId ?? ""); setTransferAssigneeId(""); setTransferNote(""); }}
+                          disabled={convActionLoading}
+                          title="Mudar responsável / Transferir"
+                          className="px-2.5 py-1.5 rounded-lg border border-violet-500/30 bg-violet-500/10 text-violet-300 text-xs font-medium hover:bg-violet-500/20 transition-colors disabled:opacity-50 flex items-center gap-1"
+                        >
+                          ↗
+                        </button>
+                      )}
+                    </div>
+                  );
+                })()}
               </div>
 
 
@@ -3428,26 +3367,8 @@ export default function WhatsappManager({
 
               {/* Reply */}
               <div className="flex-shrink-0 border-t border-[#1e2d45] px-4 py-3">
-                {/* Seletor de instância para grupos */}
-                {selectedConv?.phone.includes("@g.us") && (
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-slate-500 text-[11px]">📱 Responder via:</span>
-                    <select
-                      value={groupInstanceId}
-                      onChange={(e) => selectGroupInstance(e.target.value)}
-                      className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2 py-1 text-xs text-white focus:outline-none focus:border-indigo-500"
-                    >
-                      <option value="">— selecionar instância —</option>
-                      {instances
-                        .filter((i) => !selectedConv.companyId || i.company?.id === selectedConv.companyId)
-                        .map((i) => (
-                          <option key={i.id} value={i.id}>
-                            {i.instanceName} {i.status === "CONNECTED" ? "✓" : "✗"}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-                )}
+                {/* Seletor de instância foi movido para o menu '+ Ações → Envio → Trocar instância'.
+                    A instância atual aparece no placeholder do textarea ('Escreva via ...'). */}
                 {replyError && (
                   <div className="mb-2 flex items-start gap-2 bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-2">
                     <span className="text-red-400 text-sm flex-shrink-0">⚠️</span>
@@ -3501,7 +3422,53 @@ export default function WhatsappManager({
                         </button>
 
                         {showActionsMenu && (
-                          <div className="absolute left-0 bottom-full mb-2 w-64 bg-[#0d1525] border border-[#1e2d45] rounded-xl shadow-2xl z-50 overflow-hidden py-1">
+                          <div className="absolute left-0 bottom-full mb-2 w-72 bg-[#0d1525] border border-[#1e2d45] rounded-xl shadow-2xl z-50 overflow-hidden py-1 max-h-[80vh] overflow-y-auto">
+
+                            {/* ── ENVIO ── (trocar instância + nota interna) */}
+                            {(() => {
+                              const eligibleInstances = instances.filter(
+                                (i) => !selectedConv?.companyId || i.company?.id === selectedConv.companyId
+                              );
+                              const showInstancePicker = eligibleInstances.length > 1;
+                              if (!showInstancePicker) return null;
+                              return (
+                                <>
+                                  <div className="px-3 pt-2.5 pb-1.5">
+                                    <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2">📤 Envio</p>
+                                    <label className="block text-slate-500 text-[10px] mb-1">Responder via</label>
+                                    <select
+                                      value={sendInstanceOverride || currentSendInstance?.id || ""}
+                                      onChange={(e) => {
+                                        const id = e.target.value;
+                                        setSendInstanceOverride(id);
+                                        if (selectedConv?.phone.includes("@g.us")) selectGroupInstance(id);
+                                      }}
+                                      className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500"
+                                    >
+                                      {eligibleInstances.map((i) => (
+                                        <option key={i.id} value={i.id}>
+                                          {i.instanceName} {i.status === "CONNECTED" ? "✓" : "⚠"}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                  <div className="border-t border-[#1e2d45] my-1" />
+                                </>
+                              );
+                            })()}
+
+                            {/* Nota interna (link para abrir o painel já existente) */}
+                            <div className="px-3 py-1.5">
+                              <button
+                                type="button"
+                                onClick={() => { setShowNotesPanel(true); setShowActionsMenu(false); }}
+                                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
+                              >
+                                📝 Nota interna do atendimento
+                              </button>
+                            </div>
+
+                            <div className="border-t border-[#1e2d45] my-1" />
 
                             {/* ── Agendar retorno ── (substituiu os 4 botões legacy de attendanceStatus
                                   que duplicavam Pegar/Finalizar/Reabrir do header) */}
@@ -3523,8 +3490,26 @@ export default function WhatsappManager({
                                   Salvar
                                 </button>
                               </div>
-                              <p className="text-slate-700 text-[10px] mt-1.5">Use <strong>Pegar / Finalizar</strong> no header para mudar o status da conversa.</p>
                             </div>
+
+                            {/* Mudar responsável / Transferir */}
+                            {(availableSetores.length > 1 || availableAtendentes.length > 1) && (
+                              <div className="px-3 py-1.5">
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setShowTransferModal(true);
+                                    setTransferSetorId(selectedConv?.conversation?.setorId ?? "");
+                                    setTransferAssigneeId("");
+                                    setTransferNote("");
+                                    setShowActionsMenu(false);
+                                  }}
+                                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
+                                >
+                                  ↗ Mudar responsável / Transferir
+                                </button>
+                              </div>
+                            )}
 
                             <div className="border-t border-[#1e2d45] my-1" />
 
@@ -3672,7 +3657,11 @@ export default function WhatsappManager({
                         }
                         // Ctrl+Enter ou Shift+Enter → quebra de linha (comportamento default do textarea)
                       }}
-                      placeholder="Digite uma mensagem... (Enter envia · Ctrl+Enter nova linha)"
+                      placeholder={
+                        currentSendInstance
+                          ? `Escreva via ${currentSendInstance.instanceName}... (Enter envia)`
+                          : "Digite uma mensagem... (Enter envia · Ctrl+Enter nova linha)"
+                      }
                       disabled={sendingReply}
                       rows={1}
                       className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-xl px-4 py-2.5 pr-10 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 disabled:opacity-50 resize-none overflow-hidden"
