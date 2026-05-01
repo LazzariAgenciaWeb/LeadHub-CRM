@@ -80,21 +80,25 @@ export async function POST(
     ? phone.trim()
     : phone.trim().replace(/\D/g, "");
 
-  const existing = await prisma.companyContact.findFirst({
-    where: { companyId: id, phone: normalizedPhone },
-  });
-  if (existing) {
-    return NextResponse.json({ error: "Este contato já está cadastrado" }, { status: 409 });
-  }
-
-  const contact = await prisma.companyContact.create({
-    data: {
+  // Upsert idempotente — se o contato já existe (phone+companyId), atualiza nome/role/notes.
+  // Antes retornávamos 409, mas isso bloqueava cenário comum: usuário tenta "Mudar empresa"
+  // pra uma empresa onde já existia o contato (ex: cadastrou antes manualmente).
+  const contact = await prisma.companyContact.upsert({
+    where: { companyId_phone: { companyId: id, phone: normalizedPhone } },
+    create: {
       companyId: id,
       phone: normalizedPhone,
       name: name?.trim() || null,
       isGroup: isGroup ?? false,
       role: contactRole ?? "CONTACT",
       notes: notes?.trim() || null,
+    },
+    update: {
+      // Só atualiza campos enviados (não sobrescreve com null o que já tinha)
+      ...(name?.trim()       ? { name: name.trim() }       : {}),
+      ...(contactRole        ? { role: contactRole }       : {}),
+      ...(notes?.trim()      ? { notes: notes.trim() }     : {}),
+      ...(isGroup !== undefined ? { isGroup }              : {}),
     },
     include: { user: { select: { id: true, name: true, email: true } } },
   });

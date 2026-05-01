@@ -7,6 +7,8 @@ import {
   Check, CheckCheck, Clock, AlertCircle,
   MessageCircle, MessageSquare, Hourglass, Calendar,
   Sparkles, Users, Star, Inbox, CheckCircle2, ChevronUp,
+  Send, StickyNote, Target, DollarSign, Search, Bot, Building2, Link2,
+  ArrowRightLeft, Ticket,
   type LucideIcon,
 } from "lucide-react";
 
@@ -2456,7 +2458,8 @@ export default function WhatsappManager({
                     ? convAssigneeOverride.get(selectedConv.phone)
                     : conv.assignee;
                   const isMine = assignee?.id === currentUserId;
-                  const canTransfer = (availableSetores.length > 1 || availableAtendentes.length > 1) && currentStatus !== "CLOSED";
+                  // Mostra Transferir sempre que não estiver finalizada — modal lida com lista vazia
+                  const canTransfer = currentStatus !== "CLOSED" && (availableSetores.length + availableAtendentes.length) > 0;
 
                   // Botão principal contextual
                   let primaryLabel = "Pegar";
@@ -3434,7 +3437,7 @@ export default function WhatsappManager({
                               return (
                                 <>
                                   <div className="px-3 pt-2.5 pb-1.5">
-                                    <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2">📤 Envio</p>
+                                    <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2 flex items-center gap-1.5"><Send className="w-3 h-3" strokeWidth={2.5} /> Envio</p>
                                     <label className="block text-slate-500 text-[10px] mb-1">Responder via</label>
                                     <select
                                       value={sendInstanceOverride || currentSendInstance?.id || ""}
@@ -3464,7 +3467,8 @@ export default function WhatsappManager({
                                 onClick={() => { setShowNotesPanel(true); setShowActionsMenu(false); }}
                                 className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
                               >
-                                📝 Nota interna do atendimento
+                                <StickyNote className="w-4 h-4 text-amber-400" strokeWidth={2.25} />
+                                Nota interna do atendimento
                               </button>
                             </div>
 
@@ -3473,7 +3477,7 @@ export default function WhatsappManager({
                             {/* ── Agendar retorno ── (substituiu os 4 botões legacy de attendanceStatus
                                   que duplicavam Pegar/Finalizar/Reabrir do header) */}
                             <div className="px-3 pt-2.5 pb-1.5">
-                              <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2">📅 Agendar retorno</p>
+                              <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2 flex items-center gap-1.5"><Calendar className="w-3 h-3" strokeWidth={2.5} /> Agendar retorno</p>
                               <div className="flex gap-2">
                                 <input
                                   type="datetime-local"
@@ -3493,7 +3497,7 @@ export default function WhatsappManager({
                             </div>
 
                             {/* Mudar responsável / Transferir */}
-                            {(availableSetores.length > 1 || availableAtendentes.length > 1) && (
+                            {(availableSetores.length + availableAtendentes.length > 0) && (
                               <div className="px-3 py-1.5">
                                 <button
                                   type="button"
@@ -3506,7 +3510,8 @@ export default function WhatsappManager({
                                   }}
                                   className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
                                 >
-                                  ↗ Mudar responsável / Transferir
+                                  <ArrowRightLeft className="w-4 h-4 text-violet-400" strokeWidth={2.25} />
+                                  Mudar responsável / Transferir
                                 </button>
                               </div>
                             )}
@@ -3533,7 +3538,10 @@ export default function WhatsappManager({
                                         onClick={() => setShowActionsMenu(false)}
                                         className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-emerald-400/80 hover:bg-emerald-500/5 transition-colors text-left"
                                       >
-                                        {isActiveOportunidade ? "💰" : "🎯"} Já é {isActiveOportunidade ? "Oportunidade" : "Lead"} · ver no CRM
+                                        {isActiveOportunidade
+                                          ? <DollarSign className="w-4 h-4 text-amber-400" strokeWidth={2.25} />
+                                          : <Target     className="w-4 h-4 text-blue-400"  strokeWidth={2.25} />}
+                                        Já é {isActiveOportunidade ? "Oportunidade" : "Lead"} · ver no CRM
                                       </Link>
                                     )}
                                     {/* Criar Lead — só se não for lead/oportunidade ativos */}
@@ -3543,7 +3551,8 @@ export default function WhatsappManager({
                                         onClick={() => { setShowConvertForm(true); setShowTicketForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowAddCompany(false); setShowActionsMenu(false); }}
                                         className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
                                       >
-                                        🎯 Criar Lead
+                                        <Target className="w-4 h-4 text-blue-400" strokeWidth={2.25} />
+                                        Criar Lead
                                       </button>
                                     )}
                                     {/* Criar Oportunidade — só se não for oportunidade ativa */}
@@ -3553,7 +3562,8 @@ export default function WhatsappManager({
                                         onClick={() => { setShowOportunidadeForm(true); setShowConvertForm(false); setShowTicketForm(false); setShowLinkProspect(false); setShowAddCompany(false); setShowActionsMenu(false); }}
                                         className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
                                       >
-                                        💰 Criar Oportunidade
+                                        <DollarSign className="w-4 h-4 text-amber-400" strokeWidth={2.25} />
+                                        Criar Oportunidade
                                       </button>
                                     )}
                                 {(!openTicket || isTicketFinal) && (
@@ -3562,7 +3572,8 @@ export default function WhatsappManager({
                                     onClick={() => { setShowTicketForm(true); setShowConvertForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowAddCompany(false); setShowActionsMenu(false); }}
                                     className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
                                   >
-                                    🎫 Abrir Chamado
+                                    <Ticket className="w-4 h-4 text-orange-400" strokeWidth={2.25} />
+                                    Abrir Chamado
                                   </button>
                                 )}
                                 {!selectedConv.phone.includes("@g.us") && (
@@ -3571,7 +3582,9 @@ export default function WhatsappManager({
                                     onClick={() => { setShowAddCompany(true); setShowConvertForm(false); setShowTicketForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowActionsMenu(false); setAddContactForm({ companyId: "", companyName: "", contactName: "", role: "CONTACT" }); setCompanySearch(""); setCompanyResults([]); }}
                                     className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
                                   >
-                                    {selectedConv.companyContact ? "🏢 Mudar empresa" : "⭐ É Cliente"}
+                                    {selectedConv.companyContact
+                                      ? <><Building2 className="w-4 h-4 text-amber-400" strokeWidth={2.25} /> Mudar empresa</>
+                                      : <><Star      className="w-4 h-4 text-amber-400 fill-amber-400/30" strokeWidth={2.25} /> É Cliente</>}
                                   </button>
                                 )}
                                 <button
@@ -3579,7 +3592,8 @@ export default function WhatsappManager({
                                   onClick={() => { setShowLinkProspect(true); setShowConvertForm(false); setShowTicketForm(false); setShowOportunidadeForm(false); setShowAddCompany(false); setShowActionsMenu(false); }}
                                   className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
                                 >
-                                  🔎 Vincular Prospect
+                                  <Search className="w-4 h-4 text-cyan-400" strokeWidth={2.25} />
+                                  Vincular Prospect
                                 </button>
                               </div>
                             </div>
@@ -3597,7 +3611,8 @@ export default function WhatsappManager({
                                   onClick={() => { setShowAiPanel(!showAiPanel); setShowActionsMenu(false); }}
                                   className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-emerald-400 hover:bg-emerald-500/10 hover:text-emerald-300 transition-colors text-left"
                                 >
-                                  🤖 Assistente IA
+                                  <Bot className="w-4 h-4 text-emerald-400" strokeWidth={2.25} />
+                                  Assistente IA
                                 </button>
                                 {selectedConv.phone.includes("@g.us") && (
                                   <button
@@ -3605,7 +3620,8 @@ export default function WhatsappManager({
                                     onClick={() => { setShowGroupCompany(!showGroupCompany); setShowActionsMenu(false); setGroupCompanySearch(""); setGroupCompanyResults([]); setAssignGroupError(null); }}
                                     className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
                                   >
-                                    🏢 {selectedConv.companyContact ? "Mudar empresa" : "Atribuir empresa"}
+                                    <Building2 className="w-4 h-4 text-amber-400" strokeWidth={2.25} />
+                                    {selectedConv.companyContact ? "Mudar empresa" : "Atribuir empresa"}
                                   </button>
                                 )}
                                 <button
@@ -3613,7 +3629,8 @@ export default function WhatsappManager({
                                   onClick={() => { setShowMergePanel(!showMergePanel); setShowActionsMenu(false); setMergeSearch(""); setMergeResults([]); }}
                                   className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
                                 >
-                                  🔗 Mesclar contato
+                                  <Link2 className="w-4 h-4 text-indigo-400" strokeWidth={2.25} />
+                                  Mesclar contato
                                 </button>
                               </div>
                             </div>
