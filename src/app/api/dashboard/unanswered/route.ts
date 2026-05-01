@@ -49,9 +49,11 @@ export async function GET() {
     const isGroup = g.phone.includes("@g.us");
     if (isGroup) continue;
 
-    // Busca última mensagem e lead em paralelo
-    // O lead é buscado por phone (não pelo leadId da msg, que pode ser null ou antigo)
-    const [lastMsg, lead] = await Promise.all([
+    // Busca última mensagem, lead e Conversation em paralelo. O Conversation
+    // é a fonte de verdade do status: quando o usuário clica em "Finalizar"
+    // na inbox, é Conversation.status que vira CLOSED. O Lead.attendanceStatus
+    // é legado (sincronizado quando há Lead vinculado, mas pode ficar dessincronizado).
+    const [lastMsg, lead, conversation] = await Promise.all([
       prisma.message.findFirst({
         where: { phone: g.phone, companyId: g.companyId },
         orderBy: { receivedAt: "desc" },
@@ -65,15 +67,25 @@ export async function GET() {
         orderBy: { createdAt: "desc" },
         select: { id: true, name: true, pipeline: true, pipelineStage: true, attendanceStatus: true },
       }),
+      prisma.conversation.findUnique({
+        where: { companyId_phone: { companyId: g.companyId, phone: g.phone } },
+        select: { status: true },
+      }),
     ]);
 
     if (!lastMsg) continue;
     if (lastMsg.direction !== "INBOUND") continue;
 
-    // Usa o attendanceStatus do lead buscado por phone (fonte correta)
-    const atStatus = lead?.attendanceStatus;
-    const resolved = atStatus === "RESOLVED" || atStatus === "CLOSED";
-    if (resolved) continue;
+    // Status real vem da Conversation. Conversa CLOSED ou SCHEDULED não é
+    // "não respondida" — foi atendida ou tem retorno marcado.
+    const convStatus = conversation?.status;
+    if (convStatus === "CLOSED" || convStatus === "SCHEDULED") continue;
+
+    // Sem Conversation (telefones legados): cai pro attendanceStatus do Lead
+    if (!conversation && lead?.attendanceStatus) {
+      const at = lead.attendanceStatus;
+      if (at === "RESOLVED" || at === "CLOSED" || at === "SCHEDULED") continue;
+    }
 
     result.push({
       phone: g.phone,
@@ -83,7 +95,7 @@ export async function GET() {
       leadId: lead?.id ?? null,
       pipeline: lead?.pipeline ?? null,
       pipelineStage: lead?.pipelineStage ?? null,
-      attendanceStatus: atStatus ?? null,
+      attendanceStatus: convStatus ?? lead?.attendanceStatus ?? null,
       lastMsgBody: lastMsg.body,
       lastMsgAt: lastMsg.receivedAt.toISOString(),
       instanceName: lastMsg.instance?.instanceName ?? null,

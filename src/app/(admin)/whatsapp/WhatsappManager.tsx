@@ -502,6 +502,15 @@ export default function WhatsappManager({
   // Flag para forçar scroll no próximo render (ao abrir conversa ou enviar mensagem)
   const forceScrollRef = useRef(false);
 
+  // ── Paginação de mensagens ────────────────────────────────────────────────
+  // Carregamos as últimas 50 mensagens ao abrir e mais 50 a cada scroll-up.
+  // hasMoreMessages controla se ainda há mensagens antigas no banco.
+  const MESSAGES_PAGE_SIZE = 50;
+  const [hasMoreMessages, setHasMoreMessages] = useState(false);
+  const [loadingOlderMessages, setLoadingOlderMessages] = useState(false);
+  // Marca o próximo render como "preservar scroll" pra não pular ao prepender mensagens antigas
+  const preserveScrollRef = useRef<{ prevHeight: number; prevTop: number } | null>(null);
+
   function scrollToBottom(force = false) {
     const el = messagesContainerRef.current;
     if (!el) return;
@@ -517,11 +526,73 @@ export default function WhatsappManager({
     if (!el) return;
     const distFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
     setShowScrollBtn(distFromBottom > 200);
+
+    // Scroll perto do topo (< 100px) e ainda há mensagens antigas → carrega mais
+    if (el.scrollTop < 100 && hasMoreMessages && !loadingOlderMessages) {
+      loadOlderMessages();
+    }
+  }
+
+  // Carrega mais 50 mensagens ANTERIORES à mais antiga já visível.
+  // Usa preserveScrollRef pra que o usuário não perca a posição visual.
+  async function loadOlderMessages() {
+    const conv = selectedConvRef.current;
+    if (!conv || convMessages.length === 0) return;
+    if (loadingOlderMessages || !hasMoreMessages) return;
+
+    const oldest = convMessages[0];
+    const el = messagesContainerRef.current;
+    setLoadingOlderMessages(true);
+    try {
+      const params = new URLSearchParams({
+        phone: conv.phone,
+        limit: String(MESSAGES_PAGE_SIZE),
+        before: new Date(oldest.receivedAt).toISOString(),
+      });
+      if (conv.companyId) params.set("companyId", conv.companyId);
+
+      const res = await fetch(`/api/whatsapp/messages?${params}`);
+      if (!res.ok) return;
+      const data = await res.json();
+      const older: WaMessage[] = data.messages ?? [];
+
+      if (older.length === 0) {
+        setHasMoreMessages(false);
+        return;
+      }
+
+      // Agenda preservação de scroll antes de atualizar state
+      if (el) preserveScrollRef.current = { prevHeight: el.scrollHeight, prevTop: el.scrollTop };
+      setConvMessages((prev) => {
+        // Dedup por id (caso uma mensagem volte por edge cases)
+        const existingIds = new Set(prev.map((m) => m.id));
+        const merged = [...older.filter((m) => !existingIds.has(m.id)), ...prev];
+        return merged;
+      });
+      setHasMoreMessages(Boolean(data.hasMore));
+    } finally {
+      setLoadingOlderMessages(false);
+    }
   }
 
   useEffect(() => {
     const force = forceScrollRef.current;
     forceScrollRef.current = false;
+    const preserve = preserveScrollRef.current;
+    preserveScrollRef.current = null;
+
+    if (preserve) {
+      // Acabamos de prepender mensagens antigas — manter posição visual do usuário.
+      // Diferença de altura = quanto o scroll precisa descer pra ficar onde estava.
+      requestAnimationFrame(() => {
+        const el = messagesContainerRef.current;
+        if (!el) return;
+        const heightDelta = el.scrollHeight - preserve.prevHeight;
+        el.scrollTop = preserve.prevTop + heightDelta;
+      });
+      return;
+    }
+
     if (force) {
       // Ao abrir conversa: aguarda o browser completar o layout antes de scrollar
       requestAnimationFrame(() => {
@@ -573,7 +644,10 @@ export default function WhatsappManager({
       const conv = selectedConvRef.current;
       if (!conv) return;
 
-      const msgParams = new URLSearchParams({ phone: conv.phone });
+      const msgParams = new URLSearchParams({
+        phone: conv.phone,
+        limit: String(MESSAGES_PAGE_SIZE),
+      });
       if (conv.companyId) msgParams.set("companyId", conv.companyId);
 
       // Estratégia dupla para o chamado:
@@ -596,7 +670,21 @@ export default function WhatsappManager({
       const ticketByIdRes = currentTicketId ? rest[0] : undefined;
       const leadRes       = currentTicketId ? rest[1] : rest[0];
 
-      if (msgsRes.ok) setConvMessages(await msgsRes.json());
+      if (msgsRes.ok) {
+        const data = await msgsRes.json();
+        // Resposta paginada = { messages, hasMore }; legacy = array puro
+        const fresh: WaMessage[] = Array.isArray(data) ? data : (data.messages ?? []);
+        // Merge inteligente: preserva mensagens antigas já carregadas via scroll-up
+        // e adiciona novas mensagens vindas do auto-refresh.
+        setConvMessages((prev) => {
+          const byId = new Map<string, WaMessage>();
+          for (const m of prev)  byId.set(m.id, m);
+          for (const m of fresh) byId.set(m.id, m); // sobrescreve (atualiza ack, mediaBase64 etc.)
+          return Array.from(byId.values()).sort(
+            (a, b) => new Date(a.receivedAt).getTime() - new Date(b.receivedAt).getTime()
+          );
+        });
+      }
 
       // Atualiza chamado: usa o resultado por ID se disponível (mais confiável)
       if (ticketByIdRes?.ok) {
@@ -1216,7 +1304,10 @@ export default function WhatsappManager({
       }).catch(() => { /* não crítico */ });
     }
 
-    const params = new URLSearchParams({ phone: conv.phone });
+    const params = new URLSearchParams({
+      phone: conv.phone,
+      limit: String(MESSAGES_PAGE_SIZE),
+    });
     if (conv.companyId) params.set("companyId", conv.companyId);
 
     const ticketParams = new URLSearchParams({ phone: conv.phone, openOnly: "true" });
@@ -1228,7 +1319,11 @@ export default function WhatsappManager({
       fetch(`/api/tickets?${ticketParams}`),
     ]);
 
-    const msgs = await msgsRes.json();
+    const msgsData = await msgsRes.json();
+    // Resposta paginada = { messages, hasMore }; resposta legacy = array puro.
+    const msgs: WaMessage[] = Array.isArray(msgsData) ? msgsData : (msgsData.messages ?? []);
+    const more = Array.isArray(msgsData) ? false : Boolean(msgsData.hasMore);
+    setHasMoreMessages(more);
     // Set forceScroll BEFORE updating convMessages so the useEffect sees it as true
     forceScrollRef.current = true;
     setConvMessages(msgs);
@@ -3088,6 +3183,23 @@ export default function WhatsappManager({
               )}
 
               <div ref={messagesContainerRef} onScroll={handleMessagesScroll} className="flex-1 overflow-y-auto px-5 py-4 space-y-3">
+                {/* Indicador de carregamento de mensagens antigas (topo) */}
+                {loadingOlderMessages && (
+                  <div className="flex items-center justify-center py-2 text-slate-500 text-xs gap-2">
+                    <div className="w-3 h-3 border-2 border-slate-600 border-t-indigo-400 rounded-full animate-spin" />
+                    Carregando mensagens anteriores...
+                  </div>
+                )}
+                {!loadingOlderMessages && hasMoreMessages && convMessages.length > 0 && (
+                  <div className="flex items-center justify-center py-1">
+                    <button
+                      onClick={loadOlderMessages}
+                      className="text-[11px] text-slate-500 hover:text-indigo-400 transition-colors"
+                    >
+                      Carregar mensagens anteriores
+                    </button>
+                  </div>
+                )}
                 {loadingMsgs ? (
                   <div className="flex items-center justify-center py-10 text-slate-500 text-sm">Carregando...</div>
                 ) : convMessages.length === 0 && parsedNotes.length === 0 ? (
