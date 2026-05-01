@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   Plug, BarChart3, Search, MapPin, Megaphone, Share2,
-  Check, X, AlertTriangle, RefreshCw, Trash2, ExternalLink,
+  Check, X, AlertTriangle, RefreshCw, Trash2,
   Loader2, CheckCircle2,
 } from "lucide-react";
 
@@ -91,6 +91,33 @@ export default function CompanyIntegrations({ companyId }: { companyId: string }
   const [error, setError] = useState<string | null>(null);
   const [flash, setFlash] = useState<{ kind: "ok" | "err"; msg: string } | null>(null);
   const [picker, setPicker] = useState<{ integration: Integration } | null>(null);
+  const [syncing, setSyncing] = useState<string | null>(null);
+
+  async function handleSyncNow(integration: Integration) {
+    if (!integration.accountId) {
+      setPicker({ integration });
+      return;
+    }
+    setSyncing(integration.id);
+    try {
+      const r = await fetch(`/api/companies/${companyId}/integrations/${integration.id}/sync`, {
+        method: "POST",
+      });
+      const j = await r.json();
+      if (!r.ok) {
+        setFlash({ kind: "err", msg: j.error || "Falha no sync" });
+      } else {
+        const det = j.result || {};
+        const summary = Object.entries(det)
+          .map(([k, v]) => `${k}: ${v}`)
+          .join(" · ");
+        setFlash({ kind: "ok", msg: `Sincronizado! ${summary}` });
+      }
+      void load();
+    } finally {
+      setSyncing(null);
+    }
+  }
 
   // Captura ?integration_success=1 ou ?integration_error=...
   useEffect(() => {
@@ -282,6 +309,26 @@ export default function CompanyIntegrations({ companyId }: { companyId: string }
                             </p>
                           )}
                         </div>
+                        {canWrite && integ.accountId && (provider === "GA4" || provider === "SEARCH_CONSOLE") && (
+                          <button
+                            onClick={() => handleSyncNow(integ)}
+                            disabled={syncing === integ.id}
+                            className="flex items-center gap-1 px-2 py-1 rounded-lg bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 text-[10px] font-semibold uppercase tracking-wide disabled:opacity-50 transition-colors"
+                            title="Forçar sincronização agora"
+                          >
+                            {syncing === integ.id ? (
+                              <>
+                                <Loader2 className="w-3 h-3 animate-spin" />
+                                Sincronizando…
+                              </>
+                            ) : (
+                              <>
+                                <RefreshCw className="w-3 h-3" />
+                                Sync agora
+                              </>
+                            )}
+                          </button>
+                        )}
                         {canWrite && (
                           <button
                             onClick={() => handleDisconnect(integ.id, meta.label)}

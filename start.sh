@@ -71,5 +71,25 @@ echo "🔄 Cron Sync Instâncias habilitado — rodará a cada ${SYNC_INSTANCES_
   done
 ) &
 
+# Cron: Sync de Marketing (GA4 + Search Console) — puxa dados de todas
+# integrações ACTIVE com accountId definido. Roda 1x ao dia.
+# Frequência: 24h (config: MARKETING_SYNC_INTERVAL_SECONDS)
+MARKETING_SYNC_INTERVAL_SECONDS="${MARKETING_SYNC_INTERVAL_SECONDS:-86400}"
+echo "📊 Cron Marketing Sync habilitado — rodará a cada ${MARKETING_SYNC_INTERVAL_SECONDS}s (1ª execução em ~120s)"
+(
+  sleep 120
+  while true; do
+    RES=$(cron_curl -X GET "http://localhost:3000/api/cron/marketing-sync" --max-time 600 -w "\n%{http_code}" 2>&1)
+    HTTP_CODE=$(echo "$RES" | tail -n 1)
+    BODY=$(echo "$RES" | sed '$d')
+    if [ "$HTTP_CODE" = "200" ]; then
+      echo "[Cron Marketing Sync] $(date) — OK · $BODY"
+    else
+      echo "[Cron Marketing Sync] $(date) — falha HTTP $HTTP_CODE · $BODY"
+    fi
+    sleep "$MARKETING_SYNC_INTERVAL_SECONDS"
+  done
+) &
+
 echo "🚀 Starting LeadHub..."
 exec node server.js
