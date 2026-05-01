@@ -163,23 +163,28 @@ export default async function WhatsappPage({
   });
   const finalStageNames = [...new Set(finalStageConfigs.map((s) => s.name))];
 
-  // Setores da empresa para o modal de transferência (Sprint 4)
-  const setores = companyId
-    ? await prisma.setor.findMany({
-        where: { companyId },
-        select: { id: true, name: true },
-        orderBy: { name: "asc" },
-      })
-    : [];
+  // Setores e atendentes para o modal de transferência.
+  // - Se companyId está setado (ADMIN/CLIENT ou SuperAdmin filtrando) → só dessa empresa
+  // - Se SuperAdmin sem filtro → busca de todas as empresas que têm conversas visíveis
+  //   (o componente filtra por selectedConv.companyId no momento de mostrar)
+  const companyIdsScope = companyId
+    ? [companyId]
+    : Array.from(new Set(conversationsEnriched.map((c) => c.companyId).filter(Boolean)));
 
-  // Atendentes (usuários da empresa) para transferir conversa entre pessoas
-  const atendentes = companyId
-    ? await prisma.user.findMany({
-        where: { companyId },
-        select: { id: true, name: true, email: true, role: true },
-        orderBy: { name: "asc" },
-      })
-    : [];
+  const [setores, atendentes] = companyIdsScope.length > 0
+    ? await Promise.all([
+        prisma.setor.findMany({
+          where: { companyId: { in: companyIdsScope } },
+          select: { id: true, name: true, companyId: true },
+          orderBy: { name: "asc" },
+        }),
+        prisma.user.findMany({
+          where: { companyId: { in: companyIdsScope } },
+          select: { id: true, name: true, email: true, role: true, companyId: true },
+          orderBy: { name: "asc" },
+        }),
+      ])
+    : [[], []];
 
   // Busca assinatura e nome do usuário logado direto do banco (evita JWT stale)
   const currentUser = session?.user as any;

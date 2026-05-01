@@ -265,8 +265,8 @@ export default function WhatsappManager({
   userSignature?: string;
   userName?: string;
   currentUserId?: string;
-  availableSetores?: { id: string; name: string }[];
-  availableAtendentes?: { id: string; name: string; email: string; role: string }[];
+  availableSetores?: { id: string; name: string; companyId?: string }[];
+  availableAtendentes?: { id: string; name: string; email: string; role: string; companyId?: string | null }[];
 }) {
   // Toggle de assinatura por mensagem (Sprint 3)
   const [includeSignature, setIncludeSignature] = useState<boolean>(!!userSignature);
@@ -439,6 +439,18 @@ export default function WhatsappManager({
     setGroupInstanceId(id);
     if (typeof window !== "undefined") localStorage.setItem("group_instance_id", id);
   }
+
+  // Setores e atendentes filtrados pela empresa da conversa selecionada
+  // (necessário para SuperAdmin que recebe lista de várias empresas)
+  const scopedSetores = useMemo(() => {
+    if (!selectedConv?.companyId) return availableSetores;
+    return availableSetores.filter((s) => !s.companyId || s.companyId === selectedConv.companyId);
+  }, [availableSetores, selectedConv?.companyId]);
+
+  const scopedAtendentes = useMemo(() => {
+    if (!selectedConv?.companyId) return availableAtendentes;
+    return availableAtendentes.filter((a) => !a.companyId || a.companyId === selectedConv.companyId);
+  }, [availableAtendentes, selectedConv?.companyId]);
 
   // Instância que SERÁ usada no próximo envio (replica a lógica de handleReply
   // pra exibir no placeholder e no menu + Ações).
@@ -2480,7 +2492,7 @@ export default function WhatsappManager({
                     : conv.assignee;
                   const isMine = assignee?.id === currentUserId;
                   // Mostra Transferir sempre que não estiver finalizada — modal lida com lista vazia
-                  const canTransfer = currentStatus !== "CLOSED" && (availableSetores.length + availableAtendentes.length) > 0;
+                  const canTransfer = currentStatus !== "CLOSED" && (scopedSetores.length + scopedAtendentes.length) > 0;
 
                   // Botão principal contextual
                   let primaryLabel = "Pegar";
@@ -3326,66 +3338,66 @@ export default function WhatsappManager({
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Painel de notas (só para leads) */}
-              {selectedConv.lead && (
+              {/* Painel de notas — só aparece quando aberto via menu '+ Ações → Nota interna' */}
+              {selectedConv.lead && showNotesPanel && (
                 <div className="flex-shrink-0 border-t border-[#1e2d45]">
-                  {/* Toggle */}
-                  <button
-                    onClick={() => setShowNotesPanel(!showNotesPanel)}
-                    className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-white/[0.02] transition-colors"
-                  >
+                  <div className="flex items-center justify-between px-4 pt-2.5">
                     <div className="flex items-center gap-2">
-                      <span className="text-slate-400 text-xs font-semibold">📝 Notas do atendimento</span>
+                      <StickyNote className="w-3.5 h-3.5 text-amber-400" strokeWidth={2.25} />
+                      <span className="text-slate-300 text-xs font-semibold">Nota interna do atendimento</span>
                       {parsedNotes.length > 0 && (
                         <span className="text-[10px] text-slate-600 bg-white/5 px-1.5 py-0.5 rounded-full">
                           {parsedNotes.length}
                         </span>
                       )}
                     </div>
-                    <span className="text-slate-600 text-[10px]">{showNotesPanel ? "▴" : "▾"}</span>
-                  </button>
+                    <button
+                      onClick={() => setShowNotesPanel(false)}
+                      title="Fechar painel de notas"
+                      className="text-slate-500 hover:text-white text-lg leading-none"
+                    >
+                      ×
+                    </button>
+                  </div>
+                  <div className="px-4 pb-3 pt-2 space-y-3">
+                    {/* Input nova nota */}
+                    <form onSubmit={handleAddNote} className="flex gap-2">
+                      <input
+                        type="text"
+                        value={newNote}
+                        onChange={(e) => setNewNote(e.target.value)}
+                        placeholder="Adicionar nota... (ex: cliente pediu proposta, voltará semana que vem)"
+                        className="flex-1 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                      />
+                      <button
+                        type="submit"
+                        disabled={savingNote || !newNote.trim()}
+                        className="px-3 py-2 rounded-lg bg-indigo-600 text-white text-xs font-medium hover:bg-indigo-500 disabled:opacity-40 flex-shrink-0"
+                      >
+                        {savingNote ? "..." : "Salvar"}
+                      </button>
+                    </form>
 
-                  {showNotesPanel && (
-                    <div className="px-4 pb-3 space-y-3">
-                      {/* Input nova nota */}
-                      <form onSubmit={handleAddNote} className="flex gap-2">
-                        <input
-                          type="text"
-                          value={newNote}
-                          onChange={(e) => setNewNote(e.target.value)}
-                          placeholder="Adicionar nota... (ex: cliente pediu proposta, voltará semana que vem)"
-                          className="flex-1 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
-                        />
-                        <button
-                          type="submit"
-                          disabled={savingNote || !newNote.trim()}
-                          className="px-3 py-2 rounded-lg bg-indigo-600 text-white text-xs font-medium hover:bg-indigo-500 disabled:opacity-40 flex-shrink-0"
-                        >
-                          {savingNote ? "..." : "Salvar"}
-                        </button>
-                      </form>
-
-                      {/* Lista de notas */}
-                      {parsedNotes.length > 0 && (
-                        <div className="space-y-2 max-h-40 overflow-y-auto">
-                          {parsedNotes.map((note, i) => (
-                            <div key={i} className="flex gap-2.5 bg-[#0a0f1a] rounded-lg px-3 py-2">
-                              <div className="flex-1 min-w-0">
-                                <p className="text-slate-200 text-xs leading-relaxed whitespace-pre-wrap">{note.text}</p>
-                              </div>
-                              {note.date && (
-                                <span className="flex-shrink-0 text-slate-600 text-[10px] font-mono mt-0.5">{note.date}</span>
-                              )}
+                    {/* Lista de notas */}
+                    {parsedNotes.length > 0 && (
+                      <div className="space-y-2 max-h-40 overflow-y-auto">
+                        {parsedNotes.map((note, i) => (
+                          <div key={i} className="flex gap-2.5 bg-[#0a0f1a] rounded-lg px-3 py-2">
+                            <div className="flex-1 min-w-0">
+                              <p className="text-slate-200 text-xs leading-relaxed whitespace-pre-wrap">{note.text}</p>
                             </div>
-                          ))}
-                        </div>
-                      )}
+                            {note.date && (
+                              <span className="flex-shrink-0 text-slate-600 text-[10px] font-mono mt-0.5">{note.date}</span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
 
-                      {parsedNotes.length === 0 && (
-                        <p className="text-slate-600 text-xs">Nenhuma nota ainda. Adicione informações sobre o atendimento acima.</p>
-                      )}
-                    </div>
-                  )}
+                    {parsedNotes.length === 0 && (
+                      <p className="text-slate-600 text-xs">Nenhuma nota ainda. Adicione informações sobre o atendimento acima.</p>
+                    )}
+                  </div>
                 </div>
               )}
 
@@ -3518,7 +3530,7 @@ export default function WhatsappManager({
                             </div>
 
                             {/* Mudar responsável / Transferir */}
-                            {(availableSetores.length + availableAtendentes.length > 0) && (
+                            {(scopedSetores.length + scopedAtendentes.length > 0) && (
                               <div className="px-3 py-1.5">
                                 <button
                                   type="button"
@@ -3794,7 +3806,7 @@ export default function WhatsappManager({
                     className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
                   >
                     <option value="">— Selecione —</option>
-                    {availableAtendentes
+                    {scopedAtendentes
                       .filter((u) => u.id !== selectedConv.conversation?.assigneeId)
                       .map((u) => (
                         <option key={u.id} value={u.id}>
@@ -3813,7 +3825,7 @@ export default function WhatsappManager({
                     className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
                   >
                     <option value="">— Selecione —</option>
-                    {availableSetores
+                    {scopedSetores
                       .filter((s) => s.id !== selectedConv.conversation?.setorId)
                       .map((s) => (
                         <option key={s.id} value={s.id}>{s.name}</option>
