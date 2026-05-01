@@ -2482,40 +2482,63 @@ export default function WhatsappManager({
                   )}
                 </div>
 
-                {/* Direita: botão único de ação contextual */}
+                {/* Direita: ações contextuais — primário sempre é Finalizar (ação mais comum).
+                    Pegar fica como secundário discreto se não for sua. */}
                 {(() => {
                   const conv = selectedConv.conversation;
-                  if (!conv) return null;
+                  // Sem Conversation (registros legacy) → ainda assim oferece Finalizar via quickResolve
+                  if (!conv) {
+                    return (
+                      <div className="flex items-center gap-1.5 flex-shrink-0">
+                        <button
+                          onClick={(e) => quickResolve(e as any, selectedConv)}
+                          className="px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/15 text-emerald-300 text-xs font-medium hover:bg-emerald-500/25 transition-colors flex items-center gap-1.5"
+                        >
+                          <CheckCircle2 className="w-3.5 h-3.5" strokeWidth={2.5} />
+                          Finalizar
+                        </button>
+                      </div>
+                    );
+                  }
                   const currentStatus: ConvStatus = (convStatusOverride.get(selectedConv.phone) ?? conv.status) as ConvStatus;
                   const assignee = convAssigneeOverride.has(selectedConv.phone)
                     ? convAssigneeOverride.get(selectedConv.phone)
                     : conv.assignee;
                   const isMine = assignee?.id === currentUserId;
-                  // Mostra Transferir sempre que não estiver finalizada — modal lida com lista vazia
-                  const canTransfer = currentStatus !== "CLOSED" && (scopedSetores.length + scopedAtendentes.length) > 0;
+                  const isClosed = currentStatus === "CLOSED";
+                  const canTransfer = !isClosed && (scopedSetores.length + scopedAtendentes.length) > 0;
 
-                  // Botão principal contextual
-                  let primaryLabel = "Pegar";
-                  let primaryAction: "take" | "close" | "reopen" = "take";
-                  let primaryClass = "bg-yellow-500/15 text-yellow-300 border-yellow-500/30 hover:bg-yellow-500/25";
-                  if (currentStatus === "CLOSED") {
-                    primaryLabel = "Reabrir";
-                    primaryAction = "reopen";
-                    primaryClass = "bg-emerald-500/15 text-emerald-300 border-emerald-500/30 hover:bg-emerald-500/25";
-                  } else if (isMine) {
-                    primaryLabel = "Finalizar";
-                    primaryAction = "close";
-                    primaryClass = "bg-slate-500/15 text-slate-300 border-slate-500/30 hover:bg-slate-500/25";
-                  }
                   return (
                     <div className="flex items-center gap-1.5 flex-shrink-0">
+                      {/* Pegar (secundário, só se não for minha e não fechada) */}
+                      {!isClosed && !isMine && (
+                        <button
+                          onClick={() => handleConvAction(conv.id, "take")}
+                          disabled={convActionLoading}
+                          title="Atribuir esta conversa a mim"
+                          className="px-2.5 py-1.5 rounded-lg border border-yellow-500/30 bg-yellow-500/10 text-yellow-300 text-xs font-medium hover:bg-yellow-500/20 transition-colors disabled:opacity-50"
+                        >
+                          Pegar
+                        </button>
+                      )}
+
+                      {/* Primário: Finalizar (sempre disponível quando não fechada) ou Reabrir */}
                       <button
-                        onClick={() => handleConvAction(conv.id, primaryAction)}
+                        onClick={() => handleConvAction(conv.id, isClosed ? "reopen" : "close")}
                         disabled={convActionLoading}
-                        className={`px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors disabled:opacity-50 ${primaryClass}`}
+                        className={`px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors disabled:opacity-50 flex items-center gap-1.5 ${
+                          isClosed
+                            ? "bg-cyan-500/15 text-cyan-300 border-cyan-500/30 hover:bg-cyan-500/25"
+                            : "bg-emerald-500/15 text-emerald-300 border-emerald-500/30 hover:bg-emerald-500/25"
+                        }`}
                       >
-                        {primaryLabel}
+                        {isClosed ? (
+                          <>↩ Reabrir</>
+                        ) : (
+                          <><CheckCircle2 className="w-3.5 h-3.5" strokeWidth={2.5} /> Finalizar</>
+                        )}
                       </button>
+
                       {canTransfer && (
                         <button
                           onClick={() => { setShowTransferModal(true); setTransferSetorId(conv.setorId ?? ""); setTransferAssigneeId(""); setTransferNote(""); }}
