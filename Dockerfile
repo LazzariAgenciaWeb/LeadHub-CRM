@@ -5,8 +5,8 @@ RUN apk update && apk add --no-cache libc6-compat openssl openssl-dev || \
 # ─── Instalar dependências ─────────────────────────────────────────────────────
 FROM base AS deps
 WORKDIR /app
-COPY package.json package-lock.json* ./
-RUN npm ci
+COPY package.json package-lock.json* .npmrc* ./
+RUN npm ci --legacy-peer-deps
 
 # ─── Build ────────────────────────────────────────────────────────────────────
 FROM base AS builder
