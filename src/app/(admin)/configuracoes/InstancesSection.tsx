@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 interface Instance {
@@ -64,6 +64,36 @@ export default function InstancesSection({
   const [syncAllResult, setSyncAllResult] = useState<string | null>(null);
 
   const webhookUrl = `${webhookBaseUrl}/api/webhook/whatsapp`;
+
+  // ── Auto-sync de instâncias ─────────────────────────────────────────────
+  // Quando uma instância fica em CONNECTING, a Evolution às vezes já
+  // reconectou mas o webhook connection.update não chegou. Esse efeito:
+  //  1. Faz UM sync ao montar a página (resolve "todas conectando" no abrir)
+  //  2. Enquanto houver instâncias em CONNECTING, refaz sync a cada 15s
+  // Funciona pra SUPER_ADMIN e ADMIN — o backend filtra por permissão.
+  const initialSyncDoneRef = useRef(false);
+  useEffect(() => {
+    let cancelled = false;
+    async function runSync(reason: "initial" | "polling") {
+      try {
+        const r = await fetch("/api/whatsapp/sync-all", { method: "POST" });
+        if (!r.ok) return;
+        if (!cancelled) router.refresh();
+      } catch { /* silencioso — evento de fundo */ }
+    }
+
+    // 1) Sync inicial uma vez por montagem
+    if (!initialSyncDoneRef.current) {
+      initialSyncDoneRef.current = true;
+      runSync("initial");
+    }
+
+    // 2) Polling enquanto houver CONNECTING
+    const hasConnecting = instances.some((i) => i.status === "CONNECTING");
+    if (!hasConnecting) return;
+    const iv = setInterval(() => runSync("polling"), 15_000);
+    return () => { cancelled = true; clearInterval(iv); };
+  }, [instances, router]);
 
   function copyToClipboard(text: string, key: string) {
     navigator.clipboard.writeText(text);
