@@ -3528,6 +3528,35 @@ export default function WhatsappManager({
                               </button>
                             </div>
 
+                            {/* Marcar como Aguardando cliente (manual) — útil quando o atendente
+                                pegou e está esperando algo do cliente sem ter respondido ainda */}
+                            {selectedConv.conversation && selectedConv.conversation.status !== "WAITING_CUSTOMER" && selectedConv.conversation.status !== "CLOSED" && (
+                              <div className="px-3 py-1.5">
+                                <button
+                                  type="button"
+                                  onClick={async () => {
+                                    if (!selectedConv.conversation) return;
+                                    const convId = selectedConv.conversation.id;
+                                    setShowActionsMenu(false);
+                                    setConvStatusOverride((prev) => new Map(prev).set(selectedConv.phone, "WAITING_CUSTOMER"));
+                                    setSelectedConv((prev) => prev?.conversation
+                                      ? { ...prev, conversation: { ...prev.conversation, status: "WAITING_CUSTOMER" } }
+                                      : prev);
+                                    await fetch(`/api/conversations/${convId}`, {
+                                      method: "PATCH",
+                                      headers: { "Content-Type": "application/json" },
+                                      body: JSON.stringify({ status: "WAITING_CUSTOMER" }),
+                                    });
+                                    router.refresh();
+                                  }}
+                                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
+                                >
+                                  <Hourglass className="w-4 h-4 text-blue-400" strokeWidth={2.25} />
+                                  Marcar como aguardando cliente
+                                </button>
+                              </div>
+                            )}
+
                             <div className="border-t border-[#1e2d45] my-1" />
 
                             {/* ── Agendar retorno ── (substituiu os 4 botões legacy de attendanceStatus
