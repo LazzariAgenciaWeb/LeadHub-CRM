@@ -61,7 +61,11 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
     if (!dropdownOpen && _isSuperAdmin && companies.length === 0) {
       setLoadingCompanies(true);
       try {
-        const res = await fetch("/api/companies");
+        // Endpoint específico que lista TODAS empresas com hasSystemAccess=true,
+        // independente de hierarquia (top-level ou sub-empresa). Garante que o
+        // dropdown sempre mostre quem é impersonável, mesmo após /api/companies
+        // passar a respeitar impersonação via getEffectiveSession.
+        const res = await fetch("/api/admin/impersonatable-companies");
         if (res.ok) {
           const data = await res.json();
           setCompanies(Array.isArray(data) ? data : (data.companies ?? []));

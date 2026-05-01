@@ -362,9 +362,10 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
                     /* <a> em vez de <Link>: navegação real para a API setar o cookie */
                     <a
                       href={`/api/admin/impersonate/${company.id}`}
+                      title="Logar e usar o sistema como esta empresa"
                       className="flex-1 text-center text-white bg-gradient-to-r from-indigo-500 to-purple-600 text-xs font-semibold py-1.5 rounded-lg hover:opacity-90 transition-opacity"
                     >
-                      👁 Acessar Painel →
+                      👁 Visualizar como cliente
                     </a>
                   )}
                 </div>
