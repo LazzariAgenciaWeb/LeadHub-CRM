@@ -3622,6 +3622,20 @@ export default function WhatsappManager({
                                         Criar Oportunidade
                                       </button>
                                     )}
+                                {/* Já tem chamado aberto → atalho para visualizar */}
+                                {openTicket && !isTicketFinal && (
+                                  <Link
+                                    href={`/chamados/${openTicket.id}`}
+                                    onClick={() => setShowActionsMenu(false)}
+                                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-orange-400/90 hover:bg-orange-500/5 transition-colors text-left"
+                                    title={openTicket.title}
+                                  >
+                                    <Ticket className="w-4 h-4 text-orange-400" strokeWidth={2.25} />
+                                    <span className="truncate">
+                                      Já tem chamado aberto · {openTicket.title.length > 22 ? openTicket.title.slice(0, 22) + "…" : openTicket.title}
+                                    </span>
+                                  </Link>
+                                )}
                                 {(!openTicket || isTicketFinal) && (
                                   <button
                                     type="button"
