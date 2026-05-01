@@ -12,6 +12,7 @@ import {
   Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, CalendarDays, type LucideIcon,
 } from "lucide-react";
 import VersionBadge from "./VersionBadge";
+import { gradStroke, type GradientKey } from "./IconGradients";
 
 interface SidebarProps {
   session: Session;
@@ -93,29 +94,30 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
     role === "ADMIN" ? "Admin" :
     "Agente";
 
-  const topLinks: { href: string; Icon: LucideIcon; label: string; show: boolean }[] = [
-    { href: "/dashboard",  Icon: Home,            label: "Dashboard",     show: true },
-    { href: "/whatsapp",   Icon: MessageSquare,   label: "Mensagens",     show: _isAdmin || (hasModule(session, "whatsapp") && can(session, "canViewInbox")) },
-    { href: "/assistente", Icon: Sparkles,        label: "Assistente IA", show: _isAdmin || (hasModule(session, "ai") && can(session, "canUseAI")) },
-    { href: "/empresas",   Icon: Building2,       label: "Empresas",      show: _isAdmin || can(session, "canViewCompanies") },
-  ].filter((l) => l.show);
+  type SidebarLink = { href: string; Icon: LucideIcon; label: string; grad: GradientKey; show: boolean };
+  const topLinks: SidebarLink[] = ([
+    { href: "/dashboard",  Icon: Home,          label: "Dashboard",     grad: "dashboard", show: true },
+    { href: "/whatsapp",   Icon: MessageSquare, label: "Mensagens",     grad: "whatsapp",  show: _isAdmin || (hasModule(session, "whatsapp") && can(session, "canViewInbox")) },
+    { href: "/assistente", Icon: Sparkles,      label: "Assistente IA", grad: "ai",        show: _isAdmin || (hasModule(session, "ai") && can(session, "canUseAI")) },
+    { href: "/empresas",   Icon: Building2,     label: "Empresas",      grad: "empresas",  show: _isAdmin || can(session, "canViewCompanies") },
+  ] satisfies SidebarLink[]).filter((l) => l.show);
 
   const showCrm = _isAdmin || (hasModule(session, "crm") && can(session, "canViewLeads"));
 
-  const crmSubItems: { href: string; Icon: LucideIcon; label: string }[] = [
-    { href: "/crm/prospeccao",    Icon: Search,    label: "Prospecção" },
-    { href: "/crm/leads",         Icon: Target,    label: "Leads" },
-    { href: "/crm/oportunidades", Icon: Lightbulb, label: "Oportunidades" },
+  const crmSubItems: { href: string; Icon: LucideIcon; label: string; grad: GradientKey }[] = [
+    { href: "/crm/prospeccao",    Icon: Search,    label: "Prospecção",    grad: "prospeccao" },
+    { href: "/crm/leads",         Icon: Target,    label: "Leads",         grad: "leads" },
+    { href: "/crm/oportunidades", Icon: Lightbulb, label: "Oportunidades", grad: "oportunidades" },
   ];
 
-  const bottomLinks: { href: string; Icon: LucideIcon; label: string; show: boolean }[] = [
-    { href: "/calendario",    Icon: CalendarDays, label: "Calendário",    show: true },
-    { href: "/campanhas",     Icon: Megaphone,    label: "Campanhas",     show: _isAdmin },
-    { href: "/chamados",      Icon: LifeBuoy,     label: "Chamados",      show: _isAdmin || (hasModule(session, "tickets") && can(session, "canViewTickets")) },
-    { href: "/links",         Icon: Link2,        label: "Links",         show: _isAdmin },
-    { href: "/relatorios",    Icon: TrendingUp,   label: "Relatórios",    show: _isAdmin },
-    { href: "/configuracoes", Icon: Settings,     label: "Configurações", show: _isAdmin || can(session, "canViewConfig") },
-  ].filter((l) => l.show);
+  const bottomLinks: SidebarLink[] = ([
+    { href: "/calendario",    Icon: CalendarDays, label: "Calendário",    grad: "calendario",    show: true },
+    { href: "/campanhas",     Icon: Megaphone,    label: "Campanhas",     grad: "campanhas",     show: _isAdmin },
+    { href: "/chamados",      Icon: LifeBuoy,     label: "Chamados",      grad: "chamados",      show: _isAdmin || (hasModule(session, "tickets") && can(session, "canViewTickets")) },
+    { href: "/links",         Icon: Link2,        label: "Links",         grad: "links",         show: _isAdmin },
+    { href: "/relatorios",    Icon: TrendingUp,   label: "Relatórios",    grad: "relatorios",    show: _isAdmin },
+    { href: "/configuracoes", Icon: Settings,     label: "Configurações", grad: "configuracoes", show: _isAdmin || can(session, "canViewConfig") },
+  ] satisfies SidebarLink[]).filter((l) => l.show);
 
   return (
     <aside className="w-[220px] min-w-[220px] bg-[#0f1623] border-r border-[#1e2d45] flex flex-col">
@@ -154,11 +156,11 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
             href={link.href}
             className={`flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium mb-0.5 transition-all ${
               isActive(link.href)
-                ? "bg-indigo-500/15 text-indigo-400 border-l-2 border-indigo-500"
+                ? "bg-indigo-500/15 text-white border-l-2 border-indigo-500"
                 : "text-slate-400 hover:bg-[#161f30] hover:text-white"
             }`}
           >
-            <link.Icon className="w-4 h-4 flex-shrink-0" strokeWidth={2} />
+            <link.Icon className="w-4 h-4 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke(link.grad)} />
             {link.label}
           </Link>
         ))}
@@ -170,11 +172,11 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
               onClick={() => setCrmOpen(!crmOpen)}
               className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium transition-all ${
                 isCrmActive
-                  ? "bg-indigo-500/15 text-indigo-400"
+                  ? "bg-indigo-500/15 text-white"
                   : "text-slate-400 hover:bg-[#161f30] hover:text-white"
               }`}
             >
-              <Briefcase className="w-4 h-4 flex-shrink-0" strokeWidth={2} />
+              <Briefcase className="w-4 h-4 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke("crm")} />
               <span className="flex-1 text-left">CRM</span>
               <ChevronRight className={`w-3 h-3 transition-transform ${crmOpen ? "rotate-90" : ""}`} />
             </button>
@@ -187,11 +189,11 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
                     href={item.href}
                     className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[12px] font-medium transition-all ${
                       isActive(item.href)
-                        ? "bg-indigo-500/15 text-indigo-400 border-l-2 border-indigo-500"
+                        ? "bg-indigo-500/15 text-white border-l-2 border-indigo-500"
                         : "text-slate-500 hover:bg-[#161f30] hover:text-white"
                     }`}
                   >
-                    <item.Icon className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2} />
+                    <item.Icon className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke(item.grad)} />
                     {item.label}
                   </Link>
                 ))}
@@ -207,11 +209,11 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
             href={link.href}
             className={`flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium mb-0.5 transition-all ${
               isActive(link.href)
-                ? "bg-indigo-500/15 text-indigo-400 border-l-2 border-indigo-500"
+                ? "bg-indigo-500/15 text-white border-l-2 border-indigo-500"
                 : "text-slate-400 hover:bg-[#161f30] hover:text-white"
             }`}
           >
-            <link.Icon className="w-4 h-4 flex-shrink-0" strokeWidth={2} />
+            <link.Icon className="w-4 h-4 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke(link.grad)} />
             {link.label}
           </Link>
         ))}

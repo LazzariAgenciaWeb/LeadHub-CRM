@@ -1,30 +1,43 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import {
+  MessageSquare, Building2, Plug, Zap, CheckSquare, Sparkles, Webhook,
+  Workflow, Tag, Clock, Globe, type LucideIcon,
+} from "lucide-react";
+import { gradStroke, type GradientKey } from "@/components/IconGradients";
 
 type SectionItem =
-  | { type: "item"; key: string; icon: string; label: string; desc: string }
-  | { type: "group"; label: string; icon: string; key: string; children: { key: string; icon: string; label: string; desc: string }[] };
+  | { type: "item"; key: string; Icon: LucideIcon; grad: GradientKey; label: string; desc: string }
+  | {
+      type: "group";
+      label: string;
+      Icon: LucideIcon;
+      grad: GradientKey;
+      key: string;
+      children: { key: string; Icon: LucideIcon; grad: GradientKey; label: string; desc: string }[];
+    };
 
 const SECTIONS: SectionItem[] = [
-  { type: "item", key: "instancias", icon: "💬", label: "Instâncias WhatsApp", desc: "Números conectados" },
-  { type: "item", key: "empresa", icon: "🏢", label: "Empresa", desc: "Dados e perfil" },
+  { type: "item", key: "instancias", Icon: MessageSquare, grad: "instancias", label: "Instâncias WhatsApp", desc: "Números conectados" },
+  { type: "item", key: "empresa",    Icon: Building2,     grad: "empresa",    label: "Empresa",              desc: "Dados e perfil" },
   {
     type: "group",
     key: "integracoes",
-    icon: "🔌",
+    Icon: Plug,
+    grad: "integracoes",
     label: "Integrações",
     children: [
-      { key: "integracoes-google",   icon: "🌐", label: "Google",        desc: "Analytics, Search Console, Meu Negócio" },
-      { key: "integracoes-evolution", icon: "⚡", label: "Evolution API", desc: "WhatsApp gateway" },
-      { key: "integracoes-clickup",  icon: "✅", label: "ClickUp",       desc: "Tarefas e projetos" },
-      { key: "integracoes-openai",   icon: "🤖", label: "OpenAI",        desc: "IA e automação" },
-      { key: "integracoes-webhook",  icon: "🔗", label: "Webhook de Leads", desc: "Receba leads de qualquer fonte" },
+      { key: "integracoes-google",    Icon: Globe,      grad: "google",    label: "Google",          desc: "Analytics, Search Console, Meu Negócio" },
+      { key: "integracoes-evolution", Icon: Zap,        grad: "evolution", label: "Evolution API",   desc: "WhatsApp gateway" },
+      { key: "integracoes-clickup",   Icon: CheckSquare,grad: "clickup",   label: "ClickUp",         desc: "Tarefas e projetos" },
+      { key: "integracoes-openai",    Icon: Sparkles,   grad: "openai",    label: "OpenAI",          desc: "IA e automação" },
+      { key: "integracoes-webhook",   Icon: Webhook,    grad: "webhook",   label: "Webhook de Leads",desc: "Receba leads de qualquer fonte" },
     ],
   },
-  { type: "item", key: "pipeline",    icon: "🫧", label: "CRM / Pipeline", desc: "Etapas e configurações" },
-  { type: "item", key: "setores",     icon: "🏷️", label: "Setores",         desc: "Times, acesso e permissões" },
-  { type: "item", key: "atendimento", icon: "⏱️", label: "Atendimento",     desc: "SLA, fila e regras de inbox" },
+  { type: "item", key: "pipeline",    Icon: Workflow, grad: "pipeline",    label: "CRM / Pipeline", desc: "Etapas e configurações" },
+  { type: "item", key: "setores",     Icon: Tag,      grad: "setores",     label: "Setores",        desc: "Times, acesso e permissões" },
+  { type: "item", key: "atendimento", Icon: Clock,    grad: "atendimento", label: "Atendimento",    desc: "SLA, fila e regras de inbox" },
 ];
 
 function isIntegSubKey(key: string) {
@@ -62,9 +75,9 @@ export default function SettingsLayout({
                   active ? "bg-indigo-500/15 border-l-2 border-indigo-500" : "hover:bg-[#161f30]"
                 }`}
               >
-                <span className="text-[16px] w-5 text-center flex-shrink-0">{s.icon}</span>
+                <s.Icon className="w-4 h-4 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke(s.grad)} />
                 <div className="min-w-0">
-                  <div className={`text-[13px] font-medium leading-tight ${active ? "text-indigo-400" : "text-slate-300"}`}>
+                  <div className={`text-[13px] font-medium leading-tight ${active ? "text-white" : "text-slate-300"}`}>
                     {s.label}
                   </div>
                   <div className="text-[10px] text-slate-600 truncate">{(s as any).desc}</div>
@@ -79,7 +92,7 @@ export default function SettingsLayout({
             <div key={s.key} className="mb-0.5">
               {/* Group header — not clickable, just a label */}
               <div className={`flex items-center gap-2.5 px-2.5 py-2 rounded-lg ${groupActive ? "bg-[#161f30]" : ""}`}>
-                <span className="text-[16px] w-5 text-center flex-shrink-0">{s.icon}</span>
+                <s.Icon className="w-4 h-4 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke(s.grad)} />
                 <div className={`text-[13px] font-medium leading-tight ${groupActive ? "text-slate-200" : "text-slate-400"}`}>
                   {s.label}
                 </div>
@@ -96,9 +109,9 @@ export default function SettingsLayout({
                         childActive ? "bg-indigo-500/15 border-l-2 border-indigo-500" : "hover:bg-[#161f30]"
                       }`}
                     >
-                      <span className="text-[14px] w-4 text-center flex-shrink-0">{c.icon}</span>
+                      <c.Icon className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke(c.grad)} />
                       <div className="min-w-0">
-                        <div className={`text-[12px] font-medium leading-tight ${childActive ? "text-indigo-400" : "text-slate-300"}`}>
+                        <div className={`text-[12px] font-medium leading-tight ${childActive ? "text-white" : "text-slate-300"}`}>
                           {c.label}
                         </div>
                         <div className="text-[10px] text-slate-600 truncate">{c.desc}</div>

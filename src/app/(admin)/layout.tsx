@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import LayoutShell from "@/components/LayoutShell";
 import ImpersonationBanner from "@/components/ImpersonationBanner";
+import IconGradients from "@/components/IconGradients";
 import { getEffectiveSession, isImpersonating } from "@/lib/effective-session";
 
 export default async function AdminLayout({
@@ -23,8 +24,12 @@ export default async function AdminLayout({
     ) : null;
 
   return (
-    <LayoutShell session={session} banner={banner}>
-      {children}
-    </LayoutShell>
+    <>
+      {/* Defs SVG dos gradientes — fica disponível pra qualquer ícone Lucide */}
+      <IconGradients />
+      <LayoutShell session={session} banner={banner}>
+        {children}
+      </LayoutShell>
+    </>
   );
 }
