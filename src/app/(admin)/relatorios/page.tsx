@@ -2,11 +2,13 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import RelatoriosDashboard from "./RelatoriosDashboard";
+import RelatoriosNav from "./RelatoriosNav";
+import RelatoriosMarketing from "./RelatoriosMarketing";
 
 export default async function RelatoriosPage({
   searchParams,
 }: {
-  searchParams: Promise<{ days?: string }>;
+  searchParams: Promise<{ days?: string; secao?: string; companyId?: string }>;
 }) {
   const session = await getEffectiveSession();
   if (!session) redirect("/login");
@@ -15,11 +17,40 @@ export default async function RelatoriosPage({
   const userCompanyId = (session.user as any)?.companyId as string | undefined;
 
   const sp = await searchParams;
+  const secao = sp.secao ?? "geral";
   const days = Math.min(parseInt(sp.days ?? "30"), 365);
   const since = new Date();
   since.setDate(since.getDate() - days);
   since.setHours(0, 0, 0, 0);
 
+  // ─── Seção: Marketing (não precisa carregar dados pesados de leads/links/etc.) ───
+  if (secao === "marketing") {
+    const companies = isSuperAdmin
+      ? await prisma.company.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } })
+      : [];
+    const selectedCompanyId = isSuperAdmin
+      ? (sp.companyId ?? "")
+      : (userCompanyId ?? "");
+
+    return (
+      <div className="flex flex-col h-full overflow-hidden">
+        <RelatoriosNav active="marketing" />
+        <div className="flex-1 overflow-y-auto">
+          <RelatoriosMarketing
+            isSuperAdmin={isSuperAdmin}
+            defaultCompanyId={userCompanyId ?? ""}
+            selectedCompanyId={selectedCompanyId}
+            companies={companies}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  // ─── Demais seções ainda em construção: caem no "geral" por enquanto ───
+  // (deixa o nav avisar com badge "em breve")
+
+  // ─── Seção: Visão Geral (default — dashboard atual) ─────────────────────
   const companyFilter = isSuperAdmin ? {} : { companyId: userCompanyId };
 
   // ── Helpers ────────────────────────────────────────────────────────────────
@@ -200,29 +231,34 @@ export default async function RelatoriosPage({
   const ticketsPerDay = Object.entries(tickDayMap).map(([date, v]) => ({ date, ...v }));
 
   return (
-    <RelatoriosDashboard
-      days={days}
-      isSuperAdmin={isSuperAdmin}
-      kpis={{ totalLeads, totalClosed, convRate, growth, prevCount }}
-      crmPerDay={crmPerDay}
-      funnelCounts={funnelCounts}
-      leadsPerStatus={leadsPerStatus}
-      leadsPerCampaign={leadsPerCampaign}
-      leadsPerCompany={leadsPerCompany}
-      trackingLinks={trackingLinks.map(l => ({
-        label:    l.label ?? l.code,
-        clicks:   l.clicks,
-        leads:    l._count.leads,
-        internal: l._count.clickEvents,
-        destType: l.destType,
-        campaign: l.campaign?.name ?? null,
-      }))}
-      linkKpis={{ totalClicks: totalLinkClicks, totalLeads: totalLinkLeads, totalInternal: totalLinkInternal }}
-      linkClicksByDay={linkClicksByDay}
-      msgPerDay={msgPerDay}
-      whatsappKpis={{ inbound: totalInbound, outbound: totalOutbound, total: msgRaw.length }}
-      ticketKpis={{ open: tickOpen, inProgress: tickInProgress, resolved: tickResolved, closed: tickClosed, total: ticketsTotal }}
-      ticketsPerDay={ticketsPerDay}
-    />
+    <div className="flex flex-col h-full overflow-hidden">
+      <RelatoriosNav active="geral" />
+      <div className="flex-1 overflow-y-auto">
+        <RelatoriosDashboard
+          days={days}
+          isSuperAdmin={isSuperAdmin}
+          kpis={{ totalLeads, totalClosed, convRate, growth, prevCount }}
+          crmPerDay={crmPerDay}
+          funnelCounts={funnelCounts}
+          leadsPerStatus={leadsPerStatus}
+          leadsPerCampaign={leadsPerCampaign}
+          leadsPerCompany={leadsPerCompany}
+          trackingLinks={trackingLinks.map(l => ({
+            label:    l.label ?? l.code,
+            clicks:   l.clicks,
+            leads:    l._count.leads,
+            internal: l._count.clickEvents,
+            destType: l.destType,
+            campaign: l.campaign?.name ?? null,
+          }))}
+          linkKpis={{ totalClicks: totalLinkClicks, totalLeads: totalLinkLeads, totalInternal: totalLinkInternal }}
+          linkClicksByDay={linkClicksByDay}
+          msgPerDay={msgPerDay}
+          whatsappKpis={{ inbound: totalInbound, outbound: totalOutbound, total: msgRaw.length }}
+          ticketKpis={{ open: tickOpen, inProgress: tickInProgress, resolved: tickResolved, closed: tickClosed, total: ticketsTotal }}
+          ticketsPerDay={ticketsPerDay}
+        />
+      </div>
+    </div>
   );
 }
