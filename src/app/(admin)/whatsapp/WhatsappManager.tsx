@@ -8,7 +8,7 @@ import {
   MessageCircle, MessageSquare, Hourglass, Calendar,
   Sparkles, Users, Star, Inbox, CheckCircle2, ChevronUp,
   Send, StickyNote, Target, DollarSign, Search, Bot, Building2, Link2,
-  ArrowRightLeft, Ticket,
+  ArrowRightLeft, Ticket, User,
   type LucideIcon,
 } from "lucide-react";
 
@@ -777,6 +777,13 @@ export default function WhatsappManager({
         const cStatus: ConvStatus | undefined = (overrideStatus ?? c.conversation?.status) as ConvStatus | undefined;
         const hasReturn = !!c.lead?.expectedReturnAt;
 
+        // Atendente atual e atribuição (resolve override local)
+        const assigneeFromOverride = convAssigneeOverride.get(c.phone);
+        const assigneeId = convAssigneeOverride.has(c.phone)
+          ? assigneeFromOverride?.id ?? null
+          : c.conversation?.assigneeId ?? null;
+        const setorId = c.conversation?.setorId ?? null;
+
         switch (statusFilter) {
           case "URGENT":      if (cStatus !== "PENDING") return false; break;
           case "UNANSWERED":  if (cStatus !== "OPEN" && cStatus !== "PENDING") return false; break;
@@ -785,6 +792,10 @@ export default function WhatsappManager({
           case "SCHEDULED":   if (!hasReturn) return false; break;
           case "CLIENTS":     if (!c.companyContact) return false; break;
           case "NO_LEAD":     if (c.lead?.pipeline) return false; break;
+          // Minhas conversas: atribuídas a mim e ainda abertas (não fechadas)
+          case "MINE":        if (assigneeId !== currentUserId || cStatus === "CLOSED") return false; break;
+          // Sem depto ou responsável: nem setor nem atendente, e não fechada
+          case "UNASSIGNED":  if ((assigneeId || setorId) || cStatus === "CLOSED") return false; break;
         }
       }
       return true;
@@ -793,13 +804,23 @@ export default function WhatsappManager({
 
   // Contagem por filtro de status (para mostrar badges nos chips)
   const filterCounts = useMemo(() => {
-    const counts: Record<string, number> = { URGENT: 0, UNANSWERED: 0, IN_PROGRESS: 0, RESOLVED: 0, SCHEDULED: 0, CLIENTS: 0, NO_LEAD: 0 };
+    const counts: Record<string, number> = {
+      URGENT: 0, UNANSWERED: 0, IN_PROGRESS: 0, RESOLVED: 0, SCHEDULED: 0,
+      CLIENTS: 0, NO_LEAD: 0, MINE: 0, UNASSIGNED: 0,
+    };
     for (const c of conversations) {
       // Respeita filtro de empresa client-side
       if (!isSuperAdmin && defaultCompanyId && c.companyId !== defaultCompanyId) continue;
       const overrideStatus = convStatusOverride.get(c.phone);
       const cStatus: ConvStatus | undefined = (overrideStatus ?? c.conversation?.status) as ConvStatus | undefined;
       const hasReturn = !!c.lead?.expectedReturnAt;
+
+      const assigneeFromOverride = convAssigneeOverride.get(c.phone);
+      const assigneeId = convAssigneeOverride.has(c.phone)
+        ? assigneeFromOverride?.id ?? null
+        : c.conversation?.assigneeId ?? null;
+      const setorId = c.conversation?.setorId ?? null;
+      const isClosed = cStatus === "CLOSED";
 
       if (cStatus === "PENDING")     counts.URGENT++;
       if (cStatus === "OPEN" || cStatus === "PENDING") counts.UNANSWERED++;
@@ -808,9 +829,11 @@ export default function WhatsappManager({
       if (hasReturn)                 counts.SCHEDULED++;
       if (c.companyContact)          counts.CLIENTS++;
       if (!c.lead?.pipeline)         counts.NO_LEAD++;
+      if (!isClosed && assigneeId === currentUserId) counts.MINE++;
+      if (!isClosed && !assigneeId && !setorId)      counts.UNASSIGNED++;
     }
     return counts;
-  }, [conversations, convStatusOverride, isSuperAdmin, defaultCompanyId]);
+  }, [conversations, convStatusOverride, convAssigneeOverride, isSuperAdmin, defaultCompanyId, currentUserId]);
 
   // Mapa phone → instanceName para identificar "nossos números" em grupos.
   // Indexa TODAS as variantes (com/sem 55, com/sem o 9 extra) para cobrir inconsistências
@@ -2163,6 +2186,8 @@ export default function WhatsappManager({
                       { key: "",           label: "Todos",       Icon: MessageSquare, dim: "text-slate-400" },
                       { key: "URGENT",     label: "Urgente",     Icon: AlertCircle,   dim: "text-red-400",    count: filterCounts.URGENT },
                       { key: "UNANSWERED", label: "Sem resposta",Icon: Clock,         dim: "text-yellow-400", count: filterCounts.UNANSWERED },
+                      { key: "MINE",       label: "Minhas",      Icon: User,          dim: "text-indigo-400", count: filterCounts.MINE },
+                      { key: "UNASSIGNED", label: "Sem depto",   Icon: Hourglass,     dim: "text-rose-400",   count: filterCounts.UNASSIGNED },
                       { key: "IN_PROGRESS",label: "Em atend.",   Icon: MessageCircle, dim: "text-blue-400",   count: filterCounts.IN_PROGRESS },
                       { key: "RESOLVED",   label: "Resolvidos",  Icon: CheckCircle2,  dim: "text-green-400",  count: filterCounts.RESOLVED },
                       { key: "SCHEDULED",  label: "Agendados",   Icon: Calendar,      dim: "text-purple-400", count: filterCounts.SCHEDULED },
