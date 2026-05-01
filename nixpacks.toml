@@ -2,7 +2,21 @@
 cmds = ["npm install"]
 
 [phases.build]
-cmds = ["npm run build"]
+# Capturamos o commit SHA do Coolify (SOURCE_COMMIT) e o timestamp do build,
+# exportando como variáveis de ambiente para que /api/version mostre a versão
+# correta no VersionBadge da sidebar.
+#
+# Se SOURCE_COMMIT não estiver disponível (deploy local/manual), tentamos ler
+# do .git; se mesmo assim falhar, fica "unknown" mas o build segue normal.
+cmds = [
+  "GIT_COMMIT_SHA=\"${SOURCE_COMMIT:-${COOLIFY_DEPLOYMENT_UUID:-$(git rev-parse HEAD 2>/dev/null || echo unknown)}}\" BUILD_TIMESTAMP=\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\" npm run build"
+]
 
 [start]
-cmd = "node .next/standalone/server.js"
+# Re-injeta as variáveis no runtime (Next.js standalone só vê env vars setadas
+# no momento do start). Coolify também passa SOURCE_COMMIT no runtime.
+cmd = "GIT_COMMIT_SHA=\"${SOURCE_COMMIT:-${GIT_COMMIT_SHA:-unknown}}\" BUILD_TIMESTAMP=\"${BUILD_TIMESTAMP:-$(date -u +%Y-%m-%dT%H:%M:%SZ)}\" node .next/standalone/server.js"
+
+[variables]
+# Garante que essas vars estão disponíveis pro Next.js no build
+NEXT_TELEMETRY_DISABLED = "1"
