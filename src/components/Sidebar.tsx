@@ -9,7 +9,8 @@ import { isAdmin, isSuperAdmin, can, hasModule } from "@/lib/permissions";
 import {
   Zap, X, Home, MessageSquare, Sparkles, Building2, Briefcase,
   Search, Target, Lightbulb, Megaphone, LifeBuoy, Link2, TrendingUp,
-  Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, CalendarDays, type LucideIcon,
+  Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, CalendarDays,
+  BarChart3, type LucideIcon,
 } from "lucide-react";
 import VersionBadge from "./VersionBadge";
 import { gradStroke, type GradientKey } from "./IconGradients";
@@ -26,6 +27,7 @@ interface Company {
 }
 
 const CRM_ROUTES = ["/crm/prospeccao", "/crm/leads", "/crm/oportunidades"];
+const DASH_ROUTES = ["/dashboard", "/relatorios", "/calendario"];
 
 export default function Sidebar({ session, onClose }: SidebarProps) {
   const pathname = usePathname();
@@ -37,6 +39,9 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
 
   const isCrmActive = CRM_ROUTES.some((r) => pathname.startsWith(r));
   const [crmOpen, setCrmOpen] = useState(isCrmActive);
+
+  const isDashActive = DASH_ROUTES.some((r) => pathname.startsWith(r));
+  const [dashOpen, setDashOpen] = useState(true); // sempre aberto por padrão
 
   // Dropdown de troca de empresa / logout
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -96,11 +101,19 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
 
   type SidebarLink = { href: string; Icon: LucideIcon; label: string; grad: GradientKey; show: boolean };
   const topLinks: SidebarLink[] = ([
-    { href: "/dashboard",  Icon: Home,          label: "Dashboard",     grad: "dashboard", show: true },
     { href: "/whatsapp",   Icon: MessageSquare, label: "Mensagens",     grad: "whatsapp",  show: _isAdmin || (hasModule(session, "whatsapp") && can(session, "canViewInbox")) },
     { href: "/assistente", Icon: Sparkles,      label: "Assistente IA", grad: "ai",        show: _isAdmin || (hasModule(session, "ai") && can(session, "canUseAI")) },
     { href: "/empresas",   Icon: Building2,     label: "Empresas",      grad: "empresas",  show: _isAdmin || can(session, "canViewCompanies") },
   ] satisfies SidebarLink[]).filter((l) => l.show);
+
+  // Sub-itens do grupo Dashboard
+  type DashSubItem = { href: string; Icon: LucideIcon; label: string; grad: GradientKey; show: boolean };
+  const dashSubItems: DashSubItem[] = ([
+    { href: "/dashboard",                       Icon: Home,         label: "Visão Geral", grad: "dashboard",  show: true },
+    { href: "/relatorios?secao=marketing",      Icon: BarChart3,    label: "Marketing",   grad: "marketing",  show: _isAdmin || can(session, "canViewLeads") },
+    { href: "/relatorios",                      Icon: TrendingUp,   label: "Relatórios",  grad: "relatorios", show: _isAdmin },
+    { href: "/calendario",                      Icon: CalendarDays, label: "Calendário",  grad: "calendario", show: true },
+  ] satisfies DashSubItem[]).filter((i) => i.show);
 
   const showCrm = _isAdmin || (hasModule(session, "crm") && can(session, "canViewLeads"));
 
@@ -111,11 +124,9 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
   ];
 
   const bottomLinks: SidebarLink[] = ([
-    { href: "/calendario",    Icon: CalendarDays, label: "Calendário",    grad: "calendario",    show: true },
     { href: "/campanhas",     Icon: Megaphone,    label: "Campanhas",     grad: "campanhas",     show: _isAdmin },
     { href: "/chamados",      Icon: LifeBuoy,     label: "Chamados",      grad: "chamados",      show: _isAdmin || (hasModule(session, "tickets") && can(session, "canViewTickets")) },
     { href: "/links",         Icon: Link2,        label: "Links",         grad: "links",         show: _isAdmin },
-    { href: "/relatorios",    Icon: TrendingUp,   label: "Relatórios",    grad: "relatorios",    show: _isAdmin },
     { href: "/configuracoes", Icon: Settings,     label: "Configurações", grad: "configuracoes", show: _isAdmin || can(session, "canViewConfig") },
   ] satisfies SidebarLink[]).filter((l) => l.show);
 
@@ -148,6 +159,48 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
         <div className="text-[10px] font-semibold text-slate-600 uppercase tracking-wider px-2 mb-2">
           {_isSuperAdmin ? "Administração" : "Menu"}
         </div>
+
+        {/* Dashboard — grupo expansível */}
+        {dashSubItems.length > 0 && (
+          <div className="mb-0.5">
+            <button
+              onClick={() => setDashOpen(!dashOpen)}
+              className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium transition-all ${
+                isDashActive
+                  ? "bg-indigo-500/15 text-white"
+                  : "text-slate-400 hover:bg-[#161f30] hover:text-white"
+              }`}
+            >
+              <Home className="w-4 h-4 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke("dashboard")} />
+              <span className="flex-1 text-left">Dashboard</span>
+              <ChevronRight className={`w-3 h-3 transition-transform ${dashOpen ? "rotate-90" : ""}`} />
+            </button>
+
+            {dashOpen && (
+              <div className="ml-3 mt-0.5 pl-3 border-l border-[#1e2d45] space-y-0.5">
+                {dashSubItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[12px] font-medium transition-all ${
+                      // Ativo se path bate (ignora query string)
+                      pathname === item.href.split("?")[0] && (
+                        item.href.includes("?")
+                          ? typeof window !== "undefined" && window.location.search.includes(item.href.split("?")[1])
+                          : true
+                      )
+                        ? "bg-indigo-500/15 text-white border-l-2 border-indigo-500"
+                        : "text-slate-500 hover:bg-[#161f30] hover:text-white"
+                    }`}
+                  >
+                    <item.Icon className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke(item.grad)} />
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Links do topo */}
         {topLinks.map((link) => (

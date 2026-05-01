@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import { BUCKET_META, type TrafficBucket } from "@/lib/traffic-classifier";
 import { flagFromCountryCode, ptCountryName } from "@/lib/country-flags";
+import WorldGeoMap from "@/components/WorldGeoMap";
 
 interface Kpi { value: number; delta?: number | null }
 interface MarketingData {
@@ -283,14 +284,28 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
         </div>
       )}
 
-      {/* Geo + Top páginas */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {/* Países */}
+      {/* Mapa-mundi */}
+      {data.countries.length > 0 && (
         <div className="bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <Globe className="w-4 h-4 text-cyan-400" strokeWidth={2.25} />
-              <h3 className="text-white font-semibold text-sm">De onde vêm</h3>
+              <h3 className="text-white font-semibold text-sm">De onde vêm os visitantes</h3>
+            </div>
+            <span className="text-[10px] text-slate-600">{data.countries.length} países</span>
+          </div>
+          <WorldGeoMap countries={data.countries} height={380} />
+        </div>
+      )}
+
+      {/* Lista de países + Top páginas */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* Lista de países */}
+        <div className="bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <Globe className="w-4 h-4 text-cyan-400" strokeWidth={2.25} />
+              <h3 className="text-white font-semibold text-sm">Ranking por país</h3>
             </div>
             <span className="text-[10px] text-slate-600">{data.countries.length} países</span>
           </div>
