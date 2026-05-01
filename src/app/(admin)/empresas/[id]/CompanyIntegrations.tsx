@@ -90,6 +90,7 @@ export default function CompanyIntegrations({ companyId }: { companyId: string }
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [flash, setFlash] = useState<{ kind: "ok" | "err"; msg: string } | null>(null);
+  const [picker, setPicker] = useState<{ integration: Integration } | null>(null);
 
   // Captura ?integration_success=1 ou ?integration_error=...
   useEffect(() => {
@@ -243,11 +244,30 @@ export default function CompanyIntegrations({ companyId }: { companyId: string }
                             )}
                           </div>
                           {integ.accountLabel ? (
-                            <p className="text-slate-300 text-xs mt-0.5 truncate">{integ.accountLabel}</p>
+                            <div className="flex items-center gap-2 mt-0.5">
+                              <p className="text-slate-300 text-xs truncate">{integ.accountLabel}</p>
+                              {canWrite && (
+                                <button
+                                  onClick={() => setPicker({ integration: integ })}
+                                  className="text-indigo-400 hover:text-indigo-300 text-[10px] font-semibold uppercase tracking-wide"
+                                >
+                                  trocar
+                                </button>
+                              )}
+                            </div>
                           ) : (
-                            <p className="text-amber-400 text-[11px] mt-0.5 italic">
-                              ⚠️ Selecione qual {provider === "GA4" ? "propriedade" : provider === "SEARCH_CONSOLE" ? "site" : "perfil"} sincronizar →
-                            </p>
+                            canWrite ? (
+                              <button
+                                onClick={() => setPicker({ integration: integ })}
+                                className="text-amber-400 hover:text-amber-300 text-[11px] mt-0.5 italic font-semibold underline decoration-dotted"
+                              >
+                                ⚠️ Selecione qual {provider === "GA4" ? "propriedade" : provider === "SEARCH_CONSOLE" ? "site" : "perfil"} sincronizar →
+                              </button>
+                            ) : (
+                              <p className="text-amber-400 text-[11px] mt-0.5 italic">
+                                ⚠️ Aguardando seleção da {provider === "GA4" ? "propriedade" : provider === "SEARCH_CONSOLE" ? "site" : "perfil"}
+                              </p>
+                            )
                           )}
                           {integ.lastSyncAt ? (
                             <p className="text-slate-600 text-[10px] mt-0.5">
@@ -284,6 +304,175 @@ export default function CompanyIntegrations({ companyId }: { companyId: string }
       <div className="mt-5 text-[11px] text-slate-600 space-y-1">
         <p>🔒 Tokens OAuth são gravados criptografados (AES-256-GCM).</p>
         <p>📅 Sincronização automática diária. Você também pode forçar manualmente após selecionar a propriedade.</p>
+      </div>
+
+      {picker && (
+        <PropertyPickerModal
+          companyId={companyId}
+          integration={picker.integration}
+          onClose={() => setPicker(null)}
+          onSaved={() => { setPicker(null); void load(); }}
+        />
+      )}
+    </div>
+  );
+}
+
+// ─── Modal de seleção de propriedade ─────────────────────────────────────────
+
+function PropertyPickerModal({
+  companyId, integration, onClose, onSaved,
+}: {
+  companyId: string;
+  integration: Integration;
+  onClose: () => void;
+  onSaved: () => void;
+}) {
+  const meta = PROVIDER_META[integration.provider];
+  const [items, setItems] = useState<{ id: string; label: string; group?: string }[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [hint, setHint] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const r = await fetch(
+          `/api/companies/${companyId}/integrations/${integration.id}/properties`
+        );
+        const j = await r.json();
+        if (!r.ok) {
+          if (cancelled) return;
+          setError(j.error || "Erro ao listar propriedades");
+          if (j.hint) setHint(j.hint);
+          return;
+        }
+        if (!cancelled) setItems(j.items || []);
+      } catch (e: any) {
+        if (!cancelled) setError(e.message);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [companyId, integration.id]);
+
+  async function handleSelect(item: { id: string; label: string; group?: string }) {
+    setSaving(true);
+    const r = await fetch(`/api/companies/${companyId}/integrations/${integration.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ accountId: item.id, accountLabel: item.label }),
+    });
+    setSaving(false);
+    if (!r.ok) { alert((await r.json()).error || "Erro ao salvar"); return; }
+    onSaved();
+  }
+
+  // Agrupa por "group" se houver
+  const groupedItems = (() => {
+    const map = new Map<string, { id: string; label: string }[]>();
+    for (const it of items) {
+      const g = it.group || "—";
+      if (!map.has(g)) map.set(g, []);
+      map.get(g)!.push({ id: it.id, label: it.label });
+    }
+    return Array.from(map.entries());
+  })();
+
+  const noun =
+    integration.provider === "GA4" ? "propriedade GA4" :
+    integration.provider === "SEARCH_CONSOLE" ? "site Search Console" :
+    integration.provider === "BUSINESS_PROFILE" ? "perfil Meu Negócio" :
+    "conta";
+
+  return (
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={onClose}>
+      <div className="bg-[#0d1525] border border-[#1e2d45] rounded-2xl p-5 w-full max-w-lg shadow-2xl max-h-[80vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center gap-2.5 mb-4">
+          <meta.Icon className={`w-5 h-5 ${meta.color}`} strokeWidth={2} />
+          <div>
+            <h3 className="text-white font-bold text-base">Selecionar {noun}</h3>
+            <p className="text-slate-500 text-[11px]">
+              Escolha qual {noun} dessa conta Google será sincronizada para esta empresa.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex-1 overflow-y-auto -mx-5 px-5">
+          {loading && (
+            <div className="py-10 text-center text-slate-500 text-sm">
+              <Loader2 className="w-5 h-5 animate-spin mx-auto mb-2" />
+              Carregando da Google…
+            </div>
+          )}
+          {error && (
+            <div className="py-6 text-center">
+              <AlertTriangle className="w-8 h-8 text-red-400 mx-auto mb-2" />
+              <p className="text-red-400 text-sm font-medium mb-1">Erro</p>
+              <p className="text-slate-400 text-xs whitespace-pre-wrap break-words">{error}</p>
+              {hint && <p className="text-amber-400 text-xs mt-2 italic">💡 {hint}</p>}
+            </div>
+          )}
+          {!loading && !error && items.length === 0 && (
+            <div className="py-10 text-center text-slate-500 text-sm">
+              Nenhum {noun} encontrado nesta conta Google.
+            </div>
+          )}
+          {!loading && !error && groupedItems.length > 0 && (
+            <div className="space-y-3">
+              {groupedItems.map(([group, list]) => (
+                <div key={group}>
+                  {group !== "—" && (
+                    <div className="text-[10px] text-slate-600 font-bold uppercase tracking-wider mb-1.5">
+                      {group}
+                    </div>
+                  )}
+                  <div className="space-y-1">
+                    {list.map((it) => {
+                      const isCurrent = integration.accountId === it.id;
+                      return (
+                        <button
+                          key={it.id}
+                          onClick={() => handleSelect(it)}
+                          disabled={saving}
+                          className={`w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-left transition-colors disabled:opacity-50 ${
+                            isCurrent
+                              ? "bg-emerald-500/10 border border-emerald-500/30"
+                              : "bg-[#0a1220] border border-[#1e2d45] hover:border-indigo-500/50"
+                          }`}
+                        >
+                          <div className="min-w-0 flex-1">
+                            <p className="text-white text-sm font-medium truncate">{it.label}</p>
+                            <p className="text-slate-600 text-[10px] font-mono truncate">{it.id}</p>
+                          </div>
+                          {isCurrent ? (
+                            <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                          ) : (
+                            <span className="text-indigo-400 text-[11px] font-semibold flex-shrink-0">
+                              {saving ? "..." : "Selecionar →"}
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <button
+          onClick={onClose}
+          className="mt-4 w-full py-2 rounded-lg bg-[#0a1220] border border-[#1e2d45] text-slate-300 text-sm hover:text-white"
+        >
+          Fechar
+        </button>
       </div>
     </div>
   );
