@@ -5,7 +5,7 @@ import {
   Globe, Server, Layout, Mail, Database, Network, GitBranch,
   Share2, BarChart3, Cloud, Box, Lock, Eye, EyeOff, Copy,
   Plus, Trash2, Pencil, ExternalLink, AlertTriangle, Check,
-  KeyRound, ShieldCheck,
+  KeyRound, ShieldCheck, Info, ChevronDown, ChevronRight,
 } from "lucide-react";
 
 type AssetType =
@@ -78,6 +78,7 @@ export default function CompanyVault({ companyId }: { companyId: string }) {
 
   const [showAssetModal, setShowAssetModal] = useState<{ asset: Asset | null } | null>(null);
   const [showCredModal, setShowCredModal] = useState<{ assetId: string; credential: Credential | null } | null>(null);
+  const [showSecurityInfo, setShowSecurityInfo] = useState(false);
 
   // Senhas reveladas em memória — never persist
   const [revealed, setRevealed] = useState<Record<string, string>>({});
@@ -193,6 +194,59 @@ export default function CompanyVault({ companyId }: { companyId: string }) {
           </button>
         )}
       </div>
+
+      {/* Painel de orientação de segurança — só pra quem cadastra senha */}
+      {canWrite && (
+        <div className="mb-4 rounded-lg bg-[#0a1220] border border-[#1e2d45] overflow-hidden">
+          <button
+            onClick={() => setShowSecurityInfo((s) => !s)}
+            className="w-full flex items-center gap-2 px-3 py-2 hover:bg-white/[0.02] transition-colors"
+          >
+            <ShieldCheck className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+            <span className="text-slate-300 text-xs font-semibold flex-1 text-left">
+              Como o cofre protege as senhas
+            </span>
+            {showSecurityInfo
+              ? <ChevronDown className="w-4 h-4 text-slate-500" />
+              : <ChevronRight className="w-4 h-4 text-slate-500" />}
+          </button>
+          {showSecurityInfo && (
+            <div className="px-3 pb-3 pt-1 border-t border-[#1e2d45] space-y-3 text-[11px] text-slate-400 leading-relaxed">
+              <div className="flex gap-2">
+                <Lock className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                <p>
+                  As senhas são gravadas <strong className="text-slate-200">criptografadas (AES-256-GCM)</strong> no banco.
+                  Mesmo um ataque ao banco não expõe os segredos sem a chave mestra.
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <Eye className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0 mt-0.5" />
+                <p>
+                  <strong className="text-slate-200">Toda visualização é registrada</strong> (quem viu, quando, IP).
+                  Use <em>Mostrar</em> e <em>Copiar</em> para deixar rastro de auditoria.
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <AlertTriangle className="w-3.5 h-3.5 text-amber-400 flex-shrink-0 mt-0.5" />
+                <p>
+                  <strong className="text-amber-300">Atenção operacional:</strong> a chave mestra fica na variável
+                  de ambiente <code className="bg-black/30 px-1 py-0.5 rounded text-amber-200">ENCRYPTION_KEY</code> do
+                  servidor. Se ela for <strong>perdida ou trocada</strong>, todas as senhas guardadas viram ilegíveis
+                  permanentemente — não há recuperação (é por design). Mantenha um backup dessa chave em local seguro
+                  (gerenciador de senhas, cofre físico, etc.) <strong>fora do servidor</strong>.
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <Info className="w-3.5 h-3.5 text-slate-500 flex-shrink-0 mt-0.5" />
+                <p>
+                  Para gerar uma nova chave (uma vez na configuração inicial):{" "}
+                  <code className="bg-black/30 px-1 py-0.5 rounded text-slate-300">openssl rand -hex 32</code>
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Alertas de expiração */}
       {expiringSoon.length > 0 && (
