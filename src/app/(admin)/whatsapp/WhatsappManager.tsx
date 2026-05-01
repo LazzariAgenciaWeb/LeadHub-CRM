@@ -1511,10 +1511,32 @@ export default function WhatsappManager({
 
   async function quickResolve(e: React.MouseEvent, conv: Conversation) {
     e.stopPropagation();
-    // Override imediato na sidebar antes do router.refresh()
-    setLocalAttendanceOverrides(prev => new Map(prev).set(conv.phone, "RESOLVED"));
+    // Override otimista — chip da lista vira CLOSED imediatamente
+    setConvStatusOverride((prev) => new Map(prev).set(conv.phone, "CLOSED"));
+    setLocalAttendanceOverrides((prev) => new Map(prev).set(conv.phone, "RESOLVED"));
+
+    // Caminho preferido: usar a Conversation API direto (a sincronização para Lead.attendanceStatus
+    // acontece no backend via mapConvStatusToLegacy)
+    if (conv.conversation?.id) {
+      const res = await fetch(`/api/conversations/${conv.conversation.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "close" }),
+      });
+      if (res.ok && selectedConv?.phone === conv.phone) {
+        setSelectedConv((prev) => prev ? {
+          ...prev,
+          conversation: prev.conversation ? { ...prev.conversation, status: "CLOSED" } : prev.conversation,
+          lead: prev.lead ? { ...prev.lead, attendanceStatus: "RESOLVED" } : prev.lead,
+        } : prev);
+        setAttendanceStatus("RESOLVED");
+      }
+      router.refresh();
+      return;
+    }
+
+    // Fallback (sem Conversation): fluxo legacy via Lead.attendanceStatus
     if (!conv.lead) {
-      // Sem lead: criar registro mínimo para rastrear atendimento
       const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1540,7 +1562,6 @@ export default function WhatsappManager({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ attendanceStatus: "RESOLVED" }),
     });
-    // Atualiza estado local do selectedConv se for o aberto
     if (selectedConv?.phone === conv.phone) {
       setAttendanceStatus("RESOLVED");
       setSelectedConv({ ...selectedConv, lead: { ...selectedConv.lead!, attendanceStatus: "RESOLVED" } });

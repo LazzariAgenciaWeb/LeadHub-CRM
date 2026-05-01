@@ -155,6 +155,52 @@ export function mapConvStatusToLegacy(status: ConversationStatus): "WAITING" | "
 }
 
 /**
+ * Gera variações comuns de um número (com/sem 55, com/sem o 9 extra) — usado
+ * para comparar identidades de instâncias da empresa contra o participante de
+ * uma mensagem de grupo (Evolution às vezes envia o JID @lid sem 55 ou sem 9).
+ */
+function phoneVariants(raw: string): string[] {
+  const digits = (raw ?? "").replace(/\D/g, "");
+  if (!digits) return [];
+  const set = new Set<string>([digits]);
+  // Brasil: tem 13 chars → 55 + DDD2 + 9digitos. Variações:
+  if (digits.startsWith("55")) {
+    const noCountry = digits.slice(2);
+    set.add(noCountry);
+    // Se tem 9 extra após o DDD (DDD2 + 9XXXXXXXX), oferece versão sem o 9
+    if (noCountry.length === 11 && noCountry[2] === "9") {
+      set.add("55" + noCountry.slice(0, 2) + noCountry.slice(3));
+      set.add(noCountry.slice(0, 2) + noCountry.slice(3));
+    }
+  } else if (digits.length === 10 || digits.length === 11) {
+    // Sem código do país → adiciona com 55
+    set.add("55" + digits);
+  }
+  return [...set];
+}
+
+/**
+ * Retorna true se o número informado corresponde a alguma das WhatsappInstance
+ * da empresa (considerando variações de DDI/9 extra).
+ *
+ * Usado para detectar mensagens de GRUPO onde o participante remetente é uma
+ * das nossas próprias instâncias — nesse caso a mensagem é OUTBOUND (envio
+ * nosso, ouvido pelas demais instâncias do grupo).
+ */
+async function isPhoneOurInstance(phone: string, companyId: string): Promise<boolean> {
+  const variants = phoneVariants(phone);
+  if (variants.length === 0) return false;
+  const found = await prisma.whatsappInstance.findFirst({
+    where: {
+      companyId,
+      phone: { in: variants },
+    },
+    select: { id: true },
+  });
+  return !!found;
+}
+
+/**
  * Salva (ou atualiza) o nome de exibição do WhatsApp (pushName) em CompanyContact.
  * Usado para contatos individuais que ficam apenas na inbox sem gerar lead.
  * Só preenche o nome — não sobrescreve um nome já preenchido anteriormente,
@@ -277,11 +323,19 @@ export async function processInboundMessage(payload: {
       }
     }
 
+    // Em grupo, descobre se quem ENVIOU é uma das nossas instâncias.
+    // Se for, trata como OUTBOUND (não devolve a conversa para OPEN só porque
+    // outra instância nossa ouviu o eco do envio).
+    const isOurParticipant = participantPhone
+      ? await isPhoneOurInstance(participantPhone, instance.companyId)
+      : false;
+    const groupDirection: "INBOUND" | "OUTBOUND" = isOurParticipant ? "OUTBOUND" : "INBOUND";
+
     // Upsert da conversa (grupo) — herda setor da instância na criação
     const conv = await upsertConversation({
       companyId: instance.companyId,
       phone,
-      direction: "INBOUND",
+      direction: groupDirection,
       body,
       instanceId: instance.id,
       receivedAt,
@@ -294,7 +348,7 @@ export async function processInboundMessage(payload: {
       participantPhone: participantPhone ?? undefined,
       participantName: participantName ?? undefined,
       body,
-      direction: "INBOUND",
+      direction: groupDirection,
       processed: false,
       rawPayload: rawPayload ? (rawPayload as any) : undefined,
       companyId: instance.companyId,
