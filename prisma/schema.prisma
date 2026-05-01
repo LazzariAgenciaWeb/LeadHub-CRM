@@ -83,6 +83,12 @@ model Company {
   activities        Activity[]
   assets            CompanyAsset[]
   credentialAccessLogs CredentialAccessLog[]
+  marketingIntegrations MarketingIntegration[]
+  analyticsSnapshots    AnalyticsSnapshot[]
+  analyticsTopPages     AnalyticsTopPage[]
+  analyticsTrafficSources AnalyticsTrafficSource[]
+  analyticsGeoData      AnalyticsGeoData[]
+  searchConsoleQueries  SearchConsoleQuery[]
   triggerOnly       Boolean               @default(false)
   webhookToken      String?               @unique // token público para receber leads via webhook
 
@@ -745,4 +751,165 @@ enum CredentialAction {
   EDIT      // editou o registro
   CREATE
   DELETE
+}
+
+// ─── Integrações de Marketing ─────────────────────────────────────────────────
+//
+// MarketingIntegration: 1 conexão OAuth do cliente com um provedor (GA4, SC, GBP, Ads).
+// Tokens são gravados criptografados (AES-256-GCM via src/lib/crypto.ts).
+//
+// Fontes de dados são puxadas via cron diário e gravadas em tabelas resumidas:
+// AnalyticsSnapshot (1 linha/dia/empresa) — KPIs gerais
+// AnalyticsTopPage / TrafficSource / GeoData — quebras dimensionais por dia
+// SearchConsoleQuery — top queries por dia
+
+model MarketingIntegration {
+  id            String       @id @default(cuid())
+  companyId     String
+  company       Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  provider      IntegrationProvider
+  // Conta/propriedade conectada (ex: "properties/123456" pra GA4, "sc-domain:x.com" pra SC)
+  accountId     String?
+  accountLabel  String?      // nome amigável (ex: "azz.com.br")
+
+  // OAuth tokens (criptografados)
+  accessTokenEnc  String?     @db.Text
+  refreshTokenEnc String?     @db.Text
+  tokenExpiresAt  DateTime?
+  scopes          String[]    @default([])
+
+  // Identidade do usuário Google que autorizou
+  googleEmail     String?
+  googleName      String?
+
+  status        IntegrationStatus @default(ACTIVE)
+  lastSyncAt    DateTime?
+  lastSyncStatus String?      // "ok" | "error: ..."
+  lastError     String?       @db.Text
+
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  createdById   String?
+
+  @@unique([companyId, provider, accountId])
+  @@index([companyId])
+  @@index([status, lastSyncAt])
+}
+
+enum IntegrationProvider {
+  GA4               // Google Analytics 4
+  SEARCH_CONSOLE    // Google Search Console
+  BUSINESS_PROFILE  // Google Meu Negócio (GBP)
+  GOOGLE_ADS
+  META_ADS
+}
+
+enum IntegrationStatus {
+  ACTIVE
+  EXPIRED       // refresh token inválido / revogado
+  ERROR         // falha repetida no sync
+  DISCONNECTED  // usuário desconectou manualmente
+}
+
+model AnalyticsSnapshot {
+  id          String   @id @default(cuid())
+  companyId   String
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  date        DateTime @db.Date
+  source      String   // "ga4" | "pixel" (futuramente)
+
+  sessions     Int     @default(0)
+  users        Int     @default(0)
+  newUsers     Int     @default(0)
+  pageviews    Int     @default(0)
+  conversions  Int     @default(0)
+  bounceRate   Float?  // 0..1
+  avgSessionSec Float?
+  engagedSessions Int? @default(0)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([companyId, date, source])
+  @@index([companyId, date])
+}
+
+model AnalyticsTopPage {
+  id          String   @id @default(cuid())
+  companyId   String
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  date        DateTime @db.Date
+  source      String   // "ga4"
+
+  pagePath    String
+  pageTitle   String?
+  views       Int      @default(0)
+  users       Int      @default(0)
+  avgTimeSec  Float?
+
+  @@unique([companyId, date, source, pagePath])
+  @@index([companyId, date])
+}
+
+model AnalyticsTrafficSource {
+  id          String   @id @default(cuid())
+  companyId   String
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  date        DateTime @db.Date
+  source      String   // "ga4"
+
+  // Dados brutos do GA4
+  rawSource   String   // ex: "google", "instagram.com", "chatgpt.com"
+  rawMedium   String   // ex: "organic", "referral", "cpc"
+
+  // Categoria classificada pela nossa lógica (src/lib/traffic-classifier.ts)
+  bucket      String   // "AI" | "ORGANIC_SEARCH" | "PAID_SEARCH" | "INSTAGRAM" | ...
+
+  sessions    Int      @default(0)
+  users       Int      @default(0)
+  conversions Int      @default(0)
+
+  @@unique([companyId, date, source, rawSource, rawMedium])
+  @@index([companyId, date, bucket])
+}
+
+model AnalyticsGeoData {
+  id          String   @id @default(cuid())
+  companyId   String
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  date        DateTime @db.Date
+  source      String   // "ga4"
+
+  countryCode String?  // "BR", "US"
+  countryName String?
+  region      String?  // estado / província
+  city        String?
+
+  sessions    Int      @default(0)
+  users       Int      @default(0)
+
+  @@unique([companyId, date, source, countryCode, region, city])
+  @@index([companyId, date])
+}
+
+model SearchConsoleQuery {
+  id          String   @id @default(cuid())
+  companyId   String
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  date        DateTime @db.Date
+
+  query       String
+  page        String?
+  country     String?  // "bra"
+  device      String?  // "MOBILE" | "DESKTOP" | "TABLET"
+
+  clicks      Int
+  impressions Int
+  ctr         Float    // 0..1
+  position    Float    // posição média
+
+  @@unique([companyId, date, query, page, country, device])
+  @@index([companyId, date])
+  @@index([companyId, query])
 }

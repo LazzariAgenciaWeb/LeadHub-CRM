@@ -449,6 +449,96 @@ exports.Prisma.CredentialAccessLogScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.MarketingIntegrationScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  provider: 'provider',
+  accountId: 'accountId',
+  accountLabel: 'accountLabel',
+  accessTokenEnc: 'accessTokenEnc',
+  refreshTokenEnc: 'refreshTokenEnc',
+  tokenExpiresAt: 'tokenExpiresAt',
+  scopes: 'scopes',
+  googleEmail: 'googleEmail',
+  googleName: 'googleName',
+  status: 'status',
+  lastSyncAt: 'lastSyncAt',
+  lastSyncStatus: 'lastSyncStatus',
+  lastError: 'lastError',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdById: 'createdById'
+};
+
+exports.Prisma.AnalyticsSnapshotScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  date: 'date',
+  source: 'source',
+  sessions: 'sessions',
+  users: 'users',
+  newUsers: 'newUsers',
+  pageviews: 'pageviews',
+  conversions: 'conversions',
+  bounceRate: 'bounceRate',
+  avgSessionSec: 'avgSessionSec',
+  engagedSessions: 'engagedSessions',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AnalyticsTopPageScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  date: 'date',
+  source: 'source',
+  pagePath: 'pagePath',
+  pageTitle: 'pageTitle',
+  views: 'views',
+  users: 'users',
+  avgTimeSec: 'avgTimeSec'
+};
+
+exports.Prisma.AnalyticsTrafficSourceScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  date: 'date',
+  source: 'source',
+  rawSource: 'rawSource',
+  rawMedium: 'rawMedium',
+  bucket: 'bucket',
+  sessions: 'sessions',
+  users: 'users',
+  conversions: 'conversions'
+};
+
+exports.Prisma.AnalyticsGeoDataScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  date: 'date',
+  source: 'source',
+  countryCode: 'countryCode',
+  countryName: 'countryName',
+  region: 'region',
+  city: 'city',
+  sessions: 'sessions',
+  users: 'users'
+};
+
+exports.Prisma.SearchConsoleQueryScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  date: 'date',
+  query: 'query',
+  page: 'page',
+  country: 'country',
+  device: 'device',
+  clicks: 'clicks',
+  impressions: 'impressions',
+  ctr: 'ctr',
+  position: 'position'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -588,6 +678,21 @@ exports.CredentialAction = exports.$Enums.CredentialAction = {
   DELETE: 'DELETE'
 };
 
+exports.IntegrationProvider = exports.$Enums.IntegrationProvider = {
+  GA4: 'GA4',
+  SEARCH_CONSOLE: 'SEARCH_CONSOLE',
+  BUSINESS_PROFILE: 'BUSINESS_PROFILE',
+  GOOGLE_ADS: 'GOOGLE_ADS',
+  META_ADS: 'META_ADS'
+};
+
+exports.IntegrationStatus = exports.$Enums.IntegrationStatus = {
+  ACTIVE: 'ACTIVE',
+  EXPIRED: 'EXPIRED',
+  ERROR: 'ERROR',
+  DISCONNECTED: 'DISCONNECTED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Company: 'Company',
@@ -612,7 +717,13 @@ exports.Prisma.ModelName = {
   SetorInstance: 'SetorInstance',
   CompanyAsset: 'CompanyAsset',
   CompanyCredential: 'CompanyCredential',
-  CredentialAccessLog: 'CredentialAccessLog'
+  CredentialAccessLog: 'CredentialAccessLog',
+  MarketingIntegration: 'MarketingIntegration',
+  AnalyticsSnapshot: 'AnalyticsSnapshot',
+  AnalyticsTopPage: 'AnalyticsTopPage',
+  AnalyticsTrafficSource: 'AnalyticsTrafficSource',
+  AnalyticsGeoData: 'AnalyticsGeoData',
+  SearchConsoleQuery: 'SearchConsoleQuery'
 };
 
 /**

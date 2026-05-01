@@ -133,6 +133,36 @@ export type CompanyCredential = $Result.DefaultSelection<Prisma.$CompanyCredenti
  * 
  */
 export type CredentialAccessLog = $Result.DefaultSelection<Prisma.$CredentialAccessLogPayload>
+/**
+ * Model MarketingIntegration
+ * 
+ */
+export type MarketingIntegration = $Result.DefaultSelection<Prisma.$MarketingIntegrationPayload>
+/**
+ * Model AnalyticsSnapshot
+ * 
+ */
+export type AnalyticsSnapshot = $Result.DefaultSelection<Prisma.$AnalyticsSnapshotPayload>
+/**
+ * Model AnalyticsTopPage
+ * 
+ */
+export type AnalyticsTopPage = $Result.DefaultSelection<Prisma.$AnalyticsTopPagePayload>
+/**
+ * Model AnalyticsTrafficSource
+ * 
+ */
+export type AnalyticsTrafficSource = $Result.DefaultSelection<Prisma.$AnalyticsTrafficSourcePayload>
+/**
+ * Model AnalyticsGeoData
+ * 
+ */
+export type AnalyticsGeoData = $Result.DefaultSelection<Prisma.$AnalyticsGeoDataPayload>
+/**
+ * Model SearchConsoleQuery
+ * 
+ */
+export type SearchConsoleQuery = $Result.DefaultSelection<Prisma.$SearchConsoleQueryPayload>
 
 /**
  * Enums
@@ -293,6 +323,27 @@ export const CredentialAction: {
 
 export type CredentialAction = (typeof CredentialAction)[keyof typeof CredentialAction]
 
+
+export const IntegrationProvider: {
+  GA4: 'GA4',
+  SEARCH_CONSOLE: 'SEARCH_CONSOLE',
+  BUSINESS_PROFILE: 'BUSINESS_PROFILE',
+  GOOGLE_ADS: 'GOOGLE_ADS',
+  META_ADS: 'META_ADS'
+};
+
+export type IntegrationProvider = (typeof IntegrationProvider)[keyof typeof IntegrationProvider]
+
+
+export const IntegrationStatus: {
+  ACTIVE: 'ACTIVE',
+  EXPIRED: 'EXPIRED',
+  ERROR: 'ERROR',
+  DISCONNECTED: 'DISCONNECTED'
+};
+
+export type IntegrationStatus = (typeof IntegrationStatus)[keyof typeof IntegrationStatus]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -350,6 +401,14 @@ export const AssetStatus: typeof $Enums.AssetStatus
 export type CredentialAction = $Enums.CredentialAction
 
 export const CredentialAction: typeof $Enums.CredentialAction
+
+export type IntegrationProvider = $Enums.IntegrationProvider
+
+export const IntegrationProvider: typeof $Enums.IntegrationProvider
+
+export type IntegrationStatus = $Enums.IntegrationStatus
+
+export const IntegrationStatus: typeof $Enums.IntegrationStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -713,6 +772,66 @@ export class PrismaClient<
     * ```
     */
   get credentialAccessLog(): Prisma.CredentialAccessLogDelegate<ExtArgs>;
+
+  /**
+   * `prisma.marketingIntegration`: Exposes CRUD operations for the **MarketingIntegration** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MarketingIntegrations
+    * const marketingIntegrations = await prisma.marketingIntegration.findMany()
+    * ```
+    */
+  get marketingIntegration(): Prisma.MarketingIntegrationDelegate<ExtArgs>;
+
+  /**
+   * `prisma.analyticsSnapshot`: Exposes CRUD operations for the **AnalyticsSnapshot** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AnalyticsSnapshots
+    * const analyticsSnapshots = await prisma.analyticsSnapshot.findMany()
+    * ```
+    */
+  get analyticsSnapshot(): Prisma.AnalyticsSnapshotDelegate<ExtArgs>;
+
+  /**
+   * `prisma.analyticsTopPage`: Exposes CRUD operations for the **AnalyticsTopPage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AnalyticsTopPages
+    * const analyticsTopPages = await prisma.analyticsTopPage.findMany()
+    * ```
+    */
+  get analyticsTopPage(): Prisma.AnalyticsTopPageDelegate<ExtArgs>;
+
+  /**
+   * `prisma.analyticsTrafficSource`: Exposes CRUD operations for the **AnalyticsTrafficSource** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AnalyticsTrafficSources
+    * const analyticsTrafficSources = await prisma.analyticsTrafficSource.findMany()
+    * ```
+    */
+  get analyticsTrafficSource(): Prisma.AnalyticsTrafficSourceDelegate<ExtArgs>;
+
+  /**
+   * `prisma.analyticsGeoData`: Exposes CRUD operations for the **AnalyticsGeoData** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AnalyticsGeoData
+    * const analyticsGeoData = await prisma.analyticsGeoData.findMany()
+    * ```
+    */
+  get analyticsGeoData(): Prisma.AnalyticsGeoDataDelegate<ExtArgs>;
+
+  /**
+   * `prisma.searchConsoleQuery`: Exposes CRUD operations for the **SearchConsoleQuery** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SearchConsoleQueries
+    * const searchConsoleQueries = await prisma.searchConsoleQuery.findMany()
+    * ```
+    */
+  get searchConsoleQuery(): Prisma.SearchConsoleQueryDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -1177,7 +1296,13 @@ export namespace Prisma {
     SetorInstance: 'SetorInstance',
     CompanyAsset: 'CompanyAsset',
     CompanyCredential: 'CompanyCredential',
-    CredentialAccessLog: 'CredentialAccessLog'
+    CredentialAccessLog: 'CredentialAccessLog',
+    MarketingIntegration: 'MarketingIntegration',
+    AnalyticsSnapshot: 'AnalyticsSnapshot',
+    AnalyticsTopPage: 'AnalyticsTopPage',
+    AnalyticsTrafficSource: 'AnalyticsTrafficSource',
+    AnalyticsGeoData: 'AnalyticsGeoData',
+    SearchConsoleQuery: 'SearchConsoleQuery'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1193,7 +1318,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog"
+      modelProps: "user" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2877,6 +3002,426 @@ export namespace Prisma {
           }
         }
       }
+      MarketingIntegration: {
+        payload: Prisma.$MarketingIntegrationPayload<ExtArgs>
+        fields: Prisma.MarketingIntegrationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MarketingIntegrationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketingIntegrationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MarketingIntegrationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketingIntegrationPayload>
+          }
+          findFirst: {
+            args: Prisma.MarketingIntegrationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketingIntegrationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MarketingIntegrationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketingIntegrationPayload>
+          }
+          findMany: {
+            args: Prisma.MarketingIntegrationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketingIntegrationPayload>[]
+          }
+          create: {
+            args: Prisma.MarketingIntegrationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketingIntegrationPayload>
+          }
+          createMany: {
+            args: Prisma.MarketingIntegrationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MarketingIntegrationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketingIntegrationPayload>[]
+          }
+          delete: {
+            args: Prisma.MarketingIntegrationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketingIntegrationPayload>
+          }
+          update: {
+            args: Prisma.MarketingIntegrationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketingIntegrationPayload>
+          }
+          deleteMany: {
+            args: Prisma.MarketingIntegrationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MarketingIntegrationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.MarketingIntegrationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketingIntegrationPayload>
+          }
+          aggregate: {
+            args: Prisma.MarketingIntegrationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMarketingIntegration>
+          }
+          groupBy: {
+            args: Prisma.MarketingIntegrationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MarketingIntegrationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MarketingIntegrationCountArgs<ExtArgs>
+            result: $Utils.Optional<MarketingIntegrationCountAggregateOutputType> | number
+          }
+        }
+      }
+      AnalyticsSnapshot: {
+        payload: Prisma.$AnalyticsSnapshotPayload<ExtArgs>
+        fields: Prisma.AnalyticsSnapshotFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AnalyticsSnapshotFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsSnapshotPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AnalyticsSnapshotFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsSnapshotPayload>
+          }
+          findFirst: {
+            args: Prisma.AnalyticsSnapshotFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsSnapshotPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AnalyticsSnapshotFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsSnapshotPayload>
+          }
+          findMany: {
+            args: Prisma.AnalyticsSnapshotFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsSnapshotPayload>[]
+          }
+          create: {
+            args: Prisma.AnalyticsSnapshotCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsSnapshotPayload>
+          }
+          createMany: {
+            args: Prisma.AnalyticsSnapshotCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AnalyticsSnapshotCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsSnapshotPayload>[]
+          }
+          delete: {
+            args: Prisma.AnalyticsSnapshotDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsSnapshotPayload>
+          }
+          update: {
+            args: Prisma.AnalyticsSnapshotUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsSnapshotPayload>
+          }
+          deleteMany: {
+            args: Prisma.AnalyticsSnapshotDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AnalyticsSnapshotUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AnalyticsSnapshotUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsSnapshotPayload>
+          }
+          aggregate: {
+            args: Prisma.AnalyticsSnapshotAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAnalyticsSnapshot>
+          }
+          groupBy: {
+            args: Prisma.AnalyticsSnapshotGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AnalyticsSnapshotGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AnalyticsSnapshotCountArgs<ExtArgs>
+            result: $Utils.Optional<AnalyticsSnapshotCountAggregateOutputType> | number
+          }
+        }
+      }
+      AnalyticsTopPage: {
+        payload: Prisma.$AnalyticsTopPagePayload<ExtArgs>
+        fields: Prisma.AnalyticsTopPageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AnalyticsTopPageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsTopPagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AnalyticsTopPageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsTopPagePayload>
+          }
+          findFirst: {
+            args: Prisma.AnalyticsTopPageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsTopPagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AnalyticsTopPageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsTopPagePayload>
+          }
+          findMany: {
+            args: Prisma.AnalyticsTopPageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsTopPagePayload>[]
+          }
+          create: {
+            args: Prisma.AnalyticsTopPageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsTopPagePayload>
+          }
+          createMany: {
+            args: Prisma.AnalyticsTopPageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AnalyticsTopPageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsTopPagePayload>[]
+          }
+          delete: {
+            args: Prisma.AnalyticsTopPageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsTopPagePayload>
+          }
+          update: {
+            args: Prisma.AnalyticsTopPageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsTopPagePayload>
+          }
+          deleteMany: {
+            args: Prisma.AnalyticsTopPageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AnalyticsTopPageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AnalyticsTopPageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsTopPagePayload>
+          }
+          aggregate: {
+            args: Prisma.AnalyticsTopPageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAnalyticsTopPage>
+          }
+          groupBy: {
+            args: Prisma.AnalyticsTopPageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AnalyticsTopPageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AnalyticsTopPageCountArgs<ExtArgs>
+            result: $Utils.Optional<AnalyticsTopPageCountAggregateOutputType> | number
+          }
+        }
+      }
+      AnalyticsTrafficSource: {
+        payload: Prisma.$AnalyticsTrafficSourcePayload<ExtArgs>
+        fields: Prisma.AnalyticsTrafficSourceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AnalyticsTrafficSourceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsTrafficSourcePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AnalyticsTrafficSourceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsTrafficSourcePayload>
+          }
+          findFirst: {
+            args: Prisma.AnalyticsTrafficSourceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsTrafficSourcePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AnalyticsTrafficSourceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsTrafficSourcePayload>
+          }
+          findMany: {
+            args: Prisma.AnalyticsTrafficSourceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsTrafficSourcePayload>[]
+          }
+          create: {
+            args: Prisma.AnalyticsTrafficSourceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsTrafficSourcePayload>
+          }
+          createMany: {
+            args: Prisma.AnalyticsTrafficSourceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AnalyticsTrafficSourceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsTrafficSourcePayload>[]
+          }
+          delete: {
+            args: Prisma.AnalyticsTrafficSourceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsTrafficSourcePayload>
+          }
+          update: {
+            args: Prisma.AnalyticsTrafficSourceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsTrafficSourcePayload>
+          }
+          deleteMany: {
+            args: Prisma.AnalyticsTrafficSourceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AnalyticsTrafficSourceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AnalyticsTrafficSourceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsTrafficSourcePayload>
+          }
+          aggregate: {
+            args: Prisma.AnalyticsTrafficSourceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAnalyticsTrafficSource>
+          }
+          groupBy: {
+            args: Prisma.AnalyticsTrafficSourceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AnalyticsTrafficSourceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AnalyticsTrafficSourceCountArgs<ExtArgs>
+            result: $Utils.Optional<AnalyticsTrafficSourceCountAggregateOutputType> | number
+          }
+        }
+      }
+      AnalyticsGeoData: {
+        payload: Prisma.$AnalyticsGeoDataPayload<ExtArgs>
+        fields: Prisma.AnalyticsGeoDataFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AnalyticsGeoDataFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsGeoDataPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AnalyticsGeoDataFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsGeoDataPayload>
+          }
+          findFirst: {
+            args: Prisma.AnalyticsGeoDataFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsGeoDataPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AnalyticsGeoDataFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsGeoDataPayload>
+          }
+          findMany: {
+            args: Prisma.AnalyticsGeoDataFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsGeoDataPayload>[]
+          }
+          create: {
+            args: Prisma.AnalyticsGeoDataCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsGeoDataPayload>
+          }
+          createMany: {
+            args: Prisma.AnalyticsGeoDataCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AnalyticsGeoDataCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsGeoDataPayload>[]
+          }
+          delete: {
+            args: Prisma.AnalyticsGeoDataDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsGeoDataPayload>
+          }
+          update: {
+            args: Prisma.AnalyticsGeoDataUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsGeoDataPayload>
+          }
+          deleteMany: {
+            args: Prisma.AnalyticsGeoDataDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AnalyticsGeoDataUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AnalyticsGeoDataUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsGeoDataPayload>
+          }
+          aggregate: {
+            args: Prisma.AnalyticsGeoDataAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAnalyticsGeoData>
+          }
+          groupBy: {
+            args: Prisma.AnalyticsGeoDataGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AnalyticsGeoDataGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AnalyticsGeoDataCountArgs<ExtArgs>
+            result: $Utils.Optional<AnalyticsGeoDataCountAggregateOutputType> | number
+          }
+        }
+      }
+      SearchConsoleQuery: {
+        payload: Prisma.$SearchConsoleQueryPayload<ExtArgs>
+        fields: Prisma.SearchConsoleQueryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SearchConsoleQueryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchConsoleQueryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SearchConsoleQueryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchConsoleQueryPayload>
+          }
+          findFirst: {
+            args: Prisma.SearchConsoleQueryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchConsoleQueryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SearchConsoleQueryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchConsoleQueryPayload>
+          }
+          findMany: {
+            args: Prisma.SearchConsoleQueryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchConsoleQueryPayload>[]
+          }
+          create: {
+            args: Prisma.SearchConsoleQueryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchConsoleQueryPayload>
+          }
+          createMany: {
+            args: Prisma.SearchConsoleQueryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SearchConsoleQueryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchConsoleQueryPayload>[]
+          }
+          delete: {
+            args: Prisma.SearchConsoleQueryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchConsoleQueryPayload>
+          }
+          update: {
+            args: Prisma.SearchConsoleQueryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchConsoleQueryPayload>
+          }
+          deleteMany: {
+            args: Prisma.SearchConsoleQueryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SearchConsoleQueryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SearchConsoleQueryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchConsoleQueryPayload>
+          }
+          aggregate: {
+            args: Prisma.SearchConsoleQueryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSearchConsoleQuery>
+          }
+          groupBy: {
+            args: Prisma.SearchConsoleQueryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SearchConsoleQueryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SearchConsoleQueryCountArgs<ExtArgs>
+            result: $Utils.Optional<SearchConsoleQueryCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3103,6 +3648,12 @@ export namespace Prisma {
     activities: number
     assets: number
     credentialAccessLogs: number
+    marketingIntegrations: number
+    analyticsSnapshots: number
+    analyticsTopPages: number
+    analyticsTrafficSources: number
+    analyticsGeoData: number
+    searchConsoleQueries: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3122,6 +3673,12 @@ export namespace Prisma {
     activities?: boolean | CompanyCountOutputTypeCountActivitiesArgs
     assets?: boolean | CompanyCountOutputTypeCountAssetsArgs
     credentialAccessLogs?: boolean | CompanyCountOutputTypeCountCredentialAccessLogsArgs
+    marketingIntegrations?: boolean | CompanyCountOutputTypeCountMarketingIntegrationsArgs
+    analyticsSnapshots?: boolean | CompanyCountOutputTypeCountAnalyticsSnapshotsArgs
+    analyticsTopPages?: boolean | CompanyCountOutputTypeCountAnalyticsTopPagesArgs
+    analyticsTrafficSources?: boolean | CompanyCountOutputTypeCountAnalyticsTrafficSourcesArgs
+    analyticsGeoData?: boolean | CompanyCountOutputTypeCountAnalyticsGeoDataArgs
+    searchConsoleQueries?: boolean | CompanyCountOutputTypeCountSearchConsoleQueriesArgs
   }
 
   // Custom InputTypes
@@ -3245,6 +3802,48 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountCredentialAccessLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CredentialAccessLogWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountMarketingIntegrationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MarketingIntegrationWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountAnalyticsSnapshotsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnalyticsSnapshotWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountAnalyticsTopPagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnalyticsTopPageWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountAnalyticsTrafficSourcesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnalyticsTrafficSourceWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountAnalyticsGeoDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnalyticsGeoDataWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountSearchConsoleQueriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SearchConsoleQueryWhereInput
   }
 
 
@@ -5039,6 +5638,12 @@ export namespace Prisma {
     activities?: boolean | Company$activitiesArgs<ExtArgs>
     assets?: boolean | Company$assetsArgs<ExtArgs>
     credentialAccessLogs?: boolean | Company$credentialAccessLogsArgs<ExtArgs>
+    marketingIntegrations?: boolean | Company$marketingIntegrationsArgs<ExtArgs>
+    analyticsSnapshots?: boolean | Company$analyticsSnapshotsArgs<ExtArgs>
+    analyticsTopPages?: boolean | Company$analyticsTopPagesArgs<ExtArgs>
+    analyticsTrafficSources?: boolean | Company$analyticsTrafficSourcesArgs<ExtArgs>
+    analyticsGeoData?: boolean | Company$analyticsGeoDataArgs<ExtArgs>
+    searchConsoleQueries?: boolean | Company$searchConsoleQueriesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -5105,6 +5710,12 @@ export namespace Prisma {
     activities?: boolean | Company$activitiesArgs<ExtArgs>
     assets?: boolean | Company$assetsArgs<ExtArgs>
     credentialAccessLogs?: boolean | Company$credentialAccessLogsArgs<ExtArgs>
+    marketingIntegrations?: boolean | Company$marketingIntegrationsArgs<ExtArgs>
+    analyticsSnapshots?: boolean | Company$analyticsSnapshotsArgs<ExtArgs>
+    analyticsTopPages?: boolean | Company$analyticsTopPagesArgs<ExtArgs>
+    analyticsTrafficSources?: boolean | Company$analyticsTrafficSourcesArgs<ExtArgs>
+    analyticsGeoData?: boolean | Company$analyticsGeoDataArgs<ExtArgs>
+    searchConsoleQueries?: boolean | Company$searchConsoleQueriesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5131,6 +5742,12 @@ export namespace Prisma {
       activities: Prisma.$ActivityPayload<ExtArgs>[]
       assets: Prisma.$CompanyAssetPayload<ExtArgs>[]
       credentialAccessLogs: Prisma.$CredentialAccessLogPayload<ExtArgs>[]
+      marketingIntegrations: Prisma.$MarketingIntegrationPayload<ExtArgs>[]
+      analyticsSnapshots: Prisma.$AnalyticsSnapshotPayload<ExtArgs>[]
+      analyticsTopPages: Prisma.$AnalyticsTopPagePayload<ExtArgs>[]
+      analyticsTrafficSources: Prisma.$AnalyticsTrafficSourcePayload<ExtArgs>[]
+      analyticsGeoData: Prisma.$AnalyticsGeoDataPayload<ExtArgs>[]
+      searchConsoleQueries: Prisma.$SearchConsoleQueryPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5533,6 +6150,12 @@ export namespace Prisma {
     activities<T extends Company$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, Company$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany"> | Null>
     assets<T extends Company$assetsArgs<ExtArgs> = {}>(args?: Subset<T, Company$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyAssetPayload<ExtArgs>, T, "findMany"> | Null>
     credentialAccessLogs<T extends Company$credentialAccessLogsArgs<ExtArgs> = {}>(args?: Subset<T, Company$credentialAccessLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CredentialAccessLogPayload<ExtArgs>, T, "findMany"> | Null>
+    marketingIntegrations<T extends Company$marketingIntegrationsArgs<ExtArgs> = {}>(args?: Subset<T, Company$marketingIntegrationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MarketingIntegrationPayload<ExtArgs>, T, "findMany"> | Null>
+    analyticsSnapshots<T extends Company$analyticsSnapshotsArgs<ExtArgs> = {}>(args?: Subset<T, Company$analyticsSnapshotsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsSnapshotPayload<ExtArgs>, T, "findMany"> | Null>
+    analyticsTopPages<T extends Company$analyticsTopPagesArgs<ExtArgs> = {}>(args?: Subset<T, Company$analyticsTopPagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsTopPagePayload<ExtArgs>, T, "findMany"> | Null>
+    analyticsTrafficSources<T extends Company$analyticsTrafficSourcesArgs<ExtArgs> = {}>(args?: Subset<T, Company$analyticsTrafficSourcesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsTrafficSourcePayload<ExtArgs>, T, "findMany"> | Null>
+    analyticsGeoData<T extends Company$analyticsGeoDataArgs<ExtArgs> = {}>(args?: Subset<T, Company$analyticsGeoDataArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsGeoDataPayload<ExtArgs>, T, "findMany"> | Null>
+    searchConsoleQueries<T extends Company$searchConsoleQueriesArgs<ExtArgs> = {}>(args?: Subset<T, Company$searchConsoleQueriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SearchConsoleQueryPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6231,6 +6854,126 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CredentialAccessLogScalarFieldEnum | CredentialAccessLogScalarFieldEnum[]
+  }
+
+  /**
+   * Company.marketingIntegrations
+   */
+  export type Company$marketingIntegrationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketingIntegration
+     */
+    select?: MarketingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketingIntegrationInclude<ExtArgs> | null
+    where?: MarketingIntegrationWhereInput
+    orderBy?: MarketingIntegrationOrderByWithRelationInput | MarketingIntegrationOrderByWithRelationInput[]
+    cursor?: MarketingIntegrationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MarketingIntegrationScalarFieldEnum | MarketingIntegrationScalarFieldEnum[]
+  }
+
+  /**
+   * Company.analyticsSnapshots
+   */
+  export type Company$analyticsSnapshotsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsSnapshot
+     */
+    select?: AnalyticsSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsSnapshotInclude<ExtArgs> | null
+    where?: AnalyticsSnapshotWhereInput
+    orderBy?: AnalyticsSnapshotOrderByWithRelationInput | AnalyticsSnapshotOrderByWithRelationInput[]
+    cursor?: AnalyticsSnapshotWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AnalyticsSnapshotScalarFieldEnum | AnalyticsSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * Company.analyticsTopPages
+   */
+  export type Company$analyticsTopPagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTopPage
+     */
+    select?: AnalyticsTopPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTopPageInclude<ExtArgs> | null
+    where?: AnalyticsTopPageWhereInput
+    orderBy?: AnalyticsTopPageOrderByWithRelationInput | AnalyticsTopPageOrderByWithRelationInput[]
+    cursor?: AnalyticsTopPageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AnalyticsTopPageScalarFieldEnum | AnalyticsTopPageScalarFieldEnum[]
+  }
+
+  /**
+   * Company.analyticsTrafficSources
+   */
+  export type Company$analyticsTrafficSourcesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTrafficSource
+     */
+    select?: AnalyticsTrafficSourceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTrafficSourceInclude<ExtArgs> | null
+    where?: AnalyticsTrafficSourceWhereInput
+    orderBy?: AnalyticsTrafficSourceOrderByWithRelationInput | AnalyticsTrafficSourceOrderByWithRelationInput[]
+    cursor?: AnalyticsTrafficSourceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AnalyticsTrafficSourceScalarFieldEnum | AnalyticsTrafficSourceScalarFieldEnum[]
+  }
+
+  /**
+   * Company.analyticsGeoData
+   */
+  export type Company$analyticsGeoDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsGeoData
+     */
+    select?: AnalyticsGeoDataSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsGeoDataInclude<ExtArgs> | null
+    where?: AnalyticsGeoDataWhereInput
+    orderBy?: AnalyticsGeoDataOrderByWithRelationInput | AnalyticsGeoDataOrderByWithRelationInput[]
+    cursor?: AnalyticsGeoDataWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AnalyticsGeoDataScalarFieldEnum | AnalyticsGeoDataScalarFieldEnum[]
+  }
+
+  /**
+   * Company.searchConsoleQueries
+   */
+  export type Company$searchConsoleQueriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchConsoleQuery
+     */
+    select?: SearchConsoleQuerySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchConsoleQueryInclude<ExtArgs> | null
+    where?: SearchConsoleQueryWhereInput
+    orderBy?: SearchConsoleQueryOrderByWithRelationInput | SearchConsoleQueryOrderByWithRelationInput[]
+    cursor?: SearchConsoleQueryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SearchConsoleQueryScalarFieldEnum | SearchConsoleQueryScalarFieldEnum[]
   }
 
   /**
@@ -29325,6 +30068,6334 @@ export namespace Prisma {
 
 
   /**
+   * Model MarketingIntegration
+   */
+
+  export type AggregateMarketingIntegration = {
+    _count: MarketingIntegrationCountAggregateOutputType | null
+    _min: MarketingIntegrationMinAggregateOutputType | null
+    _max: MarketingIntegrationMaxAggregateOutputType | null
+  }
+
+  export type MarketingIntegrationMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    provider: $Enums.IntegrationProvider | null
+    accountId: string | null
+    accountLabel: string | null
+    accessTokenEnc: string | null
+    refreshTokenEnc: string | null
+    tokenExpiresAt: Date | null
+    googleEmail: string | null
+    googleName: string | null
+    status: $Enums.IntegrationStatus | null
+    lastSyncAt: Date | null
+    lastSyncStatus: string | null
+    lastError: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    createdById: string | null
+  }
+
+  export type MarketingIntegrationMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    provider: $Enums.IntegrationProvider | null
+    accountId: string | null
+    accountLabel: string | null
+    accessTokenEnc: string | null
+    refreshTokenEnc: string | null
+    tokenExpiresAt: Date | null
+    googleEmail: string | null
+    googleName: string | null
+    status: $Enums.IntegrationStatus | null
+    lastSyncAt: Date | null
+    lastSyncStatus: string | null
+    lastError: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    createdById: string | null
+  }
+
+  export type MarketingIntegrationCountAggregateOutputType = {
+    id: number
+    companyId: number
+    provider: number
+    accountId: number
+    accountLabel: number
+    accessTokenEnc: number
+    refreshTokenEnc: number
+    tokenExpiresAt: number
+    scopes: number
+    googleEmail: number
+    googleName: number
+    status: number
+    lastSyncAt: number
+    lastSyncStatus: number
+    lastError: number
+    createdAt: number
+    updatedAt: number
+    createdById: number
+    _all: number
+  }
+
+
+  export type MarketingIntegrationMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    provider?: true
+    accountId?: true
+    accountLabel?: true
+    accessTokenEnc?: true
+    refreshTokenEnc?: true
+    tokenExpiresAt?: true
+    googleEmail?: true
+    googleName?: true
+    status?: true
+    lastSyncAt?: true
+    lastSyncStatus?: true
+    lastError?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+  }
+
+  export type MarketingIntegrationMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    provider?: true
+    accountId?: true
+    accountLabel?: true
+    accessTokenEnc?: true
+    refreshTokenEnc?: true
+    tokenExpiresAt?: true
+    googleEmail?: true
+    googleName?: true
+    status?: true
+    lastSyncAt?: true
+    lastSyncStatus?: true
+    lastError?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+  }
+
+  export type MarketingIntegrationCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    provider?: true
+    accountId?: true
+    accountLabel?: true
+    accessTokenEnc?: true
+    refreshTokenEnc?: true
+    tokenExpiresAt?: true
+    scopes?: true
+    googleEmail?: true
+    googleName?: true
+    status?: true
+    lastSyncAt?: true
+    lastSyncStatus?: true
+    lastError?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+    _all?: true
+  }
+
+  export type MarketingIntegrationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MarketingIntegration to aggregate.
+     */
+    where?: MarketingIntegrationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MarketingIntegrations to fetch.
+     */
+    orderBy?: MarketingIntegrationOrderByWithRelationInput | MarketingIntegrationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MarketingIntegrationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MarketingIntegrations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MarketingIntegrations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MarketingIntegrations
+    **/
+    _count?: true | MarketingIntegrationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MarketingIntegrationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MarketingIntegrationMaxAggregateInputType
+  }
+
+  export type GetMarketingIntegrationAggregateType<T extends MarketingIntegrationAggregateArgs> = {
+        [P in keyof T & keyof AggregateMarketingIntegration]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMarketingIntegration[P]>
+      : GetScalarType<T[P], AggregateMarketingIntegration[P]>
+  }
+
+
+
+
+  export type MarketingIntegrationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MarketingIntegrationWhereInput
+    orderBy?: MarketingIntegrationOrderByWithAggregationInput | MarketingIntegrationOrderByWithAggregationInput[]
+    by: MarketingIntegrationScalarFieldEnum[] | MarketingIntegrationScalarFieldEnum
+    having?: MarketingIntegrationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MarketingIntegrationCountAggregateInputType | true
+    _min?: MarketingIntegrationMinAggregateInputType
+    _max?: MarketingIntegrationMaxAggregateInputType
+  }
+
+  export type MarketingIntegrationGroupByOutputType = {
+    id: string
+    companyId: string
+    provider: $Enums.IntegrationProvider
+    accountId: string | null
+    accountLabel: string | null
+    accessTokenEnc: string | null
+    refreshTokenEnc: string | null
+    tokenExpiresAt: Date | null
+    scopes: string[]
+    googleEmail: string | null
+    googleName: string | null
+    status: $Enums.IntegrationStatus
+    lastSyncAt: Date | null
+    lastSyncStatus: string | null
+    lastError: string | null
+    createdAt: Date
+    updatedAt: Date
+    createdById: string | null
+    _count: MarketingIntegrationCountAggregateOutputType | null
+    _min: MarketingIntegrationMinAggregateOutputType | null
+    _max: MarketingIntegrationMaxAggregateOutputType | null
+  }
+
+  type GetMarketingIntegrationGroupByPayload<T extends MarketingIntegrationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MarketingIntegrationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MarketingIntegrationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MarketingIntegrationGroupByOutputType[P]>
+            : GetScalarType<T[P], MarketingIntegrationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MarketingIntegrationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    provider?: boolean
+    accountId?: boolean
+    accountLabel?: boolean
+    accessTokenEnc?: boolean
+    refreshTokenEnc?: boolean
+    tokenExpiresAt?: boolean
+    scopes?: boolean
+    googleEmail?: boolean
+    googleName?: boolean
+    status?: boolean
+    lastSyncAt?: boolean
+    lastSyncStatus?: boolean
+    lastError?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["marketingIntegration"]>
+
+  export type MarketingIntegrationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    provider?: boolean
+    accountId?: boolean
+    accountLabel?: boolean
+    accessTokenEnc?: boolean
+    refreshTokenEnc?: boolean
+    tokenExpiresAt?: boolean
+    scopes?: boolean
+    googleEmail?: boolean
+    googleName?: boolean
+    status?: boolean
+    lastSyncAt?: boolean
+    lastSyncStatus?: boolean
+    lastError?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["marketingIntegration"]>
+
+  export type MarketingIntegrationSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    provider?: boolean
+    accountId?: boolean
+    accountLabel?: boolean
+    accessTokenEnc?: boolean
+    refreshTokenEnc?: boolean
+    tokenExpiresAt?: boolean
+    scopes?: boolean
+    googleEmail?: boolean
+    googleName?: boolean
+    status?: boolean
+    lastSyncAt?: boolean
+    lastSyncStatus?: boolean
+    lastError?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+  }
+
+  export type MarketingIntegrationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type MarketingIntegrationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $MarketingIntegrationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MarketingIntegration"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      provider: $Enums.IntegrationProvider
+      accountId: string | null
+      accountLabel: string | null
+      accessTokenEnc: string | null
+      refreshTokenEnc: string | null
+      tokenExpiresAt: Date | null
+      scopes: string[]
+      googleEmail: string | null
+      googleName: string | null
+      status: $Enums.IntegrationStatus
+      lastSyncAt: Date | null
+      lastSyncStatus: string | null
+      lastError: string | null
+      createdAt: Date
+      updatedAt: Date
+      createdById: string | null
+    }, ExtArgs["result"]["marketingIntegration"]>
+    composites: {}
+  }
+
+  type MarketingIntegrationGetPayload<S extends boolean | null | undefined | MarketingIntegrationDefaultArgs> = $Result.GetResult<Prisma.$MarketingIntegrationPayload, S>
+
+  type MarketingIntegrationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<MarketingIntegrationFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: MarketingIntegrationCountAggregateInputType | true
+    }
+
+  export interface MarketingIntegrationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MarketingIntegration'], meta: { name: 'MarketingIntegration' } }
+    /**
+     * Find zero or one MarketingIntegration that matches the filter.
+     * @param {MarketingIntegrationFindUniqueArgs} args - Arguments to find a MarketingIntegration
+     * @example
+     * // Get one MarketingIntegration
+     * const marketingIntegration = await prisma.marketingIntegration.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MarketingIntegrationFindUniqueArgs>(args: SelectSubset<T, MarketingIntegrationFindUniqueArgs<ExtArgs>>): Prisma__MarketingIntegrationClient<$Result.GetResult<Prisma.$MarketingIntegrationPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one MarketingIntegration that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {MarketingIntegrationFindUniqueOrThrowArgs} args - Arguments to find a MarketingIntegration
+     * @example
+     * // Get one MarketingIntegration
+     * const marketingIntegration = await prisma.marketingIntegration.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MarketingIntegrationFindUniqueOrThrowArgs>(args: SelectSubset<T, MarketingIntegrationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MarketingIntegrationClient<$Result.GetResult<Prisma.$MarketingIntegrationPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first MarketingIntegration that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketingIntegrationFindFirstArgs} args - Arguments to find a MarketingIntegration
+     * @example
+     * // Get one MarketingIntegration
+     * const marketingIntegration = await prisma.marketingIntegration.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MarketingIntegrationFindFirstArgs>(args?: SelectSubset<T, MarketingIntegrationFindFirstArgs<ExtArgs>>): Prisma__MarketingIntegrationClient<$Result.GetResult<Prisma.$MarketingIntegrationPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first MarketingIntegration that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketingIntegrationFindFirstOrThrowArgs} args - Arguments to find a MarketingIntegration
+     * @example
+     * // Get one MarketingIntegration
+     * const marketingIntegration = await prisma.marketingIntegration.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MarketingIntegrationFindFirstOrThrowArgs>(args?: SelectSubset<T, MarketingIntegrationFindFirstOrThrowArgs<ExtArgs>>): Prisma__MarketingIntegrationClient<$Result.GetResult<Prisma.$MarketingIntegrationPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more MarketingIntegrations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketingIntegrationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MarketingIntegrations
+     * const marketingIntegrations = await prisma.marketingIntegration.findMany()
+     * 
+     * // Get first 10 MarketingIntegrations
+     * const marketingIntegrations = await prisma.marketingIntegration.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const marketingIntegrationWithIdOnly = await prisma.marketingIntegration.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MarketingIntegrationFindManyArgs>(args?: SelectSubset<T, MarketingIntegrationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MarketingIntegrationPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a MarketingIntegration.
+     * @param {MarketingIntegrationCreateArgs} args - Arguments to create a MarketingIntegration.
+     * @example
+     * // Create one MarketingIntegration
+     * const MarketingIntegration = await prisma.marketingIntegration.create({
+     *   data: {
+     *     // ... data to create a MarketingIntegration
+     *   }
+     * })
+     * 
+     */
+    create<T extends MarketingIntegrationCreateArgs>(args: SelectSubset<T, MarketingIntegrationCreateArgs<ExtArgs>>): Prisma__MarketingIntegrationClient<$Result.GetResult<Prisma.$MarketingIntegrationPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many MarketingIntegrations.
+     * @param {MarketingIntegrationCreateManyArgs} args - Arguments to create many MarketingIntegrations.
+     * @example
+     * // Create many MarketingIntegrations
+     * const marketingIntegration = await prisma.marketingIntegration.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MarketingIntegrationCreateManyArgs>(args?: SelectSubset<T, MarketingIntegrationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MarketingIntegrations and returns the data saved in the database.
+     * @param {MarketingIntegrationCreateManyAndReturnArgs} args - Arguments to create many MarketingIntegrations.
+     * @example
+     * // Create many MarketingIntegrations
+     * const marketingIntegration = await prisma.marketingIntegration.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MarketingIntegrations and only return the `id`
+     * const marketingIntegrationWithIdOnly = await prisma.marketingIntegration.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MarketingIntegrationCreateManyAndReturnArgs>(args?: SelectSubset<T, MarketingIntegrationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MarketingIntegrationPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a MarketingIntegration.
+     * @param {MarketingIntegrationDeleteArgs} args - Arguments to delete one MarketingIntegration.
+     * @example
+     * // Delete one MarketingIntegration
+     * const MarketingIntegration = await prisma.marketingIntegration.delete({
+     *   where: {
+     *     // ... filter to delete one MarketingIntegration
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MarketingIntegrationDeleteArgs>(args: SelectSubset<T, MarketingIntegrationDeleteArgs<ExtArgs>>): Prisma__MarketingIntegrationClient<$Result.GetResult<Prisma.$MarketingIntegrationPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one MarketingIntegration.
+     * @param {MarketingIntegrationUpdateArgs} args - Arguments to update one MarketingIntegration.
+     * @example
+     * // Update one MarketingIntegration
+     * const marketingIntegration = await prisma.marketingIntegration.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MarketingIntegrationUpdateArgs>(args: SelectSubset<T, MarketingIntegrationUpdateArgs<ExtArgs>>): Prisma__MarketingIntegrationClient<$Result.GetResult<Prisma.$MarketingIntegrationPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more MarketingIntegrations.
+     * @param {MarketingIntegrationDeleteManyArgs} args - Arguments to filter MarketingIntegrations to delete.
+     * @example
+     * // Delete a few MarketingIntegrations
+     * const { count } = await prisma.marketingIntegration.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MarketingIntegrationDeleteManyArgs>(args?: SelectSubset<T, MarketingIntegrationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MarketingIntegrations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketingIntegrationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MarketingIntegrations
+     * const marketingIntegration = await prisma.marketingIntegration.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MarketingIntegrationUpdateManyArgs>(args: SelectSubset<T, MarketingIntegrationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one MarketingIntegration.
+     * @param {MarketingIntegrationUpsertArgs} args - Arguments to update or create a MarketingIntegration.
+     * @example
+     * // Update or create a MarketingIntegration
+     * const marketingIntegration = await prisma.marketingIntegration.upsert({
+     *   create: {
+     *     // ... data to create a MarketingIntegration
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MarketingIntegration we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MarketingIntegrationUpsertArgs>(args: SelectSubset<T, MarketingIntegrationUpsertArgs<ExtArgs>>): Prisma__MarketingIntegrationClient<$Result.GetResult<Prisma.$MarketingIntegrationPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of MarketingIntegrations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketingIntegrationCountArgs} args - Arguments to filter MarketingIntegrations to count.
+     * @example
+     * // Count the number of MarketingIntegrations
+     * const count = await prisma.marketingIntegration.count({
+     *   where: {
+     *     // ... the filter for the MarketingIntegrations we want to count
+     *   }
+     * })
+    **/
+    count<T extends MarketingIntegrationCountArgs>(
+      args?: Subset<T, MarketingIntegrationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MarketingIntegrationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MarketingIntegration.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketingIntegrationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MarketingIntegrationAggregateArgs>(args: Subset<T, MarketingIntegrationAggregateArgs>): Prisma.PrismaPromise<GetMarketingIntegrationAggregateType<T>>
+
+    /**
+     * Group by MarketingIntegration.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketingIntegrationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MarketingIntegrationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MarketingIntegrationGroupByArgs['orderBy'] }
+        : { orderBy?: MarketingIntegrationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MarketingIntegrationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMarketingIntegrationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MarketingIntegration model
+   */
+  readonly fields: MarketingIntegrationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MarketingIntegration.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MarketingIntegrationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MarketingIntegration model
+   */ 
+  interface MarketingIntegrationFieldRefs {
+    readonly id: FieldRef<"MarketingIntegration", 'String'>
+    readonly companyId: FieldRef<"MarketingIntegration", 'String'>
+    readonly provider: FieldRef<"MarketingIntegration", 'IntegrationProvider'>
+    readonly accountId: FieldRef<"MarketingIntegration", 'String'>
+    readonly accountLabel: FieldRef<"MarketingIntegration", 'String'>
+    readonly accessTokenEnc: FieldRef<"MarketingIntegration", 'String'>
+    readonly refreshTokenEnc: FieldRef<"MarketingIntegration", 'String'>
+    readonly tokenExpiresAt: FieldRef<"MarketingIntegration", 'DateTime'>
+    readonly scopes: FieldRef<"MarketingIntegration", 'String[]'>
+    readonly googleEmail: FieldRef<"MarketingIntegration", 'String'>
+    readonly googleName: FieldRef<"MarketingIntegration", 'String'>
+    readonly status: FieldRef<"MarketingIntegration", 'IntegrationStatus'>
+    readonly lastSyncAt: FieldRef<"MarketingIntegration", 'DateTime'>
+    readonly lastSyncStatus: FieldRef<"MarketingIntegration", 'String'>
+    readonly lastError: FieldRef<"MarketingIntegration", 'String'>
+    readonly createdAt: FieldRef<"MarketingIntegration", 'DateTime'>
+    readonly updatedAt: FieldRef<"MarketingIntegration", 'DateTime'>
+    readonly createdById: FieldRef<"MarketingIntegration", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MarketingIntegration findUnique
+   */
+  export type MarketingIntegrationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketingIntegration
+     */
+    select?: MarketingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketingIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter, which MarketingIntegration to fetch.
+     */
+    where: MarketingIntegrationWhereUniqueInput
+  }
+
+  /**
+   * MarketingIntegration findUniqueOrThrow
+   */
+  export type MarketingIntegrationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketingIntegration
+     */
+    select?: MarketingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketingIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter, which MarketingIntegration to fetch.
+     */
+    where: MarketingIntegrationWhereUniqueInput
+  }
+
+  /**
+   * MarketingIntegration findFirst
+   */
+  export type MarketingIntegrationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketingIntegration
+     */
+    select?: MarketingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketingIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter, which MarketingIntegration to fetch.
+     */
+    where?: MarketingIntegrationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MarketingIntegrations to fetch.
+     */
+    orderBy?: MarketingIntegrationOrderByWithRelationInput | MarketingIntegrationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MarketingIntegrations.
+     */
+    cursor?: MarketingIntegrationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MarketingIntegrations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MarketingIntegrations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MarketingIntegrations.
+     */
+    distinct?: MarketingIntegrationScalarFieldEnum | MarketingIntegrationScalarFieldEnum[]
+  }
+
+  /**
+   * MarketingIntegration findFirstOrThrow
+   */
+  export type MarketingIntegrationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketingIntegration
+     */
+    select?: MarketingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketingIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter, which MarketingIntegration to fetch.
+     */
+    where?: MarketingIntegrationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MarketingIntegrations to fetch.
+     */
+    orderBy?: MarketingIntegrationOrderByWithRelationInput | MarketingIntegrationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MarketingIntegrations.
+     */
+    cursor?: MarketingIntegrationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MarketingIntegrations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MarketingIntegrations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MarketingIntegrations.
+     */
+    distinct?: MarketingIntegrationScalarFieldEnum | MarketingIntegrationScalarFieldEnum[]
+  }
+
+  /**
+   * MarketingIntegration findMany
+   */
+  export type MarketingIntegrationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketingIntegration
+     */
+    select?: MarketingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketingIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter, which MarketingIntegrations to fetch.
+     */
+    where?: MarketingIntegrationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MarketingIntegrations to fetch.
+     */
+    orderBy?: MarketingIntegrationOrderByWithRelationInput | MarketingIntegrationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MarketingIntegrations.
+     */
+    cursor?: MarketingIntegrationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MarketingIntegrations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MarketingIntegrations.
+     */
+    skip?: number
+    distinct?: MarketingIntegrationScalarFieldEnum | MarketingIntegrationScalarFieldEnum[]
+  }
+
+  /**
+   * MarketingIntegration create
+   */
+  export type MarketingIntegrationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketingIntegration
+     */
+    select?: MarketingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketingIntegrationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MarketingIntegration.
+     */
+    data: XOR<MarketingIntegrationCreateInput, MarketingIntegrationUncheckedCreateInput>
+  }
+
+  /**
+   * MarketingIntegration createMany
+   */
+  export type MarketingIntegrationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MarketingIntegrations.
+     */
+    data: MarketingIntegrationCreateManyInput | MarketingIntegrationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MarketingIntegration createManyAndReturn
+   */
+  export type MarketingIntegrationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketingIntegration
+     */
+    select?: MarketingIntegrationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many MarketingIntegrations.
+     */
+    data: MarketingIntegrationCreateManyInput | MarketingIntegrationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketingIntegrationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MarketingIntegration update
+   */
+  export type MarketingIntegrationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketingIntegration
+     */
+    select?: MarketingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketingIntegrationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MarketingIntegration.
+     */
+    data: XOR<MarketingIntegrationUpdateInput, MarketingIntegrationUncheckedUpdateInput>
+    /**
+     * Choose, which MarketingIntegration to update.
+     */
+    where: MarketingIntegrationWhereUniqueInput
+  }
+
+  /**
+   * MarketingIntegration updateMany
+   */
+  export type MarketingIntegrationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MarketingIntegrations.
+     */
+    data: XOR<MarketingIntegrationUpdateManyMutationInput, MarketingIntegrationUncheckedUpdateManyInput>
+    /**
+     * Filter which MarketingIntegrations to update
+     */
+    where?: MarketingIntegrationWhereInput
+  }
+
+  /**
+   * MarketingIntegration upsert
+   */
+  export type MarketingIntegrationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketingIntegration
+     */
+    select?: MarketingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketingIntegrationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MarketingIntegration to update in case it exists.
+     */
+    where: MarketingIntegrationWhereUniqueInput
+    /**
+     * In case the MarketingIntegration found by the `where` argument doesn't exist, create a new MarketingIntegration with this data.
+     */
+    create: XOR<MarketingIntegrationCreateInput, MarketingIntegrationUncheckedCreateInput>
+    /**
+     * In case the MarketingIntegration was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MarketingIntegrationUpdateInput, MarketingIntegrationUncheckedUpdateInput>
+  }
+
+  /**
+   * MarketingIntegration delete
+   */
+  export type MarketingIntegrationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketingIntegration
+     */
+    select?: MarketingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketingIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter which MarketingIntegration to delete.
+     */
+    where: MarketingIntegrationWhereUniqueInput
+  }
+
+  /**
+   * MarketingIntegration deleteMany
+   */
+  export type MarketingIntegrationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MarketingIntegrations to delete
+     */
+    where?: MarketingIntegrationWhereInput
+  }
+
+  /**
+   * MarketingIntegration without action
+   */
+  export type MarketingIntegrationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketingIntegration
+     */
+    select?: MarketingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketingIntegrationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AnalyticsSnapshot
+   */
+
+  export type AggregateAnalyticsSnapshot = {
+    _count: AnalyticsSnapshotCountAggregateOutputType | null
+    _avg: AnalyticsSnapshotAvgAggregateOutputType | null
+    _sum: AnalyticsSnapshotSumAggregateOutputType | null
+    _min: AnalyticsSnapshotMinAggregateOutputType | null
+    _max: AnalyticsSnapshotMaxAggregateOutputType | null
+  }
+
+  export type AnalyticsSnapshotAvgAggregateOutputType = {
+    sessions: number | null
+    users: number | null
+    newUsers: number | null
+    pageviews: number | null
+    conversions: number | null
+    bounceRate: number | null
+    avgSessionSec: number | null
+    engagedSessions: number | null
+  }
+
+  export type AnalyticsSnapshotSumAggregateOutputType = {
+    sessions: number | null
+    users: number | null
+    newUsers: number | null
+    pageviews: number | null
+    conversions: number | null
+    bounceRate: number | null
+    avgSessionSec: number | null
+    engagedSessions: number | null
+  }
+
+  export type AnalyticsSnapshotMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    date: Date | null
+    source: string | null
+    sessions: number | null
+    users: number | null
+    newUsers: number | null
+    pageviews: number | null
+    conversions: number | null
+    bounceRate: number | null
+    avgSessionSec: number | null
+    engagedSessions: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AnalyticsSnapshotMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    date: Date | null
+    source: string | null
+    sessions: number | null
+    users: number | null
+    newUsers: number | null
+    pageviews: number | null
+    conversions: number | null
+    bounceRate: number | null
+    avgSessionSec: number | null
+    engagedSessions: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AnalyticsSnapshotCountAggregateOutputType = {
+    id: number
+    companyId: number
+    date: number
+    source: number
+    sessions: number
+    users: number
+    newUsers: number
+    pageviews: number
+    conversions: number
+    bounceRate: number
+    avgSessionSec: number
+    engagedSessions: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AnalyticsSnapshotAvgAggregateInputType = {
+    sessions?: true
+    users?: true
+    newUsers?: true
+    pageviews?: true
+    conversions?: true
+    bounceRate?: true
+    avgSessionSec?: true
+    engagedSessions?: true
+  }
+
+  export type AnalyticsSnapshotSumAggregateInputType = {
+    sessions?: true
+    users?: true
+    newUsers?: true
+    pageviews?: true
+    conversions?: true
+    bounceRate?: true
+    avgSessionSec?: true
+    engagedSessions?: true
+  }
+
+  export type AnalyticsSnapshotMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    source?: true
+    sessions?: true
+    users?: true
+    newUsers?: true
+    pageviews?: true
+    conversions?: true
+    bounceRate?: true
+    avgSessionSec?: true
+    engagedSessions?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AnalyticsSnapshotMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    source?: true
+    sessions?: true
+    users?: true
+    newUsers?: true
+    pageviews?: true
+    conversions?: true
+    bounceRate?: true
+    avgSessionSec?: true
+    engagedSessions?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AnalyticsSnapshotCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    source?: true
+    sessions?: true
+    users?: true
+    newUsers?: true
+    pageviews?: true
+    conversions?: true
+    bounceRate?: true
+    avgSessionSec?: true
+    engagedSessions?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AnalyticsSnapshotAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AnalyticsSnapshot to aggregate.
+     */
+    where?: AnalyticsSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnalyticsSnapshots to fetch.
+     */
+    orderBy?: AnalyticsSnapshotOrderByWithRelationInput | AnalyticsSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AnalyticsSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnalyticsSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnalyticsSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AnalyticsSnapshots
+    **/
+    _count?: true | AnalyticsSnapshotCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AnalyticsSnapshotAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AnalyticsSnapshotSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AnalyticsSnapshotMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AnalyticsSnapshotMaxAggregateInputType
+  }
+
+  export type GetAnalyticsSnapshotAggregateType<T extends AnalyticsSnapshotAggregateArgs> = {
+        [P in keyof T & keyof AggregateAnalyticsSnapshot]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAnalyticsSnapshot[P]>
+      : GetScalarType<T[P], AggregateAnalyticsSnapshot[P]>
+  }
+
+
+
+
+  export type AnalyticsSnapshotGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnalyticsSnapshotWhereInput
+    orderBy?: AnalyticsSnapshotOrderByWithAggregationInput | AnalyticsSnapshotOrderByWithAggregationInput[]
+    by: AnalyticsSnapshotScalarFieldEnum[] | AnalyticsSnapshotScalarFieldEnum
+    having?: AnalyticsSnapshotScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AnalyticsSnapshotCountAggregateInputType | true
+    _avg?: AnalyticsSnapshotAvgAggregateInputType
+    _sum?: AnalyticsSnapshotSumAggregateInputType
+    _min?: AnalyticsSnapshotMinAggregateInputType
+    _max?: AnalyticsSnapshotMaxAggregateInputType
+  }
+
+  export type AnalyticsSnapshotGroupByOutputType = {
+    id: string
+    companyId: string
+    date: Date
+    source: string
+    sessions: number
+    users: number
+    newUsers: number
+    pageviews: number
+    conversions: number
+    bounceRate: number | null
+    avgSessionSec: number | null
+    engagedSessions: number | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AnalyticsSnapshotCountAggregateOutputType | null
+    _avg: AnalyticsSnapshotAvgAggregateOutputType | null
+    _sum: AnalyticsSnapshotSumAggregateOutputType | null
+    _min: AnalyticsSnapshotMinAggregateOutputType | null
+    _max: AnalyticsSnapshotMaxAggregateOutputType | null
+  }
+
+  type GetAnalyticsSnapshotGroupByPayload<T extends AnalyticsSnapshotGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AnalyticsSnapshotGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AnalyticsSnapshotGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AnalyticsSnapshotGroupByOutputType[P]>
+            : GetScalarType<T[P], AnalyticsSnapshotGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AnalyticsSnapshotSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    source?: boolean
+    sessions?: boolean
+    users?: boolean
+    newUsers?: boolean
+    pageviews?: boolean
+    conversions?: boolean
+    bounceRate?: boolean
+    avgSessionSec?: boolean
+    engagedSessions?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["analyticsSnapshot"]>
+
+  export type AnalyticsSnapshotSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    source?: boolean
+    sessions?: boolean
+    users?: boolean
+    newUsers?: boolean
+    pageviews?: boolean
+    conversions?: boolean
+    bounceRate?: boolean
+    avgSessionSec?: boolean
+    engagedSessions?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["analyticsSnapshot"]>
+
+  export type AnalyticsSnapshotSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    source?: boolean
+    sessions?: boolean
+    users?: boolean
+    newUsers?: boolean
+    pageviews?: boolean
+    conversions?: boolean
+    bounceRate?: boolean
+    avgSessionSec?: boolean
+    engagedSessions?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AnalyticsSnapshotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type AnalyticsSnapshotIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $AnalyticsSnapshotPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AnalyticsSnapshot"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      date: Date
+      source: string
+      sessions: number
+      users: number
+      newUsers: number
+      pageviews: number
+      conversions: number
+      bounceRate: number | null
+      avgSessionSec: number | null
+      engagedSessions: number | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["analyticsSnapshot"]>
+    composites: {}
+  }
+
+  type AnalyticsSnapshotGetPayload<S extends boolean | null | undefined | AnalyticsSnapshotDefaultArgs> = $Result.GetResult<Prisma.$AnalyticsSnapshotPayload, S>
+
+  type AnalyticsSnapshotCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AnalyticsSnapshotFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AnalyticsSnapshotCountAggregateInputType | true
+    }
+
+  export interface AnalyticsSnapshotDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AnalyticsSnapshot'], meta: { name: 'AnalyticsSnapshot' } }
+    /**
+     * Find zero or one AnalyticsSnapshot that matches the filter.
+     * @param {AnalyticsSnapshotFindUniqueArgs} args - Arguments to find a AnalyticsSnapshot
+     * @example
+     * // Get one AnalyticsSnapshot
+     * const analyticsSnapshot = await prisma.analyticsSnapshot.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AnalyticsSnapshotFindUniqueArgs>(args: SelectSubset<T, AnalyticsSnapshotFindUniqueArgs<ExtArgs>>): Prisma__AnalyticsSnapshotClient<$Result.GetResult<Prisma.$AnalyticsSnapshotPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one AnalyticsSnapshot that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AnalyticsSnapshotFindUniqueOrThrowArgs} args - Arguments to find a AnalyticsSnapshot
+     * @example
+     * // Get one AnalyticsSnapshot
+     * const analyticsSnapshot = await prisma.analyticsSnapshot.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AnalyticsSnapshotFindUniqueOrThrowArgs>(args: SelectSubset<T, AnalyticsSnapshotFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AnalyticsSnapshotClient<$Result.GetResult<Prisma.$AnalyticsSnapshotPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first AnalyticsSnapshot that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsSnapshotFindFirstArgs} args - Arguments to find a AnalyticsSnapshot
+     * @example
+     * // Get one AnalyticsSnapshot
+     * const analyticsSnapshot = await prisma.analyticsSnapshot.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AnalyticsSnapshotFindFirstArgs>(args?: SelectSubset<T, AnalyticsSnapshotFindFirstArgs<ExtArgs>>): Prisma__AnalyticsSnapshotClient<$Result.GetResult<Prisma.$AnalyticsSnapshotPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first AnalyticsSnapshot that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsSnapshotFindFirstOrThrowArgs} args - Arguments to find a AnalyticsSnapshot
+     * @example
+     * // Get one AnalyticsSnapshot
+     * const analyticsSnapshot = await prisma.analyticsSnapshot.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AnalyticsSnapshotFindFirstOrThrowArgs>(args?: SelectSubset<T, AnalyticsSnapshotFindFirstOrThrowArgs<ExtArgs>>): Prisma__AnalyticsSnapshotClient<$Result.GetResult<Prisma.$AnalyticsSnapshotPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more AnalyticsSnapshots that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsSnapshotFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AnalyticsSnapshots
+     * const analyticsSnapshots = await prisma.analyticsSnapshot.findMany()
+     * 
+     * // Get first 10 AnalyticsSnapshots
+     * const analyticsSnapshots = await prisma.analyticsSnapshot.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const analyticsSnapshotWithIdOnly = await prisma.analyticsSnapshot.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AnalyticsSnapshotFindManyArgs>(args?: SelectSubset<T, AnalyticsSnapshotFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsSnapshotPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a AnalyticsSnapshot.
+     * @param {AnalyticsSnapshotCreateArgs} args - Arguments to create a AnalyticsSnapshot.
+     * @example
+     * // Create one AnalyticsSnapshot
+     * const AnalyticsSnapshot = await prisma.analyticsSnapshot.create({
+     *   data: {
+     *     // ... data to create a AnalyticsSnapshot
+     *   }
+     * })
+     * 
+     */
+    create<T extends AnalyticsSnapshotCreateArgs>(args: SelectSubset<T, AnalyticsSnapshotCreateArgs<ExtArgs>>): Prisma__AnalyticsSnapshotClient<$Result.GetResult<Prisma.$AnalyticsSnapshotPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many AnalyticsSnapshots.
+     * @param {AnalyticsSnapshotCreateManyArgs} args - Arguments to create many AnalyticsSnapshots.
+     * @example
+     * // Create many AnalyticsSnapshots
+     * const analyticsSnapshot = await prisma.analyticsSnapshot.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AnalyticsSnapshotCreateManyArgs>(args?: SelectSubset<T, AnalyticsSnapshotCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AnalyticsSnapshots and returns the data saved in the database.
+     * @param {AnalyticsSnapshotCreateManyAndReturnArgs} args - Arguments to create many AnalyticsSnapshots.
+     * @example
+     * // Create many AnalyticsSnapshots
+     * const analyticsSnapshot = await prisma.analyticsSnapshot.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AnalyticsSnapshots and only return the `id`
+     * const analyticsSnapshotWithIdOnly = await prisma.analyticsSnapshot.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AnalyticsSnapshotCreateManyAndReturnArgs>(args?: SelectSubset<T, AnalyticsSnapshotCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsSnapshotPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a AnalyticsSnapshot.
+     * @param {AnalyticsSnapshotDeleteArgs} args - Arguments to delete one AnalyticsSnapshot.
+     * @example
+     * // Delete one AnalyticsSnapshot
+     * const AnalyticsSnapshot = await prisma.analyticsSnapshot.delete({
+     *   where: {
+     *     // ... filter to delete one AnalyticsSnapshot
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AnalyticsSnapshotDeleteArgs>(args: SelectSubset<T, AnalyticsSnapshotDeleteArgs<ExtArgs>>): Prisma__AnalyticsSnapshotClient<$Result.GetResult<Prisma.$AnalyticsSnapshotPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one AnalyticsSnapshot.
+     * @param {AnalyticsSnapshotUpdateArgs} args - Arguments to update one AnalyticsSnapshot.
+     * @example
+     * // Update one AnalyticsSnapshot
+     * const analyticsSnapshot = await prisma.analyticsSnapshot.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AnalyticsSnapshotUpdateArgs>(args: SelectSubset<T, AnalyticsSnapshotUpdateArgs<ExtArgs>>): Prisma__AnalyticsSnapshotClient<$Result.GetResult<Prisma.$AnalyticsSnapshotPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more AnalyticsSnapshots.
+     * @param {AnalyticsSnapshotDeleteManyArgs} args - Arguments to filter AnalyticsSnapshots to delete.
+     * @example
+     * // Delete a few AnalyticsSnapshots
+     * const { count } = await prisma.analyticsSnapshot.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AnalyticsSnapshotDeleteManyArgs>(args?: SelectSubset<T, AnalyticsSnapshotDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AnalyticsSnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsSnapshotUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AnalyticsSnapshots
+     * const analyticsSnapshot = await prisma.analyticsSnapshot.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AnalyticsSnapshotUpdateManyArgs>(args: SelectSubset<T, AnalyticsSnapshotUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AnalyticsSnapshot.
+     * @param {AnalyticsSnapshotUpsertArgs} args - Arguments to update or create a AnalyticsSnapshot.
+     * @example
+     * // Update or create a AnalyticsSnapshot
+     * const analyticsSnapshot = await prisma.analyticsSnapshot.upsert({
+     *   create: {
+     *     // ... data to create a AnalyticsSnapshot
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AnalyticsSnapshot we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AnalyticsSnapshotUpsertArgs>(args: SelectSubset<T, AnalyticsSnapshotUpsertArgs<ExtArgs>>): Prisma__AnalyticsSnapshotClient<$Result.GetResult<Prisma.$AnalyticsSnapshotPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of AnalyticsSnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsSnapshotCountArgs} args - Arguments to filter AnalyticsSnapshots to count.
+     * @example
+     * // Count the number of AnalyticsSnapshots
+     * const count = await prisma.analyticsSnapshot.count({
+     *   where: {
+     *     // ... the filter for the AnalyticsSnapshots we want to count
+     *   }
+     * })
+    **/
+    count<T extends AnalyticsSnapshotCountArgs>(
+      args?: Subset<T, AnalyticsSnapshotCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AnalyticsSnapshotCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AnalyticsSnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsSnapshotAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AnalyticsSnapshotAggregateArgs>(args: Subset<T, AnalyticsSnapshotAggregateArgs>): Prisma.PrismaPromise<GetAnalyticsSnapshotAggregateType<T>>
+
+    /**
+     * Group by AnalyticsSnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsSnapshotGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AnalyticsSnapshotGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AnalyticsSnapshotGroupByArgs['orderBy'] }
+        : { orderBy?: AnalyticsSnapshotGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AnalyticsSnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAnalyticsSnapshotGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AnalyticsSnapshot model
+   */
+  readonly fields: AnalyticsSnapshotFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AnalyticsSnapshot.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AnalyticsSnapshotClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AnalyticsSnapshot model
+   */ 
+  interface AnalyticsSnapshotFieldRefs {
+    readonly id: FieldRef<"AnalyticsSnapshot", 'String'>
+    readonly companyId: FieldRef<"AnalyticsSnapshot", 'String'>
+    readonly date: FieldRef<"AnalyticsSnapshot", 'DateTime'>
+    readonly source: FieldRef<"AnalyticsSnapshot", 'String'>
+    readonly sessions: FieldRef<"AnalyticsSnapshot", 'Int'>
+    readonly users: FieldRef<"AnalyticsSnapshot", 'Int'>
+    readonly newUsers: FieldRef<"AnalyticsSnapshot", 'Int'>
+    readonly pageviews: FieldRef<"AnalyticsSnapshot", 'Int'>
+    readonly conversions: FieldRef<"AnalyticsSnapshot", 'Int'>
+    readonly bounceRate: FieldRef<"AnalyticsSnapshot", 'Float'>
+    readonly avgSessionSec: FieldRef<"AnalyticsSnapshot", 'Float'>
+    readonly engagedSessions: FieldRef<"AnalyticsSnapshot", 'Int'>
+    readonly createdAt: FieldRef<"AnalyticsSnapshot", 'DateTime'>
+    readonly updatedAt: FieldRef<"AnalyticsSnapshot", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AnalyticsSnapshot findUnique
+   */
+  export type AnalyticsSnapshotFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsSnapshot
+     */
+    select?: AnalyticsSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsSnapshot to fetch.
+     */
+    where: AnalyticsSnapshotWhereUniqueInput
+  }
+
+  /**
+   * AnalyticsSnapshot findUniqueOrThrow
+   */
+  export type AnalyticsSnapshotFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsSnapshot
+     */
+    select?: AnalyticsSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsSnapshot to fetch.
+     */
+    where: AnalyticsSnapshotWhereUniqueInput
+  }
+
+  /**
+   * AnalyticsSnapshot findFirst
+   */
+  export type AnalyticsSnapshotFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsSnapshot
+     */
+    select?: AnalyticsSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsSnapshot to fetch.
+     */
+    where?: AnalyticsSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnalyticsSnapshots to fetch.
+     */
+    orderBy?: AnalyticsSnapshotOrderByWithRelationInput | AnalyticsSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AnalyticsSnapshots.
+     */
+    cursor?: AnalyticsSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnalyticsSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnalyticsSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AnalyticsSnapshots.
+     */
+    distinct?: AnalyticsSnapshotScalarFieldEnum | AnalyticsSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * AnalyticsSnapshot findFirstOrThrow
+   */
+  export type AnalyticsSnapshotFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsSnapshot
+     */
+    select?: AnalyticsSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsSnapshot to fetch.
+     */
+    where?: AnalyticsSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnalyticsSnapshots to fetch.
+     */
+    orderBy?: AnalyticsSnapshotOrderByWithRelationInput | AnalyticsSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AnalyticsSnapshots.
+     */
+    cursor?: AnalyticsSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnalyticsSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnalyticsSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AnalyticsSnapshots.
+     */
+    distinct?: AnalyticsSnapshotScalarFieldEnum | AnalyticsSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * AnalyticsSnapshot findMany
+   */
+  export type AnalyticsSnapshotFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsSnapshot
+     */
+    select?: AnalyticsSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsSnapshots to fetch.
+     */
+    where?: AnalyticsSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnalyticsSnapshots to fetch.
+     */
+    orderBy?: AnalyticsSnapshotOrderByWithRelationInput | AnalyticsSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AnalyticsSnapshots.
+     */
+    cursor?: AnalyticsSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnalyticsSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnalyticsSnapshots.
+     */
+    skip?: number
+    distinct?: AnalyticsSnapshotScalarFieldEnum | AnalyticsSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * AnalyticsSnapshot create
+   */
+  export type AnalyticsSnapshotCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsSnapshot
+     */
+    select?: AnalyticsSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsSnapshotInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AnalyticsSnapshot.
+     */
+    data: XOR<AnalyticsSnapshotCreateInput, AnalyticsSnapshotUncheckedCreateInput>
+  }
+
+  /**
+   * AnalyticsSnapshot createMany
+   */
+  export type AnalyticsSnapshotCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AnalyticsSnapshots.
+     */
+    data: AnalyticsSnapshotCreateManyInput | AnalyticsSnapshotCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AnalyticsSnapshot createManyAndReturn
+   */
+  export type AnalyticsSnapshotCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsSnapshot
+     */
+    select?: AnalyticsSnapshotSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many AnalyticsSnapshots.
+     */
+    data: AnalyticsSnapshotCreateManyInput | AnalyticsSnapshotCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsSnapshotIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AnalyticsSnapshot update
+   */
+  export type AnalyticsSnapshotUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsSnapshot
+     */
+    select?: AnalyticsSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsSnapshotInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AnalyticsSnapshot.
+     */
+    data: XOR<AnalyticsSnapshotUpdateInput, AnalyticsSnapshotUncheckedUpdateInput>
+    /**
+     * Choose, which AnalyticsSnapshot to update.
+     */
+    where: AnalyticsSnapshotWhereUniqueInput
+  }
+
+  /**
+   * AnalyticsSnapshot updateMany
+   */
+  export type AnalyticsSnapshotUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AnalyticsSnapshots.
+     */
+    data: XOR<AnalyticsSnapshotUpdateManyMutationInput, AnalyticsSnapshotUncheckedUpdateManyInput>
+    /**
+     * Filter which AnalyticsSnapshots to update
+     */
+    where?: AnalyticsSnapshotWhereInput
+  }
+
+  /**
+   * AnalyticsSnapshot upsert
+   */
+  export type AnalyticsSnapshotUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsSnapshot
+     */
+    select?: AnalyticsSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsSnapshotInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AnalyticsSnapshot to update in case it exists.
+     */
+    where: AnalyticsSnapshotWhereUniqueInput
+    /**
+     * In case the AnalyticsSnapshot found by the `where` argument doesn't exist, create a new AnalyticsSnapshot with this data.
+     */
+    create: XOR<AnalyticsSnapshotCreateInput, AnalyticsSnapshotUncheckedCreateInput>
+    /**
+     * In case the AnalyticsSnapshot was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AnalyticsSnapshotUpdateInput, AnalyticsSnapshotUncheckedUpdateInput>
+  }
+
+  /**
+   * AnalyticsSnapshot delete
+   */
+  export type AnalyticsSnapshotDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsSnapshot
+     */
+    select?: AnalyticsSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter which AnalyticsSnapshot to delete.
+     */
+    where: AnalyticsSnapshotWhereUniqueInput
+  }
+
+  /**
+   * AnalyticsSnapshot deleteMany
+   */
+  export type AnalyticsSnapshotDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AnalyticsSnapshots to delete
+     */
+    where?: AnalyticsSnapshotWhereInput
+  }
+
+  /**
+   * AnalyticsSnapshot without action
+   */
+  export type AnalyticsSnapshotDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsSnapshot
+     */
+    select?: AnalyticsSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsSnapshotInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AnalyticsTopPage
+   */
+
+  export type AggregateAnalyticsTopPage = {
+    _count: AnalyticsTopPageCountAggregateOutputType | null
+    _avg: AnalyticsTopPageAvgAggregateOutputType | null
+    _sum: AnalyticsTopPageSumAggregateOutputType | null
+    _min: AnalyticsTopPageMinAggregateOutputType | null
+    _max: AnalyticsTopPageMaxAggregateOutputType | null
+  }
+
+  export type AnalyticsTopPageAvgAggregateOutputType = {
+    views: number | null
+    users: number | null
+    avgTimeSec: number | null
+  }
+
+  export type AnalyticsTopPageSumAggregateOutputType = {
+    views: number | null
+    users: number | null
+    avgTimeSec: number | null
+  }
+
+  export type AnalyticsTopPageMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    date: Date | null
+    source: string | null
+    pagePath: string | null
+    pageTitle: string | null
+    views: number | null
+    users: number | null
+    avgTimeSec: number | null
+  }
+
+  export type AnalyticsTopPageMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    date: Date | null
+    source: string | null
+    pagePath: string | null
+    pageTitle: string | null
+    views: number | null
+    users: number | null
+    avgTimeSec: number | null
+  }
+
+  export type AnalyticsTopPageCountAggregateOutputType = {
+    id: number
+    companyId: number
+    date: number
+    source: number
+    pagePath: number
+    pageTitle: number
+    views: number
+    users: number
+    avgTimeSec: number
+    _all: number
+  }
+
+
+  export type AnalyticsTopPageAvgAggregateInputType = {
+    views?: true
+    users?: true
+    avgTimeSec?: true
+  }
+
+  export type AnalyticsTopPageSumAggregateInputType = {
+    views?: true
+    users?: true
+    avgTimeSec?: true
+  }
+
+  export type AnalyticsTopPageMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    source?: true
+    pagePath?: true
+    pageTitle?: true
+    views?: true
+    users?: true
+    avgTimeSec?: true
+  }
+
+  export type AnalyticsTopPageMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    source?: true
+    pagePath?: true
+    pageTitle?: true
+    views?: true
+    users?: true
+    avgTimeSec?: true
+  }
+
+  export type AnalyticsTopPageCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    source?: true
+    pagePath?: true
+    pageTitle?: true
+    views?: true
+    users?: true
+    avgTimeSec?: true
+    _all?: true
+  }
+
+  export type AnalyticsTopPageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AnalyticsTopPage to aggregate.
+     */
+    where?: AnalyticsTopPageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnalyticsTopPages to fetch.
+     */
+    orderBy?: AnalyticsTopPageOrderByWithRelationInput | AnalyticsTopPageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AnalyticsTopPageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnalyticsTopPages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnalyticsTopPages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AnalyticsTopPages
+    **/
+    _count?: true | AnalyticsTopPageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AnalyticsTopPageAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AnalyticsTopPageSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AnalyticsTopPageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AnalyticsTopPageMaxAggregateInputType
+  }
+
+  export type GetAnalyticsTopPageAggregateType<T extends AnalyticsTopPageAggregateArgs> = {
+        [P in keyof T & keyof AggregateAnalyticsTopPage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAnalyticsTopPage[P]>
+      : GetScalarType<T[P], AggregateAnalyticsTopPage[P]>
+  }
+
+
+
+
+  export type AnalyticsTopPageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnalyticsTopPageWhereInput
+    orderBy?: AnalyticsTopPageOrderByWithAggregationInput | AnalyticsTopPageOrderByWithAggregationInput[]
+    by: AnalyticsTopPageScalarFieldEnum[] | AnalyticsTopPageScalarFieldEnum
+    having?: AnalyticsTopPageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AnalyticsTopPageCountAggregateInputType | true
+    _avg?: AnalyticsTopPageAvgAggregateInputType
+    _sum?: AnalyticsTopPageSumAggregateInputType
+    _min?: AnalyticsTopPageMinAggregateInputType
+    _max?: AnalyticsTopPageMaxAggregateInputType
+  }
+
+  export type AnalyticsTopPageGroupByOutputType = {
+    id: string
+    companyId: string
+    date: Date
+    source: string
+    pagePath: string
+    pageTitle: string | null
+    views: number
+    users: number
+    avgTimeSec: number | null
+    _count: AnalyticsTopPageCountAggregateOutputType | null
+    _avg: AnalyticsTopPageAvgAggregateOutputType | null
+    _sum: AnalyticsTopPageSumAggregateOutputType | null
+    _min: AnalyticsTopPageMinAggregateOutputType | null
+    _max: AnalyticsTopPageMaxAggregateOutputType | null
+  }
+
+  type GetAnalyticsTopPageGroupByPayload<T extends AnalyticsTopPageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AnalyticsTopPageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AnalyticsTopPageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AnalyticsTopPageGroupByOutputType[P]>
+            : GetScalarType<T[P], AnalyticsTopPageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AnalyticsTopPageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    source?: boolean
+    pagePath?: boolean
+    pageTitle?: boolean
+    views?: boolean
+    users?: boolean
+    avgTimeSec?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["analyticsTopPage"]>
+
+  export type AnalyticsTopPageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    source?: boolean
+    pagePath?: boolean
+    pageTitle?: boolean
+    views?: boolean
+    users?: boolean
+    avgTimeSec?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["analyticsTopPage"]>
+
+  export type AnalyticsTopPageSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    source?: boolean
+    pagePath?: boolean
+    pageTitle?: boolean
+    views?: boolean
+    users?: boolean
+    avgTimeSec?: boolean
+  }
+
+  export type AnalyticsTopPageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type AnalyticsTopPageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $AnalyticsTopPagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AnalyticsTopPage"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      date: Date
+      source: string
+      pagePath: string
+      pageTitle: string | null
+      views: number
+      users: number
+      avgTimeSec: number | null
+    }, ExtArgs["result"]["analyticsTopPage"]>
+    composites: {}
+  }
+
+  type AnalyticsTopPageGetPayload<S extends boolean | null | undefined | AnalyticsTopPageDefaultArgs> = $Result.GetResult<Prisma.$AnalyticsTopPagePayload, S>
+
+  type AnalyticsTopPageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AnalyticsTopPageFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AnalyticsTopPageCountAggregateInputType | true
+    }
+
+  export interface AnalyticsTopPageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AnalyticsTopPage'], meta: { name: 'AnalyticsTopPage' } }
+    /**
+     * Find zero or one AnalyticsTopPage that matches the filter.
+     * @param {AnalyticsTopPageFindUniqueArgs} args - Arguments to find a AnalyticsTopPage
+     * @example
+     * // Get one AnalyticsTopPage
+     * const analyticsTopPage = await prisma.analyticsTopPage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AnalyticsTopPageFindUniqueArgs>(args: SelectSubset<T, AnalyticsTopPageFindUniqueArgs<ExtArgs>>): Prisma__AnalyticsTopPageClient<$Result.GetResult<Prisma.$AnalyticsTopPagePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one AnalyticsTopPage that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AnalyticsTopPageFindUniqueOrThrowArgs} args - Arguments to find a AnalyticsTopPage
+     * @example
+     * // Get one AnalyticsTopPage
+     * const analyticsTopPage = await prisma.analyticsTopPage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AnalyticsTopPageFindUniqueOrThrowArgs>(args: SelectSubset<T, AnalyticsTopPageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AnalyticsTopPageClient<$Result.GetResult<Prisma.$AnalyticsTopPagePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first AnalyticsTopPage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsTopPageFindFirstArgs} args - Arguments to find a AnalyticsTopPage
+     * @example
+     * // Get one AnalyticsTopPage
+     * const analyticsTopPage = await prisma.analyticsTopPage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AnalyticsTopPageFindFirstArgs>(args?: SelectSubset<T, AnalyticsTopPageFindFirstArgs<ExtArgs>>): Prisma__AnalyticsTopPageClient<$Result.GetResult<Prisma.$AnalyticsTopPagePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first AnalyticsTopPage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsTopPageFindFirstOrThrowArgs} args - Arguments to find a AnalyticsTopPage
+     * @example
+     * // Get one AnalyticsTopPage
+     * const analyticsTopPage = await prisma.analyticsTopPage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AnalyticsTopPageFindFirstOrThrowArgs>(args?: SelectSubset<T, AnalyticsTopPageFindFirstOrThrowArgs<ExtArgs>>): Prisma__AnalyticsTopPageClient<$Result.GetResult<Prisma.$AnalyticsTopPagePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more AnalyticsTopPages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsTopPageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AnalyticsTopPages
+     * const analyticsTopPages = await prisma.analyticsTopPage.findMany()
+     * 
+     * // Get first 10 AnalyticsTopPages
+     * const analyticsTopPages = await prisma.analyticsTopPage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const analyticsTopPageWithIdOnly = await prisma.analyticsTopPage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AnalyticsTopPageFindManyArgs>(args?: SelectSubset<T, AnalyticsTopPageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsTopPagePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a AnalyticsTopPage.
+     * @param {AnalyticsTopPageCreateArgs} args - Arguments to create a AnalyticsTopPage.
+     * @example
+     * // Create one AnalyticsTopPage
+     * const AnalyticsTopPage = await prisma.analyticsTopPage.create({
+     *   data: {
+     *     // ... data to create a AnalyticsTopPage
+     *   }
+     * })
+     * 
+     */
+    create<T extends AnalyticsTopPageCreateArgs>(args: SelectSubset<T, AnalyticsTopPageCreateArgs<ExtArgs>>): Prisma__AnalyticsTopPageClient<$Result.GetResult<Prisma.$AnalyticsTopPagePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many AnalyticsTopPages.
+     * @param {AnalyticsTopPageCreateManyArgs} args - Arguments to create many AnalyticsTopPages.
+     * @example
+     * // Create many AnalyticsTopPages
+     * const analyticsTopPage = await prisma.analyticsTopPage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AnalyticsTopPageCreateManyArgs>(args?: SelectSubset<T, AnalyticsTopPageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AnalyticsTopPages and returns the data saved in the database.
+     * @param {AnalyticsTopPageCreateManyAndReturnArgs} args - Arguments to create many AnalyticsTopPages.
+     * @example
+     * // Create many AnalyticsTopPages
+     * const analyticsTopPage = await prisma.analyticsTopPage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AnalyticsTopPages and only return the `id`
+     * const analyticsTopPageWithIdOnly = await prisma.analyticsTopPage.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AnalyticsTopPageCreateManyAndReturnArgs>(args?: SelectSubset<T, AnalyticsTopPageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsTopPagePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a AnalyticsTopPage.
+     * @param {AnalyticsTopPageDeleteArgs} args - Arguments to delete one AnalyticsTopPage.
+     * @example
+     * // Delete one AnalyticsTopPage
+     * const AnalyticsTopPage = await prisma.analyticsTopPage.delete({
+     *   where: {
+     *     // ... filter to delete one AnalyticsTopPage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AnalyticsTopPageDeleteArgs>(args: SelectSubset<T, AnalyticsTopPageDeleteArgs<ExtArgs>>): Prisma__AnalyticsTopPageClient<$Result.GetResult<Prisma.$AnalyticsTopPagePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one AnalyticsTopPage.
+     * @param {AnalyticsTopPageUpdateArgs} args - Arguments to update one AnalyticsTopPage.
+     * @example
+     * // Update one AnalyticsTopPage
+     * const analyticsTopPage = await prisma.analyticsTopPage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AnalyticsTopPageUpdateArgs>(args: SelectSubset<T, AnalyticsTopPageUpdateArgs<ExtArgs>>): Prisma__AnalyticsTopPageClient<$Result.GetResult<Prisma.$AnalyticsTopPagePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more AnalyticsTopPages.
+     * @param {AnalyticsTopPageDeleteManyArgs} args - Arguments to filter AnalyticsTopPages to delete.
+     * @example
+     * // Delete a few AnalyticsTopPages
+     * const { count } = await prisma.analyticsTopPage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AnalyticsTopPageDeleteManyArgs>(args?: SelectSubset<T, AnalyticsTopPageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AnalyticsTopPages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsTopPageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AnalyticsTopPages
+     * const analyticsTopPage = await prisma.analyticsTopPage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AnalyticsTopPageUpdateManyArgs>(args: SelectSubset<T, AnalyticsTopPageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AnalyticsTopPage.
+     * @param {AnalyticsTopPageUpsertArgs} args - Arguments to update or create a AnalyticsTopPage.
+     * @example
+     * // Update or create a AnalyticsTopPage
+     * const analyticsTopPage = await prisma.analyticsTopPage.upsert({
+     *   create: {
+     *     // ... data to create a AnalyticsTopPage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AnalyticsTopPage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AnalyticsTopPageUpsertArgs>(args: SelectSubset<T, AnalyticsTopPageUpsertArgs<ExtArgs>>): Prisma__AnalyticsTopPageClient<$Result.GetResult<Prisma.$AnalyticsTopPagePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of AnalyticsTopPages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsTopPageCountArgs} args - Arguments to filter AnalyticsTopPages to count.
+     * @example
+     * // Count the number of AnalyticsTopPages
+     * const count = await prisma.analyticsTopPage.count({
+     *   where: {
+     *     // ... the filter for the AnalyticsTopPages we want to count
+     *   }
+     * })
+    **/
+    count<T extends AnalyticsTopPageCountArgs>(
+      args?: Subset<T, AnalyticsTopPageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AnalyticsTopPageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AnalyticsTopPage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsTopPageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AnalyticsTopPageAggregateArgs>(args: Subset<T, AnalyticsTopPageAggregateArgs>): Prisma.PrismaPromise<GetAnalyticsTopPageAggregateType<T>>
+
+    /**
+     * Group by AnalyticsTopPage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsTopPageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AnalyticsTopPageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AnalyticsTopPageGroupByArgs['orderBy'] }
+        : { orderBy?: AnalyticsTopPageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AnalyticsTopPageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAnalyticsTopPageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AnalyticsTopPage model
+   */
+  readonly fields: AnalyticsTopPageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AnalyticsTopPage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AnalyticsTopPageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AnalyticsTopPage model
+   */ 
+  interface AnalyticsTopPageFieldRefs {
+    readonly id: FieldRef<"AnalyticsTopPage", 'String'>
+    readonly companyId: FieldRef<"AnalyticsTopPage", 'String'>
+    readonly date: FieldRef<"AnalyticsTopPage", 'DateTime'>
+    readonly source: FieldRef<"AnalyticsTopPage", 'String'>
+    readonly pagePath: FieldRef<"AnalyticsTopPage", 'String'>
+    readonly pageTitle: FieldRef<"AnalyticsTopPage", 'String'>
+    readonly views: FieldRef<"AnalyticsTopPage", 'Int'>
+    readonly users: FieldRef<"AnalyticsTopPage", 'Int'>
+    readonly avgTimeSec: FieldRef<"AnalyticsTopPage", 'Float'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AnalyticsTopPage findUnique
+   */
+  export type AnalyticsTopPageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTopPage
+     */
+    select?: AnalyticsTopPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTopPageInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsTopPage to fetch.
+     */
+    where: AnalyticsTopPageWhereUniqueInput
+  }
+
+  /**
+   * AnalyticsTopPage findUniqueOrThrow
+   */
+  export type AnalyticsTopPageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTopPage
+     */
+    select?: AnalyticsTopPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTopPageInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsTopPage to fetch.
+     */
+    where: AnalyticsTopPageWhereUniqueInput
+  }
+
+  /**
+   * AnalyticsTopPage findFirst
+   */
+  export type AnalyticsTopPageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTopPage
+     */
+    select?: AnalyticsTopPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTopPageInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsTopPage to fetch.
+     */
+    where?: AnalyticsTopPageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnalyticsTopPages to fetch.
+     */
+    orderBy?: AnalyticsTopPageOrderByWithRelationInput | AnalyticsTopPageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AnalyticsTopPages.
+     */
+    cursor?: AnalyticsTopPageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnalyticsTopPages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnalyticsTopPages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AnalyticsTopPages.
+     */
+    distinct?: AnalyticsTopPageScalarFieldEnum | AnalyticsTopPageScalarFieldEnum[]
+  }
+
+  /**
+   * AnalyticsTopPage findFirstOrThrow
+   */
+  export type AnalyticsTopPageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTopPage
+     */
+    select?: AnalyticsTopPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTopPageInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsTopPage to fetch.
+     */
+    where?: AnalyticsTopPageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnalyticsTopPages to fetch.
+     */
+    orderBy?: AnalyticsTopPageOrderByWithRelationInput | AnalyticsTopPageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AnalyticsTopPages.
+     */
+    cursor?: AnalyticsTopPageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnalyticsTopPages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnalyticsTopPages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AnalyticsTopPages.
+     */
+    distinct?: AnalyticsTopPageScalarFieldEnum | AnalyticsTopPageScalarFieldEnum[]
+  }
+
+  /**
+   * AnalyticsTopPage findMany
+   */
+  export type AnalyticsTopPageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTopPage
+     */
+    select?: AnalyticsTopPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTopPageInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsTopPages to fetch.
+     */
+    where?: AnalyticsTopPageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnalyticsTopPages to fetch.
+     */
+    orderBy?: AnalyticsTopPageOrderByWithRelationInput | AnalyticsTopPageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AnalyticsTopPages.
+     */
+    cursor?: AnalyticsTopPageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnalyticsTopPages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnalyticsTopPages.
+     */
+    skip?: number
+    distinct?: AnalyticsTopPageScalarFieldEnum | AnalyticsTopPageScalarFieldEnum[]
+  }
+
+  /**
+   * AnalyticsTopPage create
+   */
+  export type AnalyticsTopPageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTopPage
+     */
+    select?: AnalyticsTopPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTopPageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AnalyticsTopPage.
+     */
+    data: XOR<AnalyticsTopPageCreateInput, AnalyticsTopPageUncheckedCreateInput>
+  }
+
+  /**
+   * AnalyticsTopPage createMany
+   */
+  export type AnalyticsTopPageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AnalyticsTopPages.
+     */
+    data: AnalyticsTopPageCreateManyInput | AnalyticsTopPageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AnalyticsTopPage createManyAndReturn
+   */
+  export type AnalyticsTopPageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTopPage
+     */
+    select?: AnalyticsTopPageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many AnalyticsTopPages.
+     */
+    data: AnalyticsTopPageCreateManyInput | AnalyticsTopPageCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTopPageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AnalyticsTopPage update
+   */
+  export type AnalyticsTopPageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTopPage
+     */
+    select?: AnalyticsTopPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTopPageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AnalyticsTopPage.
+     */
+    data: XOR<AnalyticsTopPageUpdateInput, AnalyticsTopPageUncheckedUpdateInput>
+    /**
+     * Choose, which AnalyticsTopPage to update.
+     */
+    where: AnalyticsTopPageWhereUniqueInput
+  }
+
+  /**
+   * AnalyticsTopPage updateMany
+   */
+  export type AnalyticsTopPageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AnalyticsTopPages.
+     */
+    data: XOR<AnalyticsTopPageUpdateManyMutationInput, AnalyticsTopPageUncheckedUpdateManyInput>
+    /**
+     * Filter which AnalyticsTopPages to update
+     */
+    where?: AnalyticsTopPageWhereInput
+  }
+
+  /**
+   * AnalyticsTopPage upsert
+   */
+  export type AnalyticsTopPageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTopPage
+     */
+    select?: AnalyticsTopPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTopPageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AnalyticsTopPage to update in case it exists.
+     */
+    where: AnalyticsTopPageWhereUniqueInput
+    /**
+     * In case the AnalyticsTopPage found by the `where` argument doesn't exist, create a new AnalyticsTopPage with this data.
+     */
+    create: XOR<AnalyticsTopPageCreateInput, AnalyticsTopPageUncheckedCreateInput>
+    /**
+     * In case the AnalyticsTopPage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AnalyticsTopPageUpdateInput, AnalyticsTopPageUncheckedUpdateInput>
+  }
+
+  /**
+   * AnalyticsTopPage delete
+   */
+  export type AnalyticsTopPageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTopPage
+     */
+    select?: AnalyticsTopPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTopPageInclude<ExtArgs> | null
+    /**
+     * Filter which AnalyticsTopPage to delete.
+     */
+    where: AnalyticsTopPageWhereUniqueInput
+  }
+
+  /**
+   * AnalyticsTopPage deleteMany
+   */
+  export type AnalyticsTopPageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AnalyticsTopPages to delete
+     */
+    where?: AnalyticsTopPageWhereInput
+  }
+
+  /**
+   * AnalyticsTopPage without action
+   */
+  export type AnalyticsTopPageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTopPage
+     */
+    select?: AnalyticsTopPageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTopPageInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AnalyticsTrafficSource
+   */
+
+  export type AggregateAnalyticsTrafficSource = {
+    _count: AnalyticsTrafficSourceCountAggregateOutputType | null
+    _avg: AnalyticsTrafficSourceAvgAggregateOutputType | null
+    _sum: AnalyticsTrafficSourceSumAggregateOutputType | null
+    _min: AnalyticsTrafficSourceMinAggregateOutputType | null
+    _max: AnalyticsTrafficSourceMaxAggregateOutputType | null
+  }
+
+  export type AnalyticsTrafficSourceAvgAggregateOutputType = {
+    sessions: number | null
+    users: number | null
+    conversions: number | null
+  }
+
+  export type AnalyticsTrafficSourceSumAggregateOutputType = {
+    sessions: number | null
+    users: number | null
+    conversions: number | null
+  }
+
+  export type AnalyticsTrafficSourceMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    date: Date | null
+    source: string | null
+    rawSource: string | null
+    rawMedium: string | null
+    bucket: string | null
+    sessions: number | null
+    users: number | null
+    conversions: number | null
+  }
+
+  export type AnalyticsTrafficSourceMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    date: Date | null
+    source: string | null
+    rawSource: string | null
+    rawMedium: string | null
+    bucket: string | null
+    sessions: number | null
+    users: number | null
+    conversions: number | null
+  }
+
+  export type AnalyticsTrafficSourceCountAggregateOutputType = {
+    id: number
+    companyId: number
+    date: number
+    source: number
+    rawSource: number
+    rawMedium: number
+    bucket: number
+    sessions: number
+    users: number
+    conversions: number
+    _all: number
+  }
+
+
+  export type AnalyticsTrafficSourceAvgAggregateInputType = {
+    sessions?: true
+    users?: true
+    conversions?: true
+  }
+
+  export type AnalyticsTrafficSourceSumAggregateInputType = {
+    sessions?: true
+    users?: true
+    conversions?: true
+  }
+
+  export type AnalyticsTrafficSourceMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    source?: true
+    rawSource?: true
+    rawMedium?: true
+    bucket?: true
+    sessions?: true
+    users?: true
+    conversions?: true
+  }
+
+  export type AnalyticsTrafficSourceMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    source?: true
+    rawSource?: true
+    rawMedium?: true
+    bucket?: true
+    sessions?: true
+    users?: true
+    conversions?: true
+  }
+
+  export type AnalyticsTrafficSourceCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    source?: true
+    rawSource?: true
+    rawMedium?: true
+    bucket?: true
+    sessions?: true
+    users?: true
+    conversions?: true
+    _all?: true
+  }
+
+  export type AnalyticsTrafficSourceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AnalyticsTrafficSource to aggregate.
+     */
+    where?: AnalyticsTrafficSourceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnalyticsTrafficSources to fetch.
+     */
+    orderBy?: AnalyticsTrafficSourceOrderByWithRelationInput | AnalyticsTrafficSourceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AnalyticsTrafficSourceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnalyticsTrafficSources from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnalyticsTrafficSources.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AnalyticsTrafficSources
+    **/
+    _count?: true | AnalyticsTrafficSourceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AnalyticsTrafficSourceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AnalyticsTrafficSourceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AnalyticsTrafficSourceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AnalyticsTrafficSourceMaxAggregateInputType
+  }
+
+  export type GetAnalyticsTrafficSourceAggregateType<T extends AnalyticsTrafficSourceAggregateArgs> = {
+        [P in keyof T & keyof AggregateAnalyticsTrafficSource]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAnalyticsTrafficSource[P]>
+      : GetScalarType<T[P], AggregateAnalyticsTrafficSource[P]>
+  }
+
+
+
+
+  export type AnalyticsTrafficSourceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnalyticsTrafficSourceWhereInput
+    orderBy?: AnalyticsTrafficSourceOrderByWithAggregationInput | AnalyticsTrafficSourceOrderByWithAggregationInput[]
+    by: AnalyticsTrafficSourceScalarFieldEnum[] | AnalyticsTrafficSourceScalarFieldEnum
+    having?: AnalyticsTrafficSourceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AnalyticsTrafficSourceCountAggregateInputType | true
+    _avg?: AnalyticsTrafficSourceAvgAggregateInputType
+    _sum?: AnalyticsTrafficSourceSumAggregateInputType
+    _min?: AnalyticsTrafficSourceMinAggregateInputType
+    _max?: AnalyticsTrafficSourceMaxAggregateInputType
+  }
+
+  export type AnalyticsTrafficSourceGroupByOutputType = {
+    id: string
+    companyId: string
+    date: Date
+    source: string
+    rawSource: string
+    rawMedium: string
+    bucket: string
+    sessions: number
+    users: number
+    conversions: number
+    _count: AnalyticsTrafficSourceCountAggregateOutputType | null
+    _avg: AnalyticsTrafficSourceAvgAggregateOutputType | null
+    _sum: AnalyticsTrafficSourceSumAggregateOutputType | null
+    _min: AnalyticsTrafficSourceMinAggregateOutputType | null
+    _max: AnalyticsTrafficSourceMaxAggregateOutputType | null
+  }
+
+  type GetAnalyticsTrafficSourceGroupByPayload<T extends AnalyticsTrafficSourceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AnalyticsTrafficSourceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AnalyticsTrafficSourceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AnalyticsTrafficSourceGroupByOutputType[P]>
+            : GetScalarType<T[P], AnalyticsTrafficSourceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AnalyticsTrafficSourceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    source?: boolean
+    rawSource?: boolean
+    rawMedium?: boolean
+    bucket?: boolean
+    sessions?: boolean
+    users?: boolean
+    conversions?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["analyticsTrafficSource"]>
+
+  export type AnalyticsTrafficSourceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    source?: boolean
+    rawSource?: boolean
+    rawMedium?: boolean
+    bucket?: boolean
+    sessions?: boolean
+    users?: boolean
+    conversions?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["analyticsTrafficSource"]>
+
+  export type AnalyticsTrafficSourceSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    source?: boolean
+    rawSource?: boolean
+    rawMedium?: boolean
+    bucket?: boolean
+    sessions?: boolean
+    users?: boolean
+    conversions?: boolean
+  }
+
+  export type AnalyticsTrafficSourceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type AnalyticsTrafficSourceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $AnalyticsTrafficSourcePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AnalyticsTrafficSource"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      date: Date
+      source: string
+      rawSource: string
+      rawMedium: string
+      bucket: string
+      sessions: number
+      users: number
+      conversions: number
+    }, ExtArgs["result"]["analyticsTrafficSource"]>
+    composites: {}
+  }
+
+  type AnalyticsTrafficSourceGetPayload<S extends boolean | null | undefined | AnalyticsTrafficSourceDefaultArgs> = $Result.GetResult<Prisma.$AnalyticsTrafficSourcePayload, S>
+
+  type AnalyticsTrafficSourceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AnalyticsTrafficSourceFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AnalyticsTrafficSourceCountAggregateInputType | true
+    }
+
+  export interface AnalyticsTrafficSourceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AnalyticsTrafficSource'], meta: { name: 'AnalyticsTrafficSource' } }
+    /**
+     * Find zero or one AnalyticsTrafficSource that matches the filter.
+     * @param {AnalyticsTrafficSourceFindUniqueArgs} args - Arguments to find a AnalyticsTrafficSource
+     * @example
+     * // Get one AnalyticsTrafficSource
+     * const analyticsTrafficSource = await prisma.analyticsTrafficSource.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AnalyticsTrafficSourceFindUniqueArgs>(args: SelectSubset<T, AnalyticsTrafficSourceFindUniqueArgs<ExtArgs>>): Prisma__AnalyticsTrafficSourceClient<$Result.GetResult<Prisma.$AnalyticsTrafficSourcePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one AnalyticsTrafficSource that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AnalyticsTrafficSourceFindUniqueOrThrowArgs} args - Arguments to find a AnalyticsTrafficSource
+     * @example
+     * // Get one AnalyticsTrafficSource
+     * const analyticsTrafficSource = await prisma.analyticsTrafficSource.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AnalyticsTrafficSourceFindUniqueOrThrowArgs>(args: SelectSubset<T, AnalyticsTrafficSourceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AnalyticsTrafficSourceClient<$Result.GetResult<Prisma.$AnalyticsTrafficSourcePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first AnalyticsTrafficSource that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsTrafficSourceFindFirstArgs} args - Arguments to find a AnalyticsTrafficSource
+     * @example
+     * // Get one AnalyticsTrafficSource
+     * const analyticsTrafficSource = await prisma.analyticsTrafficSource.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AnalyticsTrafficSourceFindFirstArgs>(args?: SelectSubset<T, AnalyticsTrafficSourceFindFirstArgs<ExtArgs>>): Prisma__AnalyticsTrafficSourceClient<$Result.GetResult<Prisma.$AnalyticsTrafficSourcePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first AnalyticsTrafficSource that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsTrafficSourceFindFirstOrThrowArgs} args - Arguments to find a AnalyticsTrafficSource
+     * @example
+     * // Get one AnalyticsTrafficSource
+     * const analyticsTrafficSource = await prisma.analyticsTrafficSource.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AnalyticsTrafficSourceFindFirstOrThrowArgs>(args?: SelectSubset<T, AnalyticsTrafficSourceFindFirstOrThrowArgs<ExtArgs>>): Prisma__AnalyticsTrafficSourceClient<$Result.GetResult<Prisma.$AnalyticsTrafficSourcePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more AnalyticsTrafficSources that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsTrafficSourceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AnalyticsTrafficSources
+     * const analyticsTrafficSources = await prisma.analyticsTrafficSource.findMany()
+     * 
+     * // Get first 10 AnalyticsTrafficSources
+     * const analyticsTrafficSources = await prisma.analyticsTrafficSource.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const analyticsTrafficSourceWithIdOnly = await prisma.analyticsTrafficSource.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AnalyticsTrafficSourceFindManyArgs>(args?: SelectSubset<T, AnalyticsTrafficSourceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsTrafficSourcePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a AnalyticsTrafficSource.
+     * @param {AnalyticsTrafficSourceCreateArgs} args - Arguments to create a AnalyticsTrafficSource.
+     * @example
+     * // Create one AnalyticsTrafficSource
+     * const AnalyticsTrafficSource = await prisma.analyticsTrafficSource.create({
+     *   data: {
+     *     // ... data to create a AnalyticsTrafficSource
+     *   }
+     * })
+     * 
+     */
+    create<T extends AnalyticsTrafficSourceCreateArgs>(args: SelectSubset<T, AnalyticsTrafficSourceCreateArgs<ExtArgs>>): Prisma__AnalyticsTrafficSourceClient<$Result.GetResult<Prisma.$AnalyticsTrafficSourcePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many AnalyticsTrafficSources.
+     * @param {AnalyticsTrafficSourceCreateManyArgs} args - Arguments to create many AnalyticsTrafficSources.
+     * @example
+     * // Create many AnalyticsTrafficSources
+     * const analyticsTrafficSource = await prisma.analyticsTrafficSource.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AnalyticsTrafficSourceCreateManyArgs>(args?: SelectSubset<T, AnalyticsTrafficSourceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AnalyticsTrafficSources and returns the data saved in the database.
+     * @param {AnalyticsTrafficSourceCreateManyAndReturnArgs} args - Arguments to create many AnalyticsTrafficSources.
+     * @example
+     * // Create many AnalyticsTrafficSources
+     * const analyticsTrafficSource = await prisma.analyticsTrafficSource.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AnalyticsTrafficSources and only return the `id`
+     * const analyticsTrafficSourceWithIdOnly = await prisma.analyticsTrafficSource.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AnalyticsTrafficSourceCreateManyAndReturnArgs>(args?: SelectSubset<T, AnalyticsTrafficSourceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsTrafficSourcePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a AnalyticsTrafficSource.
+     * @param {AnalyticsTrafficSourceDeleteArgs} args - Arguments to delete one AnalyticsTrafficSource.
+     * @example
+     * // Delete one AnalyticsTrafficSource
+     * const AnalyticsTrafficSource = await prisma.analyticsTrafficSource.delete({
+     *   where: {
+     *     // ... filter to delete one AnalyticsTrafficSource
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AnalyticsTrafficSourceDeleteArgs>(args: SelectSubset<T, AnalyticsTrafficSourceDeleteArgs<ExtArgs>>): Prisma__AnalyticsTrafficSourceClient<$Result.GetResult<Prisma.$AnalyticsTrafficSourcePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one AnalyticsTrafficSource.
+     * @param {AnalyticsTrafficSourceUpdateArgs} args - Arguments to update one AnalyticsTrafficSource.
+     * @example
+     * // Update one AnalyticsTrafficSource
+     * const analyticsTrafficSource = await prisma.analyticsTrafficSource.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AnalyticsTrafficSourceUpdateArgs>(args: SelectSubset<T, AnalyticsTrafficSourceUpdateArgs<ExtArgs>>): Prisma__AnalyticsTrafficSourceClient<$Result.GetResult<Prisma.$AnalyticsTrafficSourcePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more AnalyticsTrafficSources.
+     * @param {AnalyticsTrafficSourceDeleteManyArgs} args - Arguments to filter AnalyticsTrafficSources to delete.
+     * @example
+     * // Delete a few AnalyticsTrafficSources
+     * const { count } = await prisma.analyticsTrafficSource.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AnalyticsTrafficSourceDeleteManyArgs>(args?: SelectSubset<T, AnalyticsTrafficSourceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AnalyticsTrafficSources.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsTrafficSourceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AnalyticsTrafficSources
+     * const analyticsTrafficSource = await prisma.analyticsTrafficSource.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AnalyticsTrafficSourceUpdateManyArgs>(args: SelectSubset<T, AnalyticsTrafficSourceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AnalyticsTrafficSource.
+     * @param {AnalyticsTrafficSourceUpsertArgs} args - Arguments to update or create a AnalyticsTrafficSource.
+     * @example
+     * // Update or create a AnalyticsTrafficSource
+     * const analyticsTrafficSource = await prisma.analyticsTrafficSource.upsert({
+     *   create: {
+     *     // ... data to create a AnalyticsTrafficSource
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AnalyticsTrafficSource we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AnalyticsTrafficSourceUpsertArgs>(args: SelectSubset<T, AnalyticsTrafficSourceUpsertArgs<ExtArgs>>): Prisma__AnalyticsTrafficSourceClient<$Result.GetResult<Prisma.$AnalyticsTrafficSourcePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of AnalyticsTrafficSources.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsTrafficSourceCountArgs} args - Arguments to filter AnalyticsTrafficSources to count.
+     * @example
+     * // Count the number of AnalyticsTrafficSources
+     * const count = await prisma.analyticsTrafficSource.count({
+     *   where: {
+     *     // ... the filter for the AnalyticsTrafficSources we want to count
+     *   }
+     * })
+    **/
+    count<T extends AnalyticsTrafficSourceCountArgs>(
+      args?: Subset<T, AnalyticsTrafficSourceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AnalyticsTrafficSourceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AnalyticsTrafficSource.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsTrafficSourceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AnalyticsTrafficSourceAggregateArgs>(args: Subset<T, AnalyticsTrafficSourceAggregateArgs>): Prisma.PrismaPromise<GetAnalyticsTrafficSourceAggregateType<T>>
+
+    /**
+     * Group by AnalyticsTrafficSource.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsTrafficSourceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AnalyticsTrafficSourceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AnalyticsTrafficSourceGroupByArgs['orderBy'] }
+        : { orderBy?: AnalyticsTrafficSourceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AnalyticsTrafficSourceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAnalyticsTrafficSourceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AnalyticsTrafficSource model
+   */
+  readonly fields: AnalyticsTrafficSourceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AnalyticsTrafficSource.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AnalyticsTrafficSourceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AnalyticsTrafficSource model
+   */ 
+  interface AnalyticsTrafficSourceFieldRefs {
+    readonly id: FieldRef<"AnalyticsTrafficSource", 'String'>
+    readonly companyId: FieldRef<"AnalyticsTrafficSource", 'String'>
+    readonly date: FieldRef<"AnalyticsTrafficSource", 'DateTime'>
+    readonly source: FieldRef<"AnalyticsTrafficSource", 'String'>
+    readonly rawSource: FieldRef<"AnalyticsTrafficSource", 'String'>
+    readonly rawMedium: FieldRef<"AnalyticsTrafficSource", 'String'>
+    readonly bucket: FieldRef<"AnalyticsTrafficSource", 'String'>
+    readonly sessions: FieldRef<"AnalyticsTrafficSource", 'Int'>
+    readonly users: FieldRef<"AnalyticsTrafficSource", 'Int'>
+    readonly conversions: FieldRef<"AnalyticsTrafficSource", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AnalyticsTrafficSource findUnique
+   */
+  export type AnalyticsTrafficSourceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTrafficSource
+     */
+    select?: AnalyticsTrafficSourceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTrafficSourceInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsTrafficSource to fetch.
+     */
+    where: AnalyticsTrafficSourceWhereUniqueInput
+  }
+
+  /**
+   * AnalyticsTrafficSource findUniqueOrThrow
+   */
+  export type AnalyticsTrafficSourceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTrafficSource
+     */
+    select?: AnalyticsTrafficSourceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTrafficSourceInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsTrafficSource to fetch.
+     */
+    where: AnalyticsTrafficSourceWhereUniqueInput
+  }
+
+  /**
+   * AnalyticsTrafficSource findFirst
+   */
+  export type AnalyticsTrafficSourceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTrafficSource
+     */
+    select?: AnalyticsTrafficSourceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTrafficSourceInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsTrafficSource to fetch.
+     */
+    where?: AnalyticsTrafficSourceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnalyticsTrafficSources to fetch.
+     */
+    orderBy?: AnalyticsTrafficSourceOrderByWithRelationInput | AnalyticsTrafficSourceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AnalyticsTrafficSources.
+     */
+    cursor?: AnalyticsTrafficSourceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnalyticsTrafficSources from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnalyticsTrafficSources.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AnalyticsTrafficSources.
+     */
+    distinct?: AnalyticsTrafficSourceScalarFieldEnum | AnalyticsTrafficSourceScalarFieldEnum[]
+  }
+
+  /**
+   * AnalyticsTrafficSource findFirstOrThrow
+   */
+  export type AnalyticsTrafficSourceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTrafficSource
+     */
+    select?: AnalyticsTrafficSourceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTrafficSourceInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsTrafficSource to fetch.
+     */
+    where?: AnalyticsTrafficSourceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnalyticsTrafficSources to fetch.
+     */
+    orderBy?: AnalyticsTrafficSourceOrderByWithRelationInput | AnalyticsTrafficSourceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AnalyticsTrafficSources.
+     */
+    cursor?: AnalyticsTrafficSourceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnalyticsTrafficSources from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnalyticsTrafficSources.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AnalyticsTrafficSources.
+     */
+    distinct?: AnalyticsTrafficSourceScalarFieldEnum | AnalyticsTrafficSourceScalarFieldEnum[]
+  }
+
+  /**
+   * AnalyticsTrafficSource findMany
+   */
+  export type AnalyticsTrafficSourceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTrafficSource
+     */
+    select?: AnalyticsTrafficSourceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTrafficSourceInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsTrafficSources to fetch.
+     */
+    where?: AnalyticsTrafficSourceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnalyticsTrafficSources to fetch.
+     */
+    orderBy?: AnalyticsTrafficSourceOrderByWithRelationInput | AnalyticsTrafficSourceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AnalyticsTrafficSources.
+     */
+    cursor?: AnalyticsTrafficSourceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnalyticsTrafficSources from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnalyticsTrafficSources.
+     */
+    skip?: number
+    distinct?: AnalyticsTrafficSourceScalarFieldEnum | AnalyticsTrafficSourceScalarFieldEnum[]
+  }
+
+  /**
+   * AnalyticsTrafficSource create
+   */
+  export type AnalyticsTrafficSourceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTrafficSource
+     */
+    select?: AnalyticsTrafficSourceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTrafficSourceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AnalyticsTrafficSource.
+     */
+    data: XOR<AnalyticsTrafficSourceCreateInput, AnalyticsTrafficSourceUncheckedCreateInput>
+  }
+
+  /**
+   * AnalyticsTrafficSource createMany
+   */
+  export type AnalyticsTrafficSourceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AnalyticsTrafficSources.
+     */
+    data: AnalyticsTrafficSourceCreateManyInput | AnalyticsTrafficSourceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AnalyticsTrafficSource createManyAndReturn
+   */
+  export type AnalyticsTrafficSourceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTrafficSource
+     */
+    select?: AnalyticsTrafficSourceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many AnalyticsTrafficSources.
+     */
+    data: AnalyticsTrafficSourceCreateManyInput | AnalyticsTrafficSourceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTrafficSourceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AnalyticsTrafficSource update
+   */
+  export type AnalyticsTrafficSourceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTrafficSource
+     */
+    select?: AnalyticsTrafficSourceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTrafficSourceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AnalyticsTrafficSource.
+     */
+    data: XOR<AnalyticsTrafficSourceUpdateInput, AnalyticsTrafficSourceUncheckedUpdateInput>
+    /**
+     * Choose, which AnalyticsTrafficSource to update.
+     */
+    where: AnalyticsTrafficSourceWhereUniqueInput
+  }
+
+  /**
+   * AnalyticsTrafficSource updateMany
+   */
+  export type AnalyticsTrafficSourceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AnalyticsTrafficSources.
+     */
+    data: XOR<AnalyticsTrafficSourceUpdateManyMutationInput, AnalyticsTrafficSourceUncheckedUpdateManyInput>
+    /**
+     * Filter which AnalyticsTrafficSources to update
+     */
+    where?: AnalyticsTrafficSourceWhereInput
+  }
+
+  /**
+   * AnalyticsTrafficSource upsert
+   */
+  export type AnalyticsTrafficSourceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTrafficSource
+     */
+    select?: AnalyticsTrafficSourceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTrafficSourceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AnalyticsTrafficSource to update in case it exists.
+     */
+    where: AnalyticsTrafficSourceWhereUniqueInput
+    /**
+     * In case the AnalyticsTrafficSource found by the `where` argument doesn't exist, create a new AnalyticsTrafficSource with this data.
+     */
+    create: XOR<AnalyticsTrafficSourceCreateInput, AnalyticsTrafficSourceUncheckedCreateInput>
+    /**
+     * In case the AnalyticsTrafficSource was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AnalyticsTrafficSourceUpdateInput, AnalyticsTrafficSourceUncheckedUpdateInput>
+  }
+
+  /**
+   * AnalyticsTrafficSource delete
+   */
+  export type AnalyticsTrafficSourceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTrafficSource
+     */
+    select?: AnalyticsTrafficSourceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTrafficSourceInclude<ExtArgs> | null
+    /**
+     * Filter which AnalyticsTrafficSource to delete.
+     */
+    where: AnalyticsTrafficSourceWhereUniqueInput
+  }
+
+  /**
+   * AnalyticsTrafficSource deleteMany
+   */
+  export type AnalyticsTrafficSourceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AnalyticsTrafficSources to delete
+     */
+    where?: AnalyticsTrafficSourceWhereInput
+  }
+
+  /**
+   * AnalyticsTrafficSource without action
+   */
+  export type AnalyticsTrafficSourceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsTrafficSource
+     */
+    select?: AnalyticsTrafficSourceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsTrafficSourceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AnalyticsGeoData
+   */
+
+  export type AggregateAnalyticsGeoData = {
+    _count: AnalyticsGeoDataCountAggregateOutputType | null
+    _avg: AnalyticsGeoDataAvgAggregateOutputType | null
+    _sum: AnalyticsGeoDataSumAggregateOutputType | null
+    _min: AnalyticsGeoDataMinAggregateOutputType | null
+    _max: AnalyticsGeoDataMaxAggregateOutputType | null
+  }
+
+  export type AnalyticsGeoDataAvgAggregateOutputType = {
+    sessions: number | null
+    users: number | null
+  }
+
+  export type AnalyticsGeoDataSumAggregateOutputType = {
+    sessions: number | null
+    users: number | null
+  }
+
+  export type AnalyticsGeoDataMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    date: Date | null
+    source: string | null
+    countryCode: string | null
+    countryName: string | null
+    region: string | null
+    city: string | null
+    sessions: number | null
+    users: number | null
+  }
+
+  export type AnalyticsGeoDataMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    date: Date | null
+    source: string | null
+    countryCode: string | null
+    countryName: string | null
+    region: string | null
+    city: string | null
+    sessions: number | null
+    users: number | null
+  }
+
+  export type AnalyticsGeoDataCountAggregateOutputType = {
+    id: number
+    companyId: number
+    date: number
+    source: number
+    countryCode: number
+    countryName: number
+    region: number
+    city: number
+    sessions: number
+    users: number
+    _all: number
+  }
+
+
+  export type AnalyticsGeoDataAvgAggregateInputType = {
+    sessions?: true
+    users?: true
+  }
+
+  export type AnalyticsGeoDataSumAggregateInputType = {
+    sessions?: true
+    users?: true
+  }
+
+  export type AnalyticsGeoDataMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    source?: true
+    countryCode?: true
+    countryName?: true
+    region?: true
+    city?: true
+    sessions?: true
+    users?: true
+  }
+
+  export type AnalyticsGeoDataMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    source?: true
+    countryCode?: true
+    countryName?: true
+    region?: true
+    city?: true
+    sessions?: true
+    users?: true
+  }
+
+  export type AnalyticsGeoDataCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    source?: true
+    countryCode?: true
+    countryName?: true
+    region?: true
+    city?: true
+    sessions?: true
+    users?: true
+    _all?: true
+  }
+
+  export type AnalyticsGeoDataAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AnalyticsGeoData to aggregate.
+     */
+    where?: AnalyticsGeoDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnalyticsGeoData to fetch.
+     */
+    orderBy?: AnalyticsGeoDataOrderByWithRelationInput | AnalyticsGeoDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AnalyticsGeoDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnalyticsGeoData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnalyticsGeoData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AnalyticsGeoData
+    **/
+    _count?: true | AnalyticsGeoDataCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AnalyticsGeoDataAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AnalyticsGeoDataSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AnalyticsGeoDataMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AnalyticsGeoDataMaxAggregateInputType
+  }
+
+  export type GetAnalyticsGeoDataAggregateType<T extends AnalyticsGeoDataAggregateArgs> = {
+        [P in keyof T & keyof AggregateAnalyticsGeoData]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAnalyticsGeoData[P]>
+      : GetScalarType<T[P], AggregateAnalyticsGeoData[P]>
+  }
+
+
+
+
+  export type AnalyticsGeoDataGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnalyticsGeoDataWhereInput
+    orderBy?: AnalyticsGeoDataOrderByWithAggregationInput | AnalyticsGeoDataOrderByWithAggregationInput[]
+    by: AnalyticsGeoDataScalarFieldEnum[] | AnalyticsGeoDataScalarFieldEnum
+    having?: AnalyticsGeoDataScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AnalyticsGeoDataCountAggregateInputType | true
+    _avg?: AnalyticsGeoDataAvgAggregateInputType
+    _sum?: AnalyticsGeoDataSumAggregateInputType
+    _min?: AnalyticsGeoDataMinAggregateInputType
+    _max?: AnalyticsGeoDataMaxAggregateInputType
+  }
+
+  export type AnalyticsGeoDataGroupByOutputType = {
+    id: string
+    companyId: string
+    date: Date
+    source: string
+    countryCode: string | null
+    countryName: string | null
+    region: string | null
+    city: string | null
+    sessions: number
+    users: number
+    _count: AnalyticsGeoDataCountAggregateOutputType | null
+    _avg: AnalyticsGeoDataAvgAggregateOutputType | null
+    _sum: AnalyticsGeoDataSumAggregateOutputType | null
+    _min: AnalyticsGeoDataMinAggregateOutputType | null
+    _max: AnalyticsGeoDataMaxAggregateOutputType | null
+  }
+
+  type GetAnalyticsGeoDataGroupByPayload<T extends AnalyticsGeoDataGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AnalyticsGeoDataGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AnalyticsGeoDataGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AnalyticsGeoDataGroupByOutputType[P]>
+            : GetScalarType<T[P], AnalyticsGeoDataGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AnalyticsGeoDataSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    source?: boolean
+    countryCode?: boolean
+    countryName?: boolean
+    region?: boolean
+    city?: boolean
+    sessions?: boolean
+    users?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["analyticsGeoData"]>
+
+  export type AnalyticsGeoDataSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    source?: boolean
+    countryCode?: boolean
+    countryName?: boolean
+    region?: boolean
+    city?: boolean
+    sessions?: boolean
+    users?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["analyticsGeoData"]>
+
+  export type AnalyticsGeoDataSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    source?: boolean
+    countryCode?: boolean
+    countryName?: boolean
+    region?: boolean
+    city?: boolean
+    sessions?: boolean
+    users?: boolean
+  }
+
+  export type AnalyticsGeoDataInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type AnalyticsGeoDataIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $AnalyticsGeoDataPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AnalyticsGeoData"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      date: Date
+      source: string
+      countryCode: string | null
+      countryName: string | null
+      region: string | null
+      city: string | null
+      sessions: number
+      users: number
+    }, ExtArgs["result"]["analyticsGeoData"]>
+    composites: {}
+  }
+
+  type AnalyticsGeoDataGetPayload<S extends boolean | null | undefined | AnalyticsGeoDataDefaultArgs> = $Result.GetResult<Prisma.$AnalyticsGeoDataPayload, S>
+
+  type AnalyticsGeoDataCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AnalyticsGeoDataFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AnalyticsGeoDataCountAggregateInputType | true
+    }
+
+  export interface AnalyticsGeoDataDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AnalyticsGeoData'], meta: { name: 'AnalyticsGeoData' } }
+    /**
+     * Find zero or one AnalyticsGeoData that matches the filter.
+     * @param {AnalyticsGeoDataFindUniqueArgs} args - Arguments to find a AnalyticsGeoData
+     * @example
+     * // Get one AnalyticsGeoData
+     * const analyticsGeoData = await prisma.analyticsGeoData.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AnalyticsGeoDataFindUniqueArgs>(args: SelectSubset<T, AnalyticsGeoDataFindUniqueArgs<ExtArgs>>): Prisma__AnalyticsGeoDataClient<$Result.GetResult<Prisma.$AnalyticsGeoDataPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one AnalyticsGeoData that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AnalyticsGeoDataFindUniqueOrThrowArgs} args - Arguments to find a AnalyticsGeoData
+     * @example
+     * // Get one AnalyticsGeoData
+     * const analyticsGeoData = await prisma.analyticsGeoData.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AnalyticsGeoDataFindUniqueOrThrowArgs>(args: SelectSubset<T, AnalyticsGeoDataFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AnalyticsGeoDataClient<$Result.GetResult<Prisma.$AnalyticsGeoDataPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first AnalyticsGeoData that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsGeoDataFindFirstArgs} args - Arguments to find a AnalyticsGeoData
+     * @example
+     * // Get one AnalyticsGeoData
+     * const analyticsGeoData = await prisma.analyticsGeoData.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AnalyticsGeoDataFindFirstArgs>(args?: SelectSubset<T, AnalyticsGeoDataFindFirstArgs<ExtArgs>>): Prisma__AnalyticsGeoDataClient<$Result.GetResult<Prisma.$AnalyticsGeoDataPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first AnalyticsGeoData that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsGeoDataFindFirstOrThrowArgs} args - Arguments to find a AnalyticsGeoData
+     * @example
+     * // Get one AnalyticsGeoData
+     * const analyticsGeoData = await prisma.analyticsGeoData.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AnalyticsGeoDataFindFirstOrThrowArgs>(args?: SelectSubset<T, AnalyticsGeoDataFindFirstOrThrowArgs<ExtArgs>>): Prisma__AnalyticsGeoDataClient<$Result.GetResult<Prisma.$AnalyticsGeoDataPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more AnalyticsGeoData that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsGeoDataFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AnalyticsGeoData
+     * const analyticsGeoData = await prisma.analyticsGeoData.findMany()
+     * 
+     * // Get first 10 AnalyticsGeoData
+     * const analyticsGeoData = await prisma.analyticsGeoData.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const analyticsGeoDataWithIdOnly = await prisma.analyticsGeoData.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AnalyticsGeoDataFindManyArgs>(args?: SelectSubset<T, AnalyticsGeoDataFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsGeoDataPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a AnalyticsGeoData.
+     * @param {AnalyticsGeoDataCreateArgs} args - Arguments to create a AnalyticsGeoData.
+     * @example
+     * // Create one AnalyticsGeoData
+     * const AnalyticsGeoData = await prisma.analyticsGeoData.create({
+     *   data: {
+     *     // ... data to create a AnalyticsGeoData
+     *   }
+     * })
+     * 
+     */
+    create<T extends AnalyticsGeoDataCreateArgs>(args: SelectSubset<T, AnalyticsGeoDataCreateArgs<ExtArgs>>): Prisma__AnalyticsGeoDataClient<$Result.GetResult<Prisma.$AnalyticsGeoDataPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many AnalyticsGeoData.
+     * @param {AnalyticsGeoDataCreateManyArgs} args - Arguments to create many AnalyticsGeoData.
+     * @example
+     * // Create many AnalyticsGeoData
+     * const analyticsGeoData = await prisma.analyticsGeoData.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AnalyticsGeoDataCreateManyArgs>(args?: SelectSubset<T, AnalyticsGeoDataCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AnalyticsGeoData and returns the data saved in the database.
+     * @param {AnalyticsGeoDataCreateManyAndReturnArgs} args - Arguments to create many AnalyticsGeoData.
+     * @example
+     * // Create many AnalyticsGeoData
+     * const analyticsGeoData = await prisma.analyticsGeoData.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AnalyticsGeoData and only return the `id`
+     * const analyticsGeoDataWithIdOnly = await prisma.analyticsGeoData.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AnalyticsGeoDataCreateManyAndReturnArgs>(args?: SelectSubset<T, AnalyticsGeoDataCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsGeoDataPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a AnalyticsGeoData.
+     * @param {AnalyticsGeoDataDeleteArgs} args - Arguments to delete one AnalyticsGeoData.
+     * @example
+     * // Delete one AnalyticsGeoData
+     * const AnalyticsGeoData = await prisma.analyticsGeoData.delete({
+     *   where: {
+     *     // ... filter to delete one AnalyticsGeoData
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AnalyticsGeoDataDeleteArgs>(args: SelectSubset<T, AnalyticsGeoDataDeleteArgs<ExtArgs>>): Prisma__AnalyticsGeoDataClient<$Result.GetResult<Prisma.$AnalyticsGeoDataPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one AnalyticsGeoData.
+     * @param {AnalyticsGeoDataUpdateArgs} args - Arguments to update one AnalyticsGeoData.
+     * @example
+     * // Update one AnalyticsGeoData
+     * const analyticsGeoData = await prisma.analyticsGeoData.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AnalyticsGeoDataUpdateArgs>(args: SelectSubset<T, AnalyticsGeoDataUpdateArgs<ExtArgs>>): Prisma__AnalyticsGeoDataClient<$Result.GetResult<Prisma.$AnalyticsGeoDataPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more AnalyticsGeoData.
+     * @param {AnalyticsGeoDataDeleteManyArgs} args - Arguments to filter AnalyticsGeoData to delete.
+     * @example
+     * // Delete a few AnalyticsGeoData
+     * const { count } = await prisma.analyticsGeoData.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AnalyticsGeoDataDeleteManyArgs>(args?: SelectSubset<T, AnalyticsGeoDataDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AnalyticsGeoData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsGeoDataUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AnalyticsGeoData
+     * const analyticsGeoData = await prisma.analyticsGeoData.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AnalyticsGeoDataUpdateManyArgs>(args: SelectSubset<T, AnalyticsGeoDataUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AnalyticsGeoData.
+     * @param {AnalyticsGeoDataUpsertArgs} args - Arguments to update or create a AnalyticsGeoData.
+     * @example
+     * // Update or create a AnalyticsGeoData
+     * const analyticsGeoData = await prisma.analyticsGeoData.upsert({
+     *   create: {
+     *     // ... data to create a AnalyticsGeoData
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AnalyticsGeoData we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AnalyticsGeoDataUpsertArgs>(args: SelectSubset<T, AnalyticsGeoDataUpsertArgs<ExtArgs>>): Prisma__AnalyticsGeoDataClient<$Result.GetResult<Prisma.$AnalyticsGeoDataPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of AnalyticsGeoData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsGeoDataCountArgs} args - Arguments to filter AnalyticsGeoData to count.
+     * @example
+     * // Count the number of AnalyticsGeoData
+     * const count = await prisma.analyticsGeoData.count({
+     *   where: {
+     *     // ... the filter for the AnalyticsGeoData we want to count
+     *   }
+     * })
+    **/
+    count<T extends AnalyticsGeoDataCountArgs>(
+      args?: Subset<T, AnalyticsGeoDataCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AnalyticsGeoDataCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AnalyticsGeoData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsGeoDataAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AnalyticsGeoDataAggregateArgs>(args: Subset<T, AnalyticsGeoDataAggregateArgs>): Prisma.PrismaPromise<GetAnalyticsGeoDataAggregateType<T>>
+
+    /**
+     * Group by AnalyticsGeoData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsGeoDataGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AnalyticsGeoDataGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AnalyticsGeoDataGroupByArgs['orderBy'] }
+        : { orderBy?: AnalyticsGeoDataGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AnalyticsGeoDataGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAnalyticsGeoDataGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AnalyticsGeoData model
+   */
+  readonly fields: AnalyticsGeoDataFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AnalyticsGeoData.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AnalyticsGeoDataClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AnalyticsGeoData model
+   */ 
+  interface AnalyticsGeoDataFieldRefs {
+    readonly id: FieldRef<"AnalyticsGeoData", 'String'>
+    readonly companyId: FieldRef<"AnalyticsGeoData", 'String'>
+    readonly date: FieldRef<"AnalyticsGeoData", 'DateTime'>
+    readonly source: FieldRef<"AnalyticsGeoData", 'String'>
+    readonly countryCode: FieldRef<"AnalyticsGeoData", 'String'>
+    readonly countryName: FieldRef<"AnalyticsGeoData", 'String'>
+    readonly region: FieldRef<"AnalyticsGeoData", 'String'>
+    readonly city: FieldRef<"AnalyticsGeoData", 'String'>
+    readonly sessions: FieldRef<"AnalyticsGeoData", 'Int'>
+    readonly users: FieldRef<"AnalyticsGeoData", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AnalyticsGeoData findUnique
+   */
+  export type AnalyticsGeoDataFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsGeoData
+     */
+    select?: AnalyticsGeoDataSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsGeoDataInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsGeoData to fetch.
+     */
+    where: AnalyticsGeoDataWhereUniqueInput
+  }
+
+  /**
+   * AnalyticsGeoData findUniqueOrThrow
+   */
+  export type AnalyticsGeoDataFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsGeoData
+     */
+    select?: AnalyticsGeoDataSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsGeoDataInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsGeoData to fetch.
+     */
+    where: AnalyticsGeoDataWhereUniqueInput
+  }
+
+  /**
+   * AnalyticsGeoData findFirst
+   */
+  export type AnalyticsGeoDataFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsGeoData
+     */
+    select?: AnalyticsGeoDataSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsGeoDataInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsGeoData to fetch.
+     */
+    where?: AnalyticsGeoDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnalyticsGeoData to fetch.
+     */
+    orderBy?: AnalyticsGeoDataOrderByWithRelationInput | AnalyticsGeoDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AnalyticsGeoData.
+     */
+    cursor?: AnalyticsGeoDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnalyticsGeoData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnalyticsGeoData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AnalyticsGeoData.
+     */
+    distinct?: AnalyticsGeoDataScalarFieldEnum | AnalyticsGeoDataScalarFieldEnum[]
+  }
+
+  /**
+   * AnalyticsGeoData findFirstOrThrow
+   */
+  export type AnalyticsGeoDataFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsGeoData
+     */
+    select?: AnalyticsGeoDataSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsGeoDataInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsGeoData to fetch.
+     */
+    where?: AnalyticsGeoDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnalyticsGeoData to fetch.
+     */
+    orderBy?: AnalyticsGeoDataOrderByWithRelationInput | AnalyticsGeoDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AnalyticsGeoData.
+     */
+    cursor?: AnalyticsGeoDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnalyticsGeoData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnalyticsGeoData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AnalyticsGeoData.
+     */
+    distinct?: AnalyticsGeoDataScalarFieldEnum | AnalyticsGeoDataScalarFieldEnum[]
+  }
+
+  /**
+   * AnalyticsGeoData findMany
+   */
+  export type AnalyticsGeoDataFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsGeoData
+     */
+    select?: AnalyticsGeoDataSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsGeoDataInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsGeoData to fetch.
+     */
+    where?: AnalyticsGeoDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnalyticsGeoData to fetch.
+     */
+    orderBy?: AnalyticsGeoDataOrderByWithRelationInput | AnalyticsGeoDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AnalyticsGeoData.
+     */
+    cursor?: AnalyticsGeoDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnalyticsGeoData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnalyticsGeoData.
+     */
+    skip?: number
+    distinct?: AnalyticsGeoDataScalarFieldEnum | AnalyticsGeoDataScalarFieldEnum[]
+  }
+
+  /**
+   * AnalyticsGeoData create
+   */
+  export type AnalyticsGeoDataCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsGeoData
+     */
+    select?: AnalyticsGeoDataSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsGeoDataInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AnalyticsGeoData.
+     */
+    data: XOR<AnalyticsGeoDataCreateInput, AnalyticsGeoDataUncheckedCreateInput>
+  }
+
+  /**
+   * AnalyticsGeoData createMany
+   */
+  export type AnalyticsGeoDataCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AnalyticsGeoData.
+     */
+    data: AnalyticsGeoDataCreateManyInput | AnalyticsGeoDataCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AnalyticsGeoData createManyAndReturn
+   */
+  export type AnalyticsGeoDataCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsGeoData
+     */
+    select?: AnalyticsGeoDataSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many AnalyticsGeoData.
+     */
+    data: AnalyticsGeoDataCreateManyInput | AnalyticsGeoDataCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsGeoDataIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AnalyticsGeoData update
+   */
+  export type AnalyticsGeoDataUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsGeoData
+     */
+    select?: AnalyticsGeoDataSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsGeoDataInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AnalyticsGeoData.
+     */
+    data: XOR<AnalyticsGeoDataUpdateInput, AnalyticsGeoDataUncheckedUpdateInput>
+    /**
+     * Choose, which AnalyticsGeoData to update.
+     */
+    where: AnalyticsGeoDataWhereUniqueInput
+  }
+
+  /**
+   * AnalyticsGeoData updateMany
+   */
+  export type AnalyticsGeoDataUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AnalyticsGeoData.
+     */
+    data: XOR<AnalyticsGeoDataUpdateManyMutationInput, AnalyticsGeoDataUncheckedUpdateManyInput>
+    /**
+     * Filter which AnalyticsGeoData to update
+     */
+    where?: AnalyticsGeoDataWhereInput
+  }
+
+  /**
+   * AnalyticsGeoData upsert
+   */
+  export type AnalyticsGeoDataUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsGeoData
+     */
+    select?: AnalyticsGeoDataSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsGeoDataInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AnalyticsGeoData to update in case it exists.
+     */
+    where: AnalyticsGeoDataWhereUniqueInput
+    /**
+     * In case the AnalyticsGeoData found by the `where` argument doesn't exist, create a new AnalyticsGeoData with this data.
+     */
+    create: XOR<AnalyticsGeoDataCreateInput, AnalyticsGeoDataUncheckedCreateInput>
+    /**
+     * In case the AnalyticsGeoData was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AnalyticsGeoDataUpdateInput, AnalyticsGeoDataUncheckedUpdateInput>
+  }
+
+  /**
+   * AnalyticsGeoData delete
+   */
+  export type AnalyticsGeoDataDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsGeoData
+     */
+    select?: AnalyticsGeoDataSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsGeoDataInclude<ExtArgs> | null
+    /**
+     * Filter which AnalyticsGeoData to delete.
+     */
+    where: AnalyticsGeoDataWhereUniqueInput
+  }
+
+  /**
+   * AnalyticsGeoData deleteMany
+   */
+  export type AnalyticsGeoDataDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AnalyticsGeoData to delete
+     */
+    where?: AnalyticsGeoDataWhereInput
+  }
+
+  /**
+   * AnalyticsGeoData without action
+   */
+  export type AnalyticsGeoDataDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsGeoData
+     */
+    select?: AnalyticsGeoDataSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsGeoDataInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SearchConsoleQuery
+   */
+
+  export type AggregateSearchConsoleQuery = {
+    _count: SearchConsoleQueryCountAggregateOutputType | null
+    _avg: SearchConsoleQueryAvgAggregateOutputType | null
+    _sum: SearchConsoleQuerySumAggregateOutputType | null
+    _min: SearchConsoleQueryMinAggregateOutputType | null
+    _max: SearchConsoleQueryMaxAggregateOutputType | null
+  }
+
+  export type SearchConsoleQueryAvgAggregateOutputType = {
+    clicks: number | null
+    impressions: number | null
+    ctr: number | null
+    position: number | null
+  }
+
+  export type SearchConsoleQuerySumAggregateOutputType = {
+    clicks: number | null
+    impressions: number | null
+    ctr: number | null
+    position: number | null
+  }
+
+  export type SearchConsoleQueryMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    date: Date | null
+    query: string | null
+    page: string | null
+    country: string | null
+    device: string | null
+    clicks: number | null
+    impressions: number | null
+    ctr: number | null
+    position: number | null
+  }
+
+  export type SearchConsoleQueryMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    date: Date | null
+    query: string | null
+    page: string | null
+    country: string | null
+    device: string | null
+    clicks: number | null
+    impressions: number | null
+    ctr: number | null
+    position: number | null
+  }
+
+  export type SearchConsoleQueryCountAggregateOutputType = {
+    id: number
+    companyId: number
+    date: number
+    query: number
+    page: number
+    country: number
+    device: number
+    clicks: number
+    impressions: number
+    ctr: number
+    position: number
+    _all: number
+  }
+
+
+  export type SearchConsoleQueryAvgAggregateInputType = {
+    clicks?: true
+    impressions?: true
+    ctr?: true
+    position?: true
+  }
+
+  export type SearchConsoleQuerySumAggregateInputType = {
+    clicks?: true
+    impressions?: true
+    ctr?: true
+    position?: true
+  }
+
+  export type SearchConsoleQueryMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    query?: true
+    page?: true
+    country?: true
+    device?: true
+    clicks?: true
+    impressions?: true
+    ctr?: true
+    position?: true
+  }
+
+  export type SearchConsoleQueryMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    query?: true
+    page?: true
+    country?: true
+    device?: true
+    clicks?: true
+    impressions?: true
+    ctr?: true
+    position?: true
+  }
+
+  export type SearchConsoleQueryCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    query?: true
+    page?: true
+    country?: true
+    device?: true
+    clicks?: true
+    impressions?: true
+    ctr?: true
+    position?: true
+    _all?: true
+  }
+
+  export type SearchConsoleQueryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SearchConsoleQuery to aggregate.
+     */
+    where?: SearchConsoleQueryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SearchConsoleQueries to fetch.
+     */
+    orderBy?: SearchConsoleQueryOrderByWithRelationInput | SearchConsoleQueryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SearchConsoleQueryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SearchConsoleQueries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SearchConsoleQueries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SearchConsoleQueries
+    **/
+    _count?: true | SearchConsoleQueryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SearchConsoleQueryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SearchConsoleQuerySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SearchConsoleQueryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SearchConsoleQueryMaxAggregateInputType
+  }
+
+  export type GetSearchConsoleQueryAggregateType<T extends SearchConsoleQueryAggregateArgs> = {
+        [P in keyof T & keyof AggregateSearchConsoleQuery]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSearchConsoleQuery[P]>
+      : GetScalarType<T[P], AggregateSearchConsoleQuery[P]>
+  }
+
+
+
+
+  export type SearchConsoleQueryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SearchConsoleQueryWhereInput
+    orderBy?: SearchConsoleQueryOrderByWithAggregationInput | SearchConsoleQueryOrderByWithAggregationInput[]
+    by: SearchConsoleQueryScalarFieldEnum[] | SearchConsoleQueryScalarFieldEnum
+    having?: SearchConsoleQueryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SearchConsoleQueryCountAggregateInputType | true
+    _avg?: SearchConsoleQueryAvgAggregateInputType
+    _sum?: SearchConsoleQuerySumAggregateInputType
+    _min?: SearchConsoleQueryMinAggregateInputType
+    _max?: SearchConsoleQueryMaxAggregateInputType
+  }
+
+  export type SearchConsoleQueryGroupByOutputType = {
+    id: string
+    companyId: string
+    date: Date
+    query: string
+    page: string | null
+    country: string | null
+    device: string | null
+    clicks: number
+    impressions: number
+    ctr: number
+    position: number
+    _count: SearchConsoleQueryCountAggregateOutputType | null
+    _avg: SearchConsoleQueryAvgAggregateOutputType | null
+    _sum: SearchConsoleQuerySumAggregateOutputType | null
+    _min: SearchConsoleQueryMinAggregateOutputType | null
+    _max: SearchConsoleQueryMaxAggregateOutputType | null
+  }
+
+  type GetSearchConsoleQueryGroupByPayload<T extends SearchConsoleQueryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SearchConsoleQueryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SearchConsoleQueryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SearchConsoleQueryGroupByOutputType[P]>
+            : GetScalarType<T[P], SearchConsoleQueryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SearchConsoleQuerySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    query?: boolean
+    page?: boolean
+    country?: boolean
+    device?: boolean
+    clicks?: boolean
+    impressions?: boolean
+    ctr?: boolean
+    position?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["searchConsoleQuery"]>
+
+  export type SearchConsoleQuerySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    query?: boolean
+    page?: boolean
+    country?: boolean
+    device?: boolean
+    clicks?: boolean
+    impressions?: boolean
+    ctr?: boolean
+    position?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["searchConsoleQuery"]>
+
+  export type SearchConsoleQuerySelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    query?: boolean
+    page?: boolean
+    country?: boolean
+    device?: boolean
+    clicks?: boolean
+    impressions?: boolean
+    ctr?: boolean
+    position?: boolean
+  }
+
+  export type SearchConsoleQueryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type SearchConsoleQueryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $SearchConsoleQueryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SearchConsoleQuery"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      date: Date
+      query: string
+      page: string | null
+      country: string | null
+      device: string | null
+      clicks: number
+      impressions: number
+      ctr: number
+      position: number
+    }, ExtArgs["result"]["searchConsoleQuery"]>
+    composites: {}
+  }
+
+  type SearchConsoleQueryGetPayload<S extends boolean | null | undefined | SearchConsoleQueryDefaultArgs> = $Result.GetResult<Prisma.$SearchConsoleQueryPayload, S>
+
+  type SearchConsoleQueryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<SearchConsoleQueryFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: SearchConsoleQueryCountAggregateInputType | true
+    }
+
+  export interface SearchConsoleQueryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SearchConsoleQuery'], meta: { name: 'SearchConsoleQuery' } }
+    /**
+     * Find zero or one SearchConsoleQuery that matches the filter.
+     * @param {SearchConsoleQueryFindUniqueArgs} args - Arguments to find a SearchConsoleQuery
+     * @example
+     * // Get one SearchConsoleQuery
+     * const searchConsoleQuery = await prisma.searchConsoleQuery.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SearchConsoleQueryFindUniqueArgs>(args: SelectSubset<T, SearchConsoleQueryFindUniqueArgs<ExtArgs>>): Prisma__SearchConsoleQueryClient<$Result.GetResult<Prisma.$SearchConsoleQueryPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one SearchConsoleQuery that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {SearchConsoleQueryFindUniqueOrThrowArgs} args - Arguments to find a SearchConsoleQuery
+     * @example
+     * // Get one SearchConsoleQuery
+     * const searchConsoleQuery = await prisma.searchConsoleQuery.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SearchConsoleQueryFindUniqueOrThrowArgs>(args: SelectSubset<T, SearchConsoleQueryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SearchConsoleQueryClient<$Result.GetResult<Prisma.$SearchConsoleQueryPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first SearchConsoleQuery that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SearchConsoleQueryFindFirstArgs} args - Arguments to find a SearchConsoleQuery
+     * @example
+     * // Get one SearchConsoleQuery
+     * const searchConsoleQuery = await prisma.searchConsoleQuery.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SearchConsoleQueryFindFirstArgs>(args?: SelectSubset<T, SearchConsoleQueryFindFirstArgs<ExtArgs>>): Prisma__SearchConsoleQueryClient<$Result.GetResult<Prisma.$SearchConsoleQueryPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first SearchConsoleQuery that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SearchConsoleQueryFindFirstOrThrowArgs} args - Arguments to find a SearchConsoleQuery
+     * @example
+     * // Get one SearchConsoleQuery
+     * const searchConsoleQuery = await prisma.searchConsoleQuery.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SearchConsoleQueryFindFirstOrThrowArgs>(args?: SelectSubset<T, SearchConsoleQueryFindFirstOrThrowArgs<ExtArgs>>): Prisma__SearchConsoleQueryClient<$Result.GetResult<Prisma.$SearchConsoleQueryPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more SearchConsoleQueries that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SearchConsoleQueryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SearchConsoleQueries
+     * const searchConsoleQueries = await prisma.searchConsoleQuery.findMany()
+     * 
+     * // Get first 10 SearchConsoleQueries
+     * const searchConsoleQueries = await prisma.searchConsoleQuery.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const searchConsoleQueryWithIdOnly = await prisma.searchConsoleQuery.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SearchConsoleQueryFindManyArgs>(args?: SelectSubset<T, SearchConsoleQueryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SearchConsoleQueryPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a SearchConsoleQuery.
+     * @param {SearchConsoleQueryCreateArgs} args - Arguments to create a SearchConsoleQuery.
+     * @example
+     * // Create one SearchConsoleQuery
+     * const SearchConsoleQuery = await prisma.searchConsoleQuery.create({
+     *   data: {
+     *     // ... data to create a SearchConsoleQuery
+     *   }
+     * })
+     * 
+     */
+    create<T extends SearchConsoleQueryCreateArgs>(args: SelectSubset<T, SearchConsoleQueryCreateArgs<ExtArgs>>): Prisma__SearchConsoleQueryClient<$Result.GetResult<Prisma.$SearchConsoleQueryPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many SearchConsoleQueries.
+     * @param {SearchConsoleQueryCreateManyArgs} args - Arguments to create many SearchConsoleQueries.
+     * @example
+     * // Create many SearchConsoleQueries
+     * const searchConsoleQuery = await prisma.searchConsoleQuery.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SearchConsoleQueryCreateManyArgs>(args?: SelectSubset<T, SearchConsoleQueryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SearchConsoleQueries and returns the data saved in the database.
+     * @param {SearchConsoleQueryCreateManyAndReturnArgs} args - Arguments to create many SearchConsoleQueries.
+     * @example
+     * // Create many SearchConsoleQueries
+     * const searchConsoleQuery = await prisma.searchConsoleQuery.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SearchConsoleQueries and only return the `id`
+     * const searchConsoleQueryWithIdOnly = await prisma.searchConsoleQuery.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SearchConsoleQueryCreateManyAndReturnArgs>(args?: SelectSubset<T, SearchConsoleQueryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SearchConsoleQueryPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a SearchConsoleQuery.
+     * @param {SearchConsoleQueryDeleteArgs} args - Arguments to delete one SearchConsoleQuery.
+     * @example
+     * // Delete one SearchConsoleQuery
+     * const SearchConsoleQuery = await prisma.searchConsoleQuery.delete({
+     *   where: {
+     *     // ... filter to delete one SearchConsoleQuery
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SearchConsoleQueryDeleteArgs>(args: SelectSubset<T, SearchConsoleQueryDeleteArgs<ExtArgs>>): Prisma__SearchConsoleQueryClient<$Result.GetResult<Prisma.$SearchConsoleQueryPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one SearchConsoleQuery.
+     * @param {SearchConsoleQueryUpdateArgs} args - Arguments to update one SearchConsoleQuery.
+     * @example
+     * // Update one SearchConsoleQuery
+     * const searchConsoleQuery = await prisma.searchConsoleQuery.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SearchConsoleQueryUpdateArgs>(args: SelectSubset<T, SearchConsoleQueryUpdateArgs<ExtArgs>>): Prisma__SearchConsoleQueryClient<$Result.GetResult<Prisma.$SearchConsoleQueryPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more SearchConsoleQueries.
+     * @param {SearchConsoleQueryDeleteManyArgs} args - Arguments to filter SearchConsoleQueries to delete.
+     * @example
+     * // Delete a few SearchConsoleQueries
+     * const { count } = await prisma.searchConsoleQuery.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SearchConsoleQueryDeleteManyArgs>(args?: SelectSubset<T, SearchConsoleQueryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SearchConsoleQueries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SearchConsoleQueryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SearchConsoleQueries
+     * const searchConsoleQuery = await prisma.searchConsoleQuery.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SearchConsoleQueryUpdateManyArgs>(args: SelectSubset<T, SearchConsoleQueryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one SearchConsoleQuery.
+     * @param {SearchConsoleQueryUpsertArgs} args - Arguments to update or create a SearchConsoleQuery.
+     * @example
+     * // Update or create a SearchConsoleQuery
+     * const searchConsoleQuery = await prisma.searchConsoleQuery.upsert({
+     *   create: {
+     *     // ... data to create a SearchConsoleQuery
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SearchConsoleQuery we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SearchConsoleQueryUpsertArgs>(args: SelectSubset<T, SearchConsoleQueryUpsertArgs<ExtArgs>>): Prisma__SearchConsoleQueryClient<$Result.GetResult<Prisma.$SearchConsoleQueryPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of SearchConsoleQueries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SearchConsoleQueryCountArgs} args - Arguments to filter SearchConsoleQueries to count.
+     * @example
+     * // Count the number of SearchConsoleQueries
+     * const count = await prisma.searchConsoleQuery.count({
+     *   where: {
+     *     // ... the filter for the SearchConsoleQueries we want to count
+     *   }
+     * })
+    **/
+    count<T extends SearchConsoleQueryCountArgs>(
+      args?: Subset<T, SearchConsoleQueryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SearchConsoleQueryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SearchConsoleQuery.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SearchConsoleQueryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SearchConsoleQueryAggregateArgs>(args: Subset<T, SearchConsoleQueryAggregateArgs>): Prisma.PrismaPromise<GetSearchConsoleQueryAggregateType<T>>
+
+    /**
+     * Group by SearchConsoleQuery.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SearchConsoleQueryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SearchConsoleQueryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SearchConsoleQueryGroupByArgs['orderBy'] }
+        : { orderBy?: SearchConsoleQueryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SearchConsoleQueryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSearchConsoleQueryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SearchConsoleQuery model
+   */
+  readonly fields: SearchConsoleQueryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SearchConsoleQuery.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SearchConsoleQueryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SearchConsoleQuery model
+   */ 
+  interface SearchConsoleQueryFieldRefs {
+    readonly id: FieldRef<"SearchConsoleQuery", 'String'>
+    readonly companyId: FieldRef<"SearchConsoleQuery", 'String'>
+    readonly date: FieldRef<"SearchConsoleQuery", 'DateTime'>
+    readonly query: FieldRef<"SearchConsoleQuery", 'String'>
+    readonly page: FieldRef<"SearchConsoleQuery", 'String'>
+    readonly country: FieldRef<"SearchConsoleQuery", 'String'>
+    readonly device: FieldRef<"SearchConsoleQuery", 'String'>
+    readonly clicks: FieldRef<"SearchConsoleQuery", 'Int'>
+    readonly impressions: FieldRef<"SearchConsoleQuery", 'Int'>
+    readonly ctr: FieldRef<"SearchConsoleQuery", 'Float'>
+    readonly position: FieldRef<"SearchConsoleQuery", 'Float'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SearchConsoleQuery findUnique
+   */
+  export type SearchConsoleQueryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchConsoleQuery
+     */
+    select?: SearchConsoleQuerySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchConsoleQueryInclude<ExtArgs> | null
+    /**
+     * Filter, which SearchConsoleQuery to fetch.
+     */
+    where: SearchConsoleQueryWhereUniqueInput
+  }
+
+  /**
+   * SearchConsoleQuery findUniqueOrThrow
+   */
+  export type SearchConsoleQueryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchConsoleQuery
+     */
+    select?: SearchConsoleQuerySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchConsoleQueryInclude<ExtArgs> | null
+    /**
+     * Filter, which SearchConsoleQuery to fetch.
+     */
+    where: SearchConsoleQueryWhereUniqueInput
+  }
+
+  /**
+   * SearchConsoleQuery findFirst
+   */
+  export type SearchConsoleQueryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchConsoleQuery
+     */
+    select?: SearchConsoleQuerySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchConsoleQueryInclude<ExtArgs> | null
+    /**
+     * Filter, which SearchConsoleQuery to fetch.
+     */
+    where?: SearchConsoleQueryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SearchConsoleQueries to fetch.
+     */
+    orderBy?: SearchConsoleQueryOrderByWithRelationInput | SearchConsoleQueryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SearchConsoleQueries.
+     */
+    cursor?: SearchConsoleQueryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SearchConsoleQueries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SearchConsoleQueries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SearchConsoleQueries.
+     */
+    distinct?: SearchConsoleQueryScalarFieldEnum | SearchConsoleQueryScalarFieldEnum[]
+  }
+
+  /**
+   * SearchConsoleQuery findFirstOrThrow
+   */
+  export type SearchConsoleQueryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchConsoleQuery
+     */
+    select?: SearchConsoleQuerySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchConsoleQueryInclude<ExtArgs> | null
+    /**
+     * Filter, which SearchConsoleQuery to fetch.
+     */
+    where?: SearchConsoleQueryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SearchConsoleQueries to fetch.
+     */
+    orderBy?: SearchConsoleQueryOrderByWithRelationInput | SearchConsoleQueryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SearchConsoleQueries.
+     */
+    cursor?: SearchConsoleQueryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SearchConsoleQueries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SearchConsoleQueries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SearchConsoleQueries.
+     */
+    distinct?: SearchConsoleQueryScalarFieldEnum | SearchConsoleQueryScalarFieldEnum[]
+  }
+
+  /**
+   * SearchConsoleQuery findMany
+   */
+  export type SearchConsoleQueryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchConsoleQuery
+     */
+    select?: SearchConsoleQuerySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchConsoleQueryInclude<ExtArgs> | null
+    /**
+     * Filter, which SearchConsoleQueries to fetch.
+     */
+    where?: SearchConsoleQueryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SearchConsoleQueries to fetch.
+     */
+    orderBy?: SearchConsoleQueryOrderByWithRelationInput | SearchConsoleQueryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SearchConsoleQueries.
+     */
+    cursor?: SearchConsoleQueryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SearchConsoleQueries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SearchConsoleQueries.
+     */
+    skip?: number
+    distinct?: SearchConsoleQueryScalarFieldEnum | SearchConsoleQueryScalarFieldEnum[]
+  }
+
+  /**
+   * SearchConsoleQuery create
+   */
+  export type SearchConsoleQueryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchConsoleQuery
+     */
+    select?: SearchConsoleQuerySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchConsoleQueryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SearchConsoleQuery.
+     */
+    data: XOR<SearchConsoleQueryCreateInput, SearchConsoleQueryUncheckedCreateInput>
+  }
+
+  /**
+   * SearchConsoleQuery createMany
+   */
+  export type SearchConsoleQueryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SearchConsoleQueries.
+     */
+    data: SearchConsoleQueryCreateManyInput | SearchConsoleQueryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SearchConsoleQuery createManyAndReturn
+   */
+  export type SearchConsoleQueryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchConsoleQuery
+     */
+    select?: SearchConsoleQuerySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many SearchConsoleQueries.
+     */
+    data: SearchConsoleQueryCreateManyInput | SearchConsoleQueryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchConsoleQueryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SearchConsoleQuery update
+   */
+  export type SearchConsoleQueryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchConsoleQuery
+     */
+    select?: SearchConsoleQuerySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchConsoleQueryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SearchConsoleQuery.
+     */
+    data: XOR<SearchConsoleQueryUpdateInput, SearchConsoleQueryUncheckedUpdateInput>
+    /**
+     * Choose, which SearchConsoleQuery to update.
+     */
+    where: SearchConsoleQueryWhereUniqueInput
+  }
+
+  /**
+   * SearchConsoleQuery updateMany
+   */
+  export type SearchConsoleQueryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SearchConsoleQueries.
+     */
+    data: XOR<SearchConsoleQueryUpdateManyMutationInput, SearchConsoleQueryUncheckedUpdateManyInput>
+    /**
+     * Filter which SearchConsoleQueries to update
+     */
+    where?: SearchConsoleQueryWhereInput
+  }
+
+  /**
+   * SearchConsoleQuery upsert
+   */
+  export type SearchConsoleQueryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchConsoleQuery
+     */
+    select?: SearchConsoleQuerySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchConsoleQueryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SearchConsoleQuery to update in case it exists.
+     */
+    where: SearchConsoleQueryWhereUniqueInput
+    /**
+     * In case the SearchConsoleQuery found by the `where` argument doesn't exist, create a new SearchConsoleQuery with this data.
+     */
+    create: XOR<SearchConsoleQueryCreateInput, SearchConsoleQueryUncheckedCreateInput>
+    /**
+     * In case the SearchConsoleQuery was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SearchConsoleQueryUpdateInput, SearchConsoleQueryUncheckedUpdateInput>
+  }
+
+  /**
+   * SearchConsoleQuery delete
+   */
+  export type SearchConsoleQueryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchConsoleQuery
+     */
+    select?: SearchConsoleQuerySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchConsoleQueryInclude<ExtArgs> | null
+    /**
+     * Filter which SearchConsoleQuery to delete.
+     */
+    where: SearchConsoleQueryWhereUniqueInput
+  }
+
+  /**
+   * SearchConsoleQuery deleteMany
+   */
+  export type SearchConsoleQueryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SearchConsoleQueries to delete
+     */
+    where?: SearchConsoleQueryWhereInput
+  }
+
+  /**
+   * SearchConsoleQuery without action
+   */
+  export type SearchConsoleQueryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchConsoleQuery
+     */
+    select?: SearchConsoleQuerySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchConsoleQueryInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -29737,6 +36808,114 @@ export namespace Prisma {
   export type CredentialAccessLogScalarFieldEnum = (typeof CredentialAccessLogScalarFieldEnum)[keyof typeof CredentialAccessLogScalarFieldEnum]
 
 
+  export const MarketingIntegrationScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    provider: 'provider',
+    accountId: 'accountId',
+    accountLabel: 'accountLabel',
+    accessTokenEnc: 'accessTokenEnc',
+    refreshTokenEnc: 'refreshTokenEnc',
+    tokenExpiresAt: 'tokenExpiresAt',
+    scopes: 'scopes',
+    googleEmail: 'googleEmail',
+    googleName: 'googleName',
+    status: 'status',
+    lastSyncAt: 'lastSyncAt',
+    lastSyncStatus: 'lastSyncStatus',
+    lastError: 'lastError',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    createdById: 'createdById'
+  };
+
+  export type MarketingIntegrationScalarFieldEnum = (typeof MarketingIntegrationScalarFieldEnum)[keyof typeof MarketingIntegrationScalarFieldEnum]
+
+
+  export const AnalyticsSnapshotScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    date: 'date',
+    source: 'source',
+    sessions: 'sessions',
+    users: 'users',
+    newUsers: 'newUsers',
+    pageviews: 'pageviews',
+    conversions: 'conversions',
+    bounceRate: 'bounceRate',
+    avgSessionSec: 'avgSessionSec',
+    engagedSessions: 'engagedSessions',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AnalyticsSnapshotScalarFieldEnum = (typeof AnalyticsSnapshotScalarFieldEnum)[keyof typeof AnalyticsSnapshotScalarFieldEnum]
+
+
+  export const AnalyticsTopPageScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    date: 'date',
+    source: 'source',
+    pagePath: 'pagePath',
+    pageTitle: 'pageTitle',
+    views: 'views',
+    users: 'users',
+    avgTimeSec: 'avgTimeSec'
+  };
+
+  export type AnalyticsTopPageScalarFieldEnum = (typeof AnalyticsTopPageScalarFieldEnum)[keyof typeof AnalyticsTopPageScalarFieldEnum]
+
+
+  export const AnalyticsTrafficSourceScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    date: 'date',
+    source: 'source',
+    rawSource: 'rawSource',
+    rawMedium: 'rawMedium',
+    bucket: 'bucket',
+    sessions: 'sessions',
+    users: 'users',
+    conversions: 'conversions'
+  };
+
+  export type AnalyticsTrafficSourceScalarFieldEnum = (typeof AnalyticsTrafficSourceScalarFieldEnum)[keyof typeof AnalyticsTrafficSourceScalarFieldEnum]
+
+
+  export const AnalyticsGeoDataScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    date: 'date',
+    source: 'source',
+    countryCode: 'countryCode',
+    countryName: 'countryName',
+    region: 'region',
+    city: 'city',
+    sessions: 'sessions',
+    users: 'users'
+  };
+
+  export type AnalyticsGeoDataScalarFieldEnum = (typeof AnalyticsGeoDataScalarFieldEnum)[keyof typeof AnalyticsGeoDataScalarFieldEnum]
+
+
+  export const SearchConsoleQueryScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    date: 'date',
+    query: 'query',
+    page: 'page',
+    country: 'country',
+    device: 'device',
+    clicks: 'clicks',
+    impressions: 'impressions',
+    ctr: 'ctr',
+    position: 'position'
+  };
+
+  export type SearchConsoleQueryScalarFieldEnum = (typeof SearchConsoleQueryScalarFieldEnum)[keyof typeof SearchConsoleQueryScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -30047,6 +37226,34 @@ export namespace Prisma {
    */
   export type ListEnumCredentialActionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CredentialAction[]'>
     
+
+
+  /**
+   * Reference to a field of type 'IntegrationProvider'
+   */
+  export type EnumIntegrationProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IntegrationProvider'>
+    
+
+
+  /**
+   * Reference to a field of type 'IntegrationProvider[]'
+   */
+  export type ListEnumIntegrationProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IntegrationProvider[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'IntegrationStatus'
+   */
+  export type EnumIntegrationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IntegrationStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'IntegrationStatus[]'
+   */
+  export type ListEnumIntegrationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IntegrationStatus[]'>
+    
   /**
    * Deep Input Types
    */
@@ -30179,6 +37386,12 @@ export namespace Prisma {
     activities?: ActivityListRelationFilter
     assets?: CompanyAssetListRelationFilter
     credentialAccessLogs?: CredentialAccessLogListRelationFilter
+    marketingIntegrations?: MarketingIntegrationListRelationFilter
+    analyticsSnapshots?: AnalyticsSnapshotListRelationFilter
+    analyticsTopPages?: AnalyticsTopPageListRelationFilter
+    analyticsTrafficSources?: AnalyticsTrafficSourceListRelationFilter
+    analyticsGeoData?: AnalyticsGeoDataListRelationFilter
+    searchConsoleQueries?: SearchConsoleQueryListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -30218,6 +37431,12 @@ export namespace Prisma {
     activities?: ActivityOrderByRelationAggregateInput
     assets?: CompanyAssetOrderByRelationAggregateInput
     credentialAccessLogs?: CredentialAccessLogOrderByRelationAggregateInput
+    marketingIntegrations?: MarketingIntegrationOrderByRelationAggregateInput
+    analyticsSnapshots?: AnalyticsSnapshotOrderByRelationAggregateInput
+    analyticsTopPages?: AnalyticsTopPageOrderByRelationAggregateInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceOrderByRelationAggregateInput
+    analyticsGeoData?: AnalyticsGeoDataOrderByRelationAggregateInput
+    searchConsoleQueries?: SearchConsoleQueryOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -30260,6 +37479,12 @@ export namespace Prisma {
     activities?: ActivityListRelationFilter
     assets?: CompanyAssetListRelationFilter
     credentialAccessLogs?: CredentialAccessLogListRelationFilter
+    marketingIntegrations?: MarketingIntegrationListRelationFilter
+    analyticsSnapshots?: AnalyticsSnapshotListRelationFilter
+    analyticsTopPages?: AnalyticsTopPageListRelationFilter
+    analyticsTrafficSources?: AnalyticsTrafficSourceListRelationFilter
+    analyticsGeoData?: AnalyticsGeoDataListRelationFilter
+    searchConsoleQueries?: SearchConsoleQueryListRelationFilter
   }, "id" | "slug" | "webhookToken">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -32252,6 +39477,562 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"CredentialAccessLog"> | Date | string
   }
 
+  export type MarketingIntegrationWhereInput = {
+    AND?: MarketingIntegrationWhereInput | MarketingIntegrationWhereInput[]
+    OR?: MarketingIntegrationWhereInput[]
+    NOT?: MarketingIntegrationWhereInput | MarketingIntegrationWhereInput[]
+    id?: StringFilter<"MarketingIntegration"> | string
+    companyId?: StringFilter<"MarketingIntegration"> | string
+    provider?: EnumIntegrationProviderFilter<"MarketingIntegration"> | $Enums.IntegrationProvider
+    accountId?: StringNullableFilter<"MarketingIntegration"> | string | null
+    accountLabel?: StringNullableFilter<"MarketingIntegration"> | string | null
+    accessTokenEnc?: StringNullableFilter<"MarketingIntegration"> | string | null
+    refreshTokenEnc?: StringNullableFilter<"MarketingIntegration"> | string | null
+    tokenExpiresAt?: DateTimeNullableFilter<"MarketingIntegration"> | Date | string | null
+    scopes?: StringNullableListFilter<"MarketingIntegration">
+    googleEmail?: StringNullableFilter<"MarketingIntegration"> | string | null
+    googleName?: StringNullableFilter<"MarketingIntegration"> | string | null
+    status?: EnumIntegrationStatusFilter<"MarketingIntegration"> | $Enums.IntegrationStatus
+    lastSyncAt?: DateTimeNullableFilter<"MarketingIntegration"> | Date | string | null
+    lastSyncStatus?: StringNullableFilter<"MarketingIntegration"> | string | null
+    lastError?: StringNullableFilter<"MarketingIntegration"> | string | null
+    createdAt?: DateTimeFilter<"MarketingIntegration"> | Date | string
+    updatedAt?: DateTimeFilter<"MarketingIntegration"> | Date | string
+    createdById?: StringNullableFilter<"MarketingIntegration"> | string | null
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type MarketingIntegrationOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    provider?: SortOrder
+    accountId?: SortOrderInput | SortOrder
+    accountLabel?: SortOrderInput | SortOrder
+    accessTokenEnc?: SortOrderInput | SortOrder
+    refreshTokenEnc?: SortOrderInput | SortOrder
+    tokenExpiresAt?: SortOrderInput | SortOrder
+    scopes?: SortOrder
+    googleEmail?: SortOrderInput | SortOrder
+    googleName?: SortOrderInput | SortOrder
+    status?: SortOrder
+    lastSyncAt?: SortOrderInput | SortOrder
+    lastSyncStatus?: SortOrderInput | SortOrder
+    lastError?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type MarketingIntegrationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_provider_accountId?: MarketingIntegrationCompanyIdProviderAccountIdCompoundUniqueInput
+    AND?: MarketingIntegrationWhereInput | MarketingIntegrationWhereInput[]
+    OR?: MarketingIntegrationWhereInput[]
+    NOT?: MarketingIntegrationWhereInput | MarketingIntegrationWhereInput[]
+    companyId?: StringFilter<"MarketingIntegration"> | string
+    provider?: EnumIntegrationProviderFilter<"MarketingIntegration"> | $Enums.IntegrationProvider
+    accountId?: StringNullableFilter<"MarketingIntegration"> | string | null
+    accountLabel?: StringNullableFilter<"MarketingIntegration"> | string | null
+    accessTokenEnc?: StringNullableFilter<"MarketingIntegration"> | string | null
+    refreshTokenEnc?: StringNullableFilter<"MarketingIntegration"> | string | null
+    tokenExpiresAt?: DateTimeNullableFilter<"MarketingIntegration"> | Date | string | null
+    scopes?: StringNullableListFilter<"MarketingIntegration">
+    googleEmail?: StringNullableFilter<"MarketingIntegration"> | string | null
+    googleName?: StringNullableFilter<"MarketingIntegration"> | string | null
+    status?: EnumIntegrationStatusFilter<"MarketingIntegration"> | $Enums.IntegrationStatus
+    lastSyncAt?: DateTimeNullableFilter<"MarketingIntegration"> | Date | string | null
+    lastSyncStatus?: StringNullableFilter<"MarketingIntegration"> | string | null
+    lastError?: StringNullableFilter<"MarketingIntegration"> | string | null
+    createdAt?: DateTimeFilter<"MarketingIntegration"> | Date | string
+    updatedAt?: DateTimeFilter<"MarketingIntegration"> | Date | string
+    createdById?: StringNullableFilter<"MarketingIntegration"> | string | null
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id" | "companyId_provider_accountId">
+
+  export type MarketingIntegrationOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    provider?: SortOrder
+    accountId?: SortOrderInput | SortOrder
+    accountLabel?: SortOrderInput | SortOrder
+    accessTokenEnc?: SortOrderInput | SortOrder
+    refreshTokenEnc?: SortOrderInput | SortOrder
+    tokenExpiresAt?: SortOrderInput | SortOrder
+    scopes?: SortOrder
+    googleEmail?: SortOrderInput | SortOrder
+    googleName?: SortOrderInput | SortOrder
+    status?: SortOrder
+    lastSyncAt?: SortOrderInput | SortOrder
+    lastSyncStatus?: SortOrderInput | SortOrder
+    lastError?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    _count?: MarketingIntegrationCountOrderByAggregateInput
+    _max?: MarketingIntegrationMaxOrderByAggregateInput
+    _min?: MarketingIntegrationMinOrderByAggregateInput
+  }
+
+  export type MarketingIntegrationScalarWhereWithAggregatesInput = {
+    AND?: MarketingIntegrationScalarWhereWithAggregatesInput | MarketingIntegrationScalarWhereWithAggregatesInput[]
+    OR?: MarketingIntegrationScalarWhereWithAggregatesInput[]
+    NOT?: MarketingIntegrationScalarWhereWithAggregatesInput | MarketingIntegrationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MarketingIntegration"> | string
+    companyId?: StringWithAggregatesFilter<"MarketingIntegration"> | string
+    provider?: EnumIntegrationProviderWithAggregatesFilter<"MarketingIntegration"> | $Enums.IntegrationProvider
+    accountId?: StringNullableWithAggregatesFilter<"MarketingIntegration"> | string | null
+    accountLabel?: StringNullableWithAggregatesFilter<"MarketingIntegration"> | string | null
+    accessTokenEnc?: StringNullableWithAggregatesFilter<"MarketingIntegration"> | string | null
+    refreshTokenEnc?: StringNullableWithAggregatesFilter<"MarketingIntegration"> | string | null
+    tokenExpiresAt?: DateTimeNullableWithAggregatesFilter<"MarketingIntegration"> | Date | string | null
+    scopes?: StringNullableListFilter<"MarketingIntegration">
+    googleEmail?: StringNullableWithAggregatesFilter<"MarketingIntegration"> | string | null
+    googleName?: StringNullableWithAggregatesFilter<"MarketingIntegration"> | string | null
+    status?: EnumIntegrationStatusWithAggregatesFilter<"MarketingIntegration"> | $Enums.IntegrationStatus
+    lastSyncAt?: DateTimeNullableWithAggregatesFilter<"MarketingIntegration"> | Date | string | null
+    lastSyncStatus?: StringNullableWithAggregatesFilter<"MarketingIntegration"> | string | null
+    lastError?: StringNullableWithAggregatesFilter<"MarketingIntegration"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"MarketingIntegration"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"MarketingIntegration"> | Date | string
+    createdById?: StringNullableWithAggregatesFilter<"MarketingIntegration"> | string | null
+  }
+
+  export type AnalyticsSnapshotWhereInput = {
+    AND?: AnalyticsSnapshotWhereInput | AnalyticsSnapshotWhereInput[]
+    OR?: AnalyticsSnapshotWhereInput[]
+    NOT?: AnalyticsSnapshotWhereInput | AnalyticsSnapshotWhereInput[]
+    id?: StringFilter<"AnalyticsSnapshot"> | string
+    companyId?: StringFilter<"AnalyticsSnapshot"> | string
+    date?: DateTimeFilter<"AnalyticsSnapshot"> | Date | string
+    source?: StringFilter<"AnalyticsSnapshot"> | string
+    sessions?: IntFilter<"AnalyticsSnapshot"> | number
+    users?: IntFilter<"AnalyticsSnapshot"> | number
+    newUsers?: IntFilter<"AnalyticsSnapshot"> | number
+    pageviews?: IntFilter<"AnalyticsSnapshot"> | number
+    conversions?: IntFilter<"AnalyticsSnapshot"> | number
+    bounceRate?: FloatNullableFilter<"AnalyticsSnapshot"> | number | null
+    avgSessionSec?: FloatNullableFilter<"AnalyticsSnapshot"> | number | null
+    engagedSessions?: IntNullableFilter<"AnalyticsSnapshot"> | number | null
+    createdAt?: DateTimeFilter<"AnalyticsSnapshot"> | Date | string
+    updatedAt?: DateTimeFilter<"AnalyticsSnapshot"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type AnalyticsSnapshotOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    sessions?: SortOrder
+    users?: SortOrder
+    newUsers?: SortOrder
+    pageviews?: SortOrder
+    conversions?: SortOrder
+    bounceRate?: SortOrderInput | SortOrder
+    avgSessionSec?: SortOrderInput | SortOrder
+    engagedSessions?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type AnalyticsSnapshotWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_date_source?: AnalyticsSnapshotCompanyIdDateSourceCompoundUniqueInput
+    AND?: AnalyticsSnapshotWhereInput | AnalyticsSnapshotWhereInput[]
+    OR?: AnalyticsSnapshotWhereInput[]
+    NOT?: AnalyticsSnapshotWhereInput | AnalyticsSnapshotWhereInput[]
+    companyId?: StringFilter<"AnalyticsSnapshot"> | string
+    date?: DateTimeFilter<"AnalyticsSnapshot"> | Date | string
+    source?: StringFilter<"AnalyticsSnapshot"> | string
+    sessions?: IntFilter<"AnalyticsSnapshot"> | number
+    users?: IntFilter<"AnalyticsSnapshot"> | number
+    newUsers?: IntFilter<"AnalyticsSnapshot"> | number
+    pageviews?: IntFilter<"AnalyticsSnapshot"> | number
+    conversions?: IntFilter<"AnalyticsSnapshot"> | number
+    bounceRate?: FloatNullableFilter<"AnalyticsSnapshot"> | number | null
+    avgSessionSec?: FloatNullableFilter<"AnalyticsSnapshot"> | number | null
+    engagedSessions?: IntNullableFilter<"AnalyticsSnapshot"> | number | null
+    createdAt?: DateTimeFilter<"AnalyticsSnapshot"> | Date | string
+    updatedAt?: DateTimeFilter<"AnalyticsSnapshot"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id" | "companyId_date_source">
+
+  export type AnalyticsSnapshotOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    sessions?: SortOrder
+    users?: SortOrder
+    newUsers?: SortOrder
+    pageviews?: SortOrder
+    conversions?: SortOrder
+    bounceRate?: SortOrderInput | SortOrder
+    avgSessionSec?: SortOrderInput | SortOrder
+    engagedSessions?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AnalyticsSnapshotCountOrderByAggregateInput
+    _avg?: AnalyticsSnapshotAvgOrderByAggregateInput
+    _max?: AnalyticsSnapshotMaxOrderByAggregateInput
+    _min?: AnalyticsSnapshotMinOrderByAggregateInput
+    _sum?: AnalyticsSnapshotSumOrderByAggregateInput
+  }
+
+  export type AnalyticsSnapshotScalarWhereWithAggregatesInput = {
+    AND?: AnalyticsSnapshotScalarWhereWithAggregatesInput | AnalyticsSnapshotScalarWhereWithAggregatesInput[]
+    OR?: AnalyticsSnapshotScalarWhereWithAggregatesInput[]
+    NOT?: AnalyticsSnapshotScalarWhereWithAggregatesInput | AnalyticsSnapshotScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AnalyticsSnapshot"> | string
+    companyId?: StringWithAggregatesFilter<"AnalyticsSnapshot"> | string
+    date?: DateTimeWithAggregatesFilter<"AnalyticsSnapshot"> | Date | string
+    source?: StringWithAggregatesFilter<"AnalyticsSnapshot"> | string
+    sessions?: IntWithAggregatesFilter<"AnalyticsSnapshot"> | number
+    users?: IntWithAggregatesFilter<"AnalyticsSnapshot"> | number
+    newUsers?: IntWithAggregatesFilter<"AnalyticsSnapshot"> | number
+    pageviews?: IntWithAggregatesFilter<"AnalyticsSnapshot"> | number
+    conversions?: IntWithAggregatesFilter<"AnalyticsSnapshot"> | number
+    bounceRate?: FloatNullableWithAggregatesFilter<"AnalyticsSnapshot"> | number | null
+    avgSessionSec?: FloatNullableWithAggregatesFilter<"AnalyticsSnapshot"> | number | null
+    engagedSessions?: IntNullableWithAggregatesFilter<"AnalyticsSnapshot"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"AnalyticsSnapshot"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AnalyticsSnapshot"> | Date | string
+  }
+
+  export type AnalyticsTopPageWhereInput = {
+    AND?: AnalyticsTopPageWhereInput | AnalyticsTopPageWhereInput[]
+    OR?: AnalyticsTopPageWhereInput[]
+    NOT?: AnalyticsTopPageWhereInput | AnalyticsTopPageWhereInput[]
+    id?: StringFilter<"AnalyticsTopPage"> | string
+    companyId?: StringFilter<"AnalyticsTopPage"> | string
+    date?: DateTimeFilter<"AnalyticsTopPage"> | Date | string
+    source?: StringFilter<"AnalyticsTopPage"> | string
+    pagePath?: StringFilter<"AnalyticsTopPage"> | string
+    pageTitle?: StringNullableFilter<"AnalyticsTopPage"> | string | null
+    views?: IntFilter<"AnalyticsTopPage"> | number
+    users?: IntFilter<"AnalyticsTopPage"> | number
+    avgTimeSec?: FloatNullableFilter<"AnalyticsTopPage"> | number | null
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type AnalyticsTopPageOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    pagePath?: SortOrder
+    pageTitle?: SortOrderInput | SortOrder
+    views?: SortOrder
+    users?: SortOrder
+    avgTimeSec?: SortOrderInput | SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type AnalyticsTopPageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_date_source_pagePath?: AnalyticsTopPageCompanyIdDateSourcePagePathCompoundUniqueInput
+    AND?: AnalyticsTopPageWhereInput | AnalyticsTopPageWhereInput[]
+    OR?: AnalyticsTopPageWhereInput[]
+    NOT?: AnalyticsTopPageWhereInput | AnalyticsTopPageWhereInput[]
+    companyId?: StringFilter<"AnalyticsTopPage"> | string
+    date?: DateTimeFilter<"AnalyticsTopPage"> | Date | string
+    source?: StringFilter<"AnalyticsTopPage"> | string
+    pagePath?: StringFilter<"AnalyticsTopPage"> | string
+    pageTitle?: StringNullableFilter<"AnalyticsTopPage"> | string | null
+    views?: IntFilter<"AnalyticsTopPage"> | number
+    users?: IntFilter<"AnalyticsTopPage"> | number
+    avgTimeSec?: FloatNullableFilter<"AnalyticsTopPage"> | number | null
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id" | "companyId_date_source_pagePath">
+
+  export type AnalyticsTopPageOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    pagePath?: SortOrder
+    pageTitle?: SortOrderInput | SortOrder
+    views?: SortOrder
+    users?: SortOrder
+    avgTimeSec?: SortOrderInput | SortOrder
+    _count?: AnalyticsTopPageCountOrderByAggregateInput
+    _avg?: AnalyticsTopPageAvgOrderByAggregateInput
+    _max?: AnalyticsTopPageMaxOrderByAggregateInput
+    _min?: AnalyticsTopPageMinOrderByAggregateInput
+    _sum?: AnalyticsTopPageSumOrderByAggregateInput
+  }
+
+  export type AnalyticsTopPageScalarWhereWithAggregatesInput = {
+    AND?: AnalyticsTopPageScalarWhereWithAggregatesInput | AnalyticsTopPageScalarWhereWithAggregatesInput[]
+    OR?: AnalyticsTopPageScalarWhereWithAggregatesInput[]
+    NOT?: AnalyticsTopPageScalarWhereWithAggregatesInput | AnalyticsTopPageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AnalyticsTopPage"> | string
+    companyId?: StringWithAggregatesFilter<"AnalyticsTopPage"> | string
+    date?: DateTimeWithAggregatesFilter<"AnalyticsTopPage"> | Date | string
+    source?: StringWithAggregatesFilter<"AnalyticsTopPage"> | string
+    pagePath?: StringWithAggregatesFilter<"AnalyticsTopPage"> | string
+    pageTitle?: StringNullableWithAggregatesFilter<"AnalyticsTopPage"> | string | null
+    views?: IntWithAggregatesFilter<"AnalyticsTopPage"> | number
+    users?: IntWithAggregatesFilter<"AnalyticsTopPage"> | number
+    avgTimeSec?: FloatNullableWithAggregatesFilter<"AnalyticsTopPage"> | number | null
+  }
+
+  export type AnalyticsTrafficSourceWhereInput = {
+    AND?: AnalyticsTrafficSourceWhereInput | AnalyticsTrafficSourceWhereInput[]
+    OR?: AnalyticsTrafficSourceWhereInput[]
+    NOT?: AnalyticsTrafficSourceWhereInput | AnalyticsTrafficSourceWhereInput[]
+    id?: StringFilter<"AnalyticsTrafficSource"> | string
+    companyId?: StringFilter<"AnalyticsTrafficSource"> | string
+    date?: DateTimeFilter<"AnalyticsTrafficSource"> | Date | string
+    source?: StringFilter<"AnalyticsTrafficSource"> | string
+    rawSource?: StringFilter<"AnalyticsTrafficSource"> | string
+    rawMedium?: StringFilter<"AnalyticsTrafficSource"> | string
+    bucket?: StringFilter<"AnalyticsTrafficSource"> | string
+    sessions?: IntFilter<"AnalyticsTrafficSource"> | number
+    users?: IntFilter<"AnalyticsTrafficSource"> | number
+    conversions?: IntFilter<"AnalyticsTrafficSource"> | number
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type AnalyticsTrafficSourceOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    rawSource?: SortOrder
+    rawMedium?: SortOrder
+    bucket?: SortOrder
+    sessions?: SortOrder
+    users?: SortOrder
+    conversions?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type AnalyticsTrafficSourceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_date_source_rawSource_rawMedium?: AnalyticsTrafficSourceCompanyIdDateSourceRawSourceRawMediumCompoundUniqueInput
+    AND?: AnalyticsTrafficSourceWhereInput | AnalyticsTrafficSourceWhereInput[]
+    OR?: AnalyticsTrafficSourceWhereInput[]
+    NOT?: AnalyticsTrafficSourceWhereInput | AnalyticsTrafficSourceWhereInput[]
+    companyId?: StringFilter<"AnalyticsTrafficSource"> | string
+    date?: DateTimeFilter<"AnalyticsTrafficSource"> | Date | string
+    source?: StringFilter<"AnalyticsTrafficSource"> | string
+    rawSource?: StringFilter<"AnalyticsTrafficSource"> | string
+    rawMedium?: StringFilter<"AnalyticsTrafficSource"> | string
+    bucket?: StringFilter<"AnalyticsTrafficSource"> | string
+    sessions?: IntFilter<"AnalyticsTrafficSource"> | number
+    users?: IntFilter<"AnalyticsTrafficSource"> | number
+    conversions?: IntFilter<"AnalyticsTrafficSource"> | number
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id" | "companyId_date_source_rawSource_rawMedium">
+
+  export type AnalyticsTrafficSourceOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    rawSource?: SortOrder
+    rawMedium?: SortOrder
+    bucket?: SortOrder
+    sessions?: SortOrder
+    users?: SortOrder
+    conversions?: SortOrder
+    _count?: AnalyticsTrafficSourceCountOrderByAggregateInput
+    _avg?: AnalyticsTrafficSourceAvgOrderByAggregateInput
+    _max?: AnalyticsTrafficSourceMaxOrderByAggregateInput
+    _min?: AnalyticsTrafficSourceMinOrderByAggregateInput
+    _sum?: AnalyticsTrafficSourceSumOrderByAggregateInput
+  }
+
+  export type AnalyticsTrafficSourceScalarWhereWithAggregatesInput = {
+    AND?: AnalyticsTrafficSourceScalarWhereWithAggregatesInput | AnalyticsTrafficSourceScalarWhereWithAggregatesInput[]
+    OR?: AnalyticsTrafficSourceScalarWhereWithAggregatesInput[]
+    NOT?: AnalyticsTrafficSourceScalarWhereWithAggregatesInput | AnalyticsTrafficSourceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AnalyticsTrafficSource"> | string
+    companyId?: StringWithAggregatesFilter<"AnalyticsTrafficSource"> | string
+    date?: DateTimeWithAggregatesFilter<"AnalyticsTrafficSource"> | Date | string
+    source?: StringWithAggregatesFilter<"AnalyticsTrafficSource"> | string
+    rawSource?: StringWithAggregatesFilter<"AnalyticsTrafficSource"> | string
+    rawMedium?: StringWithAggregatesFilter<"AnalyticsTrafficSource"> | string
+    bucket?: StringWithAggregatesFilter<"AnalyticsTrafficSource"> | string
+    sessions?: IntWithAggregatesFilter<"AnalyticsTrafficSource"> | number
+    users?: IntWithAggregatesFilter<"AnalyticsTrafficSource"> | number
+    conversions?: IntWithAggregatesFilter<"AnalyticsTrafficSource"> | number
+  }
+
+  export type AnalyticsGeoDataWhereInput = {
+    AND?: AnalyticsGeoDataWhereInput | AnalyticsGeoDataWhereInput[]
+    OR?: AnalyticsGeoDataWhereInput[]
+    NOT?: AnalyticsGeoDataWhereInput | AnalyticsGeoDataWhereInput[]
+    id?: StringFilter<"AnalyticsGeoData"> | string
+    companyId?: StringFilter<"AnalyticsGeoData"> | string
+    date?: DateTimeFilter<"AnalyticsGeoData"> | Date | string
+    source?: StringFilter<"AnalyticsGeoData"> | string
+    countryCode?: StringNullableFilter<"AnalyticsGeoData"> | string | null
+    countryName?: StringNullableFilter<"AnalyticsGeoData"> | string | null
+    region?: StringNullableFilter<"AnalyticsGeoData"> | string | null
+    city?: StringNullableFilter<"AnalyticsGeoData"> | string | null
+    sessions?: IntFilter<"AnalyticsGeoData"> | number
+    users?: IntFilter<"AnalyticsGeoData"> | number
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type AnalyticsGeoDataOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    countryCode?: SortOrderInput | SortOrder
+    countryName?: SortOrderInput | SortOrder
+    region?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    sessions?: SortOrder
+    users?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type AnalyticsGeoDataWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_date_source_countryCode_region_city?: AnalyticsGeoDataCompanyIdDateSourceCountryCodeRegionCityCompoundUniqueInput
+    AND?: AnalyticsGeoDataWhereInput | AnalyticsGeoDataWhereInput[]
+    OR?: AnalyticsGeoDataWhereInput[]
+    NOT?: AnalyticsGeoDataWhereInput | AnalyticsGeoDataWhereInput[]
+    companyId?: StringFilter<"AnalyticsGeoData"> | string
+    date?: DateTimeFilter<"AnalyticsGeoData"> | Date | string
+    source?: StringFilter<"AnalyticsGeoData"> | string
+    countryCode?: StringNullableFilter<"AnalyticsGeoData"> | string | null
+    countryName?: StringNullableFilter<"AnalyticsGeoData"> | string | null
+    region?: StringNullableFilter<"AnalyticsGeoData"> | string | null
+    city?: StringNullableFilter<"AnalyticsGeoData"> | string | null
+    sessions?: IntFilter<"AnalyticsGeoData"> | number
+    users?: IntFilter<"AnalyticsGeoData"> | number
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id" | "companyId_date_source_countryCode_region_city">
+
+  export type AnalyticsGeoDataOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    countryCode?: SortOrderInput | SortOrder
+    countryName?: SortOrderInput | SortOrder
+    region?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    sessions?: SortOrder
+    users?: SortOrder
+    _count?: AnalyticsGeoDataCountOrderByAggregateInput
+    _avg?: AnalyticsGeoDataAvgOrderByAggregateInput
+    _max?: AnalyticsGeoDataMaxOrderByAggregateInput
+    _min?: AnalyticsGeoDataMinOrderByAggregateInput
+    _sum?: AnalyticsGeoDataSumOrderByAggregateInput
+  }
+
+  export type AnalyticsGeoDataScalarWhereWithAggregatesInput = {
+    AND?: AnalyticsGeoDataScalarWhereWithAggregatesInput | AnalyticsGeoDataScalarWhereWithAggregatesInput[]
+    OR?: AnalyticsGeoDataScalarWhereWithAggregatesInput[]
+    NOT?: AnalyticsGeoDataScalarWhereWithAggregatesInput | AnalyticsGeoDataScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AnalyticsGeoData"> | string
+    companyId?: StringWithAggregatesFilter<"AnalyticsGeoData"> | string
+    date?: DateTimeWithAggregatesFilter<"AnalyticsGeoData"> | Date | string
+    source?: StringWithAggregatesFilter<"AnalyticsGeoData"> | string
+    countryCode?: StringNullableWithAggregatesFilter<"AnalyticsGeoData"> | string | null
+    countryName?: StringNullableWithAggregatesFilter<"AnalyticsGeoData"> | string | null
+    region?: StringNullableWithAggregatesFilter<"AnalyticsGeoData"> | string | null
+    city?: StringNullableWithAggregatesFilter<"AnalyticsGeoData"> | string | null
+    sessions?: IntWithAggregatesFilter<"AnalyticsGeoData"> | number
+    users?: IntWithAggregatesFilter<"AnalyticsGeoData"> | number
+  }
+
+  export type SearchConsoleQueryWhereInput = {
+    AND?: SearchConsoleQueryWhereInput | SearchConsoleQueryWhereInput[]
+    OR?: SearchConsoleQueryWhereInput[]
+    NOT?: SearchConsoleQueryWhereInput | SearchConsoleQueryWhereInput[]
+    id?: StringFilter<"SearchConsoleQuery"> | string
+    companyId?: StringFilter<"SearchConsoleQuery"> | string
+    date?: DateTimeFilter<"SearchConsoleQuery"> | Date | string
+    query?: StringFilter<"SearchConsoleQuery"> | string
+    page?: StringNullableFilter<"SearchConsoleQuery"> | string | null
+    country?: StringNullableFilter<"SearchConsoleQuery"> | string | null
+    device?: StringNullableFilter<"SearchConsoleQuery"> | string | null
+    clicks?: IntFilter<"SearchConsoleQuery"> | number
+    impressions?: IntFilter<"SearchConsoleQuery"> | number
+    ctr?: FloatFilter<"SearchConsoleQuery"> | number
+    position?: FloatFilter<"SearchConsoleQuery"> | number
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type SearchConsoleQueryOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    query?: SortOrder
+    page?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
+    device?: SortOrderInput | SortOrder
+    clicks?: SortOrder
+    impressions?: SortOrder
+    ctr?: SortOrder
+    position?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type SearchConsoleQueryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_date_query_page_country_device?: SearchConsoleQueryCompanyIdDateQueryPageCountryDeviceCompoundUniqueInput
+    AND?: SearchConsoleQueryWhereInput | SearchConsoleQueryWhereInput[]
+    OR?: SearchConsoleQueryWhereInput[]
+    NOT?: SearchConsoleQueryWhereInput | SearchConsoleQueryWhereInput[]
+    companyId?: StringFilter<"SearchConsoleQuery"> | string
+    date?: DateTimeFilter<"SearchConsoleQuery"> | Date | string
+    query?: StringFilter<"SearchConsoleQuery"> | string
+    page?: StringNullableFilter<"SearchConsoleQuery"> | string | null
+    country?: StringNullableFilter<"SearchConsoleQuery"> | string | null
+    device?: StringNullableFilter<"SearchConsoleQuery"> | string | null
+    clicks?: IntFilter<"SearchConsoleQuery"> | number
+    impressions?: IntFilter<"SearchConsoleQuery"> | number
+    ctr?: FloatFilter<"SearchConsoleQuery"> | number
+    position?: FloatFilter<"SearchConsoleQuery"> | number
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id" | "companyId_date_query_page_country_device">
+
+  export type SearchConsoleQueryOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    query?: SortOrder
+    page?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
+    device?: SortOrderInput | SortOrder
+    clicks?: SortOrder
+    impressions?: SortOrder
+    ctr?: SortOrder
+    position?: SortOrder
+    _count?: SearchConsoleQueryCountOrderByAggregateInput
+    _avg?: SearchConsoleQueryAvgOrderByAggregateInput
+    _max?: SearchConsoleQueryMaxOrderByAggregateInput
+    _min?: SearchConsoleQueryMinOrderByAggregateInput
+    _sum?: SearchConsoleQuerySumOrderByAggregateInput
+  }
+
+  export type SearchConsoleQueryScalarWhereWithAggregatesInput = {
+    AND?: SearchConsoleQueryScalarWhereWithAggregatesInput | SearchConsoleQueryScalarWhereWithAggregatesInput[]
+    OR?: SearchConsoleQueryScalarWhereWithAggregatesInput[]
+    NOT?: SearchConsoleQueryScalarWhereWithAggregatesInput | SearchConsoleQueryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SearchConsoleQuery"> | string
+    companyId?: StringWithAggregatesFilter<"SearchConsoleQuery"> | string
+    date?: DateTimeWithAggregatesFilter<"SearchConsoleQuery"> | Date | string
+    query?: StringWithAggregatesFilter<"SearchConsoleQuery"> | string
+    page?: StringNullableWithAggregatesFilter<"SearchConsoleQuery"> | string | null
+    country?: StringNullableWithAggregatesFilter<"SearchConsoleQuery"> | string | null
+    device?: StringNullableWithAggregatesFilter<"SearchConsoleQuery"> | string | null
+    clicks?: IntWithAggregatesFilter<"SearchConsoleQuery"> | number
+    impressions?: IntWithAggregatesFilter<"SearchConsoleQuery"> | number
+    ctr?: FloatWithAggregatesFilter<"SearchConsoleQuery"> | number
+    position?: FloatWithAggregatesFilter<"SearchConsoleQuery"> | number
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -32387,6 +40168,12 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -32425,6 +40212,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -32463,6 +40256,12 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -32501,6 +40300,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -34672,6 +42477,630 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MarketingIntegrationCreateInput = {
+    id?: string
+    provider: $Enums.IntegrationProvider
+    accountId?: string | null
+    accountLabel?: string | null
+    accessTokenEnc?: string | null
+    refreshTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: MarketingIntegrationCreatescopesInput | string[]
+    googleEmail?: string | null
+    googleName?: string | null
+    status?: $Enums.IntegrationStatus
+    lastSyncAt?: Date | string | null
+    lastSyncStatus?: string | null
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    company: CompanyCreateNestedOneWithoutMarketingIntegrationsInput
+  }
+
+  export type MarketingIntegrationUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    provider: $Enums.IntegrationProvider
+    accountId?: string | null
+    accountLabel?: string | null
+    accessTokenEnc?: string | null
+    refreshTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: MarketingIntegrationCreatescopesInput | string[]
+    googleEmail?: string | null
+    googleName?: string | null
+    status?: $Enums.IntegrationStatus
+    lastSyncAt?: Date | string | null
+    lastSyncStatus?: string | null
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type MarketingIntegrationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    accountLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: MarketingIntegrationUpdatescopesInput | string[]
+    googleEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    googleName?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSyncStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneRequiredWithoutMarketingIntegrationsNestedInput
+  }
+
+  export type MarketingIntegrationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    accountLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: MarketingIntegrationUpdatescopesInput | string[]
+    googleEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    googleName?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSyncStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MarketingIntegrationCreateManyInput = {
+    id?: string
+    companyId: string
+    provider: $Enums.IntegrationProvider
+    accountId?: string | null
+    accountLabel?: string | null
+    accessTokenEnc?: string | null
+    refreshTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: MarketingIntegrationCreatescopesInput | string[]
+    googleEmail?: string | null
+    googleName?: string | null
+    status?: $Enums.IntegrationStatus
+    lastSyncAt?: Date | string | null
+    lastSyncStatus?: string | null
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type MarketingIntegrationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    accountLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: MarketingIntegrationUpdatescopesInput | string[]
+    googleEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    googleName?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSyncStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MarketingIntegrationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    accountLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: MarketingIntegrationUpdatescopesInput | string[]
+    googleEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    googleName?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSyncStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AnalyticsSnapshotCreateInput = {
+    id?: string
+    date: Date | string
+    source: string
+    sessions?: number
+    users?: number
+    newUsers?: number
+    pageviews?: number
+    conversions?: number
+    bounceRate?: number | null
+    avgSessionSec?: number | null
+    engagedSessions?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutAnalyticsSnapshotsInput
+  }
+
+  export type AnalyticsSnapshotUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    date: Date | string
+    source: string
+    sessions?: number
+    users?: number
+    newUsers?: number
+    pageviews?: number
+    conversions?: number
+    bounceRate?: number | null
+    avgSessionSec?: number | null
+    engagedSessions?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AnalyticsSnapshotUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    newUsers?: IntFieldUpdateOperationsInput | number
+    pageviews?: IntFieldUpdateOperationsInput | number
+    conversions?: IntFieldUpdateOperationsInput | number
+    bounceRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    avgSessionSec?: NullableFloatFieldUpdateOperationsInput | number | null
+    engagedSessions?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutAnalyticsSnapshotsNestedInput
+  }
+
+  export type AnalyticsSnapshotUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    newUsers?: IntFieldUpdateOperationsInput | number
+    pageviews?: IntFieldUpdateOperationsInput | number
+    conversions?: IntFieldUpdateOperationsInput | number
+    bounceRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    avgSessionSec?: NullableFloatFieldUpdateOperationsInput | number | null
+    engagedSessions?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnalyticsSnapshotCreateManyInput = {
+    id?: string
+    companyId: string
+    date: Date | string
+    source: string
+    sessions?: number
+    users?: number
+    newUsers?: number
+    pageviews?: number
+    conversions?: number
+    bounceRate?: number | null
+    avgSessionSec?: number | null
+    engagedSessions?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AnalyticsSnapshotUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    newUsers?: IntFieldUpdateOperationsInput | number
+    pageviews?: IntFieldUpdateOperationsInput | number
+    conversions?: IntFieldUpdateOperationsInput | number
+    bounceRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    avgSessionSec?: NullableFloatFieldUpdateOperationsInput | number | null
+    engagedSessions?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnalyticsSnapshotUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    newUsers?: IntFieldUpdateOperationsInput | number
+    pageviews?: IntFieldUpdateOperationsInput | number
+    conversions?: IntFieldUpdateOperationsInput | number
+    bounceRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    avgSessionSec?: NullableFloatFieldUpdateOperationsInput | number | null
+    engagedSessions?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnalyticsTopPageCreateInput = {
+    id?: string
+    date: Date | string
+    source: string
+    pagePath: string
+    pageTitle?: string | null
+    views?: number
+    users?: number
+    avgTimeSec?: number | null
+    company: CompanyCreateNestedOneWithoutAnalyticsTopPagesInput
+  }
+
+  export type AnalyticsTopPageUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    date: Date | string
+    source: string
+    pagePath: string
+    pageTitle?: string | null
+    views?: number
+    users?: number
+    avgTimeSec?: number | null
+  }
+
+  export type AnalyticsTopPageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    pagePath?: StringFieldUpdateOperationsInput | string
+    pageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    views?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    avgTimeSec?: NullableFloatFieldUpdateOperationsInput | number | null
+    company?: CompanyUpdateOneRequiredWithoutAnalyticsTopPagesNestedInput
+  }
+
+  export type AnalyticsTopPageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    pagePath?: StringFieldUpdateOperationsInput | string
+    pageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    views?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    avgTimeSec?: NullableFloatFieldUpdateOperationsInput | number | null
+  }
+
+  export type AnalyticsTopPageCreateManyInput = {
+    id?: string
+    companyId: string
+    date: Date | string
+    source: string
+    pagePath: string
+    pageTitle?: string | null
+    views?: number
+    users?: number
+    avgTimeSec?: number | null
+  }
+
+  export type AnalyticsTopPageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    pagePath?: StringFieldUpdateOperationsInput | string
+    pageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    views?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    avgTimeSec?: NullableFloatFieldUpdateOperationsInput | number | null
+  }
+
+  export type AnalyticsTopPageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    pagePath?: StringFieldUpdateOperationsInput | string
+    pageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    views?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    avgTimeSec?: NullableFloatFieldUpdateOperationsInput | number | null
+  }
+
+  export type AnalyticsTrafficSourceCreateInput = {
+    id?: string
+    date: Date | string
+    source: string
+    rawSource: string
+    rawMedium: string
+    bucket: string
+    sessions?: number
+    users?: number
+    conversions?: number
+    company: CompanyCreateNestedOneWithoutAnalyticsTrafficSourcesInput
+  }
+
+  export type AnalyticsTrafficSourceUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    date: Date | string
+    source: string
+    rawSource: string
+    rawMedium: string
+    bucket: string
+    sessions?: number
+    users?: number
+    conversions?: number
+  }
+
+  export type AnalyticsTrafficSourceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    rawSource?: StringFieldUpdateOperationsInput | string
+    rawMedium?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    conversions?: IntFieldUpdateOperationsInput | number
+    company?: CompanyUpdateOneRequiredWithoutAnalyticsTrafficSourcesNestedInput
+  }
+
+  export type AnalyticsTrafficSourceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    rawSource?: StringFieldUpdateOperationsInput | string
+    rawMedium?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    conversions?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AnalyticsTrafficSourceCreateManyInput = {
+    id?: string
+    companyId: string
+    date: Date | string
+    source: string
+    rawSource: string
+    rawMedium: string
+    bucket: string
+    sessions?: number
+    users?: number
+    conversions?: number
+  }
+
+  export type AnalyticsTrafficSourceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    rawSource?: StringFieldUpdateOperationsInput | string
+    rawMedium?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    conversions?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AnalyticsTrafficSourceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    rawSource?: StringFieldUpdateOperationsInput | string
+    rawMedium?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    conversions?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AnalyticsGeoDataCreateInput = {
+    id?: string
+    date: Date | string
+    source: string
+    countryCode?: string | null
+    countryName?: string | null
+    region?: string | null
+    city?: string | null
+    sessions?: number
+    users?: number
+    company: CompanyCreateNestedOneWithoutAnalyticsGeoDataInput
+  }
+
+  export type AnalyticsGeoDataUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    date: Date | string
+    source: string
+    countryCode?: string | null
+    countryName?: string | null
+    region?: string | null
+    city?: string | null
+    sessions?: number
+    users?: number
+  }
+
+  export type AnalyticsGeoDataUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    countryCode?: NullableStringFieldUpdateOperationsInput | string | null
+    countryName?: NullableStringFieldUpdateOperationsInput | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    company?: CompanyUpdateOneRequiredWithoutAnalyticsGeoDataNestedInput
+  }
+
+  export type AnalyticsGeoDataUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    countryCode?: NullableStringFieldUpdateOperationsInput | string | null
+    countryName?: NullableStringFieldUpdateOperationsInput | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AnalyticsGeoDataCreateManyInput = {
+    id?: string
+    companyId: string
+    date: Date | string
+    source: string
+    countryCode?: string | null
+    countryName?: string | null
+    region?: string | null
+    city?: string | null
+    sessions?: number
+    users?: number
+  }
+
+  export type AnalyticsGeoDataUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    countryCode?: NullableStringFieldUpdateOperationsInput | string | null
+    countryName?: NullableStringFieldUpdateOperationsInput | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AnalyticsGeoDataUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    countryCode?: NullableStringFieldUpdateOperationsInput | string | null
+    countryName?: NullableStringFieldUpdateOperationsInput | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SearchConsoleQueryCreateInput = {
+    id?: string
+    date: Date | string
+    query: string
+    page?: string | null
+    country?: string | null
+    device?: string | null
+    clicks: number
+    impressions: number
+    ctr: number
+    position: number
+    company: CompanyCreateNestedOneWithoutSearchConsoleQueriesInput
+  }
+
+  export type SearchConsoleQueryUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    date: Date | string
+    query: string
+    page?: string | null
+    country?: string | null
+    device?: string | null
+    clicks: number
+    impressions: number
+    ctr: number
+    position: number
+  }
+
+  export type SearchConsoleQueryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    query?: StringFieldUpdateOperationsInput | string
+    page?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
+    clicks?: IntFieldUpdateOperationsInput | number
+    impressions?: IntFieldUpdateOperationsInput | number
+    ctr?: FloatFieldUpdateOperationsInput | number
+    position?: FloatFieldUpdateOperationsInput | number
+    company?: CompanyUpdateOneRequiredWithoutSearchConsoleQueriesNestedInput
+  }
+
+  export type SearchConsoleQueryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    query?: StringFieldUpdateOperationsInput | string
+    page?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
+    clicks?: IntFieldUpdateOperationsInput | number
+    impressions?: IntFieldUpdateOperationsInput | number
+    ctr?: FloatFieldUpdateOperationsInput | number
+    position?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type SearchConsoleQueryCreateManyInput = {
+    id?: string
+    companyId: string
+    date: Date | string
+    query: string
+    page?: string | null
+    country?: string | null
+    device?: string | null
+    clicks: number
+    impressions: number
+    ctr: number
+    position: number
+  }
+
+  export type SearchConsoleQueryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    query?: StringFieldUpdateOperationsInput | string
+    page?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
+    clicks?: IntFieldUpdateOperationsInput | number
+    impressions?: IntFieldUpdateOperationsInput | number
+    ctr?: FloatFieldUpdateOperationsInput | number
+    position?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type SearchConsoleQueryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    query?: StringFieldUpdateOperationsInput | string
+    page?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
+    clicks?: IntFieldUpdateOperationsInput | number
+    impressions?: IntFieldUpdateOperationsInput | number
+    ctr?: FloatFieldUpdateOperationsInput | number
+    position?: FloatFieldUpdateOperationsInput | number
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -34957,6 +43386,42 @@ export namespace Prisma {
     none?: CredentialAccessLogWhereInput
   }
 
+  export type MarketingIntegrationListRelationFilter = {
+    every?: MarketingIntegrationWhereInput
+    some?: MarketingIntegrationWhereInput
+    none?: MarketingIntegrationWhereInput
+  }
+
+  export type AnalyticsSnapshotListRelationFilter = {
+    every?: AnalyticsSnapshotWhereInput
+    some?: AnalyticsSnapshotWhereInput
+    none?: AnalyticsSnapshotWhereInput
+  }
+
+  export type AnalyticsTopPageListRelationFilter = {
+    every?: AnalyticsTopPageWhereInput
+    some?: AnalyticsTopPageWhereInput
+    none?: AnalyticsTopPageWhereInput
+  }
+
+  export type AnalyticsTrafficSourceListRelationFilter = {
+    every?: AnalyticsTrafficSourceWhereInput
+    some?: AnalyticsTrafficSourceWhereInput
+    none?: AnalyticsTrafficSourceWhereInput
+  }
+
+  export type AnalyticsGeoDataListRelationFilter = {
+    every?: AnalyticsGeoDataWhereInput
+    some?: AnalyticsGeoDataWhereInput
+    none?: AnalyticsGeoDataWhereInput
+  }
+
+  export type SearchConsoleQueryListRelationFilter = {
+    every?: SearchConsoleQueryWhereInput
+    some?: SearchConsoleQueryWhereInput
+    none?: SearchConsoleQueryWhereInput
+  }
+
   export type CompanyOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -35010,6 +43475,30 @@ export namespace Prisma {
   }
 
   export type CredentialAccessLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MarketingIntegrationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AnalyticsSnapshotOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AnalyticsTopPageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AnalyticsTrafficSourceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AnalyticsGeoDataOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SearchConsoleQueryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -36600,6 +45089,450 @@ export namespace Prisma {
     _max?: NestedEnumCredentialActionFilter<$PrismaModel>
   }
 
+  export type EnumIntegrationProviderFilter<$PrismaModel = never> = {
+    equals?: $Enums.IntegrationProvider | EnumIntegrationProviderFieldRefInput<$PrismaModel>
+    in?: $Enums.IntegrationProvider[] | ListEnumIntegrationProviderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IntegrationProvider[] | ListEnumIntegrationProviderFieldRefInput<$PrismaModel>
+    not?: NestedEnumIntegrationProviderFilter<$PrismaModel> | $Enums.IntegrationProvider
+  }
+
+  export type EnumIntegrationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.IntegrationStatus | EnumIntegrationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.IntegrationStatus[] | ListEnumIntegrationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IntegrationStatus[] | ListEnumIntegrationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumIntegrationStatusFilter<$PrismaModel> | $Enums.IntegrationStatus
+  }
+
+  export type MarketingIntegrationCompanyIdProviderAccountIdCompoundUniqueInput = {
+    companyId: string
+    provider: $Enums.IntegrationProvider
+    accountId: string
+  }
+
+  export type MarketingIntegrationCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    provider?: SortOrder
+    accountId?: SortOrder
+    accountLabel?: SortOrder
+    accessTokenEnc?: SortOrder
+    refreshTokenEnc?: SortOrder
+    tokenExpiresAt?: SortOrder
+    scopes?: SortOrder
+    googleEmail?: SortOrder
+    googleName?: SortOrder
+    status?: SortOrder
+    lastSyncAt?: SortOrder
+    lastSyncStatus?: SortOrder
+    lastError?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type MarketingIntegrationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    provider?: SortOrder
+    accountId?: SortOrder
+    accountLabel?: SortOrder
+    accessTokenEnc?: SortOrder
+    refreshTokenEnc?: SortOrder
+    tokenExpiresAt?: SortOrder
+    googleEmail?: SortOrder
+    googleName?: SortOrder
+    status?: SortOrder
+    lastSyncAt?: SortOrder
+    lastSyncStatus?: SortOrder
+    lastError?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type MarketingIntegrationMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    provider?: SortOrder
+    accountId?: SortOrder
+    accountLabel?: SortOrder
+    accessTokenEnc?: SortOrder
+    refreshTokenEnc?: SortOrder
+    tokenExpiresAt?: SortOrder
+    googleEmail?: SortOrder
+    googleName?: SortOrder
+    status?: SortOrder
+    lastSyncAt?: SortOrder
+    lastSyncStatus?: SortOrder
+    lastError?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type EnumIntegrationProviderWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IntegrationProvider | EnumIntegrationProviderFieldRefInput<$PrismaModel>
+    in?: $Enums.IntegrationProvider[] | ListEnumIntegrationProviderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IntegrationProvider[] | ListEnumIntegrationProviderFieldRefInput<$PrismaModel>
+    not?: NestedEnumIntegrationProviderWithAggregatesFilter<$PrismaModel> | $Enums.IntegrationProvider
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIntegrationProviderFilter<$PrismaModel>
+    _max?: NestedEnumIntegrationProviderFilter<$PrismaModel>
+  }
+
+  export type EnumIntegrationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IntegrationStatus | EnumIntegrationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.IntegrationStatus[] | ListEnumIntegrationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IntegrationStatus[] | ListEnumIntegrationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumIntegrationStatusWithAggregatesFilter<$PrismaModel> | $Enums.IntegrationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIntegrationStatusFilter<$PrismaModel>
+    _max?: NestedEnumIntegrationStatusFilter<$PrismaModel>
+  }
+
+  export type AnalyticsSnapshotCompanyIdDateSourceCompoundUniqueInput = {
+    companyId: string
+    date: Date | string
+    source: string
+  }
+
+  export type AnalyticsSnapshotCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    sessions?: SortOrder
+    users?: SortOrder
+    newUsers?: SortOrder
+    pageviews?: SortOrder
+    conversions?: SortOrder
+    bounceRate?: SortOrder
+    avgSessionSec?: SortOrder
+    engagedSessions?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AnalyticsSnapshotAvgOrderByAggregateInput = {
+    sessions?: SortOrder
+    users?: SortOrder
+    newUsers?: SortOrder
+    pageviews?: SortOrder
+    conversions?: SortOrder
+    bounceRate?: SortOrder
+    avgSessionSec?: SortOrder
+    engagedSessions?: SortOrder
+  }
+
+  export type AnalyticsSnapshotMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    sessions?: SortOrder
+    users?: SortOrder
+    newUsers?: SortOrder
+    pageviews?: SortOrder
+    conversions?: SortOrder
+    bounceRate?: SortOrder
+    avgSessionSec?: SortOrder
+    engagedSessions?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AnalyticsSnapshotMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    sessions?: SortOrder
+    users?: SortOrder
+    newUsers?: SortOrder
+    pageviews?: SortOrder
+    conversions?: SortOrder
+    bounceRate?: SortOrder
+    avgSessionSec?: SortOrder
+    engagedSessions?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AnalyticsSnapshotSumOrderByAggregateInput = {
+    sessions?: SortOrder
+    users?: SortOrder
+    newUsers?: SortOrder
+    pageviews?: SortOrder
+    conversions?: SortOrder
+    bounceRate?: SortOrder
+    avgSessionSec?: SortOrder
+    engagedSessions?: SortOrder
+  }
+
+  export type AnalyticsTopPageCompanyIdDateSourcePagePathCompoundUniqueInput = {
+    companyId: string
+    date: Date | string
+    source: string
+    pagePath: string
+  }
+
+  export type AnalyticsTopPageCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    pagePath?: SortOrder
+    pageTitle?: SortOrder
+    views?: SortOrder
+    users?: SortOrder
+    avgTimeSec?: SortOrder
+  }
+
+  export type AnalyticsTopPageAvgOrderByAggregateInput = {
+    views?: SortOrder
+    users?: SortOrder
+    avgTimeSec?: SortOrder
+  }
+
+  export type AnalyticsTopPageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    pagePath?: SortOrder
+    pageTitle?: SortOrder
+    views?: SortOrder
+    users?: SortOrder
+    avgTimeSec?: SortOrder
+  }
+
+  export type AnalyticsTopPageMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    pagePath?: SortOrder
+    pageTitle?: SortOrder
+    views?: SortOrder
+    users?: SortOrder
+    avgTimeSec?: SortOrder
+  }
+
+  export type AnalyticsTopPageSumOrderByAggregateInput = {
+    views?: SortOrder
+    users?: SortOrder
+    avgTimeSec?: SortOrder
+  }
+
+  export type AnalyticsTrafficSourceCompanyIdDateSourceRawSourceRawMediumCompoundUniqueInput = {
+    companyId: string
+    date: Date | string
+    source: string
+    rawSource: string
+    rawMedium: string
+  }
+
+  export type AnalyticsTrafficSourceCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    rawSource?: SortOrder
+    rawMedium?: SortOrder
+    bucket?: SortOrder
+    sessions?: SortOrder
+    users?: SortOrder
+    conversions?: SortOrder
+  }
+
+  export type AnalyticsTrafficSourceAvgOrderByAggregateInput = {
+    sessions?: SortOrder
+    users?: SortOrder
+    conversions?: SortOrder
+  }
+
+  export type AnalyticsTrafficSourceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    rawSource?: SortOrder
+    rawMedium?: SortOrder
+    bucket?: SortOrder
+    sessions?: SortOrder
+    users?: SortOrder
+    conversions?: SortOrder
+  }
+
+  export type AnalyticsTrafficSourceMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    rawSource?: SortOrder
+    rawMedium?: SortOrder
+    bucket?: SortOrder
+    sessions?: SortOrder
+    users?: SortOrder
+    conversions?: SortOrder
+  }
+
+  export type AnalyticsTrafficSourceSumOrderByAggregateInput = {
+    sessions?: SortOrder
+    users?: SortOrder
+    conversions?: SortOrder
+  }
+
+  export type AnalyticsGeoDataCompanyIdDateSourceCountryCodeRegionCityCompoundUniqueInput = {
+    companyId: string
+    date: Date | string
+    source: string
+    countryCode: string
+    region: string
+    city: string
+  }
+
+  export type AnalyticsGeoDataCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    countryCode?: SortOrder
+    countryName?: SortOrder
+    region?: SortOrder
+    city?: SortOrder
+    sessions?: SortOrder
+    users?: SortOrder
+  }
+
+  export type AnalyticsGeoDataAvgOrderByAggregateInput = {
+    sessions?: SortOrder
+    users?: SortOrder
+  }
+
+  export type AnalyticsGeoDataMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    countryCode?: SortOrder
+    countryName?: SortOrder
+    region?: SortOrder
+    city?: SortOrder
+    sessions?: SortOrder
+    users?: SortOrder
+  }
+
+  export type AnalyticsGeoDataMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    countryCode?: SortOrder
+    countryName?: SortOrder
+    region?: SortOrder
+    city?: SortOrder
+    sessions?: SortOrder
+    users?: SortOrder
+  }
+
+  export type AnalyticsGeoDataSumOrderByAggregateInput = {
+    sessions?: SortOrder
+    users?: SortOrder
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type SearchConsoleQueryCompanyIdDateQueryPageCountryDeviceCompoundUniqueInput = {
+    companyId: string
+    date: Date | string
+    query: string
+    page: string
+    country: string
+    device: string
+  }
+
+  export type SearchConsoleQueryCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    query?: SortOrder
+    page?: SortOrder
+    country?: SortOrder
+    device?: SortOrder
+    clicks?: SortOrder
+    impressions?: SortOrder
+    ctr?: SortOrder
+    position?: SortOrder
+  }
+
+  export type SearchConsoleQueryAvgOrderByAggregateInput = {
+    clicks?: SortOrder
+    impressions?: SortOrder
+    ctr?: SortOrder
+    position?: SortOrder
+  }
+
+  export type SearchConsoleQueryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    query?: SortOrder
+    page?: SortOrder
+    country?: SortOrder
+    device?: SortOrder
+    clicks?: SortOrder
+    impressions?: SortOrder
+    ctr?: SortOrder
+    position?: SortOrder
+  }
+
+  export type SearchConsoleQueryMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    query?: SortOrder
+    page?: SortOrder
+    country?: SortOrder
+    device?: SortOrder
+    clicks?: SortOrder
+    impressions?: SortOrder
+    ctr?: SortOrder
+    position?: SortOrder
+  }
+
+  export type SearchConsoleQuerySumOrderByAggregateInput = {
+    clicks?: SortOrder
+    impressions?: SortOrder
+    ctr?: SortOrder
+    position?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type CompanyCreateNestedOneWithoutUsersInput = {
     create?: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutUsersInput
@@ -36908,6 +45841,48 @@ export namespace Prisma {
     connect?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
   }
 
+  export type MarketingIntegrationCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<MarketingIntegrationCreateWithoutCompanyInput, MarketingIntegrationUncheckedCreateWithoutCompanyInput> | MarketingIntegrationCreateWithoutCompanyInput[] | MarketingIntegrationUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: MarketingIntegrationCreateOrConnectWithoutCompanyInput | MarketingIntegrationCreateOrConnectWithoutCompanyInput[]
+    createMany?: MarketingIntegrationCreateManyCompanyInputEnvelope
+    connect?: MarketingIntegrationWhereUniqueInput | MarketingIntegrationWhereUniqueInput[]
+  }
+
+  export type AnalyticsSnapshotCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AnalyticsSnapshotCreateWithoutCompanyInput, AnalyticsSnapshotUncheckedCreateWithoutCompanyInput> | AnalyticsSnapshotCreateWithoutCompanyInput[] | AnalyticsSnapshotUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AnalyticsSnapshotCreateOrConnectWithoutCompanyInput | AnalyticsSnapshotCreateOrConnectWithoutCompanyInput[]
+    createMany?: AnalyticsSnapshotCreateManyCompanyInputEnvelope
+    connect?: AnalyticsSnapshotWhereUniqueInput | AnalyticsSnapshotWhereUniqueInput[]
+  }
+
+  export type AnalyticsTopPageCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AnalyticsTopPageCreateWithoutCompanyInput, AnalyticsTopPageUncheckedCreateWithoutCompanyInput> | AnalyticsTopPageCreateWithoutCompanyInput[] | AnalyticsTopPageUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AnalyticsTopPageCreateOrConnectWithoutCompanyInput | AnalyticsTopPageCreateOrConnectWithoutCompanyInput[]
+    createMany?: AnalyticsTopPageCreateManyCompanyInputEnvelope
+    connect?: AnalyticsTopPageWhereUniqueInput | AnalyticsTopPageWhereUniqueInput[]
+  }
+
+  export type AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AnalyticsTrafficSourceCreateWithoutCompanyInput, AnalyticsTrafficSourceUncheckedCreateWithoutCompanyInput> | AnalyticsTrafficSourceCreateWithoutCompanyInput[] | AnalyticsTrafficSourceUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AnalyticsTrafficSourceCreateOrConnectWithoutCompanyInput | AnalyticsTrafficSourceCreateOrConnectWithoutCompanyInput[]
+    createMany?: AnalyticsTrafficSourceCreateManyCompanyInputEnvelope
+    connect?: AnalyticsTrafficSourceWhereUniqueInput | AnalyticsTrafficSourceWhereUniqueInput[]
+  }
+
+  export type AnalyticsGeoDataCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AnalyticsGeoDataCreateWithoutCompanyInput, AnalyticsGeoDataUncheckedCreateWithoutCompanyInput> | AnalyticsGeoDataCreateWithoutCompanyInput[] | AnalyticsGeoDataUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AnalyticsGeoDataCreateOrConnectWithoutCompanyInput | AnalyticsGeoDataCreateOrConnectWithoutCompanyInput[]
+    createMany?: AnalyticsGeoDataCreateManyCompanyInputEnvelope
+    connect?: AnalyticsGeoDataWhereUniqueInput | AnalyticsGeoDataWhereUniqueInput[]
+  }
+
+  export type SearchConsoleQueryCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<SearchConsoleQueryCreateWithoutCompanyInput, SearchConsoleQueryUncheckedCreateWithoutCompanyInput> | SearchConsoleQueryCreateWithoutCompanyInput[] | SearchConsoleQueryUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: SearchConsoleQueryCreateOrConnectWithoutCompanyInput | SearchConsoleQueryCreateOrConnectWithoutCompanyInput[]
+    createMany?: SearchConsoleQueryCreateManyCompanyInputEnvelope
+    connect?: SearchConsoleQueryWhereUniqueInput | SearchConsoleQueryWhereUniqueInput[]
+  }
+
   export type CompanyUncheckedCreateNestedManyWithoutParentCompanyInput = {
     create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
@@ -37018,6 +45993,48 @@ export namespace Prisma {
     connectOrCreate?: CredentialAccessLogCreateOrConnectWithoutCompanyInput | CredentialAccessLogCreateOrConnectWithoutCompanyInput[]
     createMany?: CredentialAccessLogCreateManyCompanyInputEnvelope
     connect?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+  }
+
+  export type MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<MarketingIntegrationCreateWithoutCompanyInput, MarketingIntegrationUncheckedCreateWithoutCompanyInput> | MarketingIntegrationCreateWithoutCompanyInput[] | MarketingIntegrationUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: MarketingIntegrationCreateOrConnectWithoutCompanyInput | MarketingIntegrationCreateOrConnectWithoutCompanyInput[]
+    createMany?: MarketingIntegrationCreateManyCompanyInputEnvelope
+    connect?: MarketingIntegrationWhereUniqueInput | MarketingIntegrationWhereUniqueInput[]
+  }
+
+  export type AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AnalyticsSnapshotCreateWithoutCompanyInput, AnalyticsSnapshotUncheckedCreateWithoutCompanyInput> | AnalyticsSnapshotCreateWithoutCompanyInput[] | AnalyticsSnapshotUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AnalyticsSnapshotCreateOrConnectWithoutCompanyInput | AnalyticsSnapshotCreateOrConnectWithoutCompanyInput[]
+    createMany?: AnalyticsSnapshotCreateManyCompanyInputEnvelope
+    connect?: AnalyticsSnapshotWhereUniqueInput | AnalyticsSnapshotWhereUniqueInput[]
+  }
+
+  export type AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AnalyticsTopPageCreateWithoutCompanyInput, AnalyticsTopPageUncheckedCreateWithoutCompanyInput> | AnalyticsTopPageCreateWithoutCompanyInput[] | AnalyticsTopPageUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AnalyticsTopPageCreateOrConnectWithoutCompanyInput | AnalyticsTopPageCreateOrConnectWithoutCompanyInput[]
+    createMany?: AnalyticsTopPageCreateManyCompanyInputEnvelope
+    connect?: AnalyticsTopPageWhereUniqueInput | AnalyticsTopPageWhereUniqueInput[]
+  }
+
+  export type AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AnalyticsTrafficSourceCreateWithoutCompanyInput, AnalyticsTrafficSourceUncheckedCreateWithoutCompanyInput> | AnalyticsTrafficSourceCreateWithoutCompanyInput[] | AnalyticsTrafficSourceUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AnalyticsTrafficSourceCreateOrConnectWithoutCompanyInput | AnalyticsTrafficSourceCreateOrConnectWithoutCompanyInput[]
+    createMany?: AnalyticsTrafficSourceCreateManyCompanyInputEnvelope
+    connect?: AnalyticsTrafficSourceWhereUniqueInput | AnalyticsTrafficSourceWhereUniqueInput[]
+  }
+
+  export type AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AnalyticsGeoDataCreateWithoutCompanyInput, AnalyticsGeoDataUncheckedCreateWithoutCompanyInput> | AnalyticsGeoDataCreateWithoutCompanyInput[] | AnalyticsGeoDataUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AnalyticsGeoDataCreateOrConnectWithoutCompanyInput | AnalyticsGeoDataCreateOrConnectWithoutCompanyInput[]
+    createMany?: AnalyticsGeoDataCreateManyCompanyInputEnvelope
+    connect?: AnalyticsGeoDataWhereUniqueInput | AnalyticsGeoDataWhereUniqueInput[]
+  }
+
+  export type SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<SearchConsoleQueryCreateWithoutCompanyInput, SearchConsoleQueryUncheckedCreateWithoutCompanyInput> | SearchConsoleQueryCreateWithoutCompanyInput[] | SearchConsoleQueryUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: SearchConsoleQueryCreateOrConnectWithoutCompanyInput | SearchConsoleQueryCreateOrConnectWithoutCompanyInput[]
+    createMany?: SearchConsoleQueryCreateManyCompanyInputEnvelope
+    connect?: SearchConsoleQueryWhereUniqueInput | SearchConsoleQueryWhereUniqueInput[]
   }
 
   export type EnumCompanyStatusFieldUpdateOperationsInput = {
@@ -37262,6 +46279,90 @@ export namespace Prisma {
     deleteMany?: CredentialAccessLogScalarWhereInput | CredentialAccessLogScalarWhereInput[]
   }
 
+  export type MarketingIntegrationUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<MarketingIntegrationCreateWithoutCompanyInput, MarketingIntegrationUncheckedCreateWithoutCompanyInput> | MarketingIntegrationCreateWithoutCompanyInput[] | MarketingIntegrationUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: MarketingIntegrationCreateOrConnectWithoutCompanyInput | MarketingIntegrationCreateOrConnectWithoutCompanyInput[]
+    upsert?: MarketingIntegrationUpsertWithWhereUniqueWithoutCompanyInput | MarketingIntegrationUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: MarketingIntegrationCreateManyCompanyInputEnvelope
+    set?: MarketingIntegrationWhereUniqueInput | MarketingIntegrationWhereUniqueInput[]
+    disconnect?: MarketingIntegrationWhereUniqueInput | MarketingIntegrationWhereUniqueInput[]
+    delete?: MarketingIntegrationWhereUniqueInput | MarketingIntegrationWhereUniqueInput[]
+    connect?: MarketingIntegrationWhereUniqueInput | MarketingIntegrationWhereUniqueInput[]
+    update?: MarketingIntegrationUpdateWithWhereUniqueWithoutCompanyInput | MarketingIntegrationUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: MarketingIntegrationUpdateManyWithWhereWithoutCompanyInput | MarketingIntegrationUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: MarketingIntegrationScalarWhereInput | MarketingIntegrationScalarWhereInput[]
+  }
+
+  export type AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AnalyticsSnapshotCreateWithoutCompanyInput, AnalyticsSnapshotUncheckedCreateWithoutCompanyInput> | AnalyticsSnapshotCreateWithoutCompanyInput[] | AnalyticsSnapshotUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AnalyticsSnapshotCreateOrConnectWithoutCompanyInput | AnalyticsSnapshotCreateOrConnectWithoutCompanyInput[]
+    upsert?: AnalyticsSnapshotUpsertWithWhereUniqueWithoutCompanyInput | AnalyticsSnapshotUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AnalyticsSnapshotCreateManyCompanyInputEnvelope
+    set?: AnalyticsSnapshotWhereUniqueInput | AnalyticsSnapshotWhereUniqueInput[]
+    disconnect?: AnalyticsSnapshotWhereUniqueInput | AnalyticsSnapshotWhereUniqueInput[]
+    delete?: AnalyticsSnapshotWhereUniqueInput | AnalyticsSnapshotWhereUniqueInput[]
+    connect?: AnalyticsSnapshotWhereUniqueInput | AnalyticsSnapshotWhereUniqueInput[]
+    update?: AnalyticsSnapshotUpdateWithWhereUniqueWithoutCompanyInput | AnalyticsSnapshotUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AnalyticsSnapshotUpdateManyWithWhereWithoutCompanyInput | AnalyticsSnapshotUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AnalyticsSnapshotScalarWhereInput | AnalyticsSnapshotScalarWhereInput[]
+  }
+
+  export type AnalyticsTopPageUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AnalyticsTopPageCreateWithoutCompanyInput, AnalyticsTopPageUncheckedCreateWithoutCompanyInput> | AnalyticsTopPageCreateWithoutCompanyInput[] | AnalyticsTopPageUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AnalyticsTopPageCreateOrConnectWithoutCompanyInput | AnalyticsTopPageCreateOrConnectWithoutCompanyInput[]
+    upsert?: AnalyticsTopPageUpsertWithWhereUniqueWithoutCompanyInput | AnalyticsTopPageUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AnalyticsTopPageCreateManyCompanyInputEnvelope
+    set?: AnalyticsTopPageWhereUniqueInput | AnalyticsTopPageWhereUniqueInput[]
+    disconnect?: AnalyticsTopPageWhereUniqueInput | AnalyticsTopPageWhereUniqueInput[]
+    delete?: AnalyticsTopPageWhereUniqueInput | AnalyticsTopPageWhereUniqueInput[]
+    connect?: AnalyticsTopPageWhereUniqueInput | AnalyticsTopPageWhereUniqueInput[]
+    update?: AnalyticsTopPageUpdateWithWhereUniqueWithoutCompanyInput | AnalyticsTopPageUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AnalyticsTopPageUpdateManyWithWhereWithoutCompanyInput | AnalyticsTopPageUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AnalyticsTopPageScalarWhereInput | AnalyticsTopPageScalarWhereInput[]
+  }
+
+  export type AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AnalyticsTrafficSourceCreateWithoutCompanyInput, AnalyticsTrafficSourceUncheckedCreateWithoutCompanyInput> | AnalyticsTrafficSourceCreateWithoutCompanyInput[] | AnalyticsTrafficSourceUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AnalyticsTrafficSourceCreateOrConnectWithoutCompanyInput | AnalyticsTrafficSourceCreateOrConnectWithoutCompanyInput[]
+    upsert?: AnalyticsTrafficSourceUpsertWithWhereUniqueWithoutCompanyInput | AnalyticsTrafficSourceUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AnalyticsTrafficSourceCreateManyCompanyInputEnvelope
+    set?: AnalyticsTrafficSourceWhereUniqueInput | AnalyticsTrafficSourceWhereUniqueInput[]
+    disconnect?: AnalyticsTrafficSourceWhereUniqueInput | AnalyticsTrafficSourceWhereUniqueInput[]
+    delete?: AnalyticsTrafficSourceWhereUniqueInput | AnalyticsTrafficSourceWhereUniqueInput[]
+    connect?: AnalyticsTrafficSourceWhereUniqueInput | AnalyticsTrafficSourceWhereUniqueInput[]
+    update?: AnalyticsTrafficSourceUpdateWithWhereUniqueWithoutCompanyInput | AnalyticsTrafficSourceUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AnalyticsTrafficSourceUpdateManyWithWhereWithoutCompanyInput | AnalyticsTrafficSourceUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AnalyticsTrafficSourceScalarWhereInput | AnalyticsTrafficSourceScalarWhereInput[]
+  }
+
+  export type AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AnalyticsGeoDataCreateWithoutCompanyInput, AnalyticsGeoDataUncheckedCreateWithoutCompanyInput> | AnalyticsGeoDataCreateWithoutCompanyInput[] | AnalyticsGeoDataUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AnalyticsGeoDataCreateOrConnectWithoutCompanyInput | AnalyticsGeoDataCreateOrConnectWithoutCompanyInput[]
+    upsert?: AnalyticsGeoDataUpsertWithWhereUniqueWithoutCompanyInput | AnalyticsGeoDataUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AnalyticsGeoDataCreateManyCompanyInputEnvelope
+    set?: AnalyticsGeoDataWhereUniqueInput | AnalyticsGeoDataWhereUniqueInput[]
+    disconnect?: AnalyticsGeoDataWhereUniqueInput | AnalyticsGeoDataWhereUniqueInput[]
+    delete?: AnalyticsGeoDataWhereUniqueInput | AnalyticsGeoDataWhereUniqueInput[]
+    connect?: AnalyticsGeoDataWhereUniqueInput | AnalyticsGeoDataWhereUniqueInput[]
+    update?: AnalyticsGeoDataUpdateWithWhereUniqueWithoutCompanyInput | AnalyticsGeoDataUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AnalyticsGeoDataUpdateManyWithWhereWithoutCompanyInput | AnalyticsGeoDataUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AnalyticsGeoDataScalarWhereInput | AnalyticsGeoDataScalarWhereInput[]
+  }
+
+  export type SearchConsoleQueryUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<SearchConsoleQueryCreateWithoutCompanyInput, SearchConsoleQueryUncheckedCreateWithoutCompanyInput> | SearchConsoleQueryCreateWithoutCompanyInput[] | SearchConsoleQueryUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: SearchConsoleQueryCreateOrConnectWithoutCompanyInput | SearchConsoleQueryCreateOrConnectWithoutCompanyInput[]
+    upsert?: SearchConsoleQueryUpsertWithWhereUniqueWithoutCompanyInput | SearchConsoleQueryUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: SearchConsoleQueryCreateManyCompanyInputEnvelope
+    set?: SearchConsoleQueryWhereUniqueInput | SearchConsoleQueryWhereUniqueInput[]
+    disconnect?: SearchConsoleQueryWhereUniqueInput | SearchConsoleQueryWhereUniqueInput[]
+    delete?: SearchConsoleQueryWhereUniqueInput | SearchConsoleQueryWhereUniqueInput[]
+    connect?: SearchConsoleQueryWhereUniqueInput | SearchConsoleQueryWhereUniqueInput[]
+    update?: SearchConsoleQueryUpdateWithWhereUniqueWithoutCompanyInput | SearchConsoleQueryUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: SearchConsoleQueryUpdateManyWithWhereWithoutCompanyInput | SearchConsoleQueryUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: SearchConsoleQueryScalarWhereInput | SearchConsoleQueryScalarWhereInput[]
+  }
+
   export type CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput = {
     create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
@@ -37484,6 +46585,90 @@ export namespace Prisma {
     update?: CredentialAccessLogUpdateWithWhereUniqueWithoutCompanyInput | CredentialAccessLogUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: CredentialAccessLogUpdateManyWithWhereWithoutCompanyInput | CredentialAccessLogUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: CredentialAccessLogScalarWhereInput | CredentialAccessLogScalarWhereInput[]
+  }
+
+  export type MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<MarketingIntegrationCreateWithoutCompanyInput, MarketingIntegrationUncheckedCreateWithoutCompanyInput> | MarketingIntegrationCreateWithoutCompanyInput[] | MarketingIntegrationUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: MarketingIntegrationCreateOrConnectWithoutCompanyInput | MarketingIntegrationCreateOrConnectWithoutCompanyInput[]
+    upsert?: MarketingIntegrationUpsertWithWhereUniqueWithoutCompanyInput | MarketingIntegrationUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: MarketingIntegrationCreateManyCompanyInputEnvelope
+    set?: MarketingIntegrationWhereUniqueInput | MarketingIntegrationWhereUniqueInput[]
+    disconnect?: MarketingIntegrationWhereUniqueInput | MarketingIntegrationWhereUniqueInput[]
+    delete?: MarketingIntegrationWhereUniqueInput | MarketingIntegrationWhereUniqueInput[]
+    connect?: MarketingIntegrationWhereUniqueInput | MarketingIntegrationWhereUniqueInput[]
+    update?: MarketingIntegrationUpdateWithWhereUniqueWithoutCompanyInput | MarketingIntegrationUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: MarketingIntegrationUpdateManyWithWhereWithoutCompanyInput | MarketingIntegrationUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: MarketingIntegrationScalarWhereInput | MarketingIntegrationScalarWhereInput[]
+  }
+
+  export type AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AnalyticsSnapshotCreateWithoutCompanyInput, AnalyticsSnapshotUncheckedCreateWithoutCompanyInput> | AnalyticsSnapshotCreateWithoutCompanyInput[] | AnalyticsSnapshotUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AnalyticsSnapshotCreateOrConnectWithoutCompanyInput | AnalyticsSnapshotCreateOrConnectWithoutCompanyInput[]
+    upsert?: AnalyticsSnapshotUpsertWithWhereUniqueWithoutCompanyInput | AnalyticsSnapshotUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AnalyticsSnapshotCreateManyCompanyInputEnvelope
+    set?: AnalyticsSnapshotWhereUniqueInput | AnalyticsSnapshotWhereUniqueInput[]
+    disconnect?: AnalyticsSnapshotWhereUniqueInput | AnalyticsSnapshotWhereUniqueInput[]
+    delete?: AnalyticsSnapshotWhereUniqueInput | AnalyticsSnapshotWhereUniqueInput[]
+    connect?: AnalyticsSnapshotWhereUniqueInput | AnalyticsSnapshotWhereUniqueInput[]
+    update?: AnalyticsSnapshotUpdateWithWhereUniqueWithoutCompanyInput | AnalyticsSnapshotUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AnalyticsSnapshotUpdateManyWithWhereWithoutCompanyInput | AnalyticsSnapshotUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AnalyticsSnapshotScalarWhereInput | AnalyticsSnapshotScalarWhereInput[]
+  }
+
+  export type AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AnalyticsTopPageCreateWithoutCompanyInput, AnalyticsTopPageUncheckedCreateWithoutCompanyInput> | AnalyticsTopPageCreateWithoutCompanyInput[] | AnalyticsTopPageUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AnalyticsTopPageCreateOrConnectWithoutCompanyInput | AnalyticsTopPageCreateOrConnectWithoutCompanyInput[]
+    upsert?: AnalyticsTopPageUpsertWithWhereUniqueWithoutCompanyInput | AnalyticsTopPageUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AnalyticsTopPageCreateManyCompanyInputEnvelope
+    set?: AnalyticsTopPageWhereUniqueInput | AnalyticsTopPageWhereUniqueInput[]
+    disconnect?: AnalyticsTopPageWhereUniqueInput | AnalyticsTopPageWhereUniqueInput[]
+    delete?: AnalyticsTopPageWhereUniqueInput | AnalyticsTopPageWhereUniqueInput[]
+    connect?: AnalyticsTopPageWhereUniqueInput | AnalyticsTopPageWhereUniqueInput[]
+    update?: AnalyticsTopPageUpdateWithWhereUniqueWithoutCompanyInput | AnalyticsTopPageUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AnalyticsTopPageUpdateManyWithWhereWithoutCompanyInput | AnalyticsTopPageUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AnalyticsTopPageScalarWhereInput | AnalyticsTopPageScalarWhereInput[]
+  }
+
+  export type AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AnalyticsTrafficSourceCreateWithoutCompanyInput, AnalyticsTrafficSourceUncheckedCreateWithoutCompanyInput> | AnalyticsTrafficSourceCreateWithoutCompanyInput[] | AnalyticsTrafficSourceUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AnalyticsTrafficSourceCreateOrConnectWithoutCompanyInput | AnalyticsTrafficSourceCreateOrConnectWithoutCompanyInput[]
+    upsert?: AnalyticsTrafficSourceUpsertWithWhereUniqueWithoutCompanyInput | AnalyticsTrafficSourceUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AnalyticsTrafficSourceCreateManyCompanyInputEnvelope
+    set?: AnalyticsTrafficSourceWhereUniqueInput | AnalyticsTrafficSourceWhereUniqueInput[]
+    disconnect?: AnalyticsTrafficSourceWhereUniqueInput | AnalyticsTrafficSourceWhereUniqueInput[]
+    delete?: AnalyticsTrafficSourceWhereUniqueInput | AnalyticsTrafficSourceWhereUniqueInput[]
+    connect?: AnalyticsTrafficSourceWhereUniqueInput | AnalyticsTrafficSourceWhereUniqueInput[]
+    update?: AnalyticsTrafficSourceUpdateWithWhereUniqueWithoutCompanyInput | AnalyticsTrafficSourceUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AnalyticsTrafficSourceUpdateManyWithWhereWithoutCompanyInput | AnalyticsTrafficSourceUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AnalyticsTrafficSourceScalarWhereInput | AnalyticsTrafficSourceScalarWhereInput[]
+  }
+
+  export type AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AnalyticsGeoDataCreateWithoutCompanyInput, AnalyticsGeoDataUncheckedCreateWithoutCompanyInput> | AnalyticsGeoDataCreateWithoutCompanyInput[] | AnalyticsGeoDataUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AnalyticsGeoDataCreateOrConnectWithoutCompanyInput | AnalyticsGeoDataCreateOrConnectWithoutCompanyInput[]
+    upsert?: AnalyticsGeoDataUpsertWithWhereUniqueWithoutCompanyInput | AnalyticsGeoDataUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AnalyticsGeoDataCreateManyCompanyInputEnvelope
+    set?: AnalyticsGeoDataWhereUniqueInput | AnalyticsGeoDataWhereUniqueInput[]
+    disconnect?: AnalyticsGeoDataWhereUniqueInput | AnalyticsGeoDataWhereUniqueInput[]
+    delete?: AnalyticsGeoDataWhereUniqueInput | AnalyticsGeoDataWhereUniqueInput[]
+    connect?: AnalyticsGeoDataWhereUniqueInput | AnalyticsGeoDataWhereUniqueInput[]
+    update?: AnalyticsGeoDataUpdateWithWhereUniqueWithoutCompanyInput | AnalyticsGeoDataUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AnalyticsGeoDataUpdateManyWithWhereWithoutCompanyInput | AnalyticsGeoDataUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AnalyticsGeoDataScalarWhereInput | AnalyticsGeoDataScalarWhereInput[]
+  }
+
+  export type SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<SearchConsoleQueryCreateWithoutCompanyInput, SearchConsoleQueryUncheckedCreateWithoutCompanyInput> | SearchConsoleQueryCreateWithoutCompanyInput[] | SearchConsoleQueryUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: SearchConsoleQueryCreateOrConnectWithoutCompanyInput | SearchConsoleQueryCreateOrConnectWithoutCompanyInput[]
+    upsert?: SearchConsoleQueryUpsertWithWhereUniqueWithoutCompanyInput | SearchConsoleQueryUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: SearchConsoleQueryCreateManyCompanyInputEnvelope
+    set?: SearchConsoleQueryWhereUniqueInput | SearchConsoleQueryWhereUniqueInput[]
+    disconnect?: SearchConsoleQueryWhereUniqueInput | SearchConsoleQueryWhereUniqueInput[]
+    delete?: SearchConsoleQueryWhereUniqueInput | SearchConsoleQueryWhereUniqueInput[]
+    connect?: SearchConsoleQueryWhereUniqueInput | SearchConsoleQueryWhereUniqueInput[]
+    update?: SearchConsoleQueryUpdateWithWhereUniqueWithoutCompanyInput | SearchConsoleQueryUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: SearchConsoleQueryUpdateManyWithWhereWithoutCompanyInput | SearchConsoleQueryUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: SearchConsoleQueryScalarWhereInput | SearchConsoleQueryScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutCampaignsInput = {
@@ -39157,6 +48342,115 @@ export namespace Prisma {
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutCredentialAccessLogsInput, CompanyUpdateWithoutCredentialAccessLogsInput>, CompanyUncheckedUpdateWithoutCredentialAccessLogsInput>
   }
 
+  export type MarketingIntegrationCreatescopesInput = {
+    set: string[]
+  }
+
+  export type CompanyCreateNestedOneWithoutMarketingIntegrationsInput = {
+    create?: XOR<CompanyCreateWithoutMarketingIntegrationsInput, CompanyUncheckedCreateWithoutMarketingIntegrationsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutMarketingIntegrationsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type EnumIntegrationProviderFieldUpdateOperationsInput = {
+    set?: $Enums.IntegrationProvider
+  }
+
+  export type MarketingIntegrationUpdatescopesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type EnumIntegrationStatusFieldUpdateOperationsInput = {
+    set?: $Enums.IntegrationStatus
+  }
+
+  export type CompanyUpdateOneRequiredWithoutMarketingIntegrationsNestedInput = {
+    create?: XOR<CompanyCreateWithoutMarketingIntegrationsInput, CompanyUncheckedCreateWithoutMarketingIntegrationsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutMarketingIntegrationsInput
+    upsert?: CompanyUpsertWithoutMarketingIntegrationsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutMarketingIntegrationsInput, CompanyUpdateWithoutMarketingIntegrationsInput>, CompanyUncheckedUpdateWithoutMarketingIntegrationsInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutAnalyticsSnapshotsInput = {
+    create?: XOR<CompanyCreateWithoutAnalyticsSnapshotsInput, CompanyUncheckedCreateWithoutAnalyticsSnapshotsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAnalyticsSnapshotsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutAnalyticsSnapshotsNestedInput = {
+    create?: XOR<CompanyCreateWithoutAnalyticsSnapshotsInput, CompanyUncheckedCreateWithoutAnalyticsSnapshotsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAnalyticsSnapshotsInput
+    upsert?: CompanyUpsertWithoutAnalyticsSnapshotsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutAnalyticsSnapshotsInput, CompanyUpdateWithoutAnalyticsSnapshotsInput>, CompanyUncheckedUpdateWithoutAnalyticsSnapshotsInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutAnalyticsTopPagesInput = {
+    create?: XOR<CompanyCreateWithoutAnalyticsTopPagesInput, CompanyUncheckedCreateWithoutAnalyticsTopPagesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAnalyticsTopPagesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutAnalyticsTopPagesNestedInput = {
+    create?: XOR<CompanyCreateWithoutAnalyticsTopPagesInput, CompanyUncheckedCreateWithoutAnalyticsTopPagesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAnalyticsTopPagesInput
+    upsert?: CompanyUpsertWithoutAnalyticsTopPagesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutAnalyticsTopPagesInput, CompanyUpdateWithoutAnalyticsTopPagesInput>, CompanyUncheckedUpdateWithoutAnalyticsTopPagesInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutAnalyticsTrafficSourcesInput = {
+    create?: XOR<CompanyCreateWithoutAnalyticsTrafficSourcesInput, CompanyUncheckedCreateWithoutAnalyticsTrafficSourcesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAnalyticsTrafficSourcesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutAnalyticsTrafficSourcesNestedInput = {
+    create?: XOR<CompanyCreateWithoutAnalyticsTrafficSourcesInput, CompanyUncheckedCreateWithoutAnalyticsTrafficSourcesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAnalyticsTrafficSourcesInput
+    upsert?: CompanyUpsertWithoutAnalyticsTrafficSourcesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutAnalyticsTrafficSourcesInput, CompanyUpdateWithoutAnalyticsTrafficSourcesInput>, CompanyUncheckedUpdateWithoutAnalyticsTrafficSourcesInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutAnalyticsGeoDataInput = {
+    create?: XOR<CompanyCreateWithoutAnalyticsGeoDataInput, CompanyUncheckedCreateWithoutAnalyticsGeoDataInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAnalyticsGeoDataInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutAnalyticsGeoDataNestedInput = {
+    create?: XOR<CompanyCreateWithoutAnalyticsGeoDataInput, CompanyUncheckedCreateWithoutAnalyticsGeoDataInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAnalyticsGeoDataInput
+    upsert?: CompanyUpsertWithoutAnalyticsGeoDataInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutAnalyticsGeoDataInput, CompanyUpdateWithoutAnalyticsGeoDataInput>, CompanyUncheckedUpdateWithoutAnalyticsGeoDataInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutSearchConsoleQueriesInput = {
+    create?: XOR<CompanyCreateWithoutSearchConsoleQueriesInput, CompanyUncheckedCreateWithoutSearchConsoleQueriesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutSearchConsoleQueriesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type CompanyUpdateOneRequiredWithoutSearchConsoleQueriesNestedInput = {
+    create?: XOR<CompanyCreateWithoutSearchConsoleQueriesInput, CompanyUncheckedCreateWithoutSearchConsoleQueriesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutSearchConsoleQueriesInput
+    upsert?: CompanyUpsertWithoutSearchConsoleQueriesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutSearchConsoleQueriesInput, CompanyUpdateWithoutSearchConsoleQueriesInput>, CompanyUncheckedUpdateWithoutSearchConsoleQueriesInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -39668,6 +48962,56 @@ export namespace Prisma {
     _max?: NestedEnumCredentialActionFilter<$PrismaModel>
   }
 
+  export type NestedEnumIntegrationProviderFilter<$PrismaModel = never> = {
+    equals?: $Enums.IntegrationProvider | EnumIntegrationProviderFieldRefInput<$PrismaModel>
+    in?: $Enums.IntegrationProvider[] | ListEnumIntegrationProviderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IntegrationProvider[] | ListEnumIntegrationProviderFieldRefInput<$PrismaModel>
+    not?: NestedEnumIntegrationProviderFilter<$PrismaModel> | $Enums.IntegrationProvider
+  }
+
+  export type NestedEnumIntegrationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.IntegrationStatus | EnumIntegrationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.IntegrationStatus[] | ListEnumIntegrationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IntegrationStatus[] | ListEnumIntegrationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumIntegrationStatusFilter<$PrismaModel> | $Enums.IntegrationStatus
+  }
+
+  export type NestedEnumIntegrationProviderWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IntegrationProvider | EnumIntegrationProviderFieldRefInput<$PrismaModel>
+    in?: $Enums.IntegrationProvider[] | ListEnumIntegrationProviderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IntegrationProvider[] | ListEnumIntegrationProviderFieldRefInput<$PrismaModel>
+    not?: NestedEnumIntegrationProviderWithAggregatesFilter<$PrismaModel> | $Enums.IntegrationProvider
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIntegrationProviderFilter<$PrismaModel>
+    _max?: NestedEnumIntegrationProviderFilter<$PrismaModel>
+  }
+
+  export type NestedEnumIntegrationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IntegrationStatus | EnumIntegrationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.IntegrationStatus[] | ListEnumIntegrationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IntegrationStatus[] | ListEnumIntegrationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumIntegrationStatusWithAggregatesFilter<$PrismaModel> | $Enums.IntegrationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIntegrationStatusFilter<$PrismaModel>
+    _max?: NestedEnumIntegrationStatusFilter<$PrismaModel>
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type CompanyCreateWithoutUsersInput = {
     id?: string
     name: string
@@ -39703,6 +49047,12 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -39740,6 +49090,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -39946,6 +49302,12 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -39983,6 +49345,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type TicketUpsertWithWhereUniqueWithoutCreatedByInput = {
@@ -40156,6 +49524,12 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSubCompaniesInput = {
@@ -40193,6 +49567,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSubCompaniesInput = {
@@ -40235,6 +49615,12 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutParentCompanyInput = {
@@ -40272,6 +49658,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutParentCompanyInput = {
@@ -40932,6 +50324,234 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MarketingIntegrationCreateWithoutCompanyInput = {
+    id?: string
+    provider: $Enums.IntegrationProvider
+    accountId?: string | null
+    accountLabel?: string | null
+    accessTokenEnc?: string | null
+    refreshTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: MarketingIntegrationCreatescopesInput | string[]
+    googleEmail?: string | null
+    googleName?: string | null
+    status?: $Enums.IntegrationStatus
+    lastSyncAt?: Date | string | null
+    lastSyncStatus?: string | null
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type MarketingIntegrationUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    provider: $Enums.IntegrationProvider
+    accountId?: string | null
+    accountLabel?: string | null
+    accessTokenEnc?: string | null
+    refreshTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: MarketingIntegrationCreatescopesInput | string[]
+    googleEmail?: string | null
+    googleName?: string | null
+    status?: $Enums.IntegrationStatus
+    lastSyncAt?: Date | string | null
+    lastSyncStatus?: string | null
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type MarketingIntegrationCreateOrConnectWithoutCompanyInput = {
+    where: MarketingIntegrationWhereUniqueInput
+    create: XOR<MarketingIntegrationCreateWithoutCompanyInput, MarketingIntegrationUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type MarketingIntegrationCreateManyCompanyInputEnvelope = {
+    data: MarketingIntegrationCreateManyCompanyInput | MarketingIntegrationCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AnalyticsSnapshotCreateWithoutCompanyInput = {
+    id?: string
+    date: Date | string
+    source: string
+    sessions?: number
+    users?: number
+    newUsers?: number
+    pageviews?: number
+    conversions?: number
+    bounceRate?: number | null
+    avgSessionSec?: number | null
+    engagedSessions?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AnalyticsSnapshotUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    date: Date | string
+    source: string
+    sessions?: number
+    users?: number
+    newUsers?: number
+    pageviews?: number
+    conversions?: number
+    bounceRate?: number | null
+    avgSessionSec?: number | null
+    engagedSessions?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AnalyticsSnapshotCreateOrConnectWithoutCompanyInput = {
+    where: AnalyticsSnapshotWhereUniqueInput
+    create: XOR<AnalyticsSnapshotCreateWithoutCompanyInput, AnalyticsSnapshotUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AnalyticsSnapshotCreateManyCompanyInputEnvelope = {
+    data: AnalyticsSnapshotCreateManyCompanyInput | AnalyticsSnapshotCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AnalyticsTopPageCreateWithoutCompanyInput = {
+    id?: string
+    date: Date | string
+    source: string
+    pagePath: string
+    pageTitle?: string | null
+    views?: number
+    users?: number
+    avgTimeSec?: number | null
+  }
+
+  export type AnalyticsTopPageUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    date: Date | string
+    source: string
+    pagePath: string
+    pageTitle?: string | null
+    views?: number
+    users?: number
+    avgTimeSec?: number | null
+  }
+
+  export type AnalyticsTopPageCreateOrConnectWithoutCompanyInput = {
+    where: AnalyticsTopPageWhereUniqueInput
+    create: XOR<AnalyticsTopPageCreateWithoutCompanyInput, AnalyticsTopPageUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AnalyticsTopPageCreateManyCompanyInputEnvelope = {
+    data: AnalyticsTopPageCreateManyCompanyInput | AnalyticsTopPageCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AnalyticsTrafficSourceCreateWithoutCompanyInput = {
+    id?: string
+    date: Date | string
+    source: string
+    rawSource: string
+    rawMedium: string
+    bucket: string
+    sessions?: number
+    users?: number
+    conversions?: number
+  }
+
+  export type AnalyticsTrafficSourceUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    date: Date | string
+    source: string
+    rawSource: string
+    rawMedium: string
+    bucket: string
+    sessions?: number
+    users?: number
+    conversions?: number
+  }
+
+  export type AnalyticsTrafficSourceCreateOrConnectWithoutCompanyInput = {
+    where: AnalyticsTrafficSourceWhereUniqueInput
+    create: XOR<AnalyticsTrafficSourceCreateWithoutCompanyInput, AnalyticsTrafficSourceUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AnalyticsTrafficSourceCreateManyCompanyInputEnvelope = {
+    data: AnalyticsTrafficSourceCreateManyCompanyInput | AnalyticsTrafficSourceCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AnalyticsGeoDataCreateWithoutCompanyInput = {
+    id?: string
+    date: Date | string
+    source: string
+    countryCode?: string | null
+    countryName?: string | null
+    region?: string | null
+    city?: string | null
+    sessions?: number
+    users?: number
+  }
+
+  export type AnalyticsGeoDataUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    date: Date | string
+    source: string
+    countryCode?: string | null
+    countryName?: string | null
+    region?: string | null
+    city?: string | null
+    sessions?: number
+    users?: number
+  }
+
+  export type AnalyticsGeoDataCreateOrConnectWithoutCompanyInput = {
+    where: AnalyticsGeoDataWhereUniqueInput
+    create: XOR<AnalyticsGeoDataCreateWithoutCompanyInput, AnalyticsGeoDataUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AnalyticsGeoDataCreateManyCompanyInputEnvelope = {
+    data: AnalyticsGeoDataCreateManyCompanyInput | AnalyticsGeoDataCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SearchConsoleQueryCreateWithoutCompanyInput = {
+    id?: string
+    date: Date | string
+    query: string
+    page?: string | null
+    country?: string | null
+    device?: string | null
+    clicks: number
+    impressions: number
+    ctr: number
+    position: number
+  }
+
+  export type SearchConsoleQueryUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    date: Date | string
+    query: string
+    page?: string | null
+    country?: string | null
+    device?: string | null
+    clicks: number
+    impressions: number
+    ctr: number
+    position: number
+  }
+
+  export type SearchConsoleQueryCreateOrConnectWithoutCompanyInput = {
+    where: SearchConsoleQueryWhereUniqueInput
+    create: XOR<SearchConsoleQueryCreateWithoutCompanyInput, SearchConsoleQueryUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type SearchConsoleQueryCreateManyCompanyInputEnvelope = {
+    data: SearchConsoleQueryCreateManyCompanyInput | SearchConsoleQueryCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutSubCompaniesInput = {
     update: XOR<CompanyUpdateWithoutSubCompaniesInput, CompanyUncheckedUpdateWithoutSubCompaniesInput>
     create: XOR<CompanyCreateWithoutSubCompaniesInput, CompanyUncheckedCreateWithoutSubCompaniesInput>
@@ -40978,6 +50598,12 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSubCompaniesInput = {
@@ -41015,6 +50641,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUpsertWithWhereUniqueWithoutParentCompanyInput = {
@@ -41536,6 +51168,210 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"CredentialAccessLog"> | Date | string
   }
 
+  export type MarketingIntegrationUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: MarketingIntegrationWhereUniqueInput
+    update: XOR<MarketingIntegrationUpdateWithoutCompanyInput, MarketingIntegrationUncheckedUpdateWithoutCompanyInput>
+    create: XOR<MarketingIntegrationCreateWithoutCompanyInput, MarketingIntegrationUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type MarketingIntegrationUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: MarketingIntegrationWhereUniqueInput
+    data: XOR<MarketingIntegrationUpdateWithoutCompanyInput, MarketingIntegrationUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type MarketingIntegrationUpdateManyWithWhereWithoutCompanyInput = {
+    where: MarketingIntegrationScalarWhereInput
+    data: XOR<MarketingIntegrationUpdateManyMutationInput, MarketingIntegrationUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type MarketingIntegrationScalarWhereInput = {
+    AND?: MarketingIntegrationScalarWhereInput | MarketingIntegrationScalarWhereInput[]
+    OR?: MarketingIntegrationScalarWhereInput[]
+    NOT?: MarketingIntegrationScalarWhereInput | MarketingIntegrationScalarWhereInput[]
+    id?: StringFilter<"MarketingIntegration"> | string
+    companyId?: StringFilter<"MarketingIntegration"> | string
+    provider?: EnumIntegrationProviderFilter<"MarketingIntegration"> | $Enums.IntegrationProvider
+    accountId?: StringNullableFilter<"MarketingIntegration"> | string | null
+    accountLabel?: StringNullableFilter<"MarketingIntegration"> | string | null
+    accessTokenEnc?: StringNullableFilter<"MarketingIntegration"> | string | null
+    refreshTokenEnc?: StringNullableFilter<"MarketingIntegration"> | string | null
+    tokenExpiresAt?: DateTimeNullableFilter<"MarketingIntegration"> | Date | string | null
+    scopes?: StringNullableListFilter<"MarketingIntegration">
+    googleEmail?: StringNullableFilter<"MarketingIntegration"> | string | null
+    googleName?: StringNullableFilter<"MarketingIntegration"> | string | null
+    status?: EnumIntegrationStatusFilter<"MarketingIntegration"> | $Enums.IntegrationStatus
+    lastSyncAt?: DateTimeNullableFilter<"MarketingIntegration"> | Date | string | null
+    lastSyncStatus?: StringNullableFilter<"MarketingIntegration"> | string | null
+    lastError?: StringNullableFilter<"MarketingIntegration"> | string | null
+    createdAt?: DateTimeFilter<"MarketingIntegration"> | Date | string
+    updatedAt?: DateTimeFilter<"MarketingIntegration"> | Date | string
+    createdById?: StringNullableFilter<"MarketingIntegration"> | string | null
+  }
+
+  export type AnalyticsSnapshotUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: AnalyticsSnapshotWhereUniqueInput
+    update: XOR<AnalyticsSnapshotUpdateWithoutCompanyInput, AnalyticsSnapshotUncheckedUpdateWithoutCompanyInput>
+    create: XOR<AnalyticsSnapshotCreateWithoutCompanyInput, AnalyticsSnapshotUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AnalyticsSnapshotUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: AnalyticsSnapshotWhereUniqueInput
+    data: XOR<AnalyticsSnapshotUpdateWithoutCompanyInput, AnalyticsSnapshotUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type AnalyticsSnapshotUpdateManyWithWhereWithoutCompanyInput = {
+    where: AnalyticsSnapshotScalarWhereInput
+    data: XOR<AnalyticsSnapshotUpdateManyMutationInput, AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type AnalyticsSnapshotScalarWhereInput = {
+    AND?: AnalyticsSnapshotScalarWhereInput | AnalyticsSnapshotScalarWhereInput[]
+    OR?: AnalyticsSnapshotScalarWhereInput[]
+    NOT?: AnalyticsSnapshotScalarWhereInput | AnalyticsSnapshotScalarWhereInput[]
+    id?: StringFilter<"AnalyticsSnapshot"> | string
+    companyId?: StringFilter<"AnalyticsSnapshot"> | string
+    date?: DateTimeFilter<"AnalyticsSnapshot"> | Date | string
+    source?: StringFilter<"AnalyticsSnapshot"> | string
+    sessions?: IntFilter<"AnalyticsSnapshot"> | number
+    users?: IntFilter<"AnalyticsSnapshot"> | number
+    newUsers?: IntFilter<"AnalyticsSnapshot"> | number
+    pageviews?: IntFilter<"AnalyticsSnapshot"> | number
+    conversions?: IntFilter<"AnalyticsSnapshot"> | number
+    bounceRate?: FloatNullableFilter<"AnalyticsSnapshot"> | number | null
+    avgSessionSec?: FloatNullableFilter<"AnalyticsSnapshot"> | number | null
+    engagedSessions?: IntNullableFilter<"AnalyticsSnapshot"> | number | null
+    createdAt?: DateTimeFilter<"AnalyticsSnapshot"> | Date | string
+    updatedAt?: DateTimeFilter<"AnalyticsSnapshot"> | Date | string
+  }
+
+  export type AnalyticsTopPageUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: AnalyticsTopPageWhereUniqueInput
+    update: XOR<AnalyticsTopPageUpdateWithoutCompanyInput, AnalyticsTopPageUncheckedUpdateWithoutCompanyInput>
+    create: XOR<AnalyticsTopPageCreateWithoutCompanyInput, AnalyticsTopPageUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AnalyticsTopPageUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: AnalyticsTopPageWhereUniqueInput
+    data: XOR<AnalyticsTopPageUpdateWithoutCompanyInput, AnalyticsTopPageUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type AnalyticsTopPageUpdateManyWithWhereWithoutCompanyInput = {
+    where: AnalyticsTopPageScalarWhereInput
+    data: XOR<AnalyticsTopPageUpdateManyMutationInput, AnalyticsTopPageUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type AnalyticsTopPageScalarWhereInput = {
+    AND?: AnalyticsTopPageScalarWhereInput | AnalyticsTopPageScalarWhereInput[]
+    OR?: AnalyticsTopPageScalarWhereInput[]
+    NOT?: AnalyticsTopPageScalarWhereInput | AnalyticsTopPageScalarWhereInput[]
+    id?: StringFilter<"AnalyticsTopPage"> | string
+    companyId?: StringFilter<"AnalyticsTopPage"> | string
+    date?: DateTimeFilter<"AnalyticsTopPage"> | Date | string
+    source?: StringFilter<"AnalyticsTopPage"> | string
+    pagePath?: StringFilter<"AnalyticsTopPage"> | string
+    pageTitle?: StringNullableFilter<"AnalyticsTopPage"> | string | null
+    views?: IntFilter<"AnalyticsTopPage"> | number
+    users?: IntFilter<"AnalyticsTopPage"> | number
+    avgTimeSec?: FloatNullableFilter<"AnalyticsTopPage"> | number | null
+  }
+
+  export type AnalyticsTrafficSourceUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: AnalyticsTrafficSourceWhereUniqueInput
+    update: XOR<AnalyticsTrafficSourceUpdateWithoutCompanyInput, AnalyticsTrafficSourceUncheckedUpdateWithoutCompanyInput>
+    create: XOR<AnalyticsTrafficSourceCreateWithoutCompanyInput, AnalyticsTrafficSourceUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AnalyticsTrafficSourceUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: AnalyticsTrafficSourceWhereUniqueInput
+    data: XOR<AnalyticsTrafficSourceUpdateWithoutCompanyInput, AnalyticsTrafficSourceUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type AnalyticsTrafficSourceUpdateManyWithWhereWithoutCompanyInput = {
+    where: AnalyticsTrafficSourceScalarWhereInput
+    data: XOR<AnalyticsTrafficSourceUpdateManyMutationInput, AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type AnalyticsTrafficSourceScalarWhereInput = {
+    AND?: AnalyticsTrafficSourceScalarWhereInput | AnalyticsTrafficSourceScalarWhereInput[]
+    OR?: AnalyticsTrafficSourceScalarWhereInput[]
+    NOT?: AnalyticsTrafficSourceScalarWhereInput | AnalyticsTrafficSourceScalarWhereInput[]
+    id?: StringFilter<"AnalyticsTrafficSource"> | string
+    companyId?: StringFilter<"AnalyticsTrafficSource"> | string
+    date?: DateTimeFilter<"AnalyticsTrafficSource"> | Date | string
+    source?: StringFilter<"AnalyticsTrafficSource"> | string
+    rawSource?: StringFilter<"AnalyticsTrafficSource"> | string
+    rawMedium?: StringFilter<"AnalyticsTrafficSource"> | string
+    bucket?: StringFilter<"AnalyticsTrafficSource"> | string
+    sessions?: IntFilter<"AnalyticsTrafficSource"> | number
+    users?: IntFilter<"AnalyticsTrafficSource"> | number
+    conversions?: IntFilter<"AnalyticsTrafficSource"> | number
+  }
+
+  export type AnalyticsGeoDataUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: AnalyticsGeoDataWhereUniqueInput
+    update: XOR<AnalyticsGeoDataUpdateWithoutCompanyInput, AnalyticsGeoDataUncheckedUpdateWithoutCompanyInput>
+    create: XOR<AnalyticsGeoDataCreateWithoutCompanyInput, AnalyticsGeoDataUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AnalyticsGeoDataUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: AnalyticsGeoDataWhereUniqueInput
+    data: XOR<AnalyticsGeoDataUpdateWithoutCompanyInput, AnalyticsGeoDataUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type AnalyticsGeoDataUpdateManyWithWhereWithoutCompanyInput = {
+    where: AnalyticsGeoDataScalarWhereInput
+    data: XOR<AnalyticsGeoDataUpdateManyMutationInput, AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type AnalyticsGeoDataScalarWhereInput = {
+    AND?: AnalyticsGeoDataScalarWhereInput | AnalyticsGeoDataScalarWhereInput[]
+    OR?: AnalyticsGeoDataScalarWhereInput[]
+    NOT?: AnalyticsGeoDataScalarWhereInput | AnalyticsGeoDataScalarWhereInput[]
+    id?: StringFilter<"AnalyticsGeoData"> | string
+    companyId?: StringFilter<"AnalyticsGeoData"> | string
+    date?: DateTimeFilter<"AnalyticsGeoData"> | Date | string
+    source?: StringFilter<"AnalyticsGeoData"> | string
+    countryCode?: StringNullableFilter<"AnalyticsGeoData"> | string | null
+    countryName?: StringNullableFilter<"AnalyticsGeoData"> | string | null
+    region?: StringNullableFilter<"AnalyticsGeoData"> | string | null
+    city?: StringNullableFilter<"AnalyticsGeoData"> | string | null
+    sessions?: IntFilter<"AnalyticsGeoData"> | number
+    users?: IntFilter<"AnalyticsGeoData"> | number
+  }
+
+  export type SearchConsoleQueryUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: SearchConsoleQueryWhereUniqueInput
+    update: XOR<SearchConsoleQueryUpdateWithoutCompanyInput, SearchConsoleQueryUncheckedUpdateWithoutCompanyInput>
+    create: XOR<SearchConsoleQueryCreateWithoutCompanyInput, SearchConsoleQueryUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type SearchConsoleQueryUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: SearchConsoleQueryWhereUniqueInput
+    data: XOR<SearchConsoleQueryUpdateWithoutCompanyInput, SearchConsoleQueryUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type SearchConsoleQueryUpdateManyWithWhereWithoutCompanyInput = {
+    where: SearchConsoleQueryScalarWhereInput
+    data: XOR<SearchConsoleQueryUpdateManyMutationInput, SearchConsoleQueryUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type SearchConsoleQueryScalarWhereInput = {
+    AND?: SearchConsoleQueryScalarWhereInput | SearchConsoleQueryScalarWhereInput[]
+    OR?: SearchConsoleQueryScalarWhereInput[]
+    NOT?: SearchConsoleQueryScalarWhereInput | SearchConsoleQueryScalarWhereInput[]
+    id?: StringFilter<"SearchConsoleQuery"> | string
+    companyId?: StringFilter<"SearchConsoleQuery"> | string
+    date?: DateTimeFilter<"SearchConsoleQuery"> | Date | string
+    query?: StringFilter<"SearchConsoleQuery"> | string
+    page?: StringNullableFilter<"SearchConsoleQuery"> | string | null
+    country?: StringNullableFilter<"SearchConsoleQuery"> | string | null
+    device?: StringNullableFilter<"SearchConsoleQuery"> | string | null
+    clicks?: IntFilter<"SearchConsoleQuery"> | number
+    impressions?: IntFilter<"SearchConsoleQuery"> | number
+    ctr?: FloatFilter<"SearchConsoleQuery"> | number
+    position?: FloatFilter<"SearchConsoleQuery"> | number
+  }
+
   export type CompanyCreateWithoutCampaignsInput = {
     id?: string
     name: string
@@ -41571,6 +51407,12 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCampaignsInput = {
@@ -41608,6 +51450,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCampaignsInput = {
@@ -41849,6 +51697,12 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCampaignsInput = {
@@ -41886,6 +51740,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -42028,6 +51888,12 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTrackingLinksInput = {
@@ -42065,6 +51931,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTrackingLinksInput = {
@@ -42251,6 +52123,12 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTrackingLinksInput = {
@@ -42288,6 +52166,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutTrackingLinkInput = {
@@ -42448,6 +52332,12 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutLeadsInput = {
@@ -42485,6 +52375,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutLeadsInput = {
@@ -42785,6 +52681,12 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutLeadsInput = {
@@ -42822,6 +52724,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutLeadsInput = {
@@ -43187,6 +53095,12 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPipelineStagesInput = {
@@ -43224,6 +53138,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPipelineStagesInput = {
@@ -43277,6 +53197,12 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPipelineStagesInput = {
@@ -43314,6 +53240,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutContactsInput = {
@@ -43351,6 +53283,12 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutContactsInput = {
@@ -43388,6 +53326,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutContactsInput = {
@@ -43476,6 +53420,12 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutContactsInput = {
@@ -43513,6 +53463,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutCompanyContactInput = {
@@ -43591,6 +53547,12 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWhatsappInstancesInput = {
@@ -43628,6 +53590,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWhatsappInstancesInput = {
@@ -43755,6 +53723,12 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWhatsappInstancesInput = {
@@ -43792,6 +53766,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutInstanceInput = {
@@ -43869,6 +53849,12 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMessagesInput = {
@@ -43906,6 +53892,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMessagesInput = {
@@ -44141,6 +54133,12 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMessagesInput = {
@@ -44178,6 +54176,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutMessagesInput = {
@@ -44421,6 +54425,12 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutKeywordRulesInput = {
@@ -44458,6 +54468,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutKeywordRulesInput = {
@@ -44552,6 +54568,12 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutKeywordRulesInput = {
@@ -44589,6 +54611,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutKeywordRulesInput = {
@@ -44757,6 +54785,12 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutConversationsInput = {
@@ -44794,6 +54828,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutConversationsInput = {
@@ -45123,6 +55163,12 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutConversationsInput = {
@@ -45160,6 +55206,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -45538,6 +55590,12 @@ export namespace Prisma {
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutActivitiesInput = {
@@ -45575,6 +55633,12 @@ export namespace Prisma {
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutActivitiesInput = {
@@ -45799,6 +55863,12 @@ export namespace Prisma {
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutActivitiesInput = {
@@ -45836,6 +55906,12 @@ export namespace Prisma {
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutTicketsInput = {
@@ -45873,6 +55949,12 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketsInput = {
@@ -45910,6 +55992,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketsInput = {
@@ -46111,6 +56199,12 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketsInput = {
@@ -46148,6 +56242,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTicketsCreatedInput = {
@@ -46418,6 +56518,12 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSetoresInput = {
@@ -46455,6 +56561,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSetoresInput = {
@@ -46650,6 +56762,12 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSetoresInput = {
@@ -46687,6 +56805,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type SetorUserUpsertWithWhereUniqueWithoutSetorInput = {
@@ -47140,6 +57264,12 @@ export namespace Prisma {
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAssetsInput = {
@@ -47177,6 +57307,12 @@ export namespace Prisma {
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAssetsInput = {
@@ -47274,6 +57410,12 @@ export namespace Prisma {
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAssetsInput = {
@@ -47311,6 +57453,12 @@ export namespace Prisma {
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCredentialUpsertWithWhereUniqueWithoutAssetInput = {
@@ -47561,6 +57709,12 @@ export namespace Prisma {
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCredentialAccessLogsInput = {
@@ -47598,6 +57752,12 @@ export namespace Prisma {
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCredentialAccessLogsInput = {
@@ -47696,6 +57856,12 @@ export namespace Prisma {
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCredentialAccessLogsInput = {
@@ -47733,6 +57899,1140 @@ export namespace Prisma {
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutMarketingIntegrationsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutMarketingIntegrationsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutMarketingIntegrationsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutMarketingIntegrationsInput, CompanyUncheckedCreateWithoutMarketingIntegrationsInput>
+  }
+
+  export type CompanyUpsertWithoutMarketingIntegrationsInput = {
+    update: XOR<CompanyUpdateWithoutMarketingIntegrationsInput, CompanyUncheckedUpdateWithoutMarketingIntegrationsInput>
+    create: XOR<CompanyCreateWithoutMarketingIntegrationsInput, CompanyUncheckedCreateWithoutMarketingIntegrationsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutMarketingIntegrationsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutMarketingIntegrationsInput, CompanyUncheckedUpdateWithoutMarketingIntegrationsInput>
+  }
+
+  export type CompanyUpdateWithoutMarketingIntegrationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutMarketingIntegrationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutAnalyticsSnapshotsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutAnalyticsSnapshotsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutAnalyticsSnapshotsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutAnalyticsSnapshotsInput, CompanyUncheckedCreateWithoutAnalyticsSnapshotsInput>
+  }
+
+  export type CompanyUpsertWithoutAnalyticsSnapshotsInput = {
+    update: XOR<CompanyUpdateWithoutAnalyticsSnapshotsInput, CompanyUncheckedUpdateWithoutAnalyticsSnapshotsInput>
+    create: XOR<CompanyCreateWithoutAnalyticsSnapshotsInput, CompanyUncheckedCreateWithoutAnalyticsSnapshotsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutAnalyticsSnapshotsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutAnalyticsSnapshotsInput, CompanyUncheckedUpdateWithoutAnalyticsSnapshotsInput>
+  }
+
+  export type CompanyUpdateWithoutAnalyticsSnapshotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutAnalyticsSnapshotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutAnalyticsTopPagesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutAnalyticsTopPagesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutAnalyticsTopPagesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutAnalyticsTopPagesInput, CompanyUncheckedCreateWithoutAnalyticsTopPagesInput>
+  }
+
+  export type CompanyUpsertWithoutAnalyticsTopPagesInput = {
+    update: XOR<CompanyUpdateWithoutAnalyticsTopPagesInput, CompanyUncheckedUpdateWithoutAnalyticsTopPagesInput>
+    create: XOR<CompanyCreateWithoutAnalyticsTopPagesInput, CompanyUncheckedCreateWithoutAnalyticsTopPagesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutAnalyticsTopPagesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutAnalyticsTopPagesInput, CompanyUncheckedUpdateWithoutAnalyticsTopPagesInput>
+  }
+
+  export type CompanyUpdateWithoutAnalyticsTopPagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutAnalyticsTopPagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutAnalyticsTrafficSourcesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutAnalyticsTrafficSourcesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutAnalyticsTrafficSourcesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutAnalyticsTrafficSourcesInput, CompanyUncheckedCreateWithoutAnalyticsTrafficSourcesInput>
+  }
+
+  export type CompanyUpsertWithoutAnalyticsTrafficSourcesInput = {
+    update: XOR<CompanyUpdateWithoutAnalyticsTrafficSourcesInput, CompanyUncheckedUpdateWithoutAnalyticsTrafficSourcesInput>
+    create: XOR<CompanyCreateWithoutAnalyticsTrafficSourcesInput, CompanyUncheckedCreateWithoutAnalyticsTrafficSourcesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutAnalyticsTrafficSourcesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutAnalyticsTrafficSourcesInput, CompanyUncheckedUpdateWithoutAnalyticsTrafficSourcesInput>
+  }
+
+  export type CompanyUpdateWithoutAnalyticsTrafficSourcesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutAnalyticsTrafficSourcesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutAnalyticsGeoDataInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutAnalyticsGeoDataInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutAnalyticsGeoDataInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutAnalyticsGeoDataInput, CompanyUncheckedCreateWithoutAnalyticsGeoDataInput>
+  }
+
+  export type CompanyUpsertWithoutAnalyticsGeoDataInput = {
+    update: XOR<CompanyUpdateWithoutAnalyticsGeoDataInput, CompanyUncheckedUpdateWithoutAnalyticsGeoDataInput>
+    create: XOR<CompanyCreateWithoutAnalyticsGeoDataInput, CompanyUncheckedCreateWithoutAnalyticsGeoDataInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutAnalyticsGeoDataInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutAnalyticsGeoDataInput, CompanyUncheckedUpdateWithoutAnalyticsGeoDataInput>
+  }
+
+  export type CompanyUpdateWithoutAnalyticsGeoDataInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutAnalyticsGeoDataInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutSearchConsoleQueriesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutSearchConsoleQueriesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutSearchConsoleQueriesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutSearchConsoleQueriesInput, CompanyUncheckedCreateWithoutSearchConsoleQueriesInput>
+  }
+
+  export type CompanyUpsertWithoutSearchConsoleQueriesInput = {
+    update: XOR<CompanyUpdateWithoutSearchConsoleQueriesInput, CompanyUncheckedUpdateWithoutSearchConsoleQueriesInput>
+    create: XOR<CompanyCreateWithoutSearchConsoleQueriesInput, CompanyUncheckedCreateWithoutSearchConsoleQueriesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutSearchConsoleQueriesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutSearchConsoleQueriesInput, CompanyUncheckedUpdateWithoutSearchConsoleQueriesInput>
+  }
+
+  export type CompanyUpdateWithoutSearchConsoleQueriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutSearchConsoleQueriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type TicketCreateManyCreatedByInput = {
@@ -48155,6 +59455,90 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type MarketingIntegrationCreateManyCompanyInput = {
+    id?: string
+    provider: $Enums.IntegrationProvider
+    accountId?: string | null
+    accountLabel?: string | null
+    accessTokenEnc?: string | null
+    refreshTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: MarketingIntegrationCreatescopesInput | string[]
+    googleEmail?: string | null
+    googleName?: string | null
+    status?: $Enums.IntegrationStatus
+    lastSyncAt?: Date | string | null
+    lastSyncStatus?: string | null
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type AnalyticsSnapshotCreateManyCompanyInput = {
+    id?: string
+    date: Date | string
+    source: string
+    sessions?: number
+    users?: number
+    newUsers?: number
+    pageviews?: number
+    conversions?: number
+    bounceRate?: number | null
+    avgSessionSec?: number | null
+    engagedSessions?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AnalyticsTopPageCreateManyCompanyInput = {
+    id?: string
+    date: Date | string
+    source: string
+    pagePath: string
+    pageTitle?: string | null
+    views?: number
+    users?: number
+    avgTimeSec?: number | null
+  }
+
+  export type AnalyticsTrafficSourceCreateManyCompanyInput = {
+    id?: string
+    date: Date | string
+    source: string
+    rawSource: string
+    rawMedium: string
+    bucket: string
+    sessions?: number
+    users?: number
+    conversions?: number
+  }
+
+  export type AnalyticsGeoDataCreateManyCompanyInput = {
+    id?: string
+    date: Date | string
+    source: string
+    countryCode?: string | null
+    countryName?: string | null
+    region?: string | null
+    city?: string | null
+    sessions?: number
+    users?: number
+  }
+
+  export type SearchConsoleQueryCreateManyCompanyInput = {
+    id?: string
+    date: Date | string
+    query: string
+    page?: string | null
+    country?: string | null
+    device?: string | null
+    clicks: number
+    impressions: number
+    ctr: number
+    position: number
+  }
+
   export type CompanyUpdateWithoutParentCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -48190,6 +59574,12 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutParentCompanyInput = {
@@ -48227,6 +59617,12 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateManyWithoutParentCompanyInput = {
@@ -48969,6 +60365,258 @@ export namespace Prisma {
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MarketingIntegrationUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    accountLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: MarketingIntegrationUpdatescopesInput | string[]
+    googleEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    googleName?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSyncStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MarketingIntegrationUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    accountLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: MarketingIntegrationUpdatescopesInput | string[]
+    googleEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    googleName?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSyncStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MarketingIntegrationUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    accountLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: MarketingIntegrationUpdatescopesInput | string[]
+    googleEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    googleName?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSyncStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AnalyticsSnapshotUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    newUsers?: IntFieldUpdateOperationsInput | number
+    pageviews?: IntFieldUpdateOperationsInput | number
+    conversions?: IntFieldUpdateOperationsInput | number
+    bounceRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    avgSessionSec?: NullableFloatFieldUpdateOperationsInput | number | null
+    engagedSessions?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnalyticsSnapshotUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    newUsers?: IntFieldUpdateOperationsInput | number
+    pageviews?: IntFieldUpdateOperationsInput | number
+    conversions?: IntFieldUpdateOperationsInput | number
+    bounceRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    avgSessionSec?: NullableFloatFieldUpdateOperationsInput | number | null
+    engagedSessions?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    newUsers?: IntFieldUpdateOperationsInput | number
+    pageviews?: IntFieldUpdateOperationsInput | number
+    conversions?: IntFieldUpdateOperationsInput | number
+    bounceRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    avgSessionSec?: NullableFloatFieldUpdateOperationsInput | number | null
+    engagedSessions?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnalyticsTopPageUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    pagePath?: StringFieldUpdateOperationsInput | string
+    pageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    views?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    avgTimeSec?: NullableFloatFieldUpdateOperationsInput | number | null
+  }
+
+  export type AnalyticsTopPageUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    pagePath?: StringFieldUpdateOperationsInput | string
+    pageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    views?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    avgTimeSec?: NullableFloatFieldUpdateOperationsInput | number | null
+  }
+
+  export type AnalyticsTopPageUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    pagePath?: StringFieldUpdateOperationsInput | string
+    pageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    views?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    avgTimeSec?: NullableFloatFieldUpdateOperationsInput | number | null
+  }
+
+  export type AnalyticsTrafficSourceUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    rawSource?: StringFieldUpdateOperationsInput | string
+    rawMedium?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    conversions?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AnalyticsTrafficSourceUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    rawSource?: StringFieldUpdateOperationsInput | string
+    rawMedium?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    conversions?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    rawSource?: StringFieldUpdateOperationsInput | string
+    rawMedium?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    conversions?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AnalyticsGeoDataUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    countryCode?: NullableStringFieldUpdateOperationsInput | string | null
+    countryName?: NullableStringFieldUpdateOperationsInput | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AnalyticsGeoDataUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    countryCode?: NullableStringFieldUpdateOperationsInput | string | null
+    countryName?: NullableStringFieldUpdateOperationsInput | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    countryCode?: NullableStringFieldUpdateOperationsInput | string | null
+    countryName?: NullableStringFieldUpdateOperationsInput | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    sessions?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SearchConsoleQueryUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    query?: StringFieldUpdateOperationsInput | string
+    page?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
+    clicks?: IntFieldUpdateOperationsInput | number
+    impressions?: IntFieldUpdateOperationsInput | number
+    ctr?: FloatFieldUpdateOperationsInput | number
+    position?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type SearchConsoleQueryUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    query?: StringFieldUpdateOperationsInput | string
+    page?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
+    clicks?: IntFieldUpdateOperationsInput | number
+    impressions?: IntFieldUpdateOperationsInput | number
+    ctr?: FloatFieldUpdateOperationsInput | number
+    position?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type SearchConsoleQueryUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    query?: StringFieldUpdateOperationsInput | string
+    page?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
+    clicks?: IntFieldUpdateOperationsInput | number
+    impressions?: IntFieldUpdateOperationsInput | number
+    ctr?: FloatFieldUpdateOperationsInput | number
+    position?: FloatFieldUpdateOperationsInput | number
   }
 
   export type LeadCreateManyCampaignInput = {
@@ -50476,6 +62124,30 @@ export namespace Prisma {
      * @deprecated Use CredentialAccessLogDefaultArgs instead
      */
     export type CredentialAccessLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CredentialAccessLogDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use MarketingIntegrationDefaultArgs instead
+     */
+    export type MarketingIntegrationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = MarketingIntegrationDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AnalyticsSnapshotDefaultArgs instead
+     */
+    export type AnalyticsSnapshotArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AnalyticsSnapshotDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AnalyticsTopPageDefaultArgs instead
+     */
+    export type AnalyticsTopPageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AnalyticsTopPageDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AnalyticsTrafficSourceDefaultArgs instead
+     */
+    export type AnalyticsTrafficSourceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AnalyticsTrafficSourceDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AnalyticsGeoDataDefaultArgs instead
+     */
+    export type AnalyticsGeoDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AnalyticsGeoDataDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use SearchConsoleQueryDefaultArgs instead
+     */
+    export type SearchConsoleQueryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SearchConsoleQueryDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany
