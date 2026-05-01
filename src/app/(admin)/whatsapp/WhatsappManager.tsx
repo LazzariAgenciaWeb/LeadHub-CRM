@@ -2434,7 +2434,7 @@ export default function WhatsappManager({
                           );
                         })()}
 
-                        {/* Linha 3: pipeline + instância (sem badge de atendimento — está no ícone do avatar) */}
+                        {/* Linha 3: pipeline + instância + responsável */}
                         <div className="flex items-center gap-1.5 mt-1.5 pl-[42px] flex-wrap">
                           {conv.lead?.pipeline ? (
                             <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${PIPELINE_BADGE[conv.lead.pipeline] ?? "text-slate-400 bg-white/5"}`}>
@@ -2449,6 +2449,49 @@ export default function WhatsappManager({
                               {instanceName}
                             </span>
                           )}
+                          {/* Responsável: chip compacto com inicial do atendente.
+                              Quando é o usuário atual, fica destacado em índigo.
+                              Funciona igual para conversas individuais e grupos. */}
+                          {(() => {
+                            const assigneeFromOverride = convAssigneeOverride.get(conv.phone);
+                            const assignee = convAssigneeOverride.has(conv.phone)
+                              ? assigneeFromOverride ?? null
+                              : conv.conversation?.assignee ?? null;
+                            const setorName = conv.conversation?.setor?.name;
+                            if (!assignee && !setorName) return null;
+                            const isMine = assignee?.id === currentUserId;
+                            const initial = assignee?.name?.charAt(0).toUpperCase();
+                            return (
+                              <span
+                                className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full border flex items-center gap-1 ${
+                                  isMine
+                                    ? "bg-indigo-500/15 text-indigo-300 border-indigo-500/25"
+                                    : assignee
+                                      ? "bg-yellow-500/10 text-yellow-300 border-yellow-500/20"
+                                      : "bg-violet-500/10 text-violet-300 border-violet-500/20"
+                                }`}
+                                title={
+                                  assignee
+                                    ? `${isMine ? "Sua conversa" : `Responsável: ${assignee.name}`}${setorName ? ` · ${setorName}` : ""}`
+                                    : `Setor: ${setorName} · sem atendente`
+                                }
+                              >
+                                {assignee ? (
+                                  <>
+                                    <span className="w-3 h-3 rounded-full bg-white/15 flex items-center justify-center text-[8px] font-bold">
+                                      {initial}
+                                    </span>
+                                    {isMine ? "Você" : assignee.name.split(" ")[0]}
+                                  </>
+                                ) : (
+                                  <>
+                                    <Building2 className="w-2.5 h-2.5" strokeWidth={2.5} />
+                                    {setorName}
+                                  </>
+                                )}
+                              </span>
+                            );
+                          })()}
                         </div>
                   </div>
                 );
@@ -2553,6 +2596,64 @@ export default function WhatsappManager({
                         </button>
                         )}
                       </div>
+
+                      {/* Badge de responsável: setor + atendente. Funciona igual
+                          para conversas individuais e grupos. Se não houver
+                          atribuição, mostra "Sem responsável" em cinza. */}
+                      {(() => {
+                        const conv = selectedConv.conversation;
+                        if (!conv) return null;
+                        const assignee = convAssigneeOverride.has(selectedConv.phone)
+                          ? convAssigneeOverride.get(selectedConv.phone) ?? null
+                          : conv.assignee;
+                        const isMine = assignee?.id === currentUserId;
+                        const setorName = conv.setor?.name;
+                        const hasAny = assignee || setorName;
+                        return (
+                          <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+                            {/* Setor */}
+                            {setorName && (
+                              <span
+                                className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-violet-500/15 text-violet-300 border border-violet-500/20 flex items-center gap-1"
+                                title="Setor responsável"
+                              >
+                                <Building2 className="w-2.5 h-2.5" strokeWidth={2.5} />
+                                {setorName}
+                              </span>
+                            )}
+                            {/* Atendente */}
+                            {assignee ? (
+                              <span
+                                className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border flex items-center gap-1 ${
+                                  isMine
+                                    ? "bg-indigo-500/15 text-indigo-300 border-indigo-500/25"
+                                    : "bg-yellow-500/10 text-yellow-300 border-yellow-500/20"
+                                }`}
+                                title={isMine ? "Você é o responsável" : `Responsável: ${assignee.name}`}
+                              >
+                                <span className="w-3.5 h-3.5 rounded-full bg-white/10 flex items-center justify-center text-[8px] font-bold">
+                                  {assignee.name.charAt(0).toUpperCase()}
+                                </span>
+                                {isMine ? "Você" : assignee.name}
+                              </span>
+                            ) : !hasAny ? (
+                              <span
+                                className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-500/10 text-slate-500 border border-slate-500/20"
+                                title="Ninguém pegou esta conversa ainda"
+                              >
+                                Sem responsável
+                              </span>
+                            ) : (
+                              <span
+                                className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-500/10 text-slate-500 border border-slate-500/20"
+                                title="Setor sem atendente designado"
+                              >
+                                Sem atendente
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })()}
 
                       {/* Toggle de participantes do grupo — colapsado por padrão */}
                       {selectedConv.phone.includes("@g.us") && convMessages.length > 0 && (() => {
