@@ -7,7 +7,9 @@ import {
   Calendar, Clock, MessageSquare, LifeBuoy, Target,
   ChevronRight, RefreshCw, AlertTriangle, CheckCircle2,
   User, Hourglass, X, AlarmClock, Video, MapPin, ExternalLink,
+  CalendarDays, List,
 } from "lucide-react";
+import WeekView from "./WeekView";
 
 // ── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -291,6 +293,75 @@ function ScheduleModal({
   );
 }
 
+// ── Linha de Retorno Atrasado (com ações inline) ──────────────────────────────
+
+function OverdueRow({
+  conv,
+  onResolve,
+  onReschedule,
+}: {
+  conv: ScheduledConv;
+  onResolve: (convId: string) => Promise<void>;
+  onReschedule: (convId: string, name: string) => void;
+}) {
+  const [resolving, setResolving] = useState(false);
+  const name = conv.leads[0]?.name ?? formatPhone(conv.phone);
+
+  async function handleResolve() {
+    setResolving(true);
+    try { await onResolve(conv.id); }
+    finally { setResolving(false); }
+  }
+
+  return (
+    <div className="flex items-center gap-3 bg-[#0f1623] border border-red-500/20 rounded-xl px-4 py-3 group">
+      <div className="w-7 h-7 rounded-full bg-red-500/15 flex items-center justify-center flex-shrink-0">
+        <span className="text-red-400 text-[10px] font-bold">
+          {(name ?? "?").charAt(0).toUpperCase()}
+        </span>
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2">
+          <span className="text-white text-[13px] font-medium truncate">{name}</span>
+          <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-red-500/20 text-red-400 font-semibold flex-shrink-0">
+            Atrasado
+          </span>
+        </div>
+        <div className="flex items-center gap-2 mt-0.5">
+          <Clock className="w-3 h-3 text-red-400 flex-shrink-0" strokeWidth={2} />
+          <span className="text-red-300 text-[11px]">{formatDateTime(conv.scheduledReturnAt)}</span>
+          {conv.returnNote && (
+            <span className="text-slate-500 text-[11px] truncate">· {conv.returnNote}</span>
+          )}
+        </div>
+      </div>
+      <div className="flex items-center gap-1 flex-shrink-0">
+        <button
+          onClick={handleResolve}
+          disabled={resolving}
+          className="text-[11px] font-semibold text-emerald-400 hover:text-emerald-300 px-2 py-1 rounded-md hover:bg-emerald-500/10 transition-colors disabled:opacity-40"
+          title="Marcar como resolvido"
+        >
+          {resolving ? "..." : "✓ Resolvido"}
+        </button>
+        <button
+          onClick={() => onReschedule(conv.id, name)}
+          className="text-[11px] font-semibold text-purple-400 hover:text-purple-300 px-2 py-1 rounded-md hover:bg-purple-500/10 transition-colors"
+          title="Reagendar"
+        >
+          Reagendar
+        </button>
+        <Link
+          href="/whatsapp"
+          className="text-[11px] font-semibold text-red-400 hover:text-red-300 px-2 py-1 rounded-md hover:bg-red-500/10 transition-colors"
+        >
+          Abrir
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 // ── Card de Conexão Google Calendar ──────────────────────────────────────────
 
 function GoogleCalendarCard({
@@ -483,6 +554,7 @@ export default function CalendarioBoard({
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [scheduleTarget, setScheduleTarget] = useState<{ id: string; name: string } | null>(null);
+  const [view, setView] = useState<"day" | "week">("day");
 
   const totalToday =
     scheduledConvs.filter((c) => isToday(c.scheduledReturnAt) || isOverdue(c.scheduledReturnAt)).length +
@@ -499,40 +571,96 @@ export default function CalendarioBoard({
     startTransition(() => router.refresh());
   }
 
+  // Resolve um retorno agendado: limpa scheduledReturnAt + nota e devolve a
+  // conversa para IN_PROGRESS (atendido). Usado nos atrasados para sair da lista.
+  async function resolveScheduledReturn(convId: string) {
+    await fetch(`/api/conversations/${convId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        status: "IN_PROGRESS",
+        scheduledReturnAt: null,
+        returnNote: null,
+      }),
+    });
+    refresh();
+  }
+
   const now = new Date();
   const dateLabel = now.toLocaleDateString("pt-BR", {
     weekday: "long", day: "2-digit", month: "long",
   });
 
   return (
-    <div className="flex-1 bg-[#080b12] min-h-screen p-5 md:p-6 overflow-y-auto">
+    <div className="flex-1 bg-[#080b12] min-h-screen p-5 md:p-6 overflow-y-auto flex flex-col">
       {/* Header */}
-      <div className="flex items-start justify-between mb-6 gap-4">
+      <div className="flex items-start justify-between mb-4 gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <Calendar className="w-5 h-5 text-indigo-400" strokeWidth={2} />
-            <h1 className="text-white font-bold text-lg">Meu Dia</h1>
+            <h1 className="text-white font-bold text-lg">
+              {view === "day" ? "Meu Dia" : "Semana"}
+            </h1>
           </div>
-          <p className="text-slate-500 text-[13px] capitalize">{dateLabel}</p>
+          {view === "day" && (
+            <p className="text-slate-500 text-[13px] capitalize">{dateLabel}</p>
+          )}
         </div>
         <div className="flex items-center gap-2">
-          {totalToday > 0 && (
+          {/* Tabs Dia / Semana */}
+          <div className="flex items-center bg-[#0f1623] border border-[#1e2d45] rounded-lg p-0.5">
+            <button
+              onClick={() => setView("day")}
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-[12px] font-semibold transition-colors ${
+                view === "day"
+                  ? "bg-indigo-500/20 text-indigo-300"
+                  : "text-slate-500 hover:text-white"
+              }`}
+            >
+              <List className="w-3.5 h-3.5" strokeWidth={2} />
+              Meu Dia
+            </button>
+            <button
+              onClick={() => setView("week")}
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-[12px] font-semibold transition-colors ${
+                view === "week"
+                  ? "bg-indigo-500/20 text-indigo-300"
+                  : "text-slate-500 hover:text-white"
+              }`}
+            >
+              <CalendarDays className="w-3.5 h-3.5" strokeWidth={2} />
+              Semana
+            </button>
+          </div>
+          {view === "day" && totalToday > 0 && (
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-indigo-500/15 border border-indigo-500/25">
               <span className="text-indigo-400 font-bold text-[12px]">{totalToday}</span>
               <span className="text-indigo-300 text-[11px]">pendentes</span>
             </div>
           )}
-          <button
-            onClick={refresh}
-            disabled={isPending}
-            className="w-8 h-8 flex items-center justify-center rounded-lg bg-[#0f1623] border border-[#1e2d45] text-slate-500 hover:text-white hover:border-[#2e3d55] transition-colors"
-            title="Atualizar"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 ${isPending ? "animate-spin" : ""}`} strokeWidth={2} />
-          </button>
+          {view === "day" && (
+            <button
+              onClick={refresh}
+              disabled={isPending}
+              className="w-8 h-8 flex items-center justify-center rounded-lg bg-[#0f1623] border border-[#1e2d45] text-slate-500 hover:text-white hover:border-[#2e3d55] transition-colors"
+              title="Atualizar"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${isPending ? "animate-spin" : ""}`} strokeWidth={2} />
+            </button>
+          )}
         </div>
       </div>
 
+      {/* Vista Semanal */}
+      {view === "week" && (
+        <div className="flex-1 min-h-[600px]">
+          <WeekView />
+        </div>
+      )}
+
+      {/* Vista Diária — só quando view === "day" */}
+      {view === "day" && (
+      <>
       {totalToday === 0 && googleEvents.length === 0 && (
         <div className="flex flex-col items-center justify-center py-20 gap-3">
           <CheckCircle2 className="w-12 h-12 text-emerald-500/40" strokeWidth={1.5} />
@@ -566,39 +694,14 @@ export default function CalendarioBoard({
           title="Retornos Atrasados"
           count={overdueScheduled.length}
         >
-          {overdueScheduled.map((c) => {
-            const name = c.leads[0]?.name ?? formatPhone(c.phone);
-            return (
-              <div key={c.id} className="flex items-center gap-3 bg-[#0f1623] border border-red-500/20 rounded-xl px-4 py-3 group">
-                <div className="w-7 h-7 rounded-full bg-red-500/15 flex items-center justify-center flex-shrink-0">
-                  <span className="text-red-400 text-[10px] font-bold">
-                    {(name ?? "?").charAt(0).toUpperCase()}
-                  </span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="text-white text-[13px] font-medium truncate">{name}</span>
-                    <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-red-500/20 text-red-400 font-semibold flex-shrink-0">
-                      Atrasado
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 mt-0.5">
-                    <Clock className="w-3 h-3 text-red-400 flex-shrink-0" strokeWidth={2} />
-                    <span className="text-red-300 text-[11px]">{formatDateTime(c.scheduledReturnAt)}</span>
-                    {c.returnNote && (
-                      <span className="text-slate-500 text-[11px] truncate">· {c.returnNote}</span>
-                    )}
-                  </div>
-                </div>
-                <Link
-                  href="/whatsapp"
-                  className="flex-shrink-0 text-[11px] font-semibold text-red-400 hover:text-red-300 transition-colors"
-                >
-                  Abrir
-                </Link>
-              </div>
-            );
-          })}
+          {overdueScheduled.map((c) => (
+            <OverdueRow
+              key={c.id}
+              conv={c}
+              onResolve={resolveScheduledReturn}
+              onReschedule={(id, name) => setScheduleTarget({ id, name })}
+            />
+          ))}
         </Section>
       )}
 
@@ -859,8 +962,10 @@ export default function CalendarioBoard({
           );
         })}
       </Section>
+      </>
+      )}
 
-      {/* Modal de Agendamento */}
+      {/* Modal de Agendamento (compartilhado entre vistas) */}
       {scheduleTarget && (
         <ScheduleModal
           convId={scheduleTarget.id}
