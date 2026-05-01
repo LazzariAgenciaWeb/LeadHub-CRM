@@ -118,6 +118,21 @@ export type SetorUser = $Result.DefaultSelection<Prisma.$SetorUserPayload>
  * 
  */
 export type SetorInstance = $Result.DefaultSelection<Prisma.$SetorInstancePayload>
+/**
+ * Model CompanyAsset
+ * 
+ */
+export type CompanyAsset = $Result.DefaultSelection<Prisma.$CompanyAssetPayload>
+/**
+ * Model CompanyCredential
+ * 
+ */
+export type CompanyCredential = $Result.DefaultSelection<Prisma.$CompanyCredentialPayload>
+/**
+ * Model CredentialAccessLog
+ * 
+ */
+export type CredentialAccessLog = $Result.DefaultSelection<Prisma.$CredentialAccessLogPayload>
 
 /**
  * Enums
@@ -239,6 +254,45 @@ export const TicketPriority: {
 
 export type TicketPriority = (typeof TicketPriority)[keyof typeof TicketPriority]
 
+
+export const AssetType: {
+  DOMAIN: 'DOMAIN',
+  HOSTING: 'HOSTING',
+  WEBSITE: 'WEBSITE',
+  EMAIL_ACCOUNT: 'EMAIL_ACCOUNT',
+  DATABASE: 'DATABASE',
+  DNS_PROVIDER: 'DNS_PROVIDER',
+  REPOSITORY: 'REPOSITORY',
+  SOCIAL_ACCOUNT: 'SOCIAL_ACCOUNT',
+  ANALYTICS: 'ANALYTICS',
+  CLOUD_SERVICE: 'CLOUD_SERVICE',
+  OTHER: 'OTHER'
+};
+
+export type AssetType = (typeof AssetType)[keyof typeof AssetType]
+
+
+export const AssetStatus: {
+  ACTIVE: 'ACTIVE',
+  EXPIRED: 'EXPIRED',
+  CANCELLED: 'CANCELLED',
+  ARCHIVED: 'ARCHIVED'
+};
+
+export type AssetStatus = (typeof AssetStatus)[keyof typeof AssetStatus]
+
+
+export const CredentialAction: {
+  REVEAL: 'REVEAL',
+  COPY: 'COPY',
+  SHARE: 'SHARE',
+  EDIT: 'EDIT',
+  CREATE: 'CREATE',
+  DELETE: 'DELETE'
+};
+
+export type CredentialAction = (typeof CredentialAction)[keyof typeof CredentialAction]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -284,6 +338,18 @@ export const TicketStatus: typeof $Enums.TicketStatus
 export type TicketPriority = $Enums.TicketPriority
 
 export const TicketPriority: typeof $Enums.TicketPriority
+
+export type AssetType = $Enums.AssetType
+
+export const AssetType: typeof $Enums.AssetType
+
+export type AssetStatus = $Enums.AssetStatus
+
+export const AssetStatus: typeof $Enums.AssetStatus
+
+export type CredentialAction = $Enums.CredentialAction
+
+export const CredentialAction: typeof $Enums.CredentialAction
 
 /**
  * ##  Prisma Client ʲˢ
@@ -617,6 +683,36 @@ export class PrismaClient<
     * ```
     */
   get setorInstance(): Prisma.SetorInstanceDelegate<ExtArgs>;
+
+  /**
+   * `prisma.companyAsset`: Exposes CRUD operations for the **CompanyAsset** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CompanyAssets
+    * const companyAssets = await prisma.companyAsset.findMany()
+    * ```
+    */
+  get companyAsset(): Prisma.CompanyAssetDelegate<ExtArgs>;
+
+  /**
+   * `prisma.companyCredential`: Exposes CRUD operations for the **CompanyCredential** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CompanyCredentials
+    * const companyCredentials = await prisma.companyCredential.findMany()
+    * ```
+    */
+  get companyCredential(): Prisma.CompanyCredentialDelegate<ExtArgs>;
+
+  /**
+   * `prisma.credentialAccessLog`: Exposes CRUD operations for the **CredentialAccessLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CredentialAccessLogs
+    * const credentialAccessLogs = await prisma.credentialAccessLog.findMany()
+    * ```
+    */
+  get credentialAccessLog(): Prisma.CredentialAccessLogDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -1078,7 +1174,10 @@ export namespace Prisma {
     TicketMessage: 'TicketMessage',
     Setor: 'Setor',
     SetorUser: 'SetorUser',
-    SetorInstance: 'SetorInstance'
+    SetorInstance: 'SetorInstance',
+    CompanyAsset: 'CompanyAsset',
+    CompanyCredential: 'CompanyCredential',
+    CredentialAccessLog: 'CredentialAccessLog'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1094,7 +1193,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorUser" | "setorInstance"
+      modelProps: "user" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2568,6 +2667,216 @@ export namespace Prisma {
           }
         }
       }
+      CompanyAsset: {
+        payload: Prisma.$CompanyAssetPayload<ExtArgs>
+        fields: Prisma.CompanyAssetFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CompanyAssetFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyAssetPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CompanyAssetFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyAssetPayload>
+          }
+          findFirst: {
+            args: Prisma.CompanyAssetFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyAssetPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CompanyAssetFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyAssetPayload>
+          }
+          findMany: {
+            args: Prisma.CompanyAssetFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyAssetPayload>[]
+          }
+          create: {
+            args: Prisma.CompanyAssetCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyAssetPayload>
+          }
+          createMany: {
+            args: Prisma.CompanyAssetCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CompanyAssetCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyAssetPayload>[]
+          }
+          delete: {
+            args: Prisma.CompanyAssetDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyAssetPayload>
+          }
+          update: {
+            args: Prisma.CompanyAssetUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyAssetPayload>
+          }
+          deleteMany: {
+            args: Prisma.CompanyAssetDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CompanyAssetUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CompanyAssetUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyAssetPayload>
+          }
+          aggregate: {
+            args: Prisma.CompanyAssetAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCompanyAsset>
+          }
+          groupBy: {
+            args: Prisma.CompanyAssetGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CompanyAssetGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CompanyAssetCountArgs<ExtArgs>
+            result: $Utils.Optional<CompanyAssetCountAggregateOutputType> | number
+          }
+        }
+      }
+      CompanyCredential: {
+        payload: Prisma.$CompanyCredentialPayload<ExtArgs>
+        fields: Prisma.CompanyCredentialFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CompanyCredentialFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCredentialPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CompanyCredentialFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCredentialPayload>
+          }
+          findFirst: {
+            args: Prisma.CompanyCredentialFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCredentialPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CompanyCredentialFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCredentialPayload>
+          }
+          findMany: {
+            args: Prisma.CompanyCredentialFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCredentialPayload>[]
+          }
+          create: {
+            args: Prisma.CompanyCredentialCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCredentialPayload>
+          }
+          createMany: {
+            args: Prisma.CompanyCredentialCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CompanyCredentialCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCredentialPayload>[]
+          }
+          delete: {
+            args: Prisma.CompanyCredentialDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCredentialPayload>
+          }
+          update: {
+            args: Prisma.CompanyCredentialUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCredentialPayload>
+          }
+          deleteMany: {
+            args: Prisma.CompanyCredentialDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CompanyCredentialUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CompanyCredentialUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCredentialPayload>
+          }
+          aggregate: {
+            args: Prisma.CompanyCredentialAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCompanyCredential>
+          }
+          groupBy: {
+            args: Prisma.CompanyCredentialGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CompanyCredentialGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CompanyCredentialCountArgs<ExtArgs>
+            result: $Utils.Optional<CompanyCredentialCountAggregateOutputType> | number
+          }
+        }
+      }
+      CredentialAccessLog: {
+        payload: Prisma.$CredentialAccessLogPayload<ExtArgs>
+        fields: Prisma.CredentialAccessLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CredentialAccessLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CredentialAccessLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CredentialAccessLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CredentialAccessLogPayload>
+          }
+          findFirst: {
+            args: Prisma.CredentialAccessLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CredentialAccessLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CredentialAccessLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CredentialAccessLogPayload>
+          }
+          findMany: {
+            args: Prisma.CredentialAccessLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CredentialAccessLogPayload>[]
+          }
+          create: {
+            args: Prisma.CredentialAccessLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CredentialAccessLogPayload>
+          }
+          createMany: {
+            args: Prisma.CredentialAccessLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CredentialAccessLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CredentialAccessLogPayload>[]
+          }
+          delete: {
+            args: Prisma.CredentialAccessLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CredentialAccessLogPayload>
+          }
+          update: {
+            args: Prisma.CredentialAccessLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CredentialAccessLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.CredentialAccessLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CredentialAccessLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CredentialAccessLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CredentialAccessLogPayload>
+          }
+          aggregate: {
+            args: Prisma.CredentialAccessLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCredentialAccessLog>
+          }
+          groupBy: {
+            args: Prisma.CredentialAccessLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CredentialAccessLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CredentialAccessLogCountArgs<ExtArgs>
+            result: $Utils.Optional<CredentialAccessLogCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2792,6 +3101,8 @@ export namespace Prisma {
     setores: number
     conversations: number
     activities: number
+    assets: number
+    credentialAccessLogs: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2809,6 +3120,8 @@ export namespace Prisma {
     setores?: boolean | CompanyCountOutputTypeCountSetoresArgs
     conversations?: boolean | CompanyCountOutputTypeCountConversationsArgs
     activities?: boolean | CompanyCountOutputTypeCountActivitiesArgs
+    assets?: boolean | CompanyCountOutputTypeCountAssetsArgs
+    credentialAccessLogs?: boolean | CompanyCountOutputTypeCountCredentialAccessLogsArgs
   }
 
   // Custom InputTypes
@@ -2918,6 +3231,20 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ActivityWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountAssetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompanyAssetWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountCredentialAccessLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CredentialAccessLogWhereInput
   }
 
 
@@ -3261,6 +3588,68 @@ export namespace Prisma {
    */
   export type SetorCountOutputTypeCountConversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ConversationWhereInput
+  }
+
+
+  /**
+   * Count Type CompanyAssetCountOutputType
+   */
+
+  export type CompanyAssetCountOutputType = {
+    credentials: number
+  }
+
+  export type CompanyAssetCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    credentials?: boolean | CompanyAssetCountOutputTypeCountCredentialsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CompanyAssetCountOutputType without action
+   */
+  export type CompanyAssetCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyAssetCountOutputType
+     */
+    select?: CompanyAssetCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CompanyAssetCountOutputType without action
+   */
+  export type CompanyAssetCountOutputTypeCountCredentialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompanyCredentialWhereInput
+  }
+
+
+  /**
+   * Count Type CompanyCredentialCountOutputType
+   */
+
+  export type CompanyCredentialCountOutputType = {
+    accessLogs: number
+  }
+
+  export type CompanyCredentialCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    accessLogs?: boolean | CompanyCredentialCountOutputTypeCountAccessLogsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CompanyCredentialCountOutputType without action
+   */
+  export type CompanyCredentialCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCredentialCountOutputType
+     */
+    select?: CompanyCredentialCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CompanyCredentialCountOutputType without action
+   */
+  export type CompanyCredentialCountOutputTypeCountAccessLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CredentialAccessLogWhereInput
   }
 
 
@@ -4648,6 +5037,8 @@ export namespace Prisma {
     setores?: boolean | Company$setoresArgs<ExtArgs>
     conversations?: boolean | Company$conversationsArgs<ExtArgs>
     activities?: boolean | Company$activitiesArgs<ExtArgs>
+    assets?: boolean | Company$assetsArgs<ExtArgs>
+    credentialAccessLogs?: boolean | Company$credentialAccessLogsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -4712,6 +5103,8 @@ export namespace Prisma {
     setores?: boolean | Company$setoresArgs<ExtArgs>
     conversations?: boolean | Company$conversationsArgs<ExtArgs>
     activities?: boolean | Company$activitiesArgs<ExtArgs>
+    assets?: boolean | Company$assetsArgs<ExtArgs>
+    credentialAccessLogs?: boolean | Company$credentialAccessLogsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4736,6 +5129,8 @@ export namespace Prisma {
       setores: Prisma.$SetorPayload<ExtArgs>[]
       conversations: Prisma.$ConversationPayload<ExtArgs>[]
       activities: Prisma.$ActivityPayload<ExtArgs>[]
+      assets: Prisma.$CompanyAssetPayload<ExtArgs>[]
+      credentialAccessLogs: Prisma.$CredentialAccessLogPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5136,6 +5531,8 @@ export namespace Prisma {
     setores<T extends Company$setoresArgs<ExtArgs> = {}>(args?: Subset<T, Company$setoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "findMany"> | Null>
     conversations<T extends Company$conversationsArgs<ExtArgs> = {}>(args?: Subset<T, Company$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany"> | Null>
     activities<T extends Company$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, Company$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany"> | Null>
+    assets<T extends Company$assetsArgs<ExtArgs> = {}>(args?: Subset<T, Company$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyAssetPayload<ExtArgs>, T, "findMany"> | Null>
+    credentialAccessLogs<T extends Company$credentialAccessLogsArgs<ExtArgs> = {}>(args?: Subset<T, Company$credentialAccessLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CredentialAccessLogPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5794,6 +6191,46 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ActivityScalarFieldEnum | ActivityScalarFieldEnum[]
+  }
+
+  /**
+   * Company.assets
+   */
+  export type Company$assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyAsset
+     */
+    select?: CompanyAssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyAssetInclude<ExtArgs> | null
+    where?: CompanyAssetWhereInput
+    orderBy?: CompanyAssetOrderByWithRelationInput | CompanyAssetOrderByWithRelationInput[]
+    cursor?: CompanyAssetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CompanyAssetScalarFieldEnum | CompanyAssetScalarFieldEnum[]
+  }
+
+  /**
+   * Company.credentialAccessLogs
+   */
+  export type Company$credentialAccessLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CredentialAccessLog
+     */
+    select?: CredentialAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CredentialAccessLogInclude<ExtArgs> | null
+    where?: CredentialAccessLogWhereInput
+    orderBy?: CredentialAccessLogOrderByWithRelationInput | CredentialAccessLogOrderByWithRelationInput[]
+    cursor?: CredentialAccessLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CredentialAccessLogScalarFieldEnum | CredentialAccessLogScalarFieldEnum[]
   }
 
   /**
@@ -25747,6 +26184,3147 @@ export namespace Prisma {
 
 
   /**
+   * Model CompanyAsset
+   */
+
+  export type AggregateCompanyAsset = {
+    _count: CompanyAssetCountAggregateOutputType | null
+    _min: CompanyAssetMinAggregateOutputType | null
+    _max: CompanyAssetMaxAggregateOutputType | null
+  }
+
+  export type CompanyAssetMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    type: $Enums.AssetType | null
+    name: string | null
+    url: string | null
+    host: string | null
+    identifier: string | null
+    provider: string | null
+    status: $Enums.AssetStatus | null
+    expiresAt: Date | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    createdById: string | null
+  }
+
+  export type CompanyAssetMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    type: $Enums.AssetType | null
+    name: string | null
+    url: string | null
+    host: string | null
+    identifier: string | null
+    provider: string | null
+    status: $Enums.AssetStatus | null
+    expiresAt: Date | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    createdById: string | null
+  }
+
+  export type CompanyAssetCountAggregateOutputType = {
+    id: number
+    companyId: number
+    type: number
+    name: number
+    url: number
+    host: number
+    identifier: number
+    provider: number
+    status: number
+    expiresAt: number
+    notes: number
+    tags: number
+    createdAt: number
+    updatedAt: number
+    createdById: number
+    _all: number
+  }
+
+
+  export type CompanyAssetMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    type?: true
+    name?: true
+    url?: true
+    host?: true
+    identifier?: true
+    provider?: true
+    status?: true
+    expiresAt?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+  }
+
+  export type CompanyAssetMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    type?: true
+    name?: true
+    url?: true
+    host?: true
+    identifier?: true
+    provider?: true
+    status?: true
+    expiresAt?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+  }
+
+  export type CompanyAssetCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    type?: true
+    name?: true
+    url?: true
+    host?: true
+    identifier?: true
+    provider?: true
+    status?: true
+    expiresAt?: true
+    notes?: true
+    tags?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+    _all?: true
+  }
+
+  export type CompanyAssetAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CompanyAsset to aggregate.
+     */
+    where?: CompanyAssetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyAssets to fetch.
+     */
+    orderBy?: CompanyAssetOrderByWithRelationInput | CompanyAssetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CompanyAssetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyAssets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyAssets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CompanyAssets
+    **/
+    _count?: true | CompanyAssetCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CompanyAssetMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CompanyAssetMaxAggregateInputType
+  }
+
+  export type GetCompanyAssetAggregateType<T extends CompanyAssetAggregateArgs> = {
+        [P in keyof T & keyof AggregateCompanyAsset]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCompanyAsset[P]>
+      : GetScalarType<T[P], AggregateCompanyAsset[P]>
+  }
+
+
+
+
+  export type CompanyAssetGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompanyAssetWhereInput
+    orderBy?: CompanyAssetOrderByWithAggregationInput | CompanyAssetOrderByWithAggregationInput[]
+    by: CompanyAssetScalarFieldEnum[] | CompanyAssetScalarFieldEnum
+    having?: CompanyAssetScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CompanyAssetCountAggregateInputType | true
+    _min?: CompanyAssetMinAggregateInputType
+    _max?: CompanyAssetMaxAggregateInputType
+  }
+
+  export type CompanyAssetGroupByOutputType = {
+    id: string
+    companyId: string
+    type: $Enums.AssetType
+    name: string
+    url: string | null
+    host: string | null
+    identifier: string | null
+    provider: string | null
+    status: $Enums.AssetStatus
+    expiresAt: Date | null
+    notes: string | null
+    tags: string[]
+    createdAt: Date
+    updatedAt: Date
+    createdById: string | null
+    _count: CompanyAssetCountAggregateOutputType | null
+    _min: CompanyAssetMinAggregateOutputType | null
+    _max: CompanyAssetMaxAggregateOutputType | null
+  }
+
+  type GetCompanyAssetGroupByPayload<T extends CompanyAssetGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CompanyAssetGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CompanyAssetGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CompanyAssetGroupByOutputType[P]>
+            : GetScalarType<T[P], CompanyAssetGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CompanyAssetSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    type?: boolean
+    name?: boolean
+    url?: boolean
+    host?: boolean
+    identifier?: boolean
+    provider?: boolean
+    status?: boolean
+    expiresAt?: boolean
+    notes?: boolean
+    tags?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    credentials?: boolean | CompanyAsset$credentialsArgs<ExtArgs>
+    _count?: boolean | CompanyAssetCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["companyAsset"]>
+
+  export type CompanyAssetSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    type?: boolean
+    name?: boolean
+    url?: boolean
+    host?: boolean
+    identifier?: boolean
+    provider?: boolean
+    status?: boolean
+    expiresAt?: boolean
+    notes?: boolean
+    tags?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["companyAsset"]>
+
+  export type CompanyAssetSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    type?: boolean
+    name?: boolean
+    url?: boolean
+    host?: boolean
+    identifier?: boolean
+    provider?: boolean
+    status?: boolean
+    expiresAt?: boolean
+    notes?: boolean
+    tags?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+  }
+
+  export type CompanyAssetInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    credentials?: boolean | CompanyAsset$credentialsArgs<ExtArgs>
+    _count?: boolean | CompanyAssetCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CompanyAssetIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $CompanyAssetPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CompanyAsset"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      credentials: Prisma.$CompanyCredentialPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      type: $Enums.AssetType
+      name: string
+      url: string | null
+      host: string | null
+      identifier: string | null
+      provider: string | null
+      status: $Enums.AssetStatus
+      expiresAt: Date | null
+      notes: string | null
+      tags: string[]
+      createdAt: Date
+      updatedAt: Date
+      createdById: string | null
+    }, ExtArgs["result"]["companyAsset"]>
+    composites: {}
+  }
+
+  type CompanyAssetGetPayload<S extends boolean | null | undefined | CompanyAssetDefaultArgs> = $Result.GetResult<Prisma.$CompanyAssetPayload, S>
+
+  type CompanyAssetCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<CompanyAssetFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: CompanyAssetCountAggregateInputType | true
+    }
+
+  export interface CompanyAssetDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CompanyAsset'], meta: { name: 'CompanyAsset' } }
+    /**
+     * Find zero or one CompanyAsset that matches the filter.
+     * @param {CompanyAssetFindUniqueArgs} args - Arguments to find a CompanyAsset
+     * @example
+     * // Get one CompanyAsset
+     * const companyAsset = await prisma.companyAsset.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CompanyAssetFindUniqueArgs>(args: SelectSubset<T, CompanyAssetFindUniqueArgs<ExtArgs>>): Prisma__CompanyAssetClient<$Result.GetResult<Prisma.$CompanyAssetPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one CompanyAsset that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {CompanyAssetFindUniqueOrThrowArgs} args - Arguments to find a CompanyAsset
+     * @example
+     * // Get one CompanyAsset
+     * const companyAsset = await prisma.companyAsset.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CompanyAssetFindUniqueOrThrowArgs>(args: SelectSubset<T, CompanyAssetFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CompanyAssetClient<$Result.GetResult<Prisma.$CompanyAssetPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first CompanyAsset that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyAssetFindFirstArgs} args - Arguments to find a CompanyAsset
+     * @example
+     * // Get one CompanyAsset
+     * const companyAsset = await prisma.companyAsset.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CompanyAssetFindFirstArgs>(args?: SelectSubset<T, CompanyAssetFindFirstArgs<ExtArgs>>): Prisma__CompanyAssetClient<$Result.GetResult<Prisma.$CompanyAssetPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first CompanyAsset that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyAssetFindFirstOrThrowArgs} args - Arguments to find a CompanyAsset
+     * @example
+     * // Get one CompanyAsset
+     * const companyAsset = await prisma.companyAsset.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CompanyAssetFindFirstOrThrowArgs>(args?: SelectSubset<T, CompanyAssetFindFirstOrThrowArgs<ExtArgs>>): Prisma__CompanyAssetClient<$Result.GetResult<Prisma.$CompanyAssetPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more CompanyAssets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyAssetFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CompanyAssets
+     * const companyAssets = await prisma.companyAsset.findMany()
+     * 
+     * // Get first 10 CompanyAssets
+     * const companyAssets = await prisma.companyAsset.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const companyAssetWithIdOnly = await prisma.companyAsset.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CompanyAssetFindManyArgs>(args?: SelectSubset<T, CompanyAssetFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyAssetPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a CompanyAsset.
+     * @param {CompanyAssetCreateArgs} args - Arguments to create a CompanyAsset.
+     * @example
+     * // Create one CompanyAsset
+     * const CompanyAsset = await prisma.companyAsset.create({
+     *   data: {
+     *     // ... data to create a CompanyAsset
+     *   }
+     * })
+     * 
+     */
+    create<T extends CompanyAssetCreateArgs>(args: SelectSubset<T, CompanyAssetCreateArgs<ExtArgs>>): Prisma__CompanyAssetClient<$Result.GetResult<Prisma.$CompanyAssetPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many CompanyAssets.
+     * @param {CompanyAssetCreateManyArgs} args - Arguments to create many CompanyAssets.
+     * @example
+     * // Create many CompanyAssets
+     * const companyAsset = await prisma.companyAsset.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CompanyAssetCreateManyArgs>(args?: SelectSubset<T, CompanyAssetCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CompanyAssets and returns the data saved in the database.
+     * @param {CompanyAssetCreateManyAndReturnArgs} args - Arguments to create many CompanyAssets.
+     * @example
+     * // Create many CompanyAssets
+     * const companyAsset = await prisma.companyAsset.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CompanyAssets and only return the `id`
+     * const companyAssetWithIdOnly = await prisma.companyAsset.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CompanyAssetCreateManyAndReturnArgs>(args?: SelectSubset<T, CompanyAssetCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyAssetPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a CompanyAsset.
+     * @param {CompanyAssetDeleteArgs} args - Arguments to delete one CompanyAsset.
+     * @example
+     * // Delete one CompanyAsset
+     * const CompanyAsset = await prisma.companyAsset.delete({
+     *   where: {
+     *     // ... filter to delete one CompanyAsset
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CompanyAssetDeleteArgs>(args: SelectSubset<T, CompanyAssetDeleteArgs<ExtArgs>>): Prisma__CompanyAssetClient<$Result.GetResult<Prisma.$CompanyAssetPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one CompanyAsset.
+     * @param {CompanyAssetUpdateArgs} args - Arguments to update one CompanyAsset.
+     * @example
+     * // Update one CompanyAsset
+     * const companyAsset = await prisma.companyAsset.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CompanyAssetUpdateArgs>(args: SelectSubset<T, CompanyAssetUpdateArgs<ExtArgs>>): Prisma__CompanyAssetClient<$Result.GetResult<Prisma.$CompanyAssetPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more CompanyAssets.
+     * @param {CompanyAssetDeleteManyArgs} args - Arguments to filter CompanyAssets to delete.
+     * @example
+     * // Delete a few CompanyAssets
+     * const { count } = await prisma.companyAsset.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CompanyAssetDeleteManyArgs>(args?: SelectSubset<T, CompanyAssetDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CompanyAssets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyAssetUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CompanyAssets
+     * const companyAsset = await prisma.companyAsset.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CompanyAssetUpdateManyArgs>(args: SelectSubset<T, CompanyAssetUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CompanyAsset.
+     * @param {CompanyAssetUpsertArgs} args - Arguments to update or create a CompanyAsset.
+     * @example
+     * // Update or create a CompanyAsset
+     * const companyAsset = await prisma.companyAsset.upsert({
+     *   create: {
+     *     // ... data to create a CompanyAsset
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CompanyAsset we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CompanyAssetUpsertArgs>(args: SelectSubset<T, CompanyAssetUpsertArgs<ExtArgs>>): Prisma__CompanyAssetClient<$Result.GetResult<Prisma.$CompanyAssetPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of CompanyAssets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyAssetCountArgs} args - Arguments to filter CompanyAssets to count.
+     * @example
+     * // Count the number of CompanyAssets
+     * const count = await prisma.companyAsset.count({
+     *   where: {
+     *     // ... the filter for the CompanyAssets we want to count
+     *   }
+     * })
+    **/
+    count<T extends CompanyAssetCountArgs>(
+      args?: Subset<T, CompanyAssetCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CompanyAssetCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CompanyAsset.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyAssetAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CompanyAssetAggregateArgs>(args: Subset<T, CompanyAssetAggregateArgs>): Prisma.PrismaPromise<GetCompanyAssetAggregateType<T>>
+
+    /**
+     * Group by CompanyAsset.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyAssetGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CompanyAssetGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CompanyAssetGroupByArgs['orderBy'] }
+        : { orderBy?: CompanyAssetGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CompanyAssetGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCompanyAssetGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CompanyAsset model
+   */
+  readonly fields: CompanyAssetFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CompanyAsset.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CompanyAssetClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    credentials<T extends CompanyAsset$credentialsArgs<ExtArgs> = {}>(args?: Subset<T, CompanyAsset$credentialsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyCredentialPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CompanyAsset model
+   */ 
+  interface CompanyAssetFieldRefs {
+    readonly id: FieldRef<"CompanyAsset", 'String'>
+    readonly companyId: FieldRef<"CompanyAsset", 'String'>
+    readonly type: FieldRef<"CompanyAsset", 'AssetType'>
+    readonly name: FieldRef<"CompanyAsset", 'String'>
+    readonly url: FieldRef<"CompanyAsset", 'String'>
+    readonly host: FieldRef<"CompanyAsset", 'String'>
+    readonly identifier: FieldRef<"CompanyAsset", 'String'>
+    readonly provider: FieldRef<"CompanyAsset", 'String'>
+    readonly status: FieldRef<"CompanyAsset", 'AssetStatus'>
+    readonly expiresAt: FieldRef<"CompanyAsset", 'DateTime'>
+    readonly notes: FieldRef<"CompanyAsset", 'String'>
+    readonly tags: FieldRef<"CompanyAsset", 'String[]'>
+    readonly createdAt: FieldRef<"CompanyAsset", 'DateTime'>
+    readonly updatedAt: FieldRef<"CompanyAsset", 'DateTime'>
+    readonly createdById: FieldRef<"CompanyAsset", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CompanyAsset findUnique
+   */
+  export type CompanyAssetFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyAsset
+     */
+    select?: CompanyAssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyAssetInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyAsset to fetch.
+     */
+    where: CompanyAssetWhereUniqueInput
+  }
+
+  /**
+   * CompanyAsset findUniqueOrThrow
+   */
+  export type CompanyAssetFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyAsset
+     */
+    select?: CompanyAssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyAssetInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyAsset to fetch.
+     */
+    where: CompanyAssetWhereUniqueInput
+  }
+
+  /**
+   * CompanyAsset findFirst
+   */
+  export type CompanyAssetFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyAsset
+     */
+    select?: CompanyAssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyAssetInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyAsset to fetch.
+     */
+    where?: CompanyAssetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyAssets to fetch.
+     */
+    orderBy?: CompanyAssetOrderByWithRelationInput | CompanyAssetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CompanyAssets.
+     */
+    cursor?: CompanyAssetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyAssets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyAssets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CompanyAssets.
+     */
+    distinct?: CompanyAssetScalarFieldEnum | CompanyAssetScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyAsset findFirstOrThrow
+   */
+  export type CompanyAssetFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyAsset
+     */
+    select?: CompanyAssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyAssetInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyAsset to fetch.
+     */
+    where?: CompanyAssetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyAssets to fetch.
+     */
+    orderBy?: CompanyAssetOrderByWithRelationInput | CompanyAssetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CompanyAssets.
+     */
+    cursor?: CompanyAssetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyAssets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyAssets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CompanyAssets.
+     */
+    distinct?: CompanyAssetScalarFieldEnum | CompanyAssetScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyAsset findMany
+   */
+  export type CompanyAssetFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyAsset
+     */
+    select?: CompanyAssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyAssetInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyAssets to fetch.
+     */
+    where?: CompanyAssetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyAssets to fetch.
+     */
+    orderBy?: CompanyAssetOrderByWithRelationInput | CompanyAssetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CompanyAssets.
+     */
+    cursor?: CompanyAssetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyAssets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyAssets.
+     */
+    skip?: number
+    distinct?: CompanyAssetScalarFieldEnum | CompanyAssetScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyAsset create
+   */
+  export type CompanyAssetCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyAsset
+     */
+    select?: CompanyAssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyAssetInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CompanyAsset.
+     */
+    data: XOR<CompanyAssetCreateInput, CompanyAssetUncheckedCreateInput>
+  }
+
+  /**
+   * CompanyAsset createMany
+   */
+  export type CompanyAssetCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CompanyAssets.
+     */
+    data: CompanyAssetCreateManyInput | CompanyAssetCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CompanyAsset createManyAndReturn
+   */
+  export type CompanyAssetCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyAsset
+     */
+    select?: CompanyAssetSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many CompanyAssets.
+     */
+    data: CompanyAssetCreateManyInput | CompanyAssetCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyAssetIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CompanyAsset update
+   */
+  export type CompanyAssetUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyAsset
+     */
+    select?: CompanyAssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyAssetInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CompanyAsset.
+     */
+    data: XOR<CompanyAssetUpdateInput, CompanyAssetUncheckedUpdateInput>
+    /**
+     * Choose, which CompanyAsset to update.
+     */
+    where: CompanyAssetWhereUniqueInput
+  }
+
+  /**
+   * CompanyAsset updateMany
+   */
+  export type CompanyAssetUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CompanyAssets.
+     */
+    data: XOR<CompanyAssetUpdateManyMutationInput, CompanyAssetUncheckedUpdateManyInput>
+    /**
+     * Filter which CompanyAssets to update
+     */
+    where?: CompanyAssetWhereInput
+  }
+
+  /**
+   * CompanyAsset upsert
+   */
+  export type CompanyAssetUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyAsset
+     */
+    select?: CompanyAssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyAssetInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CompanyAsset to update in case it exists.
+     */
+    where: CompanyAssetWhereUniqueInput
+    /**
+     * In case the CompanyAsset found by the `where` argument doesn't exist, create a new CompanyAsset with this data.
+     */
+    create: XOR<CompanyAssetCreateInput, CompanyAssetUncheckedCreateInput>
+    /**
+     * In case the CompanyAsset was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CompanyAssetUpdateInput, CompanyAssetUncheckedUpdateInput>
+  }
+
+  /**
+   * CompanyAsset delete
+   */
+  export type CompanyAssetDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyAsset
+     */
+    select?: CompanyAssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyAssetInclude<ExtArgs> | null
+    /**
+     * Filter which CompanyAsset to delete.
+     */
+    where: CompanyAssetWhereUniqueInput
+  }
+
+  /**
+   * CompanyAsset deleteMany
+   */
+  export type CompanyAssetDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CompanyAssets to delete
+     */
+    where?: CompanyAssetWhereInput
+  }
+
+  /**
+   * CompanyAsset.credentials
+   */
+  export type CompanyAsset$credentialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCredential
+     */
+    select?: CompanyCredentialSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCredentialInclude<ExtArgs> | null
+    where?: CompanyCredentialWhereInput
+    orderBy?: CompanyCredentialOrderByWithRelationInput | CompanyCredentialOrderByWithRelationInput[]
+    cursor?: CompanyCredentialWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CompanyCredentialScalarFieldEnum | CompanyCredentialScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyAsset without action
+   */
+  export type CompanyAssetDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyAsset
+     */
+    select?: CompanyAssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyAssetInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CompanyCredential
+   */
+
+  export type AggregateCompanyCredential = {
+    _count: CompanyCredentialCountAggregateOutputType | null
+    _min: CompanyCredentialMinAggregateOutputType | null
+    _max: CompanyCredentialMaxAggregateOutputType | null
+  }
+
+  export type CompanyCredentialMinAggregateOutputType = {
+    id: string | null
+    assetId: string | null
+    label: string | null
+    username: string | null
+    passwordEncrypted: string | null
+    url: string | null
+    totpSecret: string | null
+    notes: string | null
+    lastRotatedAt: Date | null
+    sharedWithClient: boolean | null
+    sharedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    createdById: string | null
+  }
+
+  export type CompanyCredentialMaxAggregateOutputType = {
+    id: string | null
+    assetId: string | null
+    label: string | null
+    username: string | null
+    passwordEncrypted: string | null
+    url: string | null
+    totpSecret: string | null
+    notes: string | null
+    lastRotatedAt: Date | null
+    sharedWithClient: boolean | null
+    sharedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    createdById: string | null
+  }
+
+  export type CompanyCredentialCountAggregateOutputType = {
+    id: number
+    assetId: number
+    label: number
+    username: number
+    passwordEncrypted: number
+    url: number
+    totpSecret: number
+    notes: number
+    lastRotatedAt: number
+    sharedWithClient: number
+    sharedAt: number
+    createdAt: number
+    updatedAt: number
+    createdById: number
+    _all: number
+  }
+
+
+  export type CompanyCredentialMinAggregateInputType = {
+    id?: true
+    assetId?: true
+    label?: true
+    username?: true
+    passwordEncrypted?: true
+    url?: true
+    totpSecret?: true
+    notes?: true
+    lastRotatedAt?: true
+    sharedWithClient?: true
+    sharedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+  }
+
+  export type CompanyCredentialMaxAggregateInputType = {
+    id?: true
+    assetId?: true
+    label?: true
+    username?: true
+    passwordEncrypted?: true
+    url?: true
+    totpSecret?: true
+    notes?: true
+    lastRotatedAt?: true
+    sharedWithClient?: true
+    sharedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+  }
+
+  export type CompanyCredentialCountAggregateInputType = {
+    id?: true
+    assetId?: true
+    label?: true
+    username?: true
+    passwordEncrypted?: true
+    url?: true
+    totpSecret?: true
+    notes?: true
+    lastRotatedAt?: true
+    sharedWithClient?: true
+    sharedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+    _all?: true
+  }
+
+  export type CompanyCredentialAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CompanyCredential to aggregate.
+     */
+    where?: CompanyCredentialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyCredentials to fetch.
+     */
+    orderBy?: CompanyCredentialOrderByWithRelationInput | CompanyCredentialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CompanyCredentialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyCredentials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyCredentials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CompanyCredentials
+    **/
+    _count?: true | CompanyCredentialCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CompanyCredentialMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CompanyCredentialMaxAggregateInputType
+  }
+
+  export type GetCompanyCredentialAggregateType<T extends CompanyCredentialAggregateArgs> = {
+        [P in keyof T & keyof AggregateCompanyCredential]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCompanyCredential[P]>
+      : GetScalarType<T[P], AggregateCompanyCredential[P]>
+  }
+
+
+
+
+  export type CompanyCredentialGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompanyCredentialWhereInput
+    orderBy?: CompanyCredentialOrderByWithAggregationInput | CompanyCredentialOrderByWithAggregationInput[]
+    by: CompanyCredentialScalarFieldEnum[] | CompanyCredentialScalarFieldEnum
+    having?: CompanyCredentialScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CompanyCredentialCountAggregateInputType | true
+    _min?: CompanyCredentialMinAggregateInputType
+    _max?: CompanyCredentialMaxAggregateInputType
+  }
+
+  export type CompanyCredentialGroupByOutputType = {
+    id: string
+    assetId: string
+    label: string
+    username: string | null
+    passwordEncrypted: string | null
+    url: string | null
+    totpSecret: string | null
+    notes: string | null
+    lastRotatedAt: Date | null
+    sharedWithClient: boolean
+    sharedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    createdById: string | null
+    _count: CompanyCredentialCountAggregateOutputType | null
+    _min: CompanyCredentialMinAggregateOutputType | null
+    _max: CompanyCredentialMaxAggregateOutputType | null
+  }
+
+  type GetCompanyCredentialGroupByPayload<T extends CompanyCredentialGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CompanyCredentialGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CompanyCredentialGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CompanyCredentialGroupByOutputType[P]>
+            : GetScalarType<T[P], CompanyCredentialGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CompanyCredentialSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    assetId?: boolean
+    label?: boolean
+    username?: boolean
+    passwordEncrypted?: boolean
+    url?: boolean
+    totpSecret?: boolean
+    notes?: boolean
+    lastRotatedAt?: boolean
+    sharedWithClient?: boolean
+    sharedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    asset?: boolean | CompanyAssetDefaultArgs<ExtArgs>
+    accessLogs?: boolean | CompanyCredential$accessLogsArgs<ExtArgs>
+    _count?: boolean | CompanyCredentialCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["companyCredential"]>
+
+  export type CompanyCredentialSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    assetId?: boolean
+    label?: boolean
+    username?: boolean
+    passwordEncrypted?: boolean
+    url?: boolean
+    totpSecret?: boolean
+    notes?: boolean
+    lastRotatedAt?: boolean
+    sharedWithClient?: boolean
+    sharedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    asset?: boolean | CompanyAssetDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["companyCredential"]>
+
+  export type CompanyCredentialSelectScalar = {
+    id?: boolean
+    assetId?: boolean
+    label?: boolean
+    username?: boolean
+    passwordEncrypted?: boolean
+    url?: boolean
+    totpSecret?: boolean
+    notes?: boolean
+    lastRotatedAt?: boolean
+    sharedWithClient?: boolean
+    sharedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+  }
+
+  export type CompanyCredentialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    asset?: boolean | CompanyAssetDefaultArgs<ExtArgs>
+    accessLogs?: boolean | CompanyCredential$accessLogsArgs<ExtArgs>
+    _count?: boolean | CompanyCredentialCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CompanyCredentialIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    asset?: boolean | CompanyAssetDefaultArgs<ExtArgs>
+  }
+
+  export type $CompanyCredentialPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CompanyCredential"
+    objects: {
+      asset: Prisma.$CompanyAssetPayload<ExtArgs>
+      accessLogs: Prisma.$CredentialAccessLogPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      assetId: string
+      label: string
+      username: string | null
+      passwordEncrypted: string | null
+      url: string | null
+      totpSecret: string | null
+      notes: string | null
+      lastRotatedAt: Date | null
+      sharedWithClient: boolean
+      sharedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+      createdById: string | null
+    }, ExtArgs["result"]["companyCredential"]>
+    composites: {}
+  }
+
+  type CompanyCredentialGetPayload<S extends boolean | null | undefined | CompanyCredentialDefaultArgs> = $Result.GetResult<Prisma.$CompanyCredentialPayload, S>
+
+  type CompanyCredentialCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<CompanyCredentialFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: CompanyCredentialCountAggregateInputType | true
+    }
+
+  export interface CompanyCredentialDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CompanyCredential'], meta: { name: 'CompanyCredential' } }
+    /**
+     * Find zero or one CompanyCredential that matches the filter.
+     * @param {CompanyCredentialFindUniqueArgs} args - Arguments to find a CompanyCredential
+     * @example
+     * // Get one CompanyCredential
+     * const companyCredential = await prisma.companyCredential.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CompanyCredentialFindUniqueArgs>(args: SelectSubset<T, CompanyCredentialFindUniqueArgs<ExtArgs>>): Prisma__CompanyCredentialClient<$Result.GetResult<Prisma.$CompanyCredentialPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one CompanyCredential that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {CompanyCredentialFindUniqueOrThrowArgs} args - Arguments to find a CompanyCredential
+     * @example
+     * // Get one CompanyCredential
+     * const companyCredential = await prisma.companyCredential.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CompanyCredentialFindUniqueOrThrowArgs>(args: SelectSubset<T, CompanyCredentialFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CompanyCredentialClient<$Result.GetResult<Prisma.$CompanyCredentialPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first CompanyCredential that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCredentialFindFirstArgs} args - Arguments to find a CompanyCredential
+     * @example
+     * // Get one CompanyCredential
+     * const companyCredential = await prisma.companyCredential.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CompanyCredentialFindFirstArgs>(args?: SelectSubset<T, CompanyCredentialFindFirstArgs<ExtArgs>>): Prisma__CompanyCredentialClient<$Result.GetResult<Prisma.$CompanyCredentialPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first CompanyCredential that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCredentialFindFirstOrThrowArgs} args - Arguments to find a CompanyCredential
+     * @example
+     * // Get one CompanyCredential
+     * const companyCredential = await prisma.companyCredential.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CompanyCredentialFindFirstOrThrowArgs>(args?: SelectSubset<T, CompanyCredentialFindFirstOrThrowArgs<ExtArgs>>): Prisma__CompanyCredentialClient<$Result.GetResult<Prisma.$CompanyCredentialPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more CompanyCredentials that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCredentialFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CompanyCredentials
+     * const companyCredentials = await prisma.companyCredential.findMany()
+     * 
+     * // Get first 10 CompanyCredentials
+     * const companyCredentials = await prisma.companyCredential.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const companyCredentialWithIdOnly = await prisma.companyCredential.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CompanyCredentialFindManyArgs>(args?: SelectSubset<T, CompanyCredentialFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyCredentialPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a CompanyCredential.
+     * @param {CompanyCredentialCreateArgs} args - Arguments to create a CompanyCredential.
+     * @example
+     * // Create one CompanyCredential
+     * const CompanyCredential = await prisma.companyCredential.create({
+     *   data: {
+     *     // ... data to create a CompanyCredential
+     *   }
+     * })
+     * 
+     */
+    create<T extends CompanyCredentialCreateArgs>(args: SelectSubset<T, CompanyCredentialCreateArgs<ExtArgs>>): Prisma__CompanyCredentialClient<$Result.GetResult<Prisma.$CompanyCredentialPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many CompanyCredentials.
+     * @param {CompanyCredentialCreateManyArgs} args - Arguments to create many CompanyCredentials.
+     * @example
+     * // Create many CompanyCredentials
+     * const companyCredential = await prisma.companyCredential.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CompanyCredentialCreateManyArgs>(args?: SelectSubset<T, CompanyCredentialCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CompanyCredentials and returns the data saved in the database.
+     * @param {CompanyCredentialCreateManyAndReturnArgs} args - Arguments to create many CompanyCredentials.
+     * @example
+     * // Create many CompanyCredentials
+     * const companyCredential = await prisma.companyCredential.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CompanyCredentials and only return the `id`
+     * const companyCredentialWithIdOnly = await prisma.companyCredential.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CompanyCredentialCreateManyAndReturnArgs>(args?: SelectSubset<T, CompanyCredentialCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyCredentialPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a CompanyCredential.
+     * @param {CompanyCredentialDeleteArgs} args - Arguments to delete one CompanyCredential.
+     * @example
+     * // Delete one CompanyCredential
+     * const CompanyCredential = await prisma.companyCredential.delete({
+     *   where: {
+     *     // ... filter to delete one CompanyCredential
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CompanyCredentialDeleteArgs>(args: SelectSubset<T, CompanyCredentialDeleteArgs<ExtArgs>>): Prisma__CompanyCredentialClient<$Result.GetResult<Prisma.$CompanyCredentialPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one CompanyCredential.
+     * @param {CompanyCredentialUpdateArgs} args - Arguments to update one CompanyCredential.
+     * @example
+     * // Update one CompanyCredential
+     * const companyCredential = await prisma.companyCredential.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CompanyCredentialUpdateArgs>(args: SelectSubset<T, CompanyCredentialUpdateArgs<ExtArgs>>): Prisma__CompanyCredentialClient<$Result.GetResult<Prisma.$CompanyCredentialPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more CompanyCredentials.
+     * @param {CompanyCredentialDeleteManyArgs} args - Arguments to filter CompanyCredentials to delete.
+     * @example
+     * // Delete a few CompanyCredentials
+     * const { count } = await prisma.companyCredential.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CompanyCredentialDeleteManyArgs>(args?: SelectSubset<T, CompanyCredentialDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CompanyCredentials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCredentialUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CompanyCredentials
+     * const companyCredential = await prisma.companyCredential.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CompanyCredentialUpdateManyArgs>(args: SelectSubset<T, CompanyCredentialUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CompanyCredential.
+     * @param {CompanyCredentialUpsertArgs} args - Arguments to update or create a CompanyCredential.
+     * @example
+     * // Update or create a CompanyCredential
+     * const companyCredential = await prisma.companyCredential.upsert({
+     *   create: {
+     *     // ... data to create a CompanyCredential
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CompanyCredential we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CompanyCredentialUpsertArgs>(args: SelectSubset<T, CompanyCredentialUpsertArgs<ExtArgs>>): Prisma__CompanyCredentialClient<$Result.GetResult<Prisma.$CompanyCredentialPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of CompanyCredentials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCredentialCountArgs} args - Arguments to filter CompanyCredentials to count.
+     * @example
+     * // Count the number of CompanyCredentials
+     * const count = await prisma.companyCredential.count({
+     *   where: {
+     *     // ... the filter for the CompanyCredentials we want to count
+     *   }
+     * })
+    **/
+    count<T extends CompanyCredentialCountArgs>(
+      args?: Subset<T, CompanyCredentialCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CompanyCredentialCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CompanyCredential.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCredentialAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CompanyCredentialAggregateArgs>(args: Subset<T, CompanyCredentialAggregateArgs>): Prisma.PrismaPromise<GetCompanyCredentialAggregateType<T>>
+
+    /**
+     * Group by CompanyCredential.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCredentialGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CompanyCredentialGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CompanyCredentialGroupByArgs['orderBy'] }
+        : { orderBy?: CompanyCredentialGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CompanyCredentialGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCompanyCredentialGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CompanyCredential model
+   */
+  readonly fields: CompanyCredentialFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CompanyCredential.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CompanyCredentialClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    asset<T extends CompanyAssetDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyAssetDefaultArgs<ExtArgs>>): Prisma__CompanyAssetClient<$Result.GetResult<Prisma.$CompanyAssetPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    accessLogs<T extends CompanyCredential$accessLogsArgs<ExtArgs> = {}>(args?: Subset<T, CompanyCredential$accessLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CredentialAccessLogPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CompanyCredential model
+   */ 
+  interface CompanyCredentialFieldRefs {
+    readonly id: FieldRef<"CompanyCredential", 'String'>
+    readonly assetId: FieldRef<"CompanyCredential", 'String'>
+    readonly label: FieldRef<"CompanyCredential", 'String'>
+    readonly username: FieldRef<"CompanyCredential", 'String'>
+    readonly passwordEncrypted: FieldRef<"CompanyCredential", 'String'>
+    readonly url: FieldRef<"CompanyCredential", 'String'>
+    readonly totpSecret: FieldRef<"CompanyCredential", 'String'>
+    readonly notes: FieldRef<"CompanyCredential", 'String'>
+    readonly lastRotatedAt: FieldRef<"CompanyCredential", 'DateTime'>
+    readonly sharedWithClient: FieldRef<"CompanyCredential", 'Boolean'>
+    readonly sharedAt: FieldRef<"CompanyCredential", 'DateTime'>
+    readonly createdAt: FieldRef<"CompanyCredential", 'DateTime'>
+    readonly updatedAt: FieldRef<"CompanyCredential", 'DateTime'>
+    readonly createdById: FieldRef<"CompanyCredential", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CompanyCredential findUnique
+   */
+  export type CompanyCredentialFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCredential
+     */
+    select?: CompanyCredentialSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCredentialInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyCredential to fetch.
+     */
+    where: CompanyCredentialWhereUniqueInput
+  }
+
+  /**
+   * CompanyCredential findUniqueOrThrow
+   */
+  export type CompanyCredentialFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCredential
+     */
+    select?: CompanyCredentialSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCredentialInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyCredential to fetch.
+     */
+    where: CompanyCredentialWhereUniqueInput
+  }
+
+  /**
+   * CompanyCredential findFirst
+   */
+  export type CompanyCredentialFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCredential
+     */
+    select?: CompanyCredentialSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCredentialInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyCredential to fetch.
+     */
+    where?: CompanyCredentialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyCredentials to fetch.
+     */
+    orderBy?: CompanyCredentialOrderByWithRelationInput | CompanyCredentialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CompanyCredentials.
+     */
+    cursor?: CompanyCredentialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyCredentials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyCredentials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CompanyCredentials.
+     */
+    distinct?: CompanyCredentialScalarFieldEnum | CompanyCredentialScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyCredential findFirstOrThrow
+   */
+  export type CompanyCredentialFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCredential
+     */
+    select?: CompanyCredentialSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCredentialInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyCredential to fetch.
+     */
+    where?: CompanyCredentialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyCredentials to fetch.
+     */
+    orderBy?: CompanyCredentialOrderByWithRelationInput | CompanyCredentialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CompanyCredentials.
+     */
+    cursor?: CompanyCredentialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyCredentials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyCredentials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CompanyCredentials.
+     */
+    distinct?: CompanyCredentialScalarFieldEnum | CompanyCredentialScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyCredential findMany
+   */
+  export type CompanyCredentialFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCredential
+     */
+    select?: CompanyCredentialSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCredentialInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyCredentials to fetch.
+     */
+    where?: CompanyCredentialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyCredentials to fetch.
+     */
+    orderBy?: CompanyCredentialOrderByWithRelationInput | CompanyCredentialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CompanyCredentials.
+     */
+    cursor?: CompanyCredentialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyCredentials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyCredentials.
+     */
+    skip?: number
+    distinct?: CompanyCredentialScalarFieldEnum | CompanyCredentialScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyCredential create
+   */
+  export type CompanyCredentialCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCredential
+     */
+    select?: CompanyCredentialSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCredentialInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CompanyCredential.
+     */
+    data: XOR<CompanyCredentialCreateInput, CompanyCredentialUncheckedCreateInput>
+  }
+
+  /**
+   * CompanyCredential createMany
+   */
+  export type CompanyCredentialCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CompanyCredentials.
+     */
+    data: CompanyCredentialCreateManyInput | CompanyCredentialCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CompanyCredential createManyAndReturn
+   */
+  export type CompanyCredentialCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCredential
+     */
+    select?: CompanyCredentialSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many CompanyCredentials.
+     */
+    data: CompanyCredentialCreateManyInput | CompanyCredentialCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCredentialIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CompanyCredential update
+   */
+  export type CompanyCredentialUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCredential
+     */
+    select?: CompanyCredentialSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCredentialInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CompanyCredential.
+     */
+    data: XOR<CompanyCredentialUpdateInput, CompanyCredentialUncheckedUpdateInput>
+    /**
+     * Choose, which CompanyCredential to update.
+     */
+    where: CompanyCredentialWhereUniqueInput
+  }
+
+  /**
+   * CompanyCredential updateMany
+   */
+  export type CompanyCredentialUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CompanyCredentials.
+     */
+    data: XOR<CompanyCredentialUpdateManyMutationInput, CompanyCredentialUncheckedUpdateManyInput>
+    /**
+     * Filter which CompanyCredentials to update
+     */
+    where?: CompanyCredentialWhereInput
+  }
+
+  /**
+   * CompanyCredential upsert
+   */
+  export type CompanyCredentialUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCredential
+     */
+    select?: CompanyCredentialSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCredentialInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CompanyCredential to update in case it exists.
+     */
+    where: CompanyCredentialWhereUniqueInput
+    /**
+     * In case the CompanyCredential found by the `where` argument doesn't exist, create a new CompanyCredential with this data.
+     */
+    create: XOR<CompanyCredentialCreateInput, CompanyCredentialUncheckedCreateInput>
+    /**
+     * In case the CompanyCredential was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CompanyCredentialUpdateInput, CompanyCredentialUncheckedUpdateInput>
+  }
+
+  /**
+   * CompanyCredential delete
+   */
+  export type CompanyCredentialDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCredential
+     */
+    select?: CompanyCredentialSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCredentialInclude<ExtArgs> | null
+    /**
+     * Filter which CompanyCredential to delete.
+     */
+    where: CompanyCredentialWhereUniqueInput
+  }
+
+  /**
+   * CompanyCredential deleteMany
+   */
+  export type CompanyCredentialDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CompanyCredentials to delete
+     */
+    where?: CompanyCredentialWhereInput
+  }
+
+  /**
+   * CompanyCredential.accessLogs
+   */
+  export type CompanyCredential$accessLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CredentialAccessLog
+     */
+    select?: CredentialAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CredentialAccessLogInclude<ExtArgs> | null
+    where?: CredentialAccessLogWhereInput
+    orderBy?: CredentialAccessLogOrderByWithRelationInput | CredentialAccessLogOrderByWithRelationInput[]
+    cursor?: CredentialAccessLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CredentialAccessLogScalarFieldEnum | CredentialAccessLogScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyCredential without action
+   */
+  export type CompanyCredentialDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCredential
+     */
+    select?: CompanyCredentialSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCredentialInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CredentialAccessLog
+   */
+
+  export type AggregateCredentialAccessLog = {
+    _count: CredentialAccessLogCountAggregateOutputType | null
+    _min: CredentialAccessLogMinAggregateOutputType | null
+    _max: CredentialAccessLogMaxAggregateOutputType | null
+  }
+
+  export type CredentialAccessLogMinAggregateOutputType = {
+    id: string | null
+    credentialId: string | null
+    companyId: string | null
+    userId: string | null
+    userName: string | null
+    userRole: string | null
+    action: $Enums.CredentialAction | null
+    ipAddress: string | null
+    userAgent: string | null
+    createdAt: Date | null
+  }
+
+  export type CredentialAccessLogMaxAggregateOutputType = {
+    id: string | null
+    credentialId: string | null
+    companyId: string | null
+    userId: string | null
+    userName: string | null
+    userRole: string | null
+    action: $Enums.CredentialAction | null
+    ipAddress: string | null
+    userAgent: string | null
+    createdAt: Date | null
+  }
+
+  export type CredentialAccessLogCountAggregateOutputType = {
+    id: number
+    credentialId: number
+    companyId: number
+    userId: number
+    userName: number
+    userRole: number
+    action: number
+    ipAddress: number
+    userAgent: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type CredentialAccessLogMinAggregateInputType = {
+    id?: true
+    credentialId?: true
+    companyId?: true
+    userId?: true
+    userName?: true
+    userRole?: true
+    action?: true
+    ipAddress?: true
+    userAgent?: true
+    createdAt?: true
+  }
+
+  export type CredentialAccessLogMaxAggregateInputType = {
+    id?: true
+    credentialId?: true
+    companyId?: true
+    userId?: true
+    userName?: true
+    userRole?: true
+    action?: true
+    ipAddress?: true
+    userAgent?: true
+    createdAt?: true
+  }
+
+  export type CredentialAccessLogCountAggregateInputType = {
+    id?: true
+    credentialId?: true
+    companyId?: true
+    userId?: true
+    userName?: true
+    userRole?: true
+    action?: true
+    ipAddress?: true
+    userAgent?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type CredentialAccessLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CredentialAccessLog to aggregate.
+     */
+    where?: CredentialAccessLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CredentialAccessLogs to fetch.
+     */
+    orderBy?: CredentialAccessLogOrderByWithRelationInput | CredentialAccessLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CredentialAccessLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CredentialAccessLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CredentialAccessLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CredentialAccessLogs
+    **/
+    _count?: true | CredentialAccessLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CredentialAccessLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CredentialAccessLogMaxAggregateInputType
+  }
+
+  export type GetCredentialAccessLogAggregateType<T extends CredentialAccessLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateCredentialAccessLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCredentialAccessLog[P]>
+      : GetScalarType<T[P], AggregateCredentialAccessLog[P]>
+  }
+
+
+
+
+  export type CredentialAccessLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CredentialAccessLogWhereInput
+    orderBy?: CredentialAccessLogOrderByWithAggregationInput | CredentialAccessLogOrderByWithAggregationInput[]
+    by: CredentialAccessLogScalarFieldEnum[] | CredentialAccessLogScalarFieldEnum
+    having?: CredentialAccessLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CredentialAccessLogCountAggregateInputType | true
+    _min?: CredentialAccessLogMinAggregateInputType
+    _max?: CredentialAccessLogMaxAggregateInputType
+  }
+
+  export type CredentialAccessLogGroupByOutputType = {
+    id: string
+    credentialId: string
+    companyId: string
+    userId: string | null
+    userName: string | null
+    userRole: string | null
+    action: $Enums.CredentialAction
+    ipAddress: string | null
+    userAgent: string | null
+    createdAt: Date
+    _count: CredentialAccessLogCountAggregateOutputType | null
+    _min: CredentialAccessLogMinAggregateOutputType | null
+    _max: CredentialAccessLogMaxAggregateOutputType | null
+  }
+
+  type GetCredentialAccessLogGroupByPayload<T extends CredentialAccessLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CredentialAccessLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CredentialAccessLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CredentialAccessLogGroupByOutputType[P]>
+            : GetScalarType<T[P], CredentialAccessLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CredentialAccessLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    credentialId?: boolean
+    companyId?: boolean
+    userId?: boolean
+    userName?: boolean
+    userRole?: boolean
+    action?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+    credential?: boolean | CompanyCredentialDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["credentialAccessLog"]>
+
+  export type CredentialAccessLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    credentialId?: boolean
+    companyId?: boolean
+    userId?: boolean
+    userName?: boolean
+    userRole?: boolean
+    action?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+    credential?: boolean | CompanyCredentialDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["credentialAccessLog"]>
+
+  export type CredentialAccessLogSelectScalar = {
+    id?: boolean
+    credentialId?: boolean
+    companyId?: boolean
+    userId?: boolean
+    userName?: boolean
+    userRole?: boolean
+    action?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+  }
+
+  export type CredentialAccessLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    credential?: boolean | CompanyCredentialDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type CredentialAccessLogIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    credential?: boolean | CompanyCredentialDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $CredentialAccessLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CredentialAccessLog"
+    objects: {
+      credential: Prisma.$CompanyCredentialPayload<ExtArgs>
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      credentialId: string
+      companyId: string
+      userId: string | null
+      userName: string | null
+      userRole: string | null
+      action: $Enums.CredentialAction
+      ipAddress: string | null
+      userAgent: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["credentialAccessLog"]>
+    composites: {}
+  }
+
+  type CredentialAccessLogGetPayload<S extends boolean | null | undefined | CredentialAccessLogDefaultArgs> = $Result.GetResult<Prisma.$CredentialAccessLogPayload, S>
+
+  type CredentialAccessLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<CredentialAccessLogFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: CredentialAccessLogCountAggregateInputType | true
+    }
+
+  export interface CredentialAccessLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CredentialAccessLog'], meta: { name: 'CredentialAccessLog' } }
+    /**
+     * Find zero or one CredentialAccessLog that matches the filter.
+     * @param {CredentialAccessLogFindUniqueArgs} args - Arguments to find a CredentialAccessLog
+     * @example
+     * // Get one CredentialAccessLog
+     * const credentialAccessLog = await prisma.credentialAccessLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CredentialAccessLogFindUniqueArgs>(args: SelectSubset<T, CredentialAccessLogFindUniqueArgs<ExtArgs>>): Prisma__CredentialAccessLogClient<$Result.GetResult<Prisma.$CredentialAccessLogPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one CredentialAccessLog that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {CredentialAccessLogFindUniqueOrThrowArgs} args - Arguments to find a CredentialAccessLog
+     * @example
+     * // Get one CredentialAccessLog
+     * const credentialAccessLog = await prisma.credentialAccessLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CredentialAccessLogFindUniqueOrThrowArgs>(args: SelectSubset<T, CredentialAccessLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CredentialAccessLogClient<$Result.GetResult<Prisma.$CredentialAccessLogPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first CredentialAccessLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CredentialAccessLogFindFirstArgs} args - Arguments to find a CredentialAccessLog
+     * @example
+     * // Get one CredentialAccessLog
+     * const credentialAccessLog = await prisma.credentialAccessLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CredentialAccessLogFindFirstArgs>(args?: SelectSubset<T, CredentialAccessLogFindFirstArgs<ExtArgs>>): Prisma__CredentialAccessLogClient<$Result.GetResult<Prisma.$CredentialAccessLogPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first CredentialAccessLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CredentialAccessLogFindFirstOrThrowArgs} args - Arguments to find a CredentialAccessLog
+     * @example
+     * // Get one CredentialAccessLog
+     * const credentialAccessLog = await prisma.credentialAccessLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CredentialAccessLogFindFirstOrThrowArgs>(args?: SelectSubset<T, CredentialAccessLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__CredentialAccessLogClient<$Result.GetResult<Prisma.$CredentialAccessLogPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more CredentialAccessLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CredentialAccessLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CredentialAccessLogs
+     * const credentialAccessLogs = await prisma.credentialAccessLog.findMany()
+     * 
+     * // Get first 10 CredentialAccessLogs
+     * const credentialAccessLogs = await prisma.credentialAccessLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const credentialAccessLogWithIdOnly = await prisma.credentialAccessLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CredentialAccessLogFindManyArgs>(args?: SelectSubset<T, CredentialAccessLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CredentialAccessLogPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a CredentialAccessLog.
+     * @param {CredentialAccessLogCreateArgs} args - Arguments to create a CredentialAccessLog.
+     * @example
+     * // Create one CredentialAccessLog
+     * const CredentialAccessLog = await prisma.credentialAccessLog.create({
+     *   data: {
+     *     // ... data to create a CredentialAccessLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends CredentialAccessLogCreateArgs>(args: SelectSubset<T, CredentialAccessLogCreateArgs<ExtArgs>>): Prisma__CredentialAccessLogClient<$Result.GetResult<Prisma.$CredentialAccessLogPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many CredentialAccessLogs.
+     * @param {CredentialAccessLogCreateManyArgs} args - Arguments to create many CredentialAccessLogs.
+     * @example
+     * // Create many CredentialAccessLogs
+     * const credentialAccessLog = await prisma.credentialAccessLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CredentialAccessLogCreateManyArgs>(args?: SelectSubset<T, CredentialAccessLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CredentialAccessLogs and returns the data saved in the database.
+     * @param {CredentialAccessLogCreateManyAndReturnArgs} args - Arguments to create many CredentialAccessLogs.
+     * @example
+     * // Create many CredentialAccessLogs
+     * const credentialAccessLog = await prisma.credentialAccessLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CredentialAccessLogs and only return the `id`
+     * const credentialAccessLogWithIdOnly = await prisma.credentialAccessLog.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CredentialAccessLogCreateManyAndReturnArgs>(args?: SelectSubset<T, CredentialAccessLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CredentialAccessLogPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a CredentialAccessLog.
+     * @param {CredentialAccessLogDeleteArgs} args - Arguments to delete one CredentialAccessLog.
+     * @example
+     * // Delete one CredentialAccessLog
+     * const CredentialAccessLog = await prisma.credentialAccessLog.delete({
+     *   where: {
+     *     // ... filter to delete one CredentialAccessLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CredentialAccessLogDeleteArgs>(args: SelectSubset<T, CredentialAccessLogDeleteArgs<ExtArgs>>): Prisma__CredentialAccessLogClient<$Result.GetResult<Prisma.$CredentialAccessLogPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one CredentialAccessLog.
+     * @param {CredentialAccessLogUpdateArgs} args - Arguments to update one CredentialAccessLog.
+     * @example
+     * // Update one CredentialAccessLog
+     * const credentialAccessLog = await prisma.credentialAccessLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CredentialAccessLogUpdateArgs>(args: SelectSubset<T, CredentialAccessLogUpdateArgs<ExtArgs>>): Prisma__CredentialAccessLogClient<$Result.GetResult<Prisma.$CredentialAccessLogPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more CredentialAccessLogs.
+     * @param {CredentialAccessLogDeleteManyArgs} args - Arguments to filter CredentialAccessLogs to delete.
+     * @example
+     * // Delete a few CredentialAccessLogs
+     * const { count } = await prisma.credentialAccessLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CredentialAccessLogDeleteManyArgs>(args?: SelectSubset<T, CredentialAccessLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CredentialAccessLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CredentialAccessLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CredentialAccessLogs
+     * const credentialAccessLog = await prisma.credentialAccessLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CredentialAccessLogUpdateManyArgs>(args: SelectSubset<T, CredentialAccessLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CredentialAccessLog.
+     * @param {CredentialAccessLogUpsertArgs} args - Arguments to update or create a CredentialAccessLog.
+     * @example
+     * // Update or create a CredentialAccessLog
+     * const credentialAccessLog = await prisma.credentialAccessLog.upsert({
+     *   create: {
+     *     // ... data to create a CredentialAccessLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CredentialAccessLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CredentialAccessLogUpsertArgs>(args: SelectSubset<T, CredentialAccessLogUpsertArgs<ExtArgs>>): Prisma__CredentialAccessLogClient<$Result.GetResult<Prisma.$CredentialAccessLogPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of CredentialAccessLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CredentialAccessLogCountArgs} args - Arguments to filter CredentialAccessLogs to count.
+     * @example
+     * // Count the number of CredentialAccessLogs
+     * const count = await prisma.credentialAccessLog.count({
+     *   where: {
+     *     // ... the filter for the CredentialAccessLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends CredentialAccessLogCountArgs>(
+      args?: Subset<T, CredentialAccessLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CredentialAccessLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CredentialAccessLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CredentialAccessLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CredentialAccessLogAggregateArgs>(args: Subset<T, CredentialAccessLogAggregateArgs>): Prisma.PrismaPromise<GetCredentialAccessLogAggregateType<T>>
+
+    /**
+     * Group by CredentialAccessLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CredentialAccessLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CredentialAccessLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CredentialAccessLogGroupByArgs['orderBy'] }
+        : { orderBy?: CredentialAccessLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CredentialAccessLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCredentialAccessLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CredentialAccessLog model
+   */
+  readonly fields: CredentialAccessLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CredentialAccessLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CredentialAccessLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    credential<T extends CompanyCredentialDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyCredentialDefaultArgs<ExtArgs>>): Prisma__CompanyCredentialClient<$Result.GetResult<Prisma.$CompanyCredentialPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CredentialAccessLog model
+   */ 
+  interface CredentialAccessLogFieldRefs {
+    readonly id: FieldRef<"CredentialAccessLog", 'String'>
+    readonly credentialId: FieldRef<"CredentialAccessLog", 'String'>
+    readonly companyId: FieldRef<"CredentialAccessLog", 'String'>
+    readonly userId: FieldRef<"CredentialAccessLog", 'String'>
+    readonly userName: FieldRef<"CredentialAccessLog", 'String'>
+    readonly userRole: FieldRef<"CredentialAccessLog", 'String'>
+    readonly action: FieldRef<"CredentialAccessLog", 'CredentialAction'>
+    readonly ipAddress: FieldRef<"CredentialAccessLog", 'String'>
+    readonly userAgent: FieldRef<"CredentialAccessLog", 'String'>
+    readonly createdAt: FieldRef<"CredentialAccessLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CredentialAccessLog findUnique
+   */
+  export type CredentialAccessLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CredentialAccessLog
+     */
+    select?: CredentialAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CredentialAccessLogInclude<ExtArgs> | null
+    /**
+     * Filter, which CredentialAccessLog to fetch.
+     */
+    where: CredentialAccessLogWhereUniqueInput
+  }
+
+  /**
+   * CredentialAccessLog findUniqueOrThrow
+   */
+  export type CredentialAccessLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CredentialAccessLog
+     */
+    select?: CredentialAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CredentialAccessLogInclude<ExtArgs> | null
+    /**
+     * Filter, which CredentialAccessLog to fetch.
+     */
+    where: CredentialAccessLogWhereUniqueInput
+  }
+
+  /**
+   * CredentialAccessLog findFirst
+   */
+  export type CredentialAccessLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CredentialAccessLog
+     */
+    select?: CredentialAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CredentialAccessLogInclude<ExtArgs> | null
+    /**
+     * Filter, which CredentialAccessLog to fetch.
+     */
+    where?: CredentialAccessLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CredentialAccessLogs to fetch.
+     */
+    orderBy?: CredentialAccessLogOrderByWithRelationInput | CredentialAccessLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CredentialAccessLogs.
+     */
+    cursor?: CredentialAccessLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CredentialAccessLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CredentialAccessLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CredentialAccessLogs.
+     */
+    distinct?: CredentialAccessLogScalarFieldEnum | CredentialAccessLogScalarFieldEnum[]
+  }
+
+  /**
+   * CredentialAccessLog findFirstOrThrow
+   */
+  export type CredentialAccessLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CredentialAccessLog
+     */
+    select?: CredentialAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CredentialAccessLogInclude<ExtArgs> | null
+    /**
+     * Filter, which CredentialAccessLog to fetch.
+     */
+    where?: CredentialAccessLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CredentialAccessLogs to fetch.
+     */
+    orderBy?: CredentialAccessLogOrderByWithRelationInput | CredentialAccessLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CredentialAccessLogs.
+     */
+    cursor?: CredentialAccessLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CredentialAccessLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CredentialAccessLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CredentialAccessLogs.
+     */
+    distinct?: CredentialAccessLogScalarFieldEnum | CredentialAccessLogScalarFieldEnum[]
+  }
+
+  /**
+   * CredentialAccessLog findMany
+   */
+  export type CredentialAccessLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CredentialAccessLog
+     */
+    select?: CredentialAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CredentialAccessLogInclude<ExtArgs> | null
+    /**
+     * Filter, which CredentialAccessLogs to fetch.
+     */
+    where?: CredentialAccessLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CredentialAccessLogs to fetch.
+     */
+    orderBy?: CredentialAccessLogOrderByWithRelationInput | CredentialAccessLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CredentialAccessLogs.
+     */
+    cursor?: CredentialAccessLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CredentialAccessLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CredentialAccessLogs.
+     */
+    skip?: number
+    distinct?: CredentialAccessLogScalarFieldEnum | CredentialAccessLogScalarFieldEnum[]
+  }
+
+  /**
+   * CredentialAccessLog create
+   */
+  export type CredentialAccessLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CredentialAccessLog
+     */
+    select?: CredentialAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CredentialAccessLogInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CredentialAccessLog.
+     */
+    data: XOR<CredentialAccessLogCreateInput, CredentialAccessLogUncheckedCreateInput>
+  }
+
+  /**
+   * CredentialAccessLog createMany
+   */
+  export type CredentialAccessLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CredentialAccessLogs.
+     */
+    data: CredentialAccessLogCreateManyInput | CredentialAccessLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CredentialAccessLog createManyAndReturn
+   */
+  export type CredentialAccessLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CredentialAccessLog
+     */
+    select?: CredentialAccessLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many CredentialAccessLogs.
+     */
+    data: CredentialAccessLogCreateManyInput | CredentialAccessLogCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CredentialAccessLogIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CredentialAccessLog update
+   */
+  export type CredentialAccessLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CredentialAccessLog
+     */
+    select?: CredentialAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CredentialAccessLogInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CredentialAccessLog.
+     */
+    data: XOR<CredentialAccessLogUpdateInput, CredentialAccessLogUncheckedUpdateInput>
+    /**
+     * Choose, which CredentialAccessLog to update.
+     */
+    where: CredentialAccessLogWhereUniqueInput
+  }
+
+  /**
+   * CredentialAccessLog updateMany
+   */
+  export type CredentialAccessLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CredentialAccessLogs.
+     */
+    data: XOR<CredentialAccessLogUpdateManyMutationInput, CredentialAccessLogUncheckedUpdateManyInput>
+    /**
+     * Filter which CredentialAccessLogs to update
+     */
+    where?: CredentialAccessLogWhereInput
+  }
+
+  /**
+   * CredentialAccessLog upsert
+   */
+  export type CredentialAccessLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CredentialAccessLog
+     */
+    select?: CredentialAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CredentialAccessLogInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CredentialAccessLog to update in case it exists.
+     */
+    where: CredentialAccessLogWhereUniqueInput
+    /**
+     * In case the CredentialAccessLog found by the `where` argument doesn't exist, create a new CredentialAccessLog with this data.
+     */
+    create: XOR<CredentialAccessLogCreateInput, CredentialAccessLogUncheckedCreateInput>
+    /**
+     * In case the CredentialAccessLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CredentialAccessLogUpdateInput, CredentialAccessLogUncheckedUpdateInput>
+  }
+
+  /**
+   * CredentialAccessLog delete
+   */
+  export type CredentialAccessLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CredentialAccessLog
+     */
+    select?: CredentialAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CredentialAccessLogInclude<ExtArgs> | null
+    /**
+     * Filter which CredentialAccessLog to delete.
+     */
+    where: CredentialAccessLogWhereUniqueInput
+  }
+
+  /**
+   * CredentialAccessLog deleteMany
+   */
+  export type CredentialAccessLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CredentialAccessLogs to delete
+     */
+    where?: CredentialAccessLogWhereInput
+  }
+
+  /**
+   * CredentialAccessLog without action
+   */
+  export type CredentialAccessLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CredentialAccessLog
+     */
+    select?: CredentialAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CredentialAccessLogInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -26102,6 +29680,63 @@ export namespace Prisma {
   export type SetorInstanceScalarFieldEnum = (typeof SetorInstanceScalarFieldEnum)[keyof typeof SetorInstanceScalarFieldEnum]
 
 
+  export const CompanyAssetScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    type: 'type',
+    name: 'name',
+    url: 'url',
+    host: 'host',
+    identifier: 'identifier',
+    provider: 'provider',
+    status: 'status',
+    expiresAt: 'expiresAt',
+    notes: 'notes',
+    tags: 'tags',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    createdById: 'createdById'
+  };
+
+  export type CompanyAssetScalarFieldEnum = (typeof CompanyAssetScalarFieldEnum)[keyof typeof CompanyAssetScalarFieldEnum]
+
+
+  export const CompanyCredentialScalarFieldEnum: {
+    id: 'id',
+    assetId: 'assetId',
+    label: 'label',
+    username: 'username',
+    passwordEncrypted: 'passwordEncrypted',
+    url: 'url',
+    totpSecret: 'totpSecret',
+    notes: 'notes',
+    lastRotatedAt: 'lastRotatedAt',
+    sharedWithClient: 'sharedWithClient',
+    sharedAt: 'sharedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    createdById: 'createdById'
+  };
+
+  export type CompanyCredentialScalarFieldEnum = (typeof CompanyCredentialScalarFieldEnum)[keyof typeof CompanyCredentialScalarFieldEnum]
+
+
+  export const CredentialAccessLogScalarFieldEnum: {
+    id: 'id',
+    credentialId: 'credentialId',
+    companyId: 'companyId',
+    userId: 'userId',
+    userName: 'userName',
+    userRole: 'userRole',
+    action: 'action',
+    ipAddress: 'ipAddress',
+    userAgent: 'userAgent',
+    createdAt: 'createdAt'
+  };
+
+  export type CredentialAccessLogScalarFieldEnum = (typeof CredentialAccessLogScalarFieldEnum)[keyof typeof CredentialAccessLogScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -26370,6 +30005,48 @@ export namespace Prisma {
    */
   export type ListEnumTicketPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketPriority[]'>
     
+
+
+  /**
+   * Reference to a field of type 'AssetType'
+   */
+  export type EnumAssetTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AssetType'>
+    
+
+
+  /**
+   * Reference to a field of type 'AssetType[]'
+   */
+  export type ListEnumAssetTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AssetType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'AssetStatus'
+   */
+  export type EnumAssetStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AssetStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'AssetStatus[]'
+   */
+  export type ListEnumAssetStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AssetStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'CredentialAction'
+   */
+  export type EnumCredentialActionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CredentialAction'>
+    
+
+
+  /**
+   * Reference to a field of type 'CredentialAction[]'
+   */
+  export type ListEnumCredentialActionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CredentialAction[]'>
+    
   /**
    * Deep Input Types
    */
@@ -26500,6 +30177,8 @@ export namespace Prisma {
     setores?: SetorListRelationFilter
     conversations?: ConversationListRelationFilter
     activities?: ActivityListRelationFilter
+    assets?: CompanyAssetListRelationFilter
+    credentialAccessLogs?: CredentialAccessLogListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -26537,6 +30216,8 @@ export namespace Prisma {
     setores?: SetorOrderByRelationAggregateInput
     conversations?: ConversationOrderByRelationAggregateInput
     activities?: ActivityOrderByRelationAggregateInput
+    assets?: CompanyAssetOrderByRelationAggregateInput
+    credentialAccessLogs?: CredentialAccessLogOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -26577,6 +30258,8 @@ export namespace Prisma {
     setores?: SetorListRelationFilter
     conversations?: ConversationListRelationFilter
     activities?: ActivityListRelationFilter
+    assets?: CompanyAssetListRelationFilter
+    credentialAccessLogs?: CredentialAccessLogListRelationFilter
   }, "id" | "slug" | "webhookToken">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -28275,6 +31958,300 @@ export namespace Prisma {
     instanceId?: StringWithAggregatesFilter<"SetorInstance"> | string
   }
 
+  export type CompanyAssetWhereInput = {
+    AND?: CompanyAssetWhereInput | CompanyAssetWhereInput[]
+    OR?: CompanyAssetWhereInput[]
+    NOT?: CompanyAssetWhereInput | CompanyAssetWhereInput[]
+    id?: StringFilter<"CompanyAsset"> | string
+    companyId?: StringFilter<"CompanyAsset"> | string
+    type?: EnumAssetTypeFilter<"CompanyAsset"> | $Enums.AssetType
+    name?: StringFilter<"CompanyAsset"> | string
+    url?: StringNullableFilter<"CompanyAsset"> | string | null
+    host?: StringNullableFilter<"CompanyAsset"> | string | null
+    identifier?: StringNullableFilter<"CompanyAsset"> | string | null
+    provider?: StringNullableFilter<"CompanyAsset"> | string | null
+    status?: EnumAssetStatusFilter<"CompanyAsset"> | $Enums.AssetStatus
+    expiresAt?: DateTimeNullableFilter<"CompanyAsset"> | Date | string | null
+    notes?: StringNullableFilter<"CompanyAsset"> | string | null
+    tags?: StringNullableListFilter<"CompanyAsset">
+    createdAt?: DateTimeFilter<"CompanyAsset"> | Date | string
+    updatedAt?: DateTimeFilter<"CompanyAsset"> | Date | string
+    createdById?: StringNullableFilter<"CompanyAsset"> | string | null
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    credentials?: CompanyCredentialListRelationFilter
+  }
+
+  export type CompanyAssetOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    type?: SortOrder
+    name?: SortOrder
+    url?: SortOrderInput | SortOrder
+    host?: SortOrderInput | SortOrder
+    identifier?: SortOrderInput | SortOrder
+    provider?: SortOrderInput | SortOrder
+    status?: SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    tags?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    company?: CompanyOrderByWithRelationInput
+    credentials?: CompanyCredentialOrderByRelationAggregateInput
+  }
+
+  export type CompanyAssetWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CompanyAssetWhereInput | CompanyAssetWhereInput[]
+    OR?: CompanyAssetWhereInput[]
+    NOT?: CompanyAssetWhereInput | CompanyAssetWhereInput[]
+    companyId?: StringFilter<"CompanyAsset"> | string
+    type?: EnumAssetTypeFilter<"CompanyAsset"> | $Enums.AssetType
+    name?: StringFilter<"CompanyAsset"> | string
+    url?: StringNullableFilter<"CompanyAsset"> | string | null
+    host?: StringNullableFilter<"CompanyAsset"> | string | null
+    identifier?: StringNullableFilter<"CompanyAsset"> | string | null
+    provider?: StringNullableFilter<"CompanyAsset"> | string | null
+    status?: EnumAssetStatusFilter<"CompanyAsset"> | $Enums.AssetStatus
+    expiresAt?: DateTimeNullableFilter<"CompanyAsset"> | Date | string | null
+    notes?: StringNullableFilter<"CompanyAsset"> | string | null
+    tags?: StringNullableListFilter<"CompanyAsset">
+    createdAt?: DateTimeFilter<"CompanyAsset"> | Date | string
+    updatedAt?: DateTimeFilter<"CompanyAsset"> | Date | string
+    createdById?: StringNullableFilter<"CompanyAsset"> | string | null
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    credentials?: CompanyCredentialListRelationFilter
+  }, "id">
+
+  export type CompanyAssetOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    type?: SortOrder
+    name?: SortOrder
+    url?: SortOrderInput | SortOrder
+    host?: SortOrderInput | SortOrder
+    identifier?: SortOrderInput | SortOrder
+    provider?: SortOrderInput | SortOrder
+    status?: SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    tags?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    _count?: CompanyAssetCountOrderByAggregateInput
+    _max?: CompanyAssetMaxOrderByAggregateInput
+    _min?: CompanyAssetMinOrderByAggregateInput
+  }
+
+  export type CompanyAssetScalarWhereWithAggregatesInput = {
+    AND?: CompanyAssetScalarWhereWithAggregatesInput | CompanyAssetScalarWhereWithAggregatesInput[]
+    OR?: CompanyAssetScalarWhereWithAggregatesInput[]
+    NOT?: CompanyAssetScalarWhereWithAggregatesInput | CompanyAssetScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CompanyAsset"> | string
+    companyId?: StringWithAggregatesFilter<"CompanyAsset"> | string
+    type?: EnumAssetTypeWithAggregatesFilter<"CompanyAsset"> | $Enums.AssetType
+    name?: StringWithAggregatesFilter<"CompanyAsset"> | string
+    url?: StringNullableWithAggregatesFilter<"CompanyAsset"> | string | null
+    host?: StringNullableWithAggregatesFilter<"CompanyAsset"> | string | null
+    identifier?: StringNullableWithAggregatesFilter<"CompanyAsset"> | string | null
+    provider?: StringNullableWithAggregatesFilter<"CompanyAsset"> | string | null
+    status?: EnumAssetStatusWithAggregatesFilter<"CompanyAsset"> | $Enums.AssetStatus
+    expiresAt?: DateTimeNullableWithAggregatesFilter<"CompanyAsset"> | Date | string | null
+    notes?: StringNullableWithAggregatesFilter<"CompanyAsset"> | string | null
+    tags?: StringNullableListFilter<"CompanyAsset">
+    createdAt?: DateTimeWithAggregatesFilter<"CompanyAsset"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CompanyAsset"> | Date | string
+    createdById?: StringNullableWithAggregatesFilter<"CompanyAsset"> | string | null
+  }
+
+  export type CompanyCredentialWhereInput = {
+    AND?: CompanyCredentialWhereInput | CompanyCredentialWhereInput[]
+    OR?: CompanyCredentialWhereInput[]
+    NOT?: CompanyCredentialWhereInput | CompanyCredentialWhereInput[]
+    id?: StringFilter<"CompanyCredential"> | string
+    assetId?: StringFilter<"CompanyCredential"> | string
+    label?: StringFilter<"CompanyCredential"> | string
+    username?: StringNullableFilter<"CompanyCredential"> | string | null
+    passwordEncrypted?: StringNullableFilter<"CompanyCredential"> | string | null
+    url?: StringNullableFilter<"CompanyCredential"> | string | null
+    totpSecret?: StringNullableFilter<"CompanyCredential"> | string | null
+    notes?: StringNullableFilter<"CompanyCredential"> | string | null
+    lastRotatedAt?: DateTimeNullableFilter<"CompanyCredential"> | Date | string | null
+    sharedWithClient?: BoolFilter<"CompanyCredential"> | boolean
+    sharedAt?: DateTimeNullableFilter<"CompanyCredential"> | Date | string | null
+    createdAt?: DateTimeFilter<"CompanyCredential"> | Date | string
+    updatedAt?: DateTimeFilter<"CompanyCredential"> | Date | string
+    createdById?: StringNullableFilter<"CompanyCredential"> | string | null
+    asset?: XOR<CompanyAssetRelationFilter, CompanyAssetWhereInput>
+    accessLogs?: CredentialAccessLogListRelationFilter
+  }
+
+  export type CompanyCredentialOrderByWithRelationInput = {
+    id?: SortOrder
+    assetId?: SortOrder
+    label?: SortOrder
+    username?: SortOrderInput | SortOrder
+    passwordEncrypted?: SortOrderInput | SortOrder
+    url?: SortOrderInput | SortOrder
+    totpSecret?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    lastRotatedAt?: SortOrderInput | SortOrder
+    sharedWithClient?: SortOrder
+    sharedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    asset?: CompanyAssetOrderByWithRelationInput
+    accessLogs?: CredentialAccessLogOrderByRelationAggregateInput
+  }
+
+  export type CompanyCredentialWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CompanyCredentialWhereInput | CompanyCredentialWhereInput[]
+    OR?: CompanyCredentialWhereInput[]
+    NOT?: CompanyCredentialWhereInput | CompanyCredentialWhereInput[]
+    assetId?: StringFilter<"CompanyCredential"> | string
+    label?: StringFilter<"CompanyCredential"> | string
+    username?: StringNullableFilter<"CompanyCredential"> | string | null
+    passwordEncrypted?: StringNullableFilter<"CompanyCredential"> | string | null
+    url?: StringNullableFilter<"CompanyCredential"> | string | null
+    totpSecret?: StringNullableFilter<"CompanyCredential"> | string | null
+    notes?: StringNullableFilter<"CompanyCredential"> | string | null
+    lastRotatedAt?: DateTimeNullableFilter<"CompanyCredential"> | Date | string | null
+    sharedWithClient?: BoolFilter<"CompanyCredential"> | boolean
+    sharedAt?: DateTimeNullableFilter<"CompanyCredential"> | Date | string | null
+    createdAt?: DateTimeFilter<"CompanyCredential"> | Date | string
+    updatedAt?: DateTimeFilter<"CompanyCredential"> | Date | string
+    createdById?: StringNullableFilter<"CompanyCredential"> | string | null
+    asset?: XOR<CompanyAssetRelationFilter, CompanyAssetWhereInput>
+    accessLogs?: CredentialAccessLogListRelationFilter
+  }, "id">
+
+  export type CompanyCredentialOrderByWithAggregationInput = {
+    id?: SortOrder
+    assetId?: SortOrder
+    label?: SortOrder
+    username?: SortOrderInput | SortOrder
+    passwordEncrypted?: SortOrderInput | SortOrder
+    url?: SortOrderInput | SortOrder
+    totpSecret?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    lastRotatedAt?: SortOrderInput | SortOrder
+    sharedWithClient?: SortOrder
+    sharedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    _count?: CompanyCredentialCountOrderByAggregateInput
+    _max?: CompanyCredentialMaxOrderByAggregateInput
+    _min?: CompanyCredentialMinOrderByAggregateInput
+  }
+
+  export type CompanyCredentialScalarWhereWithAggregatesInput = {
+    AND?: CompanyCredentialScalarWhereWithAggregatesInput | CompanyCredentialScalarWhereWithAggregatesInput[]
+    OR?: CompanyCredentialScalarWhereWithAggregatesInput[]
+    NOT?: CompanyCredentialScalarWhereWithAggregatesInput | CompanyCredentialScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CompanyCredential"> | string
+    assetId?: StringWithAggregatesFilter<"CompanyCredential"> | string
+    label?: StringWithAggregatesFilter<"CompanyCredential"> | string
+    username?: StringNullableWithAggregatesFilter<"CompanyCredential"> | string | null
+    passwordEncrypted?: StringNullableWithAggregatesFilter<"CompanyCredential"> | string | null
+    url?: StringNullableWithAggregatesFilter<"CompanyCredential"> | string | null
+    totpSecret?: StringNullableWithAggregatesFilter<"CompanyCredential"> | string | null
+    notes?: StringNullableWithAggregatesFilter<"CompanyCredential"> | string | null
+    lastRotatedAt?: DateTimeNullableWithAggregatesFilter<"CompanyCredential"> | Date | string | null
+    sharedWithClient?: BoolWithAggregatesFilter<"CompanyCredential"> | boolean
+    sharedAt?: DateTimeNullableWithAggregatesFilter<"CompanyCredential"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"CompanyCredential"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CompanyCredential"> | Date | string
+    createdById?: StringNullableWithAggregatesFilter<"CompanyCredential"> | string | null
+  }
+
+  export type CredentialAccessLogWhereInput = {
+    AND?: CredentialAccessLogWhereInput | CredentialAccessLogWhereInput[]
+    OR?: CredentialAccessLogWhereInput[]
+    NOT?: CredentialAccessLogWhereInput | CredentialAccessLogWhereInput[]
+    id?: StringFilter<"CredentialAccessLog"> | string
+    credentialId?: StringFilter<"CredentialAccessLog"> | string
+    companyId?: StringFilter<"CredentialAccessLog"> | string
+    userId?: StringNullableFilter<"CredentialAccessLog"> | string | null
+    userName?: StringNullableFilter<"CredentialAccessLog"> | string | null
+    userRole?: StringNullableFilter<"CredentialAccessLog"> | string | null
+    action?: EnumCredentialActionFilter<"CredentialAccessLog"> | $Enums.CredentialAction
+    ipAddress?: StringNullableFilter<"CredentialAccessLog"> | string | null
+    userAgent?: StringNullableFilter<"CredentialAccessLog"> | string | null
+    createdAt?: DateTimeFilter<"CredentialAccessLog"> | Date | string
+    credential?: XOR<CompanyCredentialRelationFilter, CompanyCredentialWhereInput>
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type CredentialAccessLogOrderByWithRelationInput = {
+    id?: SortOrder
+    credentialId?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    userName?: SortOrderInput | SortOrder
+    userRole?: SortOrderInput | SortOrder
+    action?: SortOrder
+    ipAddress?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    credential?: CompanyCredentialOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type CredentialAccessLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CredentialAccessLogWhereInput | CredentialAccessLogWhereInput[]
+    OR?: CredentialAccessLogWhereInput[]
+    NOT?: CredentialAccessLogWhereInput | CredentialAccessLogWhereInput[]
+    credentialId?: StringFilter<"CredentialAccessLog"> | string
+    companyId?: StringFilter<"CredentialAccessLog"> | string
+    userId?: StringNullableFilter<"CredentialAccessLog"> | string | null
+    userName?: StringNullableFilter<"CredentialAccessLog"> | string | null
+    userRole?: StringNullableFilter<"CredentialAccessLog"> | string | null
+    action?: EnumCredentialActionFilter<"CredentialAccessLog"> | $Enums.CredentialAction
+    ipAddress?: StringNullableFilter<"CredentialAccessLog"> | string | null
+    userAgent?: StringNullableFilter<"CredentialAccessLog"> | string | null
+    createdAt?: DateTimeFilter<"CredentialAccessLog"> | Date | string
+    credential?: XOR<CompanyCredentialRelationFilter, CompanyCredentialWhereInput>
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id">
+
+  export type CredentialAccessLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    credentialId?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    userName?: SortOrderInput | SortOrder
+    userRole?: SortOrderInput | SortOrder
+    action?: SortOrder
+    ipAddress?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: CredentialAccessLogCountOrderByAggregateInput
+    _max?: CredentialAccessLogMaxOrderByAggregateInput
+    _min?: CredentialAccessLogMinOrderByAggregateInput
+  }
+
+  export type CredentialAccessLogScalarWhereWithAggregatesInput = {
+    AND?: CredentialAccessLogScalarWhereWithAggregatesInput | CredentialAccessLogScalarWhereWithAggregatesInput[]
+    OR?: CredentialAccessLogScalarWhereWithAggregatesInput[]
+    NOT?: CredentialAccessLogScalarWhereWithAggregatesInput | CredentialAccessLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CredentialAccessLog"> | string
+    credentialId?: StringWithAggregatesFilter<"CredentialAccessLog"> | string
+    companyId?: StringWithAggregatesFilter<"CredentialAccessLog"> | string
+    userId?: StringNullableWithAggregatesFilter<"CredentialAccessLog"> | string | null
+    userName?: StringNullableWithAggregatesFilter<"CredentialAccessLog"> | string | null
+    userRole?: StringNullableWithAggregatesFilter<"CredentialAccessLog"> | string | null
+    action?: EnumCredentialActionWithAggregatesFilter<"CredentialAccessLog"> | $Enums.CredentialAction
+    ipAddress?: StringNullableWithAggregatesFilter<"CredentialAccessLog"> | string | null
+    userAgent?: StringNullableWithAggregatesFilter<"CredentialAccessLog"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"CredentialAccessLog"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -28408,6 +32385,8 @@ export namespace Prisma {
     setores?: SetorCreateNestedManyWithoutCompanyInput
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
     activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -28444,6 +32423,8 @@ export namespace Prisma {
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -28480,6 +32461,8 @@ export namespace Prisma {
     setores?: SetorUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -28516,6 +32499,8 @@ export namespace Prisma {
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -30347,6 +34332,346 @@ export namespace Prisma {
     instanceId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type CompanyAssetCreateInput = {
+    id?: string
+    type: $Enums.AssetType
+    name: string
+    url?: string | null
+    host?: string | null
+    identifier?: string | null
+    provider?: string | null
+    status?: $Enums.AssetStatus
+    expiresAt?: Date | string | null
+    notes?: string | null
+    tags?: CompanyAssetCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    company: CompanyCreateNestedOneWithoutAssetsInput
+    credentials?: CompanyCredentialCreateNestedManyWithoutAssetInput
+  }
+
+  export type CompanyAssetUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    type: $Enums.AssetType
+    name: string
+    url?: string | null
+    host?: string | null
+    identifier?: string | null
+    provider?: string | null
+    status?: $Enums.AssetStatus
+    expiresAt?: Date | string | null
+    notes?: string | null
+    tags?: CompanyAssetCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    credentials?: CompanyCredentialUncheckedCreateNestedManyWithoutAssetInput
+  }
+
+  export type CompanyAssetUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssetTypeFieldUpdateOperationsInput | $Enums.AssetType
+    name?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    host?: NullableStringFieldUpdateOperationsInput | string | null
+    identifier?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: CompanyAssetUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneRequiredWithoutAssetsNestedInput
+    credentials?: CompanyCredentialUpdateManyWithoutAssetNestedInput
+  }
+
+  export type CompanyAssetUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssetTypeFieldUpdateOperationsInput | $Enums.AssetType
+    name?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    host?: NullableStringFieldUpdateOperationsInput | string | null
+    identifier?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: CompanyAssetUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    credentials?: CompanyCredentialUncheckedUpdateManyWithoutAssetNestedInput
+  }
+
+  export type CompanyAssetCreateManyInput = {
+    id?: string
+    companyId: string
+    type: $Enums.AssetType
+    name: string
+    url?: string | null
+    host?: string | null
+    identifier?: string | null
+    provider?: string | null
+    status?: $Enums.AssetStatus
+    expiresAt?: Date | string | null
+    notes?: string | null
+    tags?: CompanyAssetCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type CompanyAssetUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssetTypeFieldUpdateOperationsInput | $Enums.AssetType
+    name?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    host?: NullableStringFieldUpdateOperationsInput | string | null
+    identifier?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: CompanyAssetUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CompanyAssetUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssetTypeFieldUpdateOperationsInput | $Enums.AssetType
+    name?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    host?: NullableStringFieldUpdateOperationsInput | string | null
+    identifier?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: CompanyAssetUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CompanyCredentialCreateInput = {
+    id?: string
+    label: string
+    username?: string | null
+    passwordEncrypted?: string | null
+    url?: string | null
+    totpSecret?: string | null
+    notes?: string | null
+    lastRotatedAt?: Date | string | null
+    sharedWithClient?: boolean
+    sharedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    asset: CompanyAssetCreateNestedOneWithoutCredentialsInput
+    accessLogs?: CredentialAccessLogCreateNestedManyWithoutCredentialInput
+  }
+
+  export type CompanyCredentialUncheckedCreateInput = {
+    id?: string
+    assetId: string
+    label: string
+    username?: string | null
+    passwordEncrypted?: string | null
+    url?: string | null
+    totpSecret?: string | null
+    notes?: string | null
+    lastRotatedAt?: Date | string | null
+    sharedWithClient?: boolean
+    sharedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    accessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCredentialInput
+  }
+
+  export type CompanyCredentialUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordEncrypted?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    lastRotatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sharedWithClient?: BoolFieldUpdateOperationsInput | boolean
+    sharedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    asset?: CompanyAssetUpdateOneRequiredWithoutCredentialsNestedInput
+    accessLogs?: CredentialAccessLogUpdateManyWithoutCredentialNestedInput
+  }
+
+  export type CompanyCredentialUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assetId?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordEncrypted?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    lastRotatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sharedWithClient?: BoolFieldUpdateOperationsInput | boolean
+    sharedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    accessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCredentialNestedInput
+  }
+
+  export type CompanyCredentialCreateManyInput = {
+    id?: string
+    assetId: string
+    label: string
+    username?: string | null
+    passwordEncrypted?: string | null
+    url?: string | null
+    totpSecret?: string | null
+    notes?: string | null
+    lastRotatedAt?: Date | string | null
+    sharedWithClient?: boolean
+    sharedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type CompanyCredentialUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordEncrypted?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    lastRotatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sharedWithClient?: BoolFieldUpdateOperationsInput | boolean
+    sharedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CompanyCredentialUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assetId?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordEncrypted?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    lastRotatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sharedWithClient?: BoolFieldUpdateOperationsInput | boolean
+    sharedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CredentialAccessLogCreateInput = {
+    id?: string
+    userId?: string | null
+    userName?: string | null
+    userRole?: string | null
+    action: $Enums.CredentialAction
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    credential: CompanyCredentialCreateNestedOneWithoutAccessLogsInput
+    company: CompanyCreateNestedOneWithoutCredentialAccessLogsInput
+  }
+
+  export type CredentialAccessLogUncheckedCreateInput = {
+    id?: string
+    credentialId: string
+    companyId: string
+    userId?: string | null
+    userName?: string | null
+    userRole?: string | null
+    action: $Enums.CredentialAction
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CredentialAccessLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    userRole?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumCredentialActionFieldUpdateOperationsInput | $Enums.CredentialAction
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    credential?: CompanyCredentialUpdateOneRequiredWithoutAccessLogsNestedInput
+    company?: CompanyUpdateOneRequiredWithoutCredentialAccessLogsNestedInput
+  }
+
+  export type CredentialAccessLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    credentialId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    userRole?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumCredentialActionFieldUpdateOperationsInput | $Enums.CredentialAction
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CredentialAccessLogCreateManyInput = {
+    id?: string
+    credentialId: string
+    companyId: string
+    userId?: string | null
+    userName?: string | null
+    userRole?: string | null
+    action: $Enums.CredentialAction
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CredentialAccessLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    userRole?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumCredentialActionFieldUpdateOperationsInput | $Enums.CredentialAction
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CredentialAccessLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    credentialId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    userRole?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumCredentialActionFieldUpdateOperationsInput | $Enums.CredentialAction
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -30620,6 +34945,18 @@ export namespace Prisma {
     none?: ActivityWhereInput
   }
 
+  export type CompanyAssetListRelationFilter = {
+    every?: CompanyAssetWhereInput
+    some?: CompanyAssetWhereInput
+    none?: CompanyAssetWhereInput
+  }
+
+  export type CredentialAccessLogListRelationFilter = {
+    every?: CredentialAccessLogWhereInput
+    some?: CredentialAccessLogWhereInput
+    none?: CredentialAccessLogWhereInput
+  }
+
   export type CompanyOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -30665,6 +35002,14 @@ export namespace Prisma {
   }
 
   export type ActivityOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CompanyAssetOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CredentialAccessLogOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -32034,6 +36379,227 @@ export namespace Prisma {
     instanceId?: SortOrder
   }
 
+  export type EnumAssetTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AssetType | EnumAssetTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AssetType[] | ListEnumAssetTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AssetType[] | ListEnumAssetTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAssetTypeFilter<$PrismaModel> | $Enums.AssetType
+  }
+
+  export type EnumAssetStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AssetStatus | EnumAssetStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AssetStatus[] | ListEnumAssetStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AssetStatus[] | ListEnumAssetStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAssetStatusFilter<$PrismaModel> | $Enums.AssetStatus
+  }
+
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type CompanyCredentialListRelationFilter = {
+    every?: CompanyCredentialWhereInput
+    some?: CompanyCredentialWhereInput
+    none?: CompanyCredentialWhereInput
+  }
+
+  export type CompanyCredentialOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CompanyAssetCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    type?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    host?: SortOrder
+    identifier?: SortOrder
+    provider?: SortOrder
+    status?: SortOrder
+    expiresAt?: SortOrder
+    notes?: SortOrder
+    tags?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type CompanyAssetMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    type?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    host?: SortOrder
+    identifier?: SortOrder
+    provider?: SortOrder
+    status?: SortOrder
+    expiresAt?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type CompanyAssetMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    type?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    host?: SortOrder
+    identifier?: SortOrder
+    provider?: SortOrder
+    status?: SortOrder
+    expiresAt?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type EnumAssetTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AssetType | EnumAssetTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AssetType[] | ListEnumAssetTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AssetType[] | ListEnumAssetTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAssetTypeWithAggregatesFilter<$PrismaModel> | $Enums.AssetType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAssetTypeFilter<$PrismaModel>
+    _max?: NestedEnumAssetTypeFilter<$PrismaModel>
+  }
+
+  export type EnumAssetStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AssetStatus | EnumAssetStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AssetStatus[] | ListEnumAssetStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AssetStatus[] | ListEnumAssetStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAssetStatusWithAggregatesFilter<$PrismaModel> | $Enums.AssetStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAssetStatusFilter<$PrismaModel>
+    _max?: NestedEnumAssetStatusFilter<$PrismaModel>
+  }
+
+  export type CompanyAssetRelationFilter = {
+    is?: CompanyAssetWhereInput
+    isNot?: CompanyAssetWhereInput
+  }
+
+  export type CompanyCredentialCountOrderByAggregateInput = {
+    id?: SortOrder
+    assetId?: SortOrder
+    label?: SortOrder
+    username?: SortOrder
+    passwordEncrypted?: SortOrder
+    url?: SortOrder
+    totpSecret?: SortOrder
+    notes?: SortOrder
+    lastRotatedAt?: SortOrder
+    sharedWithClient?: SortOrder
+    sharedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type CompanyCredentialMaxOrderByAggregateInput = {
+    id?: SortOrder
+    assetId?: SortOrder
+    label?: SortOrder
+    username?: SortOrder
+    passwordEncrypted?: SortOrder
+    url?: SortOrder
+    totpSecret?: SortOrder
+    notes?: SortOrder
+    lastRotatedAt?: SortOrder
+    sharedWithClient?: SortOrder
+    sharedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type CompanyCredentialMinOrderByAggregateInput = {
+    id?: SortOrder
+    assetId?: SortOrder
+    label?: SortOrder
+    username?: SortOrder
+    passwordEncrypted?: SortOrder
+    url?: SortOrder
+    totpSecret?: SortOrder
+    notes?: SortOrder
+    lastRotatedAt?: SortOrder
+    sharedWithClient?: SortOrder
+    sharedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type EnumCredentialActionFilter<$PrismaModel = never> = {
+    equals?: $Enums.CredentialAction | EnumCredentialActionFieldRefInput<$PrismaModel>
+    in?: $Enums.CredentialAction[] | ListEnumCredentialActionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CredentialAction[] | ListEnumCredentialActionFieldRefInput<$PrismaModel>
+    not?: NestedEnumCredentialActionFilter<$PrismaModel> | $Enums.CredentialAction
+  }
+
+  export type CompanyCredentialRelationFilter = {
+    is?: CompanyCredentialWhereInput
+    isNot?: CompanyCredentialWhereInput
+  }
+
+  export type CredentialAccessLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    credentialId?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrder
+    userName?: SortOrder
+    userRole?: SortOrder
+    action?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CredentialAccessLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    credentialId?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrder
+    userName?: SortOrder
+    userRole?: SortOrder
+    action?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CredentialAccessLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    credentialId?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrder
+    userName?: SortOrder
+    userRole?: SortOrder
+    action?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumCredentialActionWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CredentialAction | EnumCredentialActionFieldRefInput<$PrismaModel>
+    in?: $Enums.CredentialAction[] | ListEnumCredentialActionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CredentialAction[] | ListEnumCredentialActionFieldRefInput<$PrismaModel>
+    not?: NestedEnumCredentialActionWithAggregatesFilter<$PrismaModel> | $Enums.CredentialAction
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCredentialActionFilter<$PrismaModel>
+    _max?: NestedEnumCredentialActionFilter<$PrismaModel>
+  }
+
   export type CompanyCreateNestedOneWithoutUsersInput = {
     create?: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutUsersInput
@@ -32328,6 +36894,20 @@ export namespace Prisma {
     connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
   }
 
+  export type CompanyAssetCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<CompanyAssetCreateWithoutCompanyInput, CompanyAssetUncheckedCreateWithoutCompanyInput> | CompanyAssetCreateWithoutCompanyInput[] | CompanyAssetUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CompanyAssetCreateOrConnectWithoutCompanyInput | CompanyAssetCreateOrConnectWithoutCompanyInput[]
+    createMany?: CompanyAssetCreateManyCompanyInputEnvelope
+    connect?: CompanyAssetWhereUniqueInput | CompanyAssetWhereUniqueInput[]
+  }
+
+  export type CredentialAccessLogCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<CredentialAccessLogCreateWithoutCompanyInput, CredentialAccessLogUncheckedCreateWithoutCompanyInput> | CredentialAccessLogCreateWithoutCompanyInput[] | CredentialAccessLogUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CredentialAccessLogCreateOrConnectWithoutCompanyInput | CredentialAccessLogCreateOrConnectWithoutCompanyInput[]
+    createMany?: CredentialAccessLogCreateManyCompanyInputEnvelope
+    connect?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+  }
+
   export type CompanyUncheckedCreateNestedManyWithoutParentCompanyInput = {
     create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
@@ -32424,6 +37004,20 @@ export namespace Prisma {
     connectOrCreate?: ActivityCreateOrConnectWithoutCompanyInput | ActivityCreateOrConnectWithoutCompanyInput[]
     createMany?: ActivityCreateManyCompanyInputEnvelope
     connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+  }
+
+  export type CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<CompanyAssetCreateWithoutCompanyInput, CompanyAssetUncheckedCreateWithoutCompanyInput> | CompanyAssetCreateWithoutCompanyInput[] | CompanyAssetUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CompanyAssetCreateOrConnectWithoutCompanyInput | CompanyAssetCreateOrConnectWithoutCompanyInput[]
+    createMany?: CompanyAssetCreateManyCompanyInputEnvelope
+    connect?: CompanyAssetWhereUniqueInput | CompanyAssetWhereUniqueInput[]
+  }
+
+  export type CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<CredentialAccessLogCreateWithoutCompanyInput, CredentialAccessLogUncheckedCreateWithoutCompanyInput> | CredentialAccessLogCreateWithoutCompanyInput[] | CredentialAccessLogUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CredentialAccessLogCreateOrConnectWithoutCompanyInput | CredentialAccessLogCreateOrConnectWithoutCompanyInput[]
+    createMany?: CredentialAccessLogCreateManyCompanyInputEnvelope
+    connect?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
   }
 
   export type EnumCompanyStatusFieldUpdateOperationsInput = {
@@ -32640,6 +37234,34 @@ export namespace Prisma {
     deleteMany?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
   }
 
+  export type CompanyAssetUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<CompanyAssetCreateWithoutCompanyInput, CompanyAssetUncheckedCreateWithoutCompanyInput> | CompanyAssetCreateWithoutCompanyInput[] | CompanyAssetUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CompanyAssetCreateOrConnectWithoutCompanyInput | CompanyAssetCreateOrConnectWithoutCompanyInput[]
+    upsert?: CompanyAssetUpsertWithWhereUniqueWithoutCompanyInput | CompanyAssetUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: CompanyAssetCreateManyCompanyInputEnvelope
+    set?: CompanyAssetWhereUniqueInput | CompanyAssetWhereUniqueInput[]
+    disconnect?: CompanyAssetWhereUniqueInput | CompanyAssetWhereUniqueInput[]
+    delete?: CompanyAssetWhereUniqueInput | CompanyAssetWhereUniqueInput[]
+    connect?: CompanyAssetWhereUniqueInput | CompanyAssetWhereUniqueInput[]
+    update?: CompanyAssetUpdateWithWhereUniqueWithoutCompanyInput | CompanyAssetUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: CompanyAssetUpdateManyWithWhereWithoutCompanyInput | CompanyAssetUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: CompanyAssetScalarWhereInput | CompanyAssetScalarWhereInput[]
+  }
+
+  export type CredentialAccessLogUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<CredentialAccessLogCreateWithoutCompanyInput, CredentialAccessLogUncheckedCreateWithoutCompanyInput> | CredentialAccessLogCreateWithoutCompanyInput[] | CredentialAccessLogUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CredentialAccessLogCreateOrConnectWithoutCompanyInput | CredentialAccessLogCreateOrConnectWithoutCompanyInput[]
+    upsert?: CredentialAccessLogUpsertWithWhereUniqueWithoutCompanyInput | CredentialAccessLogUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: CredentialAccessLogCreateManyCompanyInputEnvelope
+    set?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+    disconnect?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+    delete?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+    connect?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+    update?: CredentialAccessLogUpdateWithWhereUniqueWithoutCompanyInput | CredentialAccessLogUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: CredentialAccessLogUpdateManyWithWhereWithoutCompanyInput | CredentialAccessLogUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: CredentialAccessLogScalarWhereInput | CredentialAccessLogScalarWhereInput[]
+  }
+
   export type CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput = {
     create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
@@ -32834,6 +37456,34 @@ export namespace Prisma {
     update?: ActivityUpdateWithWhereUniqueWithoutCompanyInput | ActivityUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: ActivityUpdateManyWithWhereWithoutCompanyInput | ActivityUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
+  }
+
+  export type CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<CompanyAssetCreateWithoutCompanyInput, CompanyAssetUncheckedCreateWithoutCompanyInput> | CompanyAssetCreateWithoutCompanyInput[] | CompanyAssetUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CompanyAssetCreateOrConnectWithoutCompanyInput | CompanyAssetCreateOrConnectWithoutCompanyInput[]
+    upsert?: CompanyAssetUpsertWithWhereUniqueWithoutCompanyInput | CompanyAssetUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: CompanyAssetCreateManyCompanyInputEnvelope
+    set?: CompanyAssetWhereUniqueInput | CompanyAssetWhereUniqueInput[]
+    disconnect?: CompanyAssetWhereUniqueInput | CompanyAssetWhereUniqueInput[]
+    delete?: CompanyAssetWhereUniqueInput | CompanyAssetWhereUniqueInput[]
+    connect?: CompanyAssetWhereUniqueInput | CompanyAssetWhereUniqueInput[]
+    update?: CompanyAssetUpdateWithWhereUniqueWithoutCompanyInput | CompanyAssetUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: CompanyAssetUpdateManyWithWhereWithoutCompanyInput | CompanyAssetUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: CompanyAssetScalarWhereInput | CompanyAssetScalarWhereInput[]
+  }
+
+  export type CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<CredentialAccessLogCreateWithoutCompanyInput, CredentialAccessLogUncheckedCreateWithoutCompanyInput> | CredentialAccessLogCreateWithoutCompanyInput[] | CredentialAccessLogUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CredentialAccessLogCreateOrConnectWithoutCompanyInput | CredentialAccessLogCreateOrConnectWithoutCompanyInput[]
+    upsert?: CredentialAccessLogUpsertWithWhereUniqueWithoutCompanyInput | CredentialAccessLogUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: CredentialAccessLogCreateManyCompanyInputEnvelope
+    set?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+    disconnect?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+    delete?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+    connect?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+    update?: CredentialAccessLogUpdateWithWhereUniqueWithoutCompanyInput | CredentialAccessLogUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: CredentialAccessLogUpdateManyWithWhereWithoutCompanyInput | CredentialAccessLogUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: CredentialAccessLogScalarWhereInput | CredentialAccessLogScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutCampaignsInput = {
@@ -34346,6 +38996,167 @@ export namespace Prisma {
     update?: XOR<XOR<WhatsappInstanceUpdateToOneWithWhereWithoutSetoresInput, WhatsappInstanceUpdateWithoutSetoresInput>, WhatsappInstanceUncheckedUpdateWithoutSetoresInput>
   }
 
+  export type CompanyAssetCreatetagsInput = {
+    set: string[]
+  }
+
+  export type CompanyCreateNestedOneWithoutAssetsInput = {
+    create?: XOR<CompanyCreateWithoutAssetsInput, CompanyUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAssetsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyCredentialCreateNestedManyWithoutAssetInput = {
+    create?: XOR<CompanyCredentialCreateWithoutAssetInput, CompanyCredentialUncheckedCreateWithoutAssetInput> | CompanyCredentialCreateWithoutAssetInput[] | CompanyCredentialUncheckedCreateWithoutAssetInput[]
+    connectOrCreate?: CompanyCredentialCreateOrConnectWithoutAssetInput | CompanyCredentialCreateOrConnectWithoutAssetInput[]
+    createMany?: CompanyCredentialCreateManyAssetInputEnvelope
+    connect?: CompanyCredentialWhereUniqueInput | CompanyCredentialWhereUniqueInput[]
+  }
+
+  export type CompanyCredentialUncheckedCreateNestedManyWithoutAssetInput = {
+    create?: XOR<CompanyCredentialCreateWithoutAssetInput, CompanyCredentialUncheckedCreateWithoutAssetInput> | CompanyCredentialCreateWithoutAssetInput[] | CompanyCredentialUncheckedCreateWithoutAssetInput[]
+    connectOrCreate?: CompanyCredentialCreateOrConnectWithoutAssetInput | CompanyCredentialCreateOrConnectWithoutAssetInput[]
+    createMany?: CompanyCredentialCreateManyAssetInputEnvelope
+    connect?: CompanyCredentialWhereUniqueInput | CompanyCredentialWhereUniqueInput[]
+  }
+
+  export type EnumAssetTypeFieldUpdateOperationsInput = {
+    set?: $Enums.AssetType
+  }
+
+  export type EnumAssetStatusFieldUpdateOperationsInput = {
+    set?: $Enums.AssetStatus
+  }
+
+  export type CompanyAssetUpdatetagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type CompanyUpdateOneRequiredWithoutAssetsNestedInput = {
+    create?: XOR<CompanyCreateWithoutAssetsInput, CompanyUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAssetsInput
+    upsert?: CompanyUpsertWithoutAssetsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutAssetsInput, CompanyUpdateWithoutAssetsInput>, CompanyUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type CompanyCredentialUpdateManyWithoutAssetNestedInput = {
+    create?: XOR<CompanyCredentialCreateWithoutAssetInput, CompanyCredentialUncheckedCreateWithoutAssetInput> | CompanyCredentialCreateWithoutAssetInput[] | CompanyCredentialUncheckedCreateWithoutAssetInput[]
+    connectOrCreate?: CompanyCredentialCreateOrConnectWithoutAssetInput | CompanyCredentialCreateOrConnectWithoutAssetInput[]
+    upsert?: CompanyCredentialUpsertWithWhereUniqueWithoutAssetInput | CompanyCredentialUpsertWithWhereUniqueWithoutAssetInput[]
+    createMany?: CompanyCredentialCreateManyAssetInputEnvelope
+    set?: CompanyCredentialWhereUniqueInput | CompanyCredentialWhereUniqueInput[]
+    disconnect?: CompanyCredentialWhereUniqueInput | CompanyCredentialWhereUniqueInput[]
+    delete?: CompanyCredentialWhereUniqueInput | CompanyCredentialWhereUniqueInput[]
+    connect?: CompanyCredentialWhereUniqueInput | CompanyCredentialWhereUniqueInput[]
+    update?: CompanyCredentialUpdateWithWhereUniqueWithoutAssetInput | CompanyCredentialUpdateWithWhereUniqueWithoutAssetInput[]
+    updateMany?: CompanyCredentialUpdateManyWithWhereWithoutAssetInput | CompanyCredentialUpdateManyWithWhereWithoutAssetInput[]
+    deleteMany?: CompanyCredentialScalarWhereInput | CompanyCredentialScalarWhereInput[]
+  }
+
+  export type CompanyCredentialUncheckedUpdateManyWithoutAssetNestedInput = {
+    create?: XOR<CompanyCredentialCreateWithoutAssetInput, CompanyCredentialUncheckedCreateWithoutAssetInput> | CompanyCredentialCreateWithoutAssetInput[] | CompanyCredentialUncheckedCreateWithoutAssetInput[]
+    connectOrCreate?: CompanyCredentialCreateOrConnectWithoutAssetInput | CompanyCredentialCreateOrConnectWithoutAssetInput[]
+    upsert?: CompanyCredentialUpsertWithWhereUniqueWithoutAssetInput | CompanyCredentialUpsertWithWhereUniqueWithoutAssetInput[]
+    createMany?: CompanyCredentialCreateManyAssetInputEnvelope
+    set?: CompanyCredentialWhereUniqueInput | CompanyCredentialWhereUniqueInput[]
+    disconnect?: CompanyCredentialWhereUniqueInput | CompanyCredentialWhereUniqueInput[]
+    delete?: CompanyCredentialWhereUniqueInput | CompanyCredentialWhereUniqueInput[]
+    connect?: CompanyCredentialWhereUniqueInput | CompanyCredentialWhereUniqueInput[]
+    update?: CompanyCredentialUpdateWithWhereUniqueWithoutAssetInput | CompanyCredentialUpdateWithWhereUniqueWithoutAssetInput[]
+    updateMany?: CompanyCredentialUpdateManyWithWhereWithoutAssetInput | CompanyCredentialUpdateManyWithWhereWithoutAssetInput[]
+    deleteMany?: CompanyCredentialScalarWhereInput | CompanyCredentialScalarWhereInput[]
+  }
+
+  export type CompanyAssetCreateNestedOneWithoutCredentialsInput = {
+    create?: XOR<CompanyAssetCreateWithoutCredentialsInput, CompanyAssetUncheckedCreateWithoutCredentialsInput>
+    connectOrCreate?: CompanyAssetCreateOrConnectWithoutCredentialsInput
+    connect?: CompanyAssetWhereUniqueInput
+  }
+
+  export type CredentialAccessLogCreateNestedManyWithoutCredentialInput = {
+    create?: XOR<CredentialAccessLogCreateWithoutCredentialInput, CredentialAccessLogUncheckedCreateWithoutCredentialInput> | CredentialAccessLogCreateWithoutCredentialInput[] | CredentialAccessLogUncheckedCreateWithoutCredentialInput[]
+    connectOrCreate?: CredentialAccessLogCreateOrConnectWithoutCredentialInput | CredentialAccessLogCreateOrConnectWithoutCredentialInput[]
+    createMany?: CredentialAccessLogCreateManyCredentialInputEnvelope
+    connect?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+  }
+
+  export type CredentialAccessLogUncheckedCreateNestedManyWithoutCredentialInput = {
+    create?: XOR<CredentialAccessLogCreateWithoutCredentialInput, CredentialAccessLogUncheckedCreateWithoutCredentialInput> | CredentialAccessLogCreateWithoutCredentialInput[] | CredentialAccessLogUncheckedCreateWithoutCredentialInput[]
+    connectOrCreate?: CredentialAccessLogCreateOrConnectWithoutCredentialInput | CredentialAccessLogCreateOrConnectWithoutCredentialInput[]
+    createMany?: CredentialAccessLogCreateManyCredentialInputEnvelope
+    connect?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+  }
+
+  export type CompanyAssetUpdateOneRequiredWithoutCredentialsNestedInput = {
+    create?: XOR<CompanyAssetCreateWithoutCredentialsInput, CompanyAssetUncheckedCreateWithoutCredentialsInput>
+    connectOrCreate?: CompanyAssetCreateOrConnectWithoutCredentialsInput
+    upsert?: CompanyAssetUpsertWithoutCredentialsInput
+    connect?: CompanyAssetWhereUniqueInput
+    update?: XOR<XOR<CompanyAssetUpdateToOneWithWhereWithoutCredentialsInput, CompanyAssetUpdateWithoutCredentialsInput>, CompanyAssetUncheckedUpdateWithoutCredentialsInput>
+  }
+
+  export type CredentialAccessLogUpdateManyWithoutCredentialNestedInput = {
+    create?: XOR<CredentialAccessLogCreateWithoutCredentialInput, CredentialAccessLogUncheckedCreateWithoutCredentialInput> | CredentialAccessLogCreateWithoutCredentialInput[] | CredentialAccessLogUncheckedCreateWithoutCredentialInput[]
+    connectOrCreate?: CredentialAccessLogCreateOrConnectWithoutCredentialInput | CredentialAccessLogCreateOrConnectWithoutCredentialInput[]
+    upsert?: CredentialAccessLogUpsertWithWhereUniqueWithoutCredentialInput | CredentialAccessLogUpsertWithWhereUniqueWithoutCredentialInput[]
+    createMany?: CredentialAccessLogCreateManyCredentialInputEnvelope
+    set?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+    disconnect?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+    delete?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+    connect?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+    update?: CredentialAccessLogUpdateWithWhereUniqueWithoutCredentialInput | CredentialAccessLogUpdateWithWhereUniqueWithoutCredentialInput[]
+    updateMany?: CredentialAccessLogUpdateManyWithWhereWithoutCredentialInput | CredentialAccessLogUpdateManyWithWhereWithoutCredentialInput[]
+    deleteMany?: CredentialAccessLogScalarWhereInput | CredentialAccessLogScalarWhereInput[]
+  }
+
+  export type CredentialAccessLogUncheckedUpdateManyWithoutCredentialNestedInput = {
+    create?: XOR<CredentialAccessLogCreateWithoutCredentialInput, CredentialAccessLogUncheckedCreateWithoutCredentialInput> | CredentialAccessLogCreateWithoutCredentialInput[] | CredentialAccessLogUncheckedCreateWithoutCredentialInput[]
+    connectOrCreate?: CredentialAccessLogCreateOrConnectWithoutCredentialInput | CredentialAccessLogCreateOrConnectWithoutCredentialInput[]
+    upsert?: CredentialAccessLogUpsertWithWhereUniqueWithoutCredentialInput | CredentialAccessLogUpsertWithWhereUniqueWithoutCredentialInput[]
+    createMany?: CredentialAccessLogCreateManyCredentialInputEnvelope
+    set?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+    disconnect?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+    delete?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+    connect?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+    update?: CredentialAccessLogUpdateWithWhereUniqueWithoutCredentialInput | CredentialAccessLogUpdateWithWhereUniqueWithoutCredentialInput[]
+    updateMany?: CredentialAccessLogUpdateManyWithWhereWithoutCredentialInput | CredentialAccessLogUpdateManyWithWhereWithoutCredentialInput[]
+    deleteMany?: CredentialAccessLogScalarWhereInput | CredentialAccessLogScalarWhereInput[]
+  }
+
+  export type CompanyCredentialCreateNestedOneWithoutAccessLogsInput = {
+    create?: XOR<CompanyCredentialCreateWithoutAccessLogsInput, CompanyCredentialUncheckedCreateWithoutAccessLogsInput>
+    connectOrCreate?: CompanyCredentialCreateOrConnectWithoutAccessLogsInput
+    connect?: CompanyCredentialWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutCredentialAccessLogsInput = {
+    create?: XOR<CompanyCreateWithoutCredentialAccessLogsInput, CompanyUncheckedCreateWithoutCredentialAccessLogsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutCredentialAccessLogsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type EnumCredentialActionFieldUpdateOperationsInput = {
+    set?: $Enums.CredentialAction
+  }
+
+  export type CompanyCredentialUpdateOneRequiredWithoutAccessLogsNestedInput = {
+    create?: XOR<CompanyCredentialCreateWithoutAccessLogsInput, CompanyCredentialUncheckedCreateWithoutAccessLogsInput>
+    connectOrCreate?: CompanyCredentialCreateOrConnectWithoutAccessLogsInput
+    upsert?: CompanyCredentialUpsertWithoutAccessLogsInput
+    connect?: CompanyCredentialWhereUniqueInput
+    update?: XOR<XOR<CompanyCredentialUpdateToOneWithWhereWithoutAccessLogsInput, CompanyCredentialUpdateWithoutAccessLogsInput>, CompanyCredentialUncheckedUpdateWithoutAccessLogsInput>
+  }
+
+  export type CompanyUpdateOneRequiredWithoutCredentialAccessLogsNestedInput = {
+    create?: XOR<CompanyCreateWithoutCredentialAccessLogsInput, CompanyUncheckedCreateWithoutCredentialAccessLogsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutCredentialAccessLogsInput
+    upsert?: CompanyUpsertWithoutCredentialAccessLogsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutCredentialAccessLogsInput, CompanyUpdateWithoutCredentialAccessLogsInput>, CompanyUncheckedUpdateWithoutCredentialAccessLogsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -34806,6 +39617,57 @@ export namespace Prisma {
     _max?: NestedEnumTicketPriorityFilter<$PrismaModel>
   }
 
+  export type NestedEnumAssetTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AssetType | EnumAssetTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AssetType[] | ListEnumAssetTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AssetType[] | ListEnumAssetTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAssetTypeFilter<$PrismaModel> | $Enums.AssetType
+  }
+
+  export type NestedEnumAssetStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AssetStatus | EnumAssetStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AssetStatus[] | ListEnumAssetStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AssetStatus[] | ListEnumAssetStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAssetStatusFilter<$PrismaModel> | $Enums.AssetStatus
+  }
+
+  export type NestedEnumAssetTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AssetType | EnumAssetTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AssetType[] | ListEnumAssetTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AssetType[] | ListEnumAssetTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAssetTypeWithAggregatesFilter<$PrismaModel> | $Enums.AssetType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAssetTypeFilter<$PrismaModel>
+    _max?: NestedEnumAssetTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumAssetStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AssetStatus | EnumAssetStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AssetStatus[] | ListEnumAssetStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AssetStatus[] | ListEnumAssetStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAssetStatusWithAggregatesFilter<$PrismaModel> | $Enums.AssetStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAssetStatusFilter<$PrismaModel>
+    _max?: NestedEnumAssetStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumCredentialActionFilter<$PrismaModel = never> = {
+    equals?: $Enums.CredentialAction | EnumCredentialActionFieldRefInput<$PrismaModel>
+    in?: $Enums.CredentialAction[] | ListEnumCredentialActionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CredentialAction[] | ListEnumCredentialActionFieldRefInput<$PrismaModel>
+    not?: NestedEnumCredentialActionFilter<$PrismaModel> | $Enums.CredentialAction
+  }
+
+  export type NestedEnumCredentialActionWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CredentialAction | EnumCredentialActionFieldRefInput<$PrismaModel>
+    in?: $Enums.CredentialAction[] | ListEnumCredentialActionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CredentialAction[] | ListEnumCredentialActionFieldRefInput<$PrismaModel>
+    not?: NestedEnumCredentialActionWithAggregatesFilter<$PrismaModel> | $Enums.CredentialAction
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCredentialActionFilter<$PrismaModel>
+    _max?: NestedEnumCredentialActionFilter<$PrismaModel>
+  }
+
   export type CompanyCreateWithoutUsersInput = {
     id?: string
     name: string
@@ -34839,6 +39701,8 @@ export namespace Prisma {
     setores?: SetorCreateNestedManyWithoutCompanyInput
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
     activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -34874,6 +39738,8 @@ export namespace Prisma {
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -35078,6 +39944,8 @@ export namespace Prisma {
     setores?: SetorUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -35113,6 +39981,8 @@ export namespace Prisma {
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type TicketUpsertWithWhereUniqueWithoutCreatedByInput = {
@@ -35284,6 +40154,8 @@ export namespace Prisma {
     setores?: SetorCreateNestedManyWithoutCompanyInput
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
     activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSubCompaniesInput = {
@@ -35319,6 +40191,8 @@ export namespace Prisma {
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSubCompaniesInput = {
@@ -35359,6 +40233,8 @@ export namespace Prisma {
     setores?: SetorCreateNestedManyWithoutCompanyInput
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
     activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutParentCompanyInput = {
@@ -35394,6 +40270,8 @@ export namespace Prisma {
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutParentCompanyInput = {
@@ -35974,6 +40852,86 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CompanyAssetCreateWithoutCompanyInput = {
+    id?: string
+    type: $Enums.AssetType
+    name: string
+    url?: string | null
+    host?: string | null
+    identifier?: string | null
+    provider?: string | null
+    status?: $Enums.AssetStatus
+    expiresAt?: Date | string | null
+    notes?: string | null
+    tags?: CompanyAssetCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    credentials?: CompanyCredentialCreateNestedManyWithoutAssetInput
+  }
+
+  export type CompanyAssetUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    type: $Enums.AssetType
+    name: string
+    url?: string | null
+    host?: string | null
+    identifier?: string | null
+    provider?: string | null
+    status?: $Enums.AssetStatus
+    expiresAt?: Date | string | null
+    notes?: string | null
+    tags?: CompanyAssetCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    credentials?: CompanyCredentialUncheckedCreateNestedManyWithoutAssetInput
+  }
+
+  export type CompanyAssetCreateOrConnectWithoutCompanyInput = {
+    where: CompanyAssetWhereUniqueInput
+    create: XOR<CompanyAssetCreateWithoutCompanyInput, CompanyAssetUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type CompanyAssetCreateManyCompanyInputEnvelope = {
+    data: CompanyAssetCreateManyCompanyInput | CompanyAssetCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CredentialAccessLogCreateWithoutCompanyInput = {
+    id?: string
+    userId?: string | null
+    userName?: string | null
+    userRole?: string | null
+    action: $Enums.CredentialAction
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    credential: CompanyCredentialCreateNestedOneWithoutAccessLogsInput
+  }
+
+  export type CredentialAccessLogUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    credentialId: string
+    userId?: string | null
+    userName?: string | null
+    userRole?: string | null
+    action: $Enums.CredentialAction
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CredentialAccessLogCreateOrConnectWithoutCompanyInput = {
+    where: CredentialAccessLogWhereUniqueInput
+    create: XOR<CredentialAccessLogCreateWithoutCompanyInput, CredentialAccessLogUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type CredentialAccessLogCreateManyCompanyInputEnvelope = {
+    data: CredentialAccessLogCreateManyCompanyInput | CredentialAccessLogCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutSubCompaniesInput = {
     update: XOR<CompanyUpdateWithoutSubCompaniesInput, CompanyUncheckedUpdateWithoutSubCompaniesInput>
     create: XOR<CompanyCreateWithoutSubCompaniesInput, CompanyUncheckedCreateWithoutSubCompaniesInput>
@@ -36018,6 +40976,8 @@ export namespace Prisma {
     setores?: SetorUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSubCompaniesInput = {
@@ -36053,6 +41013,8 @@ export namespace Prisma {
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUpsertWithWhereUniqueWithoutParentCompanyInput = {
@@ -36505,6 +41467,75 @@ export namespace Prisma {
     companyId?: StringFilter<"Activity"> | string
   }
 
+  export type CompanyAssetUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: CompanyAssetWhereUniqueInput
+    update: XOR<CompanyAssetUpdateWithoutCompanyInput, CompanyAssetUncheckedUpdateWithoutCompanyInput>
+    create: XOR<CompanyAssetCreateWithoutCompanyInput, CompanyAssetUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type CompanyAssetUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: CompanyAssetWhereUniqueInput
+    data: XOR<CompanyAssetUpdateWithoutCompanyInput, CompanyAssetUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type CompanyAssetUpdateManyWithWhereWithoutCompanyInput = {
+    where: CompanyAssetScalarWhereInput
+    data: XOR<CompanyAssetUpdateManyMutationInput, CompanyAssetUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type CompanyAssetScalarWhereInput = {
+    AND?: CompanyAssetScalarWhereInput | CompanyAssetScalarWhereInput[]
+    OR?: CompanyAssetScalarWhereInput[]
+    NOT?: CompanyAssetScalarWhereInput | CompanyAssetScalarWhereInput[]
+    id?: StringFilter<"CompanyAsset"> | string
+    companyId?: StringFilter<"CompanyAsset"> | string
+    type?: EnumAssetTypeFilter<"CompanyAsset"> | $Enums.AssetType
+    name?: StringFilter<"CompanyAsset"> | string
+    url?: StringNullableFilter<"CompanyAsset"> | string | null
+    host?: StringNullableFilter<"CompanyAsset"> | string | null
+    identifier?: StringNullableFilter<"CompanyAsset"> | string | null
+    provider?: StringNullableFilter<"CompanyAsset"> | string | null
+    status?: EnumAssetStatusFilter<"CompanyAsset"> | $Enums.AssetStatus
+    expiresAt?: DateTimeNullableFilter<"CompanyAsset"> | Date | string | null
+    notes?: StringNullableFilter<"CompanyAsset"> | string | null
+    tags?: StringNullableListFilter<"CompanyAsset">
+    createdAt?: DateTimeFilter<"CompanyAsset"> | Date | string
+    updatedAt?: DateTimeFilter<"CompanyAsset"> | Date | string
+    createdById?: StringNullableFilter<"CompanyAsset"> | string | null
+  }
+
+  export type CredentialAccessLogUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: CredentialAccessLogWhereUniqueInput
+    update: XOR<CredentialAccessLogUpdateWithoutCompanyInput, CredentialAccessLogUncheckedUpdateWithoutCompanyInput>
+    create: XOR<CredentialAccessLogCreateWithoutCompanyInput, CredentialAccessLogUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type CredentialAccessLogUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: CredentialAccessLogWhereUniqueInput
+    data: XOR<CredentialAccessLogUpdateWithoutCompanyInput, CredentialAccessLogUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type CredentialAccessLogUpdateManyWithWhereWithoutCompanyInput = {
+    where: CredentialAccessLogScalarWhereInput
+    data: XOR<CredentialAccessLogUpdateManyMutationInput, CredentialAccessLogUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type CredentialAccessLogScalarWhereInput = {
+    AND?: CredentialAccessLogScalarWhereInput | CredentialAccessLogScalarWhereInput[]
+    OR?: CredentialAccessLogScalarWhereInput[]
+    NOT?: CredentialAccessLogScalarWhereInput | CredentialAccessLogScalarWhereInput[]
+    id?: StringFilter<"CredentialAccessLog"> | string
+    credentialId?: StringFilter<"CredentialAccessLog"> | string
+    companyId?: StringFilter<"CredentialAccessLog"> | string
+    userId?: StringNullableFilter<"CredentialAccessLog"> | string | null
+    userName?: StringNullableFilter<"CredentialAccessLog"> | string | null
+    userRole?: StringNullableFilter<"CredentialAccessLog"> | string | null
+    action?: EnumCredentialActionFilter<"CredentialAccessLog"> | $Enums.CredentialAction
+    ipAddress?: StringNullableFilter<"CredentialAccessLog"> | string | null
+    userAgent?: StringNullableFilter<"CredentialAccessLog"> | string | null
+    createdAt?: DateTimeFilter<"CredentialAccessLog"> | Date | string
+  }
+
   export type CompanyCreateWithoutCampaignsInput = {
     id?: string
     name: string
@@ -36538,6 +41569,8 @@ export namespace Prisma {
     setores?: SetorCreateNestedManyWithoutCompanyInput
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
     activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCampaignsInput = {
@@ -36573,6 +41606,8 @@ export namespace Prisma {
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCampaignsInput = {
@@ -36812,6 +41847,8 @@ export namespace Prisma {
     setores?: SetorUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCampaignsInput = {
@@ -36847,6 +41884,8 @@ export namespace Prisma {
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -36987,6 +42026,8 @@ export namespace Prisma {
     setores?: SetorCreateNestedManyWithoutCompanyInput
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
     activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTrackingLinksInput = {
@@ -37022,6 +42063,8 @@ export namespace Prisma {
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTrackingLinksInput = {
@@ -37206,6 +42249,8 @@ export namespace Prisma {
     setores?: SetorUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTrackingLinksInput = {
@@ -37241,6 +42286,8 @@ export namespace Prisma {
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutTrackingLinkInput = {
@@ -37399,6 +42446,8 @@ export namespace Prisma {
     setores?: SetorCreateNestedManyWithoutCompanyInput
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
     activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutLeadsInput = {
@@ -37434,6 +42483,8 @@ export namespace Prisma {
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutLeadsInput = {
@@ -37732,6 +42783,8 @@ export namespace Prisma {
     setores?: SetorUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutLeadsInput = {
@@ -37767,6 +42820,8 @@ export namespace Prisma {
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutLeadsInput = {
@@ -38130,6 +43185,8 @@ export namespace Prisma {
     setores?: SetorCreateNestedManyWithoutCompanyInput
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
     activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPipelineStagesInput = {
@@ -38165,6 +43222,8 @@ export namespace Prisma {
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPipelineStagesInput = {
@@ -38216,6 +43275,8 @@ export namespace Prisma {
     setores?: SetorUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPipelineStagesInput = {
@@ -38251,6 +43312,8 @@ export namespace Prisma {
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutContactsInput = {
@@ -38286,6 +43349,8 @@ export namespace Prisma {
     setores?: SetorCreateNestedManyWithoutCompanyInput
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
     activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutContactsInput = {
@@ -38321,6 +43386,8 @@ export namespace Prisma {
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutContactsInput = {
@@ -38407,6 +43474,8 @@ export namespace Prisma {
     setores?: SetorUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutContactsInput = {
@@ -38442,6 +43511,8 @@ export namespace Prisma {
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutCompanyContactInput = {
@@ -38518,6 +43589,8 @@ export namespace Prisma {
     setores?: SetorCreateNestedManyWithoutCompanyInput
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
     activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWhatsappInstancesInput = {
@@ -38553,6 +43626,8 @@ export namespace Prisma {
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWhatsappInstancesInput = {
@@ -38678,6 +43753,8 @@ export namespace Prisma {
     setores?: SetorUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWhatsappInstancesInput = {
@@ -38713,6 +43790,8 @@ export namespace Prisma {
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutInstanceInput = {
@@ -38788,6 +43867,8 @@ export namespace Prisma {
     setores?: SetorCreateNestedManyWithoutCompanyInput
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
     activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMessagesInput = {
@@ -38823,6 +43904,8 @@ export namespace Prisma {
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMessagesInput = {
@@ -39056,6 +44139,8 @@ export namespace Prisma {
     setores?: SetorUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMessagesInput = {
@@ -39091,6 +44176,8 @@ export namespace Prisma {
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutMessagesInput = {
@@ -39332,6 +44419,8 @@ export namespace Prisma {
     setores?: SetorCreateNestedManyWithoutCompanyInput
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
     activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutKeywordRulesInput = {
@@ -39367,6 +44456,8 @@ export namespace Prisma {
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutKeywordRulesInput = {
@@ -39459,6 +44550,8 @@ export namespace Prisma {
     setores?: SetorUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutKeywordRulesInput = {
@@ -39494,6 +44587,8 @@ export namespace Prisma {
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutKeywordRulesInput = {
@@ -39660,6 +44755,8 @@ export namespace Prisma {
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
     activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutConversationsInput = {
@@ -39695,6 +44792,8 @@ export namespace Prisma {
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutConversationsInput = {
@@ -40022,6 +45121,8 @@ export namespace Prisma {
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutConversationsInput = {
@@ -40057,6 +45158,8 @@ export namespace Prisma {
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -40433,6 +45536,8 @@ export namespace Prisma {
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutActivitiesInput = {
@@ -40468,6 +45573,8 @@ export namespace Prisma {
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutActivitiesInput = {
@@ -40690,6 +45797,8 @@ export namespace Prisma {
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutActivitiesInput = {
@@ -40725,6 +45834,8 @@ export namespace Prisma {
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutTicketsInput = {
@@ -40760,6 +45871,8 @@ export namespace Prisma {
     setores?: SetorCreateNestedManyWithoutCompanyInput
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
     activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketsInput = {
@@ -40795,6 +45908,8 @@ export namespace Prisma {
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketsInput = {
@@ -40994,6 +46109,8 @@ export namespace Prisma {
     setores?: SetorUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketsInput = {
@@ -41029,6 +46146,8 @@ export namespace Prisma {
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTicketsCreatedInput = {
@@ -41297,6 +46416,8 @@ export namespace Prisma {
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
     activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSetoresInput = {
@@ -41332,6 +46453,8 @@ export namespace Prisma {
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSetoresInput = {
@@ -41525,6 +46648,8 @@ export namespace Prisma {
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSetoresInput = {
@@ -41560,6 +46685,8 @@ export namespace Prisma {
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type SetorUserUpsertWithWhereUniqueWithoutSetorInput = {
@@ -41978,6 +47105,636 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
   }
 
+  export type CompanyCreateWithoutAssetsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutAssetsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutAssetsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutAssetsInput, CompanyUncheckedCreateWithoutAssetsInput>
+  }
+
+  export type CompanyCredentialCreateWithoutAssetInput = {
+    id?: string
+    label: string
+    username?: string | null
+    passwordEncrypted?: string | null
+    url?: string | null
+    totpSecret?: string | null
+    notes?: string | null
+    lastRotatedAt?: Date | string | null
+    sharedWithClient?: boolean
+    sharedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    accessLogs?: CredentialAccessLogCreateNestedManyWithoutCredentialInput
+  }
+
+  export type CompanyCredentialUncheckedCreateWithoutAssetInput = {
+    id?: string
+    label: string
+    username?: string | null
+    passwordEncrypted?: string | null
+    url?: string | null
+    totpSecret?: string | null
+    notes?: string | null
+    lastRotatedAt?: Date | string | null
+    sharedWithClient?: boolean
+    sharedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    accessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCredentialInput
+  }
+
+  export type CompanyCredentialCreateOrConnectWithoutAssetInput = {
+    where: CompanyCredentialWhereUniqueInput
+    create: XOR<CompanyCredentialCreateWithoutAssetInput, CompanyCredentialUncheckedCreateWithoutAssetInput>
+  }
+
+  export type CompanyCredentialCreateManyAssetInputEnvelope = {
+    data: CompanyCredentialCreateManyAssetInput | CompanyCredentialCreateManyAssetInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutAssetsInput = {
+    update: XOR<CompanyUpdateWithoutAssetsInput, CompanyUncheckedUpdateWithoutAssetsInput>
+    create: XOR<CompanyCreateWithoutAssetsInput, CompanyUncheckedCreateWithoutAssetsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutAssetsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutAssetsInput, CompanyUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type CompanyUpdateWithoutAssetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutAssetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCredentialUpsertWithWhereUniqueWithoutAssetInput = {
+    where: CompanyCredentialWhereUniqueInput
+    update: XOR<CompanyCredentialUpdateWithoutAssetInput, CompanyCredentialUncheckedUpdateWithoutAssetInput>
+    create: XOR<CompanyCredentialCreateWithoutAssetInput, CompanyCredentialUncheckedCreateWithoutAssetInput>
+  }
+
+  export type CompanyCredentialUpdateWithWhereUniqueWithoutAssetInput = {
+    where: CompanyCredentialWhereUniqueInput
+    data: XOR<CompanyCredentialUpdateWithoutAssetInput, CompanyCredentialUncheckedUpdateWithoutAssetInput>
+  }
+
+  export type CompanyCredentialUpdateManyWithWhereWithoutAssetInput = {
+    where: CompanyCredentialScalarWhereInput
+    data: XOR<CompanyCredentialUpdateManyMutationInput, CompanyCredentialUncheckedUpdateManyWithoutAssetInput>
+  }
+
+  export type CompanyCredentialScalarWhereInput = {
+    AND?: CompanyCredentialScalarWhereInput | CompanyCredentialScalarWhereInput[]
+    OR?: CompanyCredentialScalarWhereInput[]
+    NOT?: CompanyCredentialScalarWhereInput | CompanyCredentialScalarWhereInput[]
+    id?: StringFilter<"CompanyCredential"> | string
+    assetId?: StringFilter<"CompanyCredential"> | string
+    label?: StringFilter<"CompanyCredential"> | string
+    username?: StringNullableFilter<"CompanyCredential"> | string | null
+    passwordEncrypted?: StringNullableFilter<"CompanyCredential"> | string | null
+    url?: StringNullableFilter<"CompanyCredential"> | string | null
+    totpSecret?: StringNullableFilter<"CompanyCredential"> | string | null
+    notes?: StringNullableFilter<"CompanyCredential"> | string | null
+    lastRotatedAt?: DateTimeNullableFilter<"CompanyCredential"> | Date | string | null
+    sharedWithClient?: BoolFilter<"CompanyCredential"> | boolean
+    sharedAt?: DateTimeNullableFilter<"CompanyCredential"> | Date | string | null
+    createdAt?: DateTimeFilter<"CompanyCredential"> | Date | string
+    updatedAt?: DateTimeFilter<"CompanyCredential"> | Date | string
+    createdById?: StringNullableFilter<"CompanyCredential"> | string | null
+  }
+
+  export type CompanyAssetCreateWithoutCredentialsInput = {
+    id?: string
+    type: $Enums.AssetType
+    name: string
+    url?: string | null
+    host?: string | null
+    identifier?: string | null
+    provider?: string | null
+    status?: $Enums.AssetStatus
+    expiresAt?: Date | string | null
+    notes?: string | null
+    tags?: CompanyAssetCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    company: CompanyCreateNestedOneWithoutAssetsInput
+  }
+
+  export type CompanyAssetUncheckedCreateWithoutCredentialsInput = {
+    id?: string
+    companyId: string
+    type: $Enums.AssetType
+    name: string
+    url?: string | null
+    host?: string | null
+    identifier?: string | null
+    provider?: string | null
+    status?: $Enums.AssetStatus
+    expiresAt?: Date | string | null
+    notes?: string | null
+    tags?: CompanyAssetCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type CompanyAssetCreateOrConnectWithoutCredentialsInput = {
+    where: CompanyAssetWhereUniqueInput
+    create: XOR<CompanyAssetCreateWithoutCredentialsInput, CompanyAssetUncheckedCreateWithoutCredentialsInput>
+  }
+
+  export type CredentialAccessLogCreateWithoutCredentialInput = {
+    id?: string
+    userId?: string | null
+    userName?: string | null
+    userRole?: string | null
+    action: $Enums.CredentialAction
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    company: CompanyCreateNestedOneWithoutCredentialAccessLogsInput
+  }
+
+  export type CredentialAccessLogUncheckedCreateWithoutCredentialInput = {
+    id?: string
+    companyId: string
+    userId?: string | null
+    userName?: string | null
+    userRole?: string | null
+    action: $Enums.CredentialAction
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CredentialAccessLogCreateOrConnectWithoutCredentialInput = {
+    where: CredentialAccessLogWhereUniqueInput
+    create: XOR<CredentialAccessLogCreateWithoutCredentialInput, CredentialAccessLogUncheckedCreateWithoutCredentialInput>
+  }
+
+  export type CredentialAccessLogCreateManyCredentialInputEnvelope = {
+    data: CredentialAccessLogCreateManyCredentialInput | CredentialAccessLogCreateManyCredentialInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyAssetUpsertWithoutCredentialsInput = {
+    update: XOR<CompanyAssetUpdateWithoutCredentialsInput, CompanyAssetUncheckedUpdateWithoutCredentialsInput>
+    create: XOR<CompanyAssetCreateWithoutCredentialsInput, CompanyAssetUncheckedCreateWithoutCredentialsInput>
+    where?: CompanyAssetWhereInput
+  }
+
+  export type CompanyAssetUpdateToOneWithWhereWithoutCredentialsInput = {
+    where?: CompanyAssetWhereInput
+    data: XOR<CompanyAssetUpdateWithoutCredentialsInput, CompanyAssetUncheckedUpdateWithoutCredentialsInput>
+  }
+
+  export type CompanyAssetUpdateWithoutCredentialsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssetTypeFieldUpdateOperationsInput | $Enums.AssetType
+    name?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    host?: NullableStringFieldUpdateOperationsInput | string | null
+    identifier?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: CompanyAssetUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneRequiredWithoutAssetsNestedInput
+  }
+
+  export type CompanyAssetUncheckedUpdateWithoutCredentialsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssetTypeFieldUpdateOperationsInput | $Enums.AssetType
+    name?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    host?: NullableStringFieldUpdateOperationsInput | string | null
+    identifier?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: CompanyAssetUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CredentialAccessLogUpsertWithWhereUniqueWithoutCredentialInput = {
+    where: CredentialAccessLogWhereUniqueInput
+    update: XOR<CredentialAccessLogUpdateWithoutCredentialInput, CredentialAccessLogUncheckedUpdateWithoutCredentialInput>
+    create: XOR<CredentialAccessLogCreateWithoutCredentialInput, CredentialAccessLogUncheckedCreateWithoutCredentialInput>
+  }
+
+  export type CredentialAccessLogUpdateWithWhereUniqueWithoutCredentialInput = {
+    where: CredentialAccessLogWhereUniqueInput
+    data: XOR<CredentialAccessLogUpdateWithoutCredentialInput, CredentialAccessLogUncheckedUpdateWithoutCredentialInput>
+  }
+
+  export type CredentialAccessLogUpdateManyWithWhereWithoutCredentialInput = {
+    where: CredentialAccessLogScalarWhereInput
+    data: XOR<CredentialAccessLogUpdateManyMutationInput, CredentialAccessLogUncheckedUpdateManyWithoutCredentialInput>
+  }
+
+  export type CompanyCredentialCreateWithoutAccessLogsInput = {
+    id?: string
+    label: string
+    username?: string | null
+    passwordEncrypted?: string | null
+    url?: string | null
+    totpSecret?: string | null
+    notes?: string | null
+    lastRotatedAt?: Date | string | null
+    sharedWithClient?: boolean
+    sharedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    asset: CompanyAssetCreateNestedOneWithoutCredentialsInput
+  }
+
+  export type CompanyCredentialUncheckedCreateWithoutAccessLogsInput = {
+    id?: string
+    assetId: string
+    label: string
+    username?: string | null
+    passwordEncrypted?: string | null
+    url?: string | null
+    totpSecret?: string | null
+    notes?: string | null
+    lastRotatedAt?: Date | string | null
+    sharedWithClient?: boolean
+    sharedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type CompanyCredentialCreateOrConnectWithoutAccessLogsInput = {
+    where: CompanyCredentialWhereUniqueInput
+    create: XOR<CompanyCredentialCreateWithoutAccessLogsInput, CompanyCredentialUncheckedCreateWithoutAccessLogsInput>
+  }
+
+  export type CompanyCreateWithoutCredentialAccessLogsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutCredentialAccessLogsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutCredentialAccessLogsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutCredentialAccessLogsInput, CompanyUncheckedCreateWithoutCredentialAccessLogsInput>
+  }
+
+  export type CompanyCredentialUpsertWithoutAccessLogsInput = {
+    update: XOR<CompanyCredentialUpdateWithoutAccessLogsInput, CompanyCredentialUncheckedUpdateWithoutAccessLogsInput>
+    create: XOR<CompanyCredentialCreateWithoutAccessLogsInput, CompanyCredentialUncheckedCreateWithoutAccessLogsInput>
+    where?: CompanyCredentialWhereInput
+  }
+
+  export type CompanyCredentialUpdateToOneWithWhereWithoutAccessLogsInput = {
+    where?: CompanyCredentialWhereInput
+    data: XOR<CompanyCredentialUpdateWithoutAccessLogsInput, CompanyCredentialUncheckedUpdateWithoutAccessLogsInput>
+  }
+
+  export type CompanyCredentialUpdateWithoutAccessLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordEncrypted?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    lastRotatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sharedWithClient?: BoolFieldUpdateOperationsInput | boolean
+    sharedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    asset?: CompanyAssetUpdateOneRequiredWithoutCredentialsNestedInput
+  }
+
+  export type CompanyCredentialUncheckedUpdateWithoutAccessLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assetId?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordEncrypted?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    lastRotatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sharedWithClient?: BoolFieldUpdateOperationsInput | boolean
+    sharedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CompanyUpsertWithoutCredentialAccessLogsInput = {
+    update: XOR<CompanyUpdateWithoutCredentialAccessLogsInput, CompanyUncheckedUpdateWithoutCredentialAccessLogsInput>
+    create: XOR<CompanyCreateWithoutCredentialAccessLogsInput, CompanyUncheckedCreateWithoutCredentialAccessLogsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutCredentialAccessLogsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutCredentialAccessLogsInput, CompanyUncheckedUpdateWithoutCredentialAccessLogsInput>
+  }
+
+  export type CompanyUpdateWithoutCredentialAccessLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutCredentialAccessLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
   export type TicketCreateManyCreatedByInput = {
     id?: string
     title: string
@@ -42369,6 +48126,35 @@ export namespace Prisma {
     ticketId?: string | null
   }
 
+  export type CompanyAssetCreateManyCompanyInput = {
+    id?: string
+    type: $Enums.AssetType
+    name: string
+    url?: string | null
+    host?: string | null
+    identifier?: string | null
+    provider?: string | null
+    status?: $Enums.AssetStatus
+    expiresAt?: Date | string | null
+    notes?: string | null
+    tags?: CompanyAssetCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type CredentialAccessLogCreateManyCompanyInput = {
+    id?: string
+    credentialId: string
+    userId?: string | null
+    userName?: string | null
+    userRole?: string | null
+    action: $Enums.CredentialAction
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
   export type CompanyUpdateWithoutParentCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -42402,6 +48188,8 @@ export namespace Prisma {
     setores?: SetorUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutParentCompanyInput = {
@@ -42437,6 +48225,8 @@ export namespace Prisma {
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateManyWithoutParentCompanyInput = {
@@ -43090,6 +48880,95 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CompanyAssetUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssetTypeFieldUpdateOperationsInput | $Enums.AssetType
+    name?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    host?: NullableStringFieldUpdateOperationsInput | string | null
+    identifier?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: CompanyAssetUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    credentials?: CompanyCredentialUpdateManyWithoutAssetNestedInput
+  }
+
+  export type CompanyAssetUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssetTypeFieldUpdateOperationsInput | $Enums.AssetType
+    name?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    host?: NullableStringFieldUpdateOperationsInput | string | null
+    identifier?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: CompanyAssetUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    credentials?: CompanyCredentialUncheckedUpdateManyWithoutAssetNestedInput
+  }
+
+  export type CompanyAssetUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssetTypeFieldUpdateOperationsInput | $Enums.AssetType
+    name?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    host?: NullableStringFieldUpdateOperationsInput | string | null
+    identifier?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAssetStatusFieldUpdateOperationsInput | $Enums.AssetStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: CompanyAssetUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CredentialAccessLogUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    userRole?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumCredentialActionFieldUpdateOperationsInput | $Enums.CredentialAction
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    credential?: CompanyCredentialUpdateOneRequiredWithoutAccessLogsNestedInput
+  }
+
+  export type CredentialAccessLogUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    credentialId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    userRole?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumCredentialActionFieldUpdateOperationsInput | $Enums.CredentialAction
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CredentialAccessLogUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    credentialId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    userRole?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumCredentialActionFieldUpdateOperationsInput | $Enums.CredentialAction
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LeadCreateManyCampaignInput = {
@@ -44338,6 +50217,120 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CompanyCredentialCreateManyAssetInput = {
+    id?: string
+    label: string
+    username?: string | null
+    passwordEncrypted?: string | null
+    url?: string | null
+    totpSecret?: string | null
+    notes?: string | null
+    lastRotatedAt?: Date | string | null
+    sharedWithClient?: boolean
+    sharedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type CompanyCredentialUpdateWithoutAssetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordEncrypted?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    lastRotatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sharedWithClient?: BoolFieldUpdateOperationsInput | boolean
+    sharedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    accessLogs?: CredentialAccessLogUpdateManyWithoutCredentialNestedInput
+  }
+
+  export type CompanyCredentialUncheckedUpdateWithoutAssetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordEncrypted?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    lastRotatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sharedWithClient?: BoolFieldUpdateOperationsInput | boolean
+    sharedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    accessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCredentialNestedInput
+  }
+
+  export type CompanyCredentialUncheckedUpdateManyWithoutAssetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordEncrypted?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    lastRotatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sharedWithClient?: BoolFieldUpdateOperationsInput | boolean
+    sharedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CredentialAccessLogCreateManyCredentialInput = {
+    id?: string
+    companyId: string
+    userId?: string | null
+    userName?: string | null
+    userRole?: string | null
+    action: $Enums.CredentialAction
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CredentialAccessLogUpdateWithoutCredentialInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    userRole?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumCredentialActionFieldUpdateOperationsInput | $Enums.CredentialAction
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutCredentialAccessLogsNestedInput
+  }
+
+  export type CredentialAccessLogUncheckedUpdateWithoutCredentialInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    userRole?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumCredentialActionFieldUpdateOperationsInput | $Enums.CredentialAction
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CredentialAccessLogUncheckedUpdateManyWithoutCredentialInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    userRole?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumCredentialActionFieldUpdateOperationsInput | $Enums.CredentialAction
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
 
 
   /**
@@ -44379,6 +50372,14 @@ export namespace Prisma {
      * @deprecated Use SetorCountOutputTypeDefaultArgs instead
      */
     export type SetorCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SetorCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use CompanyAssetCountOutputTypeDefaultArgs instead
+     */
+    export type CompanyAssetCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CompanyAssetCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use CompanyCredentialCountOutputTypeDefaultArgs instead
+     */
+    export type CompanyCredentialCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CompanyCredentialCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserDefaultArgs instead
      */
@@ -44463,6 +50464,18 @@ export namespace Prisma {
      * @deprecated Use SetorInstanceDefaultArgs instead
      */
     export type SetorInstanceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SetorInstanceDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use CompanyAssetDefaultArgs instead
+     */
+    export type CompanyAssetArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CompanyAssetDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use CompanyCredentialDefaultArgs instead
+     */
+    export type CompanyCredentialArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CompanyCredentialDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use CredentialAccessLogDefaultArgs instead
+     */
+    export type CredentialAccessLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CredentialAccessLogDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

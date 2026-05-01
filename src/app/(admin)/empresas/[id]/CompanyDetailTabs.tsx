@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import CompanyContacts from "./CompanyContacts";
+import CompanyVault from "./CompanyVault";
 
 interface Campaign {
   id: string;
@@ -72,7 +73,7 @@ const SOURCE_ICON: Record<string, string> = {
   GOOGLE: "🔍", LINK: "🔗", OTHER: "📌",
 };
 
-type TabId = "campanhas" | "leads" | "oportunidades" | "chamados" | "contatos";
+type TabId = "campanhas" | "leads" | "oportunidades" | "chamados" | "contatos" | "cofre";
 
 const TABS: { id: TabId; label: string; icon: string }[] = [
   { id: "campanhas",    label: "Campanhas",    icon: "📣" },
@@ -80,6 +81,7 @@ const TABS: { id: TabId; label: string; icon: string }[] = [
   { id: "oportunidades",label: "Oportunidades",icon: "💰" },
   { id: "chamados",     label: "Chamados",     icon: "🎫" },
   { id: "contatos",     label: "Contatos WA",  icon: "📱" },
+  { id: "cofre",        label: "Cofre",        icon: "🔐" },
 ];
 
 export default function CompanyDetailTabs({
@@ -103,6 +105,7 @@ export default function CompanyDetailTabs({
     oportunidades: oportunidadesCount,
     chamados:      recentChamados.length,
     contatos:      contacts.length,
+    cofre:         0, // count carregado dinamicamente dentro do componente
   };
 
   return (
@@ -344,6 +347,11 @@ export default function CompanyDetailTabs({
         {/* ── Contatos WhatsApp ── */}
         {activeTab === "contatos" && (
           <CompanyContacts companyId={companyId} initialContacts={contacts as any} />
+        )}
+
+        {/* ── Cofre ── */}
+        {activeTab === "cofre" && (
+          <CompanyVault companyId={companyId} />
         )}
       </div>
     </div>

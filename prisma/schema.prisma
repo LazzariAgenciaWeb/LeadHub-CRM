@@ -81,6 +81,8 @@ model Company {
   setores           Setor[]
   conversations     Conversation[]
   activities        Activity[]
+  assets            CompanyAsset[]
+  credentialAccessLogs CredentialAccessLog[]
   triggerOnly       Boolean               @default(false)
   webhookToken      String?               @unique // token público para receber leads via webhook
 
@@ -632,4 +634,115 @@ model SetorInstance {
   instance WhatsappInstance @relation(fields: [instanceId], references: [id], onDelete: Cascade)
 
   @@id([setorId, instanceId])
+}
+
+// ─── Cofre de credenciais ─────────────────────────────────────────────────────
+//
+// CompanyAsset é qualquer "recurso digital" que gerenciamos para o cliente:
+// domínio, hospedagem, site, conta de e-mail, banco, repositório, etc.
+// CompanyCredential guarda usuário+senha (criptografada) vinculados a um asset.
+// CredentialAccessLog audita quem visualizou cada credencial.
+
+model CompanyAsset {
+  id          String       @id @default(cuid())
+  companyId   String
+  company     Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  type        AssetType
+  name        String
+  url         String?
+  host        String?       // ex: "ftp.cliente.com.br", "mysql.cliente.com.br:3306"
+  identifier  String?       // ex: nome do domínio "cliente.com.br", e-mail "vendas@x"
+  provider    String?       // ex: "Hostinger", "Cloudflare", "Google Workspace"
+  status      AssetStatus  @default(ACTIVE)
+  expiresAt   DateTime?     // renovação de domínio, validade de SSL, etc.
+  notes       String?       @db.Text
+  tags        String[]      @default([])
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  createdById String?
+
+  credentials CompanyCredential[]
+
+  @@index([companyId, type])
+  @@index([companyId, expiresAt])
+}
+
+enum AssetType {
+  DOMAIN
+  HOSTING
+  WEBSITE
+  EMAIL_ACCOUNT
+  DATABASE
+  DNS_PROVIDER
+  REPOSITORY
+  SOCIAL_ACCOUNT
+  ANALYTICS
+  CLOUD_SERVICE
+  OTHER
+}
+
+enum AssetStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+  ARCHIVED
+}
+
+model CompanyCredential {
+  id          String       @id @default(cuid())
+  assetId     String
+  asset       CompanyAsset @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  label       String                  // ex: "Admin WordPress", "FTP root", "cPanel"
+  username    String?
+  // Segredo criptografado (AES-256-GCM). Nunca armazenado em texto claro.
+  // Formato no banco: base64(iv|authTag|ciphertext)
+  passwordEncrypted String?
+  url         String?                 // link de login direto
+  totpSecret  String?                 // (opcional, criptografado tb) — backlog Fase 2
+  notes       String?       @db.Text
+
+  lastRotatedAt    DateTime?          // alerta para trocar senhas a cada N meses
+  sharedWithClient Boolean   @default(false) // já foi compartilhada com o cliente?
+  sharedAt         DateTime?
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  createdById String?
+
+  accessLogs  CredentialAccessLog[]
+
+  @@index([assetId])
+}
+
+model CredentialAccessLog {
+  id           String    @id @default(cuid())
+  credentialId String
+  credential   CompanyCredential @relation(fields: [credentialId], references: [id], onDelete: Cascade)
+
+  // Denormalizado: facilita filtro "tudo que fulano viu na empresa X"
+  companyId    String
+  company      Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  userId       String?
+  userName     String?   // snapshot (caso o user seja deletado)
+  userRole     String?
+  action       CredentialAction
+  ipAddress    String?
+  userAgent    String?
+  createdAt    DateTime  @default(now())
+
+  @@index([credentialId, createdAt])
+  @@index([companyId, createdAt])
+}
+
+enum CredentialAction {
+  REVEAL    // visualizou a senha
+  COPY      // copiou para o clipboard
+  SHARE     // compartilhou com o cliente (WhatsApp/email)
+  EDIT      // editou o registro
+  CREATE
+  DELETE
 }

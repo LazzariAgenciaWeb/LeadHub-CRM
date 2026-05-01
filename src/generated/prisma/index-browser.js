@@ -401,6 +401,54 @@ exports.Prisma.SetorInstanceScalarFieldEnum = {
   instanceId: 'instanceId'
 };
 
+exports.Prisma.CompanyAssetScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  type: 'type',
+  name: 'name',
+  url: 'url',
+  host: 'host',
+  identifier: 'identifier',
+  provider: 'provider',
+  status: 'status',
+  expiresAt: 'expiresAt',
+  notes: 'notes',
+  tags: 'tags',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdById: 'createdById'
+};
+
+exports.Prisma.CompanyCredentialScalarFieldEnum = {
+  id: 'id',
+  assetId: 'assetId',
+  label: 'label',
+  username: 'username',
+  passwordEncrypted: 'passwordEncrypted',
+  url: 'url',
+  totpSecret: 'totpSecret',
+  notes: 'notes',
+  lastRotatedAt: 'lastRotatedAt',
+  sharedWithClient: 'sharedWithClient',
+  sharedAt: 'sharedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdById: 'createdById'
+};
+
+exports.Prisma.CredentialAccessLogScalarFieldEnum = {
+  id: 'id',
+  credentialId: 'credentialId',
+  companyId: 'companyId',
+  userId: 'userId',
+  userName: 'userName',
+  userRole: 'userRole',
+  action: 'action',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -510,6 +558,36 @@ exports.TicketPriority = exports.$Enums.TicketPriority = {
   URGENT: 'URGENT'
 };
 
+exports.AssetType = exports.$Enums.AssetType = {
+  DOMAIN: 'DOMAIN',
+  HOSTING: 'HOSTING',
+  WEBSITE: 'WEBSITE',
+  EMAIL_ACCOUNT: 'EMAIL_ACCOUNT',
+  DATABASE: 'DATABASE',
+  DNS_PROVIDER: 'DNS_PROVIDER',
+  REPOSITORY: 'REPOSITORY',
+  SOCIAL_ACCOUNT: 'SOCIAL_ACCOUNT',
+  ANALYTICS: 'ANALYTICS',
+  CLOUD_SERVICE: 'CLOUD_SERVICE',
+  OTHER: 'OTHER'
+};
+
+exports.AssetStatus = exports.$Enums.AssetStatus = {
+  ACTIVE: 'ACTIVE',
+  EXPIRED: 'EXPIRED',
+  CANCELLED: 'CANCELLED',
+  ARCHIVED: 'ARCHIVED'
+};
+
+exports.CredentialAction = exports.$Enums.CredentialAction = {
+  REVEAL: 'REVEAL',
+  COPY: 'COPY',
+  SHARE: 'SHARE',
+  EDIT: 'EDIT',
+  CREATE: 'CREATE',
+  DELETE: 'DELETE'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Company: 'Company',
@@ -531,7 +609,10 @@ exports.Prisma.ModelName = {
   TicketMessage: 'TicketMessage',
   Setor: 'Setor',
   SetorUser: 'SetorUser',
-  SetorInstance: 'SetorInstance'
+  SetorInstance: 'SetorInstance',
+  CompanyAsset: 'CompanyAsset',
+  CompanyCredential: 'CompanyCredential',
+  CredentialAccessLog: 'CredentialAccessLog'
 };
 
 /**
