@@ -14,9 +14,11 @@ import { prisma } from "./prisma";
  *   ─ INBOUND chegando (cliente mandou mensagem) ─
  *     SEMPRE vai para OPEN — indica "precisa resposta", para o atendente
  *     não esquecer de responder. CLOSED → OPEN cria Activity CONVERSATION_REOPENED.
- *     (Nem mesmo IN_PROGRESS resiste: cliente respondeu = bola está com a gente.)
+ *     Bola está com a gente, mesmo se IN_PROGRESS ou WAITING_CUSTOMER antes.
  *   ─ OUTBOUND chegando (atendente respondeu) ─
- *     SEMPRE vai para IN_PROGRESS.
+ *     SEMPRE vai para WAITING_CUSTOMER (esperando cliente). Antes era IN_PROGRESS,
+ *     mas IN_PROGRESS faz mais sentido para "atendente assumiu mas ainda não
+ *     respondeu" (botão Pegar). Quando responde → WAITING_CUSTOMER.
  *
  * Idempotência em race condition: usa o unique constraint (companyId, phone)
  * via upsert. 4 webhooks simultâneos para o mesmo grupo → só 1 conversa criada.
@@ -40,19 +42,20 @@ export async function upsertConversation(args: {
     select: { id: true, status: true, firstResponseAt: true, setorId: true },
   });
 
-  // Define o novo status conforme a transição.
-  // Regra única: INBOUND → OPEN (precisa resposta) · OUTBOUND → IN_PROGRESS (em fluxo).
-  // Cliente respondeu = bola está com a gente, mesmo que atendente já estivesse no caso.
-  // PENDING (= OPEN com SLA estourado) é setado pelo job /api/cron/sla.
-  // EXCEÇÃO: SCHEDULED resiste ao OUTBOUND (atendente mandou follow-up mas continua
-  //          aguardando o retorno marcado). Só uma INBOUND quebra o standby.
+  // Regra:
+  // - INBOUND  → OPEN (precisa resposta)
+  // - OUTBOUND → WAITING_CUSTOMER (respondemos, esperando cliente)
+  //   IN_PROGRESS é usado APENAS quando o atendente clica "Pegar" sem ter respondido
+  //   ainda. Assim que responde, vai para WAITING_CUSTOMER automaticamente.
+  // - SCHEDULED resiste ao OUTBOUND (follow-up não quebra o standby do retorno marcado)
+  // - PENDING (= OPEN com SLA estourado) é setado pelo job /api/cron/sla
   let newStatus: ConversationStatus;
   if (direction === "INBOUND") {
     newStatus = "OPEN";
   } else if (existing?.status === "SCHEDULED") {
     newStatus = "SCHEDULED"; // mantém standby após follow-up
   } else {
-    newStatus = "IN_PROGRESS";
+    newStatus = "WAITING_CUSTOMER";
   }
 
   const statusChanged = !existing || existing.status !== newStatus;
