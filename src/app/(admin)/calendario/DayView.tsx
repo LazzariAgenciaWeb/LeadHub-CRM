@@ -5,6 +5,7 @@ import {
   ChevronLeft, ChevronRight, Calendar, Clock, AlarmClock,
   LifeBuoy, Target, Video, MapPin, ExternalLink,
 } from "lucide-react";
+import { layoutOverlappingEvents } from "./event-layout";
 
 // ── Tipos ────────────────────────────────────────────────────────────────────
 // Compartilhados com WeekView. Mantém aqui pra não acoplar os dois.
@@ -308,7 +309,9 @@ export default function DayView() {
             {isToday && <NowLine />}
 
             {/* Eventos com hora */}
-            {timedEvents.map((ev) => <PositionedEvent key={ev.id} ev={ev} />)}
+            {layoutOverlappingEvents(timedEvents).map(({ event, lane, laneCount }) => (
+              <PositionedEvent key={event.id} ev={event} lane={lane} laneCount={laneCount} />
+            ))}
 
             {/* Estado vazio */}
             {!loading && events.length === 0 && (
@@ -357,7 +360,7 @@ function NowLine() {
 // Versão expandida (vs WeekView): mostra mais detalhes — título, hora,
 // local, participantes, link Meet — porque tem espaço horizontal sobrando.
 
-function PositionedEvent({ ev }: { ev: UnifiedEvent }) {
+function PositionedEvent({ ev, lane, laneCount }: { ev: UnifiedEvent; lane: number; laneCount: number }) {
   const style = KIND_STYLE[ev.kind];
   const Icon = style.icon;
 
@@ -372,13 +375,29 @@ function PositionedEvent({ ev }: { ev: UnifiedEvent }) {
   const endTime   = ev.end.toLocaleTimeString("pt-BR",   { hour: "2-digit", minute: "2-digit" });
   const isShort = height < 60;
 
+  // Layout horizontal — cada lane ocupa 1/laneCount da largura disponível
+  // (descontando 8px de padding lateral). Se há sobreposição, eventos ficam
+  // lado a lado em vez de empilhados.
+  const SIDE_PADDING = 8;
+  const widthPct = 100 / laneCount;
+  const leftPct = lane * widthPct;
+  // Eventos não-primários (lane > 0) ganham peso visual menor
+  const isNarrow = laneCount > 1;
+
   return (
     <a
       href={ev.href ?? "#"}
       target={ev.kind === "google" ? "_blank" : undefined}
       rel={ev.kind === "google" ? "noreferrer" : undefined}
-      className={`absolute left-2 right-2 rounded ${style.bg} ${style.border} ${style.text} px-2 py-1 overflow-hidden hover:brightness-125 transition cursor-pointer flex flex-col`}
-      style={{ top, height, zIndex: 1 }}
+      className={`absolute rounded ${style.bg} ${style.border} ${style.text} px-2 py-1 overflow-hidden hover:brightness-125 hover:z-20 transition cursor-pointer flex flex-col`}
+      style={{
+        top,
+        height,
+        left: `calc(${leftPct}% + ${SIDE_PADDING}px)`,
+        width: `calc(${widthPct}% - ${SIDE_PADDING * 2}px)`,
+        zIndex: 1 + lane,
+      }}
+      title={`${startTime} – ${endTime} · ${ev.title}${ev.location ? "\n" + ev.location : ""}${ev.meta ? "\n" + ev.meta : ""}`}
     >
       {/* Linha 1: hora + título + ícones */}
       <div className="flex items-center gap-1.5 min-w-0">

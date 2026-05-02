@@ -6,6 +6,7 @@ import {
   ChevronLeft, ChevronRight, Calendar, Clock, AlarmClock,
   LifeBuoy, Target, Video,
 } from "lucide-react";
+import { layoutOverlappingEvents } from "./event-layout";
 
 // ── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -324,8 +325,10 @@ export default function WeekView() {
                 {/* Linha "agora" */}
                 {isToday && <NowLine />}
 
-                {/* Eventos posicionados absolutamente */}
-                {dayEvents.map((ev) => <PositionedEvent key={ev.id} ev={ev} />)}
+                {/* Eventos posicionados — lanes resolvem sobreposições */}
+                {layoutOverlappingEvents(dayEvents).map(({ event, lane, laneCount }) => (
+                  <PositionedEvent key={event.id} ev={event} lane={lane} laneCount={laneCount} />
+                ))}
               </div>
             );
           })}
@@ -411,7 +414,7 @@ function NowLine() {
 
 // ── Evento posicionado na grade ──────────────────────────────────────────────
 
-function PositionedEvent({ ev }: { ev: UnifiedEvent }) {
+function PositionedEvent({ ev, lane, laneCount }: { ev: UnifiedEvent; lane: number; laneCount: number }) {
   const style = KIND_STYLE[ev.kind];
   const Icon = style.icon;
 
@@ -425,13 +428,26 @@ function PositionedEvent({ ev }: { ev: UnifiedEvent }) {
 
   const startTime = ev.start.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
 
+  // Lanes — eventos sobrepostos dividem largura. SIDE_PADDING é o padding
+  // horizontal que mantemos ao redor (em px). No WeekView a coluna é estreita
+  // então reduzimos pra 4px (left-1 = 4px).
+  const SIDE_PADDING = 4;
+  const widthPct = 100 / laneCount;
+  const leftPct = lane * widthPct;
+
   return (
     <a
       href={ev.href ?? "#"}
       target={ev.kind === "google" ? "_blank" : undefined}
       rel={ev.kind === "google" ? "noreferrer" : undefined}
-      className={`absolute left-1 right-1 rounded ${style.bg} ${style.border} ${style.text} px-1.5 py-1 overflow-hidden hover:brightness-125 transition cursor-pointer`}
-      style={{ top, height, zIndex: 1 }}
+      className={`absolute rounded ${style.bg} ${style.border} ${style.text} px-1.5 py-1 overflow-hidden hover:brightness-125 hover:z-20 transition cursor-pointer`}
+      style={{
+        top,
+        height,
+        left:  `calc(${leftPct}% + ${SIDE_PADDING}px)`,
+        width: `calc(${widthPct}% - ${SIDE_PADDING * 2}px)`,
+        zIndex: 1 + lane,
+      }}
       title={`${startTime} ${ev.title}${ev.meta ? "\n" + ev.meta : ""}`}
     >
       <div className="flex items-center gap-1">
