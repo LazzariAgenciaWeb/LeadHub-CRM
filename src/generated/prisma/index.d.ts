@@ -4047,6 +4047,7 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     ticketsCreated: number
+    ticketsAssigned: number
     setores: number
     conversationsAssigned: number
     googleConnections: number
@@ -4056,6 +4057,7 @@ export namespace Prisma {
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ticketsCreated?: boolean | UserCountOutputTypeCountTicketsCreatedArgs
+    ticketsAssigned?: boolean | UserCountOutputTypeCountTicketsAssignedArgs
     setores?: boolean | UserCountOutputTypeCountSetoresArgs
     conversationsAssigned?: boolean | UserCountOutputTypeCountConversationsAssignedArgs
     googleConnections?: boolean | UserCountOutputTypeCountGoogleConnectionsArgs
@@ -4078,6 +4080,13 @@ export namespace Prisma {
    * UserCountOutputType without action
    */
   export type UserCountOutputTypeCountTicketsCreatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TicketWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountTicketsAssignedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TicketWhereInput
   }
 
@@ -4130,6 +4139,7 @@ export namespace Prisma {
     messages: number
     keywordRules: number
     tickets: number
+    ticketsAsClient: number
     trackingLinks: number
     pipelineStages: number
     contacts: number
@@ -4156,6 +4166,7 @@ export namespace Prisma {
     messages?: boolean | CompanyCountOutputTypeCountMessagesArgs
     keywordRules?: boolean | CompanyCountOutputTypeCountKeywordRulesArgs
     tickets?: boolean | CompanyCountOutputTypeCountTicketsArgs
+    ticketsAsClient?: boolean | CompanyCountOutputTypeCountTicketsAsClientArgs
     trackingLinks?: boolean | CompanyCountOutputTypeCountTrackingLinksArgs
     pipelineStages?: boolean | CompanyCountOutputTypeCountPipelineStagesArgs
     contacts?: boolean | CompanyCountOutputTypeCountContactsArgs
@@ -4237,6 +4248,13 @@ export namespace Prisma {
    * CompanyCountOutputType without action
    */
   export type CompanyCountOutputTypeCountTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TicketWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountTicketsAsClientArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TicketWhereInput
   }
 
@@ -4953,6 +4971,7 @@ export namespace Prisma {
     companyId?: boolean
     company?: boolean | User$companyArgs<ExtArgs>
     ticketsCreated?: boolean | User$ticketsCreatedArgs<ExtArgs>
+    ticketsAssigned?: boolean | User$ticketsAssignedArgs<ExtArgs>
     companyContact?: boolean | User$companyContactArgs<ExtArgs>
     setores?: boolean | User$setoresArgs<ExtArgs>
     conversationsAssigned?: boolean | User$conversationsAssignedArgs<ExtArgs>
@@ -4990,6 +5009,7 @@ export namespace Prisma {
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | User$companyArgs<ExtArgs>
     ticketsCreated?: boolean | User$ticketsCreatedArgs<ExtArgs>
+    ticketsAssigned?: boolean | User$ticketsAssignedArgs<ExtArgs>
     companyContact?: boolean | User$companyContactArgs<ExtArgs>
     setores?: boolean | User$setoresArgs<ExtArgs>
     conversationsAssigned?: boolean | User$conversationsAssignedArgs<ExtArgs>
@@ -5007,6 +5027,7 @@ export namespace Prisma {
     objects: {
       company: Prisma.$CompanyPayload<ExtArgs> | null
       ticketsCreated: Prisma.$TicketPayload<ExtArgs>[]
+      ticketsAssigned: Prisma.$TicketPayload<ExtArgs>[]
       companyContact: Prisma.$CompanyContactPayload<ExtArgs> | null
       setores: Prisma.$SetorUserPayload<ExtArgs>[]
       conversationsAssigned: Prisma.$ConversationPayload<ExtArgs>[]
@@ -5390,6 +5411,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     company<T extends User$companyArgs<ExtArgs> = {}>(args?: Subset<T, User$companyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     ticketsCreated<T extends User$ticketsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$ticketsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany"> | Null>
+    ticketsAssigned<T extends User$ticketsAssignedArgs<ExtArgs> = {}>(args?: Subset<T, User$ticketsAssignedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany"> | Null>
     companyContact<T extends User$companyContactArgs<ExtArgs> = {}>(args?: Subset<T, User$companyContactArgs<ExtArgs>>): Prisma__CompanyContactClient<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     setores<T extends User$setoresArgs<ExtArgs> = {}>(args?: Subset<T, User$setoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorUserPayload<ExtArgs>, T, "findMany"> | Null>
     conversationsAssigned<T extends User$conversationsAssignedArgs<ExtArgs> = {}>(args?: Subset<T, User$conversationsAssignedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany"> | Null>
@@ -5770,6 +5792,26 @@ export namespace Prisma {
    * User.ticketsCreated
    */
   export type User$ticketsCreatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ticket
+     */
+    select?: TicketSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketInclude<ExtArgs> | null
+    where?: TicketWhereInput
+    orderBy?: TicketOrderByWithRelationInput | TicketOrderByWithRelationInput[]
+    cursor?: TicketWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TicketScalarFieldEnum | TicketScalarFieldEnum[]
+  }
+
+  /**
+   * User.ticketsAssigned
+   */
+  export type User$ticketsAssignedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Ticket
      */
@@ -9162,6 +9204,7 @@ export namespace Prisma {
     messages?: boolean | Company$messagesArgs<ExtArgs>
     keywordRules?: boolean | Company$keywordRulesArgs<ExtArgs>
     tickets?: boolean | Company$ticketsArgs<ExtArgs>
+    ticketsAsClient?: boolean | Company$ticketsAsClientArgs<ExtArgs>
     trackingLinks?: boolean | Company$trackingLinksArgs<ExtArgs>
     pipelineStages?: boolean | Company$pipelineStagesArgs<ExtArgs>
     contacts?: boolean | Company$contactsArgs<ExtArgs>
@@ -9236,6 +9279,7 @@ export namespace Prisma {
     messages?: boolean | Company$messagesArgs<ExtArgs>
     keywordRules?: boolean | Company$keywordRulesArgs<ExtArgs>
     tickets?: boolean | Company$ticketsArgs<ExtArgs>
+    ticketsAsClient?: boolean | Company$ticketsAsClientArgs<ExtArgs>
     trackingLinks?: boolean | Company$trackingLinksArgs<ExtArgs>
     pipelineStages?: boolean | Company$pipelineStagesArgs<ExtArgs>
     contacts?: boolean | Company$contactsArgs<ExtArgs>
@@ -9270,6 +9314,7 @@ export namespace Prisma {
       messages: Prisma.$MessagePayload<ExtArgs>[]
       keywordRules: Prisma.$KeywordRulePayload<ExtArgs>[]
       tickets: Prisma.$TicketPayload<ExtArgs>[]
+      ticketsAsClient: Prisma.$TicketPayload<ExtArgs>[]
       trackingLinks: Prisma.$TrackingLinkPayload<ExtArgs>[]
       pipelineStages: Prisma.$PipelineStageConfigPayload<ExtArgs>[]
       contacts: Prisma.$CompanyContactPayload<ExtArgs>[]
@@ -9680,6 +9725,7 @@ export namespace Prisma {
     messages<T extends Company$messagesArgs<ExtArgs> = {}>(args?: Subset<T, Company$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany"> | Null>
     keywordRules<T extends Company$keywordRulesArgs<ExtArgs> = {}>(args?: Subset<T, Company$keywordRulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KeywordRulePayload<ExtArgs>, T, "findMany"> | Null>
     tickets<T extends Company$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, Company$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany"> | Null>
+    ticketsAsClient<T extends Company$ticketsAsClientArgs<ExtArgs> = {}>(args?: Subset<T, Company$ticketsAsClientArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany"> | Null>
     trackingLinks<T extends Company$trackingLinksArgs<ExtArgs> = {}>(args?: Subset<T, Company$trackingLinksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrackingLinkPayload<ExtArgs>, T, "findMany"> | Null>
     pipelineStages<T extends Company$pipelineStagesArgs<ExtArgs> = {}>(args?: Subset<T, Company$pipelineStagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PipelineStageConfigPayload<ExtArgs>, T, "findMany"> | Null>
     contacts<T extends Company$contactsArgs<ExtArgs> = {}>(args?: Subset<T, Company$contactsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "findMany"> | Null>
@@ -10220,6 +10266,26 @@ export namespace Prisma {
    * Company.tickets
    */
   export type Company$ticketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ticket
+     */
+    select?: TicketSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketInclude<ExtArgs> | null
+    where?: TicketWhereInput
+    orderBy?: TicketOrderByWithRelationInput | TicketOrderByWithRelationInput[]
+    cursor?: TicketWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TicketScalarFieldEnum | TicketScalarFieldEnum[]
+  }
+
+  /**
+   * Company.ticketsAsClient
+   */
+  export type Company$ticketsAsClientArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Ticket
      */
@@ -25463,6 +25529,10 @@ export namespace Prisma {
     clickupTaskId: string | null
     ticketStage: string | null
     isInternal: boolean | null
+    type: string | null
+    dueDate: Date | null
+    clientCompanyId: string | null
+    assigneeId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     companyId: string | null
@@ -25481,6 +25551,10 @@ export namespace Prisma {
     clickupTaskId: string | null
     ticketStage: string | null
     isInternal: boolean | null
+    type: string | null
+    dueDate: Date | null
+    clientCompanyId: string | null
+    assigneeId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     companyId: string | null
@@ -25499,6 +25573,10 @@ export namespace Prisma {
     clickupTaskId: number
     ticketStage: number
     isInternal: number
+    type: number
+    dueDate: number
+    clientCompanyId: number
+    assigneeId: number
     createdAt: number
     updatedAt: number
     companyId: number
@@ -25519,6 +25597,10 @@ export namespace Prisma {
     clickupTaskId?: true
     ticketStage?: true
     isInternal?: true
+    type?: true
+    dueDate?: true
+    clientCompanyId?: true
+    assigneeId?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -25537,6 +25619,10 @@ export namespace Prisma {
     clickupTaskId?: true
     ticketStage?: true
     isInternal?: true
+    type?: true
+    dueDate?: true
+    clientCompanyId?: true
+    assigneeId?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -25555,6 +25641,10 @@ export namespace Prisma {
     clickupTaskId?: true
     ticketStage?: true
     isInternal?: true
+    type?: true
+    dueDate?: true
+    clientCompanyId?: true
+    assigneeId?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -25646,6 +25736,10 @@ export namespace Prisma {
     clickupTaskId: string | null
     ticketStage: string | null
     isInternal: boolean
+    type: string
+    dueDate: Date | null
+    clientCompanyId: string | null
+    assigneeId: string | null
     createdAt: Date
     updatedAt: Date
     companyId: string
@@ -25681,11 +25775,17 @@ export namespace Prisma {
     clickupTaskId?: boolean
     ticketStage?: boolean
     isInternal?: boolean
+    type?: boolean
+    dueDate?: boolean
+    clientCompanyId?: boolean
+    assigneeId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
     createdById?: boolean
     setorId?: boolean
+    clientCompany?: boolean | Ticket$clientCompanyArgs<ExtArgs>
+    assignee?: boolean | Ticket$assigneeArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     createdBy?: boolean | Ticket$createdByArgs<ExtArgs>
     setor?: boolean | Ticket$setorArgs<ExtArgs>
@@ -25705,11 +25805,17 @@ export namespace Prisma {
     clickupTaskId?: boolean
     ticketStage?: boolean
     isInternal?: boolean
+    type?: boolean
+    dueDate?: boolean
+    clientCompanyId?: boolean
+    assigneeId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
     createdById?: boolean
     setorId?: boolean
+    clientCompany?: boolean | Ticket$clientCompanyArgs<ExtArgs>
+    assignee?: boolean | Ticket$assigneeArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     createdBy?: boolean | Ticket$createdByArgs<ExtArgs>
     setor?: boolean | Ticket$setorArgs<ExtArgs>
@@ -25726,6 +25832,10 @@ export namespace Prisma {
     clickupTaskId?: boolean
     ticketStage?: boolean
     isInternal?: boolean
+    type?: boolean
+    dueDate?: boolean
+    clientCompanyId?: boolean
+    assigneeId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
@@ -25734,6 +25844,8 @@ export namespace Prisma {
   }
 
   export type TicketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    clientCompany?: boolean | Ticket$clientCompanyArgs<ExtArgs>
+    assignee?: boolean | Ticket$assigneeArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     createdBy?: boolean | Ticket$createdByArgs<ExtArgs>
     setor?: boolean | Ticket$setorArgs<ExtArgs>
@@ -25742,6 +25854,8 @@ export namespace Prisma {
     _count?: boolean | TicketCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TicketIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    clientCompany?: boolean | Ticket$clientCompanyArgs<ExtArgs>
+    assignee?: boolean | Ticket$assigneeArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     createdBy?: boolean | Ticket$createdByArgs<ExtArgs>
     setor?: boolean | Ticket$setorArgs<ExtArgs>
@@ -25750,6 +25864,8 @@ export namespace Prisma {
   export type $TicketPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Ticket"
     objects: {
+      clientCompany: Prisma.$CompanyPayload<ExtArgs> | null
+      assignee: Prisma.$UserPayload<ExtArgs> | null
       company: Prisma.$CompanyPayload<ExtArgs>
       createdBy: Prisma.$UserPayload<ExtArgs> | null
       setor: Prisma.$SetorPayload<ExtArgs> | null
@@ -25767,6 +25883,10 @@ export namespace Prisma {
       clickupTaskId: string | null
       ticketStage: string | null
       isInternal: boolean
+      type: string
+      dueDate: Date | null
+      clientCompanyId: string | null
+      assigneeId: string | null
       createdAt: Date
       updatedAt: Date
       companyId: string
@@ -26136,6 +26256,8 @@ export namespace Prisma {
    */
   export interface Prisma__TicketClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    clientCompany<T extends Ticket$clientCompanyArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$clientCompanyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    assignee<T extends Ticket$assigneeArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$assigneeArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     createdBy<T extends Ticket$createdByArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     setor<T extends Ticket$setorArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$setorArgs<ExtArgs>>): Prisma__SetorClient<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
@@ -26180,6 +26302,10 @@ export namespace Prisma {
     readonly clickupTaskId: FieldRef<"Ticket", 'String'>
     readonly ticketStage: FieldRef<"Ticket", 'String'>
     readonly isInternal: FieldRef<"Ticket", 'Boolean'>
+    readonly type: FieldRef<"Ticket", 'String'>
+    readonly dueDate: FieldRef<"Ticket", 'DateTime'>
+    readonly clientCompanyId: FieldRef<"Ticket", 'String'>
+    readonly assigneeId: FieldRef<"Ticket", 'String'>
     readonly createdAt: FieldRef<"Ticket", 'DateTime'>
     readonly updatedAt: FieldRef<"Ticket", 'DateTime'>
     readonly companyId: FieldRef<"Ticket", 'String'>
@@ -26503,6 +26629,36 @@ export namespace Prisma {
   }
 
   /**
+   * Ticket.clientCompany
+   */
+  export type Ticket$clientCompanyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Company
+     */
+    select?: CompanySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyInclude<ExtArgs> | null
+    where?: CompanyWhereInput
+  }
+
+  /**
+   * Ticket.assignee
+   */
+  export type Ticket$assigneeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
    * Ticket.createdBy
    */
   export type Ticket$createdByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -26603,6 +26759,10 @@ export namespace Prisma {
     isInternal: boolean | null
     authorName: string | null
     authorRole: string | null
+    mediaBase64: string | null
+    mediaType: string | null
+    source: string | null
+    externalId: string | null
     createdAt: Date | null
     ticketId: string | null
   }
@@ -26613,6 +26773,10 @@ export namespace Prisma {
     isInternal: boolean | null
     authorName: string | null
     authorRole: string | null
+    mediaBase64: string | null
+    mediaType: string | null
+    source: string | null
+    externalId: string | null
     createdAt: Date | null
     ticketId: string | null
   }
@@ -26623,6 +26787,10 @@ export namespace Prisma {
     isInternal: number
     authorName: number
     authorRole: number
+    mediaBase64: number
+    mediaType: number
+    source: number
+    externalId: number
     createdAt: number
     ticketId: number
     _all: number
@@ -26635,6 +26803,10 @@ export namespace Prisma {
     isInternal?: true
     authorName?: true
     authorRole?: true
+    mediaBase64?: true
+    mediaType?: true
+    source?: true
+    externalId?: true
     createdAt?: true
     ticketId?: true
   }
@@ -26645,6 +26817,10 @@ export namespace Prisma {
     isInternal?: true
     authorName?: true
     authorRole?: true
+    mediaBase64?: true
+    mediaType?: true
+    source?: true
+    externalId?: true
     createdAt?: true
     ticketId?: true
   }
@@ -26655,6 +26831,10 @@ export namespace Prisma {
     isInternal?: true
     authorName?: true
     authorRole?: true
+    mediaBase64?: true
+    mediaType?: true
+    source?: true
+    externalId?: true
     createdAt?: true
     ticketId?: true
     _all?: true
@@ -26738,6 +26918,10 @@ export namespace Prisma {
     isInternal: boolean
     authorName: string
     authorRole: string
+    mediaBase64: string | null
+    mediaType: string | null
+    source: string
+    externalId: string | null
     createdAt: Date
     ticketId: string
     _count: TicketMessageCountAggregateOutputType | null
@@ -26765,6 +26949,10 @@ export namespace Prisma {
     isInternal?: boolean
     authorName?: boolean
     authorRole?: boolean
+    mediaBase64?: boolean
+    mediaType?: boolean
+    source?: boolean
+    externalId?: boolean
     createdAt?: boolean
     ticketId?: boolean
     ticket?: boolean | TicketDefaultArgs<ExtArgs>
@@ -26776,6 +26964,10 @@ export namespace Prisma {
     isInternal?: boolean
     authorName?: boolean
     authorRole?: boolean
+    mediaBase64?: boolean
+    mediaType?: boolean
+    source?: boolean
+    externalId?: boolean
     createdAt?: boolean
     ticketId?: boolean
     ticket?: boolean | TicketDefaultArgs<ExtArgs>
@@ -26787,6 +26979,10 @@ export namespace Prisma {
     isInternal?: boolean
     authorName?: boolean
     authorRole?: boolean
+    mediaBase64?: boolean
+    mediaType?: boolean
+    source?: boolean
+    externalId?: boolean
     createdAt?: boolean
     ticketId?: boolean
   }
@@ -26809,6 +27005,10 @@ export namespace Prisma {
       isInternal: boolean
       authorName: string
       authorRole: string
+      mediaBase64: string | null
+      mediaType: string | null
+      source: string
+      externalId: string | null
       createdAt: Date
       ticketId: string
     }, ExtArgs["result"]["ticketMessage"]>
@@ -27210,6 +27410,10 @@ export namespace Prisma {
     readonly isInternal: FieldRef<"TicketMessage", 'Boolean'>
     readonly authorName: FieldRef<"TicketMessage", 'String'>
     readonly authorRole: FieldRef<"TicketMessage", 'String'>
+    readonly mediaBase64: FieldRef<"TicketMessage", 'String'>
+    readonly mediaType: FieldRef<"TicketMessage", 'String'>
+    readonly source: FieldRef<"TicketMessage", 'String'>
+    readonly externalId: FieldRef<"TicketMessage", 'String'>
     readonly createdAt: FieldRef<"TicketMessage", 'DateTime'>
     readonly ticketId: FieldRef<"TicketMessage", 'String'>
   }
@@ -42429,6 +42633,10 @@ export namespace Prisma {
     clickupTaskId: 'clickupTaskId',
     ticketStage: 'ticketStage',
     isInternal: 'isInternal',
+    type: 'type',
+    dueDate: 'dueDate',
+    clientCompanyId: 'clientCompanyId',
+    assigneeId: 'assigneeId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     companyId: 'companyId',
@@ -42445,6 +42653,10 @@ export namespace Prisma {
     isInternal: 'isInternal',
     authorName: 'authorName',
     authorRole: 'authorRole',
+    mediaBase64: 'mediaBase64',
+    mediaType: 'mediaType',
+    source: 'source',
+    externalId: 'externalId',
     createdAt: 'createdAt',
     ticketId: 'ticketId'
   };
@@ -43081,6 +43293,7 @@ export namespace Prisma {
     companyId?: StringNullableFilter<"User"> | string | null
     company?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     ticketsCreated?: TicketListRelationFilter
+    ticketsAssigned?: TicketListRelationFilter
     companyContact?: XOR<CompanyContactNullableRelationFilter, CompanyContactWhereInput> | null
     setores?: SetorUserListRelationFilter
     conversationsAssigned?: ConversationListRelationFilter
@@ -43101,6 +43314,7 @@ export namespace Prisma {
     companyId?: SortOrderInput | SortOrder
     company?: CompanyOrderByWithRelationInput
     ticketsCreated?: TicketOrderByRelationAggregateInput
+    ticketsAssigned?: TicketOrderByRelationAggregateInput
     companyContact?: CompanyContactOrderByWithRelationInput
     setores?: SetorUserOrderByRelationAggregateInput
     conversationsAssigned?: ConversationOrderByRelationAggregateInput
@@ -43124,6 +43338,7 @@ export namespace Prisma {
     companyId?: StringNullableFilter<"User"> | string | null
     company?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     ticketsCreated?: TicketListRelationFilter
+    ticketsAssigned?: TicketListRelationFilter
     companyContact?: XOR<CompanyContactNullableRelationFilter, CompanyContactWhereInput> | null
     setores?: SetorUserListRelationFilter
     conversationsAssigned?: ConversationListRelationFilter
@@ -43417,6 +43632,7 @@ export namespace Prisma {
     messages?: MessageListRelationFilter
     keywordRules?: KeywordRuleListRelationFilter
     tickets?: TicketListRelationFilter
+    ticketsAsClient?: TicketListRelationFilter
     trackingLinks?: TrackingLinkListRelationFilter
     pipelineStages?: PipelineStageConfigListRelationFilter
     contacts?: CompanyContactListRelationFilter
@@ -43464,6 +43680,7 @@ export namespace Prisma {
     messages?: MessageOrderByRelationAggregateInput
     keywordRules?: KeywordRuleOrderByRelationAggregateInput
     tickets?: TicketOrderByRelationAggregateInput
+    ticketsAsClient?: TicketOrderByRelationAggregateInput
     trackingLinks?: TrackingLinkOrderByRelationAggregateInput
     pipelineStages?: PipelineStageConfigOrderByRelationAggregateInput
     contacts?: CompanyContactOrderByRelationAggregateInput
@@ -43514,6 +43731,7 @@ export namespace Prisma {
     messages?: MessageListRelationFilter
     keywordRules?: KeywordRuleListRelationFilter
     tickets?: TicketListRelationFilter
+    ticketsAsClient?: TicketListRelationFilter
     trackingLinks?: TrackingLinkListRelationFilter
     pipelineStages?: PipelineStageConfigListRelationFilter
     contacts?: CompanyContactListRelationFilter
@@ -44855,11 +45073,17 @@ export namespace Prisma {
     clickupTaskId?: StringNullableFilter<"Ticket"> | string | null
     ticketStage?: StringNullableFilter<"Ticket"> | string | null
     isInternal?: BoolFilter<"Ticket"> | boolean
+    type?: StringFilter<"Ticket"> | string
+    dueDate?: DateTimeNullableFilter<"Ticket"> | Date | string | null
+    clientCompanyId?: StringNullableFilter<"Ticket"> | string | null
+    assigneeId?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     companyId?: StringFilter<"Ticket"> | string
     createdById?: StringNullableFilter<"Ticket"> | string | null
     setorId?: StringNullableFilter<"Ticket"> | string | null
+    clientCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
+    assignee?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     setor?: XOR<SetorNullableRelationFilter, SetorWhereInput> | null
@@ -44878,11 +45102,17 @@ export namespace Prisma {
     clickupTaskId?: SortOrderInput | SortOrder
     ticketStage?: SortOrderInput | SortOrder
     isInternal?: SortOrder
+    type?: SortOrder
+    dueDate?: SortOrderInput | SortOrder
+    clientCompanyId?: SortOrderInput | SortOrder
+    assigneeId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
     createdById?: SortOrderInput | SortOrder
     setorId?: SortOrderInput | SortOrder
+    clientCompany?: CompanyOrderByWithRelationInput
+    assignee?: UserOrderByWithRelationInput
     company?: CompanyOrderByWithRelationInput
     createdBy?: UserOrderByWithRelationInput
     setor?: SetorOrderByWithRelationInput
@@ -44904,11 +45134,17 @@ export namespace Prisma {
     clickupTaskId?: StringNullableFilter<"Ticket"> | string | null
     ticketStage?: StringNullableFilter<"Ticket"> | string | null
     isInternal?: BoolFilter<"Ticket"> | boolean
+    type?: StringFilter<"Ticket"> | string
+    dueDate?: DateTimeNullableFilter<"Ticket"> | Date | string | null
+    clientCompanyId?: StringNullableFilter<"Ticket"> | string | null
+    assigneeId?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     companyId?: StringFilter<"Ticket"> | string
     createdById?: StringNullableFilter<"Ticket"> | string | null
     setorId?: StringNullableFilter<"Ticket"> | string | null
+    clientCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
+    assignee?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     setor?: XOR<SetorNullableRelationFilter, SetorWhereInput> | null
@@ -44927,6 +45163,10 @@ export namespace Prisma {
     clickupTaskId?: SortOrderInput | SortOrder
     ticketStage?: SortOrderInput | SortOrder
     isInternal?: SortOrder
+    type?: SortOrder
+    dueDate?: SortOrderInput | SortOrder
+    clientCompanyId?: SortOrderInput | SortOrder
+    assigneeId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -44951,6 +45191,10 @@ export namespace Prisma {
     clickupTaskId?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     ticketStage?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     isInternal?: BoolWithAggregatesFilter<"Ticket"> | boolean
+    type?: StringWithAggregatesFilter<"Ticket"> | string
+    dueDate?: DateTimeNullableWithAggregatesFilter<"Ticket"> | Date | string | null
+    clientCompanyId?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
+    assigneeId?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Ticket"> | Date | string
     companyId?: StringWithAggregatesFilter<"Ticket"> | string
@@ -44967,6 +45211,10 @@ export namespace Prisma {
     isInternal?: BoolFilter<"TicketMessage"> | boolean
     authorName?: StringFilter<"TicketMessage"> | string
     authorRole?: StringFilter<"TicketMessage"> | string
+    mediaBase64?: StringNullableFilter<"TicketMessage"> | string | null
+    mediaType?: StringNullableFilter<"TicketMessage"> | string | null
+    source?: StringFilter<"TicketMessage"> | string
+    externalId?: StringNullableFilter<"TicketMessage"> | string | null
     createdAt?: DateTimeFilter<"TicketMessage"> | Date | string
     ticketId?: StringFilter<"TicketMessage"> | string
     ticket?: XOR<TicketRelationFilter, TicketWhereInput>
@@ -44978,6 +45226,10 @@ export namespace Prisma {
     isInternal?: SortOrder
     authorName?: SortOrder
     authorRole?: SortOrder
+    mediaBase64?: SortOrderInput | SortOrder
+    mediaType?: SortOrderInput | SortOrder
+    source?: SortOrder
+    externalId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     ticketId?: SortOrder
     ticket?: TicketOrderByWithRelationInput
@@ -44992,6 +45244,10 @@ export namespace Prisma {
     isInternal?: BoolFilter<"TicketMessage"> | boolean
     authorName?: StringFilter<"TicketMessage"> | string
     authorRole?: StringFilter<"TicketMessage"> | string
+    mediaBase64?: StringNullableFilter<"TicketMessage"> | string | null
+    mediaType?: StringNullableFilter<"TicketMessage"> | string | null
+    source?: StringFilter<"TicketMessage"> | string
+    externalId?: StringNullableFilter<"TicketMessage"> | string | null
     createdAt?: DateTimeFilter<"TicketMessage"> | Date | string
     ticketId?: StringFilter<"TicketMessage"> | string
     ticket?: XOR<TicketRelationFilter, TicketWhereInput>
@@ -45003,6 +45259,10 @@ export namespace Prisma {
     isInternal?: SortOrder
     authorName?: SortOrder
     authorRole?: SortOrder
+    mediaBase64?: SortOrderInput | SortOrder
+    mediaType?: SortOrderInput | SortOrder
+    source?: SortOrder
+    externalId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     ticketId?: SortOrder
     _count?: TicketMessageCountOrderByAggregateInput
@@ -45019,6 +45279,10 @@ export namespace Prisma {
     isInternal?: BoolWithAggregatesFilter<"TicketMessage"> | boolean
     authorName?: StringWithAggregatesFilter<"TicketMessage"> | string
     authorRole?: StringWithAggregatesFilter<"TicketMessage"> | string
+    mediaBase64?: StringNullableWithAggregatesFilter<"TicketMessage"> | string | null
+    mediaType?: StringNullableWithAggregatesFilter<"TicketMessage"> | string | null
+    source?: StringWithAggregatesFilter<"TicketMessage"> | string
+    externalId?: StringNullableWithAggregatesFilter<"TicketMessage"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"TicketMessage"> | Date | string
     ticketId?: StringWithAggregatesFilter<"TicketMessage"> | string
   }
@@ -46296,6 +46560,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
     setores?: SetorUserCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
@@ -46315,6 +46580,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
@@ -46334,6 +46600,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
     setores?: SetorUserUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
@@ -46353,6 +46620,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
@@ -46666,6 +46934,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -46712,6 +46981,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -46758,6 +47028,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -46804,6 +47075,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -48253,8 +48525,12 @@ export namespace Prisma {
     clickupTaskId?: string | null
     ticketStage?: string | null
     isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
+    assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
     setor?: SetorCreateNestedOneWithoutTicketsInput
@@ -48273,6 +48549,10 @@ export namespace Prisma {
     clickupTaskId?: string | null
     ticketStage?: string | null
     isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
+    clientCompanyId?: string | null
+    assigneeId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -48293,8 +48573,12 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
+    assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
     setor?: SetorUpdateOneWithoutTicketsNestedInput
@@ -48313,6 +48597,10 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -48333,6 +48621,10 @@ export namespace Prisma {
     clickupTaskId?: string | null
     ticketStage?: string | null
     isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
+    clientCompanyId?: string | null
+    assigneeId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -48351,6 +48643,8 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -48366,6 +48660,10 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -48379,6 +48677,10 @@ export namespace Prisma {
     isInternal?: boolean
     authorName: string
     authorRole?: string
+    mediaBase64?: string | null
+    mediaType?: string | null
+    source?: string
+    externalId?: string | null
     createdAt?: Date | string
     ticket: TicketCreateNestedOneWithoutMessagesInput
   }
@@ -48389,6 +48691,10 @@ export namespace Prisma {
     isInternal?: boolean
     authorName: string
     authorRole?: string
+    mediaBase64?: string | null
+    mediaType?: string | null
+    source?: string
+    externalId?: string | null
     createdAt?: Date | string
     ticketId: string
   }
@@ -48399,6 +48705,10 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     authorName?: StringFieldUpdateOperationsInput | string
     authorRole?: StringFieldUpdateOperationsInput | string
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ticket?: TicketUpdateOneRequiredWithoutMessagesNestedInput
   }
@@ -48409,6 +48719,10 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     authorName?: StringFieldUpdateOperationsInput | string
     authorRole?: StringFieldUpdateOperationsInput | string
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ticketId?: StringFieldUpdateOperationsInput | string
   }
@@ -48419,6 +48733,10 @@ export namespace Prisma {
     isInternal?: boolean
     authorName: string
     authorRole?: string
+    mediaBase64?: string | null
+    mediaType?: string | null
+    source?: string
+    externalId?: string | null
     createdAt?: Date | string
     ticketId: string
   }
@@ -48429,6 +48747,10 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     authorName?: StringFieldUpdateOperationsInput | string
     authorRole?: StringFieldUpdateOperationsInput | string
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -48438,6 +48760,10 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     authorName?: StringFieldUpdateOperationsInput | string
     authorRole?: StringFieldUpdateOperationsInput | string
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ticketId?: StringFieldUpdateOperationsInput | string
   }
@@ -51592,6 +51918,10 @@ export namespace Prisma {
     clickupTaskId?: SortOrder
     ticketStage?: SortOrder
     isInternal?: SortOrder
+    type?: SortOrder
+    dueDate?: SortOrder
+    clientCompanyId?: SortOrder
+    assigneeId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -51610,6 +51940,10 @@ export namespace Prisma {
     clickupTaskId?: SortOrder
     ticketStage?: SortOrder
     isInternal?: SortOrder
+    type?: SortOrder
+    dueDate?: SortOrder
+    clientCompanyId?: SortOrder
+    assigneeId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -51628,6 +51962,10 @@ export namespace Prisma {
     clickupTaskId?: SortOrder
     ticketStage?: SortOrder
     isInternal?: SortOrder
+    type?: SortOrder
+    dueDate?: SortOrder
+    clientCompanyId?: SortOrder
+    assigneeId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -51666,6 +52004,10 @@ export namespace Prisma {
     isInternal?: SortOrder
     authorName?: SortOrder
     authorRole?: SortOrder
+    mediaBase64?: SortOrder
+    mediaType?: SortOrder
+    source?: SortOrder
+    externalId?: SortOrder
     createdAt?: SortOrder
     ticketId?: SortOrder
   }
@@ -51676,6 +52018,10 @@ export namespace Prisma {
     isInternal?: SortOrder
     authorName?: SortOrder
     authorRole?: SortOrder
+    mediaBase64?: SortOrder
+    mediaType?: SortOrder
+    source?: SortOrder
+    externalId?: SortOrder
     createdAt?: SortOrder
     ticketId?: SortOrder
   }
@@ -51686,6 +52032,10 @@ export namespace Prisma {
     isInternal?: SortOrder
     authorName?: SortOrder
     authorRole?: SortOrder
+    mediaBase64?: SortOrder
+    mediaType?: SortOrder
+    source?: SortOrder
+    externalId?: SortOrder
     createdAt?: SortOrder
     ticketId?: SortOrder
   }
@@ -52605,6 +52955,13 @@ export namespace Prisma {
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
   }
 
+  export type TicketCreateNestedManyWithoutAssigneeInput = {
+    create?: XOR<TicketCreateWithoutAssigneeInput, TicketUncheckedCreateWithoutAssigneeInput> | TicketCreateWithoutAssigneeInput[] | TicketUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutAssigneeInput | TicketCreateOrConnectWithoutAssigneeInput[]
+    createMany?: TicketCreateManyAssigneeInputEnvelope
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+  }
+
   export type CompanyContactCreateNestedOneWithoutUserInput = {
     create?: XOR<CompanyContactCreateWithoutUserInput, CompanyContactUncheckedCreateWithoutUserInput>
     connectOrCreate?: CompanyContactCreateOrConnectWithoutUserInput
@@ -52650,6 +53007,13 @@ export namespace Prisma {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
     createMany?: TicketCreateManyCreatedByInputEnvelope
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+  }
+
+  export type TicketUncheckedCreateNestedManyWithoutAssigneeInput = {
+    create?: XOR<TicketCreateWithoutAssigneeInput, TicketUncheckedCreateWithoutAssigneeInput> | TicketCreateWithoutAssigneeInput[] | TicketUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutAssigneeInput | TicketCreateOrConnectWithoutAssigneeInput[]
+    createMany?: TicketCreateManyAssigneeInputEnvelope
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
   }
 
@@ -52731,6 +53095,20 @@ export namespace Prisma {
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
     update?: TicketUpdateWithWhereUniqueWithoutCreatedByInput | TicketUpdateWithWhereUniqueWithoutCreatedByInput[]
     updateMany?: TicketUpdateManyWithWhereWithoutCreatedByInput | TicketUpdateManyWithWhereWithoutCreatedByInput[]
+    deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
+  export type TicketUpdateManyWithoutAssigneeNestedInput = {
+    create?: XOR<TicketCreateWithoutAssigneeInput, TicketUncheckedCreateWithoutAssigneeInput> | TicketCreateWithoutAssigneeInput[] | TicketUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutAssigneeInput | TicketCreateOrConnectWithoutAssigneeInput[]
+    upsert?: TicketUpsertWithWhereUniqueWithoutAssigneeInput | TicketUpsertWithWhereUniqueWithoutAssigneeInput[]
+    createMany?: TicketCreateManyAssigneeInputEnvelope
+    set?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    disconnect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    delete?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    update?: TicketUpdateWithWhereUniqueWithoutAssigneeInput | TicketUpdateWithWhereUniqueWithoutAssigneeInput[]
+    updateMany?: TicketUpdateManyWithWhereWithoutAssigneeInput | TicketUpdateManyWithWhereWithoutAssigneeInput[]
     deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
   }
 
@@ -52825,6 +53203,20 @@ export namespace Prisma {
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
     update?: TicketUpdateWithWhereUniqueWithoutCreatedByInput | TicketUpdateWithWhereUniqueWithoutCreatedByInput[]
     updateMany?: TicketUpdateManyWithWhereWithoutCreatedByInput | TicketUpdateManyWithWhereWithoutCreatedByInput[]
+    deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
+  export type TicketUncheckedUpdateManyWithoutAssigneeNestedInput = {
+    create?: XOR<TicketCreateWithoutAssigneeInput, TicketUncheckedCreateWithoutAssigneeInput> | TicketCreateWithoutAssigneeInput[] | TicketUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutAssigneeInput | TicketCreateOrConnectWithoutAssigneeInput[]
+    upsert?: TicketUpsertWithWhereUniqueWithoutAssigneeInput | TicketUpsertWithWhereUniqueWithoutAssigneeInput[]
+    createMany?: TicketCreateManyAssigneeInputEnvelope
+    set?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    disconnect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    delete?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    update?: TicketUpdateWithWhereUniqueWithoutAssigneeInput | TicketUpdateWithWhereUniqueWithoutAssigneeInput[]
+    updateMany?: TicketUpdateManyWithWhereWithoutAssigneeInput | TicketUpdateManyWithWhereWithoutAssigneeInput[]
     deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
   }
 
@@ -53037,6 +53429,13 @@ export namespace Prisma {
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
   }
 
+  export type TicketCreateNestedManyWithoutClientCompanyInput = {
+    create?: XOR<TicketCreateWithoutClientCompanyInput, TicketUncheckedCreateWithoutClientCompanyInput> | TicketCreateWithoutClientCompanyInput[] | TicketUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutClientCompanyInput | TicketCreateOrConnectWithoutClientCompanyInput[]
+    createMany?: TicketCreateManyClientCompanyInputEnvelope
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+  }
+
   export type TrackingLinkCreateNestedManyWithoutCompanyInput = {
     create?: XOR<TrackingLinkCreateWithoutCompanyInput, TrackingLinkUncheckedCreateWithoutCompanyInput> | TrackingLinkCreateWithoutCompanyInput[] | TrackingLinkUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: TrackingLinkCreateOrConnectWithoutCompanyInput | TrackingLinkCreateOrConnectWithoutCompanyInput[]
@@ -53201,6 +53600,13 @@ export namespace Prisma {
     create?: XOR<TicketCreateWithoutCompanyInput, TicketUncheckedCreateWithoutCompanyInput> | TicketCreateWithoutCompanyInput[] | TicketUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCompanyInput | TicketCreateOrConnectWithoutCompanyInput[]
     createMany?: TicketCreateManyCompanyInputEnvelope
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+  }
+
+  export type TicketUncheckedCreateNestedManyWithoutClientCompanyInput = {
+    create?: XOR<TicketCreateWithoutClientCompanyInput, TicketUncheckedCreateWithoutClientCompanyInput> | TicketCreateWithoutClientCompanyInput[] | TicketUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutClientCompanyInput | TicketCreateOrConnectWithoutClientCompanyInput[]
+    createMany?: TicketCreateManyClientCompanyInputEnvelope
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
   }
 
@@ -53438,6 +53844,20 @@ export namespace Prisma {
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
     update?: TicketUpdateWithWhereUniqueWithoutCompanyInput | TicketUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: TicketUpdateManyWithWhereWithoutCompanyInput | TicketUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
+  export type TicketUpdateManyWithoutClientCompanyNestedInput = {
+    create?: XOR<TicketCreateWithoutClientCompanyInput, TicketUncheckedCreateWithoutClientCompanyInput> | TicketCreateWithoutClientCompanyInput[] | TicketUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutClientCompanyInput | TicketCreateOrConnectWithoutClientCompanyInput[]
+    upsert?: TicketUpsertWithWhereUniqueWithoutClientCompanyInput | TicketUpsertWithWhereUniqueWithoutClientCompanyInput[]
+    createMany?: TicketCreateManyClientCompanyInputEnvelope
+    set?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    disconnect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    delete?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    update?: TicketUpdateWithWhereUniqueWithoutClientCompanyInput | TicketUpdateWithWhereUniqueWithoutClientCompanyInput[]
+    updateMany?: TicketUpdateManyWithWhereWithoutClientCompanyInput | TicketUpdateManyWithWhereWithoutClientCompanyInput[]
     deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
   }
 
@@ -53770,6 +54190,20 @@ export namespace Prisma {
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
     update?: TicketUpdateWithWhereUniqueWithoutCompanyInput | TicketUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: TicketUpdateManyWithWhereWithoutCompanyInput | TicketUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
+  export type TicketUncheckedUpdateManyWithoutClientCompanyNestedInput = {
+    create?: XOR<TicketCreateWithoutClientCompanyInput, TicketUncheckedCreateWithoutClientCompanyInput> | TicketCreateWithoutClientCompanyInput[] | TicketUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutClientCompanyInput | TicketCreateOrConnectWithoutClientCompanyInput[]
+    upsert?: TicketUpsertWithWhereUniqueWithoutClientCompanyInput | TicketUpsertWithWhereUniqueWithoutClientCompanyInput[]
+    createMany?: TicketCreateManyClientCompanyInputEnvelope
+    set?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    disconnect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    delete?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    update?: TicketUpdateWithWhereUniqueWithoutClientCompanyInput | TicketUpdateWithWhereUniqueWithoutClientCompanyInput[]
+    updateMany?: TicketUpdateManyWithWhereWithoutClientCompanyInput | TicketUpdateManyWithWhereWithoutClientCompanyInput[]
     deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
   }
 
@@ -55101,6 +55535,18 @@ export namespace Prisma {
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutActivitiesInput, CompanyUpdateWithoutActivitiesInput>, CompanyUncheckedUpdateWithoutActivitiesInput>
   }
 
+  export type CompanyCreateNestedOneWithoutTicketsAsClientInput = {
+    create?: XOR<CompanyCreateWithoutTicketsAsClientInput, CompanyUncheckedCreateWithoutTicketsAsClientInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutTicketsAsClientInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutTicketsAssignedInput = {
+    create?: XOR<UserCreateWithoutTicketsAssignedInput, UserUncheckedCreateWithoutTicketsAssignedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTicketsAssignedInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type CompanyCreateNestedOneWithoutTicketsInput = {
     create?: XOR<CompanyCreateWithoutTicketsInput, CompanyUncheckedCreateWithoutTicketsInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutTicketsInput
@@ -55153,6 +55599,26 @@ export namespace Prisma {
 
   export type EnumTicketPriorityFieldUpdateOperationsInput = {
     set?: $Enums.TicketPriority
+  }
+
+  export type CompanyUpdateOneWithoutTicketsAsClientNestedInput = {
+    create?: XOR<CompanyCreateWithoutTicketsAsClientInput, CompanyUncheckedCreateWithoutTicketsAsClientInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutTicketsAsClientInput
+    upsert?: CompanyUpsertWithoutTicketsAsClientInput
+    disconnect?: CompanyWhereInput | boolean
+    delete?: CompanyWhereInput | boolean
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutTicketsAsClientInput, CompanyUpdateWithoutTicketsAsClientInput>, CompanyUncheckedUpdateWithoutTicketsAsClientInput>
+  }
+
+  export type UserUpdateOneWithoutTicketsAssignedNestedInput = {
+    create?: XOR<UserCreateWithoutTicketsAssignedInput, UserUncheckedCreateWithoutTicketsAssignedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTicketsAssignedInput
+    upsert?: UserUpsertWithoutTicketsAssignedInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTicketsAssignedInput, UserUpdateWithoutTicketsAssignedInput>, UserUncheckedUpdateWithoutTicketsAssignedInput>
   }
 
   export type CompanyUpdateOneRequiredWithoutTicketsNestedInput = {
@@ -56419,6 +56885,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -56464,6 +56931,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -56498,8 +56966,12 @@ export namespace Prisma {
     clickupTaskId?: string | null
     ticketStage?: string | null
     isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
+    assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
     setor?: SetorCreateNestedOneWithoutTicketsInput
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
@@ -56517,6 +56989,10 @@ export namespace Prisma {
     clickupTaskId?: string | null
     ticketStage?: string | null
     isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
+    clientCompanyId?: string | null
+    assigneeId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -56532,6 +57008,62 @@ export namespace Prisma {
 
   export type TicketCreateManyCreatedByInputEnvelope = {
     data: TicketCreateManyCreatedByInput | TicketCreateManyCreatedByInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TicketCreateWithoutAssigneeInput = {
+    id?: string
+    title: string
+    description: string
+    status?: $Enums.TicketStatus
+    priority?: $Enums.TicketPriority
+    category?: string | null
+    phone?: string | null
+    clickupTaskId?: string | null
+    ticketStage?: string | null
+    isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
+    company: CompanyCreateNestedOneWithoutTicketsInput
+    createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
+    setor?: SetorCreateNestedOneWithoutTicketsInput
+    messages?: TicketMessageCreateNestedManyWithoutTicketInput
+    activities?: ActivityCreateNestedManyWithoutTicketInput
+  }
+
+  export type TicketUncheckedCreateWithoutAssigneeInput = {
+    id?: string
+    title: string
+    description: string
+    status?: $Enums.TicketStatus
+    priority?: $Enums.TicketPriority
+    category?: string | null
+    phone?: string | null
+    clickupTaskId?: string | null
+    ticketStage?: string | null
+    isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
+    clientCompanyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    createdById?: string | null
+    setorId?: string | null
+    messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
+  }
+
+  export type TicketCreateOrConnectWithoutAssigneeInput = {
+    where: TicketWhereUniqueInput
+    create: XOR<TicketCreateWithoutAssigneeInput, TicketUncheckedCreateWithoutAssigneeInput>
+  }
+
+  export type TicketCreateManyAssigneeInputEnvelope = {
+    data: TicketCreateManyAssigneeInput | TicketCreateManyAssigneeInput[]
     skipDuplicates?: boolean
   }
 
@@ -56772,6 +57304,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -56817,6 +57350,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -56865,11 +57399,31 @@ export namespace Prisma {
     clickupTaskId?: StringNullableFilter<"Ticket"> | string | null
     ticketStage?: StringNullableFilter<"Ticket"> | string | null
     isInternal?: BoolFilter<"Ticket"> | boolean
+    type?: StringFilter<"Ticket"> | string
+    dueDate?: DateTimeNullableFilter<"Ticket"> | Date | string | null
+    clientCompanyId?: StringNullableFilter<"Ticket"> | string | null
+    assigneeId?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     companyId?: StringFilter<"Ticket"> | string
     createdById?: StringNullableFilter<"Ticket"> | string | null
     setorId?: StringNullableFilter<"Ticket"> | string | null
+  }
+
+  export type TicketUpsertWithWhereUniqueWithoutAssigneeInput = {
+    where: TicketWhereUniqueInput
+    update: XOR<TicketUpdateWithoutAssigneeInput, TicketUncheckedUpdateWithoutAssigneeInput>
+    create: XOR<TicketCreateWithoutAssigneeInput, TicketUncheckedCreateWithoutAssigneeInput>
+  }
+
+  export type TicketUpdateWithWhereUniqueWithoutAssigneeInput = {
+    where: TicketWhereUniqueInput
+    data: XOR<TicketUpdateWithoutAssigneeInput, TicketUncheckedUpdateWithoutAssigneeInput>
+  }
+
+  export type TicketUpdateManyWithWhereWithoutAssigneeInput = {
+    where: TicketScalarWhereInput
+    data: XOR<TicketUpdateManyMutationInput, TicketUncheckedUpdateManyWithoutAssigneeInput>
   }
 
   export type CompanyContactUpsertWithoutUserInput = {
@@ -57074,6 +57628,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
     setores?: SetorUserCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
@@ -57092,6 +57647,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
@@ -57126,6 +57682,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
     setores?: SetorUserUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
@@ -57144,6 +57701,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
@@ -57162,6 +57720,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
     setores?: SetorUserCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
@@ -57180,6 +57739,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
@@ -57214,6 +57774,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
     setores?: SetorUserUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
@@ -57232,6 +57793,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
@@ -57250,6 +57812,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
     setores?: SetorUserCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
@@ -57268,6 +57831,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
@@ -57302,6 +57866,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
     setores?: SetorUserUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
@@ -57320,6 +57885,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
@@ -57354,6 +57920,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -57399,6 +57966,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -57449,6 +58017,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -57494,6 +58063,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -57532,6 +58102,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
     setores?: SetorUserCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
@@ -57550,6 +58121,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
@@ -57807,8 +58379,12 @@ export namespace Prisma {
     clickupTaskId?: string | null
     ticketStage?: string | null
     isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
+    assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
     setor?: SetorCreateNestedOneWithoutTicketsInput
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
@@ -57826,6 +58402,10 @@ export namespace Prisma {
     clickupTaskId?: string | null
     ticketStage?: string | null
     isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
+    clientCompanyId?: string | null
+    assigneeId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById?: string | null
@@ -57841,6 +58421,62 @@ export namespace Prisma {
 
   export type TicketCreateManyCompanyInputEnvelope = {
     data: TicketCreateManyCompanyInput | TicketCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TicketCreateWithoutClientCompanyInput = {
+    id?: string
+    title: string
+    description: string
+    status?: $Enums.TicketStatus
+    priority?: $Enums.TicketPriority
+    category?: string | null
+    phone?: string | null
+    clickupTaskId?: string | null
+    ticketStage?: string | null
+    isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
+    company: CompanyCreateNestedOneWithoutTicketsInput
+    createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
+    setor?: SetorCreateNestedOneWithoutTicketsInput
+    messages?: TicketMessageCreateNestedManyWithoutTicketInput
+    activities?: ActivityCreateNestedManyWithoutTicketInput
+  }
+
+  export type TicketUncheckedCreateWithoutClientCompanyInput = {
+    id?: string
+    title: string
+    description: string
+    status?: $Enums.TicketStatus
+    priority?: $Enums.TicketPriority
+    category?: string | null
+    phone?: string | null
+    clickupTaskId?: string | null
+    ticketStage?: string | null
+    isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
+    assigneeId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    createdById?: string | null
+    setorId?: string | null
+    messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
+  }
+
+  export type TicketCreateOrConnectWithoutClientCompanyInput = {
+    where: TicketWhereUniqueInput
+    create: XOR<TicketCreateWithoutClientCompanyInput, TicketUncheckedCreateWithoutClientCompanyInput>
+  }
+
+  export type TicketCreateManyClientCompanyInputEnvelope = {
+    data: TicketCreateManyClientCompanyInput | TicketCreateManyClientCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -58521,6 +59157,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -58566,6 +59203,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -58850,6 +59488,22 @@ export namespace Prisma {
   export type TicketUpdateManyWithWhereWithoutCompanyInput = {
     where: TicketScalarWhereInput
     data: XOR<TicketUpdateManyMutationInput, TicketUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type TicketUpsertWithWhereUniqueWithoutClientCompanyInput = {
+    where: TicketWhereUniqueInput
+    update: XOR<TicketUpdateWithoutClientCompanyInput, TicketUncheckedUpdateWithoutClientCompanyInput>
+    create: XOR<TicketCreateWithoutClientCompanyInput, TicketUncheckedCreateWithoutClientCompanyInput>
+  }
+
+  export type TicketUpdateWithWhereUniqueWithoutClientCompanyInput = {
+    where: TicketWhereUniqueInput
+    data: XOR<TicketUpdateWithoutClientCompanyInput, TicketUncheckedUpdateWithoutClientCompanyInput>
+  }
+
+  export type TicketUpdateManyWithWhereWithoutClientCompanyInput = {
+    where: TicketScalarWhereInput
+    data: XOR<TicketUpdateManyMutationInput, TicketUncheckedUpdateManyWithoutClientCompanyInput>
   }
 
   export type TrackingLinkUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -59419,6 +60073,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -59464,6 +60119,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -59713,6 +60369,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -59758,6 +60415,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -59909,6 +60567,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -59954,6 +60613,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -60148,6 +60808,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -60193,6 +60854,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -60360,6 +61022,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -60405,6 +61068,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -60713,6 +61377,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -60758,6 +61423,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -61132,6 +61798,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -61177,6 +61844,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -61238,6 +61906,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -61283,6 +61952,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -61328,6 +61998,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -61373,6 +62044,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -61406,6 +62078,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
     setores?: SetorUserCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
     googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
@@ -61424,6 +62097,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
     googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
@@ -61475,6 +62149,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -61520,6 +62195,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -61559,6 +62235,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
     setores?: SetorUserUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
     googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
@@ -61577,6 +62254,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
     googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
@@ -61611,6 +62289,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -61656,6 +62335,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -61791,6 +62471,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -61836,6 +62517,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -61921,6 +62603,7 @@ export namespace Prisma {
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -61966,6 +62649,7 @@ export namespace Prisma {
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -62209,6 +62893,7 @@ export namespace Prisma {
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -62254,6 +62939,7 @@ export namespace Prisma {
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -62505,6 +63191,7 @@ export namespace Prisma {
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -62550,6 +63237,7 @@ export namespace Prisma {
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -62652,6 +63340,7 @@ export namespace Prisma {
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -62697,6 +63386,7 @@ export namespace Prisma {
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -62773,6 +63463,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
     setores?: SetorUserCreateNestedManyWithoutUserInput
     googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
@@ -62791,6 +63482,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
     googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
@@ -62880,6 +63572,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -62925,6 +63618,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -63151,6 +63845,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
     setores?: SetorUserUpdateManyWithoutUserNestedInput
     googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
@@ -63169,6 +63864,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
     googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
@@ -63270,6 +63966,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -63315,6 +64012,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -63642,8 +64340,12 @@ export namespace Prisma {
     clickupTaskId?: string | null
     ticketStage?: string | null
     isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
+    assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
     setor?: SetorCreateNestedOneWithoutTicketsInput
@@ -63661,6 +64363,10 @@ export namespace Prisma {
     clickupTaskId?: string | null
     ticketStage?: string | null
     isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
+    clientCompanyId?: string | null
+    assigneeId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -63702,6 +64408,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -63747,6 +64454,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -63913,8 +64621,12 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
+    assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
     setor?: SetorUpdateOneWithoutTicketsNestedInput
@@ -63932,6 +64644,10 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -63979,6 +64695,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -64024,6 +64741,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -64039,6 +64757,146 @@ export namespace Prisma {
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutTicketsAsClientInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutTicketsAsClientInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutTicketsAsClientInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutTicketsAsClientInput, CompanyUncheckedCreateWithoutTicketsAsClientInput>
+  }
+
+  export type UserCreateWithoutTicketsAssignedInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutTicketsAssignedInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    companyId?: string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutTicketsAssignedInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutTicketsAssignedInput, UserUncheckedCreateWithoutTicketsAssignedInput>
   }
 
   export type CompanyCreateWithoutTicketsInput = {
@@ -64068,6 +64926,7 @@ export namespace Prisma {
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -64113,6 +64972,7 @@ export namespace Prisma {
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -64146,6 +65006,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
     setores?: SetorUserCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
@@ -64164,6 +65025,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     companyId?: string | null
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
@@ -64232,6 +65094,10 @@ export namespace Prisma {
     isInternal?: boolean
     authorName: string
     authorRole?: string
+    mediaBase64?: string | null
+    mediaType?: string | null
+    source?: string
+    externalId?: string | null
     createdAt?: Date | string
   }
 
@@ -64241,6 +65107,10 @@ export namespace Prisma {
     isInternal?: boolean
     authorName: string
     authorRole?: string
+    mediaBase64?: string | null
+    mediaType?: string | null
+    source?: string
+    externalId?: string | null
     createdAt?: Date | string
   }
 
@@ -64290,6 +65160,158 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CompanyUpsertWithoutTicketsAsClientInput = {
+    update: XOR<CompanyUpdateWithoutTicketsAsClientInput, CompanyUncheckedUpdateWithoutTicketsAsClientInput>
+    create: XOR<CompanyCreateWithoutTicketsAsClientInput, CompanyUncheckedCreateWithoutTicketsAsClientInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutTicketsAsClientInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutTicketsAsClientInput, CompanyUncheckedUpdateWithoutTicketsAsClientInput>
+  }
+
+  export type CompanyUpdateWithoutTicketsAsClientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutTicketsAsClientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type UserUpsertWithoutTicketsAssignedInput = {
+    update: XOR<UserUpdateWithoutTicketsAssignedInput, UserUncheckedUpdateWithoutTicketsAssignedInput>
+    create: XOR<UserCreateWithoutTicketsAssignedInput, UserUncheckedCreateWithoutTicketsAssignedInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutTicketsAssignedInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutTicketsAssignedInput, UserUncheckedUpdateWithoutTicketsAssignedInput>
+  }
+
+  export type UserUpdateWithoutTicketsAssignedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutTicketsAssignedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type CompanyUpsertWithoutTicketsInput = {
     update: XOR<CompanyUpdateWithoutTicketsInput, CompanyUncheckedUpdateWithoutTicketsInput>
     create: XOR<CompanyCreateWithoutTicketsInput, CompanyUncheckedCreateWithoutTicketsInput>
@@ -64328,6 +65350,7 @@ export namespace Prisma {
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -64373,6 +65396,7 @@ export namespace Prisma {
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -64412,6 +65436,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
     setores?: SetorUserUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
@@ -64430,6 +65455,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
@@ -64518,6 +65544,10 @@ export namespace Prisma {
     isInternal?: BoolFilter<"TicketMessage"> | boolean
     authorName?: StringFilter<"TicketMessage"> | string
     authorRole?: StringFilter<"TicketMessage"> | string
+    mediaBase64?: StringNullableFilter<"TicketMessage"> | string | null
+    mediaType?: StringNullableFilter<"TicketMessage"> | string | null
+    source?: StringFilter<"TicketMessage"> | string
+    externalId?: StringNullableFilter<"TicketMessage"> | string | null
     createdAt?: DateTimeFilter<"TicketMessage"> | Date | string
     ticketId?: StringFilter<"TicketMessage"> | string
   }
@@ -64549,8 +65579,12 @@ export namespace Prisma {
     clickupTaskId?: string | null
     ticketStage?: string | null
     isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
+    assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
     setor?: SetorCreateNestedOneWithoutTicketsInput
@@ -64568,6 +65602,10 @@ export namespace Prisma {
     clickupTaskId?: string | null
     ticketStage?: string | null
     isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
+    clientCompanyId?: string | null
+    assigneeId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -64603,8 +65641,12 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
+    assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
     setor?: SetorUpdateOneWithoutTicketsNestedInput
@@ -64622,6 +65664,10 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -64658,6 +65704,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -64703,6 +65750,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -64772,8 +65820,12 @@ export namespace Prisma {
     clickupTaskId?: string | null
     ticketStage?: string | null
     isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
+    assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
@@ -64791,6 +65843,10 @@ export namespace Prisma {
     clickupTaskId?: string | null
     ticketStage?: string | null
     isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
+    clientCompanyId?: string | null
+    assigneeId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -64906,6 +65962,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -64951,6 +66008,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -65092,6 +66150,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
     googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
@@ -65110,6 +66169,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
     googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
@@ -65199,6 +66259,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
     googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
@@ -65217,6 +66278,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
     googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
@@ -65424,6 +66486,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -65469,6 +66532,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -65574,6 +66638,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -65619,6 +66684,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -65877,6 +66943,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -65922,6 +66989,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -66028,6 +67096,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -66073,6 +67142,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -66118,6 +67188,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -66163,6 +67234,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -66224,6 +67296,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -66269,6 +67342,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -66314,6 +67388,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -66359,6 +67434,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -66420,6 +67496,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -66465,6 +67542,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -66510,6 +67588,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -66555,6 +67634,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -66616,6 +67696,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -66661,6 +67742,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -66706,6 +67788,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -66751,6 +67834,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -66812,6 +67896,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -66857,6 +67942,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -66902,6 +67988,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -66947,6 +68034,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -67008,6 +68096,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -67053,6 +68142,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -67098,6 +68188,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -67143,6 +68234,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -67204,6 +68296,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -67249,6 +68342,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -67294,6 +68388,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -67339,6 +68434,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -67400,6 +68496,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -67445,6 +68542,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -67490,6 +68588,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -67535,6 +68634,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -67596,6 +68696,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -67641,6 +68742,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -67669,9 +68771,34 @@ export namespace Prisma {
     clickupTaskId?: string | null
     ticketStage?: string | null
     isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
+    clientCompanyId?: string | null
+    assigneeId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
+    setorId?: string | null
+  }
+
+  export type TicketCreateManyAssigneeInput = {
+    id?: string
+    title: string
+    description: string
+    status?: $Enums.TicketStatus
+    priority?: $Enums.TicketPriority
+    category?: string | null
+    phone?: string | null
+    clickupTaskId?: string | null
+    ticketStage?: string | null
+    isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
+    clientCompanyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    createdById?: string | null
     setorId?: string | null
   }
 
@@ -67742,8 +68869,12 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
+    assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
     setor?: SetorUpdateOneWithoutTicketsNestedInput
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
@@ -67761,6 +68892,10 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -67780,9 +68915,80 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TicketUpdateWithoutAssigneeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
+    company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
+    createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
+    setor?: SetorUpdateOneWithoutTicketsNestedInput
+    messages?: TicketMessageUpdateManyWithoutTicketNestedInput
+    activities?: ActivityUpdateManyWithoutTicketNestedInput
+  }
+
+  export type TicketUncheckedUpdateWithoutAssigneeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+    messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
+  }
+
+  export type TicketUncheckedUpdateManyWithoutAssigneeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -68085,8 +69291,33 @@ export namespace Prisma {
     clickupTaskId?: string | null
     ticketStage?: string | null
     isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
+    clientCompanyId?: string | null
+    assigneeId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    createdById?: string | null
+    setorId?: string | null
+  }
+
+  export type TicketCreateManyClientCompanyInput = {
+    id?: string
+    title: string
+    description: string
+    status?: $Enums.TicketStatus
+    priority?: $Enums.TicketPriority
+    category?: string | null
+    phone?: string | null
+    clickupTaskId?: string | null
+    ticketStage?: string | null
+    isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
+    assigneeId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
     createdById?: string | null
     setorId?: string | null
   }
@@ -68327,6 +69558,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -68372,6 +69604,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -68421,6 +69654,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
     setores?: SetorUserUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
@@ -68439,6 +69673,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
@@ -68727,8 +69962,12 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
+    assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
     setor?: SetorUpdateOneWithoutTicketsNestedInput
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
@@ -68746,6 +69985,10 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -68765,8 +70008,79 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TicketUpdateWithoutClientCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
+    company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
+    createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
+    setor?: SetorUpdateOneWithoutTicketsNestedInput
+    messages?: TicketMessageUpdateManyWithoutTicketNestedInput
+    activities?: ActivityUpdateManyWithoutTicketNestedInput
+  }
+
+  export type TicketUncheckedUpdateWithoutClientCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+    messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
+  }
+
+  export type TicketUncheckedUpdateManyWithoutClientCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -70396,6 +71710,10 @@ export namespace Prisma {
     isInternal?: boolean
     authorName: string
     authorRole?: string
+    mediaBase64?: string | null
+    mediaType?: string | null
+    source?: string
+    externalId?: string | null
     createdAt?: Date | string
   }
 
@@ -70418,6 +71736,10 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     authorName?: StringFieldUpdateOperationsInput | string
     authorRole?: StringFieldUpdateOperationsInput | string
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -70427,6 +71749,10 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     authorName?: StringFieldUpdateOperationsInput | string
     authorRole?: StringFieldUpdateOperationsInput | string
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -70436,6 +71762,10 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     authorName?: StringFieldUpdateOperationsInput | string
     authorRole?: StringFieldUpdateOperationsInput | string
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -70497,6 +71827,10 @@ export namespace Prisma {
     clickupTaskId?: string | null
     ticketStage?: string | null
     isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
+    clientCompanyId?: string | null
+    assigneeId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -70558,8 +71892,12 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
+    assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
@@ -70577,6 +71915,10 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -70596,6 +71938,10 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string

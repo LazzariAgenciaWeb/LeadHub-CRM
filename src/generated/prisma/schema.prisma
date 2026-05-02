@@ -28,6 +28,7 @@ model User {
   companyId String?
 
   ticketsCreated        Ticket[]               @relation("TicketCreatedBy")
+  ticketsAssigned       Ticket[]               @relation("TicketAssignee")
   companyContact        CompanyContact?        @relation("ContactUser")
   setores               SetorUser[]
   conversationsAssigned Conversation[]         @relation("ConversationAssignee")
@@ -142,6 +143,7 @@ model Company {
   messages                Message[]
   keywordRules            KeywordRule[]
   tickets                 Ticket[]
+  ticketsAsClient         Ticket[]                 @relation("TicketClientCompany")
   trackingLinks           TrackingLink[]
   pipelineStages          PipelineStageConfig[]
   contacts                CompanyContact[]
@@ -613,8 +615,27 @@ model Ticket {
   ticketStage   String? // etapa configurável do kanban de chamados
   // Visibilidade: isInternal=true → visível apenas ao SUPER_ADMIN (não aparece no portal do cliente)
   isInternal    Boolean        @default(false)
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+
+  // Tipo do registro:
+  //   SUPPORT  — chamado de cliente externo (default, fluxo tradicional)
+  //   INTERNAL — tarefa interna / afazer pessoal (sem cliente vinculado, fora do ClickUp)
+  type String @default("SUPPORT")
+
+  // Prazo previsto pra dar retorno/encerrar. Obrigatório no novo fluxo (validado
+  // no API), mas mantido nullable no banco pra não quebrar registros antigos.
+  dueDate DateTime?
+
+  // Empresa-cliente do chamado (FOR quem é o atendimento). Diferente de
+  // companyId, que é a empresa-dona do ticket (a agência). Para INTERNAL, null.
+  clientCompany   Company? @relation("TicketClientCompany", fields: [clientCompanyId], references: [id])
+  clientCompanyId String?
+
+  // Atendente responsável (mesmo padrão da Conversation). Opcional.
+  assignee   User?   @relation("TicketAssignee", fields: [assigneeId], references: [id])
+  assigneeId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
@@ -632,20 +653,36 @@ model Ticket {
   @@index([companyId])
   @@index([status])
   @@index([setorId])
+  @@index([assigneeId])
+  @@index([clientCompanyId])
+  @@index([dueDate])
 }
 
 model TicketMessage {
-  id         String   @id @default(cuid())
-  body       String   @db.Text
-  isInternal Boolean  @default(false)
+  id         String  @id @default(cuid())
+  body       String  @db.Text
+  isInternal Boolean @default(false)
   authorName String
-  authorRole String   @default("CLIENT")
-  createdAt  DateTime @default(now())
+  authorRole String  @default("CLIENT")
+
+  // Anexos de imagem em base64 — mesmo padrão de Message do WhatsApp.
+  // Mantemos no DB pra simplificar (sem storage externo). Vídeos/docs grandes
+  // devem ser linkados em vez de embutidos.
+  mediaBase64 String? @db.Text
+  mediaType   String? // MIME: "image/jpeg", "image/png", etc.
+
+  // Origem da mensagem (pra audit + dedup quando vem do ClickUp).
+  // "LEADHUB" (default) | "CLICKUP" | "CLIENT_PORTAL"
+  source     String  @default("LEADHUB")
+  externalId String? // ID do comentário no ClickUp (evita criar duplicado em sync)
+
+  createdAt DateTime @default(now())
 
   ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
   ticketId String
 
   @@index([ticketId])
+  @@index([externalId])
 }
 
 enum TicketStatus {

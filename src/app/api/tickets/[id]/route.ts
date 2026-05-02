@@ -19,8 +19,11 @@ export async function GET(
   const ticket = await prisma.ticket.findUnique({
     where: { id },
     include: {
-      company: { select: { id: true, name: true } },
-      messages: { orderBy: { createdAt: "asc" } },
+      company:       { select: { id: true, name: true } },
+      clientCompany: { select: { id: true, name: true, phone: true, email: true } },
+      assignee:      { select: { id: true, name: true } },
+      setor:         { select: { id: true, name: true } },
+      messages:      { orderBy: { createdAt: "asc" } },
     },
   });
 
@@ -43,10 +46,16 @@ export async function PATCH(
 
   const { id } = await params;
   const body = await req.json();
-  const { status, priority, category, title, clickupTaskId, ticketStage, companyId } = body;
+  const {
+    status, priority, category, title, clickupTaskId, ticketStage, companyId,
+    dueDate, assigneeId, setorId, clientCompanyId,
+  } = body;
 
   // Fetch existing task ID before update (in case user didn't send it)
-  const existing = await prisma.ticket.findUnique({ where: { id }, select: { clickupTaskId: true } });
+  const existing = await prisma.ticket.findUnique({
+    where: { id },
+    select: { clickupTaskId: true, type: true },
+  });
 
   const ticket = await prisma.ticket.update({
     where: { id },
@@ -55,8 +64,17 @@ export async function PATCH(
       ...(clickupTaskId !== undefined && { clickupTaskId: clickupTaskId ?? null }),
       ...(ticketStage !== undefined && { ticketStage: ticketStage ?? null }),
       ...(companyId !== undefined && { companyId }),
+      ...(dueDate !== undefined && { dueDate: dueDate ? new Date(dueDate) : null }),
+      ...(assigneeId !== undefined && { assigneeId: assigneeId ?? null }),
+      ...(setorId !== undefined && { setorId: setorId ?? null }),
+      ...(clientCompanyId !== undefined && { clientCompanyId: clientCompanyId ?? null }),
     },
-    include: { company: { select: { id: true, name: true } } },
+    include: {
+      company:       { select: { id: true, name: true } },
+      clientCompany: { select: { id: true, name: true } },
+      assignee:      { select: { id: true, name: true } },
+      setor:         { select: { id: true, name: true } },
+    },
   });
 
   // ── ClickUp auto-sync ──────────────────────────────────────────────────

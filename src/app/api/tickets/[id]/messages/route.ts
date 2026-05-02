@@ -24,9 +24,11 @@ export async function POST(
   }
 
   const body = await req.json();
-  const { messageBody, isInternal } = body;
+  const { messageBody, isInternal, mediaBase64, mediaType } = body;
 
-  if (!messageBody?.trim()) {
+  // Aceita mensagem vazia se houver anexo (igual WhatsApp permite mandar só foto)
+  const hasMedia = !!(mediaBase64 && mediaType);
+  if (!hasMedia && !messageBody?.trim()) {
     return NextResponse.json({ error: "Mensagem não pode ser vazia" }, { status: 400 });
   }
 
@@ -39,10 +41,13 @@ export async function POST(
   const [message] = await prisma.$transaction([
     prisma.ticketMessage.create({
       data: {
-        body: messageBody.trim(),
+        body: (messageBody ?? "").trim(),
         authorName: session.user?.name ?? "Usuário",
         authorRole: userRole,
         isInternal: isInternal && userRole === "SUPER_ADMIN",
+        mediaBase64: mediaBase64 || null,
+        mediaType:   mediaType || null,
+        source: "LEADHUB",
         ticketId,
       },
     }),

@@ -391,6 +391,10 @@ exports.Prisma.TicketScalarFieldEnum = {
   clickupTaskId: 'clickupTaskId',
   ticketStage: 'ticketStage',
   isInternal: 'isInternal',
+  type: 'type',
+  dueDate: 'dueDate',
+  clientCompanyId: 'clientCompanyId',
+  assigneeId: 'assigneeId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   companyId: 'companyId',
@@ -404,6 +408,10 @@ exports.Prisma.TicketMessageScalarFieldEnum = {
   isInternal: 'isInternal',
   authorName: 'authorName',
   authorRole: 'authorRole',
+  mediaBase64: 'mediaBase64',
+  mediaType: 'mediaType',
+  source: 'source',
+  externalId: 'externalId',
   createdAt: 'createdAt',
   ticketId: 'ticketId'
 };
