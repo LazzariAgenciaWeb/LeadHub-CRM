@@ -361,6 +361,7 @@ exports.Prisma.ConversationNoteScalarFieldEnum = {
   body: 'body',
   authorId: 'authorId',
   authorName: 'authorName',
+  type: 'type',
   createdAt: 'createdAt',
   conversationId: 'conversationId'
 };

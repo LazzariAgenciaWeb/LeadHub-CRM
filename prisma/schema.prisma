@@ -535,6 +535,11 @@ model ConversationNote {
   body       String   @db.Text
   authorId   String?
   authorName String   @default("Sistema")
+  // Tipo da nota — controla apresentação visual no chat:
+  //   STANDARD  → amarelo/âmbar (anotação manual do atendente)
+  //   SCHEDULED → roxo  (auto-gerada quando se agenda retorno)
+  //   SYSTEM    → cinza (eventos automáticos diversos)
+  type       String   @default("STANDARD")
   createdAt  DateTime @default(now())
 
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)

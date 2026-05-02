@@ -130,6 +130,52 @@ export async function PATCH(
     }).catch(() => { /* não crítico */ });
   }
 
+  // Cria nota visual no chat quando se agenda um retorno — fica como bolha
+  // roxa centralizada (tipo Chatwoot) pra todo mundo que abrir a conversa
+  // ver imediatamente que tem retorno marcado.
+  //
+  // Persiste em DOIS lugares:
+  //  - ConversationNote (storage estruturado, histórico permanente, type=SCHEDULED)
+  //  - Lead.notes (parser legado da timeline da inbox renderiza dali)
+  // O marcador 📅 no início é detectado no front pra render em roxo.
+  if (data.scheduledReturnAt && data.scheduledReturnAt instanceof Date) {
+    const when = data.scheduledReturnAt.toLocaleString("pt-BR", {
+      day: "2-digit", month: "2-digit", year: "numeric",
+      hour: "2-digit", minute: "2-digit",
+    });
+    const noteText = body.returnNote
+      ? `📅 Retorno agendado para ${when} — ${body.returnNote}`
+      : `📅 Retorno agendado para ${when}`;
+
+    await prisma.conversationNote.create({
+      data: {
+        conversationId: conv.id,
+        body: noteText,
+        type: "SCHEDULED",
+        authorId: userId,
+        authorName: userName,
+      },
+    }).catch(() => { /* não crítico */ });
+
+    // Também appenda em Lead.notes (formato legado: "[DD/MM/YY HH:MM] texto").
+    // O parser da inbox pega daqui pra renderizar a bolha imediatamente.
+    const dateStr =
+      new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" }) +
+      " " +
+      new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+    const legacyEntry = `[${dateStr}] ${noteText}`;
+    const leads = await prisma.lead.findMany({
+      where: { conversationId: conv.id },
+      select: { id: true, notes: true },
+    });
+    await Promise.all(leads.map((l) =>
+      prisma.lead.update({
+        where: { id: l.id },
+        data: { notes: l.notes ? `${legacyEntry}\n\n${l.notes}` : legacyEntry },
+      }).catch(() => { /* não crítico */ })
+    ));
+  }
+
   // Sincroniza Lead.attendanceStatus (legacy) quando o status da Conversation muda
   if (data.status) {
     const legacy = mapConvStatusToLegacy(updated.status);

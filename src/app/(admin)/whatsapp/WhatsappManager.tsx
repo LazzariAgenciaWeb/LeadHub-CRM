@@ -1961,23 +1961,30 @@ export default function WhatsappManager({
 
   // Parse notes into individual entries for display
   // Date format used by handleAddNote: "DD/MM/YY HH:MM"
+  // Notas começando com "📅 " são agendamentos automáticos → tipo SCHEDULED
+  // (renderizados em roxo). Demais são tipo STANDARD (âmbar).
   const parsedNotes = useMemo(() => {
     if (!leadNotes) return [];
     return leadNotes.split(/\n\n+/).map((entry) => {
       const match = entry.match(/^\[(.+?)\]\s*([\s\S]*)$/);
+      let dateStr: string | null = null;
+      let dateObj: Date | null = null;
+      let text: string;
       if (match) {
-        const dateStr = match[1];
-        // Try parse "DD/MM/YY HH:MM" → Date
-        let dateObj: Date | null = null;
+        dateStr = match[1];
         const m = dateStr.match(/^(\d{2})\/(\d{2})\/(\d{2,4})\s+(\d{1,2}):(\d{2})$/);
         if (m) {
           const [, dd, mm, yy, hh, mi] = m;
           const year = yy.length === 2 ? 2000 + parseInt(yy, 10) : parseInt(yy, 10);
           dateObj = new Date(year, parseInt(mm, 10) - 1, parseInt(dd, 10), parseInt(hh, 10), parseInt(mi, 10));
         }
-        return { date: dateStr, dateObj, text: match[2].trim() };
+        text = match[2].trim();
+      } else {
+        text = entry.trim();
       }
-      return { date: null, dateObj: null as Date | null, text: entry.trim() };
+      // Detecta marcador de agendamento — renderizado em roxo no chat
+      const noteType: "STANDARD" | "SCHEDULED" = text.startsWith("📅 ") ? "SCHEDULED" : "STANDARD";
+      return { date: dateStr, dateObj, text, noteType };
     }).filter((n) => n.text);
   }, [leadNotes]);
 
@@ -1985,9 +1992,14 @@ export default function WhatsappManager({
   // Notes without a parseable date go at the very top (legacy entries).
   const timelineItems = useMemo(() => {
     type TLMsg = { kind: "msg"; date: Date; msg: WaMessage };
-    type TLNote = { kind: "note"; date: Date | null; text: string; dateLabel: string | null };
+    type TLNote = {
+      kind: "note"; date: Date | null; text: string; dateLabel: string | null;
+      noteType: "STANDARD" | "SCHEDULED";
+    };
     const msgs: TLMsg[] = convMessages.map((m) => ({ kind: "msg", date: new Date(m.receivedAt), msg: m }));
-    const notes: TLNote[] = parsedNotes.map((n) => ({ kind: "note", date: n.dateObj, text: n.text, dateLabel: n.date }));
+    const notes: TLNote[] = parsedNotes.map((n) => ({
+      kind: "note", date: n.dateObj, text: n.text, dateLabel: n.date, noteType: n.noteType,
+    }));
     const merged: (TLMsg | TLNote)[] = [...msgs, ...notes];
     merged.sort((a, b) => {
       // Notes without date → keep at top (oldest)
@@ -3334,12 +3346,37 @@ export default function WhatsappManager({
                   (() => {
                     let lastDateKey = "";
                     return timelineItems.map((item, itemIdx) => {
-                    // Render internal note as amber centered bubble (Chatwoot-style)
+                    // Render internal note as centered bubble (Chatwoot-style).
+                    // Cor varia pelo tipo:
+                    //   STANDARD  → âmbar (anotação manual)
+                    //   SCHEDULED → roxo  (auto-gerada ao agendar retorno)
                     if (item.kind === "note") {
                       const noteDate = item.date;
                       const noteDateKey = noteDate ? noteDate.toDateString() : "";
                       const showNoteDivider = noteDate ? noteDateKey !== lastDateKey : false;
                       if (noteDate) lastDateKey = noteDateKey;
+                      const isScheduled = item.noteType === "SCHEDULED";
+                      const noteStyle = isScheduled ? {
+                        bubble: "bg-purple-500/10 border-purple-500/30 text-purple-50",
+                        icon:   "text-purple-400",
+                        label:  "text-purple-300/80",
+                        text:   "text-purple-50/95",
+                        date:   "text-purple-300/60",
+                        title:  "Agendamento",
+                        Icon:   Calendar,
+                      } : {
+                        bubble: "bg-amber-500/10 border-amber-500/30 text-amber-100",
+                        icon:   "text-amber-400",
+                        label:  "text-amber-300/80",
+                        text:   "text-amber-50/95",
+                        date:   "text-amber-300/60",
+                        title:  "Nota interna",
+                        Icon:   StickyNote,
+                      };
+                      // Pra agendamentos, remove o emoji 📅 do início do texto pq já temos o ícone
+                      const displayText = isScheduled
+                        ? item.text.replace(/^📅\s*/, "")
+                        : item.text;
                       return (
                         <div key={`note-${itemIdx}`}>
                           {showNoteDivider && noteDate && (
@@ -3352,14 +3389,14 @@ export default function WhatsappManager({
                             </div>
                           )}
                           <div className="flex justify-center my-2">
-                            <div className="max-w-[80%] rounded-2xl px-4 py-2.5 bg-amber-500/10 border border-amber-500/30 text-amber-100 shadow-sm">
+                            <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 border shadow-sm ${noteStyle.bubble}`}>
                               <div className="flex items-center gap-1.5 mb-1">
-                                <StickyNote className="w-3 h-3 text-amber-400" strokeWidth={2.5} />
-                                <span className="text-[10px] text-amber-300/80 font-semibold uppercase tracking-wide">Nota interna</span>
+                                <noteStyle.Icon className={`w-3 h-3 ${noteStyle.icon}`} strokeWidth={2.5} />
+                                <span className={`text-[10px] ${noteStyle.label} font-semibold uppercase tracking-wide`}>{noteStyle.title}</span>
                               </div>
-                              <p className="text-sm whitespace-pre-wrap break-words text-amber-50/95">{item.text}</p>
+                              <p className={`text-sm whitespace-pre-wrap break-words ${noteStyle.text}`}>{displayText}</p>
                               {item.dateLabel && (
-                                <div className="text-[10px] text-amber-300/60 mt-1 text-right">
+                                <div className={`text-[10px] ${noteStyle.date} mt-1 text-right`}>
                                   {item.dateLabel}
                                 </div>
                               )}

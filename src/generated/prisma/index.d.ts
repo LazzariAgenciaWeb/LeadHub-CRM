@@ -23179,6 +23179,7 @@ export namespace Prisma {
     body: string | null
     authorId: string | null
     authorName: string | null
+    type: string | null
     createdAt: Date | null
     conversationId: string | null
   }
@@ -23188,6 +23189,7 @@ export namespace Prisma {
     body: string | null
     authorId: string | null
     authorName: string | null
+    type: string | null
     createdAt: Date | null
     conversationId: string | null
   }
@@ -23197,6 +23199,7 @@ export namespace Prisma {
     body: number
     authorId: number
     authorName: number
+    type: number
     createdAt: number
     conversationId: number
     _all: number
@@ -23208,6 +23211,7 @@ export namespace Prisma {
     body?: true
     authorId?: true
     authorName?: true
+    type?: true
     createdAt?: true
     conversationId?: true
   }
@@ -23217,6 +23221,7 @@ export namespace Prisma {
     body?: true
     authorId?: true
     authorName?: true
+    type?: true
     createdAt?: true
     conversationId?: true
   }
@@ -23226,6 +23231,7 @@ export namespace Prisma {
     body?: true
     authorId?: true
     authorName?: true
+    type?: true
     createdAt?: true
     conversationId?: true
     _all?: true
@@ -23308,6 +23314,7 @@ export namespace Prisma {
     body: string
     authorId: string | null
     authorName: string
+    type: string
     createdAt: Date
     conversationId: string
     _count: ConversationNoteCountAggregateOutputType | null
@@ -23334,6 +23341,7 @@ export namespace Prisma {
     body?: boolean
     authorId?: boolean
     authorName?: boolean
+    type?: boolean
     createdAt?: boolean
     conversationId?: boolean
     conversation?: boolean | ConversationDefaultArgs<ExtArgs>
@@ -23344,6 +23352,7 @@ export namespace Prisma {
     body?: boolean
     authorId?: boolean
     authorName?: boolean
+    type?: boolean
     createdAt?: boolean
     conversationId?: boolean
     conversation?: boolean | ConversationDefaultArgs<ExtArgs>
@@ -23354,6 +23363,7 @@ export namespace Prisma {
     body?: boolean
     authorId?: boolean
     authorName?: boolean
+    type?: boolean
     createdAt?: boolean
     conversationId?: boolean
   }
@@ -23375,6 +23385,7 @@ export namespace Prisma {
       body: string
       authorId: string | null
       authorName: string
+      type: string
       createdAt: Date
       conversationId: string
     }, ExtArgs["result"]["conversationNote"]>
@@ -23775,6 +23786,7 @@ export namespace Prisma {
     readonly body: FieldRef<"ConversationNote", 'String'>
     readonly authorId: FieldRef<"ConversationNote", 'String'>
     readonly authorName: FieldRef<"ConversationNote", 'String'>
+    readonly type: FieldRef<"ConversationNote", 'String'>
     readonly createdAt: FieldRef<"ConversationNote", 'DateTime'>
     readonly conversationId: FieldRef<"ConversationNote", 'String'>
   }
@@ -40017,6 +40029,7 @@ export namespace Prisma {
     body: 'body',
     authorId: 'authorId',
     authorName: 'authorName',
+    type: 'type',
     createdAt: 'createdAt',
     conversationId: 'conversationId'
   };
@@ -42239,6 +42252,7 @@ export namespace Prisma {
     body?: StringFilter<"ConversationNote"> | string
     authorId?: StringNullableFilter<"ConversationNote"> | string | null
     authorName?: StringFilter<"ConversationNote"> | string
+    type?: StringFilter<"ConversationNote"> | string
     createdAt?: DateTimeFilter<"ConversationNote"> | Date | string
     conversationId?: StringFilter<"ConversationNote"> | string
     conversation?: XOR<ConversationRelationFilter, ConversationWhereInput>
@@ -42249,6 +42263,7 @@ export namespace Prisma {
     body?: SortOrder
     authorId?: SortOrderInput | SortOrder
     authorName?: SortOrder
+    type?: SortOrder
     createdAt?: SortOrder
     conversationId?: SortOrder
     conversation?: ConversationOrderByWithRelationInput
@@ -42262,6 +42277,7 @@ export namespace Prisma {
     body?: StringFilter<"ConversationNote"> | string
     authorId?: StringNullableFilter<"ConversationNote"> | string | null
     authorName?: StringFilter<"ConversationNote"> | string
+    type?: StringFilter<"ConversationNote"> | string
     createdAt?: DateTimeFilter<"ConversationNote"> | Date | string
     conversationId?: StringFilter<"ConversationNote"> | string
     conversation?: XOR<ConversationRelationFilter, ConversationWhereInput>
@@ -42272,6 +42288,7 @@ export namespace Prisma {
     body?: SortOrder
     authorId?: SortOrderInput | SortOrder
     authorName?: SortOrder
+    type?: SortOrder
     createdAt?: SortOrder
     conversationId?: SortOrder
     _count?: ConversationNoteCountOrderByAggregateInput
@@ -42287,6 +42304,7 @@ export namespace Prisma {
     body?: StringWithAggregatesFilter<"ConversationNote"> | string
     authorId?: StringNullableWithAggregatesFilter<"ConversationNote"> | string | null
     authorName?: StringWithAggregatesFilter<"ConversationNote"> | string
+    type?: StringWithAggregatesFilter<"ConversationNote"> | string
     createdAt?: DateTimeWithAggregatesFilter<"ConversationNote"> | Date | string
     conversationId?: StringWithAggregatesFilter<"ConversationNote"> | string
   }
@@ -45418,6 +45436,7 @@ export namespace Prisma {
     body: string
     authorId?: string | null
     authorName?: string
+    type?: string
     createdAt?: Date | string
     conversation: ConversationCreateNestedOneWithoutNotesInput
   }
@@ -45427,6 +45446,7 @@ export namespace Prisma {
     body: string
     authorId?: string | null
     authorName?: string
+    type?: string
     createdAt?: Date | string
     conversationId: string
   }
@@ -45436,6 +45456,7 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
     authorName?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     conversation?: ConversationUpdateOneRequiredWithoutNotesNestedInput
   }
@@ -45445,6 +45466,7 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
     authorName?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     conversationId?: StringFieldUpdateOperationsInput | string
   }
@@ -45454,6 +45476,7 @@ export namespace Prisma {
     body: string
     authorId?: string | null
     authorName?: string
+    type?: string
     createdAt?: Date | string
     conversationId: string
   }
@@ -45463,6 +45486,7 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
     authorName?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -45471,6 +45495,7 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
     authorName?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     conversationId?: StringFieldUpdateOperationsInput | string
   }
@@ -48546,6 +48571,7 @@ export namespace Prisma {
     body?: SortOrder
     authorId?: SortOrder
     authorName?: SortOrder
+    type?: SortOrder
     createdAt?: SortOrder
     conversationId?: SortOrder
   }
@@ -48555,6 +48581,7 @@ export namespace Prisma {
     body?: SortOrder
     authorId?: SortOrder
     authorName?: SortOrder
+    type?: SortOrder
     createdAt?: SortOrder
     conversationId?: SortOrder
   }
@@ -48564,6 +48591,7 @@ export namespace Prisma {
     body?: SortOrder
     authorId?: SortOrder
     authorName?: SortOrder
+    type?: SortOrder
     createdAt?: SortOrder
     conversationId?: SortOrder
   }
@@ -59547,6 +59575,7 @@ export namespace Prisma {
     body: string
     authorId?: string | null
     authorName?: string
+    type?: string
     createdAt?: Date | string
   }
 
@@ -59555,6 +59584,7 @@ export namespace Prisma {
     body: string
     authorId?: string | null
     authorName?: string
+    type?: string
     createdAt?: Date | string
   }
 
@@ -59905,6 +59935,7 @@ export namespace Prisma {
     body?: StringFilter<"ConversationNote"> | string
     authorId?: StringNullableFilter<"ConversationNote"> | string | null
     authorName?: StringFilter<"ConversationNote"> | string
+    type?: StringFilter<"ConversationNote"> | string
     createdAt?: DateTimeFilter<"ConversationNote"> | Date | string
     conversationId?: StringFilter<"ConversationNote"> | string
   }
@@ -66148,6 +66179,7 @@ export namespace Prisma {
     body: string
     authorId?: string | null
     authorName?: string
+    type?: string
     createdAt?: Date | string
   }
 
@@ -66261,6 +66293,7 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
     authorName?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -66269,6 +66302,7 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
     authorName?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -66277,6 +66311,7 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
     authorName?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
