@@ -90,12 +90,18 @@ export async function sendMail(opts: {
 }): Promise<void> {
   const cfg = await getSmtpConfig();
   const transport = await getTransporter();
+  // envelope.from força o MAIL FROM do protocolo SMTP a usar o e-mail puro
+  // do usuário autenticado. Servidores estritos (cPanel/Exim) rejeitam quando
+  // o envelope tem display name ou difere do auth user — daí o erro 550 de
+  // "spoofed email". O header From mostrado pro destinatário continua usando
+  // cfg.from (com display name "LeadHub <noreply@...>").
   await transport.sendMail({
-    from: cfg.from,
+    from: cfg.from || cfg.user,
     to: opts.to,
     subject: opts.subject,
     html: opts.html,
     text: opts.text ?? opts.html.replace(/<[^>]+>/g, ""),
+    envelope: { from: cfg.user, to: opts.to },
   });
 }
 
