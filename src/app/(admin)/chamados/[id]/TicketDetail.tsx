@@ -56,11 +56,16 @@ const PRIORITY_CONFIG: Record<string, { label: string; color: string; icon: stri
 export default function TicketDetail({
   ticket,
   isSuperAdmin,
+  canManage,
   currentUserName,
   stages,
 }: {
   ticket: Ticket;
   isSuperAdmin: boolean;
+  // canManage = SUPER_ADMIN ou ADMIN da agência. Habilita todas as ações
+  // de gerenciamento do chamado (etapa, prioridade, atendente, prazo, anexos,
+  // notas internas, edição). CLIENT (cliente final) só responde mensagens.
+  canManage: boolean;
   currentUserName: string;
   stages: TicketStageOption[];
 }) {
@@ -370,7 +375,7 @@ export default function TicketDetail({
                 💬 WhatsApp
               </Link>
             )}
-            {isSuperAdmin && (
+            {canManage && (
               clickupTaskId ? (
                 <a
                   href={clickupTaskId.startsWith("http") ? clickupTaskId : `https://app.clickup.com/t/${clickupTaskId}`}
@@ -504,7 +509,7 @@ export default function TicketDetail({
                   rows={3}
                   value={reply}
                   onChange={(e) => setReply(e.target.value)}
-                  placeholder={isSuperAdmin ? "Adicionar atualização / responder ao cliente..." : "Escreva uma mensagem para o suporte..."}
+                  placeholder={canManage ? "Adicionar atualização / responder ao cliente..." : "Escreva uma mensagem para o suporte..."}
                   onKeyDown={(e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); sendReply(e as any); } }}
                   className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
                 />
@@ -531,7 +536,7 @@ export default function TicketDetail({
 
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-3">
-                    {isSuperAdmin && (
+                    {canManage && (
                       <label className="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" checked={isInternal} onChange={(e) => setIsInternal(e.target.checked)} className="w-3.5 h-3.5 rounded" />
                         <span className="text-amber-400 text-xs">🔒 Nota interna</span>
@@ -572,7 +577,7 @@ export default function TicketDetail({
         {/* Right sidebar: metadata */}
         <div className="w-[260px] min-w-[260px] flex-shrink-0 overflow-y-auto p-4 space-y-4">
           {/* Stage */}
-          {isSuperAdmin && stages.length > 0 && (
+          {canManage && stages.length > 0 && (
             <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
               <div className="text-[10px] text-slate-500 uppercase tracking-wide mb-2">Etapa</div>
               <div className="space-y-1">
@@ -597,7 +602,7 @@ export default function TicketDetail({
           )}
 
           {/* Priority */}
-          {isSuperAdmin && (
+          {canManage && (
             <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
               <div className="text-[10px] text-slate-500 uppercase tracking-wide mb-2">Prioridade</div>
               <select
@@ -868,7 +873,7 @@ export default function TicketDetail({
           {/* Status muda automaticamente conforme a Etapa do pipeline (acima).
               Mantemos só o botão "Fechar chamado" pra clientes finais que não
               têm acesso ao kanban de etapas. */}
-          {!isSuperAdmin && !isClosed && (
+          {!canManage && !isClosed && (
             <button
               onClick={() => handleStatusChange("CLOSED")}
               className="w-full py-2 rounded-lg bg-[#0f1623] border border-[#1e2d45] text-slate-400 text-xs hover:text-white transition-colors"

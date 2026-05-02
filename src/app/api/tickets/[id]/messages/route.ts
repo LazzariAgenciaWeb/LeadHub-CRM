@@ -44,7 +44,8 @@ export async function POST(
         body: (messageBody ?? "").trim(),
         authorName: session.user?.name ?? "Usuário",
         authorRole: userRole,
-        isInternal: isInternal && userRole === "SUPER_ADMIN",
+        // Notas internas: ADMIN ou SUPER_ADMIN da agência podem marcar
+        isInternal: isInternal && (userRole === "SUPER_ADMIN" || userRole === "ADMIN"),
         mediaBase64: mediaBase64 || null,
         mediaType:   mediaType || null,
         source: "LEADHUB",
@@ -58,7 +59,7 @@ export async function POST(
 
   // ── ClickUp comment sync ───────────────────────────────────────────────
   // Não sincroniza notas internas para o ClickUp
-  const isInternalMsg = isInternal && userRole === "SUPER_ADMIN";
+  const isInternalMsg = isInternal && (userRole === "SUPER_ADMIN" || userRole === "ADMIN");
   if (!isInternalMsg && ticket.clickupTaskId) {
     const clickupSettings = await getClickupSettings();
     if (clickupSettings) {

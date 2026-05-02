@@ -9,7 +9,12 @@ export default async function TicketPage({
   params: Promise<{ id: string }>;
 }) {
   const session = await getEffectiveSession();
-  const isSuperAdmin = (session?.user as any)?.role === "SUPER_ADMIN";
+  const role = (session?.user as any)?.role as string;
+  const isSuperAdmin = role === "SUPER_ADMIN";
+  // Atendentes da agência (ADMIN ou SUPER_ADMIN) gerenciam o chamado por inteiro:
+  // mudam etapa, prioridade, atendente, prazo, anexam, etc. CLIENT (cliente final)
+  // só responde mensagens e fecha o ticket.
+  const canManage = role === "SUPER_ADMIN" || role === "ADMIN";
   const userCompanyId = (session?.user as any)?.companyId as string | undefined;
 
   const { id } = await params;
@@ -57,6 +62,7 @@ export default async function TicketPage({
     <TicketDetail
       ticket={ticket as any}
       isSuperAdmin={isSuperAdmin}
+      canManage={canManage}
       currentUserName={session?.user?.name ?? "Usuário"}
       stages={stages as any}
     />
