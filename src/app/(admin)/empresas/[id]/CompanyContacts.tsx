@@ -67,6 +67,111 @@ export default function CompanyContacts({
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState({ name: "", role: "CONTACT", notes: "" });
 
+  // ── Bulk select ────────────────────────────────────────────────────────────
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [bulkProcessing, setBulkProcessing] = useState(false);
+  const [showTransferModal, setShowTransferModal] = useState(false);
+  const [showBulkDeleteConfirm, setShowBulkDeleteConfirm] = useState(false);
+  const [companiesList, setCompaniesList] = useState<{ id: string; name: string }[]>([]);
+  const [companiesLoading, setCompaniesLoading] = useState(false);
+  const [companySearchTransfer, setCompanySearchTransfer] = useState("");
+  const [bulkResult, setBulkResult] = useState<string | null>(null);
+
+  function toggleSelected(id: string) {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+  function toggleSelectAll() {
+    setSelectedIds((prev) => prev.size === contacts.length ? new Set() : new Set(contacts.map((c) => c.id)));
+  }
+  function clearSelection() {
+    setSelectedIds(new Set());
+  }
+
+  async function openTransferModal() {
+    setShowTransferModal(true);
+    setBulkResult(null);
+    if (companiesList.length === 0) {
+      setCompaniesLoading(true);
+      try {
+        const res = await fetch("/api/companies");
+        if (res.ok) {
+          const data = await res.json();
+          const arr: { id: string; name: string }[] = Array.isArray(data) ? data : (data.companies ?? []);
+          // Tira a empresa atual da lista — não dá pra mover pra ela mesma
+          setCompaniesList(arr.filter((c) => c.id !== companyId));
+        }
+      } finally {
+        setCompaniesLoading(false);
+      }
+    }
+  }
+
+  async function handleBulkTransfer(targetCompanyId: string) {
+    if (selectedIds.size === 0 || !targetCompanyId) return;
+    setBulkProcessing(true);
+    setBulkResult(null);
+    try {
+      const res = await fetch(`/api/companies/${companyId}/contacts/bulk`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "transfer",
+          contactIds: Array.from(selectedIds),
+          targetCompanyId,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setBulkResult(`❌ ${data.error ?? "Erro"}`);
+        return;
+      }
+      // Remove os transferidos da lista local
+      const movedIds = new Set(Array.from(selectedIds).filter((id) =>
+        !((data.skipped ?? []) as any[]).some((s) => s.id === id)
+      ));
+      setContacts((prev) => prev.filter((c) => !movedIds.has(c.id)));
+      const skippedCount = (data.skipped ?? []).length;
+      setBulkResult(
+        `✅ ${data.moved} transferido${data.moved !== 1 ? "s" : ""}` +
+        (skippedCount > 0 ? ` · ${skippedCount} pulado${skippedCount !== 1 ? "s" : ""} (já existem na empresa destino)` : "")
+      );
+      clearSelection();
+      setTimeout(() => { setShowTransferModal(false); router.refresh(); }, 1800);
+    } finally {
+      setBulkProcessing(false);
+    }
+  }
+
+  async function handleBulkDelete() {
+    if (selectedIds.size === 0) return;
+    setBulkProcessing(true);
+    try {
+      const res = await fetch(`/api/companies/${companyId}/contacts/bulk`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "delete",
+          contactIds: Array.from(selectedIds),
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setContacts((prev) => prev.filter((c) => !selectedIds.has(c.id)));
+        clearSelection();
+        setShowBulkDeleteConfirm(false);
+        setBulkResult(`✅ ${data.deleted} contato${data.deleted !== 1 ? "s" : ""} excluído${data.deleted !== 1 ? "s" : ""}`);
+        setTimeout(() => setBulkResult(null), 2500);
+      }
+    } finally {
+      setBulkProcessing(false);
+    }
+  }
+
   async function handleAdd(e: React.FormEvent) {
     e.preventDefault();
     if (!form.phone.trim()) return;
@@ -180,13 +285,64 @@ export default function CompanyContacts({
             Telefones e grupos vinculados a esta empresa
           </p>
         </div>
-        <button
-          onClick={() => setShowAdd(!showAdd)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium transition-colors"
-        >
-          + Adicionar
-        </button>
+        <div className="flex items-center gap-2">
+          {contacts.length > 0 && (
+            <label className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#0a0e16] border border-[#1e2d45] text-slate-400 text-[11px] font-medium cursor-pointer hover:text-white transition-colors">
+              <input
+                type="checkbox"
+                checked={selectedIds.size === contacts.length}
+                onChange={toggleSelectAll}
+                className="w-3.5 h-3.5 rounded accent-indigo-500"
+              />
+              Selecionar todos
+            </label>
+          )}
+          <button
+            onClick={() => setShowAdd(!showAdd)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium transition-colors"
+          >
+            + Adicionar
+          </button>
+        </div>
       </div>
+
+      {/* Barra de ações em massa — aparece quando há seleção */}
+      {selectedIds.size > 0 && (
+        <div className="px-5 py-2.5 bg-indigo-500/10 border-b border-indigo-500/30 flex items-center justify-between gap-2 sticky top-0 z-10">
+          <div className="flex items-center gap-3 text-sm">
+            <span className="text-indigo-200 font-semibold">
+              {selectedIds.size} selecionado{selectedIds.size !== 1 ? "s" : ""}
+            </span>
+            <button
+              onClick={clearSelection}
+              className="text-slate-400 hover:text-white text-xs transition-colors"
+            >
+              Limpar
+            </button>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={openTransferModal}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold transition-colors"
+            >
+              ↗ Transferir empresa
+            </button>
+            <button
+              onClick={() => setShowBulkDeleteConfirm(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-600/80 hover:bg-red-600 text-white text-xs font-semibold transition-colors"
+            >
+              🗑 Excluir
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Mensagem de resultado das ações em massa */}
+      {bulkResult && !showTransferModal && (
+        <div className="px-5 py-2 bg-emerald-500/10 border-b border-emerald-500/30 text-emerald-300 text-xs font-medium">
+          {bulkResult}
+        </div>
+      )}
 
       {/* Add form */}
       {showAdd && (
@@ -269,8 +425,19 @@ export default function CompanyContacts({
           {contacts.map((c) => {
             const rl = roleLabel(c.role);
             const isEditing = editingId === c.id;
+            const isSelected = selectedIds.has(c.id);
             return (
-              <div key={c.id} className="px-5 py-3.5">
+              <div key={c.id} className={`px-5 py-3.5 flex gap-3 ${isSelected ? "bg-indigo-500/5" : ""}`}>
+                {/* Checkbox de seleção em massa */}
+                <label className="flex items-start pt-1 cursor-pointer flex-shrink-0">
+                  <input
+                    type="checkbox"
+                    checked={isSelected}
+                    onChange={() => toggleSelected(c.id)}
+                    className="w-4 h-4 rounded accent-indigo-500"
+                  />
+                </label>
+                <div className="flex-1 min-w-0">
                 {isEditing ? (
                   /* ── Modo edição ── */
                   <div className="flex flex-wrap gap-3 items-end">
@@ -385,6 +552,7 @@ export default function CompanyContacts({
                     </div>
                   </div>
                 )}
+                </div>
               </div>
             );
           })}
@@ -447,6 +615,98 @@ export default function CompanyContacts({
                 className="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-500 text-white text-sm font-semibold disabled:opacity-50 transition-colors"
               >
                 {saving ? "Salvando..." : "✓ Confirmar Acesso"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: Transferir contatos pra outra empresa */}
+      {showTransferModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-[#0f1623] border border-[#1e2d45] rounded-2xl w-full max-w-md shadow-2xl overflow-hidden">
+            <div className="px-5 py-4 border-b border-[#1e2d45] flex items-center justify-between">
+              <div>
+                <h3 className="text-white font-semibold text-sm">↗ Transferir contatos</h3>
+                <p className="text-slate-500 text-xs mt-0.5">
+                  {selectedIds.size} contato{selectedIds.size !== 1 ? "s" : ""} → escolha o destino
+                </p>
+              </div>
+              <button onClick={() => setShowTransferModal(false)} className="text-slate-500 hover:text-white text-xl leading-none">×</button>
+            </div>
+
+            <div className="px-5 py-4">
+              <input
+                type="text"
+                placeholder="Buscar empresa..."
+                value={companySearchTransfer}
+                onChange={(e) => setCompanySearchTransfer(e.target.value)}
+                autoFocus
+                className="w-full bg-[#0a0e16] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-500 mb-3"
+              />
+
+              {companiesLoading ? (
+                <div className="text-slate-500 text-xs text-center py-6">Carregando empresas...</div>
+              ) : (
+                <div className="max-h-64 overflow-y-auto space-y-1">
+                  {companiesList
+                    .filter((c) => c.name.toLowerCase().includes(companySearchTransfer.toLowerCase()))
+                    .map((c) => (
+                      <button
+                        key={c.id}
+                        onClick={() => handleBulkTransfer(c.id)}
+                        disabled={bulkProcessing}
+                        className="w-full text-left px-3 py-2 rounded-lg bg-[#0a0e16] border border-[#1e2d45] text-slate-200 text-sm hover:bg-amber-500/10 hover:border-amber-500/30 transition-colors disabled:opacity-50 flex items-center gap-2"
+                      >
+                        <span>🏢</span>
+                        <span className="truncate">{c.name}</span>
+                      </button>
+                    ))}
+                  {companiesList.length === 0 && (
+                    <p className="text-slate-600 text-xs text-center py-4">Nenhuma empresa disponível</p>
+                  )}
+                </div>
+              )}
+
+              {bulkResult && (
+                <div className={`mt-3 p-2.5 rounded-lg text-xs ${
+                  bulkResult.startsWith("✅") ? "bg-emerald-500/10 border border-emerald-500/30 text-emerald-300" : "bg-red-500/10 border border-red-500/30 text-red-300"
+                }`}>
+                  {bulkResult}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Confirmação: Excluir em massa */}
+      {showBulkDeleteConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-[#0f1623] border border-red-500/30 rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden">
+            <div className="px-5 py-4 border-b border-[#1e2d45]">
+              <h3 className="text-white font-semibold text-sm">🗑 Excluir contatos</h3>
+            </div>
+            <div className="px-5 py-4">
+              <p className="text-slate-300 text-sm">
+                Tem certeza que quer excluir <strong className="text-white">{selectedIds.size}</strong> contato{selectedIds.size !== 1 ? "s" : ""}?
+              </p>
+              <p className="text-slate-500 text-xs mt-1.5">Essa ação não pode ser desfeita.</p>
+            </div>
+            <div className="px-5 pb-5 flex gap-2 justify-end">
+              <button
+                onClick={() => setShowBulkDeleteConfirm(false)}
+                disabled={bulkProcessing}
+                className="px-4 py-2 rounded-lg bg-white/5 text-slate-400 text-sm hover:text-white transition-colors disabled:opacity-50"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleBulkDelete}
+                disabled={bulkProcessing}
+                className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white text-sm font-semibold disabled:opacity-50 transition-colors"
+              >
+                {bulkProcessing ? "Excluindo..." : "Excluir"}
               </button>
             </div>
           </div>
