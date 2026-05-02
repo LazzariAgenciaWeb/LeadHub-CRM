@@ -614,10 +614,111 @@ export default function TicketDetail({
           )}
 
           {/* Company */}
+          {/* Cliente do chamado — empresa que está sendo atendida.
+              Distinto de "Empresa-agência" abaixo (a dona do ticket). */}
+          {ticket.type !== "INTERNAL" && (
+            <div className="bg-[#0f1623] border border-blue-500/20 rounded-lg p-3">
+              <div className="text-[10px] text-blue-400/80 uppercase tracking-wide mb-1.5 font-semibold">
+                🏢 Cliente do chamado
+              </div>
+              {ticket.clientCompany ? (
+                <div>
+                  <Link
+                    href={`/empresas/${ticket.clientCompany.id}`}
+                    className="text-white text-sm font-semibold hover:text-blue-300 transition-colors block"
+                  >
+                    {ticket.clientCompany.name}
+                  </Link>
+                  {ticket.clientCompany.phone && (
+                    <p className="text-slate-500 text-[11px] mt-0.5">📞 {ticket.clientCompany.phone}</p>
+                  )}
+                  {ticket.clientCompany.email && (
+                    <p className="text-slate-500 text-[11px]">✉️ {ticket.clientCompany.email}</p>
+                  )}
+                </div>
+              ) : (
+                <div className="text-slate-500 text-xs italic">
+                  Sem cliente vinculado.
+                  <br />
+                  <span className="text-slate-600 text-[10px]">Edite no kanban ou via API.</span>
+                </div>
+              )}
+            </div>
+          )}
+          {ticket.type === "INTERNAL" && (
+            <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-lg p-3">
+              <div className="text-[10px] text-emerald-400/80 uppercase tracking-wide mb-1 font-semibold">
+                ✅ Tarefa interna
+              </div>
+              <p className="text-slate-400 text-xs">Atendimento interno (sem cliente).</p>
+            </div>
+          )}
+
+          {/* Prazo de encerramento */}
+          {ticket.dueDate && (() => {
+            const due = new Date(ticket.dueDate);
+            const ms = due.getTime() - Date.now();
+            const days = ms / 86_400_000;
+            const overdue = days < 0;
+            const today = days >= 0 && days < 1;
+            const color = overdue ? "border-red-500/40 bg-red-500/10"
+              : today ? "border-orange-500/40 bg-orange-500/10"
+              : days < 3 ? "border-amber-500/30 bg-amber-500/5"
+              : "border-[#1e2d45] bg-[#0f1623]";
+            const textColor = overdue ? "text-red-300"
+              : today ? "text-orange-300"
+              : days < 3 ? "text-amber-300"
+              : "text-slate-300";
+            return (
+              <div className={`border rounded-lg p-3 ${color}`}>
+                <div className="text-[10px] text-slate-500 uppercase tracking-wide mb-1.5">
+                  📅 Prazo de Encerramento
+                </div>
+                <p className={`text-sm font-semibold ${textColor}`}>
+                  {due.toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })}
+                </p>
+                {overdue && <p className="text-red-400 text-[10px] mt-0.5 font-semibold animate-pulse">Atrasado</p>}
+                {today && <p className="text-orange-400 text-[10px] mt-0.5 font-semibold">Hoje</p>}
+                {!overdue && !today && days < 3 && (
+                  <p className="text-amber-400 text-[10px] mt-0.5">Em {Math.ceil(days)} dia{Math.ceil(days) !== 1 ? "s" : ""}</p>
+                )}
+              </div>
+            );
+          })()}
+
+          {/* Atendente responsável */}
+          {ticket.assignee && (
+            <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
+              <div className="text-[10px] text-slate-500 uppercase tracking-wide mb-1.5">
+                👤 Atendente
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-indigo-500/20 flex items-center justify-center text-[10px] font-bold text-indigo-300">
+                  {ticket.assignee.name.charAt(0).toUpperCase()}
+                </span>
+                <span className="text-slate-200 text-sm">{ticket.assignee.name}</span>
+              </div>
+            </div>
+          )}
+
+          {/* Setor responsável */}
+          {ticket.setor && (
+            <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
+              <div className="text-[10px] text-slate-500 uppercase tracking-wide mb-1.5">
+                🏷️ Setor
+              </div>
+              <span className="inline-block text-[11px] font-semibold text-violet-300 bg-violet-500/10 border border-violet-500/20 px-2 py-0.5 rounded">
+                {ticket.setor.name}
+              </span>
+            </div>
+          )}
+
+          {/* Empresa-agência — só super admin precisa ver/mudar */}
+          {isSuperAdmin && (
           <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
             <div className="flex items-center justify-between mb-1.5">
-              <div className="text-[10px] text-slate-500 uppercase tracking-wide">Empresa</div>
-              {isSuperAdmin && !editingCompany && (
+              <div className="text-[10px] text-slate-500 uppercase tracking-wide">Empresa-agência</div>
+              {!editingCompany && (
                 <button
                   onClick={() => { setEditingCompany(true); setCompanySearchInput(""); setCompanyResults([]); }}
                   className="text-slate-600 hover:text-slate-400 text-[10px] transition-colors"
@@ -670,6 +771,7 @@ export default function TicketDetail({
               </Link>
             )}
           </div>
+          )}
 
           {/* Category */}
           {ticket.category && (
@@ -763,22 +865,9 @@ export default function TicketDetail({
             </div>
           </div>
 
-          {/* Actions */}
-          {isSuperAdmin && (
-            <div className="space-y-2">
-              <div className="text-[10px] text-slate-500 uppercase tracking-wide">Ações</div>
-              <select
-                value={status}
-                onChange={(e) => handleStatusChange(e.target.value)}
-                className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-indigo-500"
-              >
-                <option value="OPEN">Aberto</option>
-                <option value="IN_PROGRESS">Em Andamento</option>
-                <option value="RESOLVED">Resolvido</option>
-                <option value="CLOSED">Fechado</option>
-              </select>
-            </div>
-          )}
+          {/* Status muda automaticamente conforme a Etapa do pipeline (acima).
+              Mantemos só o botão "Fechar chamado" pra clientes finais que não
+              têm acesso ao kanban de etapas. */}
           {!isSuperAdmin && !isClosed && (
             <button
               onClick={() => handleStatusChange("CLOSED")}

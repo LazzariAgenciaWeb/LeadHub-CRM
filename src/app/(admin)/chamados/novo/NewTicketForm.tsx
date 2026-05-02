@@ -332,20 +332,26 @@ export default function NewTicketForm({
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
-        <div>
-          <label className="text-slate-400 text-xs font-medium mb-1.5 flex items-center gap-1">
-            <Calendar className="w-3 h-3" strokeWidth={2.25} />
-            Prazo <span className="text-red-400">*</span>
-          </label>
-          <input
-            type="datetime-local"
-            required
-            value={form.dueDate}
-            onChange={(e) => setForm({ ...form, dueDate: e.target.value })}
-            className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
-          />
-        </div>
+      {/* Prazo: linha própria com destaque, pq é obrigatório e crítico
+          (sem prazo o atendente esquece de voltar). */}
+      <div className="bg-amber-500/5 border border-amber-500/20 rounded-lg p-3">
+        <label className="text-amber-300 text-xs font-semibold mb-1.5 flex items-center gap-1.5">
+          <Calendar className="w-3.5 h-3.5" strokeWidth={2.5} />
+          📅 Prazo de Encerramento <span className="text-red-400">*</span>
+        </label>
+        <input
+          type="datetime-local"
+          required
+          value={form.dueDate}
+          onChange={(e) => setForm({ ...form, dueDate: e.target.value })}
+          className="w-full bg-[#0a0e16] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500"
+        />
+        <p className="text-amber-400/60 text-[11px] mt-1">
+          Quando você precisa retornar ou concluir. Aparece no calendário e dispara alertas.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-slate-400 text-xs font-medium mb-1.5">Setor</label>
           <select
