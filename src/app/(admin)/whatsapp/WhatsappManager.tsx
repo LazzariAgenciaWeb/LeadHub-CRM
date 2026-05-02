@@ -1796,12 +1796,23 @@ export default function WhatsappManager({
         const newLead = await res.json();
         const patchBody: any = { attendanceStatus: status };
         if (status === "SCHEDULED" && expectedReturn) patchBody.expectedReturnAt = new Date(expectedReturn).toISOString();
-        await fetch(`/api/leads/${newLead.id}`, {
+        const patchRes = await fetch(`/api/leads/${newLead.id}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(patchBody),
         });
-        setSelectedConv({ ...selectedConv, lead: { id: newLead.id, name: newLead.name, status: newLead.status, notes: null, pipeline: null, pipelineStage: null, attendanceStatus: status, expectedReturnAt: status === "SCHEDULED" && expectedReturn ? expectedReturn : null } });
+        // Pega o lead atualizado (com a nota appended quando agendou)
+        let patchedNotes: string | null = null;
+        if (patchRes.ok) {
+          try {
+            const patched = await patchRes.json();
+            if (typeof patched?.notes === "string") patchedNotes = patched.notes;
+          } catch { /* não crítico */ }
+        }
+        setSelectedConv({ ...selectedConv, lead: { id: newLead.id, name: newLead.name, status: newLead.status, notes: patchedNotes, pipeline: null, pipelineStage: null, attendanceStatus: status, expectedReturnAt: status === "SCHEDULED" && expectedReturn ? expectedReturn : null } });
+        if (status === "SCHEDULED" && patchedNotes) {
+          setLeadNotes(patchedNotes);
+        }
       }
       setSavingAttendance(false);
       router.refresh();
