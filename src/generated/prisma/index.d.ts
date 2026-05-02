@@ -371,6 +371,7 @@ export type IntegrationStatus = (typeof IntegrationStatus)[keyof typeof Integrat
 
 
 export const PlanTier: {
+  FREE: 'FREE',
   TRIAL: 'TRIAL',
   ESSENCIAL: 'ESSENCIAL',
   MARKETING: 'MARKETING',
@@ -40007,6 +40008,7 @@ export namespace Prisma {
     stripePriceId: string | null
     cardBrand: string | null
     cardLast4: string | null
+    customNotes: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -40027,6 +40029,7 @@ export namespace Prisma {
     stripePriceId: string | null
     cardBrand: string | null
     cardLast4: string | null
+    customNotes: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -40047,6 +40050,9 @@ export namespace Prisma {
     stripePriceId: number
     cardBrand: number
     cardLast4: number
+    customLimits: number
+    customFeatures: number
+    customNotes: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -40069,6 +40075,7 @@ export namespace Prisma {
     stripePriceId?: true
     cardBrand?: true
     cardLast4?: true
+    customNotes?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -40089,6 +40096,7 @@ export namespace Prisma {
     stripePriceId?: true
     cardBrand?: true
     cardLast4?: true
+    customNotes?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -40109,6 +40117,9 @@ export namespace Prisma {
     stripePriceId?: true
     cardBrand?: true
     cardLast4?: true
+    customLimits?: true
+    customFeatures?: true
+    customNotes?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -40202,6 +40213,9 @@ export namespace Prisma {
     stripePriceId: string | null
     cardBrand: string | null
     cardLast4: string | null
+    customLimits: JsonValue | null
+    customFeatures: JsonValue | null
+    customNotes: string | null
     createdAt: Date
     updatedAt: Date
     _count: SubscriptionCountAggregateOutputType | null
@@ -40239,6 +40253,9 @@ export namespace Prisma {
     stripePriceId?: boolean
     cardBrand?: boolean
     cardLast4?: boolean
+    customLimits?: boolean
+    customFeatures?: boolean
+    customNotes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -40260,6 +40277,9 @@ export namespace Prisma {
     stripePriceId?: boolean
     cardBrand?: boolean
     cardLast4?: boolean
+    customLimits?: boolean
+    customFeatures?: boolean
+    customNotes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -40281,6 +40301,9 @@ export namespace Prisma {
     stripePriceId?: boolean
     cardBrand?: boolean
     cardLast4?: boolean
+    customLimits?: boolean
+    customFeatures?: boolean
+    customNotes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -40313,6 +40336,12 @@ export namespace Prisma {
       stripePriceId: string | null
       cardBrand: string | null
       cardLast4: string | null
+      customLimits: Prisma.JsonValue | null
+      customFeatures: Prisma.JsonValue | null
+      /**
+       * Anotação livre só pra você lembrar por que aquele cliente tem override
+       */
+      customNotes: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["subscription"]>
@@ -40724,6 +40753,9 @@ export namespace Prisma {
     readonly stripePriceId: FieldRef<"Subscription", 'String'>
     readonly cardBrand: FieldRef<"Subscription", 'String'>
     readonly cardLast4: FieldRef<"Subscription", 'String'>
+    readonly customLimits: FieldRef<"Subscription", 'Json'>
+    readonly customFeatures: FieldRef<"Subscription", 'Json'>
+    readonly customNotes: FieldRef<"Subscription", 'String'>
     readonly createdAt: FieldRef<"Subscription", 'DateTime'>
     readonly updatedAt: FieldRef<"Subscription", 'DateTime'>
   }
@@ -42639,6 +42671,9 @@ export namespace Prisma {
     stripePriceId: 'stripePriceId',
     cardBrand: 'cardBrand',
     cardLast4: 'cardLast4',
+    customLimits: 'customLimits',
+    customFeatures: 'customFeatures',
+    customNotes: 'customNotes',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -46067,6 +46102,9 @@ export namespace Prisma {
     stripePriceId?: StringNullableFilter<"Subscription"> | string | null
     cardBrand?: StringNullableFilter<"Subscription"> | string | null
     cardLast4?: StringNullableFilter<"Subscription"> | string | null
+    customLimits?: JsonNullableFilter<"Subscription">
+    customFeatures?: JsonNullableFilter<"Subscription">
+    customNotes?: StringNullableFilter<"Subscription"> | string | null
     createdAt?: DateTimeFilter<"Subscription"> | Date | string
     updatedAt?: DateTimeFilter<"Subscription"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -46088,6 +46126,9 @@ export namespace Prisma {
     stripePriceId?: SortOrderInput | SortOrder
     cardBrand?: SortOrderInput | SortOrder
     cardLast4?: SortOrderInput | SortOrder
+    customLimits?: SortOrderInput | SortOrder
+    customFeatures?: SortOrderInput | SortOrder
+    customNotes?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     company?: CompanyOrderByWithRelationInput
@@ -46112,6 +46153,9 @@ export namespace Prisma {
     stripePriceId?: StringNullableFilter<"Subscription"> | string | null
     cardBrand?: StringNullableFilter<"Subscription"> | string | null
     cardLast4?: StringNullableFilter<"Subscription"> | string | null
+    customLimits?: JsonNullableFilter<"Subscription">
+    customFeatures?: JsonNullableFilter<"Subscription">
+    customNotes?: StringNullableFilter<"Subscription"> | string | null
     createdAt?: DateTimeFilter<"Subscription"> | Date | string
     updatedAt?: DateTimeFilter<"Subscription"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -46133,6 +46177,9 @@ export namespace Prisma {
     stripePriceId?: SortOrderInput | SortOrder
     cardBrand?: SortOrderInput | SortOrder
     cardLast4?: SortOrderInput | SortOrder
+    customLimits?: SortOrderInput | SortOrder
+    customFeatures?: SortOrderInput | SortOrder
+    customNotes?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: SubscriptionCountOrderByAggregateInput
@@ -46159,6 +46206,9 @@ export namespace Prisma {
     stripePriceId?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
     cardBrand?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
     cardLast4?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
+    customLimits?: JsonNullableWithAggregatesFilter<"Subscription">
+    customFeatures?: JsonNullableWithAggregatesFilter<"Subscription">
+    customNotes?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
   }
@@ -49587,6 +49637,9 @@ export namespace Prisma {
     stripePriceId?: string | null
     cardBrand?: string | null
     cardLast4?: string | null
+    customLimits?: NullableJsonNullValueInput | InputJsonValue
+    customFeatures?: NullableJsonNullValueInput | InputJsonValue
+    customNotes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutSubscriptionInput
@@ -49608,6 +49661,9 @@ export namespace Prisma {
     stripePriceId?: string | null
     cardBrand?: string | null
     cardLast4?: string | null
+    customLimits?: NullableJsonNullValueInput | InputJsonValue
+    customFeatures?: NullableJsonNullValueInput | InputJsonValue
+    customNotes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -49627,6 +49683,9 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     cardBrand?: NullableStringFieldUpdateOperationsInput | string | null
     cardLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    customLimits?: NullableJsonNullValueInput | InputJsonValue
+    customFeatures?: NullableJsonNullValueInput | InputJsonValue
+    customNotes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutSubscriptionNestedInput
@@ -49648,6 +49707,9 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     cardBrand?: NullableStringFieldUpdateOperationsInput | string | null
     cardLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    customLimits?: NullableJsonNullValueInput | InputJsonValue
+    customFeatures?: NullableJsonNullValueInput | InputJsonValue
+    customNotes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -49668,6 +49730,9 @@ export namespace Prisma {
     stripePriceId?: string | null
     cardBrand?: string | null
     cardLast4?: string | null
+    customLimits?: NullableJsonNullValueInput | InputJsonValue
+    customFeatures?: NullableJsonNullValueInput | InputJsonValue
+    customNotes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -49687,6 +49752,9 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     cardBrand?: NullableStringFieldUpdateOperationsInput | string | null
     cardLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    customLimits?: NullableJsonNullValueInput | InputJsonValue
+    customFeatures?: NullableJsonNullValueInput | InputJsonValue
+    customNotes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -49707,6 +49775,9 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     cardBrand?: NullableStringFieldUpdateOperationsInput | string | null
     cardLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    customLimits?: NullableJsonNullValueInput | InputJsonValue
+    customFeatures?: NullableJsonNullValueInput | InputJsonValue
+    customNotes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -52413,6 +52484,9 @@ export namespace Prisma {
     stripePriceId?: SortOrder
     cardBrand?: SortOrder
     cardLast4?: SortOrder
+    customLimits?: SortOrder
+    customFeatures?: SortOrder
+    customNotes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -52433,6 +52507,7 @@ export namespace Prisma {
     stripePriceId?: SortOrder
     cardBrand?: SortOrder
     cardLast4?: SortOrder
+    customNotes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -52453,6 +52528,7 @@ export namespace Prisma {
     stripePriceId?: SortOrder
     cardBrand?: SortOrder
     cardLast4?: SortOrder
+    customNotes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -58343,6 +58419,9 @@ export namespace Prisma {
     stripePriceId?: string | null
     cardBrand?: string | null
     cardLast4?: string | null
+    customLimits?: NullableJsonNullValueInput | InputJsonValue
+    customFeatures?: NullableJsonNullValueInput | InputJsonValue
+    customNotes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -58362,6 +58441,9 @@ export namespace Prisma {
     stripePriceId?: string | null
     cardBrand?: string | null
     cardLast4?: string | null
+    customLimits?: NullableJsonNullValueInput | InputJsonValue
+    customFeatures?: NullableJsonNullValueInput | InputJsonValue
+    customNotes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -59251,6 +59333,9 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     cardBrand?: NullableStringFieldUpdateOperationsInput | string | null
     cardLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    customLimits?: NullableJsonNullValueInput | InputJsonValue
+    customFeatures?: NullableJsonNullValueInput | InputJsonValue
+    customNotes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -59270,6 +59355,9 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     cardBrand?: NullableStringFieldUpdateOperationsInput | string | null
     cardLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    customLimits?: NullableJsonNullValueInput | InputJsonValue
+    customFeatures?: NullableJsonNullValueInput | InputJsonValue
+    customNotes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

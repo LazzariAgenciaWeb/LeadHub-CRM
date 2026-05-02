@@ -11,9 +11,11 @@ import { formatPriceBRL, type PlanDefinition } from "@/lib/plans";
 export default function PricingClient({
   plans,
   enterprise,
+  free,
 }: {
   plans: PlanDefinition[];
   enterprise: PlanDefinition;
+  free?: PlanDefinition;
 }) {
   const [cycle, setCycle] = useState<"monthly" | "annual">("monthly");
 
@@ -95,7 +97,7 @@ export default function PricingClient({
       </section>
 
       {/* Enterprise card */}
-      <section className="max-w-7xl mx-auto px-5 pb-12">
+      <section className="max-w-7xl mx-auto px-5 pb-4">
         <div className="bg-gradient-to-br from-[#0d1525] to-[#1a2540] border border-[#1e2d45] rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-5">
           <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center flex-shrink-0">
             <Star className="w-6 h-6 text-white" strokeWidth={2.5} />
@@ -116,6 +118,32 @@ export default function PricingClient({
           </a>
         </div>
       </section>
+
+      {/* Free / Sob convite */}
+      {free && (
+        <section className="max-w-7xl mx-auto px-5 pb-12">
+          <div className="bg-[#0a1220] border border-emerald-500/20 rounded-2xl p-5 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-5">
+            <div className="w-10 h-10 rounded-lg bg-emerald-500/15 flex items-center justify-center flex-shrink-0">
+              <Sparkles className="w-5 h-5 text-emerald-400" strokeWidth={2.5} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="text-white font-bold text-base">{free.label}</h3>
+                <span className="text-[10px] text-emerald-300 bg-emerald-500/15 px-1.5 py-0.5 rounded uppercase font-bold">
+                  Sob convite
+                </span>
+              </div>
+              <p className="text-slate-400 text-xs mt-1">{free.description}</p>
+            </div>
+            <a
+              href="mailto:contato@lazzariweb.com.br?subject=LeadHub%20Free%20-%20convite"
+              className="bg-white/5 hover:bg-white/10 text-emerald-300 border border-emerald-500/30 font-semibold text-xs px-4 py-2 rounded-lg transition-colors flex-shrink-0"
+            >
+              Solicitar convite
+            </a>
+          </div>
+        </section>
+      )}
 
       {/* Tabela comparativa */}
       <section className="max-w-7xl mx-auto px-5 py-12 border-t border-[#1e2d45]">

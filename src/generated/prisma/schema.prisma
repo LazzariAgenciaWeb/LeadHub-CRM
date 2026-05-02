@@ -1029,6 +1029,18 @@ model Subscription {
   cardBrand String?
   cardLast4 String?
 
+  // ─── Overrides por cliente (super admin define manualmente) ──────────────
+  // Usado principalmente no plano FREE pra liberar limites/features
+  // específicos de cada cliente (parceiros, amigos, beta testers, lifetime deals).
+  // Quando preenchido, prevalece sobre os defaults do plano.
+  // Estrutura esperada (validada no app, não no DB):
+  //   customLimits   = { whatsappInstances?:n, atendentes?:n, unidades?:n, leadsPerMonth?:n }
+  //   customFeatures = { marketingDashboard?:bool, cofreCredenciais?:bool, ... }
+  customLimits   Json?
+  customFeatures Json?
+  /// Anotação livre só pra você lembrar por que aquele cliente tem override
+  customNotes    String? @db.Text
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -1037,6 +1049,7 @@ model Subscription {
 }
 
 enum PlanTier {
+  FREE
   TRIAL
   ESSENCIAL
   MARKETING

@@ -18,8 +18,6 @@ import {
   type PlanTier,
   type PlanLimits,
   type PlanFeatures,
-  planHasFeature as planHasFeatureRaw,
-  getPlanLimit as getPlanLimitRaw,
 } from "./plans";
 
 export interface CompanyPlanContext {
@@ -32,6 +30,33 @@ export interface CompanyPlanContext {
   isActive: boolean;            // true se TRIALING ou ACTIVE ou (CANCELED + dentro do period_end)
   isBlocked: boolean;           // true se UNPAID, sub vencida ou trial expirado sem upgrade
   daysUntilTrialEnd: number | null;
+
+  /** Limites efetivos = defaults do plano + overrides da Subscription. */
+  effectiveLimits: PlanLimits;
+  /** Features efetivas = defaults do plano + overrides da Subscription. */
+  effectiveFeatures: PlanFeatures;
+  /** True se houver algum override aplicado (pra UI mostrar badge "customizado"). */
+  hasCustomOverrides: boolean;
+}
+
+/** Mescla overrides (parcial) sobre defaults do plano. */
+function mergeLimits(base: PlanLimits, overrides: any): PlanLimits {
+  if (!overrides || typeof overrides !== "object") return base;
+  return {
+    whatsappInstances: typeof overrides.whatsappInstances === "number" ? overrides.whatsappInstances : base.whatsappInstances,
+    atendentes:        typeof overrides.atendentes === "number"        ? overrides.atendentes        : base.atendentes,
+    unidades:          typeof overrides.unidades === "number"          ? overrides.unidades          : base.unidades,
+    leadsPerMonth:     typeof overrides.leadsPerMonth === "number"     ? overrides.leadsPerMonth     : base.leadsPerMonth,
+  };
+}
+
+function mergeFeatures(base: PlanFeatures, overrides: any): PlanFeatures {
+  if (!overrides || typeof overrides !== "object") return base;
+  const out: PlanFeatures = { ...base };
+  for (const k of Object.keys(out) as (keyof PlanFeatures)[]) {
+    if (typeof overrides[k] === "boolean") out[k] = overrides[k];
+  }
+  return out;
 }
 
 /**
@@ -55,12 +80,15 @@ export async function getCompanyPlan(companyId: string): Promise<CompanyPlanCont
       status: true,
       trialEndsAt: true,
       currentPeriodEnd: true,
+      customLimits: true,
+      customFeatures: true,
     },
   });
 
-  // Sem subscription registrada — trata como TRIAL legado expirado (gracinha:
-  // libera tudo até a gente migrar/preencher manualmente)
+  // Sem subscription registrada — trata como TRIAL legado (gracinha: libera
+  // tudo até a gente migrar/preencher manualmente). Usa defaults amplos.
   if (!sub) {
+    const trialPlan = PLANS.TRIAL;
     return {
       companyId,
       effectiveCompanyId: effectiveId,
@@ -68,9 +96,12 @@ export async function getCompanyPlan(companyId: string): Promise<CompanyPlanCont
       status: "NO_SUBSCRIPTION",
       trialEndsAt: null,
       isTrialing: false,
-      isActive: true,        // legado: continua funcionando até virar a chave
+      isActive: true,
       isBlocked: false,
       daysUntilTrialEnd: null,
+      effectiveLimits: trialPlan.limits,
+      effectiveFeatures: trialPlan.features,
+      hasCustomOverrides: false,
     };
   }
 
@@ -84,6 +115,14 @@ export async function getCompanyPlan(companyId: string): Promise<CompanyPlanCont
     ? Math.max(0, Math.ceil((sub.trialEndsAt.getTime() - now.getTime()) / (24 * 60 * 60 * 1000)))
     : null;
 
+  // Defaults do plano + overrides customizados por cliente
+  const planDef = PLANS[sub.plan];
+  const effectiveLimits = mergeLimits(planDef.limits, sub.customLimits);
+  const effectiveFeatures = mergeFeatures(planDef.features, sub.customFeatures);
+  const hasCustomOverrides =
+    (sub.customLimits != null && Object.keys(sub.customLimits as any).length > 0) ||
+    (sub.customFeatures != null && Object.keys(sub.customFeatures as any).length > 0);
+
   return {
     companyId,
     effectiveCompanyId: effectiveId,
@@ -94,19 +133,22 @@ export async function getCompanyPlan(companyId: string): Promise<CompanyPlanCont
     isActive,
     isBlocked,
     daysUntilTrialEnd,
+    effectiveLimits,
+    effectiveFeatures,
+    hasCustomOverrides,
   };
 }
 
-/** Verifica se a empresa tem acesso a uma feature. */
+/** Verifica se a empresa tem acesso a uma feature (considerando overrides). */
 export async function companyHasFeature(companyId: string, feature: keyof PlanFeatures): Promise<boolean> {
   const ctx = await getCompanyPlan(companyId);
   if (ctx.isBlocked) return false;
-  return planHasFeatureRaw(ctx.tier, feature);
+  return ctx.effectiveFeatures[feature] === true;
 }
 
-/** Versão sincrona quando você já tem o tier em mãos. */
+/** Versão síncrona — só usa defaults do plano (sem considerar overrides do cliente). */
 export function tierHasFeature(tier: PlanTier, feature: keyof PlanFeatures): boolean {
-  return planHasFeatureRaw(tier, feature);
+  return PLANS[tier].features[feature] === true;
 }
 
 /** Retorna o limite e o uso atual de um recurso quantificável. */
@@ -115,7 +157,7 @@ export async function checkLimit(
   resource: keyof PlanLimits,
 ): Promise<{ allowed: boolean; used: number; limit: number; remaining: number; isUnlimited: boolean }> {
   const ctx = await getCompanyPlan(companyId);
-  const limit = getPlanLimitRaw(ctx.tier, resource);
+  const limit = ctx.effectiveLimits[resource];
   const isUnlimited = limit === -1;
 
   let used = 0;
@@ -197,7 +239,7 @@ export async function enforceFeature(companyId: string, feature: keyof PlanFeatu
   if (ctx.isBlocked) {
     throw new FeatureNotAvailableError(feature, ctx.tier);
   }
-  if (!planHasFeatureRaw(ctx.tier, feature)) {
+  if (ctx.effectiveFeatures[feature] !== true) {
     throw new FeatureNotAvailableError(feature, ctx.tier);
   }
 }

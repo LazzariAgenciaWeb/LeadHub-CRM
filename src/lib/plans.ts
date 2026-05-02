@@ -10,6 +10,7 @@
  */
 
 export type PlanTier =
+  | "FREE"
   | "TRIAL"
   | "ESSENCIAL"
   | "MARKETING"
@@ -109,6 +110,33 @@ function feat(overrides: Partial<PlanFeatures>): PlanFeatures {
 // ─── Catálogo de planos ──────────────────────────────────────────────────────
 
 export const PLANS: Record<PlanTier, PlanDefinition> = {
+  FREE: {
+    tier: "FREE",
+    label: "Free",
+    tagline: "Sob convite — limites customizáveis",
+    description: "Plano gratuito personalizado por cliente. Você (super admin) define limites e features no painel.",
+    priceMonthly: 0,
+    priceAnnualPerMonth: 0,
+    priceAnnualTotal: 0,
+    cta: "Sob convite",
+    limits: {
+      whatsappInstances: 1,
+      atendentes: 1,
+      unidades: 1,
+      leadsPerMonth: 100,
+    },
+    features: feat({
+      crmBasico: true,
+      inboxAvancado: true,
+    }),
+    highlights: [
+      "Convite manual do super admin",
+      "Limites e features ajustáveis por cliente",
+      "Defaults: 1 WhatsApp · 1 atendente · 100 leads/mês",
+      "Sem custo, sem cartão",
+    ],
+  },
+
   TRIAL: {
     tier: "TRIAL",
     label: "Trial",

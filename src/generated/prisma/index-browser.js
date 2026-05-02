@@ -591,6 +591,9 @@ exports.Prisma.SubscriptionScalarFieldEnum = {
   stripePriceId: 'stripePriceId',
   cardBrand: 'cardBrand',
   cardLast4: 'cardLast4',
+  customLimits: 'customLimits',
+  customFeatures: 'customFeatures',
+  customNotes: 'customNotes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -761,6 +764,7 @@ exports.IntegrationStatus = exports.$Enums.IntegrationStatus = {
 };
 
 exports.PlanTier = exports.$Enums.PlanTier = {
+  FREE: 'FREE',
   TRIAL: 'TRIAL',
   ESSENCIAL: 'ESSENCIAL',
   MARKETING: 'MARKETING',

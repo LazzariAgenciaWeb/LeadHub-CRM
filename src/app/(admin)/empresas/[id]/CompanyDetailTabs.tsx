@@ -6,6 +6,7 @@ import CompanyContacts from "./CompanyContacts";
 import CompanyVault from "./CompanyVault";
 import CompanyIntegrations from "./CompanyIntegrations";
 import CompanyMarketing from "./CompanyMarketing";
+import CompanySubscription from "./CompanySubscription";
 
 interface Campaign {
   id: string;
@@ -75,9 +76,9 @@ const SOURCE_ICON: Record<string, string> = {
   GOOGLE: "🔍", LINK: "🔗", OTHER: "📌",
 };
 
-type TabId = "campanhas" | "leads" | "oportunidades" | "chamados" | "contatos" | "cofre" | "integracoes" | "marketing";
+type TabId = "campanhas" | "leads" | "oportunidades" | "chamados" | "contatos" | "cofre" | "integracoes" | "marketing" | "plano";
 
-const TABS: { id: TabId; label: string; icon: string }[] = [
+const TABS: { id: TabId; label: string; icon: string; superAdminOnly?: boolean }[] = [
   { id: "marketing",    label: "Marketing",    icon: "📊" },
   { id: "campanhas",    label: "Campanhas",    icon: "📣" },
   { id: "leads",        label: "Leads",        icon: "🎯" },
@@ -86,6 +87,7 @@ const TABS: { id: TabId; label: string; icon: string }[] = [
   { id: "contatos",     label: "Contatos WA",  icon: "📱" },
   { id: "cofre",        label: "Cofre",        icon: "🔐" },
   { id: "integracoes",  label: "Integrações",  icon: "🔌" },
+  { id: "plano",        label: "Plano",        icon: "💳", superAdminOnly: true },
 ];
 
 export default function CompanyDetailTabs({
@@ -112,13 +114,17 @@ export default function CompanyDetailTabs({
     cofre:         0, // count carregado dinamicamente dentro do componente
     integracoes:   0, // count carregado dinamicamente dentro do componente
     marketing:     0, // count carregado dinamicamente dentro do componente
+    plano:         0, // sem contagem
   };
+
+  // Filtra abas restritas (super admin only)
+  const visibleTabs = TABS.filter((t) => !t.superAdminOnly || isSuperAdmin);
 
   return (
     <div className="mt-6">
       {/* Tab bar */}
       <div className="flex gap-1 border-b border-[#1e2d45] mb-0 overflow-x-auto">
-        {TABS.map((tab) => (
+        {visibleTabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
@@ -368,6 +374,11 @@ export default function CompanyDetailTabs({
         {/* ── Marketing (Dashboard) ── */}
         {activeTab === "marketing" && (
           <CompanyMarketing companyId={companyId} />
+        )}
+
+        {/* ── Plano (super admin) ── */}
+        {activeTab === "plano" && isSuperAdmin && (
+          <CompanySubscription companyId={companyId} />
         )}
       </div>
     </div>

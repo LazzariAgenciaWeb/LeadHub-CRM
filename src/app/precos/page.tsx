@@ -12,6 +12,7 @@ export default function PrecosPage() {
   // pesado em rotas estáticas e permitir cache.
   const plans = PLAN_ORDER.map((tier) => PLANS[tier]);
   const enterprise = PLANS.ENTERPRISE;
+  const free = PLANS.FREE;
 
-  return <PricingClient plans={plans} enterprise={enterprise} />;
+  return <PricingClient plans={plans} enterprise={enterprise} free={free} />;
 }
