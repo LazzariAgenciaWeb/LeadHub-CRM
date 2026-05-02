@@ -3,11 +3,12 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   BarChart3, Users, Target, FileText, Globe, TrendingUp, TrendingDown, Minus,
-  Search, MapPin, ArrowUpRight, Loader2, RefreshCw,
+  Search, MapPin, ArrowUpRight, Loader2, RefreshCw, ArrowDown, ArrowUp,
+  ChevronUp, ChevronDown,
 } from "lucide-react";
 import {
   ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip as ReTooltip,
-  PieChart, Pie, Cell,
+  PieChart, Pie, Cell, LineChart, Line, Legend, CartesianGrid,
 } from "recharts";
 import { BUCKET_META, type TrafficBucket } from "@/lib/traffic-classifier";
 import { flagFromCountryCode, ptCountryName } from "@/lib/country-flags";
@@ -21,7 +22,7 @@ interface MarketingData {
     pageviews: Kpi; newUsers: Kpi;
     bounceRate: Kpi; avgSessionSec: Kpi; engagedSessions: Kpi;
   };
-  dailySeries: { date: string; sessions: number; users: number; conversions: number }[];
+  dailySeries: { date: string; sessions: number; users: number; conversions: number; pageviews: number }[];
   trafficBuckets: {
     bucket: TrafficBucket;
     sessions: number; users: number; conversions: number;
@@ -32,7 +33,12 @@ interface MarketingData {
     code: string; name: string; sessions: number; users: number;
     topCities: { city: string; sessions: number; users: number; region: string | null }[];
   }[];
-  topQueries: { query: string; clicks: number; impressions: number; ctr: number; position: number }[];
+  topQueries: {
+    query: string; clicks: number; impressions: number; ctr: number;
+    position: number;
+    prevPosition: number | null;
+    positionDelta: number | null;  // positivo = subiu (posição menor é melhor)
+  }[];
   searchConsole: { totalClicks: number; totalImpressions: number; avgCtr: number };
   hasData: boolean;
 }
@@ -67,11 +73,38 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
   const [error, setError] = useState<string | null>(null);
   const [days, setDays] = useState(30);
   const [activeBucket, setActiveBucket] = useState<TrafficBucket | null>(null);
+  const [querySort, setQuerySort] = useState<{ key: "clicks" | "impressions" | "ctr" | "position"; dir: "asc" | "desc" }>({
+    key: "clicks",
+    dir: "desc",
+  });
 
   useEffect(() => {
     void load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [companyId, days]);
+
+  // Ordena as queries conforme a coluna selecionada. Position usa lógica
+  // invertida — posição menor (1ª, 2ª) é melhor que maior (15ª, 30ª).
+  const sortedQueries = useMemo(() => {
+    if (!data) return [];
+    const list = [...data.topQueries];
+    list.sort((a, b) => {
+      const va = a[querySort.key];
+      const vb = b[querySort.key];
+      const diff = va - vb;
+      return querySort.dir === "asc" ? diff : -diff;
+    });
+    return list;
+  }, [data, querySort]);
+
+  function toggleSort(key: typeof querySort.key) {
+    setQuerySort((prev) => prev.key === key
+      // mesma coluna → inverte direção
+      ? { key, dir: prev.dir === "asc" ? "desc" : "asc" }
+      // coluna nova → começa na direção mais útil (position asc, resto desc)
+      : { key, dir: key === "position" ? "asc" : "desc" }
+    );
+  }
 
   async function load() {
     setLoading(true);
@@ -165,41 +198,54 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
         <SmallKpi label="Sess. engajadas" value={data.kpis.engagedSessions.value} />
       </div>
 
-      {/* Série diária + Origens (donut) */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <div className="lg:col-span-2 bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
-          <h3 className="text-white font-semibold text-sm mb-3">Sessões / dia</h3>
-          {data.dailySeries.length === 0 ? (
-            <div className="text-slate-600 text-xs text-center py-12">Sem dados de série temporal.</div>
-          ) : (
-            <div style={{ height: 220 }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={data.dailySeries}>
-                  <defs>
-                    <linearGradient id="sessionsGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#6366f1" stopOpacity={0.4} />
-                      <stop offset="100%" stopColor="#6366f1" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <XAxis dataKey="date" tick={{ fontSize: 10, fill: "#475569" }} stroke="#1e2d45" tickFormatter={(s) => s.slice(5)} />
-                  <YAxis tick={{ fontSize: 10, fill: "#475569" }} stroke="#1e2d45" />
-                  <ReTooltip
-                    contentStyle={{ background: "#0d1525", border: "1px solid #1e2d45", borderRadius: 8, fontSize: 12 }}
-                    labelStyle={{ color: "#cbd5e1" }}
-                  />
-                  <Area type="monotone" dataKey="sessions" stroke="#6366f1" fill="url(#sessionsGrad)" strokeWidth={2} />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-          )}
-        </div>
+      {/* Funil de conversão */}
+      <MarketingFunnel
+        impressions={data.searchConsole.totalImpressions}
+        sessions={data.kpis.sessions.value}
+        users={data.kpis.users.value}
+        conversions={data.kpis.conversions.value}
+      />
 
-        <div className="bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
-          <h3 className="text-white font-semibold text-sm mb-3">Origens do tráfego</h3>
-          {data.trafficBuckets.length === 0 ? (
-            <div className="text-slate-600 text-xs text-center py-12">Sem dados.</div>
-          ) : (
-            <div style={{ height: 220 }}>
+      {/* Série diária — multi-linha (visualizações + sessões + conversões) */}
+      <div className="bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-white font-semibold text-sm">Tráfego diário</h3>
+          {/* Mini-legenda manual pra controlar cores e estilo */}
+          <div className="flex items-center gap-3 text-[11px]">
+            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-amber-400" />Visualizações</span>
+            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-indigo-500" />Sessões</span>
+            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-emerald-400" />Conversões</span>
+          </div>
+        </div>
+        {data.dailySeries.length === 0 ? (
+          <div className="text-slate-600 text-xs text-center py-12">Sem dados de série temporal.</div>
+        ) : (
+          <div style={{ height: 240 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={data.dailySeries} margin={{ top: 5, right: 8, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#1e2d45" vertical={false} />
+                <XAxis dataKey="date" tick={{ fontSize: 10, fill: "#475569" }} stroke="#1e2d45" tickFormatter={(s) => s.slice(5)} />
+                <YAxis tick={{ fontSize: 10, fill: "#475569" }} stroke="#1e2d45" />
+                <ReTooltip
+                  contentStyle={{ background: "#0d1525", border: "1px solid #1e2d45", borderRadius: 8, fontSize: 12 }}
+                  labelStyle={{ color: "#cbd5e1" }}
+                />
+                <Line type="monotone" dataKey="pageviews"   name="Visualizações" stroke="#fbbf24" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="sessions"    name="Sessões"       stroke="#6366f1" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="conversions" name="Conversões"    stroke="#10b981" strokeWidth={2} dot={false} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        )}
+      </div>
+
+      {/* Origens (pizza + detalhamento lado a lado) */}
+      {data.trafficBuckets.length > 0 && (
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+          {/* Pizza — ocupa 2/5 no desktop */}
+          <div className="lg:col-span-2 bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
+            <h3 className="text-white font-semibold text-sm mb-3">Origens do tráfego</h3>
+            <div style={{ height: 280 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -208,13 +254,20 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
                     nameKey="bucket"
                     cx="50%"
                     cy="50%"
-                    innerRadius={48}
-                    outerRadius={80}
+                    innerRadius={56}
+                    outerRadius={96}
                     paddingAngle={2}
                     onClick={(d: any) => setActiveBucket(d.bucket)}
                   >
                     {data.trafficBuckets.map((b) => (
-                      <Cell key={b.bucket} fill={BUCKET_HEX[b.bucket] || "#64748b"} stroke="#0a1220" />
+                      <Cell
+                        key={b.bucket}
+                        fill={BUCKET_HEX[b.bucket] || "#64748b"}
+                        stroke={activeBucket === b.bucket ? "#fff" : "#0a1220"}
+                        strokeWidth={activeBucket === b.bucket ? 2 : 1}
+                        opacity={activeBucket && activeBucket !== b.bucket ? 0.4 : 1}
+                        style={{ cursor: "pointer" }}
+                      />
                     ))}
                   </Pie>
                   <ReTooltip
@@ -224,62 +277,65 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
                 </PieChart>
               </ResponsiveContainer>
             </div>
-          )}
-        </div>
-      </div>
+            {activeBucket && (
+              <p className="text-[10px] text-slate-600 text-center mt-1">
+                Clique numa fatia ou item ao lado pra filtrar — clique de novo pra limpar
+              </p>
+            )}
+          </div>
 
-      {/* Lista detalhada de origens */}
-      {data.trafficBuckets.length > 0 && (
-        <div className="bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
-          <h3 className="text-white font-semibold text-sm mb-3">Detalhamento de origens</h3>
-          <div className="space-y-2">
-            {data.trafficBuckets.map((b) => {
-              const meta = BUCKET_META[b.bucket];
-              const isActive = activeBucket === b.bucket;
-              const pct = data.kpis.sessions.value > 0
-                ? (b.sessions / data.kpis.sessions.value) * 100
-                : 0;
-              return (
-                <div key={b.bucket}>
-                  <button
-                    onClick={() => setActiveBucket(isActive ? null : b.bucket)}
-                    className="w-full flex items-center gap-3 p-2.5 rounded-lg hover:bg-white/[0.03] transition-colors"
-                  >
-                    <span className="text-lg flex-shrink-0">{meta.icon}</span>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between gap-2 mb-1">
-                        <span className={`text-sm font-semibold ${meta.color}`}>{meta.label}</span>
-                        <span className="text-slate-300 text-xs font-mono">{b.sessions.toLocaleString("pt-BR")} sess</span>
-                      </div>
-                      <div className="h-1.5 bg-[#1e2d45] rounded-full overflow-hidden">
-                        <div
-                          className={meta.bgColor}
-                          style={{ width: `${pct.toFixed(1)}%`, height: "100%" }}
-                        />
-                      </div>
-                      <div className="flex justify-between text-[10px] text-slate-600 mt-1">
-                        <span>{pct.toFixed(1)}% do tráfego</span>
-                        <span>{b.users} usuários · {b.conversions} conv</span>
-                      </div>
-                    </div>
-                  </button>
-                  {isActive && b.details.length > 0 && (
-                    <div className="ml-9 mt-1 mb-2 space-y-1">
-                      {b.details.map((d) => (
-                        <div key={`${d.rawSource}::${d.rawMedium}`} className="flex items-center justify-between text-xs px-2.5 py-1.5 rounded bg-white/[0.02]">
-                          <span className="text-slate-400 truncate font-mono text-[11px]">
-                            {d.rawSource} <span className="text-slate-700">/</span> {d.rawMedium}
-                          </span>
-                          <span className="text-slate-500 text-[11px] flex-shrink-0">
-                            {d.sessions} sess · {d.conversions} conv
-                          </span>
+          {/* Detalhamento — ocupa 3/5 no desktop */}
+          <div className="lg:col-span-3 bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
+            <h3 className="text-white font-semibold text-sm mb-3">Detalhamento de origens</h3>
+            <div className="space-y-2 max-h-[280px] overflow-y-auto pr-1">
+              {data.trafficBuckets.map((b) => {
+                const meta = BUCKET_META[b.bucket];
+                const isActive = activeBucket === b.bucket;
+                const pct = data.kpis.sessions.value > 0
+                  ? (b.sessions / data.kpis.sessions.value) * 100
+                  : 0;
+                return (
+                  <div key={b.bucket} className={isActive ? "bg-white/[0.04] -mx-2 px-2 rounded-lg" : ""}>
+                    <button
+                      onClick={() => setActiveBucket(isActive ? null : b.bucket)}
+                      className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-white/[0.03] transition-colors"
+                    >
+                      <span className="text-lg flex-shrink-0">{meta.icon}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-2 mb-1">
+                          <span className={`text-sm font-semibold ${meta.color}`}>{meta.label}</span>
+                          <span className="text-slate-300 text-xs font-mono">{b.sessions.toLocaleString("pt-BR")} sess</span>
                         </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+                        <div className="h-1.5 bg-[#1e2d45] rounded-full overflow-hidden">
+                          <div
+                            className={meta.bgColor}
+                            style={{ width: `${pct.toFixed(1)}%`, height: "100%" }}
+                          />
+                        </div>
+                        <div className="flex justify-between text-[10px] text-slate-600 mt-1">
+                          <span>{pct.toFixed(1)}% do tráfego</span>
+                          <span>{b.users} usuários · {b.conversions} conv</span>
+                        </div>
+                      </div>
+                    </button>
+                    {isActive && b.details.length > 0 && (
+                      <div className="ml-9 mt-1 mb-2 space-y-1">
+                        {b.details.map((d) => (
+                          <div key={`${d.rawSource}::${d.rawMedium}`} className="flex items-center justify-between text-xs px-2.5 py-1.5 rounded bg-white/[0.02]">
+                            <span className="text-slate-400 truncate font-mono text-[11px]">
+                              {d.rawSource} <span className="text-slate-700">/</span> {d.rawMedium}
+                            </span>
+                            <span className="text-slate-500 text-[11px] flex-shrink-0">
+                              {d.sessions} sess · {d.conversions} conv
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       )}
@@ -395,23 +451,47 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-[#1e2d45]">
-                  {["Query", "Cliques", "Impressões", "CTR", "Posição"].map((h) => (
-                    <th key={h} className="text-left text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">{h}</th>
-                  ))}
+                  <th className="text-left text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">Query</th>
+                  <SortHeader label="Cliques"     keyName="clicks"      sort={querySort} onClick={toggleSort} align="right" />
+                  <SortHeader label="Impressões"  keyName="impressions" sort={querySort} onClick={toggleSort} align="right" />
+                  <SortHeader label="CTR"         keyName="ctr"         sort={querySort} onClick={toggleSort} align="right" />
+                  <SortHeader label="Posição"     keyName="position"    sort={querySort} onClick={toggleSort} align="right" />
                 </tr>
               </thead>
               <tbody>
-                {data.topQueries.map((q) => (
-                  <tr key={q.query} className="border-b border-[#1e2d45]/50 hover:bg-white/[0.02]">
-                    <td className="py-2 px-2 text-slate-200 text-xs truncate max-w-xs">{q.query}</td>
-                    <td className="py-2 px-2 text-slate-300 text-xs font-mono">{q.clicks}</td>
-                    <td className="py-2 px-2 text-slate-500 text-xs font-mono">{q.impressions}</td>
-                    <td className="py-2 px-2 text-slate-400 text-xs font-mono">{(q.ctr * 100).toFixed(2)}%</td>
-                    <td className="py-2 px-2 text-slate-400 text-xs font-mono">{q.position.toFixed(1)}</td>
-                  </tr>
-                ))}
+                {sortedQueries.map((q) => {
+                  const ctrPct = q.ctr * 100;
+                  // CTR colorido: verde > 5%, amarelo 1-5%, vermelho < 1%
+                  const ctrColor =
+                    ctrPct >= 5 ? "text-emerald-400" :
+                    ctrPct >= 1 ? "text-yellow-400"  :
+                                   "text-red-400";
+                  return (
+                    <tr key={q.query} className="border-b border-[#1e2d45]/50 hover:bg-white/[0.02]">
+                      <td className="py-2 px-2 text-slate-200 text-xs truncate max-w-xs">{q.query}</td>
+                      <td className="py-2 px-2 text-slate-300 text-xs font-mono text-right">{q.clicks}</td>
+                      <td className="py-2 px-2 text-slate-500 text-xs font-mono text-right">{q.impressions}</td>
+                      <td className={`py-2 px-2 text-xs font-mono font-semibold text-right ${ctrColor}`}>
+                        {ctrPct.toFixed(2)}%
+                      </td>
+                      <td className="py-2 px-2 text-xs font-mono text-right">
+                        <div className="flex items-center justify-end gap-1.5">
+                          <span className="text-slate-400">{q.position.toFixed(1)}</span>
+                          <PositionDelta delta={q.positionDelta} />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
+            {/* Legenda de delta */}
+            <p className="text-[10px] text-slate-600 mt-2 px-2">
+              Comparação de posição vs período anterior:
+              <span className="text-emerald-400 ml-2">↑ subiu</span>
+              <span className="text-red-400 ml-2">↓ caiu</span>
+              <span className="text-slate-500 ml-2">— sem dado anterior</span>
+            </p>
           </div>
         )}
       </div>
@@ -467,4 +547,128 @@ function fmtSeconds(s: number): string {
   const secs = Math.floor(s % 60);
   if (mins === 0) return `${secs}s`;
   return `${mins}m ${secs}s`;
+}
+
+// ─── Funil de marketing ──────────────────────────────────────────────────────
+// Mostra a jornada Impressões → Sessões → Usuários → Conversões em 4 etapas
+// com a taxa de conversão entre cada uma. Largura proporcional ao volume.
+
+function MarketingFunnel({
+  impressions, sessions, users, conversions,
+}: {
+  impressions: number; sessions: number; users: number; conversions: number;
+}) {
+  // Etapas em ordem de afunilamento. Filtra etapas zeradas pra não confundir
+  // (ex: cliente sem Search Console conectado não tem impressões).
+  const stages = [
+    { key: "impressions", label: "Impressões",   value: impressions, color: "from-amber-500 to-orange-500",   accent: "text-amber-300",   bg: "bg-amber-500/10" },
+    { key: "sessions",    label: "Sessões",      value: sessions,    color: "from-indigo-500 to-blue-500",    accent: "text-indigo-300",  bg: "bg-indigo-500/10" },
+    { key: "users",       label: "Usuários",     value: users,       color: "from-cyan-500 to-teal-500",      accent: "text-cyan-300",    bg: "bg-cyan-500/10" },
+    { key: "conversions", label: "Conversões",   value: conversions, color: "from-emerald-500 to-green-500",  accent: "text-emerald-300", bg: "bg-emerald-500/10" },
+  ].filter((s) => s.value > 0);
+
+  if (stages.length < 2) {
+    // Sem dados suficientes pra montar funil — não polui a tela
+    return null;
+  }
+
+  const max = stages[0].value;
+
+  return (
+    <div className="bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
+      <h3 className="text-white font-semibold text-sm mb-4 flex items-center gap-2">
+        <Target className="w-4 h-4 text-emerald-400" strokeWidth={2.25} />
+        Funil de conversão
+      </h3>
+      <div className="space-y-2">
+        {stages.map((s, i) => {
+          const widthPct = (s.value / max) * 100;
+          const prev = i > 0 ? stages[i - 1] : null;
+          const conversionRate = prev && prev.value > 0 ? (s.value / prev.value) * 100 : null;
+          return (
+            <div key={s.key}>
+              {/* Indicador de conversão entre etapas */}
+              {prev && conversionRate !== null && (
+                <div className="flex items-center gap-2 mb-1 ml-2 text-[10px]">
+                  <ArrowDown className="w-3 h-3 text-slate-600" strokeWidth={2} />
+                  <span className={s.accent}>
+                    {conversionRate.toFixed(1)}% conversão
+                  </span>
+                  <span className="text-slate-700">
+                    ({prev.value.toLocaleString("pt-BR")} → {s.value.toLocaleString("pt-BR")})
+                  </span>
+                </div>
+              )}
+              {/* Barra do estágio */}
+              <div className="relative">
+                <div
+                  className={`h-12 rounded-lg bg-gradient-to-r ${s.color} flex items-center px-3 transition-all`}
+                  style={{ width: `${Math.max(widthPct, 12)}%` }}
+                >
+                  <span className="text-white text-xs font-bold uppercase tracking-wide drop-shadow">
+                    {s.label}
+                  </span>
+                </div>
+                {/* Valor à direita da barra */}
+                <span className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-200 font-bold text-base font-mono">
+                  {s.value.toLocaleString("pt-BR")}
+                </span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ─── Cabeçalho de coluna clicável (ordenação) ─────────────────────────────────
+
+function SortHeader({
+  label, keyName, sort, onClick, align,
+}: {
+  label: string;
+  keyName: "clicks" | "impressions" | "ctr" | "position";
+  sort: { key: string; dir: "asc" | "desc" };
+  onClick: (k: any) => void;
+  align?: "left" | "right";
+}) {
+  const isActive = sort.key === keyName;
+  return (
+    <th className={`text-${align ?? "left"} text-[10px] uppercase tracking-wider font-bold pb-2 px-2`}>
+      <button
+        onClick={() => onClick(keyName)}
+        className={`flex items-center gap-1 hover:text-slate-200 transition-colors ${
+          isActive ? "text-indigo-300" : "text-slate-600"
+        } ${align === "right" ? "ml-auto" : ""}`}
+      >
+        {label}
+        {isActive && (sort.dir === "asc"
+          ? <ChevronUp className="w-3 h-3" strokeWidth={2.5} />
+          : <ChevronDown className="w-3 h-3" strokeWidth={2.5} />)}
+      </button>
+    </th>
+  );
+}
+
+// ─── Indicador visual de variação de posição ─────────────────────────────────
+
+function PositionDelta({ delta }: { delta: number | null }) {
+  // delta é positivo quando a posição MELHOROU (ex: caiu de 12 pra 7 = +5)
+  if (delta === null) return <span className="text-slate-600 text-[10px]">—</span>;
+  if (Math.abs(delta) < 0.5) return <span className="text-slate-500 text-[10px]">=</span>;
+  const improved = delta > 0;
+  return (
+    <span
+      className={`inline-flex items-center gap-0.5 text-[10px] font-bold ${
+        improved ? "text-emerald-400" : "text-red-400"
+      }`}
+      title={improved ? `Subiu ${Math.abs(delta).toFixed(1)} posições` : `Caiu ${Math.abs(delta).toFixed(1)} posições`}
+    >
+      {improved
+        ? <ArrowUp className="w-2.5 h-2.5" strokeWidth={3} />
+        : <ArrowDown className="w-2.5 h-2.5" strokeWidth={3} />}
+      {Math.abs(delta).toFixed(1)}
+    </span>
+  );
 }

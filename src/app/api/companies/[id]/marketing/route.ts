@@ -60,7 +60,7 @@ export async function GET(
         source: "ga4",
         date: { gte: periodStart, lte: periodEnd },
       },
-      select: { date: true, sessions: true, users: true, conversions: true },
+      select: { date: true, sessions: true, users: true, conversions: true, pageviews: true },
       orderBy: { date: "asc" },
     }),
   ]);
@@ -175,14 +175,35 @@ export async function GET(
     .sort((a, b) => b.sessions - a.sessions)
     .slice(0, 20);
 
-  // ─── 5. Search Console — top queries ────────────────────────────────────
-  const scRows = await prisma.searchConsoleQuery.findMany({
-    where: {
-      companyId,
-      date: { gte: periodStart, lte: periodEnd },
-    },
-    select: { query: true, clicks: true, impressions: true, ctr: true, position: true },
-  });
+  // ─── 5. Search Console — top queries (atual + período anterior) ─────────
+  // Busca em paralelo: período corrente e período imediatamente anterior
+  // (mesmo número de dias). Usado pra mostrar variação de posição.
+  const [scRows, scPrevRows] = await Promise.all([
+    prisma.searchConsoleQuery.findMany({
+      where: { companyId, date: { gte: periodStart, lte: periodEnd } },
+      select: { query: true, clicks: true, impressions: true, ctr: true, position: true },
+    }),
+    prisma.searchConsoleQuery.findMany({
+      where: { companyId, date: { gte: prevStart, lte: prevEnd } },
+      select: { query: true, clicks: true, impressions: true, position: true },
+    }),
+  ]);
+
+  // Indexa período anterior por query → média de posição (pra delta)
+  const prevPositionByQuery = new Map<string, number>();
+  const prevTmp = new Map<string, { positions: number[]; clicks: number }>();
+  for (const q of scPrevRows) {
+    if (!prevTmp.has(q.query)) prevTmp.set(q.query, { positions: [], clicks: 0 });
+    const slot = prevTmp.get(q.query)!;
+    slot.positions.push(q.position);
+    slot.clicks += q.clicks;
+  }
+  for (const [query, v] of prevTmp) {
+    if (v.positions.length > 0) {
+      prevPositionByQuery.set(query, v.positions.reduce((a, b) => a + b, 0) / v.positions.length);
+    }
+  }
+
   const queriesMap = new Map<string, { clicks: number; impressions: number; positions: number[]; }>();
   for (const q of scRows) {
     if (!queriesMap.has(q.query)) {
@@ -194,13 +215,21 @@ export async function GET(
     slot.positions.push(q.position);
   }
   const topQueries = Array.from(queriesMap.entries())
-    .map(([query, v]) => ({
-      query,
-      clicks: v.clicks,
-      impressions: v.impressions,
-      ctr: v.impressions > 0 ? v.clicks / v.impressions : 0,
-      position: v.positions.length > 0 ? v.positions.reduce((a, b) => a + b, 0) / v.positions.length : 0,
-    }))
+    .map(([query, v]) => {
+      const position = v.positions.length > 0 ? v.positions.reduce((a, b) => a + b, 0) / v.positions.length : 0;
+      const prevPosition = prevPositionByQuery.get(query) ?? null;
+      // Delta positivo = melhorou (subiu na busca, posição diminuiu)
+      const positionDelta = prevPosition !== null ? prevPosition - position : null;
+      return {
+        query,
+        clicks: v.clicks,
+        impressions: v.impressions,
+        ctr: v.impressions > 0 ? v.clicks / v.impressions : 0,
+        position,
+        prevPosition,
+        positionDelta,
+      };
+    })
     .sort((a, b) => b.clicks - a.clicks || b.impressions - a.impressions)
     .slice(0, 30);
 
@@ -238,6 +267,7 @@ export async function GET(
       sessions: d.sessions,
       users: d.users,
       conversions: d.conversions,
+      pageviews: d.pageviews,
     })),
     trafficBuckets,
     topPages,
