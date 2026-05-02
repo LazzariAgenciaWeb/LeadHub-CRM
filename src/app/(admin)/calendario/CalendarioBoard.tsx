@@ -383,7 +383,7 @@ function OverdueRow({
           Reagendar
         </button>
         <Link
-          href="/whatsapp"
+          href={`/whatsapp?abrir=${encodeURIComponent(conv.phone)}`}
           className="text-[11px] font-semibold text-red-400 hover:text-red-300 px-2 py-1 rounded-md hover:bg-red-500/10 transition-colors"
         >
           Abrir
@@ -810,7 +810,7 @@ export default function CalendarioBoard({
                     )}
                   </div>
                 </div>
-                <Link href="/whatsapp" className="flex-shrink-0 text-[11px] font-semibold text-indigo-400 hover:text-indigo-300 transition-colors">
+                <Link href={`/whatsapp?abrir=${encodeURIComponent(c.phone)}`} className="flex-shrink-0 text-[11px] font-semibold text-indigo-400 hover:text-indigo-300 transition-colors">
                   Abrir
                 </Link>
               </div>
@@ -848,7 +848,7 @@ export default function CalendarioBoard({
                     )}
                   </div>
                 </div>
-                <Link href="/whatsapp" className="flex-shrink-0 text-[11px] font-semibold text-slate-400 hover:text-white transition-colors">
+                <Link href={`/whatsapp?abrir=${encodeURIComponent(c.phone)}`} className="flex-shrink-0 text-[11px] font-semibold text-slate-400 hover:text-white transition-colors">
                   Abrir
                 </Link>
               </div>
@@ -912,7 +912,7 @@ export default function CalendarioBoard({
                   Agendar
                 </button>
                 <span className="text-slate-700">·</span>
-                <Link href="/whatsapp" className="text-[11px] font-semibold text-indigo-400 hover:text-indigo-300 transition-colors">
+                <Link href={`/whatsapp?abrir=${encodeURIComponent(c.phone)}`} className="text-[11px] font-semibold text-indigo-400 hover:text-indigo-300 transition-colors">
                   Abrir
                 </Link>
               </div>
@@ -973,7 +973,7 @@ export default function CalendarioBoard({
                   )}
                 </div>
               </div>
-              <Link href="/whatsapp" className="flex-shrink-0 text-[11px] font-semibold text-indigo-400 hover:text-indigo-300 transition-colors">
+              <Link href={`/whatsapp?abrir=${encodeURIComponent(c.phone)}`} className="flex-shrink-0 text-[11px] font-semibold text-indigo-400 hover:text-indigo-300 transition-colors">
                 Abrir
               </Link>
             </div>
