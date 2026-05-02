@@ -3,6 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { ActivityType, ConversationStatus } from "@/generated/prisma";
 import { mapConvStatusToLegacy } from "@/lib/whatsapp";
+import { formatBrazilDateTime, formatBrazilDateTimeShort } from "@/lib/datetime";
 
 const VALID_STATUS: ConversationStatus[] = ["OPEN", "PENDING", "IN_PROGRESS", "WAITING_CUSTOMER", "SCHEDULED", "CLOSED"];
 
@@ -139,10 +140,7 @@ export async function PATCH(
   //  - Lead.notes (parser legado da timeline da inbox renderiza dali)
   // O marcador 📅 no início é detectado no front pra render em roxo.
   if (data.scheduledReturnAt && data.scheduledReturnAt instanceof Date) {
-    const when = data.scheduledReturnAt.toLocaleString("pt-BR", {
-      day: "2-digit", month: "2-digit", year: "numeric",
-      hour: "2-digit", minute: "2-digit",
-    });
+    const when = formatBrazilDateTime(data.scheduledReturnAt);
     const noteText = body.returnNote
       ? `📅 Retorno agendado para ${when} — ${body.returnNote}`
       : `📅 Retorno agendado para ${when}`;
@@ -159,11 +157,7 @@ export async function PATCH(
 
     // Também appenda em Lead.notes (formato legado: "[DD/MM/YY HH:MM] texto").
     // O parser da inbox pega daqui pra renderizar a bolha imediatamente.
-    const dateStr =
-      new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" }) +
-      " " +
-      new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
-    const legacyEntry = `[${dateStr}] ${noteText}`;
+    const legacyEntry = `[${formatBrazilDateTimeShort(new Date())}] ${noteText}`;
     const leads = await prisma.lead.findMany({
       where: { conversationId: conv.id },
       select: { id: true, notes: true },

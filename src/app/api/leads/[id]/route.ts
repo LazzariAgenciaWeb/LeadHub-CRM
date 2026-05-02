@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getClickupSettings, syncOportunidadeToClickup } from "@/lib/clickup";
+import { formatBrazilDateTime, formatBrazilDateTimeShort } from "@/lib/datetime";
 
 // GET /api/leads/[id]
 export async function GET(
@@ -76,26 +77,49 @@ export async function PATCH(
   });
 
   // Compatibilidade com botões antigos (UI legacy ainda usa attendanceStatus):
-  // quando o lead tem Conversation vinculada, propaga a mudança para Conversation.status.
+  // quando o lead tem (ou pode ter) Conversation, propaga pro Conversation.status.
   // Mapping: WAITING → OPEN, IN_PROGRESS → IN_PROGRESS, RESOLVED → CLOSED, SCHEDULED → SCHEDULED
-  if (attendanceStatus !== undefined && lead.conversationId) {
+  if (attendanceStatus !== undefined) {
     const map: Record<string, "OPEN" | "IN_PROGRESS" | "SCHEDULED" | "CLOSED" | null> = {
       WAITING: "OPEN", IN_PROGRESS: "IN_PROGRESS", SCHEDULED: "SCHEDULED", RESOLVED: "CLOSED",
     };
     const newConvStatus = attendanceStatus ? map[attendanceStatus] : null;
     if (newConvStatus) {
-      await prisma.conversation.update({
-        where: { id: lead.conversationId },
-        data: {
-          status: newConvStatus,
-          statusUpdatedAt: new Date(),
-          ...(newConvStatus === "CLOSED" ? { closedAt: new Date() } : { closedAt: null }),
-          // Sincroniza scheduledReturnAt na Conversation com expectedReturnAt do Lead
-          ...(newConvStatus === "SCHEDULED" && expectedReturnAt
-            ? { scheduledReturnAt: new Date(expectedReturnAt) }
-            : {}),
-        },
-      }).catch(() => { /* não crítico */ });
+      // Busca o ID da Conversation. Fallback: se o Lead não está vinculado,
+      // procura pela combinação (companyId, phone) que é única em Conversation.
+      // Sem isso, leads antigos (criados antes do refactor de Conversation)
+      // ficavam com status divergindo entre Lead.attendanceStatus e Conversation.status.
+      let conversationId = lead.conversationId;
+      if (!conversationId) {
+        const conv = await prisma.conversation.findUnique({
+          where: { companyId_phone: { companyId: existing.companyId, phone: existing.phone } },
+          select: { id: true },
+        }).catch(() => null);
+        conversationId = conv?.id ?? null;
+        // Vincula o lead à conversation encontrada (one-time fix)
+        if (conversationId) {
+          await prisma.lead.update({
+            where: { id },
+            data: { conversationId },
+          }).catch(() => { /* não crítico */ });
+          (lead as any).conversationId = conversationId;
+        }
+      }
+
+      if (conversationId) {
+        await prisma.conversation.update({
+          where: { id: conversationId },
+          data: {
+            status: newConvStatus,
+            statusUpdatedAt: new Date(),
+            ...(newConvStatus === "CLOSED" ? { closedAt: new Date() } : { closedAt: null }),
+            // Sincroniza scheduledReturnAt na Conversation com expectedReturnAt do Lead
+            ...(newConvStatus === "SCHEDULED" && expectedReturnAt
+              ? { scheduledReturnAt: new Date(expectedReturnAt) }
+              : {}),
+          },
+        }).catch(() => { /* não crítico */ });
+      }
     }
   }
 
@@ -111,10 +135,7 @@ export async function PATCH(
     (isSettingReturn && new Date(expectedReturnAt).getTime() !== existing.expectedReturnAt.getTime());
   if (isSettingReturn && wasReturnDifferent) {
     const returnDate = new Date(expectedReturnAt);
-    const when = returnDate.toLocaleString("pt-BR", {
-      day: "2-digit", month: "2-digit", year: "numeric",
-      hour: "2-digit", minute: "2-digit",
-    });
+    const when = formatBrazilDateTime(returnDate);
     const noteText = `📅 Retorno agendado para ${when}`;
     const userId   = (session.user as any)?.id as string | undefined;
     const userName = (session.user as any)?.name as string | undefined;
@@ -134,11 +155,7 @@ export async function PATCH(
 
     // 2) Appenda em Lead.notes — formato legado que o parser da inbox lê
     //    pra renderizar na timeline imediatamente.
-    const dateStr =
-      new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" }) +
-      " " +
-      new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
-    const legacyEntry = `[${dateStr}] ${noteText}`;
+    const legacyEntry = `[${formatBrazilDateTimeShort(new Date())}] ${noteText}`;
     const newNotesValue = lead.notes ? `${legacyEntry}\n\n${lead.notes}` : legacyEntry;
     await prisma.lead.update({
       where: { id },
