@@ -72,21 +72,24 @@ export default async function CalendarioPage() {
         take: 20,
       }),
 
-      // Chamados urgentes/altos com mais de 24h sem resolução
+      // Chamados/tarefas com prazo em até 3 dias OU vencidos.
+      // Ordena por dueDate ASC: mais urgentes (passados/hoje) primeiro.
       prisma.ticket.findMany({
         where: {
           ...cf,
           status: { in: ["OPEN", "IN_PROGRESS"] },
-          priority: { in: ["URGENT", "HIGH"] },
           isInternal: false,
-          createdAt: { lte: oneDayAgo },
+          dueDate: { lte: nextWeek },
         },
         select: {
-          id: true, title: true, priority: true, status: true, createdAt: true,
-          company: { select: { id: true, name: true } },
+          id: true, title: true, priority: true, status: true, type: true,
+          dueDate: true, createdAt: true,
+          company:       { select: { id: true, name: true } },
+          clientCompany: { select: { id: true, name: true } },
+          assignee:      { select: { id: true, name: true } },
         },
-        orderBy: [{ priority: "desc" }, { createdAt: "asc" }],
-        take: 20,
+        orderBy: [{ dueDate: "asc" }, { priority: "desc" }],
+        take: 30,
       }),
 
       // Follow-ups de leads com data de hoje ou vencida

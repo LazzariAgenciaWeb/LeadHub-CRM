@@ -53,8 +53,12 @@ interface UrgentTicket {
   title: string;
   priority: string;
   status: string;
+  type?: "SUPPORT" | "INTERNAL";
+  dueDate: string | null;
   createdAt: string;
   company: { id: string; name: string } | null;
+  clientCompany?: { id: string; name: string } | null;
+  assignee?: { id: string; name: string } | null;
 }
 
 interface LeadFollowUp {
@@ -981,33 +985,65 @@ export default function CalendarioBoard({
         })}
       </Section>
 
-      {/* ── Chamados Urgentes ─────────────────────────────────────────────── */}
+      {/* ── Chamados / Tarefas com Prazo ──────────────────────────────────── */}
       <Section
         icon={LifeBuoy}
         iconColor="text-orange-400"
         accent="bg-orange-500/15"
-        title="Chamados Críticos"
+        title="Chamados &amp; Tarefas com Prazo"
         count={urgentTickets.length}
       >
         {urgentTickets.map((t) => {
           const meta = PRIORITY_META[t.priority] ?? PRIORITY_META.MEDIUM;
+          const isInternal = t.type === "INTERNAL";
+          // Cor de urgência pelo prazo
+          const dueMs = t.dueDate ? new Date(t.dueDate).getTime() - Date.now() : null;
+          const dueDays = dueMs !== null ? dueMs / 86_400_000 : null;
+          const overdue = dueDays !== null && dueDays < 0;
+          const today   = dueDays !== null && dueDays >= 0 && dueDays < 1;
+          const dueColor =
+            overdue ? "text-red-300 bg-red-500/15 border-red-500/30 animate-pulse" :
+            today   ? "text-orange-300 bg-orange-500/15 border-orange-500/30" :
+            (dueDays !== null && dueDays < 3) ? "text-amber-300 bg-amber-500/15 border-amber-500/30" :
+                      "text-slate-400 bg-slate-500/10 border-slate-500/20";
+          const dueLabel = !t.dueDate ? "sem prazo" :
+            overdue ? `Atrasado · ${formatDateTime(t.dueDate)}` :
+            today   ? `Hoje ${new Date(t.dueDate).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}` :
+                      formatDateTime(t.dueDate);
           return (
-            <div key={t.id} className="flex items-center gap-3 bg-[#0f1623] border border-[#1e2d45] rounded-xl px-4 py-3 hover:border-orange-500/30 transition-colors">
-              <div className="w-7 h-7 rounded-full bg-orange-500/15 flex items-center justify-center flex-shrink-0">
-                <LifeBuoy className="w-3.5 h-3.5 text-orange-400" strokeWidth={2} />
+            <div
+              key={t.id}
+              className={`flex items-center gap-3 bg-[#0f1623] border border-[#1e2d45] border-l-4 ${
+                isInternal ? "border-l-emerald-500/60" : "border-l-blue-500/60"
+              } rounded-xl px-4 py-3 hover:border-orange-500/30 transition-colors`}
+            >
+              <div className={`w-7 h-7 rounded-full ${isInternal ? "bg-emerald-500/15" : "bg-orange-500/15"} flex items-center justify-center flex-shrink-0`}>
+                <LifeBuoy className={`w-3.5 h-3.5 ${isInternal ? "text-emerald-400" : "text-orange-400"}`} strokeWidth={2} />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-white text-[13px] font-medium truncate">{t.title}</span>
                   <span className={`flex-shrink-0 text-[10px] font-semibold px-1.5 py-0.5 rounded-full border ${meta.chip}`}>
                     {meta.label}
                   </span>
+                  {isInternal && (
+                    <span className="flex-shrink-0 text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/25">
+                      Tarefa
+                    </span>
+                  )}
                 </div>
-                <div className="flex items-center gap-2 mt-0.5">
-                  {t.company && (
+                <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                  {t.clientCompany ? (
+                    <span className="text-slate-400 text-[11px]">{t.clientCompany.name}</span>
+                  ) : t.company && (
                     <span className="text-slate-500 text-[11px]">{t.company.name}</span>
                   )}
-                  <span className="text-slate-600 text-[11px]">· Aberto {timeAgo(t.createdAt)}</span>
+                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full border ${dueColor}`}>
+                    <Clock className="w-2.5 h-2.5 inline -mt-0.5 mr-0.5" strokeWidth={2.5} /> {dueLabel}
+                  </span>
+                  {t.assignee && (
+                    <span className="text-slate-500 text-[11px]">· {t.assignee.name.split(" ")[0]}</span>
+                  )}
                 </div>
               </div>
               <Link
