@@ -497,6 +497,9 @@ export default function WhatsappManager({
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
+  // Container scrollável da lista de conversas (esquerda). Usado pra fazer
+  // scroll automático até o card ativo quando seleciona via link/?abrir=.
+  const convListRef = useRef<HTMLDivElement>(null);
   const selectedConvRef = useRef<Conversation | null>(null);
   const openTicketRef = useRef<{ id: string; title: string; status: string } | null>(null);
   // Flag para forçar scroll no próximo render (ao abrir conversa ou enviar mensagem)
@@ -608,6 +611,36 @@ export default function WhatsappManager({
   useEffect(() => {
     selectedConvRef.current = selectedConv;
   }, [selectedConv]);
+
+  // Mantém o leadNotes (state local que o parser de notas usa) sincronizado
+  // com selectedConv.lead.notes (fonte de verdade do server). O auto-refresh
+  // de 5s atualiza o lead em selectedConv mas não tocava o leadNotes — isso
+  // fazia bolhas novas (ex: 📅 agendamento) só aparecerem ao reabrir a conversa.
+  useEffect(() => {
+    const fresh = selectedConv?.lead?.notes ?? "";
+    if (fresh !== leadNotes) setLeadNotes(fresh);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedConv?.lead?.notes]);
+
+  // Quando uma conversa é selecionada (especialmente via /whatsapp?abrir=PHONE),
+  // garante que o card dela na lista esquerda fica visível. Sem isso, abrir uma
+  // conversa por link pode deixar o card escondido fora do viewport.
+  useEffect(() => {
+    if (!selectedConv) return;
+    const container = convListRef.current;
+    if (!container) return;
+    // requestAnimationFrame: aguarda o DOM atualizar (filteredConvs renderiza)
+    // antes de procurar o card. Sem isso, o querySelector pode achar nada.
+    const raf = requestAnimationFrame(() => {
+      const card = container.querySelector<HTMLElement>(
+        `[data-conv-phone="${CSS.escape(selectedConv.phone)}"]`
+      );
+      if (card) {
+        card.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      }
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [selectedConv?.phone]);
 
   // Mantém o chip de status do header sincronizado com a lista atualizada do server.
   // Sem isso, "Pegar/Finalizar/Reabrir" no header ficava com valor diferente do
@@ -2346,7 +2379,7 @@ export default function WhatsappManager({
               </div>
             </div>
           ) : (
-            <div className="flex-1 overflow-y-auto divide-y divide-[#1e2d45]/50 flex flex-col">
+            <div ref={convListRef} className="flex-1 overflow-y-auto divide-y divide-[#1e2d45]/50 flex flex-col">
               {filteredConvs.map((conv) => {
                 const instanceName = conv.lastMsg?.instance?.instanceName;
                 const isSelected = selectedConv?.phone === conv.phone;
@@ -2360,6 +2393,7 @@ export default function WhatsappManager({
                 return (
                   <div
                     key={conv.phone}
+                    data-conv-phone={conv.phone}
                     className={`relative group/item w-full text-left px-4 py-3 hover:bg-white/[0.03] transition-colors cursor-pointer border-l-2 ${
                       isSelected
                         ? "bg-indigo-500/10 border-l-indigo-500"
