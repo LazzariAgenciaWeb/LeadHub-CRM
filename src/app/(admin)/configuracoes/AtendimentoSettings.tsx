@@ -2,12 +2,21 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import HorariosAtendimento from "./HorariosAtendimento";
+
+type DayConfig = {
+  dayOfWeek: number;
+  isOpen:    boolean;
+  openTime:  string;
+  closeTime: string;
+  intervals: { id: string; startTime: string; endTime: string; label: string }[];
+};
 
 interface Props {
   companyId: string;
   slaMinutes: number;
   outOfHoursMessage: string;
-  businessHours: { start: string; end: string } | null;
+  schedule: DayConfig[];
 }
 
 const PRESETS = [5, 10, 15, 30, 60, 120];
@@ -16,14 +25,11 @@ export default function AtendimentoSettings({
   companyId,
   slaMinutes: initialSla,
   outOfHoursMessage: initialOoH,
-  businessHours: initialBh,
+  schedule,
 }: Props) {
   const router = useRouter();
   const [sla, setSla] = useState(initialSla);
   const [outOfHoursMessage, setOutOfHoursMessage] = useState(initialOoH);
-  const [bhEnabled, setBhEnabled] = useState(!!initialBh);
-  const [bhStart, setBhStart] = useState(initialBh?.start ?? "09:00");
-  const [bhEnd, setBhEnd] = useState(initialBh?.end ?? "18:00");
   const [saving, setSaving] = useState(false);
   const [savedAt, setSavedAt] = useState<number | null>(null);
 
@@ -32,7 +38,6 @@ export default function AtendimentoSettings({
     const items: { key: string; value: string }[] = [
       { key: `sla_minutes:${companyId}`,          value: String(sla) },
       { key: `out_of_hours_message:${companyId}`, value: outOfHoursMessage },
-      { key: `business_hours:${companyId}`,       value: bhEnabled ? `${bhStart}-${bhEnd}` : "" },
     ];
 
     await fetch("/api/settings", {
@@ -96,42 +101,8 @@ export default function AtendimentoSettings({
         </p>
       </div>
 
-      {/* Horário comercial */}
-      <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5">
-        <div className="flex items-center justify-between mb-3">
-          <div>
-            <h3 className="text-white text-sm font-semibold">🕐 Horário comercial</h3>
-            <p className="text-slate-500 text-xs mt-0.5">Quando estamos disponíveis para atender</p>
-          </div>
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={bhEnabled}
-              onChange={(e) => setBhEnabled(e.target.checked)}
-              className="w-4 h-4 rounded accent-indigo-500"
-            />
-            <span className="text-slate-400 text-xs">Ativar</span>
-          </label>
-        </div>
-
-        {bhEnabled && (
-          <div className="flex items-center gap-3">
-            <input
-              type="time"
-              value={bhStart}
-              onChange={(e) => setBhStart(e.target.value)}
-              className="bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
-            />
-            <span className="text-slate-500 text-sm">até</span>
-            <input
-              type="time"
-              value={bhEnd}
-              onChange={(e) => setBhEnd(e.target.value)}
-              className="bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
-            />
-          </div>
-        )}
-      </div>
+      {/* Horário de atendimento por dia da semana */}
+      <HorariosAtendimento initialSchedule={schedule} />
 
       {/* Mensagem fora de horário */}
       <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5">

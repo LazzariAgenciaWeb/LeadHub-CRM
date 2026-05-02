@@ -202,31 +202,48 @@ export default async function ConfiguracoesPage({
     }
   } else if (secao === "atendimento") {
     const cId = userCompanyId ?? "";
-    const settingsRaw = await prisma.setting.findMany({
-      where: {
-        key: { in: [
-          `sla_minutes:${cId}`,
-          `out_of_hours_message:${cId}`,
-          `business_hours:${cId}`,
-        ] },
-      },
-    });
+
+    const [settingsRaw, hoursRows] = await Promise.all([
+      prisma.setting.findMany({
+        where: { key: { in: [`sla_minutes:${cId}`, `out_of_hours_message:${cId}`] } },
+      }),
+      prisma.businessHoursConfig.findMany({
+        where:   { companyId: cId },
+        include: { intervals: { orderBy: { startTime: "asc" } } },
+        orderBy: { dayOfWeek: "asc" },
+      }),
+    ]);
+
     const settings: Record<string, string> = {};
     for (const s of settingsRaw) settings[s.key] = s.value;
-
     const sla = parseInt(settings[`sla_minutes:${cId}`] ?? "15", 10);
     const ooh = settings[`out_of_hours_message:${cId}`] ?? "";
-    const bhRaw = settings[`business_hours:${cId}`] ?? "";
-    const bh = bhRaw && bhRaw.includes("-")
-      ? { start: bhRaw.split("-")[0], end: bhRaw.split("-")[1] }
-      : null;
+
+    // Constrói o schedule com defaults para dias sem configuração
+    const defaultOpen  = [1, 2, 3, 4, 5]; // seg-sex
+    const byDay = new Map(hoursRows.map((r) => [r.dayOfWeek, r]));
+    const schedule = Array.from({ length: 7 }, (_, d) => {
+      const row = byDay.get(d);
+      return {
+        dayOfWeek: d,
+        isOpen:    row ? row.isOpen    : defaultOpen.includes(d),
+        openTime:  row ? row.openTime  : "09:00",
+        closeTime: row ? row.closeTime : d === 6 ? "13:00" : "18:00",
+        intervals: (row?.intervals ?? []).map((iv) => ({
+          id:        iv.id,
+          startTime: iv.startTime,
+          endTime:   iv.endTime,
+          label:     iv.label ?? "",
+        })),
+      };
+    });
 
     content = (
       <AtendimentoSettings
         companyId={cId}
         slaMinutes={isNaN(sla) ? 15 : sla}
         outOfHoursMessage={ooh}
-        businessHours={bh}
+        schedule={schedule}
       />
     );
   } else {
