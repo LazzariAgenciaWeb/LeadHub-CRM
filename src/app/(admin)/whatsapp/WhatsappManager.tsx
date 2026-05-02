@@ -3833,52 +3833,58 @@ export default function WhatsappManager({
 
                             <div className="border-t border-[#1e2d45] my-1" />
 
-                            {/* ── Aguardando cliente ── (com data limite opcional) */}
+                            {/* ── Aguardando cliente ── (com data obrigatória) */}
                             <div className="px-3 pt-2.5 pb-1.5">
                               <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2 flex items-center gap-1.5">
                                 <Hourglass className="w-3 h-3" strokeWidth={2.5} /> Aguardando cliente
                               </p>
-                              <p className="text-slate-500 text-[10px] mb-2">
-                                Marca como standby. Se preencher data, vira <strong className="text-purple-400">retorno agendado</strong> — ao passar do prazo, lembra de voltar a cobrar.
-                              </p>
+
+                              {/* Atalhos rápidos — escolhe um deles e a data já fica preenchida.
+                                  Cobrem os casos mais comuns: 1h/4h pra reunião, amanhã 9h pra
+                                  follow-up curto, 3d/7d pra clientes que precisam decidir. */}
+                              <div className="flex flex-wrap gap-1 mb-2">
+                                {([
+                                  { label: "1h",     getDate: () => new Date(Date.now() + 60 * 60_000) },
+                                  { label: "4h",     getDate: () => new Date(Date.now() + 4 * 60 * 60_000) },
+                                  { label: "Amanhã", getDate: () => { const d = new Date(); d.setDate(d.getDate() + 1); d.setHours(9, 0, 0, 0); return d; } },
+                                  { label: "3 dias", getDate: () => new Date(Date.now() + 3 * 24 * 60 * 60_000) },
+                                  { label: "1 sem",  getDate: () => new Date(Date.now() + 7 * 24 * 60 * 60_000) },
+                                ]).map(({ label, getDate }) => (
+                                  <button
+                                    key={label}
+                                    type="button"
+                                    onClick={() => {
+                                      const d = getDate();
+                                      // datetime-local quer string em horário local sem timezone
+                                      const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000)
+                                        .toISOString().slice(0, 16);
+                                      setExpectedReturn(local);
+                                    }}
+                                    className="px-2 py-0.5 rounded-md bg-[#0f1623] border border-[#1e2d45] text-[10px] text-slate-400 hover:text-purple-300 hover:border-purple-500/40 transition-colors"
+                                  >
+                                    {label}
+                                  </button>
+                                ))}
+                              </div>
+
                               <div className="flex gap-2">
                                 <input
                                   type="datetime-local"
                                   value={expectedReturn}
                                   onChange={(e) => setExpectedReturn(e.target.value)}
-                                  placeholder="Data opcional"
                                   className="flex-1 bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-purple-500"
                                 />
                                 <button
                                   type="button"
-                                  onClick={async () => {
+                                  onClick={() => {
                                     setShowActionsMenu(false);
-                                    if (expectedReturn) {
-                                      // Com data → SCHEDULED + expectedReturnAt (caminho legacy que sincroniza)
-                                      handleSetAttendance("SCHEDULED");
-                                    } else if (selectedConv.conversation) {
-                                      // Sem data → WAITING_CUSTOMER direto via Conversation API
-                                      const convId = selectedConv.conversation.id;
-                                      setConvStatusOverride((prev) => new Map(prev).set(selectedConv.phone, "WAITING_CUSTOMER"));
-                                      setSelectedConv((prev) => prev?.conversation
-                                        ? { ...prev, conversation: { ...prev.conversation, status: "WAITING_CUSTOMER" } }
-                                        : prev);
-                                      await fetch(`/api/conversations/${convId}`, {
-                                        method: "PATCH",
-                                        headers: { "Content-Type": "application/json" },
-                                        body: JSON.stringify({ status: "WAITING_CUSTOMER" }),
-                                      });
-                                      router.refresh();
-                                    }
+                                    handleSetAttendance("SCHEDULED");
                                   }}
-                                  disabled={savingAttendance}
-                                  className={`px-2.5 py-1.5 rounded-lg text-white text-xs font-medium disabled:opacity-50 ${
-                                    expectedReturn
-                                      ? "bg-purple-600 hover:bg-purple-500"
-                                      : "bg-blue-600 hover:bg-blue-500"
-                                  }`}
+                                  disabled={savingAttendance || !expectedReturn}
+                                  className="px-2.5 py-1.5 rounded-lg text-white text-xs font-medium bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed"
+                                  title={!expectedReturn ? "Escolha uma data ou um atalho acima" : "Agendar retorno"}
                                 >
-                                  {expectedReturn ? "Agendar" : "Aguardar"}
+                                  Agendar
                                 </button>
                               </div>
                             </div>
