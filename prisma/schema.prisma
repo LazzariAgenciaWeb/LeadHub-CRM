@@ -156,6 +156,8 @@ model Company {
   analyticsTrafficSources AnalyticsTrafficSource[]
   analyticsGeoData      AnalyticsGeoData[]
   searchConsoleQueries  SearchConsoleQuery[]
+  subscription          Subscription?
+  billingEvents         BillingEvent[]
   triggerOnly       Boolean               @default(false)
   webhookToken      String?               @unique // token público para receber leads via webhook
 
@@ -984,4 +986,87 @@ model SearchConsoleQuery {
   @@unique([companyId, date, query, page, country, device])
   @@index([companyId, date])
   @@index([companyId, query])
+}
+
+// ─── Cobrança / Assinaturas ───────────────────────────────────────────────────
+//
+// Cada Company tem 1 Subscription. Na pivô pra "vender pro cliente final", a
+// hierarquia é simplificada: top-level companies (parentCompanyId=null) pagam.
+// Sub-companies, se existirem no futuro, herdam plano da pai.
+//
+// Estados típicos:
+//  TRIALING → primeiros 14 dias após signup, sem cartão
+//  ACTIVE → assinatura paga e em dia
+//  PAST_DUE → pagamento falhou, em período de graça (5 dias)
+//  CANCELED → cancelado pelo cliente, ainda ativo até currentPeriodEnd
+//  UNPAID → não pagou, acesso bloqueado
+//  INCOMPLETE → checkout iniciado mas não finalizado
+
+model Subscription {
+  id        String   @id @default(cuid())
+  companyId String   @unique
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  plan          PlanTier         @default(TRIAL)
+  status        SubscriptionStatus @default(TRIALING)
+  billingCycle  String           @default("monthly")   // "monthly" | "annual"
+
+  // Trial
+  trialEndsAt   DateTime?
+
+  // Período corrente (válido pra ACTIVE/CANCELED)
+  currentPeriodStart DateTime?
+  currentPeriodEnd   DateTime?
+  cancelAtPeriodEnd  Boolean   @default(false)
+  canceledAt         DateTime?
+
+  // Stripe
+  stripeCustomerId     String?  @unique
+  stripeSubscriptionId String?  @unique
+  stripePriceId        String?
+
+  // Cache de cartão (last4, brand) só pra mostrar na UI — sem dado sensível
+  cardBrand String?
+  cardLast4 String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([trialEndsAt])
+}
+
+enum PlanTier {
+  TRIAL
+  ESSENCIAL
+  MARKETING
+  CRESCIMENTO
+  PREMIUM
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  TRIALING
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  UNPAID
+  INCOMPLETE
+}
+
+// Trilha de auditoria de eventos de cobrança — útil pra suporte e debug.
+model BillingEvent {
+  id        String   @id @default(cuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  type      String   // "trial_started" | "subscribed" | "upgraded" | "downgraded" | "canceled" | "payment_succeeded" | "payment_failed" | "trial_ended"
+  fromPlan  String?
+  toPlan    String?
+  amount    Float?   // BRL
+  metadata  Json?
+
+  createdAt DateTime @default(now())
+
+  @@index([companyId, createdAt])
 }

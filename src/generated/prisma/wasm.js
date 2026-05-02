@@ -575,6 +575,37 @@ exports.Prisma.SearchConsoleQueryScalarFieldEnum = {
   position: 'position'
 };
 
+exports.Prisma.SubscriptionScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  plan: 'plan',
+  status: 'status',
+  billingCycle: 'billingCycle',
+  trialEndsAt: 'trialEndsAt',
+  currentPeriodStart: 'currentPeriodStart',
+  currentPeriodEnd: 'currentPeriodEnd',
+  cancelAtPeriodEnd: 'cancelAtPeriodEnd',
+  canceledAt: 'canceledAt',
+  stripeCustomerId: 'stripeCustomerId',
+  stripeSubscriptionId: 'stripeSubscriptionId',
+  stripePriceId: 'stripePriceId',
+  cardBrand: 'cardBrand',
+  cardLast4: 'cardLast4',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BillingEventScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  type: 'type',
+  fromPlan: 'fromPlan',
+  toPlan: 'toPlan',
+  amount: 'amount',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -729,6 +760,24 @@ exports.IntegrationStatus = exports.$Enums.IntegrationStatus = {
   DISCONNECTED: 'DISCONNECTED'
 };
 
+exports.PlanTier = exports.$Enums.PlanTier = {
+  TRIAL: 'TRIAL',
+  ESSENCIAL: 'ESSENCIAL',
+  MARKETING: 'MARKETING',
+  CRESCIMENTO: 'CRESCIMENTO',
+  PREMIUM: 'PREMIUM',
+  ENTERPRISE: 'ENTERPRISE'
+};
+
+exports.SubscriptionStatus = exports.$Enums.SubscriptionStatus = {
+  TRIALING: 'TRIALING',
+  ACTIVE: 'ACTIVE',
+  PAST_DUE: 'PAST_DUE',
+  CANCELED: 'CANCELED',
+  UNPAID: 'UNPAID',
+  INCOMPLETE: 'INCOMPLETE'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   VaultEmailChallenge: 'VaultEmailChallenge',
@@ -762,7 +811,9 @@ exports.Prisma.ModelName = {
   AnalyticsTopPage: 'AnalyticsTopPage',
   AnalyticsTrafficSource: 'AnalyticsTrafficSource',
   AnalyticsGeoData: 'AnalyticsGeoData',
-  SearchConsoleQuery: 'SearchConsoleQuery'
+  SearchConsoleQuery: 'SearchConsoleQuery',
+  Subscription: 'Subscription',
+  BillingEvent: 'BillingEvent'
 };
 
 /**
