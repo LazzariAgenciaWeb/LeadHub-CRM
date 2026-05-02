@@ -660,6 +660,20 @@ export default function CalendarioBoard({
               <RefreshCw className={`w-3.5 h-3.5 ${isPending ? "animate-spin" : ""}`} strokeWidth={2} />
             </button>
           )}
+
+          {/* + Nova reunião — abre o criador de evento do Google Calendar.
+              O evento criado lá aparece aqui automaticamente porque já lemos
+              os eventos via /api/calendar/google/events (scope readonly). */}
+          <a
+            href="https://calendar.google.com/calendar/u/0/r/eventedit"
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-1.5 px-3 h-8 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-[12px] font-semibold transition-colors"
+            title="Abre o Google Calendar pra criar uma reunião. Aparece aqui após sincronizar."
+          >
+            <Calendar className="w-3.5 h-3.5" strokeWidth={2.5} />
+            Nova reunião
+          </a>
         </div>
       </div>
 
