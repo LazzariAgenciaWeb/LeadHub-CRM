@@ -26,6 +26,30 @@ export interface SmtpConfig {
   configured: boolean;
 }
 
+/**
+ * Normaliza o "from" pra um formato sempre válido (RFC 5322):
+ *  - vazio                          → "LeadHub <user@x.com>"
+ *  - já tem @ ou < >                → mantém como está
+ *  - só um nome (sem @)             → "Nome <user@x.com>"
+ *  - nome com caracteres especiais  → '"Nome [com colchetes]" <user@x.com>'
+ *
+ * Resolve o caso comum em que o usuário coloca só um label (ex:
+ * "LeadHub CRM") no campo Remetente, sem saber que precisa do e-mail.
+ */
+function normalizeFromAddress(rawFrom: string, user: string): string {
+  const trimmed = (rawFrom ?? "").trim();
+  if (!trimmed) return user ? `LeadHub <${user}>` : "";
+  // Já tem formato de e-mail (com @ ou ângulo) — confia
+  if (trimmed.includes("@") || (trimmed.includes("<") && trimmed.includes(">"))) {
+    return trimmed;
+  }
+  // Só um nome — anexa o e-mail do usuário autenticado.
+  // Se o nome tem caracteres especiais (RFC 5322 tspecials), envolve em aspas.
+  const needsQuotes = /[(),:;<>@\[\]\\."]/.test(trimmed);
+  const safeName = needsQuotes ? `"${trimmed.replace(/"/g, '\\"')}"` : trimmed;
+  return user ? `${safeName} <${user}>` : trimmed;
+}
+
 /** Lê a config SMTP — banco primeiro, env como fallback. */
 export async function getSmtpConfig(): Promise<SmtpConfig> {
   const rows = await prisma.setting.findMany({
@@ -38,14 +62,15 @@ export async function getSmtpConfig(): Promise<SmtpConfig> {
   if (fromDb) {
     const passEnc = map["smtp.passEnc"];
     const pass = passEnc ? (tryDecryptSecret(passEnc) ?? "") : "";
+    const user = map["smtp.user"] || "";
     return {
       host:   map["smtp.host"],
       port:   parseInt(map["smtp.port"] || "465", 10),
       secure: (map["smtp.secure"] ?? "true") === "true",
-      user:   map["smtp.user"] || "",
+      user,
       pass,
-      from:   map["smtp.from"] || `LeadHub <${map["smtp.user"] || ""}>`,
-      configured: !!(map["smtp.host"] && map["smtp.user"] && pass),
+      from:   normalizeFromAddress(map["smtp.from"] ?? "", user),
+      configured: !!(map["smtp.host"] && user && pass),
     };
   }
 
@@ -59,7 +84,7 @@ export async function getSmtpConfig(): Promise<SmtpConfig> {
     secure: (process.env.SMTP_SECURE ?? "true").toLowerCase() === "true",
     user,
     pass,
-    from:   process.env.SMTP_FROM || (user ? `LeadHub <${user}>` : ""),
+    from:   normalizeFromAddress(process.env.SMTP_FROM ?? "", user),
     configured: !!(host && user && pass),
   };
 }

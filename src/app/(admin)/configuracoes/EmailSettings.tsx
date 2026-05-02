@@ -200,17 +200,19 @@ export default function EmailSettings() {
         {/* From */}
         <div>
           <label className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-1">
-            Remetente (opcional)
+            Nome do remetente (opcional)
           </label>
           <input
             type="text"
             value={from}
             onChange={(e) => setFrom(e.target.value)}
-            placeholder='LeadHub <noreply@azzagencia.com.br>'
+            placeholder='LeadHub CRM'
             className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
           />
           <p className="text-slate-600 text-[11px] mt-1">
-            Nome e e-mail que aparecem no remetente. Se omitido, usa o usuário SMTP.
+            Só o <strong>nome</strong> que aparece no remetente — o e-mail é
+            anexado automaticamente. Ex: digitar <code className="bg-black/30 px-1 rounded text-slate-400">LeadHub</code> resulta
+            em <code className="bg-black/30 px-1 rounded text-slate-400">LeadHub &lt;noreply@...&gt;</code>.
           </p>
         </div>
 
