@@ -32,7 +32,7 @@ export default async function CalendarioPage() {
           scheduledReturnAt: { lte: nextWeek },
         },
         select: {
-          id: true, phone: true, scheduledReturnAt: true, returnNote: true,
+          id: true, phone: true, companyId: true, scheduledReturnAt: true, returnNote: true,
           assigneeId: true, assignee: { select: { id: true, name: true } },
           leads: { take: 1, orderBy: { createdAt: "desc" }, select: { id: true, name: true } },
         },
@@ -48,7 +48,7 @@ export default async function CalendarioPage() {
           statusUpdatedAt: { lte: oneHourAgo },
         },
         select: {
-          id: true, phone: true, statusUpdatedAt: true,
+          id: true, phone: true, companyId: true, statusUpdatedAt: true,
           assigneeId: true, assignee: { select: { id: true, name: true } },
           leads: { take: 1, orderBy: { createdAt: "desc" }, select: { id: true, name: true } },
         },
@@ -64,7 +64,7 @@ export default async function CalendarioPage() {
           assigneeId: userId,
         },
         select: {
-          id: true, phone: true, status: true,
+          id: true, phone: true, companyId: true, status: true,
           lastMessageAt: true, lastMessageBody: true, unreadCount: true,
           leads: { take: 1, orderBy: { createdAt: "desc" }, select: { id: true, name: true } },
         },
@@ -106,6 +106,27 @@ export default async function CalendarioPage() {
       }),
     ]);
 
+  // ── Resolução de nomes (especialmente grupos do WhatsApp) ────────────────
+  // Coleta todos os pares (companyId, phone) das conversas pra buscar
+  // CompanyContact em batch — assim mostramos o nome do grupo em vez de "Grupo".
+  const allConvs = [...scheduledConvs, ...waitingConvs, ...myOpenConvs];
+  const contactKeys = Array.from(new Set(allConvs.map((c) => `${c.companyId}|${c.phone}`)));
+  const contactNames: Record<string, string> = {};
+  if (contactKeys.length > 0) {
+    const phones = Array.from(new Set(allConvs.map((c) => c.phone)));
+    const companyIds = Array.from(new Set(allConvs.map((c) => c.companyId)));
+    const contacts = await prisma.companyContact.findMany({
+      where: {
+        companyId: { in: companyIds },
+        phone: { in: phones },
+      },
+      select: { companyId: true, phone: true, name: true },
+    });
+    for (const c of contacts) {
+      if (c.name) contactNames[`${c.companyId}|${c.phone}`] = c.name;
+    }
+  }
+
   // ── Conexão Google Calendar do usuário (per-user) ─────────────────────────
   const googleConn = await prisma.userGoogleConnection.findUnique({
     where: { userId_service: { userId, service: "calendar" } },
@@ -136,6 +157,7 @@ export default async function CalendarioPage() {
       googleConn={googleConn ? { email: googleConn.googleEmail, status: googleConn.status } : null}
       googleEvents={googleEvents as any}
       googleError={googleError}
+      contactNames={contactNames}
     />
   );
 }

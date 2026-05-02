@@ -19,6 +19,7 @@ interface Lead { id: string; name: string | null }
 interface ScheduledConv {
   id: string;
   phone: string;
+  companyId: string;
   scheduledReturnAt: string | null;
   returnNote: string | null;
   assigneeId: string | null;
@@ -29,6 +30,7 @@ interface ScheduledConv {
 interface WaitingConv {
   id: string;
   phone: string;
+  companyId: string;
   statusUpdatedAt: string;
   assigneeId: string | null;
   assignee: { id: string; name: string } | null;
@@ -38,6 +40,7 @@ interface WaitingConv {
 interface OpenConv {
   id: string;
   phone: string;
+  companyId: string;
   status: string;
   lastMessageAt: string | null;
   lastMessageBody: string | null;
@@ -87,6 +90,7 @@ interface Props {
   googleConn:     { email: string | null; status: string } | null;
   googleEvents:   GoogleEvent[];
   googleError:    string | null;
+  contactNames:   Record<string, string>; // chave: "companyId|phone"
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -112,6 +116,31 @@ function timeAgo(dateStr: string): string {
   if (h < 24) return `${h}h atrás`;
   return `${Math.floor(h / 24)}d atrás`;
 }
+
+// Classifica urgência pelo tempo aguardando — usado pra colorir a barra
+// lateral e o badge da seção "Aguardando Cliente".
+//   < 4h    → verde   (recente, normal)
+//   4h-1d   → amarelo (já merece atenção)
+//   1d-3d   → laranja (importante revisitar)
+//   3d+     → vermelho (urgente, perdendo o cliente)
+type UrgencyLevel = "fresh" | "warm" | "hot" | "critical";
+
+function urgencyByAge(dateStr: string): UrgencyLevel {
+  const hours = (Date.now() - new Date(dateStr).getTime()) / 3_600_000;
+  if (hours < 4)  return "fresh";
+  if (hours < 24) return "warm";
+  if (hours < 72) return "hot";
+  return "critical";
+}
+
+const URGENCY_STYLE: Record<UrgencyLevel, {
+  border: string; pill: string; label: string; pulse?: boolean;
+}> = {
+  fresh:    { border: "border-l-emerald-500/40",       pill: "bg-emerald-500/15 text-emerald-300 border border-emerald-500/25", label: "Recente" },
+  warm:     { border: "border-l-yellow-500/50",        pill: "bg-yellow-500/15 text-yellow-300 border border-yellow-500/25",     label: "Atenção" },
+  hot:      { border: "border-l-orange-500/60",        pill: "bg-orange-500/15 text-orange-300 border border-orange-500/30",     label: "Importante" },
+  critical: { border: "border-l-red-500/70",           pill: "bg-red-500/20 text-red-300 border border-red-500/40",              label: "Urgente", pulse: true },
+};
 
 function formatDateTime(dateStr: string | null): string {
   if (!dateStr) return "—";
@@ -298,15 +327,16 @@ function ScheduleModal({
 
 function OverdueRow({
   conv,
+  name,
   onResolve,
   onReschedule,
 }: {
   conv: ScheduledConv;
+  name: string;
   onResolve: (convId: string) => Promise<void>;
   onReschedule: (convId: string, name: string) => void;
 }) {
   const [resolving, setResolving] = useState(false);
-  const name = conv.leads[0]?.name ?? formatPhone(conv.phone);
 
   async function handleResolve() {
     setResolving(true);
@@ -551,7 +581,20 @@ export default function CalendarioBoard({
   googleConn,
   googleEvents,
   googleError,
+  contactNames,
 }: Props) {
+
+  // Resolve nome de exibição de uma conversa, priorizando:
+  //   1. Lead vinculado (mais específico)
+  //   2. CompanyContact (nome do grupo, ou contato salvo)
+  //   3. formatPhone fallback (vira "Grupo" pra @g.us)
+  function resolveName(c: { phone: string; companyId: string; leads: Lead[] }): string {
+    const leadName = c.leads[0]?.name?.trim();
+    if (leadName) return leadName;
+    const contact = contactNames[`${c.companyId}|${c.phone}`];
+    if (contact) return contact;
+    return formatPhone(c.phone);
+  }
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [scheduleTarget, setScheduleTarget] = useState<{ id: string; name: string } | null>(null);
@@ -731,8 +774,9 @@ export default function CalendarioBoard({
             <OverdueRow
               key={c.id}
               conv={c}
+              name={resolveName(c)}
               onResolve={resolveScheduledReturn}
-              onReschedule={(id, name) => setScheduleTarget({ id, name })}
+              onReschedule={(id, n) => setScheduleTarget({ id, name: n })}
             />
           ))}
         </Section>
@@ -748,7 +792,7 @@ export default function CalendarioBoard({
           count={todayScheduled.length}
         >
           {todayScheduled.map((c) => {
-            const name = c.leads[0]?.name ?? formatPhone(c.phone);
+            const name = resolveName(c);
             return (
               <div key={c.id} className="flex items-center gap-3 bg-[#0f1623] border border-[#1e2d45] rounded-xl px-4 py-3 hover:border-purple-500/30 transition-colors">
                 <div className="w-7 h-7 rounded-full bg-purple-500/15 flex items-center justify-center flex-shrink-0">
@@ -786,7 +830,7 @@ export default function CalendarioBoard({
           defaultOpen={false}
         >
           {soonScheduled.map((c) => {
-            const name = c.leads[0]?.name ?? formatPhone(c.phone);
+            const name = resolveName(c);
             return (
               <div key={c.id} className="flex items-center gap-3 bg-[#0f1623] border border-[#1e2d45] rounded-xl px-4 py-3 hover:border-indigo-500/30 transition-colors">
                 <div className="w-7 h-7 rounded-full bg-indigo-500/15 flex items-center justify-center flex-shrink-0">
@@ -822,20 +866,37 @@ export default function CalendarioBoard({
         count={waitingConvs.length}
       >
         {waitingConvs.map((c) => {
-          const name = c.leads[0]?.name ?? formatPhone(c.phone);
+          const name = resolveName(c);
+          const urgency = urgencyByAge(c.statusUpdatedAt);
+          const style = URGENCY_STYLE[urgency];
+          // Data exata do início da espera (DD/MM HH:mm) — útil quando passou de 1 dia
+          const since = new Date(c.statusUpdatedAt).toLocaleDateString("pt-BR", {
+            day: "2-digit", month: "2-digit",
+          }) + " " + new Date(c.statusUpdatedAt).toLocaleTimeString("pt-BR", {
+            hour: "2-digit", minute: "2-digit",
+          });
           return (
-            <div key={c.id} className="flex items-center gap-3 bg-[#0f1623] border border-[#1e2d45] rounded-xl px-4 py-3 hover:border-blue-500/30 transition-colors">
+            <div
+              key={c.id}
+              className={`flex items-center gap-3 bg-[#0f1623] border border-[#1e2d45] border-l-4 ${style.border} rounded-xl px-4 py-3 hover:border-blue-500/30 transition-colors`}
+            >
               <div className="w-7 h-7 rounded-full bg-blue-500/15 flex items-center justify-center flex-shrink-0">
                 <span className="text-blue-400 text-[10px] font-bold">
                   {(name ?? "?").charAt(0).toUpperCase()}
                 </span>
               </div>
               <div className="flex-1 min-w-0">
-                <span className="text-white text-[13px] font-medium truncate block">{name}</span>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-white text-[13px] font-medium truncate">{name}</span>
+                  {/* Badge de urgência: recente / atenção / importante / urgente */}
+                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0 ${style.pill} ${style.pulse ? "animate-pulse" : ""}`}>
+                    {timeAgo(c.statusUpdatedAt)}
+                  </span>
+                </div>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <Clock className="w-3 h-3 text-slate-500 flex-shrink-0" strokeWidth={2} />
                   <span className="text-slate-500 text-[11px]">
-                    Aguardando há {timeAgo(c.statusUpdatedAt)}
+                    Sem resposta desde {since}
                   </span>
                   {c.assignee && (
                     <span className="text-slate-600 text-[11px]">· {c.assignee.name}</span>
@@ -869,22 +930,36 @@ export default function CalendarioBoard({
         count={myOpenConvs.length}
       >
         {myOpenConvs.map((c) => {
-          const name = c.leads[0]?.name ?? formatPhone(c.phone);
+          const name = resolveName(c);
           const statusLabel = c.status === "IN_PROGRESS" ? "Em atendimento" : "Aberta";
           const statusColor = c.status === "IN_PROGRESS" ? "text-yellow-400" : "text-cyan-400";
+          // Urgência baseada na última mensagem — conversa parada há muito tempo
+          // merece atenção mesmo estando "em atendimento".
+          const urgency = c.lastMessageAt ? urgencyByAge(c.lastMessageAt) : "fresh";
+          const style = URGENCY_STYLE[urgency];
           return (
-            <div key={c.id} className="flex items-center gap-3 bg-[#0f1623] border border-[#1e2d45] rounded-xl px-4 py-3 hover:border-cyan-500/30 transition-colors">
+            <div
+              key={c.id}
+              className={`flex items-center gap-3 bg-[#0f1623] border border-[#1e2d45] border-l-4 ${style.border} rounded-xl px-4 py-3 hover:border-cyan-500/30 transition-colors`}
+            >
               <div className="w-7 h-7 rounded-full bg-cyan-500/15 flex items-center justify-center flex-shrink-0">
                 <span className="text-cyan-400 text-[10px] font-bold">
                   {(name ?? "?").charAt(0).toUpperCase()}
                 </span>
               </div>
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-white text-[13px] font-medium truncate">{name}</span>
                   {c.unreadCount > 0 && (
                     <span className="flex-shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-indigo-500 text-white">
                       {c.unreadCount}
+                    </span>
+                  )}
+                  {/* Mostra badge de urgência só quando a conversa está parada
+                      por mais de 4h — antes disso, "em atendimento" basta. */}
+                  {urgency !== "fresh" && c.lastMessageAt && (
+                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0 ${style.pill} ${style.pulse ? "animate-pulse" : ""}`}>
+                      Parada há {timeAgo(c.lastMessageAt).replace(" atrás", "")}
                     </span>
                   )}
                 </div>
