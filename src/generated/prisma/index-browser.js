@@ -643,7 +643,7 @@ exports.Prisma.UserBadgeScalarFieldEnum = {
   userId: 'userId',
   companyId: 'companyId',
   badge: 'badge',
-  level: 'level',
+  tier: 'tier',
   earnedAt: 'earnedAt'
 };
 
@@ -851,12 +851,6 @@ exports.BadgeType = exports.$Enums.BadgeType = {
   CLOSER: 'CLOSER',
   FUNIL_COMPLETO: 'FUNIL_COMPLETO',
   REI_DO_MES: 'REI_DO_MES'
-};
-
-exports.BadgeLevel = exports.$Enums.BadgeLevel = {
-  BRONZE: 'BRONZE',
-  PRATA: 'PRATA',
-  OURO: 'OURO'
 };
 
 exports.ScoreReason = exports.$Enums.ScoreReason = {

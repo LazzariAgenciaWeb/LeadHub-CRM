@@ -13,7 +13,7 @@
  */
 
 import { prisma } from "@/lib/prisma";
-import { BadgeLevel, BadgeType, ScoreReason } from "@/generated/prisma";
+import { BadgeType, ScoreReason } from "@/generated/prisma";
 
 // ─── Tabela de pontos por razão ───────────────────────────────────────────────
 
@@ -32,55 +32,57 @@ export const SCORE_TABLE: Record<ScoreReason, number> = {
   CONVERSA_SEM_RESPOSTA:  -10,
 };
 
-// ─── Regras de badges ─────────────────────────────────────────────────────────
-// Cada badge tem 3 níveis. O threshold é o número de ocorrências necessárias.
-// "ocorrência" = quantidade de ScoreEvents com o(s) reason(s) correspondente(s).
+// ─── Regras de badges (6 tiers cada) ──────────────────────────────────────────
+// Os nomes/limiares ficam em src/app/(admin)/gamificacao/labels.ts (BADGE_TIERS).
+// Aqui só mapeamos qual ScoreReason conta para qual BadgeType e os thresholds.
 
 type BadgeRule = {
-  badge:    BadgeType;
-  reasons:  ScoreReason[];   // eventos que contam para este badge
-  thresholds: Record<BadgeLevel, number>;
+  badge:      BadgeType;
+  reasons:    ScoreReason[];
+  thresholds: number[];   // [t1, t2, t3, t4, t5, t6] — espelha BADGE_TIERS em labels.ts
 };
 
 const BADGE_RULES: BadgeRule[] = [
   {
     badge: BadgeType.RAIO_VELOZ,
     reasons: [ScoreReason.RESPOSTA_RAPIDA_5MIN],
-    thresholds: { BRONZE: 10, PRATA: 30, OURO: 50 },
+    thresholds: [3, 15, 50, 150, 500, 1500],
   },
   {
     badge: BadgeType.RESOLVEDOR,
     reasons: [ScoreReason.TICKET_RESOLVIDO],
-    thresholds: { BRONZE: 5, PRATA: 20, OURO: 50 },
+    thresholds: [1, 5, 25, 75, 200, 500],
   },
   {
     badge: BadgeType.ANTECIPADOR,
     reasons: [ScoreReason.RETORNO_ANTECIPADO],
-    thresholds: { BRONZE: 3, PRATA: 10, OURO: 25 },
+    thresholds: [2, 10, 25, 60, 150, 400],
   },
   {
     badge: BadgeType.CLOSER,
     reasons: [ScoreReason.LEAD_CONVERTIDO],
-    thresholds: { BRONZE: 1, PRATA: 5, OURO: 15 },
+    thresholds: [1, 5, 15, 40, 100, 300],
   },
   {
     badge: BadgeType.PRIMEIRO_DO_DIA,
     reasons: [ScoreReason.ATENDIMENTO_MESMO_DIA],
-    thresholds: { BRONZE: 10, PRATA: 30, OURO: 75 },
+    thresholds: [5, 25, 75, 200, 500, 1200],
   },
   {
     badge: BadgeType.ZERO_PENDENCIA,
     reasons: [ScoreReason.DIA_SEM_PENDENCIA],
-    thresholds: { BRONZE: 5, PRATA: 15, OURO: 30 },
+    thresholds: [3, 10, 25, 60, 150, 365],
   },
   {
     badge: BadgeType.FUNIL_COMPLETO,
     reasons: [ScoreReason.LEAD_AVANCADO],
-    thresholds: { BRONZE: 10, PRATA: 30, OURO: 100 },
+    thresholds: [5, 25, 75, 200, 500, 1500],
   },
 ];
 
-const LEVEL_ORDER: BadgeLevel[] = [BadgeLevel.BRONZE, BadgeLevel.PRATA, BadgeLevel.OURO];
+// REI_DO_MES tem rule especial — é incrementado pelo cron via grantReiDoMes.
+// Tiers: 1, 2, 3, 5, 10, 20 vezes campeão do mês.
+const REI_DO_MES_THRESHOLDS = [1, 2, 3, 5, 10, 20];
 
 // ─── addScore ─────────────────────────────────────────────────────────────────
 
@@ -93,7 +95,7 @@ export async function addScore(
   companyId:   string,
   reason:      ScoreReason,
   referenceId?: string
-): Promise<BadgeType[]> {
+): Promise<{ badge: BadgeType; tier: number }[]> {
   const points = SCORE_TABLE[reason];
   const now = new Date();
   const month = now.getMonth() + 1;
@@ -134,14 +136,14 @@ export async function addScore(
 // ─── checkBadges ──────────────────────────────────────────────────────────────
 
 /**
- * Verifica se o usuário desbloqueou novos badges com base no histórico total
- * de ScoreEvents. Retorna array com os BadgeTypes recém-conquistados.
+ * Verifica se o usuário desbloqueou novos tiers de badges com base no
+ * histórico total de ScoreEvents. Retorna array com badge+tier conquistados.
  */
 export async function checkBadges(
   userId: string,
   companyId: string
-): Promise<BadgeType[]> {
-  const newBadges: BadgeType[] = [];
+): Promise<{ badge: BadgeType; tier: number }[]> {
+  const newBadges: { badge: BadgeType; tier: number }[] = [];
 
   for (const rule of BADGE_RULES) {
     const count = await prisma.scoreEvent.count({
@@ -153,18 +155,19 @@ export async function checkBadges(
       },
     });
 
-    for (const level of LEVEL_ORDER) {
-      if (count < rule.thresholds[level]) break;
+    for (let i = 0; i < rule.thresholds.length; i++) {
+      const tier = i + 1;
+      if (count < rule.thresholds[i]) break;
 
       const already = await prisma.userBadge.findUnique({
-        where: { userId_badge_level: { userId, badge: rule.badge, level } },
+        where: { userId_badge_tier: { userId, badge: rule.badge, tier } },
       });
       if (already) continue;
 
       await prisma.userBadge.create({
-        data: { userId, companyId, badge: rule.badge, level },
+        data: { userId, companyId, badge: rule.badge, tier },
       });
-      newBadges.push(rule.badge);
+      newBadges.push({ badge: rule.badge, tier });
     }
   }
 
@@ -174,7 +177,8 @@ export async function checkBadges(
 // ─── grantReiDoMes ────────────────────────────────────────────────────────────
 
 /**
- * Concede o badge REI_DO_MES ao líder do mês anterior.
+ * Concede tier de REI_DO_MES ao líder do mês anterior. Cada vez que o usuário
+ * vence o mês, sobe um tier (1ª = Estreante, 2ª = Bicampeão, ...).
  * Chamado pelo cron no dia 1 de cada mês.
  */
 export async function grantReiDoMes(companyId: string): Promise<void> {
@@ -188,14 +192,25 @@ export async function grantReiDoMes(companyId: string): Promise<void> {
   });
   if (!top || top.monthPoints === 0) return;
 
-  const already = await prisma.userBadge.findUnique({
-    where: { userId_badge_level: { userId: top.userId, badge: BadgeType.REI_DO_MES, level: BadgeLevel.OURO } },
+  // Conta quantas vezes esse usuário já foi 1º (= quantos tiers já tem)
+  const existingTiers = await prisma.userBadge.count({
+    where: { userId: top.userId, badge: BadgeType.REI_DO_MES },
   });
-  if (already) return;
+  const championships = existingTiers + 1; // este mês conta
 
-  await prisma.userBadge.create({
-    data: { userId: top.userId, companyId, badge: BadgeType.REI_DO_MES, level: BadgeLevel.OURO },
-  });
+  // Encontra o maior tier que esse total destrava
+  let newTier = 0;
+  for (let i = 0; i < REI_DO_MES_THRESHOLDS.length; i++) {
+    if (championships >= REI_DO_MES_THRESHOLDS[i]) newTier = i + 1;
+  }
+  if (newTier === 0) return;
+
+  // Concede todos os tiers ainda não conquistados até newTier
+  for (let tier = existingTiers + 1; tier <= newTier; tier++) {
+    await prisma.userBadge.create({
+      data: { userId: top.userId, companyId, badge: BadgeType.REI_DO_MES, tier },
+    }).catch(() => {/* já existe */});
+  }
 }
 
 // ─── resetMonthlyScores ───────────────────────────────────────────────────────
@@ -298,12 +313,13 @@ export async function runDailyPenalties(companyId: string): Promise<void> {
 // ─── getRanking ───────────────────────────────────────────────────────────────
 
 export type RankingEntry = {
-  userId:     string;
-  name:       string;
+  userId:      string;
+  name:        string;
   monthPoints: number;
   totalPoints: number;
-  position:   number;
-  badges:     { badge: BadgeType; level: BadgeLevel }[];
+  position:    number;
+  // Maior tier conquistado por badge (não duplica entradas do mesmo badge)
+  badges:      { badge: BadgeType; tier: number }[];
 };
 
 export async function getRanking(
@@ -318,25 +334,31 @@ export async function getRanking(
   const scores = await prisma.userScore.findMany({
     where:   { companyId, month: m, year: y },
     orderBy: { monthPoints: "desc" },
-    include: {
-      user: { select: { id: true, name: true } },
-    },
+    include: { user: { select: { id: true, name: true } } },
   });
 
   const userIds = scores.map((s) => s.userId);
   const badges  = await prisma.userBadge.findMany({
-    where: { companyId, userId: { in: userIds } },
-    select: { userId: true, badge: true, level: true },
+    where:  { companyId, userId: { in: userIds } },
+    select: { userId: true, badge: true, tier: true },
   });
 
-  const badgesByUser = badges.reduce<Record<string, { badge: BadgeType; level: BadgeLevel }[]>>(
-    (acc, b) => {
-      acc[b.userId] ??= [];
-      acc[b.userId].push({ badge: b.badge, level: b.level });
-      return acc;
-    },
-    {}
-  );
+  // Para cada usuário × badge, mantém só o tier mais alto
+  const highestByUserBadge = new Map<string, { badge: BadgeType; tier: number }>();
+  for (const b of badges) {
+    const key = `${b.userId}:${b.badge}`;
+    const cur = highestByUserBadge.get(key);
+    if (!cur || b.tier > cur.tier) {
+      highestByUserBadge.set(key, { badge: b.badge, tier: b.tier });
+    }
+  }
+
+  const badgesByUser: Record<string, { badge: BadgeType; tier: number }[]> = {};
+  for (const [key, v] of highestByUserBadge) {
+    const userId = key.split(":")[0];
+    badgesByUser[userId] ??= [];
+    badgesByUser[userId].push(v);
+  }
 
   return scores.map((s, i) => ({
     userId:      s.userId,
@@ -344,6 +366,6 @@ export async function getRanking(
     monthPoints: s.monthPoints,
     totalPoints: s.totalPoints,
     position:    i + 1,
-    badges:      badgesByUser[s.userId] ?? [],
+    badges:      (badgesByUser[s.userId] ?? []).sort((a, b) => b.tier - a.tier),
   }));
 }

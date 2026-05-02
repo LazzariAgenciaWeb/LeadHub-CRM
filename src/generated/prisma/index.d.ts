@@ -435,15 +435,6 @@ export const BadgeType: {
 export type BadgeType = (typeof BadgeType)[keyof typeof BadgeType]
 
 
-export const BadgeLevel: {
-  BRONZE: 'BRONZE',
-  PRATA: 'PRATA',
-  OURO: 'OURO'
-};
-
-export type BadgeLevel = (typeof BadgeLevel)[keyof typeof BadgeLevel]
-
-
 export const ScoreReason: {
   RESPOSTA_RAPIDA_5MIN: 'RESPOSTA_RAPIDA_5MIN',
   RESPOSTA_RAPIDA_30MIN: 'RESPOSTA_RAPIDA_30MIN',
@@ -537,10 +528,6 @@ export const SubscriptionStatus: typeof $Enums.SubscriptionStatus
 export type BadgeType = $Enums.BadgeType
 
 export const BadgeType: typeof $Enums.BadgeType
-
-export type BadgeLevel = $Enums.BadgeLevel
-
-export const BadgeLevel: typeof $Enums.BadgeLevel
 
 export type ScoreReason = $Enums.ScoreReason
 
@@ -45052,8 +45039,18 @@ export namespace Prisma {
 
   export type AggregateUserBadge = {
     _count: UserBadgeCountAggregateOutputType | null
+    _avg: UserBadgeAvgAggregateOutputType | null
+    _sum: UserBadgeSumAggregateOutputType | null
     _min: UserBadgeMinAggregateOutputType | null
     _max: UserBadgeMaxAggregateOutputType | null
+  }
+
+  export type UserBadgeAvgAggregateOutputType = {
+    tier: number | null
+  }
+
+  export type UserBadgeSumAggregateOutputType = {
+    tier: number | null
   }
 
   export type UserBadgeMinAggregateOutputType = {
@@ -45061,7 +45058,7 @@ export namespace Prisma {
     userId: string | null
     companyId: string | null
     badge: $Enums.BadgeType | null
-    level: $Enums.BadgeLevel | null
+    tier: number | null
     earnedAt: Date | null
   }
 
@@ -45070,7 +45067,7 @@ export namespace Prisma {
     userId: string | null
     companyId: string | null
     badge: $Enums.BadgeType | null
-    level: $Enums.BadgeLevel | null
+    tier: number | null
     earnedAt: Date | null
   }
 
@@ -45079,18 +45076,26 @@ export namespace Prisma {
     userId: number
     companyId: number
     badge: number
-    level: number
+    tier: number
     earnedAt: number
     _all: number
   }
 
+
+  export type UserBadgeAvgAggregateInputType = {
+    tier?: true
+  }
+
+  export type UserBadgeSumAggregateInputType = {
+    tier?: true
+  }
 
   export type UserBadgeMinAggregateInputType = {
     id?: true
     userId?: true
     companyId?: true
     badge?: true
-    level?: true
+    tier?: true
     earnedAt?: true
   }
 
@@ -45099,7 +45104,7 @@ export namespace Prisma {
     userId?: true
     companyId?: true
     badge?: true
-    level?: true
+    tier?: true
     earnedAt?: true
   }
 
@@ -45108,7 +45113,7 @@ export namespace Prisma {
     userId?: true
     companyId?: true
     badge?: true
-    level?: true
+    tier?: true
     earnedAt?: true
     _all?: true
   }
@@ -45151,6 +45156,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UserBadgeAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserBadgeSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserBadgeMinAggregateInputType
@@ -45181,6 +45198,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserBadgeCountAggregateInputType | true
+    _avg?: UserBadgeAvgAggregateInputType
+    _sum?: UserBadgeSumAggregateInputType
     _min?: UserBadgeMinAggregateInputType
     _max?: UserBadgeMaxAggregateInputType
   }
@@ -45190,9 +45209,11 @@ export namespace Prisma {
     userId: string
     companyId: string
     badge: $Enums.BadgeType
-    level: $Enums.BadgeLevel
+    tier: number
     earnedAt: Date
     _count: UserBadgeCountAggregateOutputType | null
+    _avg: UserBadgeAvgAggregateOutputType | null
+    _sum: UserBadgeSumAggregateOutputType | null
     _min: UserBadgeMinAggregateOutputType | null
     _max: UserBadgeMaxAggregateOutputType | null
   }
@@ -45216,7 +45237,7 @@ export namespace Prisma {
     userId?: boolean
     companyId?: boolean
     badge?: boolean
-    level?: boolean
+    tier?: boolean
     earnedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -45227,7 +45248,7 @@ export namespace Prisma {
     userId?: boolean
     companyId?: boolean
     badge?: boolean
-    level?: boolean
+    tier?: boolean
     earnedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -45238,7 +45259,7 @@ export namespace Prisma {
     userId?: boolean
     companyId?: boolean
     badge?: boolean
-    level?: boolean
+    tier?: boolean
     earnedAt?: boolean
   }
 
@@ -45262,7 +45283,7 @@ export namespace Prisma {
       userId: string
       companyId: string
       badge: $Enums.BadgeType
-      level: $Enums.BadgeLevel
+      tier: number
       earnedAt: Date
     }, ExtArgs["result"]["userBadge"]>
     composites: {}
@@ -45663,7 +45684,7 @@ export namespace Prisma {
     readonly userId: FieldRef<"UserBadge", 'String'>
     readonly companyId: FieldRef<"UserBadge", 'String'>
     readonly badge: FieldRef<"UserBadge", 'BadgeType'>
-    readonly level: FieldRef<"UserBadge", 'BadgeLevel'>
+    readonly tier: FieldRef<"UserBadge", 'Int'>
     readonly earnedAt: FieldRef<"UserBadge", 'DateTime'>
   }
     
@@ -48639,7 +48660,7 @@ export namespace Prisma {
     userId: 'userId',
     companyId: 'companyId',
     badge: 'badge',
-    level: 'level',
+    tier: 'tier',
     earnedAt: 'earnedAt'
   };
 
@@ -49052,20 +49073,6 @@ export namespace Prisma {
    * Reference to a field of type 'BadgeType[]'
    */
   export type ListEnumBadgeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BadgeType[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'BadgeLevel'
-   */
-  export type EnumBadgeLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BadgeLevel'>
-    
-
-
-  /**
-   * Reference to a field of type 'BadgeLevel[]'
-   */
-  export type ListEnumBadgeLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BadgeLevel[]'>
     
 
 
@@ -52531,7 +52538,7 @@ export namespace Prisma {
     userId?: StringFilter<"UserBadge"> | string
     companyId?: StringFilter<"UserBadge"> | string
     badge?: EnumBadgeTypeFilter<"UserBadge"> | $Enums.BadgeType
-    level?: EnumBadgeLevelFilter<"UserBadge"> | $Enums.BadgeLevel
+    tier?: IntFilter<"UserBadge"> | number
     earnedAt?: DateTimeFilter<"UserBadge"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -52542,7 +52549,7 @@ export namespace Prisma {
     userId?: SortOrder
     companyId?: SortOrder
     badge?: SortOrder
-    level?: SortOrder
+    tier?: SortOrder
     earnedAt?: SortOrder
     user?: UserOrderByWithRelationInput
     company?: CompanyOrderByWithRelationInput
@@ -52550,29 +52557,31 @@ export namespace Prisma {
 
   export type UserBadgeWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    userId_badge_level?: UserBadgeUserIdBadgeLevelCompoundUniqueInput
+    userId_badge_tier?: UserBadgeUserIdBadgeTierCompoundUniqueInput
     AND?: UserBadgeWhereInput | UserBadgeWhereInput[]
     OR?: UserBadgeWhereInput[]
     NOT?: UserBadgeWhereInput | UserBadgeWhereInput[]
     userId?: StringFilter<"UserBadge"> | string
     companyId?: StringFilter<"UserBadge"> | string
     badge?: EnumBadgeTypeFilter<"UserBadge"> | $Enums.BadgeType
-    level?: EnumBadgeLevelFilter<"UserBadge"> | $Enums.BadgeLevel
+    tier?: IntFilter<"UserBadge"> | number
     earnedAt?: DateTimeFilter<"UserBadge"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
-  }, "id" | "userId_badge_level">
+  }, "id" | "userId_badge_tier">
 
   export type UserBadgeOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
     companyId?: SortOrder
     badge?: SortOrder
-    level?: SortOrder
+    tier?: SortOrder
     earnedAt?: SortOrder
     _count?: UserBadgeCountOrderByAggregateInput
+    _avg?: UserBadgeAvgOrderByAggregateInput
     _max?: UserBadgeMaxOrderByAggregateInput
     _min?: UserBadgeMinOrderByAggregateInput
+    _sum?: UserBadgeSumOrderByAggregateInput
   }
 
   export type UserBadgeScalarWhereWithAggregatesInput = {
@@ -52583,7 +52592,7 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"UserBadge"> | string
     companyId?: StringWithAggregatesFilter<"UserBadge"> | string
     badge?: EnumBadgeTypeWithAggregatesFilter<"UserBadge"> | $Enums.BadgeType
-    level?: EnumBadgeLevelWithAggregatesFilter<"UserBadge"> | $Enums.BadgeLevel
+    tier?: IntWithAggregatesFilter<"UserBadge"> | number
     earnedAt?: DateTimeWithAggregatesFilter<"UserBadge"> | Date | string
   }
 
@@ -56543,7 +56552,7 @@ export namespace Prisma {
   export type UserBadgeCreateInput = {
     id?: string
     badge: $Enums.BadgeType
-    level?: $Enums.BadgeLevel
+    tier?: number
     earnedAt?: Date | string
     user: UserCreateNestedOneWithoutUserBadgesInput
     company: CompanyCreateNestedOneWithoutUserBadgesInput
@@ -56554,14 +56563,14 @@ export namespace Prisma {
     userId: string
     companyId: string
     badge: $Enums.BadgeType
-    level?: $Enums.BadgeLevel
+    tier?: number
     earnedAt?: Date | string
   }
 
   export type UserBadgeUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     badge?: EnumBadgeTypeFieldUpdateOperationsInput | $Enums.BadgeType
-    level?: EnumBadgeLevelFieldUpdateOperationsInput | $Enums.BadgeLevel
+    tier?: IntFieldUpdateOperationsInput | number
     earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutUserBadgesNestedInput
     company?: CompanyUpdateOneRequiredWithoutUserBadgesNestedInput
@@ -56572,7 +56581,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
     badge?: EnumBadgeTypeFieldUpdateOperationsInput | $Enums.BadgeType
-    level?: EnumBadgeLevelFieldUpdateOperationsInput | $Enums.BadgeLevel
+    tier?: IntFieldUpdateOperationsInput | number
     earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -56581,14 +56590,14 @@ export namespace Prisma {
     userId: string
     companyId: string
     badge: $Enums.BadgeType
-    level?: $Enums.BadgeLevel
+    tier?: number
     earnedAt?: Date | string
   }
 
   export type UserBadgeUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     badge?: EnumBadgeTypeFieldUpdateOperationsInput | $Enums.BadgeType
-    level?: EnumBadgeLevelFieldUpdateOperationsInput | $Enums.BadgeLevel
+    tier?: IntFieldUpdateOperationsInput | number
     earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -56597,7 +56606,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
     badge?: EnumBadgeTypeFieldUpdateOperationsInput | $Enums.BadgeType
-    level?: EnumBadgeLevelFieldUpdateOperationsInput | $Enums.BadgeLevel
+    tier?: IntFieldUpdateOperationsInput | number
     earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -59655,17 +59664,10 @@ export namespace Prisma {
     not?: NestedEnumBadgeTypeFilter<$PrismaModel> | $Enums.BadgeType
   }
 
-  export type EnumBadgeLevelFilter<$PrismaModel = never> = {
-    equals?: $Enums.BadgeLevel | EnumBadgeLevelFieldRefInput<$PrismaModel>
-    in?: $Enums.BadgeLevel[] | ListEnumBadgeLevelFieldRefInput<$PrismaModel>
-    notIn?: $Enums.BadgeLevel[] | ListEnumBadgeLevelFieldRefInput<$PrismaModel>
-    not?: NestedEnumBadgeLevelFilter<$PrismaModel> | $Enums.BadgeLevel
-  }
-
-  export type UserBadgeUserIdBadgeLevelCompoundUniqueInput = {
+  export type UserBadgeUserIdBadgeTierCompoundUniqueInput = {
     userId: string
     badge: $Enums.BadgeType
-    level: $Enums.BadgeLevel
+    tier: number
   }
 
   export type UserBadgeCountOrderByAggregateInput = {
@@ -59673,8 +59675,12 @@ export namespace Prisma {
     userId?: SortOrder
     companyId?: SortOrder
     badge?: SortOrder
-    level?: SortOrder
+    tier?: SortOrder
     earnedAt?: SortOrder
+  }
+
+  export type UserBadgeAvgOrderByAggregateInput = {
+    tier?: SortOrder
   }
 
   export type UserBadgeMaxOrderByAggregateInput = {
@@ -59682,7 +59688,7 @@ export namespace Prisma {
     userId?: SortOrder
     companyId?: SortOrder
     badge?: SortOrder
-    level?: SortOrder
+    tier?: SortOrder
     earnedAt?: SortOrder
   }
 
@@ -59691,8 +59697,12 @@ export namespace Prisma {
     userId?: SortOrder
     companyId?: SortOrder
     badge?: SortOrder
-    level?: SortOrder
+    tier?: SortOrder
     earnedAt?: SortOrder
+  }
+
+  export type UserBadgeSumOrderByAggregateInput = {
+    tier?: SortOrder
   }
 
   export type EnumBadgeTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -59703,16 +59713,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumBadgeTypeFilter<$PrismaModel>
     _max?: NestedEnumBadgeTypeFilter<$PrismaModel>
-  }
-
-  export type EnumBadgeLevelWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.BadgeLevel | EnumBadgeLevelFieldRefInput<$PrismaModel>
-    in?: $Enums.BadgeLevel[] | ListEnumBadgeLevelFieldRefInput<$PrismaModel>
-    notIn?: $Enums.BadgeLevel[] | ListEnumBadgeLevelFieldRefInput<$PrismaModel>
-    not?: NestedEnumBadgeLevelWithAggregatesFilter<$PrismaModel> | $Enums.BadgeLevel
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumBadgeLevelFilter<$PrismaModel>
-    _max?: NestedEnumBadgeLevelFilter<$PrismaModel>
   }
 
   export type EnumScoreReasonFilter<$PrismaModel = never> = {
@@ -63524,10 +63524,6 @@ export namespace Prisma {
     set?: $Enums.BadgeType
   }
 
-  export type EnumBadgeLevelFieldUpdateOperationsInput = {
-    set?: $Enums.BadgeLevel
-  }
-
   export type UserUpdateOneRequiredWithoutUserBadgesNestedInput = {
     create?: XOR<UserCreateWithoutUserBadgesInput, UserUncheckedCreateWithoutUserBadgesInput>
     connectOrCreate?: UserCreateOrConnectWithoutUserBadgesInput
@@ -64192,13 +64188,6 @@ export namespace Prisma {
     not?: NestedEnumBadgeTypeFilter<$PrismaModel> | $Enums.BadgeType
   }
 
-  export type NestedEnumBadgeLevelFilter<$PrismaModel = never> = {
-    equals?: $Enums.BadgeLevel | EnumBadgeLevelFieldRefInput<$PrismaModel>
-    in?: $Enums.BadgeLevel[] | ListEnumBadgeLevelFieldRefInput<$PrismaModel>
-    notIn?: $Enums.BadgeLevel[] | ListEnumBadgeLevelFieldRefInput<$PrismaModel>
-    not?: NestedEnumBadgeLevelFilter<$PrismaModel> | $Enums.BadgeLevel
-  }
-
   export type NestedEnumBadgeTypeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.BadgeType | EnumBadgeTypeFieldRefInput<$PrismaModel>
     in?: $Enums.BadgeType[] | ListEnumBadgeTypeFieldRefInput<$PrismaModel>
@@ -64207,16 +64196,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumBadgeTypeFilter<$PrismaModel>
     _max?: NestedEnumBadgeTypeFilter<$PrismaModel>
-  }
-
-  export type NestedEnumBadgeLevelWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.BadgeLevel | EnumBadgeLevelFieldRefInput<$PrismaModel>
-    in?: $Enums.BadgeLevel[] | ListEnumBadgeLevelFieldRefInput<$PrismaModel>
-    notIn?: $Enums.BadgeLevel[] | ListEnumBadgeLevelFieldRefInput<$PrismaModel>
-    not?: NestedEnumBadgeLevelWithAggregatesFilter<$PrismaModel> | $Enums.BadgeLevel
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumBadgeLevelFilter<$PrismaModel>
-    _max?: NestedEnumBadgeLevelFilter<$PrismaModel>
   }
 
   export type NestedEnumScoreReasonFilter<$PrismaModel = never> = {
@@ -64689,7 +64668,7 @@ export namespace Prisma {
   export type UserBadgeCreateWithoutUserInput = {
     id?: string
     badge: $Enums.BadgeType
-    level?: $Enums.BadgeLevel
+    tier?: number
     earnedAt?: Date | string
     company: CompanyCreateNestedOneWithoutUserBadgesInput
   }
@@ -64698,7 +64677,7 @@ export namespace Prisma {
     id?: string
     companyId: string
     badge: $Enums.BadgeType
-    level?: $Enums.BadgeLevel
+    tier?: number
     earnedAt?: Date | string
   }
 
@@ -65156,7 +65135,7 @@ export namespace Prisma {
     userId?: StringFilter<"UserBadge"> | string
     companyId?: StringFilter<"UserBadge"> | string
     badge?: EnumBadgeTypeFilter<"UserBadge"> | $Enums.BadgeType
-    level?: EnumBadgeLevelFilter<"UserBadge"> | $Enums.BadgeLevel
+    tier?: IntFilter<"UserBadge"> | number
     earnedAt?: DateTimeFilter<"UserBadge"> | Date | string
   }
 
@@ -65809,7 +65788,7 @@ export namespace Prisma {
   export type UserBadgeCreateWithoutCompanyInput = {
     id?: string
     badge: $Enums.BadgeType
-    level?: $Enums.BadgeLevel
+    tier?: number
     earnedAt?: Date | string
     user: UserCreateNestedOneWithoutUserBadgesInput
   }
@@ -65818,7 +65797,7 @@ export namespace Prisma {
     id?: string
     userId: string
     badge: $Enums.BadgeType
-    level?: $Enums.BadgeLevel
+    tier?: number
     earnedAt?: Date | string
   }
 
@@ -78537,7 +78516,7 @@ export namespace Prisma {
     id?: string
     companyId: string
     badge: $Enums.BadgeType
-    level?: $Enums.BadgeLevel
+    tier?: number
     earnedAt?: Date | string
   }
 
@@ -78896,7 +78875,7 @@ export namespace Prisma {
   export type UserBadgeUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     badge?: EnumBadgeTypeFieldUpdateOperationsInput | $Enums.BadgeType
-    level?: EnumBadgeLevelFieldUpdateOperationsInput | $Enums.BadgeLevel
+    tier?: IntFieldUpdateOperationsInput | number
     earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutUserBadgesNestedInput
   }
@@ -78905,7 +78884,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
     badge?: EnumBadgeTypeFieldUpdateOperationsInput | $Enums.BadgeType
-    level?: EnumBadgeLevelFieldUpdateOperationsInput | $Enums.BadgeLevel
+    tier?: IntFieldUpdateOperationsInput | number
     earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -78913,7 +78892,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
     badge?: EnumBadgeTypeFieldUpdateOperationsInput | $Enums.BadgeType
-    level?: EnumBadgeLevelFieldUpdateOperationsInput | $Enums.BadgeLevel
+    tier?: IntFieldUpdateOperationsInput | number
     earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -78992,7 +78971,7 @@ export namespace Prisma {
     id?: string
     userId: string
     badge: $Enums.BadgeType
-    level?: $Enums.BadgeLevel
+    tier?: number
     earnedAt?: Date | string
   }
 
@@ -79561,7 +79540,7 @@ export namespace Prisma {
   export type UserBadgeUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     badge?: EnumBadgeTypeFieldUpdateOperationsInput | $Enums.BadgeType
-    level?: EnumBadgeLevelFieldUpdateOperationsInput | $Enums.BadgeLevel
+    tier?: IntFieldUpdateOperationsInput | number
     earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutUserBadgesNestedInput
   }
@@ -79570,7 +79549,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     badge?: EnumBadgeTypeFieldUpdateOperationsInput | $Enums.BadgeType
-    level?: EnumBadgeLevelFieldUpdateOperationsInput | $Enums.BadgeLevel
+    tier?: IntFieldUpdateOperationsInput | number
     earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -79578,7 +79557,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     badge?: EnumBadgeTypeFieldUpdateOperationsInput | $Enums.BadgeType
-    level?: EnumBadgeLevelFieldUpdateOperationsInput | $Enums.BadgeLevel
+    tier?: IntFieldUpdateOperationsInput | number
     earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

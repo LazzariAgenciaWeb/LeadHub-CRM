@@ -1,6 +1,6 @@
-import { BadgeType, BadgeLevel, ScoreReason } from "@/generated/prisma";
+import { BadgeType, ScoreReason } from "@/generated/prisma";
 
-// ─── Badges ───────────────────────────────────────────────────────────────────
+// ─── Badges (metadados gerais) ────────────────────────────────────────────────
 
 export type BadgeMeta = {
   emoji:       string;
@@ -9,24 +9,190 @@ export type BadgeMeta = {
 };
 
 export const BADGE_META: Record<BadgeType, BadgeMeta> = {
-  RAIO_VELOZ:      { emoji: "⚡", name: "Raio Veloz",       description: "Respostas em menos de 5 minutos" },
-  SPRINT_MASTER:   { emoji: "🏃", name: "Sprint Master",    description: "Dias consecutivos sem atraso" },
-  PRIMEIRO_DO_DIA: { emoji: "🌅", name: "Primeiro do Dia",  description: "Atendimentos fechados no mesmo dia" },
-  RESOLVEDOR:      { emoji: "✅", name: "Resolvedor",       description: "Tickets fechados como resolvidos" },
-  ZERO_PENDENCIA:  { emoji: "🧹", name: "Zero Pendência",   description: "Dias sem conversas em aberto" },
-  ANTECIPADOR:     { emoji: "🎯", name: "Antecipador",      description: "Retornos cumpridos antes do prazo" },
-  CLOSER:          { emoji: "💰", name: "Closer",           description: "Leads convertidos em vendas" },
-  FUNIL_COMPLETO:  { emoji: "📈", name: "Funil Completo",   description: "Leads avançados no pipeline" },
-  REI_DO_MES:      { emoji: "👑", name: "Rei do Mês",       description: "1º lugar no ranking mensal" },
+  RAIO_VELOZ:      { emoji: "⚡", name: "Velocidade",      description: "Respostas em menos de 5 minutos" },
+  SPRINT_MASTER:   { emoji: "🏃", name: "Sprint",          description: "Dias consecutivos sem atraso" },
+  PRIMEIRO_DO_DIA: { emoji: "🌅", name: "Mesmo Dia",       description: "Atendimentos fechados no mesmo dia" },
+  RESOLVEDOR:      { emoji: "✅", name: "Resolução",       description: "Chamados fechados como resolvidos" },
+  ZERO_PENDENCIA:  { emoji: "🧹", name: "Limpeza",         description: "Dias sem conversas em aberto" },
+  ANTECIPADOR:     { emoji: "🎯", name: "Antecipação",     description: "Retornos cumpridos antes do prazo" },
+  CLOSER:          { emoji: "💰", name: "Vendas",          description: "Leads convertidos em venda" },
+  FUNIL_COMPLETO:  { emoji: "📈", name: "Funil",           description: "Leads avançados no pipeline" },
+  REI_DO_MES:      { emoji: "👑", name: "Reinado",         description: "1º lugar no ranking mensal" },
 };
 
-// ─── Levels ───────────────────────────────────────────────────────────────────
+// ─── Tier definitions ─────────────────────────────────────────────────────────
+// Cada badge tem 6 tiers. Tier 1 é fácil (gancho) e tier 6 é Highlander (lendário).
+// O reason de cada badge define o que conta — essa fonte está em gamification.ts.
 
-export const LEVEL_META: Record<BadgeLevel, { name: string; ring: string; bg: string; text: string }> = {
-  BRONZE: { name: "Bronze", ring: "ring-amber-700/40",  bg: "bg-amber-900/30",  text: "text-amber-500" },
-  PRATA:  { name: "Prata",  ring: "ring-slate-400/40",  bg: "bg-slate-700/30",  text: "text-slate-300" },
-  OURO:   { name: "Ouro",   ring: "ring-yellow-400/50", bg: "bg-yellow-500/20", text: "text-yellow-400" },
+export type Tier = {
+  level:     number;   // 1-6
+  name:      string;   // ex: "Cafeinado", "Highlander"
+  threshold: number;   // qtd de eventos pra desbloquear
 };
+
+export const BADGE_TIERS: Record<BadgeType, Tier[]> = {
+  RAIO_VELOZ: [
+    { level: 1, name: "Despertou",   threshold: 3    },
+    { level: 2, name: "Café",        threshold: 15   },
+    { level: 3, name: "Cafeinado",   threshold: 50   },
+    { level: 4, name: "Sonic",       threshold: 150  },
+    { level: 5, name: "Flash",       threshold: 500  },
+    { level: 6, name: "Highlander",  threshold: 1500 },
+  ],
+  RESOLVEDOR: [
+    { level: 1, name: "Primeiro Tiro", threshold: 1   },
+    { level: 2, name: "Aprendiz",      threshold: 5   },
+    { level: 3, name: "Profissional",  threshold: 25  },
+    { level: 4, name: "Especialista",  threshold: 75  },
+    { level: 5, name: "Mestre",        threshold: 200 },
+    { level: 6, name: "Highlander",    threshold: 500 },
+  ],
+  CLOSER: [
+    { level: 1, name: "Sortudo",      threshold: 1   },
+    { level: 2, name: "Vendedor",     threshold: 5   },
+    { level: 3, name: "Closer",       threshold: 15  },
+    { level: 4, name: "Negociador",   threshold: 40  },
+    { level: 5, name: "Wolf",         threshold: 100 },
+    { level: 6, name: "Highlander",   threshold: 300 },
+  ],
+  ANTECIPADOR: [
+    { level: 1, name: "Pontual",        threshold: 2   },
+    { level: 2, name: "Adiantado",      threshold: 10  },
+    { level: 3, name: "Confiável",      threshold: 25  },
+    { level: 4, name: "Mestre do Tempo", threshold: 60 },
+    { level: 5, name: "Profeta",        threshold: 150 },
+    { level: 6, name: "Highlander",     threshold: 400 },
+  ],
+  PRIMEIRO_DO_DIA: [
+    { level: 1, name: "Mão na Massa",   threshold: 5    },
+    { level: 2, name: "Ágil",           threshold: 25   },
+    { level: 3, name: "No Mesmo Dia",   threshold: 75   },
+    { level: 4, name: "Mago do Dia",    threshold: 200  },
+    { level: 5, name: "Diurno Lendário", threshold: 500 },
+    { level: 6, name: "Highlander",     threshold: 1200 },
+  ],
+  ZERO_PENDENCIA: [
+    { level: 1, name: "Limpo",         threshold: 3   },
+    { level: 2, name: "Organizado",    threshold: 10  },
+    { level: 3, name: "Caprichoso",    threshold: 25  },
+    { level: 4, name: "Impecável",     threshold: 60  },
+    { level: 5, name: "CEO da Ordem",  threshold: 150 },
+    { level: 6, name: "Highlander",    threshold: 365 },
+  ],
+  FUNIL_COMPLETO: [
+    { level: 1, name: "Movimentou",    threshold: 5    },
+    { level: 2, name: "Marketeiro",    threshold: 25   },
+    { level: 3, name: "Estrategista",  threshold: 75   },
+    { level: 4, name: "Crescimento",   threshold: 200  },
+    { level: 5, name: "Growth Hacker", threshold: 500  },
+    { level: 6, name: "Highlander",    threshold: 1500 },
+  ],
+  SPRINT_MASTER: [
+    { level: 1, name: "Acelerou",      threshold: 1  },
+    { level: 2, name: "Ritmado",       threshold: 3  },
+    { level: 3, name: "Maratonista",   threshold: 7  },
+    { level: 4, name: "Incansável",    threshold: 14 },
+    { level: 5, name: "Forrest Gump",  threshold: 30 },
+    { level: 6, name: "Highlander",    threshold: 90 },
+  ],
+  REI_DO_MES: [
+    { level: 1, name: "Estreante",     threshold: 1  },
+    { level: 2, name: "Bicampeão",     threshold: 2  },
+    { level: 3, name: "Tricampeão",    threshold: 3  },
+    { level: 4, name: "Tetracampeão",  threshold: 5  },
+    { level: 5, name: "Lenda Mensal",  threshold: 10 },
+    { level: 6, name: "Highlander",    threshold: 20 },
+  ],
+};
+
+// ─── Estilos visuais por tier ─────────────────────────────────────────────────
+// Cada nível tem uma identidade visual escalonada — tier 6 é especial.
+
+export type TierStyle = {
+  text:     string;  // cor do nome do tier
+  bg:       string;  // background do card
+  ring:     string;  // borda/ring quando conquistado
+  badgeBg:  string;  // pill de tier
+  badgeText: string;
+};
+
+export const TIER_STYLES: Record<number, TierStyle> = {
+  1: {
+    text:      "text-emerald-300",
+    bg:        "bg-emerald-500/10",
+    ring:      "ring-emerald-500/30",
+    badgeBg:   "bg-emerald-500/20",
+    badgeText: "text-emerald-300",
+  },
+  2: {
+    text:      "text-cyan-300",
+    bg:        "bg-cyan-500/10",
+    ring:      "ring-cyan-500/30",
+    badgeBg:   "bg-cyan-500/20",
+    badgeText: "text-cyan-300",
+  },
+  3: {
+    text:      "text-indigo-300",
+    bg:        "bg-indigo-500/10",
+    ring:      "ring-indigo-500/40",
+    badgeBg:   "bg-indigo-500/20",
+    badgeText: "text-indigo-300",
+  },
+  4: {
+    text:      "text-yellow-300",
+    bg:        "bg-yellow-500/10",
+    ring:      "ring-yellow-500/40",
+    badgeBg:   "bg-yellow-500/20",
+    badgeText: "text-yellow-300",
+  },
+  5: {
+    text:      "text-orange-300",
+    bg:        "bg-gradient-to-br from-orange-500/15 to-red-500/10",
+    ring:      "ring-orange-500/40",
+    badgeBg:   "bg-orange-500/20",
+    badgeText: "text-orange-300",
+  },
+  6: {
+    text:      "text-fuchsia-300",
+    bg:        "bg-gradient-to-br from-fuchsia-500/15 via-purple-500/10 to-blue-500/15",
+    ring:      "ring-fuchsia-500/50",
+    badgeBg:   "bg-gradient-to-r from-fuchsia-500/30 to-purple-500/30",
+    badgeText: "text-fuchsia-200",
+  },
+};
+
+/**
+ * Dado um BadgeType e um número de eventos, retorna:
+ *   - currentTier: o último tier conquistado (null se nenhum)
+ *   - nextTier: o próximo a desbloquear (null se já no nível 6)
+ *   - progress: 0..1 — quão perto está do próximo tier
+ */
+export function getBadgeProgress(badge: BadgeType, count: number) {
+  const tiers = BADGE_TIERS[badge];
+  let currentTier: Tier | null = null;
+  let nextTier:    Tier | null = null;
+  let prevThreshold = 0;
+
+  for (const t of tiers) {
+    if (count >= t.threshold) {
+      currentTier  = t;
+      prevThreshold = t.threshold;
+    } else {
+      nextTier = t;
+      break;
+    }
+  }
+
+  let progress = 0;
+  if (nextTier) {
+    const range = nextTier.threshold - prevThreshold;
+    progress = range > 0 ? Math.min(1, Math.max(0, (count - prevThreshold) / range)) : 0;
+  } else {
+    progress = 1;
+  }
+
+  return { currentTier, nextTier, progress, count };
+}
 
 // ─── Score reasons (para o feed) ──────────────────────────────────────────────
 

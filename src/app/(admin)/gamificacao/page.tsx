@@ -1,6 +1,7 @@
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { getRanking } from "@/lib/gamification";
+import { ScoreReason, BadgeType } from "@/generated/prisma";
 import MyProfileCard from "./MyProfileCard";
 import Leaderboard from "./Leaderboard";
 import BadgesGrid from "./BadgesGrid";
@@ -31,7 +32,7 @@ export default async function GamificacaoPage() {
   const year  = now.getFullYear();
 
   // Busca paralela
-  const [ranking, myScore, myBadges, myEvents] = await Promise.all([
+  const [ranking, myScore, myBadges, myEvents, eventCounts, reiDoMesCount] = await Promise.all([
     getRanking(companyId, month, year),
     prisma.userScore.findUnique({
       where: { userId_month_year: { userId, month, year } },
@@ -45,7 +46,19 @@ export default async function GamificacaoPage() {
       orderBy: { createdAt: "desc" },
       take:    30,
     }),
+    // Contagem de eventos positivos por reason — alimenta o progresso dos badges
+    prisma.scoreEvent.groupBy({
+      by:      ["reason"],
+      where:   { userId, companyId, points: { gt: 0 } },
+      _count:  true,
+    }),
+    prisma.userBadge.count({
+      where: { userId, companyId, badge: BadgeType.REI_DO_MES },
+    }),
   ]);
+
+  const counts: Partial<Record<ScoreReason, number>> = {};
+  for (const row of eventCounts) counts[row.reason] = row._count;
 
   const myPosition  = ranking.findIndex((r) => r.userId === userId) + 1 || null;
   const monthName   = now.toLocaleString("pt-BR", { month: "long", year: "numeric" });
@@ -76,7 +89,7 @@ export default async function GamificacaoPage() {
 
         {/* Coluna lateral */}
         <div className="space-y-5">
-          <BadgesGrid earned={myBadges} />
+          <BadgesGrid counts={counts} reiDoMesCount={reiDoMesCount} />
           <RecentEvents events={myEvents} />
         </div>
       </div>

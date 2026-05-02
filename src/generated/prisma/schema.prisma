@@ -1167,16 +1167,16 @@ model UserScore {
 }
 
 model UserBadge {
-  id        String     @id @default(cuid())
+  id        String    @id @default(cuid())
   userId    String
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   companyId String
-  company   Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company   Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
   badge     BadgeType
-  level     BadgeLevel @default(BRONZE)
-  earnedAt  DateTime   @default(now())
+  tier      Int       @default(1) // 1-6, definição em src/app/(admin)/gamificacao/labels.ts
+  earnedAt  DateTime  @default(now())
 
-  @@unique([userId, badge, level])
+  @@unique([userId, badge, tier])
   @@index([userId])
   @@index([companyId])
 }
@@ -1206,12 +1206,6 @@ enum BadgeType {
   CLOSER // 5 conversões de lead no mês
   FUNIL_COMPLETO // lead avançou todas as etapas em <7 dias
   REI_DO_MES // 1o lugar no ranking mensal
-}
-
-enum BadgeLevel {
-  BRONZE
-  PRATA
-  OURO
 }
 
 enum ScoreReason {

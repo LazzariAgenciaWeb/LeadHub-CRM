@@ -1,5 +1,5 @@
-import { BadgeType, BadgeLevel } from "@/generated/prisma";
-import { BADGE_META, LEVEL_META } from "./labels";
+import { BadgeType } from "@/generated/prisma";
+import { BADGE_META, BADGE_TIERS, TIER_STYLES } from "./labels";
 
 type RankingEntry = {
   userId:      string;
@@ -7,7 +7,7 @@ type RankingEntry = {
   monthPoints: number;
   totalPoints: number;
   position:    number;
-  badges:      { badge: BadgeType; level: BadgeLevel }[];
+  badges:      { badge: BadgeType; tier: number }[];
 };
 
 type Props = {
@@ -85,15 +85,20 @@ export default function Leaderboard({ ranking, currentUserId }: Props) {
                 </div>
                 {entry.badges.length > 0 && (
                   <div className="flex items-center gap-1 mt-1.5 flex-wrap">
-                    {entry.badges.slice(0, 5).map((b, i) => (
-                      <span
-                        key={i}
-                        title={`${BADGE_META[b.badge].name} ${LEVEL_META[b.level].name}`}
-                        className={`text-[10px] px-1.5 py-0.5 rounded-full ${LEVEL_META[b.level].bg} ${LEVEL_META[b.level].text}`}
-                      >
-                        {BADGE_META[b.badge].emoji}
-                      </span>
-                    ))}
+                    {entry.badges.slice(0, 5).map((b, i) => {
+                      const tier  = BADGE_TIERS[b.badge].find((t) => t.level === b.tier);
+                      const style = TIER_STYLES[b.tier];
+                      return (
+                        <span
+                          key={i}
+                          title={`${BADGE_META[b.badge].name} · N${b.tier} ${tier?.name ?? ""}`}
+                          className={`text-[10px] px-1.5 py-0.5 rounded-full ${style.badgeBg} ${style.badgeText} flex items-center gap-1`}
+                        >
+                          {BADGE_META[b.badge].emoji}
+                          <span className="font-bold">N{b.tier}</span>
+                        </span>
+                      );
+                    })}
                     {entry.badges.length > 5 && (
                       <span className="text-slate-600 text-[10px]">+{entry.badges.length - 5}</span>
                     )}
