@@ -1814,11 +1814,23 @@ export default function WhatsappManager({
     } else if (status !== "SCHEDULED") {
       body.expectedReturnAt = null;
     }
-    await fetch(`/api/leads/${selectedConv.lead.id}`, {
+    const patchRes = await fetch(`/api/leads/${selectedConv.lead.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
+
+    // Quando agenda retorno, o backend appenda uma nota visual ao Lead.notes.
+    // Atualizamos leadNotes local pra a bolha roxa aparecer no chat sem
+    // precisar recarregar a página inteira.
+    if (patchRes.ok && status === "SCHEDULED") {
+      try {
+        const updatedLead = await patchRes.json();
+        if (typeof updatedLead?.notes === "string") {
+          setLeadNotes(updatedLead.notes);
+        }
+      } catch { /* não crítico */ }
+    }
 
     // Atualização otimista do chip novo: traduz attendanceStatus para ConvStatus
     // Sem isso o chip do header continua mostrando o status anterior até o

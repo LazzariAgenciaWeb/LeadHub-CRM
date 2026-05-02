@@ -90,9 +90,62 @@ export async function PATCH(
           status: newConvStatus,
           statusUpdatedAt: new Date(),
           ...(newConvStatus === "CLOSED" ? { closedAt: new Date() } : { closedAt: null }),
+          // Sincroniza scheduledReturnAt na Conversation com expectedReturnAt do Lead
+          ...(newConvStatus === "SCHEDULED" && expectedReturnAt
+            ? { scheduledReturnAt: new Date(expectedReturnAt) }
+            : {}),
         },
       }).catch(() => { /* não crítico */ });
     }
+  }
+
+  // Cria nota visual no chat quando se agenda um retorno — bolha roxa
+  // centralizada (estilo Chatwoot) pra todo mundo que abrir a conversa
+  // ver imediatamente que tem retorno marcado.
+  //
+  // Dispara apenas quando expectedReturnAt está sendo SETADO (não null),
+  // pra evitar spam ao limpar agendamento ou em updates não relacionados.
+  const isSettingReturn = expectedReturnAt !== undefined && expectedReturnAt !== null;
+  const wasReturnDifferent =
+    !existing.expectedReturnAt ||
+    (isSettingReturn && new Date(expectedReturnAt).getTime() !== existing.expectedReturnAt.getTime());
+  if (isSettingReturn && wasReturnDifferent) {
+    const returnDate = new Date(expectedReturnAt);
+    const when = returnDate.toLocaleString("pt-BR", {
+      day: "2-digit", month: "2-digit", year: "numeric",
+      hour: "2-digit", minute: "2-digit",
+    });
+    const noteText = `📅 Retorno agendado para ${when}`;
+    const userId   = (session.user as any)?.id as string | undefined;
+    const userName = (session.user as any)?.name as string | undefined;
+
+    // 1) Persiste no ConversationNote (storage estruturado, type=SCHEDULED)
+    if (lead.conversationId) {
+      await prisma.conversationNote.create({
+        data: {
+          conversationId: lead.conversationId,
+          body: noteText,
+          type: "SCHEDULED",
+          authorId: userId,
+          authorName: userName ?? "Sistema",
+        },
+      }).catch(() => { /* não crítico */ });
+    }
+
+    // 2) Appenda em Lead.notes — formato legado que o parser da inbox lê
+    //    pra renderizar na timeline imediatamente.
+    const dateStr =
+      new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" }) +
+      " " +
+      new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+    const legacyEntry = `[${dateStr}] ${noteText}`;
+    const newNotesValue = lead.notes ? `${legacyEntry}\n\n${lead.notes}` : legacyEntry;
+    await prisma.lead.update({
+      where: { id },
+      data: { notes: newNotesValue },
+    }).catch(() => { /* não crítico */ });
+    // Mantém o objeto lead retornado em sincronia
+    (lead as any).notes = newNotesValue;
   }
 
   // ── ClickUp auto-sync (Oportunidades only) ────────────────────────────
