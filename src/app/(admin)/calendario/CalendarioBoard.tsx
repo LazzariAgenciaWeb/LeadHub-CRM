@@ -10,6 +10,7 @@ import {
   CalendarDays, List,
 } from "lucide-react";
 import WeekView from "./WeekView";
+import DayView from "./DayView";
 
 // ── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -554,7 +555,7 @@ export default function CalendarioBoard({
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [scheduleTarget, setScheduleTarget] = useState<{ id: string; name: string } | null>(null);
-  const [view, setView] = useState<"day" | "week">("day");
+  const [view, setView] = useState<"agenda" | "day" | "week">("agenda");
 
   const totalToday =
     scheduledConvs.filter((c) => isToday(c.scheduledReturnAt) || isOverdue(c.scheduledReturnAt)).length +
@@ -599,16 +600,27 @@ export default function CalendarioBoard({
           <div className="flex items-center gap-2 mb-1">
             <Calendar className="w-5 h-5 text-indigo-400" strokeWidth={2} />
             <h1 className="text-white font-bold text-lg">
-              {view === "day" ? "Meu Dia" : "Semana"}
+              {view === "agenda" ? "Meu Dia" : view === "day" ? "Dia" : "Semana"}
             </h1>
           </div>
-          {view === "day" && (
+          {view === "agenda" && (
             <p className="text-slate-500 text-[13px] capitalize">{dateLabel}</p>
           )}
         </div>
         <div className="flex items-center gap-2">
-          {/* Tabs Dia / Semana */}
+          {/* Tabs Meu Dia / Dia / Semana */}
           <div className="flex items-center bg-[#0f1623] border border-[#1e2d45] rounded-lg p-0.5">
+            <button
+              onClick={() => setView("agenda")}
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-[12px] font-semibold transition-colors ${
+                view === "agenda"
+                  ? "bg-indigo-500/20 text-indigo-300"
+                  : "text-slate-500 hover:text-white"
+              }`}
+            >
+              <List className="w-3.5 h-3.5" strokeWidth={2} />
+              Meu Dia
+            </button>
             <button
               onClick={() => setView("day")}
               className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-[12px] font-semibold transition-colors ${
@@ -617,8 +629,8 @@ export default function CalendarioBoard({
                   : "text-slate-500 hover:text-white"
               }`}
             >
-              <List className="w-3.5 h-3.5" strokeWidth={2} />
-              Meu Dia
+              <Calendar className="w-3.5 h-3.5" strokeWidth={2} />
+              Dia
             </button>
             <button
               onClick={() => setView("week")}
@@ -632,13 +644,13 @@ export default function CalendarioBoard({
               Semana
             </button>
           </div>
-          {view === "day" && totalToday > 0 && (
+          {view === "agenda" && totalToday > 0 && (
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-indigo-500/15 border border-indigo-500/25">
               <span className="text-indigo-400 font-bold text-[12px]">{totalToday}</span>
               <span className="text-indigo-300 text-[11px]">pendentes</span>
             </div>
           )}
-          {view === "day" && (
+          {view === "agenda" && (
             <button
               onClick={refresh}
               disabled={isPending}
@@ -651,6 +663,13 @@ export default function CalendarioBoard({
         </div>
       </div>
 
+      {/* Vista de um Dia (grid horário) */}
+      {view === "day" && (
+        <div className="flex-1 min-h-[600px]">
+          <DayView />
+        </div>
+      )}
+
       {/* Vista Semanal */}
       {view === "week" && (
         <div className="flex-1 min-h-[600px]">
@@ -658,8 +677,8 @@ export default function CalendarioBoard({
         </div>
       )}
 
-      {/* Vista Diária — só quando view === "day" */}
-      {view === "day" && (
+      {/* Vista Meu Dia (lista) — só quando view === "agenda" */}
+      {view === "agenda" && (
       <>
       {totalToday === 0 && googleEvents.length === 0 && (
         <div className="flex flex-col items-center justify-center py-20 gap-3">
