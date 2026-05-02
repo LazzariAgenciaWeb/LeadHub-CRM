@@ -49,16 +49,21 @@ export default async function ChamadosPage({
   const [tickets, companies] = await Promise.all([
     prisma.ticket.findMany({
       where,
-      orderBy: { createdAt: "desc" },
+      orderBy: [{ dueDate: "asc" }, { createdAt: "desc" }],
       include: {
-        company: { select: { id: true, name: true } },
-        _count: { select: { messages: true } },
+        company:       { select: { id: true, name: true } },
+        clientCompany: { select: { id: true, name: true } },
+        assignee:      { select: { id: true, name: true } },
+        setor:         { select: { id: true, name: true } },
+        _count:        { select: { messages: true } },
       },
     }),
     isSuperAdmin
       ? prisma.company.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } })
       : [],
   ]);
+
+  const currentUserId = (session?.user as any)?.id as string | undefined;
 
   const pipelineCompanyId = filterCompanyId || (
     isSuperAdmin ? (await prisma.company.findFirst({ orderBy: { createdAt: "asc" }, select: { id: true } }))?.id ?? "" : ""
@@ -72,6 +77,7 @@ export default async function ChamadosPage({
       companies={companies}
       filterCompanyId={filterCompanyId}
       pipelineCompanyId={pipelineCompanyId}
+      currentUserId={currentUserId ?? ""}
     />
   );
 }

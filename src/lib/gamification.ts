@@ -12,7 +12,7 @@
  *   3. Chama checkBadges para ver se novas conquistas foram desbloqueadas
  */
 
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { BadgeLevel, BadgeType, ScoreReason } from "@/generated/prisma";
 
 // ─── Tabela de pontos por razão ───────────────────────────────────────────────
@@ -64,7 +64,7 @@ const BADGE_RULES: BadgeRule[] = [
     thresholds: { BRONZE: 1, PRATA: 5, OURO: 15 },
   },
   {
-    badge: BadgeType.ATENDIMENTO_MESMO_DIA,  // reutiliza BadgeType existente
+    badge: BadgeType.PRIMEIRO_DO_DIA,
     reasons: [ScoreReason.ATENDIMENTO_MESMO_DIA],
     thresholds: { BRONZE: 10, PRATA: 30, OURO: 75 },
   },

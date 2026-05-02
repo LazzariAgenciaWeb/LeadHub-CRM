@@ -35,6 +35,9 @@ model User {
   googleConnections     UserGoogleConnection[]
   vaultChallenges       VaultEmailChallenge[]
   vaultTrustedSessions  VaultTrustedSession[]
+  userScores            UserScore[]
+  userBadges            UserBadge[]
+  scoreEvents           ScoreEvent[]
 
   @@index([companyId])
 }
@@ -125,11 +128,12 @@ model Company {
   updatedAt DateTime      @updatedAt
 
   // Acesso ao sistema e módulos habilitados
-  hasSystemAccess Boolean @default(false) // pode fazer login no portal?
-  moduleWhatsapp  Boolean @default(false) // módulo WhatsApp
-  moduleCrm       Boolean @default(true) // módulo CRM (padrão ligado)
-  moduleTickets   Boolean @default(false) // módulo Chamados
-  moduleAI        Boolean @default(false) // módulo Assistente IA
+  hasSystemAccess   Boolean @default(false) // pode fazer login no portal?
+  moduleWhatsapp    Boolean @default(false)
+  moduleCrm         Boolean @default(true)
+  moduleTickets     Boolean @default(false)
+  moduleAI          Boolean @default(false)
+  moduleGamificacao Boolean @default(false)
 
   // Hierarquia: empresa-pai gerencia sub-empresas (clientes da empresa)
   parentCompanyId String?
@@ -137,6 +141,10 @@ model Company {
   subCompanies    Company[] @relation("SubCompanies")
 
   users                   User[]
+  userScores              UserScore[]
+  userBadges              UserBadge[]
+  scoreEvents             ScoreEvent[]
+  businessHours           BusinessHoursConfig[]
   campaigns               Campaign[]
   leads                   Lead[]
   whatsappInstances       WhatsappInstance[]
@@ -1102,6 +1110,122 @@ enum SubscriptionStatus {
   CANCELED
   UNPAID
   INCOMPLETE
+}
+
+// ─── Horário de Atendimento ───────────────────────────────────────────────────
+// Configuração por dia da semana. Intervalos (pausas) ficam em BusinessHoursInterval.
+// Usado pelo motor de gamificação para calcular tempo de resposta dentro do horário útil.
+
+model BusinessHoursConfig {
+  id        String   @id @default(cuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  dayOfWeek Int // 0=dom … 6=sáb
+  isOpen    Boolean  @default(true)
+  openTime  String   @default("09:00") // "HH:MM"
+  closeTime String   @default("18:00") // "HH:MM"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  intervals BusinessHoursInterval[]
+
+  @@unique([companyId, dayOfWeek])
+  @@index([companyId])
+}
+
+model BusinessHoursInterval {
+  id        String              @id @default(cuid())
+  configId  String
+  config    BusinessHoursConfig @relation(fields: [configId], references: [id], onDelete: Cascade)
+  startTime String // "HH:MM"
+  endTime   String // "HH:MM"
+  label     String? // "Almoço", "Reunião de equipe", etc.
+
+  @@index([configId])
+}
+
+// ─── Gamificação ──────────────────────────────────────────────────────────────
+// Pontuação mensal e histórica por usuário. monthPoints reseta no dia 1 de
+// cada mês via cron. totalPoints nunca zera (histórico vitalício).
+
+model UserScore {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyId   String
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  totalPoints Int      @default(0)
+  monthPoints Int      @default(0)
+  month       Int
+  year        Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, month, year])
+  @@index([companyId, month, year])
+  @@index([userId])
+}
+
+model UserBadge {
+  id        String     @id @default(cuid())
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyId String
+  company   Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  badge     BadgeType
+  level     BadgeLevel @default(BRONZE)
+  earnedAt  DateTime   @default(now())
+
+  @@unique([userId, badge, level])
+  @@index([userId])
+  @@index([companyId])
+}
+
+model ScoreEvent {
+  id          String      @id @default(cuid())
+  userId      String
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyId   String
+  company     Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  points      Int
+  reason      ScoreReason
+  referenceId String?
+  createdAt   DateTime    @default(now())
+
+  @@index([userId, createdAt])
+  @@index([companyId, createdAt])
+}
+
+enum BadgeType {
+  RAIO_VELOZ // 50 respostas em <5min no mês
+  SPRINT_MASTER // 7 dias sem atraso
+  PRIMEIRO_DO_DIA // 1a resposta do dia 3x seguidas
+  RESOLVEDOR // 20 tickets resolvidos
+  ZERO_PENDENCIA // semana sem conversa aberta
+  ANTECIPADOR // 10 retornos cumpridos antes do prazo
+  CLOSER // 5 conversões de lead no mês
+  FUNIL_COMPLETO // lead avançou todas as etapas em <7 dias
+  REI_DO_MES // 1o lugar no ranking mensal
+}
+
+enum BadgeLevel {
+  BRONZE
+  PRATA
+  OURO
+}
+
+enum ScoreReason {
+  RESPOSTA_RAPIDA_5MIN
+  RESPOSTA_RAPIDA_30MIN
+  TICKET_RESOLVIDO
+  LEAD_AVANCADO
+  LEAD_CONVERTIDO
+  DIA_SEM_PENDENCIA
+  RETORNO_ANTECIPADO
+  ATENDIMENTO_MESMO_DIA
+  NOTA_REGISTRADA
+  SLA_VENCIDO
+  CONVERSA_SEM_RESPOSTA
 }
 
 // Trilha de auditoria de eventos de cobrança — útil pra suporte e debug.

@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getClickupSettings, syncTicketToClickup } from "@/lib/clickup";
+import { addScore } from "@/lib/gamification";
 
 // GET /api/tickets/[id]
 export async function GET(
@@ -51,10 +52,13 @@ export async function PATCH(
     dueDate, assigneeId, setorId, clientCompanyId,
   } = body;
 
+  const userId = (session.user as any).id as string | undefined;
+  const userCompanyId = (session.user as any).companyId as string | undefined;
+
   // Fetch existing task ID before update (in case user didn't send it)
   const existing = await prisma.ticket.findUnique({
     where: { id },
-    select: { clickupTaskId: true, type: true },
+    select: { clickupTaskId: true, type: true, status: true, assigneeId: true, companyId: true },
   });
 
   const ticket = await prisma.ticket.update({
@@ -91,6 +95,14 @@ export async function PATCH(
         priority: ticket.priority,
         status: status ?? ticket.status,
       });
+    }
+  }
+
+  // Gamificação: pontua quando ticket vai para RESOLVED pela primeira vez
+  if (status === "RESOLVED" && existing?.status !== "RESOLVED" && existing?.companyId) {
+    const scorer = ticket.assigneeId ?? assigneeId ?? userId;
+    if (scorer) {
+      void addScore(scorer, existing.companyId, "TICKET_RESOLVIDO", id).catch(() => {});
     }
   }
 

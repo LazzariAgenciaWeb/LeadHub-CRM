@@ -10,6 +10,9 @@ interface TicketMessage {
   isInternal: boolean;
   authorName: string;
   authorRole: string;
+  mediaBase64?: string | null;
+  mediaType?: string | null;
+  source?: string;
   createdAt: string;
 }
 
@@ -31,6 +34,12 @@ interface Ticket {
   ticketStage: string | null;
   phone: string | null;
   clickupTaskId: string | null;
+  type?: "SUPPORT" | "INTERNAL";
+  dueDate?: string | null;
+  assigneeId?: string | null;
+  assignee?: { id: string; name: string } | null;
+  setor?: { id: string; name: string } | null;
+  clientCompany?: { id: string; name: string; phone?: string | null; email?: string | null } | null;
   createdAt: string;
   updatedAt: string;
   company: { id: string; name: string };
@@ -79,6 +88,81 @@ export default function TicketDetail({
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
+  // Anexo de imagem na resposta (paste/upload — base64)
+  const [attachment, setAttachment] = useState<{ data: string; type: string; name: string } | null>(null);
+
+  // Reabertura quando ticket está fechado/resolvido
+  const [reopening, setReopening] = useState(false);
+
+  function pickFile(file: File | null) {
+    if (!file) return;
+    if (!file.type.startsWith("image/")) return;
+    if (file.size > 5 * 1024 * 1024) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      const [header, b64] = result.split(",");
+      const mime = header.match(/data:(.*);base64/)?.[1] ?? file.type;
+      setAttachment({ data: b64, type: mime, name: file.name });
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Cola imagens com Ctrl+V
+  useEffect(() => {
+    function onPaste(e: ClipboardEvent) {
+      const items = e.clipboardData?.items;
+      if (!items) return;
+      for (const it of items) {
+        if (it.type.startsWith("image/")) {
+          const file = it.getAsFile();
+          if (file) {
+            pickFile(file);
+            e.preventDefault();
+            break;
+          }
+        }
+      }
+    }
+    document.addEventListener("paste", onPaste);
+    return () => document.removeEventListener("paste", onPaste);
+  }, []);
+
+  // Banner "sugestão de fechamento" — quando última msg foi nossa há mais de 3 dias
+  const stalenessInfo = (() => {
+    if (status === "RESOLVED" || status === "CLOSED") return null;
+    const lastMsg = messages[messages.length - 1];
+    if (!lastMsg) return null;
+    if (lastMsg.authorRole === "CLIENT") return null; // cliente foi o último a falar
+    const daysSince = (Date.now() - new Date(lastMsg.createdAt).getTime()) / 86_400_000;
+    if (daysSince < 3) return null;
+    return { days: Math.floor(daysSince) };
+  })();
+
+  async function handleSuggestClose() {
+    setUpdatingStage(true);
+    await fetch(`/api/tickets/${ticket.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "RESOLVED" }),
+    });
+    setStatus("RESOLVED");
+    setUpdatingStage(false);
+    startTransition(() => router.refresh());
+  }
+
+  async function handleReopen() {
+    setReopening(true);
+    await fetch(`/api/tickets/${ticket.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "IN_PROGRESS" }),
+    });
+    setStatus("IN_PROGRESS");
+    setReopening(false);
+    startTransition(() => router.refresh());
+  }
+
   // Change company (SUPER_ADMIN only)
   const [editingCompany, setEditingCompany] = useState(false);
   const [companyName, setCompanyName] = useState(ticket.company.name);
@@ -92,17 +176,23 @@ export default function TicketDetail({
 
   async function sendReply(e: React.FormEvent) {
     e.preventDefault();
-    if (!reply.trim()) return;
+    if (!reply.trim() && !attachment) return;
     setSending(true);
+    const payload: any = { messageBody: reply, isInternal };
+    if (attachment) {
+      payload.mediaBase64 = attachment.data;
+      payload.mediaType = attachment.type;
+    }
     const res = await fetch(`/api/tickets/${ticket.id}/messages`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messageBody: reply, isInternal }),
+      body: JSON.stringify(payload),
     });
     if (res.ok) {
       const msg = await res.json();
       setMessages((prev) => [...prev, msg]);
       setReply("");
+      setAttachment(null);
     }
     setSending(false);
   }
@@ -361,6 +451,17 @@ export default function TicketDetail({
                             </span>
                           </div>
                           <div className={`rounded-xl px-4 py-2.5 text-sm whitespace-pre-wrap max-w-[85%] ${isAdmin ? "bg-indigo-600 text-white" : "bg-[#0f1623] border border-[#1e2d45] text-slate-200"}`}>
+                            {msg.mediaBase64 && msg.mediaType?.startsWith("image/") && (
+                              <img
+                                src={`data:${msg.mediaType};base64,${msg.mediaBase64}`}
+                                alt="anexo"
+                                className="rounded-lg max-h-80 mb-2 cursor-pointer hover:opacity-90 transition"
+                                onClick={(e) => {
+                                  const w = window.open();
+                                  if (w) w.document.write(`<img src="${(e.target as HTMLImageElement).src}" style="max-width:100%">`);
+                                }}
+                              />
+                            )}
                             {msg.body}
                           </div>
                         </div>
@@ -376,6 +477,28 @@ export default function TicketDetail({
           {/* Reply box */}
           {!isClosed ? (
             <div className="flex-shrink-0 px-6 pb-5 pt-3 border-t border-[#1e2d45]">
+              {/* Banner de sugestão de fechamento — quando >3 dias parado aguardando cliente */}
+              {stalenessInfo && (
+                <div className="mb-3 p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/30 flex items-start gap-2.5">
+                  <span className="text-yellow-400 text-base flex-shrink-0">⏳</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-yellow-300 text-xs font-semibold">
+                      Aguardando cliente há {stalenessInfo.days} dia{stalenessInfo.days !== 1 ? "s" : ""}
+                    </p>
+                    <p className="text-slate-400 text-[11px] mt-0.5">
+                      O cliente não responde desde a sua última mensagem. Considere fechar — você pode reabrir depois quando o cliente voltar.
+                    </p>
+                  </div>
+                  <button
+                    onClick={handleSuggestClose}
+                    disabled={updatingStage}
+                    className="px-3 py-1 rounded-md bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-200 text-[11px] font-semibold flex-shrink-0 transition-colors disabled:opacity-50"
+                  >
+                    Fechar chamado
+                  </button>
+                </div>
+              )}
+
               <form onSubmit={sendReply} className="space-y-2">
                 <textarea
                   rows={3}
@@ -385,18 +508,44 @@ export default function TicketDetail({
                   onKeyDown={(e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); sendReply(e as any); } }}
                   className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
                 />
-                <div className="flex items-center justify-between">
-                  {isSuperAdmin ? (
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input type="checkbox" checked={isInternal} onChange={(e) => setIsInternal(e.target.checked)} className="w-3.5 h-3.5 rounded" />
-                      <span className="text-amber-400 text-xs">🔒 Nota interna</span>
+
+                {/* Preview do anexo */}
+                {attachment && (
+                  <div className="bg-[#0a0f1a] border border-indigo-500/30 rounded-lg p-2 flex items-center gap-3">
+                    <img
+                      src={`data:${attachment.type};base64,${attachment.data}`}
+                      alt={attachment.name}
+                      className="w-12 h-12 object-cover rounded flex-shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-slate-200 text-xs truncate">{attachment.name}</p>
+                      <p className="text-slate-600 text-[10px]">{attachment.type}</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setAttachment(null)}
+                      className="text-slate-500 hover:text-red-400 text-lg leading-none px-1"
+                    >×</button>
+                  </div>
+                )}
+
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-3">
+                    {isSuperAdmin && (
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" checked={isInternal} onChange={(e) => setIsInternal(e.target.checked)} className="w-3.5 h-3.5 rounded" />
+                        <span className="text-amber-400 text-xs">🔒 Nota interna</span>
+                      </label>
+                    )}
+                    <label className="flex items-center gap-1 text-slate-500 text-xs hover:text-indigo-300 cursor-pointer transition-colors">
+                      <input type="file" accept="image/*" className="hidden" onChange={(e) => pickFile(e.target.files?.[0] ?? null)} />
+                      📎 Anexar
                     </label>
-                  ) : (
-                    <span className="text-slate-600 text-xs">Ctrl+Enter para enviar</span>
-                  )}
+                    <span className="text-slate-700 text-xs">ou Ctrl+V cola imagem</span>
+                  </div>
                   <button
                     type="submit"
-                    disabled={sending || !reply.trim()}
+                    disabled={sending || (!reply.trim() && !attachment)}
                     className="px-4 py-1.5 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-500 disabled:opacity-40 transition-colors"
                   >
                     {sending ? "Enviando..." : "Enviar"}
@@ -406,14 +555,16 @@ export default function TicketDetail({
             </div>
           ) : (
             <div className="flex-shrink-0 px-6 pb-5 pt-3 border-t border-[#1e2d45] text-center">
-              <p className="text-slate-500 text-sm">
-                Chamado encerrado.{" "}
-                {!isSuperAdmin && (
-                  <button onClick={() => handleStatusChange("OPEN")} className="text-indigo-400 hover:underline">
-                    Reabrir
-                  </button>
-                )}
+              <p className="text-slate-500 text-sm mb-2">
+                Chamado encerrado.
               </p>
+              <button
+                onClick={handleReopen}
+                disabled={reopening}
+                className="px-4 py-1.5 rounded-lg bg-indigo-600/20 border border-indigo-500/40 text-indigo-300 text-sm font-medium hover:bg-indigo-600/30 disabled:opacity-50 transition-colors"
+              >
+                {reopening ? "Reabrindo..." : "↩ Reabrir chamado"}
+              </button>
             </div>
           )}
         </div>

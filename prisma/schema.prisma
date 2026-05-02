@@ -144,6 +144,7 @@ model Company {
   userScores        UserScore[]
   userBadges        UserBadge[]
   scoreEvents       ScoreEvent[]
+  businessHours     BusinessHoursConfig[]
   campaigns         Campaign[]
   leads             Lead[]
   whatsappInstances WhatsappInstance[]
@@ -1109,6 +1110,38 @@ enum SubscriptionStatus {
   CANCELED
   UNPAID
   INCOMPLETE
+}
+
+// ─── Horário de Atendimento ───────────────────────────────────────────────────
+// Configuração por dia da semana. Intervalos (pausas) ficam em BusinessHoursInterval.
+// Usado pelo motor de gamificação para calcular tempo de resposta dentro do horário útil.
+
+model BusinessHoursConfig {
+  id        String   @id @default(cuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  dayOfWeek Int                          // 0=dom … 6=sáb
+  isOpen    Boolean  @default(true)
+  openTime  String   @default("09:00")   // "HH:MM"
+  closeTime String   @default("18:00")   // "HH:MM"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  intervals BusinessHoursInterval[]
+
+  @@unique([companyId, dayOfWeek])
+  @@index([companyId])
+}
+
+model BusinessHoursInterval {
+  id        String              @id @default(cuid())
+  configId  String
+  config    BusinessHoursConfig @relation(fields: [configId], references: [id], onDelete: Cascade)
+  startTime String              // "HH:MM"
+  endTime   String              // "HH:MM"
+  label     String?             // "Almoço", "Reunião de equipe", etc.
+
+  @@index([configId])
 }
 
 // ─── Gamificação ──────────────────────────────────────────────────────────────

@@ -186,6 +186,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   moduleCrm: 'moduleCrm',
   moduleTickets: 'moduleTickets',
   moduleAI: 'moduleAI',
+  moduleGamificacao: 'moduleGamificacao',
   parentCompanyId: 'parentCompanyId',
   triggerOnly: 'triggerOnly',
   webhookToken: 'webhookToken'
@@ -606,6 +607,56 @@ exports.Prisma.SubscriptionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BusinessHoursConfigScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  dayOfWeek: 'dayOfWeek',
+  isOpen: 'isOpen',
+  openTime: 'openTime',
+  closeTime: 'closeTime',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BusinessHoursIntervalScalarFieldEnum = {
+  id: 'id',
+  configId: 'configId',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  label: 'label'
+};
+
+exports.Prisma.UserScoreScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  companyId: 'companyId',
+  totalPoints: 'totalPoints',
+  monthPoints: 'monthPoints',
+  month: 'month',
+  year: 'year',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.UserBadgeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  companyId: 'companyId',
+  badge: 'badge',
+  level: 'level',
+  earnedAt: 'earnedAt'
+};
+
+exports.Prisma.ScoreEventScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  companyId: 'companyId',
+  points: 'points',
+  reason: 'reason',
+  referenceId: 'referenceId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.BillingEventScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
@@ -790,6 +841,38 @@ exports.SubscriptionStatus = exports.$Enums.SubscriptionStatus = {
   INCOMPLETE: 'INCOMPLETE'
 };
 
+exports.BadgeType = exports.$Enums.BadgeType = {
+  RAIO_VELOZ: 'RAIO_VELOZ',
+  SPRINT_MASTER: 'SPRINT_MASTER',
+  PRIMEIRO_DO_DIA: 'PRIMEIRO_DO_DIA',
+  RESOLVEDOR: 'RESOLVEDOR',
+  ZERO_PENDENCIA: 'ZERO_PENDENCIA',
+  ANTECIPADOR: 'ANTECIPADOR',
+  CLOSER: 'CLOSER',
+  FUNIL_COMPLETO: 'FUNIL_COMPLETO',
+  REI_DO_MES: 'REI_DO_MES'
+};
+
+exports.BadgeLevel = exports.$Enums.BadgeLevel = {
+  BRONZE: 'BRONZE',
+  PRATA: 'PRATA',
+  OURO: 'OURO'
+};
+
+exports.ScoreReason = exports.$Enums.ScoreReason = {
+  RESPOSTA_RAPIDA_5MIN: 'RESPOSTA_RAPIDA_5MIN',
+  RESPOSTA_RAPIDA_30MIN: 'RESPOSTA_RAPIDA_30MIN',
+  TICKET_RESOLVIDO: 'TICKET_RESOLVIDO',
+  LEAD_AVANCADO: 'LEAD_AVANCADO',
+  LEAD_CONVERTIDO: 'LEAD_CONVERTIDO',
+  DIA_SEM_PENDENCIA: 'DIA_SEM_PENDENCIA',
+  RETORNO_ANTECIPADO: 'RETORNO_ANTECIPADO',
+  ATENDIMENTO_MESMO_DIA: 'ATENDIMENTO_MESMO_DIA',
+  NOTA_REGISTRADA: 'NOTA_REGISTRADA',
+  SLA_VENCIDO: 'SLA_VENCIDO',
+  CONVERSA_SEM_RESPOSTA: 'CONVERSA_SEM_RESPOSTA'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   VaultEmailChallenge: 'VaultEmailChallenge',
@@ -825,6 +908,11 @@ exports.Prisma.ModelName = {
   AnalyticsGeoData: 'AnalyticsGeoData',
   SearchConsoleQuery: 'SearchConsoleQuery',
   Subscription: 'Subscription',
+  BusinessHoursConfig: 'BusinessHoursConfig',
+  BusinessHoursInterval: 'BusinessHoursInterval',
+  UserScore: 'UserScore',
+  UserBadge: 'UserBadge',
+  ScoreEvent: 'ScoreEvent',
   BillingEvent: 'BillingEvent'
 };
 

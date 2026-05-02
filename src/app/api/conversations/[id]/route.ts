@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { ActivityType, ConversationStatus } from "@/generated/prisma";
 import { mapConvStatusToLegacy } from "@/lib/whatsapp";
 import { formatBrazilDateTime, formatBrazilDateTimeShort } from "@/lib/datetime";
+import { addScore } from "@/lib/gamification";
 
 const VALID_STATUS: ConversationStatus[] = ["OPEN", "PENDING", "IN_PROGRESS", "WAITING_CUSTOMER", "SCHEDULED", "CLOSED"];
 
@@ -28,7 +29,7 @@ export async function PATCH(
 
   const conv = await prisma.conversation.findUnique({
     where: { id },
-    select: { id: true, companyId: true, status: true, assigneeId: true, setorId: true, scheduledReturnAt: true, returnNote: true },
+    select: { id: true, companyId: true, status: true, assigneeId: true, setorId: true, scheduledReturnAt: true, returnNote: true, createdAt: true },
   });
   if (!conv) return NextResponse.json({ error: "Conversa não encontrada" }, { status: 404 });
   if (userRole !== "SUPER_ADMIN" && conv.companyId !== userCompanyId) {
@@ -116,6 +117,20 @@ export async function PATCH(
       scheduledReturnAt: true, returnNote: true,
     },
   });
+
+  // Gamificação — fire-and-forget, nunca bloqueia a resposta
+  if (updated.status === "CLOSED" && conv.status !== "CLOSED") {
+    const scorer = updated.assigneeId ?? userId;
+    // Atendimento fechado no mesmo dia calendário
+    const sameDay = conv.createdAt.toDateString() === new Date().toDateString();
+    if (sameDay) {
+      void addScore(scorer, conv.companyId, "ATENDIMENTO_MESMO_DIA", conv.id).catch(() => {});
+    }
+    // Retorno antecipado: tinha agendamento futuro e fechou antes da hora
+    if (conv.scheduledReturnAt && conv.scheduledReturnAt > new Date()) {
+      void addScore(scorer, conv.companyId, "RETORNO_ANTECIPADO", conv.id).catch(() => {});
+    }
+  }
 
   if (activities.length > 0) {
     await prisma.activity.createMany({

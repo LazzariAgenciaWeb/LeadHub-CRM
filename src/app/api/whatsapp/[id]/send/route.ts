@@ -4,6 +4,8 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { evolutionSendText } from "@/lib/evolution";
 import { upsertConversation } from "@/lib/whatsapp";
+import { addScore } from "@/lib/gamification";
+import { businessMinutesBetween } from "@/lib/business-hours";
 
 // POST /api/whatsapp/[id]/send
 // Body: { phone: string, text: string }
@@ -25,6 +27,7 @@ export async function POST(
     return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
   }
 
+  const userId = (session.user as any).id as string | undefined;
   const { phone, text, quotedExternalId, quotedBody, quotedFromMe } = await req.json();
   if (!phone || !text) {
     return NextResponse.json({ error: "phone e text são obrigatórios" }, { status: 400 });
@@ -65,6 +68,14 @@ export async function POST(
     });
     const phoneForStorage = existingCount > 0 ? phone : canonicalPhone;
 
+    // Snapshot da conversa ANTES do upsert — para detectar se esta é a primeira resposta
+    const convBefore = !phone.includes("@g.us") && !phone.includes("@lid")
+      ? await prisma.conversation.findUnique({
+          where: { companyId_phone: { companyId: instance.companyId, phone: phoneForStorage } },
+          select: { firstResponseAt: true, createdAt: true },
+        }).catch(() => null)
+      : null;
+
     // Upsert da Conversation — fonte da verdade do status de atendimento
     const conv = await upsertConversation({
       companyId: instance.companyId,
@@ -93,6 +104,15 @@ export async function POST(
       },
       include: { instance: { select: { instanceName: true } }, campaign: { select: { id: true, name: true } } },
     });
+
+    // Gamificação: pontua resposta rápida se esta for a primeira resposta do atendente
+    if (userId && convBefore && !convBefore.firstResponseAt) {
+      const mins = businessMinutesBetween(convBefore.createdAt, new Date());
+      const reason = mins <= 5 ? "RESPOSTA_RAPIDA_5MIN" : mins <= 30 ? "RESPOSTA_RAPIDA_30MIN" : null;
+      if (reason) {
+        void addScore(userId, instance.companyId, reason, conv.id).catch(() => {});
+      }
+    }
 
     // Para grupos e @lid não há lead vinculado — pular atualização de atendimento
     if (!canonicalPhone.includes("@g.us") && !canonicalPhone.includes("@lid")) {

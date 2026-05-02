@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { ActivityType } from "@/generated/prisma";
+import { addScore } from "@/lib/gamification";
 
 // POST /api/conversations/[id]/notes
 // Body: { body: string }
@@ -52,6 +53,8 @@ export async function POST(
       companyId: conv.companyId,
     },
   }).catch(() => { /* não crítico */ });
+
+  void addScore(userId, conv.companyId, "NOTA_REGISTRADA", conv.id).catch(() => {});
 
   return NextResponse.json(note, { status: 201 });
 }

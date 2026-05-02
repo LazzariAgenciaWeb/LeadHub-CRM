@@ -1,8 +1,12 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import {
+  Briefcase, ListChecks, AlertCircle, Clock, User as UserIcon,
+  Filter as FilterIcon, Building2, Calendar,
+} from "lucide-react";
 
 interface TicketStage {
   id: string;
@@ -22,10 +26,31 @@ interface Ticket {
   ticketStage: string | null;
   phone: string | null;
   clickupTaskId: string | null;
+  type: "SUPPORT" | "INTERNAL";
+  dueDate: string | null;
+  assigneeId: string | null;
+  assignee: { id: string; name: string } | null;
+  setor: { id: string; name: string } | null;
+  clientCompany: { id: string; name: string } | null;
   createdAt: string;
   updatedAt: string;
   company: { id: string; name: string };
   _count: { messages: number };
+}
+
+type QuickFilter = "all" | "overdue" | "unassigned" | "urgent" | "mine";
+type KindFilter = "all" | "SUPPORT" | "INTERNAL";
+
+// Cor de urgência por proximidade do prazo. Negativo = atrasado.
+function urgencyByDue(dueDate: string | null): { label: string; color: string; bg: string } {
+  if (!dueDate) return { label: "Sem prazo", color: "text-slate-500", bg: "bg-slate-500/10" };
+  const ms = new Date(dueDate).getTime() - Date.now();
+  const days = ms / 86_400_000;
+  if (days < 0)        return { label: "Atrasado",   color: "text-red-300",     bg: "bg-red-500/15 border border-red-500/30" };
+  if (days < 0.5)      return { label: "Hoje",       color: "text-orange-300",  bg: "bg-orange-500/15 border border-orange-500/30" };
+  if (days < 1.5)      return { label: "Amanhã",     color: "text-amber-300",   bg: "bg-amber-500/15 border border-amber-500/30" };
+  if (days < 3)        return { label: `${Math.ceil(days)}d`, color: "text-yellow-300", bg: "bg-yellow-500/10 border border-yellow-500/20" };
+  return                       { label: `${Math.ceil(days)}d`, color: "text-slate-400",  bg: "bg-slate-500/10 border border-slate-500/20" };
 }
 
 const PRIORITY_CONFIG: Record<string, { label: string; color: string; icon: string; bg: string }> = {
@@ -42,6 +67,7 @@ export default function TicketsBoard({
   companies,
   filterCompanyId,
   pipelineCompanyId,
+  currentUserId,
 }: {
   tickets: Ticket[];
   stages: TicketStage[];
@@ -49,6 +75,7 @@ export default function TicketsBoard({
   companies: { id: string; name: string }[];
   filterCompanyId: string;
   pipelineCompanyId: string;
+  currentUserId: string;
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -61,13 +88,49 @@ export default function TicketsBoard({
   const [addSaving, setAddSaving] = useState(false);
   const [addError, setAddError] = useState("");
 
+  const [kindFilter, setKindFilter] = useState<KindFilter>("all");
+  const [quickFilter, setQuickFilter] = useState<QuickFilter>("all");
+
   const CATEGORIES = ["Acesso / Login", "Relatórios", "Integração WhatsApp", "Campanhas", "Faturamento", "Bug / Erro", "Dúvida", "Outro"];
 
-  // Filter by search
+  // Contagens dos filtros pra mostrar badge — sempre considera o universo total
+  const filterCounts = useMemo(() => {
+    const now = Date.now();
+    return tickets.reduce(
+      (acc, t) => {
+        const isOpen = t.status !== "RESOLVED" && t.status !== "CLOSED";
+        if (t.type === "SUPPORT")  acc.support++;
+        if (t.type === "INTERNAL") acc.internal++;
+        if (isOpen && t.dueDate && new Date(t.dueDate).getTime() < now) acc.overdue++;
+        if (isOpen && !t.assigneeId)                                    acc.unassigned++;
+        if (isOpen && t.priority === "URGENT")                          acc.urgent++;
+        if (isOpen && t.assigneeId === currentUserId)                   acc.mine++;
+        return acc;
+      },
+      { support: 0, internal: 0, overdue: 0, unassigned: 0, urgent: 0, mine: 0 }
+    );
+  }, [tickets, currentUserId]);
+
+  // Aplica todos os filtros (busca + tipo + quickFilter)
   const filtered = tickets.filter((t) => {
+    if (kindFilter !== "all" && t.type !== kindFilter) return false;
+
+    if (quickFilter !== "all") {
+      const isOpen = t.status !== "RESOLVED" && t.status !== "CLOSED";
+      if (quickFilter === "overdue"    && !(isOpen && t.dueDate && new Date(t.dueDate).getTime() < Date.now())) return false;
+      if (quickFilter === "unassigned" && !(isOpen && !t.assigneeId)) return false;
+      if (quickFilter === "urgent"     && !(isOpen && t.priority === "URGENT")) return false;
+      if (quickFilter === "mine"       && !(isOpen && t.assigneeId === currentUserId)) return false;
+    }
+
     if (!search) return true;
     const q = search.toLowerCase();
-    return t.title.toLowerCase().includes(q) || t.company.name.toLowerCase().includes(q) || (t.category?.toLowerCase().includes(q) ?? false);
+    return (
+      t.title.toLowerCase().includes(q) ||
+      t.company.name.toLowerCase().includes(q) ||
+      (t.clientCompany?.name?.toLowerCase().includes(q) ?? false) ||
+      (t.category?.toLowerCase().includes(q) ?? false)
+    );
   });
 
   const firstStage = stages[0]?.name ?? "Novo";
@@ -134,23 +197,22 @@ export default function TicketsBoard({
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="flex items-center justify-between px-6 pt-5 pb-4 flex-shrink-0 border-b border-[#1e2d45]">
-        <div>
-          <h1 className="text-white font-bold text-xl">🎫 Chamados</h1>
-          <p className="text-slate-500 text-sm mt-0.5">
-            {totalOpen} aberto{totalOpen !== 1 ? "s" : ""}
-            {tickets.length !== totalOpen && (
-              <span className="text-slate-600 ml-1">· {tickets.length} total</span>
-            )}
-          </p>
-        </div>
+      <div className="flex flex-col gap-3 px-6 pt-5 pb-3 flex-shrink-0 border-b border-[#1e2d45]">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <h1 className="text-white font-bold text-xl">🎫 Chamados &amp; Tarefas</h1>
+            <p className="text-slate-500 text-sm mt-0.5">
+              {totalOpen} aberto{totalOpen !== 1 ? "s" : ""}
+              {tickets.length !== totalOpen && (
+                <span className="text-slate-600 ml-1">· {tickets.length} total</span>
+              )}
+            </p>
+          </div>
 
-        <div className="flex items-center gap-2">
-          {isSuperAdmin && companies.length > 0 && (
-            <form>
+          <div className="flex items-center gap-2">
+            {isSuperAdmin && companies.length > 0 && (
               <select
-                name="companyId"
-                defaultValue={filterCompanyId}
+                value={filterCompanyId}
                 onChange={(e) => router.push(`/chamados?companyId=${e.target.value}`)}
                 className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-slate-300 focus:outline-none focus:border-indigo-500"
               >
@@ -159,29 +221,92 @@ export default function TicketsBoard({
                   <option key={c.id} value={c.id}>{c.name}</option>
                 ))}
               </select>
-            </form>
-          )}
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Buscar chamado..."
-            className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 w-48"
-          />
-          {stages.length === 0 && (
-            <a
-              href="/configuracoes?secao=pipeline"
-              className="px-3 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 text-xs hover:text-white transition-colors"
+            )}
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Buscar..."
+              className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 w-48"
+            />
+            {stages.length === 0 && (
+              <a
+                href="/configuracoes?secao=pipeline"
+                className="px-3 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 text-xs hover:text-white transition-colors"
+              >
+                ⚙️ Configurar etapas
+              </a>
+            )}
+            <Link
+              href="/chamados/novo"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors"
             >
-              ⚙️ Configurar etapas
-            </a>
-          )}
-          <button
-            onClick={() => setShowAddModal(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors"
-          >
-            + Novo Chamado
-          </button>
+              + Novo
+            </Link>
+          </div>
+        </div>
+
+        {/* Barra de filtros: tipo + atalhos */}
+        <div className="flex items-center gap-2 flex-wrap">
+          {/* Tipo: Todos / Chamados / Tarefas */}
+          <div className="flex items-center bg-[#0f1623] border border-[#1e2d45] rounded-lg p-0.5">
+            <button
+              onClick={() => setKindFilter("all")}
+              className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-colors ${
+                kindFilter === "all" ? "bg-white/10 text-white" : "text-slate-500 hover:text-white"
+              }`}
+            >
+              Todos <span className="text-slate-600 ml-1">{tickets.length}</span>
+            </button>
+            <button
+              onClick={() => setKindFilter("SUPPORT")}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold transition-colors ${
+                kindFilter === "SUPPORT" ? "bg-blue-500/15 text-blue-300" : "text-slate-500 hover:text-white"
+              }`}
+            >
+              <Briefcase className="w-3 h-3" strokeWidth={2.5} />
+              Chamados <span className="text-slate-600 ml-1">{filterCounts.support}</span>
+            </button>
+            <button
+              onClick={() => setKindFilter("INTERNAL")}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold transition-colors ${
+                kindFilter === "INTERNAL" ? "bg-emerald-500/15 text-emerald-300" : "text-slate-500 hover:text-white"
+              }`}
+            >
+              <ListChecks className="w-3 h-3" strokeWidth={2.5} />
+              Tarefas <span className="text-slate-600 ml-1">{filterCounts.internal}</span>
+            </button>
+          </div>
+
+          <span className="w-px h-5 bg-[#1e2d45]" />
+
+          {/* Atalhos de filtro */}
+          {([
+            { key: "all" as const,        label: "Todos",          Icon: FilterIcon,  color: "" },
+            { key: "mine" as const,       label: "Meus",           Icon: UserIcon,    color: "bg-indigo-500/15 text-indigo-300 border-indigo-500/30",  count: filterCounts.mine },
+            { key: "overdue" as const,    label: "Atrasados",      Icon: Clock,       color: "bg-red-500/15 text-red-300 border-red-500/30",          count: filterCounts.overdue },
+            { key: "urgent" as const,     label: "Urgentes",       Icon: AlertCircle, color: "bg-orange-500/15 text-orange-300 border-orange-500/30", count: filterCounts.urgent },
+            { key: "unassigned" as const, label: "Sem responsável", Icon: UserIcon,    color: "bg-slate-500/15 text-slate-300 border-slate-500/30",   count: filterCounts.unassigned },
+          ]).map(({ key, label, Icon, color, count }) => {
+            const isActive = quickFilter === key;
+            return (
+              <button
+                key={key}
+                onClick={() => setQuickFilter(key)}
+                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold border transition-colors ${
+                  isActive
+                    ? (color || "bg-white/10 text-white border-white/20")
+                    : "bg-[#0f1623] border-[#1e2d45] text-slate-500 hover:text-white hover:border-slate-600"
+                }`}
+              >
+                <Icon className="w-3 h-3" strokeWidth={2.5} />
+                {label}
+                {count !== undefined && count > 0 && (
+                  <span className={`text-[9px] font-bold px-1 rounded-full ${isActive ? "bg-white/15" : "bg-white/10"}`}>{count}</span>
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -233,23 +358,30 @@ export default function TicketsBoard({
                     )}
                     {stageTickets.map((ticket) => {
                       const pc = PRIORITY_CONFIG[ticket.priority] ?? PRIORITY_CONFIG.MEDIUM;
-                      const lastActivity = new Date(ticket.updatedAt);
-                      const now = new Date();
-                      const diffH = Math.floor((now.getTime() - lastActivity.getTime()) / 3600000);
-                      const ageLabel = diffH < 1 ? "agora" : diffH < 24 ? `${diffH}h` : `${Math.floor(diffH / 24)}d`;
+                      const due = urgencyByDue(ticket.dueDate);
+                      const isInternal = ticket.type === "INTERNAL";
+                      const isMine = ticket.assigneeId === currentUserId;
+                      const clientName = ticket.clientCompany?.name;
+
+                      // Borda lateral colorida — verde pra tarefa, azul pra chamado
+                      const borderL = isInternal
+                        ? "border-l-4 border-l-emerald-500/60"
+                        : "border-l-4 border-l-blue-500/60";
 
                       return (
                         <div
                           key={ticket.id}
                           draggable
                           onDragStart={(e) => onDragStart(e, ticket.id)}
-                          className={`bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3 cursor-grab active:cursor-grabbing hover:border-white/20 transition-all group ${
+                          className={`bg-[#0f1623] border border-[#1e2d45] ${borderL} rounded-lg p-3 cursor-grab active:cursor-grabbing hover:border-white/20 transition-all group ${
                             movingId === ticket.id ? "opacity-40" : ""
                           }`}
                         >
-                          {/* Priority + title */}
+                          {/* Linha 1: tipo + título */}
                           <div className="flex items-start gap-2 mb-2">
-                            <span className="text-[12px] flex-shrink-0 mt-0.5">{pc.icon}</span>
+                            {isInternal
+                              ? <ListChecks className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0 mt-0.5" strokeWidth={2.5} />
+                              : <Briefcase  className="w-3.5 h-3.5 text-blue-400 flex-shrink-0 mt-0.5" strokeWidth={2.5} />}
                             <Link
                               href={`/chamados/${ticket.id}`}
                               className="text-white text-[13px] font-semibold leading-snug hover:text-indigo-300 transition-colors line-clamp-2"
@@ -259,31 +391,71 @@ export default function TicketsBoard({
                             </Link>
                           </div>
 
-                          {/* Company */}
-                          {isSuperAdmin && (
+                          {/* Cliente (só pra SUPPORT) ou empresa (super admin) */}
+                          {clientName && (
+                            <div className="text-slate-400 text-[11px] mb-1 truncate flex items-center gap-1">
+                              <Building2 className="w-3 h-3 flex-shrink-0" strokeWidth={2} />
+                              {clientName}
+                            </div>
+                          )}
+                          {isSuperAdmin && !clientName && (
                             <div className="text-slate-500 text-[11px] mb-1.5 truncate">
                               🏢 {ticket.company.name}
                             </div>
                           )}
 
-                          {/* Category + messages */}
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-1.5 flex-wrap">
-                              {ticket.category && (
-                                <span className="text-[10px] text-slate-500 bg-white/5 px-1.5 py-0.5 rounded">
-                                  {ticket.category}
+                          {/* Linha 2: prioridade + categoria + prazo */}
+                          <div className="flex items-center gap-1.5 flex-wrap mb-1.5">
+                            <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded border ${pc.bg} ${pc.color}`}>
+                              {pc.icon} {pc.label}
+                            </span>
+                            {ticket.category && (
+                              <span className="text-[10px] text-slate-500 bg-white/5 px-1.5 py-0.5 rounded">
+                                {ticket.category}
+                              </span>
+                            )}
+                            {ticket.dueDate && (
+                              <span
+                                className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${due.bg} ${due.color} flex items-center gap-1`}
+                                title={new Date(ticket.dueDate).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" })}
+                              >
+                                <Clock className="w-2.5 h-2.5" strokeWidth={2.5} />
+                                {due.label}
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Linha 3: atendente + setor + msg count */}
+                          <div className="flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-1.5 min-w-0">
+                              {ticket.assignee ? (
+                                <span
+                                  className={`text-[10px] font-semibold px-1.5 py-0.5 rounded flex items-center gap-1 ${
+                                    isMine
+                                      ? "bg-indigo-500/15 text-indigo-300 border border-indigo-500/25"
+                                      : "bg-yellow-500/10 text-yellow-300 border border-yellow-500/20"
+                                  }`}
+                                  title={isMine ? "Sua atribuição" : `Responsável: ${ticket.assignee.name}`}
+                                >
+                                  <span className="w-3 h-3 rounded-full bg-white/15 flex items-center justify-center text-[8px] font-bold">
+                                    {ticket.assignee.name.charAt(0).toUpperCase()}
+                                  </span>
+                                  {isMine ? "Você" : ticket.assignee.name.split(" ")[0]}
+                                </span>
+                              ) : !isInternal ? (
+                                <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-slate-500/10 text-slate-500 border border-slate-500/20">
+                                  Sem responsável
+                                </span>
+                              ) : null}
+                              {ticket.setor && (
+                                <span className="text-[10px] text-violet-300 bg-violet-500/10 border border-violet-500/20 px-1.5 py-0.5 rounded truncate">
+                                  {ticket.setor.name}
                                 </span>
                               )}
-                              <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded border ${pc.bg} ${pc.color}`}>
-                                {pc.label}
-                              </span>
                             </div>
-                            <div className="flex items-center gap-2 flex-shrink-0">
-                              {ticket._count.messages > 0 && (
-                                <span className="text-slate-600 text-[10px]">💬{ticket._count.messages}</span>
-                              )}
-                              <span className="text-slate-700 text-[10px] font-mono">{ageLabel}</span>
-                            </div>
+                            {ticket._count.messages > 0 && (
+                              <span className="text-slate-600 text-[10px] flex-shrink-0">💬 {ticket._count.messages}</span>
+                            )}
                           </div>
 
                           {/* Quick move buttons (appear on hover) */}

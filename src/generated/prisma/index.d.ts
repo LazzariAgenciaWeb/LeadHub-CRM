@@ -184,6 +184,31 @@ export type SearchConsoleQuery = $Result.DefaultSelection<Prisma.$SearchConsoleQ
  */
 export type Subscription = $Result.DefaultSelection<Prisma.$SubscriptionPayload>
 /**
+ * Model BusinessHoursConfig
+ * 
+ */
+export type BusinessHoursConfig = $Result.DefaultSelection<Prisma.$BusinessHoursConfigPayload>
+/**
+ * Model BusinessHoursInterval
+ * 
+ */
+export type BusinessHoursInterval = $Result.DefaultSelection<Prisma.$BusinessHoursIntervalPayload>
+/**
+ * Model UserScore
+ * 
+ */
+export type UserScore = $Result.DefaultSelection<Prisma.$UserScorePayload>
+/**
+ * Model UserBadge
+ * 
+ */
+export type UserBadge = $Result.DefaultSelection<Prisma.$UserBadgePayload>
+/**
+ * Model ScoreEvent
+ * 
+ */
+export type ScoreEvent = $Result.DefaultSelection<Prisma.$ScoreEventPayload>
+/**
  * Model BillingEvent
  * 
  */
@@ -394,6 +419,47 @@ export const SubscriptionStatus: {
 
 export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus]
 
+
+export const BadgeType: {
+  RAIO_VELOZ: 'RAIO_VELOZ',
+  SPRINT_MASTER: 'SPRINT_MASTER',
+  PRIMEIRO_DO_DIA: 'PRIMEIRO_DO_DIA',
+  RESOLVEDOR: 'RESOLVEDOR',
+  ZERO_PENDENCIA: 'ZERO_PENDENCIA',
+  ANTECIPADOR: 'ANTECIPADOR',
+  CLOSER: 'CLOSER',
+  FUNIL_COMPLETO: 'FUNIL_COMPLETO',
+  REI_DO_MES: 'REI_DO_MES'
+};
+
+export type BadgeType = (typeof BadgeType)[keyof typeof BadgeType]
+
+
+export const BadgeLevel: {
+  BRONZE: 'BRONZE',
+  PRATA: 'PRATA',
+  OURO: 'OURO'
+};
+
+export type BadgeLevel = (typeof BadgeLevel)[keyof typeof BadgeLevel]
+
+
+export const ScoreReason: {
+  RESPOSTA_RAPIDA_5MIN: 'RESPOSTA_RAPIDA_5MIN',
+  RESPOSTA_RAPIDA_30MIN: 'RESPOSTA_RAPIDA_30MIN',
+  TICKET_RESOLVIDO: 'TICKET_RESOLVIDO',
+  LEAD_AVANCADO: 'LEAD_AVANCADO',
+  LEAD_CONVERTIDO: 'LEAD_CONVERTIDO',
+  DIA_SEM_PENDENCIA: 'DIA_SEM_PENDENCIA',
+  RETORNO_ANTECIPADO: 'RETORNO_ANTECIPADO',
+  ATENDIMENTO_MESMO_DIA: 'ATENDIMENTO_MESMO_DIA',
+  NOTA_REGISTRADA: 'NOTA_REGISTRADA',
+  SLA_VENCIDO: 'SLA_VENCIDO',
+  CONVERSA_SEM_RESPOSTA: 'CONVERSA_SEM_RESPOSTA'
+};
+
+export type ScoreReason = (typeof ScoreReason)[keyof typeof ScoreReason]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -467,6 +533,18 @@ export const PlanTier: typeof $Enums.PlanTier
 export type SubscriptionStatus = $Enums.SubscriptionStatus
 
 export const SubscriptionStatus: typeof $Enums.SubscriptionStatus
+
+export type BadgeType = $Enums.BadgeType
+
+export const BadgeType: typeof $Enums.BadgeType
+
+export type BadgeLevel = $Enums.BadgeLevel
+
+export const BadgeLevel: typeof $Enums.BadgeLevel
+
+export type ScoreReason = $Enums.ScoreReason
+
+export const ScoreReason: typeof $Enums.ScoreReason
 
 /**
  * ##  Prisma Client ʲˢ
@@ -930,6 +1008,56 @@ export class PrismaClient<
     * ```
     */
   get subscription(): Prisma.SubscriptionDelegate<ExtArgs>;
+
+  /**
+   * `prisma.businessHoursConfig`: Exposes CRUD operations for the **BusinessHoursConfig** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BusinessHoursConfigs
+    * const businessHoursConfigs = await prisma.businessHoursConfig.findMany()
+    * ```
+    */
+  get businessHoursConfig(): Prisma.BusinessHoursConfigDelegate<ExtArgs>;
+
+  /**
+   * `prisma.businessHoursInterval`: Exposes CRUD operations for the **BusinessHoursInterval** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BusinessHoursIntervals
+    * const businessHoursIntervals = await prisma.businessHoursInterval.findMany()
+    * ```
+    */
+  get businessHoursInterval(): Prisma.BusinessHoursIntervalDelegate<ExtArgs>;
+
+  /**
+   * `prisma.userScore`: Exposes CRUD operations for the **UserScore** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserScores
+    * const userScores = await prisma.userScore.findMany()
+    * ```
+    */
+  get userScore(): Prisma.UserScoreDelegate<ExtArgs>;
+
+  /**
+   * `prisma.userBadge`: Exposes CRUD operations for the **UserBadge** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserBadges
+    * const userBadges = await prisma.userBadge.findMany()
+    * ```
+    */
+  get userBadge(): Prisma.UserBadgeDelegate<ExtArgs>;
+
+  /**
+   * `prisma.scoreEvent`: Exposes CRUD operations for the **ScoreEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ScoreEvents
+    * const scoreEvents = await prisma.scoreEvent.findMany()
+    * ```
+    */
+  get scoreEvent(): Prisma.ScoreEventDelegate<ExtArgs>;
 
   /**
    * `prisma.billingEvent`: Exposes CRUD operations for the **BillingEvent** model.
@@ -1415,6 +1543,11 @@ export namespace Prisma {
     AnalyticsGeoData: 'AnalyticsGeoData',
     SearchConsoleQuery: 'SearchConsoleQuery',
     Subscription: 'Subscription',
+    BusinessHoursConfig: 'BusinessHoursConfig',
+    BusinessHoursInterval: 'BusinessHoursInterval',
+    UserScore: 'UserScore',
+    UserBadge: 'UserBadge',
+    ScoreEvent: 'ScoreEvent',
     BillingEvent: 'BillingEvent'
   };
 
@@ -1431,7 +1564,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "subscription" | "billingEvent"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "userScore" | "userBadge" | "scoreEvent" | "billingEvent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3815,6 +3948,356 @@ export namespace Prisma {
           }
         }
       }
+      BusinessHoursConfig: {
+        payload: Prisma.$BusinessHoursConfigPayload<ExtArgs>
+        fields: Prisma.BusinessHoursConfigFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BusinessHoursConfigFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursConfigPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BusinessHoursConfigFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursConfigPayload>
+          }
+          findFirst: {
+            args: Prisma.BusinessHoursConfigFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursConfigPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BusinessHoursConfigFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursConfigPayload>
+          }
+          findMany: {
+            args: Prisma.BusinessHoursConfigFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursConfigPayload>[]
+          }
+          create: {
+            args: Prisma.BusinessHoursConfigCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursConfigPayload>
+          }
+          createMany: {
+            args: Prisma.BusinessHoursConfigCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BusinessHoursConfigCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursConfigPayload>[]
+          }
+          delete: {
+            args: Prisma.BusinessHoursConfigDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursConfigPayload>
+          }
+          update: {
+            args: Prisma.BusinessHoursConfigUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursConfigPayload>
+          }
+          deleteMany: {
+            args: Prisma.BusinessHoursConfigDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BusinessHoursConfigUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.BusinessHoursConfigUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursConfigPayload>
+          }
+          aggregate: {
+            args: Prisma.BusinessHoursConfigAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBusinessHoursConfig>
+          }
+          groupBy: {
+            args: Prisma.BusinessHoursConfigGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BusinessHoursConfigGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BusinessHoursConfigCountArgs<ExtArgs>
+            result: $Utils.Optional<BusinessHoursConfigCountAggregateOutputType> | number
+          }
+        }
+      }
+      BusinessHoursInterval: {
+        payload: Prisma.$BusinessHoursIntervalPayload<ExtArgs>
+        fields: Prisma.BusinessHoursIntervalFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BusinessHoursIntervalFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursIntervalPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BusinessHoursIntervalFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursIntervalPayload>
+          }
+          findFirst: {
+            args: Prisma.BusinessHoursIntervalFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursIntervalPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BusinessHoursIntervalFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursIntervalPayload>
+          }
+          findMany: {
+            args: Prisma.BusinessHoursIntervalFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursIntervalPayload>[]
+          }
+          create: {
+            args: Prisma.BusinessHoursIntervalCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursIntervalPayload>
+          }
+          createMany: {
+            args: Prisma.BusinessHoursIntervalCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BusinessHoursIntervalCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursIntervalPayload>[]
+          }
+          delete: {
+            args: Prisma.BusinessHoursIntervalDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursIntervalPayload>
+          }
+          update: {
+            args: Prisma.BusinessHoursIntervalUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursIntervalPayload>
+          }
+          deleteMany: {
+            args: Prisma.BusinessHoursIntervalDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BusinessHoursIntervalUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.BusinessHoursIntervalUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursIntervalPayload>
+          }
+          aggregate: {
+            args: Prisma.BusinessHoursIntervalAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBusinessHoursInterval>
+          }
+          groupBy: {
+            args: Prisma.BusinessHoursIntervalGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BusinessHoursIntervalGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BusinessHoursIntervalCountArgs<ExtArgs>
+            result: $Utils.Optional<BusinessHoursIntervalCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserScore: {
+        payload: Prisma.$UserScorePayload<ExtArgs>
+        fields: Prisma.UserScoreFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserScoreFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserScoreFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload>
+          }
+          findFirst: {
+            args: Prisma.UserScoreFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserScoreFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload>
+          }
+          findMany: {
+            args: Prisma.UserScoreFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload>[]
+          }
+          create: {
+            args: Prisma.UserScoreCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload>
+          }
+          createMany: {
+            args: Prisma.UserScoreCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserScoreCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload>[]
+          }
+          delete: {
+            args: Prisma.UserScoreDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload>
+          }
+          update: {
+            args: Prisma.UserScoreUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload>
+          }
+          deleteMany: {
+            args: Prisma.UserScoreDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserScoreUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.UserScoreUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload>
+          }
+          aggregate: {
+            args: Prisma.UserScoreAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserScore>
+          }
+          groupBy: {
+            args: Prisma.UserScoreGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserScoreGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserScoreCountArgs<ExtArgs>
+            result: $Utils.Optional<UserScoreCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserBadge: {
+        payload: Prisma.$UserBadgePayload<ExtArgs>
+        fields: Prisma.UserBadgeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserBadgeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBadgePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserBadgeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBadgePayload>
+          }
+          findFirst: {
+            args: Prisma.UserBadgeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBadgePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserBadgeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBadgePayload>
+          }
+          findMany: {
+            args: Prisma.UserBadgeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBadgePayload>[]
+          }
+          create: {
+            args: Prisma.UserBadgeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBadgePayload>
+          }
+          createMany: {
+            args: Prisma.UserBadgeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserBadgeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBadgePayload>[]
+          }
+          delete: {
+            args: Prisma.UserBadgeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBadgePayload>
+          }
+          update: {
+            args: Prisma.UserBadgeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBadgePayload>
+          }
+          deleteMany: {
+            args: Prisma.UserBadgeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserBadgeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.UserBadgeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBadgePayload>
+          }
+          aggregate: {
+            args: Prisma.UserBadgeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserBadge>
+          }
+          groupBy: {
+            args: Prisma.UserBadgeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserBadgeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserBadgeCountArgs<ExtArgs>
+            result: $Utils.Optional<UserBadgeCountAggregateOutputType> | number
+          }
+        }
+      }
+      ScoreEvent: {
+        payload: Prisma.$ScoreEventPayload<ExtArgs>
+        fields: Prisma.ScoreEventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ScoreEventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScoreEventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ScoreEventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScoreEventPayload>
+          }
+          findFirst: {
+            args: Prisma.ScoreEventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScoreEventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ScoreEventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScoreEventPayload>
+          }
+          findMany: {
+            args: Prisma.ScoreEventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScoreEventPayload>[]
+          }
+          create: {
+            args: Prisma.ScoreEventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScoreEventPayload>
+          }
+          createMany: {
+            args: Prisma.ScoreEventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ScoreEventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScoreEventPayload>[]
+          }
+          delete: {
+            args: Prisma.ScoreEventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScoreEventPayload>
+          }
+          update: {
+            args: Prisma.ScoreEventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScoreEventPayload>
+          }
+          deleteMany: {
+            args: Prisma.ScoreEventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ScoreEventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ScoreEventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScoreEventPayload>
+          }
+          aggregate: {
+            args: Prisma.ScoreEventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateScoreEvent>
+          }
+          groupBy: {
+            args: Prisma.ScoreEventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ScoreEventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ScoreEventCountArgs<ExtArgs>
+            result: $Utils.Optional<ScoreEventCountAggregateOutputType> | number
+          }
+        }
+      }
       BillingEvent: {
         payload: Prisma.$BillingEventPayload<ExtArgs>
         fields: Prisma.BillingEventFieldRefs
@@ -4053,6 +4536,9 @@ export namespace Prisma {
     googleConnections: number
     vaultChallenges: number
     vaultTrustedSessions: number
+    userScores: number
+    userBadges: number
+    scoreEvents: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4063,6 +4549,9 @@ export namespace Prisma {
     googleConnections?: boolean | UserCountOutputTypeCountGoogleConnectionsArgs
     vaultChallenges?: boolean | UserCountOutputTypeCountVaultChallengesArgs
     vaultTrustedSessions?: boolean | UserCountOutputTypeCountVaultTrustedSessionsArgs
+    userScores?: boolean | UserCountOutputTypeCountUserScoresArgs
+    userBadges?: boolean | UserCountOutputTypeCountUserBadgesArgs
+    scoreEvents?: boolean | UserCountOutputTypeCountScoreEventsArgs
   }
 
   // Custom InputTypes
@@ -4125,6 +4614,27 @@ export namespace Prisma {
     where?: VaultTrustedSessionWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountUserScoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserScoreWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountUserBadgesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserBadgeWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountScoreEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScoreEventWhereInput
+  }
+
 
   /**
    * Count Type CompanyCountOutputType
@@ -4133,6 +4643,10 @@ export namespace Prisma {
   export type CompanyCountOutputType = {
     subCompanies: number
     users: number
+    userScores: number
+    userBadges: number
+    scoreEvents: number
+    businessHours: number
     campaigns: number
     leads: number
     whatsappInstances: number
@@ -4160,6 +4674,10 @@ export namespace Prisma {
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     subCompanies?: boolean | CompanyCountOutputTypeCountSubCompaniesArgs
     users?: boolean | CompanyCountOutputTypeCountUsersArgs
+    userScores?: boolean | CompanyCountOutputTypeCountUserScoresArgs
+    userBadges?: boolean | CompanyCountOutputTypeCountUserBadgesArgs
+    scoreEvents?: boolean | CompanyCountOutputTypeCountScoreEventsArgs
+    businessHours?: boolean | CompanyCountOutputTypeCountBusinessHoursArgs
     campaigns?: boolean | CompanyCountOutputTypeCountCampaignsArgs
     leads?: boolean | CompanyCountOutputTypeCountLeadsArgs
     whatsappInstances?: boolean | CompanyCountOutputTypeCountWhatsappInstancesArgs
@@ -4207,6 +4725,34 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountUserScoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserScoreWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountUserBadgesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserBadgeWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountScoreEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScoreEventWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountBusinessHoursArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BusinessHoursConfigWhereInput
   }
 
   /**
@@ -4770,6 +5316,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type BusinessHoursConfigCountOutputType
+   */
+
+  export type BusinessHoursConfigCountOutputType = {
+    intervals: number
+  }
+
+  export type BusinessHoursConfigCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    intervals?: boolean | BusinessHoursConfigCountOutputTypeCountIntervalsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * BusinessHoursConfigCountOutputType without action
+   */
+  export type BusinessHoursConfigCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursConfigCountOutputType
+     */
+    select?: BusinessHoursConfigCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * BusinessHoursConfigCountOutputType without action
+   */
+  export type BusinessHoursConfigCountOutputTypeCountIntervalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BusinessHoursIntervalWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -4978,6 +5555,9 @@ export namespace Prisma {
     googleConnections?: boolean | User$googleConnectionsArgs<ExtArgs>
     vaultChallenges?: boolean | User$vaultChallengesArgs<ExtArgs>
     vaultTrustedSessions?: boolean | User$vaultTrustedSessionsArgs<ExtArgs>
+    userScores?: boolean | User$userScoresArgs<ExtArgs>
+    userBadges?: boolean | User$userBadgesArgs<ExtArgs>
+    scoreEvents?: boolean | User$scoreEventsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -5016,6 +5596,9 @@ export namespace Prisma {
     googleConnections?: boolean | User$googleConnectionsArgs<ExtArgs>
     vaultChallenges?: boolean | User$vaultChallengesArgs<ExtArgs>
     vaultTrustedSessions?: boolean | User$vaultTrustedSessionsArgs<ExtArgs>
+    userScores?: boolean | User$userScoresArgs<ExtArgs>
+    userBadges?: boolean | User$userBadgesArgs<ExtArgs>
+    scoreEvents?: boolean | User$scoreEventsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5034,6 +5617,9 @@ export namespace Prisma {
       googleConnections: Prisma.$UserGoogleConnectionPayload<ExtArgs>[]
       vaultChallenges: Prisma.$VaultEmailChallengePayload<ExtArgs>[]
       vaultTrustedSessions: Prisma.$VaultTrustedSessionPayload<ExtArgs>[]
+      userScores: Prisma.$UserScorePayload<ExtArgs>[]
+      userBadges: Prisma.$UserBadgePayload<ExtArgs>[]
+      scoreEvents: Prisma.$ScoreEventPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5418,6 +6004,9 @@ export namespace Prisma {
     googleConnections<T extends User$googleConnectionsArgs<ExtArgs> = {}>(args?: Subset<T, User$googleConnectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserGoogleConnectionPayload<ExtArgs>, T, "findMany"> | Null>
     vaultChallenges<T extends User$vaultChallengesArgs<ExtArgs> = {}>(args?: Subset<T, User$vaultChallengesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VaultEmailChallengePayload<ExtArgs>, T, "findMany"> | Null>
     vaultTrustedSessions<T extends User$vaultTrustedSessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$vaultTrustedSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VaultTrustedSessionPayload<ExtArgs>, T, "findMany"> | Null>
+    userScores<T extends User$userScoresArgs<ExtArgs> = {}>(args?: Subset<T, User$userScoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "findMany"> | Null>
+    userBadges<T extends User$userBadgesArgs<ExtArgs> = {}>(args?: Subset<T, User$userBadgesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserBadgePayload<ExtArgs>, T, "findMany"> | Null>
+    scoreEvents<T extends User$scoreEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$scoreEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScoreEventPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5941,6 +6530,66 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: VaultTrustedSessionScalarFieldEnum | VaultTrustedSessionScalarFieldEnum[]
+  }
+
+  /**
+   * User.userScores
+   */
+  export type User$userScoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserScore
+     */
+    select?: UserScoreSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserScoreInclude<ExtArgs> | null
+    where?: UserScoreWhereInput
+    orderBy?: UserScoreOrderByWithRelationInput | UserScoreOrderByWithRelationInput[]
+    cursor?: UserScoreWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserScoreScalarFieldEnum | UserScoreScalarFieldEnum[]
+  }
+
+  /**
+   * User.userBadges
+   */
+  export type User$userBadgesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBadge
+     */
+    select?: UserBadgeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBadgeInclude<ExtArgs> | null
+    where?: UserBadgeWhereInput
+    orderBy?: UserBadgeOrderByWithRelationInput | UserBadgeOrderByWithRelationInput[]
+    cursor?: UserBadgeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserBadgeScalarFieldEnum | UserBadgeScalarFieldEnum[]
+  }
+
+  /**
+   * User.scoreEvents
+   */
+  export type User$scoreEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreEvent
+     */
+    select?: ScoreEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreEventInclude<ExtArgs> | null
+    where?: ScoreEventWhereInput
+    orderBy?: ScoreEventOrderByWithRelationInput | ScoreEventOrderByWithRelationInput[]
+    cursor?: ScoreEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScoreEventScalarFieldEnum | ScoreEventScalarFieldEnum[]
   }
 
   /**
@@ -8946,6 +9595,7 @@ export namespace Prisma {
     moduleCrm: boolean | null
     moduleTickets: boolean | null
     moduleAI: boolean | null
+    moduleGamificacao: boolean | null
     parentCompanyId: string | null
     triggerOnly: boolean | null
     webhookToken: string | null
@@ -8968,6 +9618,7 @@ export namespace Prisma {
     moduleCrm: boolean | null
     moduleTickets: boolean | null
     moduleAI: boolean | null
+    moduleGamificacao: boolean | null
     parentCompanyId: string | null
     triggerOnly: boolean | null
     webhookToken: string | null
@@ -8990,6 +9641,7 @@ export namespace Prisma {
     moduleCrm: number
     moduleTickets: number
     moduleAI: number
+    moduleGamificacao: number
     parentCompanyId: number
     triggerOnly: number
     webhookToken: number
@@ -9014,6 +9666,7 @@ export namespace Prisma {
     moduleCrm?: true
     moduleTickets?: true
     moduleAI?: true
+    moduleGamificacao?: true
     parentCompanyId?: true
     triggerOnly?: true
     webhookToken?: true
@@ -9036,6 +9689,7 @@ export namespace Prisma {
     moduleCrm?: true
     moduleTickets?: true
     moduleAI?: true
+    moduleGamificacao?: true
     parentCompanyId?: true
     triggerOnly?: true
     webhookToken?: true
@@ -9058,6 +9712,7 @@ export namespace Prisma {
     moduleCrm?: true
     moduleTickets?: true
     moduleAI?: true
+    moduleGamificacao?: true
     parentCompanyId?: true
     triggerOnly?: true
     webhookToken?: true
@@ -9153,6 +9808,7 @@ export namespace Prisma {
     moduleCrm: boolean
     moduleTickets: boolean
     moduleAI: boolean
+    moduleGamificacao: boolean
     parentCompanyId: string | null
     triggerOnly: boolean
     webhookToken: string | null
@@ -9192,12 +9848,17 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
     webhookToken?: boolean
     parentCompany?: boolean | Company$parentCompanyArgs<ExtArgs>
     subCompanies?: boolean | Company$subCompaniesArgs<ExtArgs>
     users?: boolean | Company$usersArgs<ExtArgs>
+    userScores?: boolean | Company$userScoresArgs<ExtArgs>
+    userBadges?: boolean | Company$userBadgesArgs<ExtArgs>
+    scoreEvents?: boolean | Company$scoreEventsArgs<ExtArgs>
+    businessHours?: boolean | Company$businessHoursArgs<ExtArgs>
     campaigns?: boolean | Company$campaignsArgs<ExtArgs>
     leads?: boolean | Company$leadsArgs<ExtArgs>
     whatsappInstances?: boolean | Company$whatsappInstancesArgs<ExtArgs>
@@ -9241,6 +9902,7 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
     webhookToken?: boolean
@@ -9264,6 +9926,7 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
     webhookToken?: boolean
@@ -9273,6 +9936,10 @@ export namespace Prisma {
     parentCompany?: boolean | Company$parentCompanyArgs<ExtArgs>
     subCompanies?: boolean | Company$subCompaniesArgs<ExtArgs>
     users?: boolean | Company$usersArgs<ExtArgs>
+    userScores?: boolean | Company$userScoresArgs<ExtArgs>
+    userBadges?: boolean | Company$userBadgesArgs<ExtArgs>
+    scoreEvents?: boolean | Company$scoreEventsArgs<ExtArgs>
+    businessHours?: boolean | Company$businessHoursArgs<ExtArgs>
     campaigns?: boolean | Company$campaignsArgs<ExtArgs>
     leads?: boolean | Company$leadsArgs<ExtArgs>
     whatsappInstances?: boolean | Company$whatsappInstancesArgs<ExtArgs>
@@ -9308,6 +9975,10 @@ export namespace Prisma {
       parentCompany: Prisma.$CompanyPayload<ExtArgs> | null
       subCompanies: Prisma.$CompanyPayload<ExtArgs>[]
       users: Prisma.$UserPayload<ExtArgs>[]
+      userScores: Prisma.$UserScorePayload<ExtArgs>[]
+      userBadges: Prisma.$UserBadgePayload<ExtArgs>[]
+      scoreEvents: Prisma.$ScoreEventPayload<ExtArgs>[]
+      businessHours: Prisma.$BusinessHoursConfigPayload<ExtArgs>[]
       campaigns: Prisma.$CampaignPayload<ExtArgs>[]
       leads: Prisma.$LeadPayload<ExtArgs>[]
       whatsappInstances: Prisma.$WhatsappInstancePayload<ExtArgs>[]
@@ -9349,6 +10020,7 @@ export namespace Prisma {
       moduleCrm: boolean
       moduleTickets: boolean
       moduleAI: boolean
+      moduleGamificacao: boolean
       parentCompanyId: string | null
       triggerOnly: boolean
       webhookToken: string | null
@@ -9719,6 +10391,10 @@ export namespace Prisma {
     parentCompany<T extends Company$parentCompanyArgs<ExtArgs> = {}>(args?: Subset<T, Company$parentCompanyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     subCompanies<T extends Company$subCompaniesArgs<ExtArgs> = {}>(args?: Subset<T, Company$subCompaniesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findMany"> | Null>
     users<T extends Company$usersArgs<ExtArgs> = {}>(args?: Subset<T, Company$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany"> | Null>
+    userScores<T extends Company$userScoresArgs<ExtArgs> = {}>(args?: Subset<T, Company$userScoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "findMany"> | Null>
+    userBadges<T extends Company$userBadgesArgs<ExtArgs> = {}>(args?: Subset<T, Company$userBadgesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserBadgePayload<ExtArgs>, T, "findMany"> | Null>
+    scoreEvents<T extends Company$scoreEventsArgs<ExtArgs> = {}>(args?: Subset<T, Company$scoreEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScoreEventPayload<ExtArgs>, T, "findMany"> | Null>
+    businessHours<T extends Company$businessHoursArgs<ExtArgs> = {}>(args?: Subset<T, Company$businessHoursArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BusinessHoursConfigPayload<ExtArgs>, T, "findMany"> | Null>
     campaigns<T extends Company$campaignsArgs<ExtArgs> = {}>(args?: Subset<T, Company$campaignsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findMany"> | Null>
     leads<T extends Company$leadsArgs<ExtArgs> = {}>(args?: Subset<T, Company$leadsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findMany"> | Null>
     whatsappInstances<T extends Company$whatsappInstancesArgs<ExtArgs> = {}>(args?: Subset<T, Company$whatsappInstancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhatsappInstancePayload<ExtArgs>, T, "findMany"> | Null>
@@ -9787,6 +10463,7 @@ export namespace Prisma {
     readonly moduleCrm: FieldRef<"Company", 'Boolean'>
     readonly moduleTickets: FieldRef<"Company", 'Boolean'>
     readonly moduleAI: FieldRef<"Company", 'Boolean'>
+    readonly moduleGamificacao: FieldRef<"Company", 'Boolean'>
     readonly parentCompanyId: FieldRef<"Company", 'String'>
     readonly triggerOnly: FieldRef<"Company", 'Boolean'>
     readonly webhookToken: FieldRef<"Company", 'String'>
@@ -10160,6 +10837,86 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
+   * Company.userScores
+   */
+  export type Company$userScoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserScore
+     */
+    select?: UserScoreSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserScoreInclude<ExtArgs> | null
+    where?: UserScoreWhereInput
+    orderBy?: UserScoreOrderByWithRelationInput | UserScoreOrderByWithRelationInput[]
+    cursor?: UserScoreWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserScoreScalarFieldEnum | UserScoreScalarFieldEnum[]
+  }
+
+  /**
+   * Company.userBadges
+   */
+  export type Company$userBadgesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBadge
+     */
+    select?: UserBadgeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBadgeInclude<ExtArgs> | null
+    where?: UserBadgeWhereInput
+    orderBy?: UserBadgeOrderByWithRelationInput | UserBadgeOrderByWithRelationInput[]
+    cursor?: UserBadgeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserBadgeScalarFieldEnum | UserBadgeScalarFieldEnum[]
+  }
+
+  /**
+   * Company.scoreEvents
+   */
+  export type Company$scoreEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreEvent
+     */
+    select?: ScoreEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreEventInclude<ExtArgs> | null
+    where?: ScoreEventWhereInput
+    orderBy?: ScoreEventOrderByWithRelationInput | ScoreEventOrderByWithRelationInput[]
+    cursor?: ScoreEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScoreEventScalarFieldEnum | ScoreEventScalarFieldEnum[]
+  }
+
+  /**
+   * Company.businessHours
+   */
+  export type Company$businessHoursArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursConfig
+     */
+    select?: BusinessHoursConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursConfigInclude<ExtArgs> | null
+    where?: BusinessHoursConfigWhereInput
+    orderBy?: BusinessHoursConfigOrderByWithRelationInput | BusinessHoursConfigOrderByWithRelationInput[]
+    cursor?: BusinessHoursConfigWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BusinessHoursConfigScalarFieldEnum | BusinessHoursConfigScalarFieldEnum[]
   }
 
   /**
@@ -41295,6 +42052,4949 @@ export namespace Prisma {
 
 
   /**
+   * Model BusinessHoursConfig
+   */
+
+  export type AggregateBusinessHoursConfig = {
+    _count: BusinessHoursConfigCountAggregateOutputType | null
+    _avg: BusinessHoursConfigAvgAggregateOutputType | null
+    _sum: BusinessHoursConfigSumAggregateOutputType | null
+    _min: BusinessHoursConfigMinAggregateOutputType | null
+    _max: BusinessHoursConfigMaxAggregateOutputType | null
+  }
+
+  export type BusinessHoursConfigAvgAggregateOutputType = {
+    dayOfWeek: number | null
+  }
+
+  export type BusinessHoursConfigSumAggregateOutputType = {
+    dayOfWeek: number | null
+  }
+
+  export type BusinessHoursConfigMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    dayOfWeek: number | null
+    isOpen: boolean | null
+    openTime: string | null
+    closeTime: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BusinessHoursConfigMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    dayOfWeek: number | null
+    isOpen: boolean | null
+    openTime: string | null
+    closeTime: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BusinessHoursConfigCountAggregateOutputType = {
+    id: number
+    companyId: number
+    dayOfWeek: number
+    isOpen: number
+    openTime: number
+    closeTime: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BusinessHoursConfigAvgAggregateInputType = {
+    dayOfWeek?: true
+  }
+
+  export type BusinessHoursConfigSumAggregateInputType = {
+    dayOfWeek?: true
+  }
+
+  export type BusinessHoursConfigMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    dayOfWeek?: true
+    isOpen?: true
+    openTime?: true
+    closeTime?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BusinessHoursConfigMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    dayOfWeek?: true
+    isOpen?: true
+    openTime?: true
+    closeTime?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BusinessHoursConfigCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    dayOfWeek?: true
+    isOpen?: true
+    openTime?: true
+    closeTime?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BusinessHoursConfigAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BusinessHoursConfig to aggregate.
+     */
+    where?: BusinessHoursConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BusinessHoursConfigs to fetch.
+     */
+    orderBy?: BusinessHoursConfigOrderByWithRelationInput | BusinessHoursConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BusinessHoursConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BusinessHoursConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BusinessHoursConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BusinessHoursConfigs
+    **/
+    _count?: true | BusinessHoursConfigCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BusinessHoursConfigAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BusinessHoursConfigSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BusinessHoursConfigMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BusinessHoursConfigMaxAggregateInputType
+  }
+
+  export type GetBusinessHoursConfigAggregateType<T extends BusinessHoursConfigAggregateArgs> = {
+        [P in keyof T & keyof AggregateBusinessHoursConfig]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBusinessHoursConfig[P]>
+      : GetScalarType<T[P], AggregateBusinessHoursConfig[P]>
+  }
+
+
+
+
+  export type BusinessHoursConfigGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BusinessHoursConfigWhereInput
+    orderBy?: BusinessHoursConfigOrderByWithAggregationInput | BusinessHoursConfigOrderByWithAggregationInput[]
+    by: BusinessHoursConfigScalarFieldEnum[] | BusinessHoursConfigScalarFieldEnum
+    having?: BusinessHoursConfigScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BusinessHoursConfigCountAggregateInputType | true
+    _avg?: BusinessHoursConfigAvgAggregateInputType
+    _sum?: BusinessHoursConfigSumAggregateInputType
+    _min?: BusinessHoursConfigMinAggregateInputType
+    _max?: BusinessHoursConfigMaxAggregateInputType
+  }
+
+  export type BusinessHoursConfigGroupByOutputType = {
+    id: string
+    companyId: string
+    dayOfWeek: number
+    isOpen: boolean
+    openTime: string
+    closeTime: string
+    createdAt: Date
+    updatedAt: Date
+    _count: BusinessHoursConfigCountAggregateOutputType | null
+    _avg: BusinessHoursConfigAvgAggregateOutputType | null
+    _sum: BusinessHoursConfigSumAggregateOutputType | null
+    _min: BusinessHoursConfigMinAggregateOutputType | null
+    _max: BusinessHoursConfigMaxAggregateOutputType | null
+  }
+
+  type GetBusinessHoursConfigGroupByPayload<T extends BusinessHoursConfigGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BusinessHoursConfigGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BusinessHoursConfigGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BusinessHoursConfigGroupByOutputType[P]>
+            : GetScalarType<T[P], BusinessHoursConfigGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BusinessHoursConfigSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    dayOfWeek?: boolean
+    isOpen?: boolean
+    openTime?: boolean
+    closeTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    intervals?: boolean | BusinessHoursConfig$intervalsArgs<ExtArgs>
+    _count?: boolean | BusinessHoursConfigCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["businessHoursConfig"]>
+
+  export type BusinessHoursConfigSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    dayOfWeek?: boolean
+    isOpen?: boolean
+    openTime?: boolean
+    closeTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["businessHoursConfig"]>
+
+  export type BusinessHoursConfigSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    dayOfWeek?: boolean
+    isOpen?: boolean
+    openTime?: boolean
+    closeTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BusinessHoursConfigInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    intervals?: boolean | BusinessHoursConfig$intervalsArgs<ExtArgs>
+    _count?: boolean | BusinessHoursConfigCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type BusinessHoursConfigIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $BusinessHoursConfigPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BusinessHoursConfig"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      intervals: Prisma.$BusinessHoursIntervalPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      dayOfWeek: number
+      isOpen: boolean
+      openTime: string
+      closeTime: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["businessHoursConfig"]>
+    composites: {}
+  }
+
+  type BusinessHoursConfigGetPayload<S extends boolean | null | undefined | BusinessHoursConfigDefaultArgs> = $Result.GetResult<Prisma.$BusinessHoursConfigPayload, S>
+
+  type BusinessHoursConfigCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<BusinessHoursConfigFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: BusinessHoursConfigCountAggregateInputType | true
+    }
+
+  export interface BusinessHoursConfigDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BusinessHoursConfig'], meta: { name: 'BusinessHoursConfig' } }
+    /**
+     * Find zero or one BusinessHoursConfig that matches the filter.
+     * @param {BusinessHoursConfigFindUniqueArgs} args - Arguments to find a BusinessHoursConfig
+     * @example
+     * // Get one BusinessHoursConfig
+     * const businessHoursConfig = await prisma.businessHoursConfig.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BusinessHoursConfigFindUniqueArgs>(args: SelectSubset<T, BusinessHoursConfigFindUniqueArgs<ExtArgs>>): Prisma__BusinessHoursConfigClient<$Result.GetResult<Prisma.$BusinessHoursConfigPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one BusinessHoursConfig that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {BusinessHoursConfigFindUniqueOrThrowArgs} args - Arguments to find a BusinessHoursConfig
+     * @example
+     * // Get one BusinessHoursConfig
+     * const businessHoursConfig = await prisma.businessHoursConfig.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BusinessHoursConfigFindUniqueOrThrowArgs>(args: SelectSubset<T, BusinessHoursConfigFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BusinessHoursConfigClient<$Result.GetResult<Prisma.$BusinessHoursConfigPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first BusinessHoursConfig that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursConfigFindFirstArgs} args - Arguments to find a BusinessHoursConfig
+     * @example
+     * // Get one BusinessHoursConfig
+     * const businessHoursConfig = await prisma.businessHoursConfig.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BusinessHoursConfigFindFirstArgs>(args?: SelectSubset<T, BusinessHoursConfigFindFirstArgs<ExtArgs>>): Prisma__BusinessHoursConfigClient<$Result.GetResult<Prisma.$BusinessHoursConfigPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first BusinessHoursConfig that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursConfigFindFirstOrThrowArgs} args - Arguments to find a BusinessHoursConfig
+     * @example
+     * // Get one BusinessHoursConfig
+     * const businessHoursConfig = await prisma.businessHoursConfig.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BusinessHoursConfigFindFirstOrThrowArgs>(args?: SelectSubset<T, BusinessHoursConfigFindFirstOrThrowArgs<ExtArgs>>): Prisma__BusinessHoursConfigClient<$Result.GetResult<Prisma.$BusinessHoursConfigPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more BusinessHoursConfigs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursConfigFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BusinessHoursConfigs
+     * const businessHoursConfigs = await prisma.businessHoursConfig.findMany()
+     * 
+     * // Get first 10 BusinessHoursConfigs
+     * const businessHoursConfigs = await prisma.businessHoursConfig.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const businessHoursConfigWithIdOnly = await prisma.businessHoursConfig.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BusinessHoursConfigFindManyArgs>(args?: SelectSubset<T, BusinessHoursConfigFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BusinessHoursConfigPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a BusinessHoursConfig.
+     * @param {BusinessHoursConfigCreateArgs} args - Arguments to create a BusinessHoursConfig.
+     * @example
+     * // Create one BusinessHoursConfig
+     * const BusinessHoursConfig = await prisma.businessHoursConfig.create({
+     *   data: {
+     *     // ... data to create a BusinessHoursConfig
+     *   }
+     * })
+     * 
+     */
+    create<T extends BusinessHoursConfigCreateArgs>(args: SelectSubset<T, BusinessHoursConfigCreateArgs<ExtArgs>>): Prisma__BusinessHoursConfigClient<$Result.GetResult<Prisma.$BusinessHoursConfigPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many BusinessHoursConfigs.
+     * @param {BusinessHoursConfigCreateManyArgs} args - Arguments to create many BusinessHoursConfigs.
+     * @example
+     * // Create many BusinessHoursConfigs
+     * const businessHoursConfig = await prisma.businessHoursConfig.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BusinessHoursConfigCreateManyArgs>(args?: SelectSubset<T, BusinessHoursConfigCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BusinessHoursConfigs and returns the data saved in the database.
+     * @param {BusinessHoursConfigCreateManyAndReturnArgs} args - Arguments to create many BusinessHoursConfigs.
+     * @example
+     * // Create many BusinessHoursConfigs
+     * const businessHoursConfig = await prisma.businessHoursConfig.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BusinessHoursConfigs and only return the `id`
+     * const businessHoursConfigWithIdOnly = await prisma.businessHoursConfig.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BusinessHoursConfigCreateManyAndReturnArgs>(args?: SelectSubset<T, BusinessHoursConfigCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BusinessHoursConfigPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a BusinessHoursConfig.
+     * @param {BusinessHoursConfigDeleteArgs} args - Arguments to delete one BusinessHoursConfig.
+     * @example
+     * // Delete one BusinessHoursConfig
+     * const BusinessHoursConfig = await prisma.businessHoursConfig.delete({
+     *   where: {
+     *     // ... filter to delete one BusinessHoursConfig
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BusinessHoursConfigDeleteArgs>(args: SelectSubset<T, BusinessHoursConfigDeleteArgs<ExtArgs>>): Prisma__BusinessHoursConfigClient<$Result.GetResult<Prisma.$BusinessHoursConfigPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one BusinessHoursConfig.
+     * @param {BusinessHoursConfigUpdateArgs} args - Arguments to update one BusinessHoursConfig.
+     * @example
+     * // Update one BusinessHoursConfig
+     * const businessHoursConfig = await prisma.businessHoursConfig.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BusinessHoursConfigUpdateArgs>(args: SelectSubset<T, BusinessHoursConfigUpdateArgs<ExtArgs>>): Prisma__BusinessHoursConfigClient<$Result.GetResult<Prisma.$BusinessHoursConfigPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more BusinessHoursConfigs.
+     * @param {BusinessHoursConfigDeleteManyArgs} args - Arguments to filter BusinessHoursConfigs to delete.
+     * @example
+     * // Delete a few BusinessHoursConfigs
+     * const { count } = await prisma.businessHoursConfig.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BusinessHoursConfigDeleteManyArgs>(args?: SelectSubset<T, BusinessHoursConfigDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BusinessHoursConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursConfigUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BusinessHoursConfigs
+     * const businessHoursConfig = await prisma.businessHoursConfig.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BusinessHoursConfigUpdateManyArgs>(args: SelectSubset<T, BusinessHoursConfigUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one BusinessHoursConfig.
+     * @param {BusinessHoursConfigUpsertArgs} args - Arguments to update or create a BusinessHoursConfig.
+     * @example
+     * // Update or create a BusinessHoursConfig
+     * const businessHoursConfig = await prisma.businessHoursConfig.upsert({
+     *   create: {
+     *     // ... data to create a BusinessHoursConfig
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BusinessHoursConfig we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BusinessHoursConfigUpsertArgs>(args: SelectSubset<T, BusinessHoursConfigUpsertArgs<ExtArgs>>): Prisma__BusinessHoursConfigClient<$Result.GetResult<Prisma.$BusinessHoursConfigPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of BusinessHoursConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursConfigCountArgs} args - Arguments to filter BusinessHoursConfigs to count.
+     * @example
+     * // Count the number of BusinessHoursConfigs
+     * const count = await prisma.businessHoursConfig.count({
+     *   where: {
+     *     // ... the filter for the BusinessHoursConfigs we want to count
+     *   }
+     * })
+    **/
+    count<T extends BusinessHoursConfigCountArgs>(
+      args?: Subset<T, BusinessHoursConfigCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BusinessHoursConfigCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BusinessHoursConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursConfigAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BusinessHoursConfigAggregateArgs>(args: Subset<T, BusinessHoursConfigAggregateArgs>): Prisma.PrismaPromise<GetBusinessHoursConfigAggregateType<T>>
+
+    /**
+     * Group by BusinessHoursConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursConfigGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BusinessHoursConfigGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BusinessHoursConfigGroupByArgs['orderBy'] }
+        : { orderBy?: BusinessHoursConfigGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BusinessHoursConfigGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBusinessHoursConfigGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BusinessHoursConfig model
+   */
+  readonly fields: BusinessHoursConfigFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BusinessHoursConfig.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BusinessHoursConfigClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    intervals<T extends BusinessHoursConfig$intervalsArgs<ExtArgs> = {}>(args?: Subset<T, BusinessHoursConfig$intervalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BusinessHoursIntervalPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BusinessHoursConfig model
+   */ 
+  interface BusinessHoursConfigFieldRefs {
+    readonly id: FieldRef<"BusinessHoursConfig", 'String'>
+    readonly companyId: FieldRef<"BusinessHoursConfig", 'String'>
+    readonly dayOfWeek: FieldRef<"BusinessHoursConfig", 'Int'>
+    readonly isOpen: FieldRef<"BusinessHoursConfig", 'Boolean'>
+    readonly openTime: FieldRef<"BusinessHoursConfig", 'String'>
+    readonly closeTime: FieldRef<"BusinessHoursConfig", 'String'>
+    readonly createdAt: FieldRef<"BusinessHoursConfig", 'DateTime'>
+    readonly updatedAt: FieldRef<"BusinessHoursConfig", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BusinessHoursConfig findUnique
+   */
+  export type BusinessHoursConfigFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursConfig
+     */
+    select?: BusinessHoursConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which BusinessHoursConfig to fetch.
+     */
+    where: BusinessHoursConfigWhereUniqueInput
+  }
+
+  /**
+   * BusinessHoursConfig findUniqueOrThrow
+   */
+  export type BusinessHoursConfigFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursConfig
+     */
+    select?: BusinessHoursConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which BusinessHoursConfig to fetch.
+     */
+    where: BusinessHoursConfigWhereUniqueInput
+  }
+
+  /**
+   * BusinessHoursConfig findFirst
+   */
+  export type BusinessHoursConfigFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursConfig
+     */
+    select?: BusinessHoursConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which BusinessHoursConfig to fetch.
+     */
+    where?: BusinessHoursConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BusinessHoursConfigs to fetch.
+     */
+    orderBy?: BusinessHoursConfigOrderByWithRelationInput | BusinessHoursConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BusinessHoursConfigs.
+     */
+    cursor?: BusinessHoursConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BusinessHoursConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BusinessHoursConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BusinessHoursConfigs.
+     */
+    distinct?: BusinessHoursConfigScalarFieldEnum | BusinessHoursConfigScalarFieldEnum[]
+  }
+
+  /**
+   * BusinessHoursConfig findFirstOrThrow
+   */
+  export type BusinessHoursConfigFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursConfig
+     */
+    select?: BusinessHoursConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which BusinessHoursConfig to fetch.
+     */
+    where?: BusinessHoursConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BusinessHoursConfigs to fetch.
+     */
+    orderBy?: BusinessHoursConfigOrderByWithRelationInput | BusinessHoursConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BusinessHoursConfigs.
+     */
+    cursor?: BusinessHoursConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BusinessHoursConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BusinessHoursConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BusinessHoursConfigs.
+     */
+    distinct?: BusinessHoursConfigScalarFieldEnum | BusinessHoursConfigScalarFieldEnum[]
+  }
+
+  /**
+   * BusinessHoursConfig findMany
+   */
+  export type BusinessHoursConfigFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursConfig
+     */
+    select?: BusinessHoursConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which BusinessHoursConfigs to fetch.
+     */
+    where?: BusinessHoursConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BusinessHoursConfigs to fetch.
+     */
+    orderBy?: BusinessHoursConfigOrderByWithRelationInput | BusinessHoursConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BusinessHoursConfigs.
+     */
+    cursor?: BusinessHoursConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BusinessHoursConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BusinessHoursConfigs.
+     */
+    skip?: number
+    distinct?: BusinessHoursConfigScalarFieldEnum | BusinessHoursConfigScalarFieldEnum[]
+  }
+
+  /**
+   * BusinessHoursConfig create
+   */
+  export type BusinessHoursConfigCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursConfig
+     */
+    select?: BusinessHoursConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursConfigInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BusinessHoursConfig.
+     */
+    data: XOR<BusinessHoursConfigCreateInput, BusinessHoursConfigUncheckedCreateInput>
+  }
+
+  /**
+   * BusinessHoursConfig createMany
+   */
+  export type BusinessHoursConfigCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BusinessHoursConfigs.
+     */
+    data: BusinessHoursConfigCreateManyInput | BusinessHoursConfigCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BusinessHoursConfig createManyAndReturn
+   */
+  export type BusinessHoursConfigCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursConfig
+     */
+    select?: BusinessHoursConfigSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many BusinessHoursConfigs.
+     */
+    data: BusinessHoursConfigCreateManyInput | BusinessHoursConfigCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursConfigIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BusinessHoursConfig update
+   */
+  export type BusinessHoursConfigUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursConfig
+     */
+    select?: BusinessHoursConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursConfigInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BusinessHoursConfig.
+     */
+    data: XOR<BusinessHoursConfigUpdateInput, BusinessHoursConfigUncheckedUpdateInput>
+    /**
+     * Choose, which BusinessHoursConfig to update.
+     */
+    where: BusinessHoursConfigWhereUniqueInput
+  }
+
+  /**
+   * BusinessHoursConfig updateMany
+   */
+  export type BusinessHoursConfigUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BusinessHoursConfigs.
+     */
+    data: XOR<BusinessHoursConfigUpdateManyMutationInput, BusinessHoursConfigUncheckedUpdateManyInput>
+    /**
+     * Filter which BusinessHoursConfigs to update
+     */
+    where?: BusinessHoursConfigWhereInput
+  }
+
+  /**
+   * BusinessHoursConfig upsert
+   */
+  export type BusinessHoursConfigUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursConfig
+     */
+    select?: BusinessHoursConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursConfigInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BusinessHoursConfig to update in case it exists.
+     */
+    where: BusinessHoursConfigWhereUniqueInput
+    /**
+     * In case the BusinessHoursConfig found by the `where` argument doesn't exist, create a new BusinessHoursConfig with this data.
+     */
+    create: XOR<BusinessHoursConfigCreateInput, BusinessHoursConfigUncheckedCreateInput>
+    /**
+     * In case the BusinessHoursConfig was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BusinessHoursConfigUpdateInput, BusinessHoursConfigUncheckedUpdateInput>
+  }
+
+  /**
+   * BusinessHoursConfig delete
+   */
+  export type BusinessHoursConfigDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursConfig
+     */
+    select?: BusinessHoursConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursConfigInclude<ExtArgs> | null
+    /**
+     * Filter which BusinessHoursConfig to delete.
+     */
+    where: BusinessHoursConfigWhereUniqueInput
+  }
+
+  /**
+   * BusinessHoursConfig deleteMany
+   */
+  export type BusinessHoursConfigDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BusinessHoursConfigs to delete
+     */
+    where?: BusinessHoursConfigWhereInput
+  }
+
+  /**
+   * BusinessHoursConfig.intervals
+   */
+  export type BusinessHoursConfig$intervalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursInterval
+     */
+    select?: BusinessHoursIntervalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursIntervalInclude<ExtArgs> | null
+    where?: BusinessHoursIntervalWhereInput
+    orderBy?: BusinessHoursIntervalOrderByWithRelationInput | BusinessHoursIntervalOrderByWithRelationInput[]
+    cursor?: BusinessHoursIntervalWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BusinessHoursIntervalScalarFieldEnum | BusinessHoursIntervalScalarFieldEnum[]
+  }
+
+  /**
+   * BusinessHoursConfig without action
+   */
+  export type BusinessHoursConfigDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursConfig
+     */
+    select?: BusinessHoursConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursConfigInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BusinessHoursInterval
+   */
+
+  export type AggregateBusinessHoursInterval = {
+    _count: BusinessHoursIntervalCountAggregateOutputType | null
+    _min: BusinessHoursIntervalMinAggregateOutputType | null
+    _max: BusinessHoursIntervalMaxAggregateOutputType | null
+  }
+
+  export type BusinessHoursIntervalMinAggregateOutputType = {
+    id: string | null
+    configId: string | null
+    startTime: string | null
+    endTime: string | null
+    label: string | null
+  }
+
+  export type BusinessHoursIntervalMaxAggregateOutputType = {
+    id: string | null
+    configId: string | null
+    startTime: string | null
+    endTime: string | null
+    label: string | null
+  }
+
+  export type BusinessHoursIntervalCountAggregateOutputType = {
+    id: number
+    configId: number
+    startTime: number
+    endTime: number
+    label: number
+    _all: number
+  }
+
+
+  export type BusinessHoursIntervalMinAggregateInputType = {
+    id?: true
+    configId?: true
+    startTime?: true
+    endTime?: true
+    label?: true
+  }
+
+  export type BusinessHoursIntervalMaxAggregateInputType = {
+    id?: true
+    configId?: true
+    startTime?: true
+    endTime?: true
+    label?: true
+  }
+
+  export type BusinessHoursIntervalCountAggregateInputType = {
+    id?: true
+    configId?: true
+    startTime?: true
+    endTime?: true
+    label?: true
+    _all?: true
+  }
+
+  export type BusinessHoursIntervalAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BusinessHoursInterval to aggregate.
+     */
+    where?: BusinessHoursIntervalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BusinessHoursIntervals to fetch.
+     */
+    orderBy?: BusinessHoursIntervalOrderByWithRelationInput | BusinessHoursIntervalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BusinessHoursIntervalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BusinessHoursIntervals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BusinessHoursIntervals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BusinessHoursIntervals
+    **/
+    _count?: true | BusinessHoursIntervalCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BusinessHoursIntervalMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BusinessHoursIntervalMaxAggregateInputType
+  }
+
+  export type GetBusinessHoursIntervalAggregateType<T extends BusinessHoursIntervalAggregateArgs> = {
+        [P in keyof T & keyof AggregateBusinessHoursInterval]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBusinessHoursInterval[P]>
+      : GetScalarType<T[P], AggregateBusinessHoursInterval[P]>
+  }
+
+
+
+
+  export type BusinessHoursIntervalGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BusinessHoursIntervalWhereInput
+    orderBy?: BusinessHoursIntervalOrderByWithAggregationInput | BusinessHoursIntervalOrderByWithAggregationInput[]
+    by: BusinessHoursIntervalScalarFieldEnum[] | BusinessHoursIntervalScalarFieldEnum
+    having?: BusinessHoursIntervalScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BusinessHoursIntervalCountAggregateInputType | true
+    _min?: BusinessHoursIntervalMinAggregateInputType
+    _max?: BusinessHoursIntervalMaxAggregateInputType
+  }
+
+  export type BusinessHoursIntervalGroupByOutputType = {
+    id: string
+    configId: string
+    startTime: string
+    endTime: string
+    label: string | null
+    _count: BusinessHoursIntervalCountAggregateOutputType | null
+    _min: BusinessHoursIntervalMinAggregateOutputType | null
+    _max: BusinessHoursIntervalMaxAggregateOutputType | null
+  }
+
+  type GetBusinessHoursIntervalGroupByPayload<T extends BusinessHoursIntervalGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BusinessHoursIntervalGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BusinessHoursIntervalGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BusinessHoursIntervalGroupByOutputType[P]>
+            : GetScalarType<T[P], BusinessHoursIntervalGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BusinessHoursIntervalSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    configId?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    label?: boolean
+    config?: boolean | BusinessHoursConfigDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["businessHoursInterval"]>
+
+  export type BusinessHoursIntervalSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    configId?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    label?: boolean
+    config?: boolean | BusinessHoursConfigDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["businessHoursInterval"]>
+
+  export type BusinessHoursIntervalSelectScalar = {
+    id?: boolean
+    configId?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    label?: boolean
+  }
+
+  export type BusinessHoursIntervalInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    config?: boolean | BusinessHoursConfigDefaultArgs<ExtArgs>
+  }
+  export type BusinessHoursIntervalIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    config?: boolean | BusinessHoursConfigDefaultArgs<ExtArgs>
+  }
+
+  export type $BusinessHoursIntervalPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BusinessHoursInterval"
+    objects: {
+      config: Prisma.$BusinessHoursConfigPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      configId: string
+      startTime: string
+      endTime: string
+      label: string | null
+    }, ExtArgs["result"]["businessHoursInterval"]>
+    composites: {}
+  }
+
+  type BusinessHoursIntervalGetPayload<S extends boolean | null | undefined | BusinessHoursIntervalDefaultArgs> = $Result.GetResult<Prisma.$BusinessHoursIntervalPayload, S>
+
+  type BusinessHoursIntervalCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<BusinessHoursIntervalFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: BusinessHoursIntervalCountAggregateInputType | true
+    }
+
+  export interface BusinessHoursIntervalDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BusinessHoursInterval'], meta: { name: 'BusinessHoursInterval' } }
+    /**
+     * Find zero or one BusinessHoursInterval that matches the filter.
+     * @param {BusinessHoursIntervalFindUniqueArgs} args - Arguments to find a BusinessHoursInterval
+     * @example
+     * // Get one BusinessHoursInterval
+     * const businessHoursInterval = await prisma.businessHoursInterval.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BusinessHoursIntervalFindUniqueArgs>(args: SelectSubset<T, BusinessHoursIntervalFindUniqueArgs<ExtArgs>>): Prisma__BusinessHoursIntervalClient<$Result.GetResult<Prisma.$BusinessHoursIntervalPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one BusinessHoursInterval that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {BusinessHoursIntervalFindUniqueOrThrowArgs} args - Arguments to find a BusinessHoursInterval
+     * @example
+     * // Get one BusinessHoursInterval
+     * const businessHoursInterval = await prisma.businessHoursInterval.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BusinessHoursIntervalFindUniqueOrThrowArgs>(args: SelectSubset<T, BusinessHoursIntervalFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BusinessHoursIntervalClient<$Result.GetResult<Prisma.$BusinessHoursIntervalPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first BusinessHoursInterval that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursIntervalFindFirstArgs} args - Arguments to find a BusinessHoursInterval
+     * @example
+     * // Get one BusinessHoursInterval
+     * const businessHoursInterval = await prisma.businessHoursInterval.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BusinessHoursIntervalFindFirstArgs>(args?: SelectSubset<T, BusinessHoursIntervalFindFirstArgs<ExtArgs>>): Prisma__BusinessHoursIntervalClient<$Result.GetResult<Prisma.$BusinessHoursIntervalPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first BusinessHoursInterval that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursIntervalFindFirstOrThrowArgs} args - Arguments to find a BusinessHoursInterval
+     * @example
+     * // Get one BusinessHoursInterval
+     * const businessHoursInterval = await prisma.businessHoursInterval.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BusinessHoursIntervalFindFirstOrThrowArgs>(args?: SelectSubset<T, BusinessHoursIntervalFindFirstOrThrowArgs<ExtArgs>>): Prisma__BusinessHoursIntervalClient<$Result.GetResult<Prisma.$BusinessHoursIntervalPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more BusinessHoursIntervals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursIntervalFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BusinessHoursIntervals
+     * const businessHoursIntervals = await prisma.businessHoursInterval.findMany()
+     * 
+     * // Get first 10 BusinessHoursIntervals
+     * const businessHoursIntervals = await prisma.businessHoursInterval.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const businessHoursIntervalWithIdOnly = await prisma.businessHoursInterval.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BusinessHoursIntervalFindManyArgs>(args?: SelectSubset<T, BusinessHoursIntervalFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BusinessHoursIntervalPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a BusinessHoursInterval.
+     * @param {BusinessHoursIntervalCreateArgs} args - Arguments to create a BusinessHoursInterval.
+     * @example
+     * // Create one BusinessHoursInterval
+     * const BusinessHoursInterval = await prisma.businessHoursInterval.create({
+     *   data: {
+     *     // ... data to create a BusinessHoursInterval
+     *   }
+     * })
+     * 
+     */
+    create<T extends BusinessHoursIntervalCreateArgs>(args: SelectSubset<T, BusinessHoursIntervalCreateArgs<ExtArgs>>): Prisma__BusinessHoursIntervalClient<$Result.GetResult<Prisma.$BusinessHoursIntervalPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many BusinessHoursIntervals.
+     * @param {BusinessHoursIntervalCreateManyArgs} args - Arguments to create many BusinessHoursIntervals.
+     * @example
+     * // Create many BusinessHoursIntervals
+     * const businessHoursInterval = await prisma.businessHoursInterval.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BusinessHoursIntervalCreateManyArgs>(args?: SelectSubset<T, BusinessHoursIntervalCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BusinessHoursIntervals and returns the data saved in the database.
+     * @param {BusinessHoursIntervalCreateManyAndReturnArgs} args - Arguments to create many BusinessHoursIntervals.
+     * @example
+     * // Create many BusinessHoursIntervals
+     * const businessHoursInterval = await prisma.businessHoursInterval.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BusinessHoursIntervals and only return the `id`
+     * const businessHoursIntervalWithIdOnly = await prisma.businessHoursInterval.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BusinessHoursIntervalCreateManyAndReturnArgs>(args?: SelectSubset<T, BusinessHoursIntervalCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BusinessHoursIntervalPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a BusinessHoursInterval.
+     * @param {BusinessHoursIntervalDeleteArgs} args - Arguments to delete one BusinessHoursInterval.
+     * @example
+     * // Delete one BusinessHoursInterval
+     * const BusinessHoursInterval = await prisma.businessHoursInterval.delete({
+     *   where: {
+     *     // ... filter to delete one BusinessHoursInterval
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BusinessHoursIntervalDeleteArgs>(args: SelectSubset<T, BusinessHoursIntervalDeleteArgs<ExtArgs>>): Prisma__BusinessHoursIntervalClient<$Result.GetResult<Prisma.$BusinessHoursIntervalPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one BusinessHoursInterval.
+     * @param {BusinessHoursIntervalUpdateArgs} args - Arguments to update one BusinessHoursInterval.
+     * @example
+     * // Update one BusinessHoursInterval
+     * const businessHoursInterval = await prisma.businessHoursInterval.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BusinessHoursIntervalUpdateArgs>(args: SelectSubset<T, BusinessHoursIntervalUpdateArgs<ExtArgs>>): Prisma__BusinessHoursIntervalClient<$Result.GetResult<Prisma.$BusinessHoursIntervalPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more BusinessHoursIntervals.
+     * @param {BusinessHoursIntervalDeleteManyArgs} args - Arguments to filter BusinessHoursIntervals to delete.
+     * @example
+     * // Delete a few BusinessHoursIntervals
+     * const { count } = await prisma.businessHoursInterval.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BusinessHoursIntervalDeleteManyArgs>(args?: SelectSubset<T, BusinessHoursIntervalDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BusinessHoursIntervals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursIntervalUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BusinessHoursIntervals
+     * const businessHoursInterval = await prisma.businessHoursInterval.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BusinessHoursIntervalUpdateManyArgs>(args: SelectSubset<T, BusinessHoursIntervalUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one BusinessHoursInterval.
+     * @param {BusinessHoursIntervalUpsertArgs} args - Arguments to update or create a BusinessHoursInterval.
+     * @example
+     * // Update or create a BusinessHoursInterval
+     * const businessHoursInterval = await prisma.businessHoursInterval.upsert({
+     *   create: {
+     *     // ... data to create a BusinessHoursInterval
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BusinessHoursInterval we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BusinessHoursIntervalUpsertArgs>(args: SelectSubset<T, BusinessHoursIntervalUpsertArgs<ExtArgs>>): Prisma__BusinessHoursIntervalClient<$Result.GetResult<Prisma.$BusinessHoursIntervalPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of BusinessHoursIntervals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursIntervalCountArgs} args - Arguments to filter BusinessHoursIntervals to count.
+     * @example
+     * // Count the number of BusinessHoursIntervals
+     * const count = await prisma.businessHoursInterval.count({
+     *   where: {
+     *     // ... the filter for the BusinessHoursIntervals we want to count
+     *   }
+     * })
+    **/
+    count<T extends BusinessHoursIntervalCountArgs>(
+      args?: Subset<T, BusinessHoursIntervalCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BusinessHoursIntervalCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BusinessHoursInterval.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursIntervalAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BusinessHoursIntervalAggregateArgs>(args: Subset<T, BusinessHoursIntervalAggregateArgs>): Prisma.PrismaPromise<GetBusinessHoursIntervalAggregateType<T>>
+
+    /**
+     * Group by BusinessHoursInterval.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursIntervalGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BusinessHoursIntervalGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BusinessHoursIntervalGroupByArgs['orderBy'] }
+        : { orderBy?: BusinessHoursIntervalGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BusinessHoursIntervalGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBusinessHoursIntervalGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BusinessHoursInterval model
+   */
+  readonly fields: BusinessHoursIntervalFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BusinessHoursInterval.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BusinessHoursIntervalClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    config<T extends BusinessHoursConfigDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BusinessHoursConfigDefaultArgs<ExtArgs>>): Prisma__BusinessHoursConfigClient<$Result.GetResult<Prisma.$BusinessHoursConfigPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BusinessHoursInterval model
+   */ 
+  interface BusinessHoursIntervalFieldRefs {
+    readonly id: FieldRef<"BusinessHoursInterval", 'String'>
+    readonly configId: FieldRef<"BusinessHoursInterval", 'String'>
+    readonly startTime: FieldRef<"BusinessHoursInterval", 'String'>
+    readonly endTime: FieldRef<"BusinessHoursInterval", 'String'>
+    readonly label: FieldRef<"BusinessHoursInterval", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BusinessHoursInterval findUnique
+   */
+  export type BusinessHoursIntervalFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursInterval
+     */
+    select?: BusinessHoursIntervalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursIntervalInclude<ExtArgs> | null
+    /**
+     * Filter, which BusinessHoursInterval to fetch.
+     */
+    where: BusinessHoursIntervalWhereUniqueInput
+  }
+
+  /**
+   * BusinessHoursInterval findUniqueOrThrow
+   */
+  export type BusinessHoursIntervalFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursInterval
+     */
+    select?: BusinessHoursIntervalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursIntervalInclude<ExtArgs> | null
+    /**
+     * Filter, which BusinessHoursInterval to fetch.
+     */
+    where: BusinessHoursIntervalWhereUniqueInput
+  }
+
+  /**
+   * BusinessHoursInterval findFirst
+   */
+  export type BusinessHoursIntervalFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursInterval
+     */
+    select?: BusinessHoursIntervalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursIntervalInclude<ExtArgs> | null
+    /**
+     * Filter, which BusinessHoursInterval to fetch.
+     */
+    where?: BusinessHoursIntervalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BusinessHoursIntervals to fetch.
+     */
+    orderBy?: BusinessHoursIntervalOrderByWithRelationInput | BusinessHoursIntervalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BusinessHoursIntervals.
+     */
+    cursor?: BusinessHoursIntervalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BusinessHoursIntervals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BusinessHoursIntervals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BusinessHoursIntervals.
+     */
+    distinct?: BusinessHoursIntervalScalarFieldEnum | BusinessHoursIntervalScalarFieldEnum[]
+  }
+
+  /**
+   * BusinessHoursInterval findFirstOrThrow
+   */
+  export type BusinessHoursIntervalFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursInterval
+     */
+    select?: BusinessHoursIntervalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursIntervalInclude<ExtArgs> | null
+    /**
+     * Filter, which BusinessHoursInterval to fetch.
+     */
+    where?: BusinessHoursIntervalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BusinessHoursIntervals to fetch.
+     */
+    orderBy?: BusinessHoursIntervalOrderByWithRelationInput | BusinessHoursIntervalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BusinessHoursIntervals.
+     */
+    cursor?: BusinessHoursIntervalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BusinessHoursIntervals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BusinessHoursIntervals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BusinessHoursIntervals.
+     */
+    distinct?: BusinessHoursIntervalScalarFieldEnum | BusinessHoursIntervalScalarFieldEnum[]
+  }
+
+  /**
+   * BusinessHoursInterval findMany
+   */
+  export type BusinessHoursIntervalFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursInterval
+     */
+    select?: BusinessHoursIntervalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursIntervalInclude<ExtArgs> | null
+    /**
+     * Filter, which BusinessHoursIntervals to fetch.
+     */
+    where?: BusinessHoursIntervalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BusinessHoursIntervals to fetch.
+     */
+    orderBy?: BusinessHoursIntervalOrderByWithRelationInput | BusinessHoursIntervalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BusinessHoursIntervals.
+     */
+    cursor?: BusinessHoursIntervalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BusinessHoursIntervals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BusinessHoursIntervals.
+     */
+    skip?: number
+    distinct?: BusinessHoursIntervalScalarFieldEnum | BusinessHoursIntervalScalarFieldEnum[]
+  }
+
+  /**
+   * BusinessHoursInterval create
+   */
+  export type BusinessHoursIntervalCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursInterval
+     */
+    select?: BusinessHoursIntervalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursIntervalInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BusinessHoursInterval.
+     */
+    data: XOR<BusinessHoursIntervalCreateInput, BusinessHoursIntervalUncheckedCreateInput>
+  }
+
+  /**
+   * BusinessHoursInterval createMany
+   */
+  export type BusinessHoursIntervalCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BusinessHoursIntervals.
+     */
+    data: BusinessHoursIntervalCreateManyInput | BusinessHoursIntervalCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BusinessHoursInterval createManyAndReturn
+   */
+  export type BusinessHoursIntervalCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursInterval
+     */
+    select?: BusinessHoursIntervalSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many BusinessHoursIntervals.
+     */
+    data: BusinessHoursIntervalCreateManyInput | BusinessHoursIntervalCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursIntervalIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BusinessHoursInterval update
+   */
+  export type BusinessHoursIntervalUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursInterval
+     */
+    select?: BusinessHoursIntervalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursIntervalInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BusinessHoursInterval.
+     */
+    data: XOR<BusinessHoursIntervalUpdateInput, BusinessHoursIntervalUncheckedUpdateInput>
+    /**
+     * Choose, which BusinessHoursInterval to update.
+     */
+    where: BusinessHoursIntervalWhereUniqueInput
+  }
+
+  /**
+   * BusinessHoursInterval updateMany
+   */
+  export type BusinessHoursIntervalUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BusinessHoursIntervals.
+     */
+    data: XOR<BusinessHoursIntervalUpdateManyMutationInput, BusinessHoursIntervalUncheckedUpdateManyInput>
+    /**
+     * Filter which BusinessHoursIntervals to update
+     */
+    where?: BusinessHoursIntervalWhereInput
+  }
+
+  /**
+   * BusinessHoursInterval upsert
+   */
+  export type BusinessHoursIntervalUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursInterval
+     */
+    select?: BusinessHoursIntervalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursIntervalInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BusinessHoursInterval to update in case it exists.
+     */
+    where: BusinessHoursIntervalWhereUniqueInput
+    /**
+     * In case the BusinessHoursInterval found by the `where` argument doesn't exist, create a new BusinessHoursInterval with this data.
+     */
+    create: XOR<BusinessHoursIntervalCreateInput, BusinessHoursIntervalUncheckedCreateInput>
+    /**
+     * In case the BusinessHoursInterval was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BusinessHoursIntervalUpdateInput, BusinessHoursIntervalUncheckedUpdateInput>
+  }
+
+  /**
+   * BusinessHoursInterval delete
+   */
+  export type BusinessHoursIntervalDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursInterval
+     */
+    select?: BusinessHoursIntervalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursIntervalInclude<ExtArgs> | null
+    /**
+     * Filter which BusinessHoursInterval to delete.
+     */
+    where: BusinessHoursIntervalWhereUniqueInput
+  }
+
+  /**
+   * BusinessHoursInterval deleteMany
+   */
+  export type BusinessHoursIntervalDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BusinessHoursIntervals to delete
+     */
+    where?: BusinessHoursIntervalWhereInput
+  }
+
+  /**
+   * BusinessHoursInterval without action
+   */
+  export type BusinessHoursIntervalDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHoursInterval
+     */
+    select?: BusinessHoursIntervalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessHoursIntervalInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserScore
+   */
+
+  export type AggregateUserScore = {
+    _count: UserScoreCountAggregateOutputType | null
+    _avg: UserScoreAvgAggregateOutputType | null
+    _sum: UserScoreSumAggregateOutputType | null
+    _min: UserScoreMinAggregateOutputType | null
+    _max: UserScoreMaxAggregateOutputType | null
+  }
+
+  export type UserScoreAvgAggregateOutputType = {
+    totalPoints: number | null
+    monthPoints: number | null
+    month: number | null
+    year: number | null
+  }
+
+  export type UserScoreSumAggregateOutputType = {
+    totalPoints: number | null
+    monthPoints: number | null
+    month: number | null
+    year: number | null
+  }
+
+  export type UserScoreMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    totalPoints: number | null
+    monthPoints: number | null
+    month: number | null
+    year: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserScoreMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    totalPoints: number | null
+    monthPoints: number | null
+    month: number | null
+    year: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserScoreCountAggregateOutputType = {
+    id: number
+    userId: number
+    companyId: number
+    totalPoints: number
+    monthPoints: number
+    month: number
+    year: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type UserScoreAvgAggregateInputType = {
+    totalPoints?: true
+    monthPoints?: true
+    month?: true
+    year?: true
+  }
+
+  export type UserScoreSumAggregateInputType = {
+    totalPoints?: true
+    monthPoints?: true
+    month?: true
+    year?: true
+  }
+
+  export type UserScoreMinAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    totalPoints?: true
+    monthPoints?: true
+    month?: true
+    year?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserScoreMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    totalPoints?: true
+    monthPoints?: true
+    month?: true
+    year?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserScoreCountAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    totalPoints?: true
+    monthPoints?: true
+    month?: true
+    year?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type UserScoreAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserScore to aggregate.
+     */
+    where?: UserScoreWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserScores to fetch.
+     */
+    orderBy?: UserScoreOrderByWithRelationInput | UserScoreOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserScoreWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserScores from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserScores.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserScores
+    **/
+    _count?: true | UserScoreCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserScoreAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserScoreSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserScoreMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserScoreMaxAggregateInputType
+  }
+
+  export type GetUserScoreAggregateType<T extends UserScoreAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserScore]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserScore[P]>
+      : GetScalarType<T[P], AggregateUserScore[P]>
+  }
+
+
+
+
+  export type UserScoreGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserScoreWhereInput
+    orderBy?: UserScoreOrderByWithAggregationInput | UserScoreOrderByWithAggregationInput[]
+    by: UserScoreScalarFieldEnum[] | UserScoreScalarFieldEnum
+    having?: UserScoreScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserScoreCountAggregateInputType | true
+    _avg?: UserScoreAvgAggregateInputType
+    _sum?: UserScoreSumAggregateInputType
+    _min?: UserScoreMinAggregateInputType
+    _max?: UserScoreMaxAggregateInputType
+  }
+
+  export type UserScoreGroupByOutputType = {
+    id: string
+    userId: string
+    companyId: string
+    totalPoints: number
+    monthPoints: number
+    month: number
+    year: number
+    createdAt: Date
+    updatedAt: Date
+    _count: UserScoreCountAggregateOutputType | null
+    _avg: UserScoreAvgAggregateOutputType | null
+    _sum: UserScoreSumAggregateOutputType | null
+    _min: UserScoreMinAggregateOutputType | null
+    _max: UserScoreMaxAggregateOutputType | null
+  }
+
+  type GetUserScoreGroupByPayload<T extends UserScoreGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserScoreGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserScoreGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserScoreGroupByOutputType[P]>
+            : GetScalarType<T[P], UserScoreGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserScoreSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    totalPoints?: boolean
+    monthPoints?: boolean
+    month?: boolean
+    year?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userScore"]>
+
+  export type UserScoreSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    totalPoints?: boolean
+    monthPoints?: boolean
+    month?: boolean
+    year?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userScore"]>
+
+  export type UserScoreSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    totalPoints?: boolean
+    monthPoints?: boolean
+    month?: boolean
+    year?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type UserScoreInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type UserScoreIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $UserScorePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserScore"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      companyId: string
+      totalPoints: number
+      monthPoints: number
+      month: number
+      year: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["userScore"]>
+    composites: {}
+  }
+
+  type UserScoreGetPayload<S extends boolean | null | undefined | UserScoreDefaultArgs> = $Result.GetResult<Prisma.$UserScorePayload, S>
+
+  type UserScoreCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<UserScoreFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: UserScoreCountAggregateInputType | true
+    }
+
+  export interface UserScoreDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserScore'], meta: { name: 'UserScore' } }
+    /**
+     * Find zero or one UserScore that matches the filter.
+     * @param {UserScoreFindUniqueArgs} args - Arguments to find a UserScore
+     * @example
+     * // Get one UserScore
+     * const userScore = await prisma.userScore.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserScoreFindUniqueArgs>(args: SelectSubset<T, UserScoreFindUniqueArgs<ExtArgs>>): Prisma__UserScoreClient<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one UserScore that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {UserScoreFindUniqueOrThrowArgs} args - Arguments to find a UserScore
+     * @example
+     * // Get one UserScore
+     * const userScore = await prisma.userScore.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserScoreFindUniqueOrThrowArgs>(args: SelectSubset<T, UserScoreFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserScoreClient<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first UserScore that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserScoreFindFirstArgs} args - Arguments to find a UserScore
+     * @example
+     * // Get one UserScore
+     * const userScore = await prisma.userScore.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserScoreFindFirstArgs>(args?: SelectSubset<T, UserScoreFindFirstArgs<ExtArgs>>): Prisma__UserScoreClient<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first UserScore that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserScoreFindFirstOrThrowArgs} args - Arguments to find a UserScore
+     * @example
+     * // Get one UserScore
+     * const userScore = await prisma.userScore.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserScoreFindFirstOrThrowArgs>(args?: SelectSubset<T, UserScoreFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserScoreClient<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more UserScores that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserScoreFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserScores
+     * const userScores = await prisma.userScore.findMany()
+     * 
+     * // Get first 10 UserScores
+     * const userScores = await prisma.userScore.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userScoreWithIdOnly = await prisma.userScore.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserScoreFindManyArgs>(args?: SelectSubset<T, UserScoreFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a UserScore.
+     * @param {UserScoreCreateArgs} args - Arguments to create a UserScore.
+     * @example
+     * // Create one UserScore
+     * const UserScore = await prisma.userScore.create({
+     *   data: {
+     *     // ... data to create a UserScore
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserScoreCreateArgs>(args: SelectSubset<T, UserScoreCreateArgs<ExtArgs>>): Prisma__UserScoreClient<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many UserScores.
+     * @param {UserScoreCreateManyArgs} args - Arguments to create many UserScores.
+     * @example
+     * // Create many UserScores
+     * const userScore = await prisma.userScore.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserScoreCreateManyArgs>(args?: SelectSubset<T, UserScoreCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserScores and returns the data saved in the database.
+     * @param {UserScoreCreateManyAndReturnArgs} args - Arguments to create many UserScores.
+     * @example
+     * // Create many UserScores
+     * const userScore = await prisma.userScore.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserScores and only return the `id`
+     * const userScoreWithIdOnly = await prisma.userScore.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserScoreCreateManyAndReturnArgs>(args?: SelectSubset<T, UserScoreCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a UserScore.
+     * @param {UserScoreDeleteArgs} args - Arguments to delete one UserScore.
+     * @example
+     * // Delete one UserScore
+     * const UserScore = await prisma.userScore.delete({
+     *   where: {
+     *     // ... filter to delete one UserScore
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserScoreDeleteArgs>(args: SelectSubset<T, UserScoreDeleteArgs<ExtArgs>>): Prisma__UserScoreClient<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one UserScore.
+     * @param {UserScoreUpdateArgs} args - Arguments to update one UserScore.
+     * @example
+     * // Update one UserScore
+     * const userScore = await prisma.userScore.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserScoreUpdateArgs>(args: SelectSubset<T, UserScoreUpdateArgs<ExtArgs>>): Prisma__UserScoreClient<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more UserScores.
+     * @param {UserScoreDeleteManyArgs} args - Arguments to filter UserScores to delete.
+     * @example
+     * // Delete a few UserScores
+     * const { count } = await prisma.userScore.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserScoreDeleteManyArgs>(args?: SelectSubset<T, UserScoreDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserScores.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserScoreUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserScores
+     * const userScore = await prisma.userScore.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserScoreUpdateManyArgs>(args: SelectSubset<T, UserScoreUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one UserScore.
+     * @param {UserScoreUpsertArgs} args - Arguments to update or create a UserScore.
+     * @example
+     * // Update or create a UserScore
+     * const userScore = await prisma.userScore.upsert({
+     *   create: {
+     *     // ... data to create a UserScore
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserScore we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserScoreUpsertArgs>(args: SelectSubset<T, UserScoreUpsertArgs<ExtArgs>>): Prisma__UserScoreClient<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of UserScores.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserScoreCountArgs} args - Arguments to filter UserScores to count.
+     * @example
+     * // Count the number of UserScores
+     * const count = await prisma.userScore.count({
+     *   where: {
+     *     // ... the filter for the UserScores we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserScoreCountArgs>(
+      args?: Subset<T, UserScoreCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserScoreCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserScore.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserScoreAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserScoreAggregateArgs>(args: Subset<T, UserScoreAggregateArgs>): Prisma.PrismaPromise<GetUserScoreAggregateType<T>>
+
+    /**
+     * Group by UserScore.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserScoreGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserScoreGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserScoreGroupByArgs['orderBy'] }
+        : { orderBy?: UserScoreGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserScoreGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserScoreGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserScore model
+   */
+  readonly fields: UserScoreFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserScore.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserScoreClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserScore model
+   */ 
+  interface UserScoreFieldRefs {
+    readonly id: FieldRef<"UserScore", 'String'>
+    readonly userId: FieldRef<"UserScore", 'String'>
+    readonly companyId: FieldRef<"UserScore", 'String'>
+    readonly totalPoints: FieldRef<"UserScore", 'Int'>
+    readonly monthPoints: FieldRef<"UserScore", 'Int'>
+    readonly month: FieldRef<"UserScore", 'Int'>
+    readonly year: FieldRef<"UserScore", 'Int'>
+    readonly createdAt: FieldRef<"UserScore", 'DateTime'>
+    readonly updatedAt: FieldRef<"UserScore", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserScore findUnique
+   */
+  export type UserScoreFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserScore
+     */
+    select?: UserScoreSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserScoreInclude<ExtArgs> | null
+    /**
+     * Filter, which UserScore to fetch.
+     */
+    where: UserScoreWhereUniqueInput
+  }
+
+  /**
+   * UserScore findUniqueOrThrow
+   */
+  export type UserScoreFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserScore
+     */
+    select?: UserScoreSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserScoreInclude<ExtArgs> | null
+    /**
+     * Filter, which UserScore to fetch.
+     */
+    where: UserScoreWhereUniqueInput
+  }
+
+  /**
+   * UserScore findFirst
+   */
+  export type UserScoreFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserScore
+     */
+    select?: UserScoreSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserScoreInclude<ExtArgs> | null
+    /**
+     * Filter, which UserScore to fetch.
+     */
+    where?: UserScoreWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserScores to fetch.
+     */
+    orderBy?: UserScoreOrderByWithRelationInput | UserScoreOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserScores.
+     */
+    cursor?: UserScoreWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserScores from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserScores.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserScores.
+     */
+    distinct?: UserScoreScalarFieldEnum | UserScoreScalarFieldEnum[]
+  }
+
+  /**
+   * UserScore findFirstOrThrow
+   */
+  export type UserScoreFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserScore
+     */
+    select?: UserScoreSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserScoreInclude<ExtArgs> | null
+    /**
+     * Filter, which UserScore to fetch.
+     */
+    where?: UserScoreWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserScores to fetch.
+     */
+    orderBy?: UserScoreOrderByWithRelationInput | UserScoreOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserScores.
+     */
+    cursor?: UserScoreWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserScores from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserScores.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserScores.
+     */
+    distinct?: UserScoreScalarFieldEnum | UserScoreScalarFieldEnum[]
+  }
+
+  /**
+   * UserScore findMany
+   */
+  export type UserScoreFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserScore
+     */
+    select?: UserScoreSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserScoreInclude<ExtArgs> | null
+    /**
+     * Filter, which UserScores to fetch.
+     */
+    where?: UserScoreWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserScores to fetch.
+     */
+    orderBy?: UserScoreOrderByWithRelationInput | UserScoreOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserScores.
+     */
+    cursor?: UserScoreWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserScores from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserScores.
+     */
+    skip?: number
+    distinct?: UserScoreScalarFieldEnum | UserScoreScalarFieldEnum[]
+  }
+
+  /**
+   * UserScore create
+   */
+  export type UserScoreCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserScore
+     */
+    select?: UserScoreSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserScoreInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserScore.
+     */
+    data: XOR<UserScoreCreateInput, UserScoreUncheckedCreateInput>
+  }
+
+  /**
+   * UserScore createMany
+   */
+  export type UserScoreCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserScores.
+     */
+    data: UserScoreCreateManyInput | UserScoreCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserScore createManyAndReturn
+   */
+  export type UserScoreCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserScore
+     */
+    select?: UserScoreSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many UserScores.
+     */
+    data: UserScoreCreateManyInput | UserScoreCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserScoreIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserScore update
+   */
+  export type UserScoreUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserScore
+     */
+    select?: UserScoreSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserScoreInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserScore.
+     */
+    data: XOR<UserScoreUpdateInput, UserScoreUncheckedUpdateInput>
+    /**
+     * Choose, which UserScore to update.
+     */
+    where: UserScoreWhereUniqueInput
+  }
+
+  /**
+   * UserScore updateMany
+   */
+  export type UserScoreUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserScores.
+     */
+    data: XOR<UserScoreUpdateManyMutationInput, UserScoreUncheckedUpdateManyInput>
+    /**
+     * Filter which UserScores to update
+     */
+    where?: UserScoreWhereInput
+  }
+
+  /**
+   * UserScore upsert
+   */
+  export type UserScoreUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserScore
+     */
+    select?: UserScoreSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserScoreInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserScore to update in case it exists.
+     */
+    where: UserScoreWhereUniqueInput
+    /**
+     * In case the UserScore found by the `where` argument doesn't exist, create a new UserScore with this data.
+     */
+    create: XOR<UserScoreCreateInput, UserScoreUncheckedCreateInput>
+    /**
+     * In case the UserScore was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserScoreUpdateInput, UserScoreUncheckedUpdateInput>
+  }
+
+  /**
+   * UserScore delete
+   */
+  export type UserScoreDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserScore
+     */
+    select?: UserScoreSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserScoreInclude<ExtArgs> | null
+    /**
+     * Filter which UserScore to delete.
+     */
+    where: UserScoreWhereUniqueInput
+  }
+
+  /**
+   * UserScore deleteMany
+   */
+  export type UserScoreDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserScores to delete
+     */
+    where?: UserScoreWhereInput
+  }
+
+  /**
+   * UserScore without action
+   */
+  export type UserScoreDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserScore
+     */
+    select?: UserScoreSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserScoreInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserBadge
+   */
+
+  export type AggregateUserBadge = {
+    _count: UserBadgeCountAggregateOutputType | null
+    _min: UserBadgeMinAggregateOutputType | null
+    _max: UserBadgeMaxAggregateOutputType | null
+  }
+
+  export type UserBadgeMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    badge: $Enums.BadgeType | null
+    level: $Enums.BadgeLevel | null
+    earnedAt: Date | null
+  }
+
+  export type UserBadgeMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    badge: $Enums.BadgeType | null
+    level: $Enums.BadgeLevel | null
+    earnedAt: Date | null
+  }
+
+  export type UserBadgeCountAggregateOutputType = {
+    id: number
+    userId: number
+    companyId: number
+    badge: number
+    level: number
+    earnedAt: number
+    _all: number
+  }
+
+
+  export type UserBadgeMinAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    badge?: true
+    level?: true
+    earnedAt?: true
+  }
+
+  export type UserBadgeMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    badge?: true
+    level?: true
+    earnedAt?: true
+  }
+
+  export type UserBadgeCountAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    badge?: true
+    level?: true
+    earnedAt?: true
+    _all?: true
+  }
+
+  export type UserBadgeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserBadge to aggregate.
+     */
+    where?: UserBadgeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserBadges to fetch.
+     */
+    orderBy?: UserBadgeOrderByWithRelationInput | UserBadgeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserBadgeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserBadges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserBadges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserBadges
+    **/
+    _count?: true | UserBadgeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserBadgeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserBadgeMaxAggregateInputType
+  }
+
+  export type GetUserBadgeAggregateType<T extends UserBadgeAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserBadge]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserBadge[P]>
+      : GetScalarType<T[P], AggregateUserBadge[P]>
+  }
+
+
+
+
+  export type UserBadgeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserBadgeWhereInput
+    orderBy?: UserBadgeOrderByWithAggregationInput | UserBadgeOrderByWithAggregationInput[]
+    by: UserBadgeScalarFieldEnum[] | UserBadgeScalarFieldEnum
+    having?: UserBadgeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserBadgeCountAggregateInputType | true
+    _min?: UserBadgeMinAggregateInputType
+    _max?: UserBadgeMaxAggregateInputType
+  }
+
+  export type UserBadgeGroupByOutputType = {
+    id: string
+    userId: string
+    companyId: string
+    badge: $Enums.BadgeType
+    level: $Enums.BadgeLevel
+    earnedAt: Date
+    _count: UserBadgeCountAggregateOutputType | null
+    _min: UserBadgeMinAggregateOutputType | null
+    _max: UserBadgeMaxAggregateOutputType | null
+  }
+
+  type GetUserBadgeGroupByPayload<T extends UserBadgeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserBadgeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserBadgeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserBadgeGroupByOutputType[P]>
+            : GetScalarType<T[P], UserBadgeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserBadgeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    badge?: boolean
+    level?: boolean
+    earnedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userBadge"]>
+
+  export type UserBadgeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    badge?: boolean
+    level?: boolean
+    earnedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userBadge"]>
+
+  export type UserBadgeSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    badge?: boolean
+    level?: boolean
+    earnedAt?: boolean
+  }
+
+  export type UserBadgeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type UserBadgeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $UserBadgePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserBadge"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      companyId: string
+      badge: $Enums.BadgeType
+      level: $Enums.BadgeLevel
+      earnedAt: Date
+    }, ExtArgs["result"]["userBadge"]>
+    composites: {}
+  }
+
+  type UserBadgeGetPayload<S extends boolean | null | undefined | UserBadgeDefaultArgs> = $Result.GetResult<Prisma.$UserBadgePayload, S>
+
+  type UserBadgeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<UserBadgeFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: UserBadgeCountAggregateInputType | true
+    }
+
+  export interface UserBadgeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserBadge'], meta: { name: 'UserBadge' } }
+    /**
+     * Find zero or one UserBadge that matches the filter.
+     * @param {UserBadgeFindUniqueArgs} args - Arguments to find a UserBadge
+     * @example
+     * // Get one UserBadge
+     * const userBadge = await prisma.userBadge.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserBadgeFindUniqueArgs>(args: SelectSubset<T, UserBadgeFindUniqueArgs<ExtArgs>>): Prisma__UserBadgeClient<$Result.GetResult<Prisma.$UserBadgePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one UserBadge that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {UserBadgeFindUniqueOrThrowArgs} args - Arguments to find a UserBadge
+     * @example
+     * // Get one UserBadge
+     * const userBadge = await prisma.userBadge.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserBadgeFindUniqueOrThrowArgs>(args: SelectSubset<T, UserBadgeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserBadgeClient<$Result.GetResult<Prisma.$UserBadgePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first UserBadge that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserBadgeFindFirstArgs} args - Arguments to find a UserBadge
+     * @example
+     * // Get one UserBadge
+     * const userBadge = await prisma.userBadge.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserBadgeFindFirstArgs>(args?: SelectSubset<T, UserBadgeFindFirstArgs<ExtArgs>>): Prisma__UserBadgeClient<$Result.GetResult<Prisma.$UserBadgePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first UserBadge that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserBadgeFindFirstOrThrowArgs} args - Arguments to find a UserBadge
+     * @example
+     * // Get one UserBadge
+     * const userBadge = await prisma.userBadge.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserBadgeFindFirstOrThrowArgs>(args?: SelectSubset<T, UserBadgeFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserBadgeClient<$Result.GetResult<Prisma.$UserBadgePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more UserBadges that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserBadgeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserBadges
+     * const userBadges = await prisma.userBadge.findMany()
+     * 
+     * // Get first 10 UserBadges
+     * const userBadges = await prisma.userBadge.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userBadgeWithIdOnly = await prisma.userBadge.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserBadgeFindManyArgs>(args?: SelectSubset<T, UserBadgeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserBadgePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a UserBadge.
+     * @param {UserBadgeCreateArgs} args - Arguments to create a UserBadge.
+     * @example
+     * // Create one UserBadge
+     * const UserBadge = await prisma.userBadge.create({
+     *   data: {
+     *     // ... data to create a UserBadge
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserBadgeCreateArgs>(args: SelectSubset<T, UserBadgeCreateArgs<ExtArgs>>): Prisma__UserBadgeClient<$Result.GetResult<Prisma.$UserBadgePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many UserBadges.
+     * @param {UserBadgeCreateManyArgs} args - Arguments to create many UserBadges.
+     * @example
+     * // Create many UserBadges
+     * const userBadge = await prisma.userBadge.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserBadgeCreateManyArgs>(args?: SelectSubset<T, UserBadgeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserBadges and returns the data saved in the database.
+     * @param {UserBadgeCreateManyAndReturnArgs} args - Arguments to create many UserBadges.
+     * @example
+     * // Create many UserBadges
+     * const userBadge = await prisma.userBadge.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserBadges and only return the `id`
+     * const userBadgeWithIdOnly = await prisma.userBadge.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserBadgeCreateManyAndReturnArgs>(args?: SelectSubset<T, UserBadgeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserBadgePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a UserBadge.
+     * @param {UserBadgeDeleteArgs} args - Arguments to delete one UserBadge.
+     * @example
+     * // Delete one UserBadge
+     * const UserBadge = await prisma.userBadge.delete({
+     *   where: {
+     *     // ... filter to delete one UserBadge
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserBadgeDeleteArgs>(args: SelectSubset<T, UserBadgeDeleteArgs<ExtArgs>>): Prisma__UserBadgeClient<$Result.GetResult<Prisma.$UserBadgePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one UserBadge.
+     * @param {UserBadgeUpdateArgs} args - Arguments to update one UserBadge.
+     * @example
+     * // Update one UserBadge
+     * const userBadge = await prisma.userBadge.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserBadgeUpdateArgs>(args: SelectSubset<T, UserBadgeUpdateArgs<ExtArgs>>): Prisma__UserBadgeClient<$Result.GetResult<Prisma.$UserBadgePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more UserBadges.
+     * @param {UserBadgeDeleteManyArgs} args - Arguments to filter UserBadges to delete.
+     * @example
+     * // Delete a few UserBadges
+     * const { count } = await prisma.userBadge.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserBadgeDeleteManyArgs>(args?: SelectSubset<T, UserBadgeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserBadges.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserBadgeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserBadges
+     * const userBadge = await prisma.userBadge.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserBadgeUpdateManyArgs>(args: SelectSubset<T, UserBadgeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one UserBadge.
+     * @param {UserBadgeUpsertArgs} args - Arguments to update or create a UserBadge.
+     * @example
+     * // Update or create a UserBadge
+     * const userBadge = await prisma.userBadge.upsert({
+     *   create: {
+     *     // ... data to create a UserBadge
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserBadge we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserBadgeUpsertArgs>(args: SelectSubset<T, UserBadgeUpsertArgs<ExtArgs>>): Prisma__UserBadgeClient<$Result.GetResult<Prisma.$UserBadgePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of UserBadges.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserBadgeCountArgs} args - Arguments to filter UserBadges to count.
+     * @example
+     * // Count the number of UserBadges
+     * const count = await prisma.userBadge.count({
+     *   where: {
+     *     // ... the filter for the UserBadges we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserBadgeCountArgs>(
+      args?: Subset<T, UserBadgeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserBadgeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserBadge.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserBadgeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserBadgeAggregateArgs>(args: Subset<T, UserBadgeAggregateArgs>): Prisma.PrismaPromise<GetUserBadgeAggregateType<T>>
+
+    /**
+     * Group by UserBadge.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserBadgeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserBadgeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserBadgeGroupByArgs['orderBy'] }
+        : { orderBy?: UserBadgeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserBadgeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserBadgeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserBadge model
+   */
+  readonly fields: UserBadgeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserBadge.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserBadgeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserBadge model
+   */ 
+  interface UserBadgeFieldRefs {
+    readonly id: FieldRef<"UserBadge", 'String'>
+    readonly userId: FieldRef<"UserBadge", 'String'>
+    readonly companyId: FieldRef<"UserBadge", 'String'>
+    readonly badge: FieldRef<"UserBadge", 'BadgeType'>
+    readonly level: FieldRef<"UserBadge", 'BadgeLevel'>
+    readonly earnedAt: FieldRef<"UserBadge", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserBadge findUnique
+   */
+  export type UserBadgeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBadge
+     */
+    select?: UserBadgeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBadgeInclude<ExtArgs> | null
+    /**
+     * Filter, which UserBadge to fetch.
+     */
+    where: UserBadgeWhereUniqueInput
+  }
+
+  /**
+   * UserBadge findUniqueOrThrow
+   */
+  export type UserBadgeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBadge
+     */
+    select?: UserBadgeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBadgeInclude<ExtArgs> | null
+    /**
+     * Filter, which UserBadge to fetch.
+     */
+    where: UserBadgeWhereUniqueInput
+  }
+
+  /**
+   * UserBadge findFirst
+   */
+  export type UserBadgeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBadge
+     */
+    select?: UserBadgeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBadgeInclude<ExtArgs> | null
+    /**
+     * Filter, which UserBadge to fetch.
+     */
+    where?: UserBadgeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserBadges to fetch.
+     */
+    orderBy?: UserBadgeOrderByWithRelationInput | UserBadgeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserBadges.
+     */
+    cursor?: UserBadgeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserBadges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserBadges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserBadges.
+     */
+    distinct?: UserBadgeScalarFieldEnum | UserBadgeScalarFieldEnum[]
+  }
+
+  /**
+   * UserBadge findFirstOrThrow
+   */
+  export type UserBadgeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBadge
+     */
+    select?: UserBadgeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBadgeInclude<ExtArgs> | null
+    /**
+     * Filter, which UserBadge to fetch.
+     */
+    where?: UserBadgeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserBadges to fetch.
+     */
+    orderBy?: UserBadgeOrderByWithRelationInput | UserBadgeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserBadges.
+     */
+    cursor?: UserBadgeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserBadges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserBadges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserBadges.
+     */
+    distinct?: UserBadgeScalarFieldEnum | UserBadgeScalarFieldEnum[]
+  }
+
+  /**
+   * UserBadge findMany
+   */
+  export type UserBadgeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBadge
+     */
+    select?: UserBadgeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBadgeInclude<ExtArgs> | null
+    /**
+     * Filter, which UserBadges to fetch.
+     */
+    where?: UserBadgeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserBadges to fetch.
+     */
+    orderBy?: UserBadgeOrderByWithRelationInput | UserBadgeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserBadges.
+     */
+    cursor?: UserBadgeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserBadges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserBadges.
+     */
+    skip?: number
+    distinct?: UserBadgeScalarFieldEnum | UserBadgeScalarFieldEnum[]
+  }
+
+  /**
+   * UserBadge create
+   */
+  export type UserBadgeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBadge
+     */
+    select?: UserBadgeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBadgeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserBadge.
+     */
+    data: XOR<UserBadgeCreateInput, UserBadgeUncheckedCreateInput>
+  }
+
+  /**
+   * UserBadge createMany
+   */
+  export type UserBadgeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserBadges.
+     */
+    data: UserBadgeCreateManyInput | UserBadgeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserBadge createManyAndReturn
+   */
+  export type UserBadgeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBadge
+     */
+    select?: UserBadgeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many UserBadges.
+     */
+    data: UserBadgeCreateManyInput | UserBadgeCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBadgeIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserBadge update
+   */
+  export type UserBadgeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBadge
+     */
+    select?: UserBadgeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBadgeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserBadge.
+     */
+    data: XOR<UserBadgeUpdateInput, UserBadgeUncheckedUpdateInput>
+    /**
+     * Choose, which UserBadge to update.
+     */
+    where: UserBadgeWhereUniqueInput
+  }
+
+  /**
+   * UserBadge updateMany
+   */
+  export type UserBadgeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserBadges.
+     */
+    data: XOR<UserBadgeUpdateManyMutationInput, UserBadgeUncheckedUpdateManyInput>
+    /**
+     * Filter which UserBadges to update
+     */
+    where?: UserBadgeWhereInput
+  }
+
+  /**
+   * UserBadge upsert
+   */
+  export type UserBadgeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBadge
+     */
+    select?: UserBadgeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBadgeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserBadge to update in case it exists.
+     */
+    where: UserBadgeWhereUniqueInput
+    /**
+     * In case the UserBadge found by the `where` argument doesn't exist, create a new UserBadge with this data.
+     */
+    create: XOR<UserBadgeCreateInput, UserBadgeUncheckedCreateInput>
+    /**
+     * In case the UserBadge was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserBadgeUpdateInput, UserBadgeUncheckedUpdateInput>
+  }
+
+  /**
+   * UserBadge delete
+   */
+  export type UserBadgeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBadge
+     */
+    select?: UserBadgeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBadgeInclude<ExtArgs> | null
+    /**
+     * Filter which UserBadge to delete.
+     */
+    where: UserBadgeWhereUniqueInput
+  }
+
+  /**
+   * UserBadge deleteMany
+   */
+  export type UserBadgeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserBadges to delete
+     */
+    where?: UserBadgeWhereInput
+  }
+
+  /**
+   * UserBadge without action
+   */
+  export type UserBadgeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBadge
+     */
+    select?: UserBadgeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBadgeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ScoreEvent
+   */
+
+  export type AggregateScoreEvent = {
+    _count: ScoreEventCountAggregateOutputType | null
+    _avg: ScoreEventAvgAggregateOutputType | null
+    _sum: ScoreEventSumAggregateOutputType | null
+    _min: ScoreEventMinAggregateOutputType | null
+    _max: ScoreEventMaxAggregateOutputType | null
+  }
+
+  export type ScoreEventAvgAggregateOutputType = {
+    points: number | null
+  }
+
+  export type ScoreEventSumAggregateOutputType = {
+    points: number | null
+  }
+
+  export type ScoreEventMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    points: number | null
+    reason: $Enums.ScoreReason | null
+    referenceId: string | null
+    createdAt: Date | null
+  }
+
+  export type ScoreEventMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    points: number | null
+    reason: $Enums.ScoreReason | null
+    referenceId: string | null
+    createdAt: Date | null
+  }
+
+  export type ScoreEventCountAggregateOutputType = {
+    id: number
+    userId: number
+    companyId: number
+    points: number
+    reason: number
+    referenceId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ScoreEventAvgAggregateInputType = {
+    points?: true
+  }
+
+  export type ScoreEventSumAggregateInputType = {
+    points?: true
+  }
+
+  export type ScoreEventMinAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    points?: true
+    reason?: true
+    referenceId?: true
+    createdAt?: true
+  }
+
+  export type ScoreEventMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    points?: true
+    reason?: true
+    referenceId?: true
+    createdAt?: true
+  }
+
+  export type ScoreEventCountAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    points?: true
+    reason?: true
+    referenceId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ScoreEventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScoreEvent to aggregate.
+     */
+    where?: ScoreEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScoreEvents to fetch.
+     */
+    orderBy?: ScoreEventOrderByWithRelationInput | ScoreEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ScoreEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScoreEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScoreEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ScoreEvents
+    **/
+    _count?: true | ScoreEventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ScoreEventAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ScoreEventSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ScoreEventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ScoreEventMaxAggregateInputType
+  }
+
+  export type GetScoreEventAggregateType<T extends ScoreEventAggregateArgs> = {
+        [P in keyof T & keyof AggregateScoreEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateScoreEvent[P]>
+      : GetScalarType<T[P], AggregateScoreEvent[P]>
+  }
+
+
+
+
+  export type ScoreEventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScoreEventWhereInput
+    orderBy?: ScoreEventOrderByWithAggregationInput | ScoreEventOrderByWithAggregationInput[]
+    by: ScoreEventScalarFieldEnum[] | ScoreEventScalarFieldEnum
+    having?: ScoreEventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ScoreEventCountAggregateInputType | true
+    _avg?: ScoreEventAvgAggregateInputType
+    _sum?: ScoreEventSumAggregateInputType
+    _min?: ScoreEventMinAggregateInputType
+    _max?: ScoreEventMaxAggregateInputType
+  }
+
+  export type ScoreEventGroupByOutputType = {
+    id: string
+    userId: string
+    companyId: string
+    points: number
+    reason: $Enums.ScoreReason
+    referenceId: string | null
+    createdAt: Date
+    _count: ScoreEventCountAggregateOutputType | null
+    _avg: ScoreEventAvgAggregateOutputType | null
+    _sum: ScoreEventSumAggregateOutputType | null
+    _min: ScoreEventMinAggregateOutputType | null
+    _max: ScoreEventMaxAggregateOutputType | null
+  }
+
+  type GetScoreEventGroupByPayload<T extends ScoreEventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ScoreEventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ScoreEventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ScoreEventGroupByOutputType[P]>
+            : GetScalarType<T[P], ScoreEventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ScoreEventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    points?: boolean
+    reason?: boolean
+    referenceId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["scoreEvent"]>
+
+  export type ScoreEventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    points?: boolean
+    reason?: boolean
+    referenceId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["scoreEvent"]>
+
+  export type ScoreEventSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    points?: boolean
+    reason?: boolean
+    referenceId?: boolean
+    createdAt?: boolean
+  }
+
+  export type ScoreEventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type ScoreEventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $ScoreEventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ScoreEvent"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      companyId: string
+      points: number
+      reason: $Enums.ScoreReason
+      referenceId: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["scoreEvent"]>
+    composites: {}
+  }
+
+  type ScoreEventGetPayload<S extends boolean | null | undefined | ScoreEventDefaultArgs> = $Result.GetResult<Prisma.$ScoreEventPayload, S>
+
+  type ScoreEventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ScoreEventFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ScoreEventCountAggregateInputType | true
+    }
+
+  export interface ScoreEventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ScoreEvent'], meta: { name: 'ScoreEvent' } }
+    /**
+     * Find zero or one ScoreEvent that matches the filter.
+     * @param {ScoreEventFindUniqueArgs} args - Arguments to find a ScoreEvent
+     * @example
+     * // Get one ScoreEvent
+     * const scoreEvent = await prisma.scoreEvent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ScoreEventFindUniqueArgs>(args: SelectSubset<T, ScoreEventFindUniqueArgs<ExtArgs>>): Prisma__ScoreEventClient<$Result.GetResult<Prisma.$ScoreEventPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ScoreEvent that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ScoreEventFindUniqueOrThrowArgs} args - Arguments to find a ScoreEvent
+     * @example
+     * // Get one ScoreEvent
+     * const scoreEvent = await prisma.scoreEvent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ScoreEventFindUniqueOrThrowArgs>(args: SelectSubset<T, ScoreEventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ScoreEventClient<$Result.GetResult<Prisma.$ScoreEventPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ScoreEvent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreEventFindFirstArgs} args - Arguments to find a ScoreEvent
+     * @example
+     * // Get one ScoreEvent
+     * const scoreEvent = await prisma.scoreEvent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ScoreEventFindFirstArgs>(args?: SelectSubset<T, ScoreEventFindFirstArgs<ExtArgs>>): Prisma__ScoreEventClient<$Result.GetResult<Prisma.$ScoreEventPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ScoreEvent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreEventFindFirstOrThrowArgs} args - Arguments to find a ScoreEvent
+     * @example
+     * // Get one ScoreEvent
+     * const scoreEvent = await prisma.scoreEvent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ScoreEventFindFirstOrThrowArgs>(args?: SelectSubset<T, ScoreEventFindFirstOrThrowArgs<ExtArgs>>): Prisma__ScoreEventClient<$Result.GetResult<Prisma.$ScoreEventPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ScoreEvents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreEventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ScoreEvents
+     * const scoreEvents = await prisma.scoreEvent.findMany()
+     * 
+     * // Get first 10 ScoreEvents
+     * const scoreEvents = await prisma.scoreEvent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const scoreEventWithIdOnly = await prisma.scoreEvent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ScoreEventFindManyArgs>(args?: SelectSubset<T, ScoreEventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScoreEventPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ScoreEvent.
+     * @param {ScoreEventCreateArgs} args - Arguments to create a ScoreEvent.
+     * @example
+     * // Create one ScoreEvent
+     * const ScoreEvent = await prisma.scoreEvent.create({
+     *   data: {
+     *     // ... data to create a ScoreEvent
+     *   }
+     * })
+     * 
+     */
+    create<T extends ScoreEventCreateArgs>(args: SelectSubset<T, ScoreEventCreateArgs<ExtArgs>>): Prisma__ScoreEventClient<$Result.GetResult<Prisma.$ScoreEventPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ScoreEvents.
+     * @param {ScoreEventCreateManyArgs} args - Arguments to create many ScoreEvents.
+     * @example
+     * // Create many ScoreEvents
+     * const scoreEvent = await prisma.scoreEvent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ScoreEventCreateManyArgs>(args?: SelectSubset<T, ScoreEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ScoreEvents and returns the data saved in the database.
+     * @param {ScoreEventCreateManyAndReturnArgs} args - Arguments to create many ScoreEvents.
+     * @example
+     * // Create many ScoreEvents
+     * const scoreEvent = await prisma.scoreEvent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ScoreEvents and only return the `id`
+     * const scoreEventWithIdOnly = await prisma.scoreEvent.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ScoreEventCreateManyAndReturnArgs>(args?: SelectSubset<T, ScoreEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScoreEventPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ScoreEvent.
+     * @param {ScoreEventDeleteArgs} args - Arguments to delete one ScoreEvent.
+     * @example
+     * // Delete one ScoreEvent
+     * const ScoreEvent = await prisma.scoreEvent.delete({
+     *   where: {
+     *     // ... filter to delete one ScoreEvent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ScoreEventDeleteArgs>(args: SelectSubset<T, ScoreEventDeleteArgs<ExtArgs>>): Prisma__ScoreEventClient<$Result.GetResult<Prisma.$ScoreEventPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ScoreEvent.
+     * @param {ScoreEventUpdateArgs} args - Arguments to update one ScoreEvent.
+     * @example
+     * // Update one ScoreEvent
+     * const scoreEvent = await prisma.scoreEvent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ScoreEventUpdateArgs>(args: SelectSubset<T, ScoreEventUpdateArgs<ExtArgs>>): Prisma__ScoreEventClient<$Result.GetResult<Prisma.$ScoreEventPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ScoreEvents.
+     * @param {ScoreEventDeleteManyArgs} args - Arguments to filter ScoreEvents to delete.
+     * @example
+     * // Delete a few ScoreEvents
+     * const { count } = await prisma.scoreEvent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ScoreEventDeleteManyArgs>(args?: SelectSubset<T, ScoreEventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ScoreEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreEventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ScoreEvents
+     * const scoreEvent = await prisma.scoreEvent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ScoreEventUpdateManyArgs>(args: SelectSubset<T, ScoreEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ScoreEvent.
+     * @param {ScoreEventUpsertArgs} args - Arguments to update or create a ScoreEvent.
+     * @example
+     * // Update or create a ScoreEvent
+     * const scoreEvent = await prisma.scoreEvent.upsert({
+     *   create: {
+     *     // ... data to create a ScoreEvent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ScoreEvent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ScoreEventUpsertArgs>(args: SelectSubset<T, ScoreEventUpsertArgs<ExtArgs>>): Prisma__ScoreEventClient<$Result.GetResult<Prisma.$ScoreEventPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ScoreEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreEventCountArgs} args - Arguments to filter ScoreEvents to count.
+     * @example
+     * // Count the number of ScoreEvents
+     * const count = await prisma.scoreEvent.count({
+     *   where: {
+     *     // ... the filter for the ScoreEvents we want to count
+     *   }
+     * })
+    **/
+    count<T extends ScoreEventCountArgs>(
+      args?: Subset<T, ScoreEventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ScoreEventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ScoreEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreEventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ScoreEventAggregateArgs>(args: Subset<T, ScoreEventAggregateArgs>): Prisma.PrismaPromise<GetScoreEventAggregateType<T>>
+
+    /**
+     * Group by ScoreEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreEventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ScoreEventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ScoreEventGroupByArgs['orderBy'] }
+        : { orderBy?: ScoreEventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ScoreEventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetScoreEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ScoreEvent model
+   */
+  readonly fields: ScoreEventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ScoreEvent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ScoreEventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ScoreEvent model
+   */ 
+  interface ScoreEventFieldRefs {
+    readonly id: FieldRef<"ScoreEvent", 'String'>
+    readonly userId: FieldRef<"ScoreEvent", 'String'>
+    readonly companyId: FieldRef<"ScoreEvent", 'String'>
+    readonly points: FieldRef<"ScoreEvent", 'Int'>
+    readonly reason: FieldRef<"ScoreEvent", 'ScoreReason'>
+    readonly referenceId: FieldRef<"ScoreEvent", 'String'>
+    readonly createdAt: FieldRef<"ScoreEvent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ScoreEvent findUnique
+   */
+  export type ScoreEventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreEvent
+     */
+    select?: ScoreEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ScoreEvent to fetch.
+     */
+    where: ScoreEventWhereUniqueInput
+  }
+
+  /**
+   * ScoreEvent findUniqueOrThrow
+   */
+  export type ScoreEventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreEvent
+     */
+    select?: ScoreEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ScoreEvent to fetch.
+     */
+    where: ScoreEventWhereUniqueInput
+  }
+
+  /**
+   * ScoreEvent findFirst
+   */
+  export type ScoreEventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreEvent
+     */
+    select?: ScoreEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ScoreEvent to fetch.
+     */
+    where?: ScoreEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScoreEvents to fetch.
+     */
+    orderBy?: ScoreEventOrderByWithRelationInput | ScoreEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScoreEvents.
+     */
+    cursor?: ScoreEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScoreEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScoreEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScoreEvents.
+     */
+    distinct?: ScoreEventScalarFieldEnum | ScoreEventScalarFieldEnum[]
+  }
+
+  /**
+   * ScoreEvent findFirstOrThrow
+   */
+  export type ScoreEventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreEvent
+     */
+    select?: ScoreEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ScoreEvent to fetch.
+     */
+    where?: ScoreEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScoreEvents to fetch.
+     */
+    orderBy?: ScoreEventOrderByWithRelationInput | ScoreEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScoreEvents.
+     */
+    cursor?: ScoreEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScoreEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScoreEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScoreEvents.
+     */
+    distinct?: ScoreEventScalarFieldEnum | ScoreEventScalarFieldEnum[]
+  }
+
+  /**
+   * ScoreEvent findMany
+   */
+  export type ScoreEventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreEvent
+     */
+    select?: ScoreEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ScoreEvents to fetch.
+     */
+    where?: ScoreEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScoreEvents to fetch.
+     */
+    orderBy?: ScoreEventOrderByWithRelationInput | ScoreEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ScoreEvents.
+     */
+    cursor?: ScoreEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScoreEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScoreEvents.
+     */
+    skip?: number
+    distinct?: ScoreEventScalarFieldEnum | ScoreEventScalarFieldEnum[]
+  }
+
+  /**
+   * ScoreEvent create
+   */
+  export type ScoreEventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreEvent
+     */
+    select?: ScoreEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreEventInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ScoreEvent.
+     */
+    data: XOR<ScoreEventCreateInput, ScoreEventUncheckedCreateInput>
+  }
+
+  /**
+   * ScoreEvent createMany
+   */
+  export type ScoreEventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ScoreEvents.
+     */
+    data: ScoreEventCreateManyInput | ScoreEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ScoreEvent createManyAndReturn
+   */
+  export type ScoreEventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreEvent
+     */
+    select?: ScoreEventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ScoreEvents.
+     */
+    data: ScoreEventCreateManyInput | ScoreEventCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreEventIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ScoreEvent update
+   */
+  export type ScoreEventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreEvent
+     */
+    select?: ScoreEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreEventInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ScoreEvent.
+     */
+    data: XOR<ScoreEventUpdateInput, ScoreEventUncheckedUpdateInput>
+    /**
+     * Choose, which ScoreEvent to update.
+     */
+    where: ScoreEventWhereUniqueInput
+  }
+
+  /**
+   * ScoreEvent updateMany
+   */
+  export type ScoreEventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ScoreEvents.
+     */
+    data: XOR<ScoreEventUpdateManyMutationInput, ScoreEventUncheckedUpdateManyInput>
+    /**
+     * Filter which ScoreEvents to update
+     */
+    where?: ScoreEventWhereInput
+  }
+
+  /**
+   * ScoreEvent upsert
+   */
+  export type ScoreEventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreEvent
+     */
+    select?: ScoreEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreEventInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ScoreEvent to update in case it exists.
+     */
+    where: ScoreEventWhereUniqueInput
+    /**
+     * In case the ScoreEvent found by the `where` argument doesn't exist, create a new ScoreEvent with this data.
+     */
+    create: XOR<ScoreEventCreateInput, ScoreEventUncheckedCreateInput>
+    /**
+     * In case the ScoreEvent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ScoreEventUpdateInput, ScoreEventUncheckedUpdateInput>
+  }
+
+  /**
+   * ScoreEvent delete
+   */
+  export type ScoreEventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreEvent
+     */
+    select?: ScoreEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreEventInclude<ExtArgs> | null
+    /**
+     * Filter which ScoreEvent to delete.
+     */
+    where: ScoreEventWhereUniqueInput
+  }
+
+  /**
+   * ScoreEvent deleteMany
+   */
+  export type ScoreEventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScoreEvents to delete
+     */
+    where?: ScoreEventWhereInput
+  }
+
+  /**
+   * ScoreEvent without action
+   */
+  export type ScoreEventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreEvent
+     */
+    select?: ScoreEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreEventInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model BillingEvent
    */
 
@@ -42383,6 +48083,7 @@ export namespace Prisma {
     moduleCrm: 'moduleCrm',
     moduleTickets: 'moduleTickets',
     moduleAI: 'moduleAI',
+    moduleGamificacao: 'moduleGamificacao',
     parentCompanyId: 'parentCompanyId',
     triggerOnly: 'triggerOnly',
     webhookToken: 'webhookToken'
@@ -42893,6 +48594,71 @@ export namespace Prisma {
   export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
 
 
+  export const BusinessHoursConfigScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    dayOfWeek: 'dayOfWeek',
+    isOpen: 'isOpen',
+    openTime: 'openTime',
+    closeTime: 'closeTime',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BusinessHoursConfigScalarFieldEnum = (typeof BusinessHoursConfigScalarFieldEnum)[keyof typeof BusinessHoursConfigScalarFieldEnum]
+
+
+  export const BusinessHoursIntervalScalarFieldEnum: {
+    id: 'id',
+    configId: 'configId',
+    startTime: 'startTime',
+    endTime: 'endTime',
+    label: 'label'
+  };
+
+  export type BusinessHoursIntervalScalarFieldEnum = (typeof BusinessHoursIntervalScalarFieldEnum)[keyof typeof BusinessHoursIntervalScalarFieldEnum]
+
+
+  export const UserScoreScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    companyId: 'companyId',
+    totalPoints: 'totalPoints',
+    monthPoints: 'monthPoints',
+    month: 'month',
+    year: 'year',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type UserScoreScalarFieldEnum = (typeof UserScoreScalarFieldEnum)[keyof typeof UserScoreScalarFieldEnum]
+
+
+  export const UserBadgeScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    companyId: 'companyId',
+    badge: 'badge',
+    level: 'level',
+    earnedAt: 'earnedAt'
+  };
+
+  export type UserBadgeScalarFieldEnum = (typeof UserBadgeScalarFieldEnum)[keyof typeof UserBadgeScalarFieldEnum]
+
+
+  export const ScoreEventScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    companyId: 'companyId',
+    points: 'points',
+    reason: 'reason',
+    referenceId: 'referenceId',
+    createdAt: 'createdAt'
+  };
+
+  export type ScoreEventScalarFieldEnum = (typeof ScoreEventScalarFieldEnum)[keyof typeof ScoreEventScalarFieldEnum]
+
+
   export const BillingEventScalarFieldEnum: {
     id: 'id',
     companyId: 'companyId',
@@ -43273,6 +49039,48 @@ export namespace Prisma {
    */
   export type ListEnumSubscriptionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubscriptionStatus[]'>
     
+
+
+  /**
+   * Reference to a field of type 'BadgeType'
+   */
+  export type EnumBadgeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BadgeType'>
+    
+
+
+  /**
+   * Reference to a field of type 'BadgeType[]'
+   */
+  export type ListEnumBadgeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BadgeType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'BadgeLevel'
+   */
+  export type EnumBadgeLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BadgeLevel'>
+    
+
+
+  /**
+   * Reference to a field of type 'BadgeLevel[]'
+   */
+  export type ListEnumBadgeLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BadgeLevel[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ScoreReason'
+   */
+  export type EnumScoreReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScoreReason'>
+    
+
+
+  /**
+   * Reference to a field of type 'ScoreReason[]'
+   */
+  export type ListEnumScoreReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScoreReason[]'>
+    
   /**
    * Deep Input Types
    */
@@ -43300,6 +49108,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionListRelationFilter
     vaultChallenges?: VaultEmailChallengeListRelationFilter
     vaultTrustedSessions?: VaultTrustedSessionListRelationFilter
+    userScores?: UserScoreListRelationFilter
+    userBadges?: UserBadgeListRelationFilter
+    scoreEvents?: ScoreEventListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -43321,6 +49132,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionOrderByRelationAggregateInput
     vaultChallenges?: VaultEmailChallengeOrderByRelationAggregateInput
     vaultTrustedSessions?: VaultTrustedSessionOrderByRelationAggregateInput
+    userScores?: UserScoreOrderByRelationAggregateInput
+    userBadges?: UserBadgeOrderByRelationAggregateInput
+    scoreEvents?: ScoreEventOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -43345,6 +49159,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionListRelationFilter
     vaultChallenges?: VaultEmailChallengeListRelationFilter
     vaultTrustedSessions?: VaultTrustedSessionListRelationFilter
+    userScores?: UserScoreListRelationFilter
+    userBadges?: UserBadgeListRelationFilter
+    scoreEvents?: ScoreEventListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -43620,12 +49437,17 @@ export namespace Prisma {
     moduleCrm?: BoolFilter<"Company"> | boolean
     moduleTickets?: BoolFilter<"Company"> | boolean
     moduleAI?: BoolFilter<"Company"> | boolean
+    moduleGamificacao?: BoolFilter<"Company"> | boolean
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
     webhookToken?: StringNullableFilter<"Company"> | string | null
     parentCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     subCompanies?: CompanyListRelationFilter
     users?: UserListRelationFilter
+    userScores?: UserScoreListRelationFilter
+    userBadges?: UserBadgeListRelationFilter
+    scoreEvents?: ScoreEventListRelationFilter
+    businessHours?: BusinessHoursConfigListRelationFilter
     campaigns?: CampaignListRelationFilter
     leads?: LeadListRelationFilter
     whatsappInstances?: WhatsappInstanceListRelationFilter
@@ -43668,12 +49490,17 @@ export namespace Prisma {
     moduleCrm?: SortOrder
     moduleTickets?: SortOrder
     moduleAI?: SortOrder
+    moduleGamificacao?: SortOrder
     parentCompanyId?: SortOrderInput | SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrderInput | SortOrder
     parentCompany?: CompanyOrderByWithRelationInput
     subCompanies?: CompanyOrderByRelationAggregateInput
     users?: UserOrderByRelationAggregateInput
+    userScores?: UserScoreOrderByRelationAggregateInput
+    userBadges?: UserBadgeOrderByRelationAggregateInput
+    scoreEvents?: ScoreEventOrderByRelationAggregateInput
+    businessHours?: BusinessHoursConfigOrderByRelationAggregateInput
     campaigns?: CampaignOrderByRelationAggregateInput
     leads?: LeadOrderByRelationAggregateInput
     whatsappInstances?: WhatsappInstanceOrderByRelationAggregateInput
@@ -43720,11 +49547,16 @@ export namespace Prisma {
     moduleCrm?: BoolFilter<"Company"> | boolean
     moduleTickets?: BoolFilter<"Company"> | boolean
     moduleAI?: BoolFilter<"Company"> | boolean
+    moduleGamificacao?: BoolFilter<"Company"> | boolean
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
     parentCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     subCompanies?: CompanyListRelationFilter
     users?: UserListRelationFilter
+    userScores?: UserScoreListRelationFilter
+    userBadges?: UserBadgeListRelationFilter
+    scoreEvents?: ScoreEventListRelationFilter
+    businessHours?: BusinessHoursConfigListRelationFilter
     campaigns?: CampaignListRelationFilter
     leads?: LeadListRelationFilter
     whatsappInstances?: WhatsappInstanceListRelationFilter
@@ -43767,6 +49599,7 @@ export namespace Prisma {
     moduleCrm?: SortOrder
     moduleTickets?: SortOrder
     moduleAI?: SortOrder
+    moduleGamificacao?: SortOrder
     parentCompanyId?: SortOrderInput | SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrderInput | SortOrder
@@ -43795,6 +49628,7 @@ export namespace Prisma {
     moduleCrm?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleTickets?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleAI?: BoolWithAggregatesFilter<"Company"> | boolean
+    moduleGamificacao?: BoolWithAggregatesFilter<"Company"> | boolean
     parentCompanyId?: StringNullableWithAggregatesFilter<"Company"> | string | null
     triggerOnly?: BoolWithAggregatesFilter<"Company"> | boolean
     webhookToken?: StringNullableWithAggregatesFilter<"Company"> | string | null
@@ -46477,6 +52311,352 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
   }
 
+  export type BusinessHoursConfigWhereInput = {
+    AND?: BusinessHoursConfigWhereInput | BusinessHoursConfigWhereInput[]
+    OR?: BusinessHoursConfigWhereInput[]
+    NOT?: BusinessHoursConfigWhereInput | BusinessHoursConfigWhereInput[]
+    id?: StringFilter<"BusinessHoursConfig"> | string
+    companyId?: StringFilter<"BusinessHoursConfig"> | string
+    dayOfWeek?: IntFilter<"BusinessHoursConfig"> | number
+    isOpen?: BoolFilter<"BusinessHoursConfig"> | boolean
+    openTime?: StringFilter<"BusinessHoursConfig"> | string
+    closeTime?: StringFilter<"BusinessHoursConfig"> | string
+    createdAt?: DateTimeFilter<"BusinessHoursConfig"> | Date | string
+    updatedAt?: DateTimeFilter<"BusinessHoursConfig"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    intervals?: BusinessHoursIntervalListRelationFilter
+  }
+
+  export type BusinessHoursConfigOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    dayOfWeek?: SortOrder
+    isOpen?: SortOrder
+    openTime?: SortOrder
+    closeTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    intervals?: BusinessHoursIntervalOrderByRelationAggregateInput
+  }
+
+  export type BusinessHoursConfigWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_dayOfWeek?: BusinessHoursConfigCompanyIdDayOfWeekCompoundUniqueInput
+    AND?: BusinessHoursConfigWhereInput | BusinessHoursConfigWhereInput[]
+    OR?: BusinessHoursConfigWhereInput[]
+    NOT?: BusinessHoursConfigWhereInput | BusinessHoursConfigWhereInput[]
+    companyId?: StringFilter<"BusinessHoursConfig"> | string
+    dayOfWeek?: IntFilter<"BusinessHoursConfig"> | number
+    isOpen?: BoolFilter<"BusinessHoursConfig"> | boolean
+    openTime?: StringFilter<"BusinessHoursConfig"> | string
+    closeTime?: StringFilter<"BusinessHoursConfig"> | string
+    createdAt?: DateTimeFilter<"BusinessHoursConfig"> | Date | string
+    updatedAt?: DateTimeFilter<"BusinessHoursConfig"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    intervals?: BusinessHoursIntervalListRelationFilter
+  }, "id" | "companyId_dayOfWeek">
+
+  export type BusinessHoursConfigOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    dayOfWeek?: SortOrder
+    isOpen?: SortOrder
+    openTime?: SortOrder
+    closeTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BusinessHoursConfigCountOrderByAggregateInput
+    _avg?: BusinessHoursConfigAvgOrderByAggregateInput
+    _max?: BusinessHoursConfigMaxOrderByAggregateInput
+    _min?: BusinessHoursConfigMinOrderByAggregateInput
+    _sum?: BusinessHoursConfigSumOrderByAggregateInput
+  }
+
+  export type BusinessHoursConfigScalarWhereWithAggregatesInput = {
+    AND?: BusinessHoursConfigScalarWhereWithAggregatesInput | BusinessHoursConfigScalarWhereWithAggregatesInput[]
+    OR?: BusinessHoursConfigScalarWhereWithAggregatesInput[]
+    NOT?: BusinessHoursConfigScalarWhereWithAggregatesInput | BusinessHoursConfigScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BusinessHoursConfig"> | string
+    companyId?: StringWithAggregatesFilter<"BusinessHoursConfig"> | string
+    dayOfWeek?: IntWithAggregatesFilter<"BusinessHoursConfig"> | number
+    isOpen?: BoolWithAggregatesFilter<"BusinessHoursConfig"> | boolean
+    openTime?: StringWithAggregatesFilter<"BusinessHoursConfig"> | string
+    closeTime?: StringWithAggregatesFilter<"BusinessHoursConfig"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"BusinessHoursConfig"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BusinessHoursConfig"> | Date | string
+  }
+
+  export type BusinessHoursIntervalWhereInput = {
+    AND?: BusinessHoursIntervalWhereInput | BusinessHoursIntervalWhereInput[]
+    OR?: BusinessHoursIntervalWhereInput[]
+    NOT?: BusinessHoursIntervalWhereInput | BusinessHoursIntervalWhereInput[]
+    id?: StringFilter<"BusinessHoursInterval"> | string
+    configId?: StringFilter<"BusinessHoursInterval"> | string
+    startTime?: StringFilter<"BusinessHoursInterval"> | string
+    endTime?: StringFilter<"BusinessHoursInterval"> | string
+    label?: StringNullableFilter<"BusinessHoursInterval"> | string | null
+    config?: XOR<BusinessHoursConfigRelationFilter, BusinessHoursConfigWhereInput>
+  }
+
+  export type BusinessHoursIntervalOrderByWithRelationInput = {
+    id?: SortOrder
+    configId?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    label?: SortOrderInput | SortOrder
+    config?: BusinessHoursConfigOrderByWithRelationInput
+  }
+
+  export type BusinessHoursIntervalWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: BusinessHoursIntervalWhereInput | BusinessHoursIntervalWhereInput[]
+    OR?: BusinessHoursIntervalWhereInput[]
+    NOT?: BusinessHoursIntervalWhereInput | BusinessHoursIntervalWhereInput[]
+    configId?: StringFilter<"BusinessHoursInterval"> | string
+    startTime?: StringFilter<"BusinessHoursInterval"> | string
+    endTime?: StringFilter<"BusinessHoursInterval"> | string
+    label?: StringNullableFilter<"BusinessHoursInterval"> | string | null
+    config?: XOR<BusinessHoursConfigRelationFilter, BusinessHoursConfigWhereInput>
+  }, "id">
+
+  export type BusinessHoursIntervalOrderByWithAggregationInput = {
+    id?: SortOrder
+    configId?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    label?: SortOrderInput | SortOrder
+    _count?: BusinessHoursIntervalCountOrderByAggregateInput
+    _max?: BusinessHoursIntervalMaxOrderByAggregateInput
+    _min?: BusinessHoursIntervalMinOrderByAggregateInput
+  }
+
+  export type BusinessHoursIntervalScalarWhereWithAggregatesInput = {
+    AND?: BusinessHoursIntervalScalarWhereWithAggregatesInput | BusinessHoursIntervalScalarWhereWithAggregatesInput[]
+    OR?: BusinessHoursIntervalScalarWhereWithAggregatesInput[]
+    NOT?: BusinessHoursIntervalScalarWhereWithAggregatesInput | BusinessHoursIntervalScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BusinessHoursInterval"> | string
+    configId?: StringWithAggregatesFilter<"BusinessHoursInterval"> | string
+    startTime?: StringWithAggregatesFilter<"BusinessHoursInterval"> | string
+    endTime?: StringWithAggregatesFilter<"BusinessHoursInterval"> | string
+    label?: StringNullableWithAggregatesFilter<"BusinessHoursInterval"> | string | null
+  }
+
+  export type UserScoreWhereInput = {
+    AND?: UserScoreWhereInput | UserScoreWhereInput[]
+    OR?: UserScoreWhereInput[]
+    NOT?: UserScoreWhereInput | UserScoreWhereInput[]
+    id?: StringFilter<"UserScore"> | string
+    userId?: StringFilter<"UserScore"> | string
+    companyId?: StringFilter<"UserScore"> | string
+    totalPoints?: IntFilter<"UserScore"> | number
+    monthPoints?: IntFilter<"UserScore"> | number
+    month?: IntFilter<"UserScore"> | number
+    year?: IntFilter<"UserScore"> | number
+    createdAt?: DateTimeFilter<"UserScore"> | Date | string
+    updatedAt?: DateTimeFilter<"UserScore"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type UserScoreOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    totalPoints?: SortOrder
+    monthPoints?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type UserScoreWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_month_year?: UserScoreUserIdMonthYearCompoundUniqueInput
+    AND?: UserScoreWhereInput | UserScoreWhereInput[]
+    OR?: UserScoreWhereInput[]
+    NOT?: UserScoreWhereInput | UserScoreWhereInput[]
+    userId?: StringFilter<"UserScore"> | string
+    companyId?: StringFilter<"UserScore"> | string
+    totalPoints?: IntFilter<"UserScore"> | number
+    monthPoints?: IntFilter<"UserScore"> | number
+    month?: IntFilter<"UserScore"> | number
+    year?: IntFilter<"UserScore"> | number
+    createdAt?: DateTimeFilter<"UserScore"> | Date | string
+    updatedAt?: DateTimeFilter<"UserScore"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id" | "userId_month_year">
+
+  export type UserScoreOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    totalPoints?: SortOrder
+    monthPoints?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: UserScoreCountOrderByAggregateInput
+    _avg?: UserScoreAvgOrderByAggregateInput
+    _max?: UserScoreMaxOrderByAggregateInput
+    _min?: UserScoreMinOrderByAggregateInput
+    _sum?: UserScoreSumOrderByAggregateInput
+  }
+
+  export type UserScoreScalarWhereWithAggregatesInput = {
+    AND?: UserScoreScalarWhereWithAggregatesInput | UserScoreScalarWhereWithAggregatesInput[]
+    OR?: UserScoreScalarWhereWithAggregatesInput[]
+    NOT?: UserScoreScalarWhereWithAggregatesInput | UserScoreScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserScore"> | string
+    userId?: StringWithAggregatesFilter<"UserScore"> | string
+    companyId?: StringWithAggregatesFilter<"UserScore"> | string
+    totalPoints?: IntWithAggregatesFilter<"UserScore"> | number
+    monthPoints?: IntWithAggregatesFilter<"UserScore"> | number
+    month?: IntWithAggregatesFilter<"UserScore"> | number
+    year?: IntWithAggregatesFilter<"UserScore"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"UserScore"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UserScore"> | Date | string
+  }
+
+  export type UserBadgeWhereInput = {
+    AND?: UserBadgeWhereInput | UserBadgeWhereInput[]
+    OR?: UserBadgeWhereInput[]
+    NOT?: UserBadgeWhereInput | UserBadgeWhereInput[]
+    id?: StringFilter<"UserBadge"> | string
+    userId?: StringFilter<"UserBadge"> | string
+    companyId?: StringFilter<"UserBadge"> | string
+    badge?: EnumBadgeTypeFilter<"UserBadge"> | $Enums.BadgeType
+    level?: EnumBadgeLevelFilter<"UserBadge"> | $Enums.BadgeLevel
+    earnedAt?: DateTimeFilter<"UserBadge"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type UserBadgeOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    badge?: SortOrder
+    level?: SortOrder
+    earnedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type UserBadgeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_badge_level?: UserBadgeUserIdBadgeLevelCompoundUniqueInput
+    AND?: UserBadgeWhereInput | UserBadgeWhereInput[]
+    OR?: UserBadgeWhereInput[]
+    NOT?: UserBadgeWhereInput | UserBadgeWhereInput[]
+    userId?: StringFilter<"UserBadge"> | string
+    companyId?: StringFilter<"UserBadge"> | string
+    badge?: EnumBadgeTypeFilter<"UserBadge"> | $Enums.BadgeType
+    level?: EnumBadgeLevelFilter<"UserBadge"> | $Enums.BadgeLevel
+    earnedAt?: DateTimeFilter<"UserBadge"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id" | "userId_badge_level">
+
+  export type UserBadgeOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    badge?: SortOrder
+    level?: SortOrder
+    earnedAt?: SortOrder
+    _count?: UserBadgeCountOrderByAggregateInput
+    _max?: UserBadgeMaxOrderByAggregateInput
+    _min?: UserBadgeMinOrderByAggregateInput
+  }
+
+  export type UserBadgeScalarWhereWithAggregatesInput = {
+    AND?: UserBadgeScalarWhereWithAggregatesInput | UserBadgeScalarWhereWithAggregatesInput[]
+    OR?: UserBadgeScalarWhereWithAggregatesInput[]
+    NOT?: UserBadgeScalarWhereWithAggregatesInput | UserBadgeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserBadge"> | string
+    userId?: StringWithAggregatesFilter<"UserBadge"> | string
+    companyId?: StringWithAggregatesFilter<"UserBadge"> | string
+    badge?: EnumBadgeTypeWithAggregatesFilter<"UserBadge"> | $Enums.BadgeType
+    level?: EnumBadgeLevelWithAggregatesFilter<"UserBadge"> | $Enums.BadgeLevel
+    earnedAt?: DateTimeWithAggregatesFilter<"UserBadge"> | Date | string
+  }
+
+  export type ScoreEventWhereInput = {
+    AND?: ScoreEventWhereInput | ScoreEventWhereInput[]
+    OR?: ScoreEventWhereInput[]
+    NOT?: ScoreEventWhereInput | ScoreEventWhereInput[]
+    id?: StringFilter<"ScoreEvent"> | string
+    userId?: StringFilter<"ScoreEvent"> | string
+    companyId?: StringFilter<"ScoreEvent"> | string
+    points?: IntFilter<"ScoreEvent"> | number
+    reason?: EnumScoreReasonFilter<"ScoreEvent"> | $Enums.ScoreReason
+    referenceId?: StringNullableFilter<"ScoreEvent"> | string | null
+    createdAt?: DateTimeFilter<"ScoreEvent"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type ScoreEventOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    points?: SortOrder
+    reason?: SortOrder
+    referenceId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type ScoreEventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ScoreEventWhereInput | ScoreEventWhereInput[]
+    OR?: ScoreEventWhereInput[]
+    NOT?: ScoreEventWhereInput | ScoreEventWhereInput[]
+    userId?: StringFilter<"ScoreEvent"> | string
+    companyId?: StringFilter<"ScoreEvent"> | string
+    points?: IntFilter<"ScoreEvent"> | number
+    reason?: EnumScoreReasonFilter<"ScoreEvent"> | $Enums.ScoreReason
+    referenceId?: StringNullableFilter<"ScoreEvent"> | string | null
+    createdAt?: DateTimeFilter<"ScoreEvent"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id">
+
+  export type ScoreEventOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    points?: SortOrder
+    reason?: SortOrder
+    referenceId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: ScoreEventCountOrderByAggregateInput
+    _avg?: ScoreEventAvgOrderByAggregateInput
+    _max?: ScoreEventMaxOrderByAggregateInput
+    _min?: ScoreEventMinOrderByAggregateInput
+    _sum?: ScoreEventSumOrderByAggregateInput
+  }
+
+  export type ScoreEventScalarWhereWithAggregatesInput = {
+    AND?: ScoreEventScalarWhereWithAggregatesInput | ScoreEventScalarWhereWithAggregatesInput[]
+    OR?: ScoreEventScalarWhereWithAggregatesInput[]
+    NOT?: ScoreEventScalarWhereWithAggregatesInput | ScoreEventScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ScoreEvent"> | string
+    userId?: StringWithAggregatesFilter<"ScoreEvent"> | string
+    companyId?: StringWithAggregatesFilter<"ScoreEvent"> | string
+    points?: IntWithAggregatesFilter<"ScoreEvent"> | number
+    reason?: EnumScoreReasonWithAggregatesFilter<"ScoreEvent"> | $Enums.ScoreReason
+    referenceId?: StringNullableWithAggregatesFilter<"ScoreEvent"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ScoreEvent"> | Date | string
+  }
+
   export type BillingEventWhereInput = {
     AND?: BillingEventWhereInput | BillingEventWhereInput[]
     OR?: BillingEventWhereInput[]
@@ -46567,6 +52747,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
     vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
     vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -46587,6 +52770,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
     vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
     vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -46607,6 +52793,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
     vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
     vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -46627,6 +52816,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
     vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
     vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -46923,11 +53115,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -46970,11 +53167,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -47017,11 +53219,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -47064,11 +53271,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -47111,6 +53323,7 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -47133,6 +53346,7 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -47154,6 +53368,7 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -50108,6 +56323,352 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BusinessHoursConfigCreateInput = {
+    id?: string
+    dayOfWeek: number
+    isOpen?: boolean
+    openTime?: string
+    closeTime?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutBusinessHoursInput
+    intervals?: BusinessHoursIntervalCreateNestedManyWithoutConfigInput
+  }
+
+  export type BusinessHoursConfigUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    dayOfWeek: number
+    isOpen?: boolean
+    openTime?: string
+    closeTime?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    intervals?: BusinessHoursIntervalUncheckedCreateNestedManyWithoutConfigInput
+  }
+
+  export type BusinessHoursConfigUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: IntFieldUpdateOperationsInput | number
+    isOpen?: BoolFieldUpdateOperationsInput | boolean
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutBusinessHoursNestedInput
+    intervals?: BusinessHoursIntervalUpdateManyWithoutConfigNestedInput
+  }
+
+  export type BusinessHoursConfigUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: IntFieldUpdateOperationsInput | number
+    isOpen?: BoolFieldUpdateOperationsInput | boolean
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    intervals?: BusinessHoursIntervalUncheckedUpdateManyWithoutConfigNestedInput
+  }
+
+  export type BusinessHoursConfigCreateManyInput = {
+    id?: string
+    companyId: string
+    dayOfWeek: number
+    isOpen?: boolean
+    openTime?: string
+    closeTime?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BusinessHoursConfigUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: IntFieldUpdateOperationsInput | number
+    isOpen?: BoolFieldUpdateOperationsInput | boolean
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BusinessHoursConfigUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: IntFieldUpdateOperationsInput | number
+    isOpen?: BoolFieldUpdateOperationsInput | boolean
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BusinessHoursIntervalCreateInput = {
+    id?: string
+    startTime: string
+    endTime: string
+    label?: string | null
+    config: BusinessHoursConfigCreateNestedOneWithoutIntervalsInput
+  }
+
+  export type BusinessHoursIntervalUncheckedCreateInput = {
+    id?: string
+    configId: string
+    startTime: string
+    endTime: string
+    label?: string | null
+  }
+
+  export type BusinessHoursIntervalUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    config?: BusinessHoursConfigUpdateOneRequiredWithoutIntervalsNestedInput
+  }
+
+  export type BusinessHoursIntervalUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    configId?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type BusinessHoursIntervalCreateManyInput = {
+    id?: string
+    configId: string
+    startTime: string
+    endTime: string
+    label?: string | null
+  }
+
+  export type BusinessHoursIntervalUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type BusinessHoursIntervalUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    configId?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserScoreCreateInput = {
+    id?: string
+    totalPoints?: number
+    monthPoints?: number
+    month: number
+    year: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutUserScoresInput
+    company: CompanyCreateNestedOneWithoutUserScoresInput
+  }
+
+  export type UserScoreUncheckedCreateInput = {
+    id?: string
+    userId: string
+    companyId: string
+    totalPoints?: number
+    monthPoints?: number
+    month: number
+    year: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserScoreUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    monthPoints?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutUserScoresNestedInput
+    company?: CompanyUpdateOneRequiredWithoutUserScoresNestedInput
+  }
+
+  export type UserScoreUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    monthPoints?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserScoreCreateManyInput = {
+    id?: string
+    userId: string
+    companyId: string
+    totalPoints?: number
+    monthPoints?: number
+    month: number
+    year: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserScoreUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    monthPoints?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserScoreUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    monthPoints?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserBadgeCreateInput = {
+    id?: string
+    badge: $Enums.BadgeType
+    level?: $Enums.BadgeLevel
+    earnedAt?: Date | string
+    user: UserCreateNestedOneWithoutUserBadgesInput
+    company: CompanyCreateNestedOneWithoutUserBadgesInput
+  }
+
+  export type UserBadgeUncheckedCreateInput = {
+    id?: string
+    userId: string
+    companyId: string
+    badge: $Enums.BadgeType
+    level?: $Enums.BadgeLevel
+    earnedAt?: Date | string
+  }
+
+  export type UserBadgeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    badge?: EnumBadgeTypeFieldUpdateOperationsInput | $Enums.BadgeType
+    level?: EnumBadgeLevelFieldUpdateOperationsInput | $Enums.BadgeLevel
+    earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutUserBadgesNestedInput
+    company?: CompanyUpdateOneRequiredWithoutUserBadgesNestedInput
+  }
+
+  export type UserBadgeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    badge?: EnumBadgeTypeFieldUpdateOperationsInput | $Enums.BadgeType
+    level?: EnumBadgeLevelFieldUpdateOperationsInput | $Enums.BadgeLevel
+    earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserBadgeCreateManyInput = {
+    id?: string
+    userId: string
+    companyId: string
+    badge: $Enums.BadgeType
+    level?: $Enums.BadgeLevel
+    earnedAt?: Date | string
+  }
+
+  export type UserBadgeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    badge?: EnumBadgeTypeFieldUpdateOperationsInput | $Enums.BadgeType
+    level?: EnumBadgeLevelFieldUpdateOperationsInput | $Enums.BadgeLevel
+    earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserBadgeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    badge?: EnumBadgeTypeFieldUpdateOperationsInput | $Enums.BadgeType
+    level?: EnumBadgeLevelFieldUpdateOperationsInput | $Enums.BadgeLevel
+    earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScoreEventCreateInput = {
+    id?: string
+    points: number
+    reason: $Enums.ScoreReason
+    referenceId?: string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutScoreEventsInput
+    company: CompanyCreateNestedOneWithoutScoreEventsInput
+  }
+
+  export type ScoreEventUncheckedCreateInput = {
+    id?: string
+    userId: string
+    companyId: string
+    points: number
+    reason: $Enums.ScoreReason
+    referenceId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ScoreEventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutScoreEventsNestedInput
+    company?: CompanyUpdateOneRequiredWithoutScoreEventsNestedInput
+  }
+
+  export type ScoreEventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScoreEventCreateManyInput = {
+    id?: string
+    userId: string
+    companyId: string
+    points: number
+    reason: $Enums.ScoreReason
+    referenceId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ScoreEventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScoreEventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BillingEventCreateInput = {
     id?: string
     type: string
@@ -50278,6 +56839,24 @@ export namespace Prisma {
     none?: VaultTrustedSessionWhereInput
   }
 
+  export type UserScoreListRelationFilter = {
+    every?: UserScoreWhereInput
+    some?: UserScoreWhereInput
+    none?: UserScoreWhereInput
+  }
+
+  export type UserBadgeListRelationFilter = {
+    every?: UserBadgeWhereInput
+    some?: UserBadgeWhereInput
+    none?: UserBadgeWhereInput
+  }
+
+  export type ScoreEventListRelationFilter = {
+    every?: ScoreEventWhereInput
+    some?: ScoreEventWhereInput
+    none?: ScoreEventWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -50304,6 +56883,18 @@ export namespace Prisma {
   }
 
   export type VaultTrustedSessionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserScoreOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserBadgeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ScoreEventOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -50616,6 +57207,12 @@ export namespace Prisma {
     none?: UserWhereInput
   }
 
+  export type BusinessHoursConfigListRelationFilter = {
+    every?: BusinessHoursConfigWhereInput
+    some?: BusinessHoursConfigWhereInput
+    none?: BusinessHoursConfigWhereInput
+  }
+
   export type CampaignListRelationFilter = {
     every?: CampaignWhereInput
     some?: CampaignWhereInput
@@ -50743,6 +57340,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type BusinessHoursConfigOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type CampaignOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -50836,6 +57437,7 @@ export namespace Prisma {
     moduleCrm?: SortOrder
     moduleTickets?: SortOrder
     moduleAI?: SortOrder
+    moduleGamificacao?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrder
@@ -50858,6 +57460,7 @@ export namespace Prisma {
     moduleCrm?: SortOrder
     moduleTickets?: SortOrder
     moduleAI?: SortOrder
+    moduleGamificacao?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrder
@@ -50880,6 +57483,7 @@ export namespace Prisma {
     moduleCrm?: SortOrder
     moduleTickets?: SortOrder
     moduleAI?: SortOrder
+    moduleGamificacao?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrder
@@ -52903,6 +59507,269 @@ export namespace Prisma {
     _max?: NestedEnumSubscriptionStatusFilter<$PrismaModel>
   }
 
+  export type BusinessHoursIntervalListRelationFilter = {
+    every?: BusinessHoursIntervalWhereInput
+    some?: BusinessHoursIntervalWhereInput
+    none?: BusinessHoursIntervalWhereInput
+  }
+
+  export type BusinessHoursIntervalOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BusinessHoursConfigCompanyIdDayOfWeekCompoundUniqueInput = {
+    companyId: string
+    dayOfWeek: number
+  }
+
+  export type BusinessHoursConfigCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    dayOfWeek?: SortOrder
+    isOpen?: SortOrder
+    openTime?: SortOrder
+    closeTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BusinessHoursConfigAvgOrderByAggregateInput = {
+    dayOfWeek?: SortOrder
+  }
+
+  export type BusinessHoursConfigMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    dayOfWeek?: SortOrder
+    isOpen?: SortOrder
+    openTime?: SortOrder
+    closeTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BusinessHoursConfigMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    dayOfWeek?: SortOrder
+    isOpen?: SortOrder
+    openTime?: SortOrder
+    closeTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BusinessHoursConfigSumOrderByAggregateInput = {
+    dayOfWeek?: SortOrder
+  }
+
+  export type BusinessHoursConfigRelationFilter = {
+    is?: BusinessHoursConfigWhereInput
+    isNot?: BusinessHoursConfigWhereInput
+  }
+
+  export type BusinessHoursIntervalCountOrderByAggregateInput = {
+    id?: SortOrder
+    configId?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    label?: SortOrder
+  }
+
+  export type BusinessHoursIntervalMaxOrderByAggregateInput = {
+    id?: SortOrder
+    configId?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    label?: SortOrder
+  }
+
+  export type BusinessHoursIntervalMinOrderByAggregateInput = {
+    id?: SortOrder
+    configId?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    label?: SortOrder
+  }
+
+  export type UserScoreUserIdMonthYearCompoundUniqueInput = {
+    userId: string
+    month: number
+    year: number
+  }
+
+  export type UserScoreCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    totalPoints?: SortOrder
+    monthPoints?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserScoreAvgOrderByAggregateInput = {
+    totalPoints?: SortOrder
+    monthPoints?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+  }
+
+  export type UserScoreMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    totalPoints?: SortOrder
+    monthPoints?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserScoreMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    totalPoints?: SortOrder
+    monthPoints?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserScoreSumOrderByAggregateInput = {
+    totalPoints?: SortOrder
+    monthPoints?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+  }
+
+  export type EnumBadgeTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.BadgeType | EnumBadgeTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.BadgeType[] | ListEnumBadgeTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BadgeType[] | ListEnumBadgeTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBadgeTypeFilter<$PrismaModel> | $Enums.BadgeType
+  }
+
+  export type EnumBadgeLevelFilter<$PrismaModel = never> = {
+    equals?: $Enums.BadgeLevel | EnumBadgeLevelFieldRefInput<$PrismaModel>
+    in?: $Enums.BadgeLevel[] | ListEnumBadgeLevelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BadgeLevel[] | ListEnumBadgeLevelFieldRefInput<$PrismaModel>
+    not?: NestedEnumBadgeLevelFilter<$PrismaModel> | $Enums.BadgeLevel
+  }
+
+  export type UserBadgeUserIdBadgeLevelCompoundUniqueInput = {
+    userId: string
+    badge: $Enums.BadgeType
+    level: $Enums.BadgeLevel
+  }
+
+  export type UserBadgeCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    badge?: SortOrder
+    level?: SortOrder
+    earnedAt?: SortOrder
+  }
+
+  export type UserBadgeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    badge?: SortOrder
+    level?: SortOrder
+    earnedAt?: SortOrder
+  }
+
+  export type UserBadgeMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    badge?: SortOrder
+    level?: SortOrder
+    earnedAt?: SortOrder
+  }
+
+  export type EnumBadgeTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BadgeType | EnumBadgeTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.BadgeType[] | ListEnumBadgeTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BadgeType[] | ListEnumBadgeTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBadgeTypeWithAggregatesFilter<$PrismaModel> | $Enums.BadgeType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBadgeTypeFilter<$PrismaModel>
+    _max?: NestedEnumBadgeTypeFilter<$PrismaModel>
+  }
+
+  export type EnumBadgeLevelWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BadgeLevel | EnumBadgeLevelFieldRefInput<$PrismaModel>
+    in?: $Enums.BadgeLevel[] | ListEnumBadgeLevelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BadgeLevel[] | ListEnumBadgeLevelFieldRefInput<$PrismaModel>
+    not?: NestedEnumBadgeLevelWithAggregatesFilter<$PrismaModel> | $Enums.BadgeLevel
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBadgeLevelFilter<$PrismaModel>
+    _max?: NestedEnumBadgeLevelFilter<$PrismaModel>
+  }
+
+  export type EnumScoreReasonFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScoreReason | EnumScoreReasonFieldRefInput<$PrismaModel>
+    in?: $Enums.ScoreReason[] | ListEnumScoreReasonFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScoreReason[] | ListEnumScoreReasonFieldRefInput<$PrismaModel>
+    not?: NestedEnumScoreReasonFilter<$PrismaModel> | $Enums.ScoreReason
+  }
+
+  export type ScoreEventCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    points?: SortOrder
+    reason?: SortOrder
+    referenceId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ScoreEventAvgOrderByAggregateInput = {
+    points?: SortOrder
+  }
+
+  export type ScoreEventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    points?: SortOrder
+    reason?: SortOrder
+    referenceId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ScoreEventMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    points?: SortOrder
+    reason?: SortOrder
+    referenceId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ScoreEventSumOrderByAggregateInput = {
+    points?: SortOrder
+  }
+
+  export type EnumScoreReasonWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScoreReason | EnumScoreReasonFieldRefInput<$PrismaModel>
+    in?: $Enums.ScoreReason[] | ListEnumScoreReasonFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScoreReason[] | ListEnumScoreReasonFieldRefInput<$PrismaModel>
+    not?: NestedEnumScoreReasonWithAggregatesFilter<$PrismaModel> | $Enums.ScoreReason
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumScoreReasonFilter<$PrismaModel>
+    _max?: NestedEnumScoreReasonFilter<$PrismaModel>
+  }
+
   export type BillingEventCountOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
@@ -53003,6 +59870,27 @@ export namespace Prisma {
     connect?: VaultTrustedSessionWhereUniqueInput | VaultTrustedSessionWhereUniqueInput[]
   }
 
+  export type UserScoreCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserScoreCreateWithoutUserInput, UserScoreUncheckedCreateWithoutUserInput> | UserScoreCreateWithoutUserInput[] | UserScoreUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserScoreCreateOrConnectWithoutUserInput | UserScoreCreateOrConnectWithoutUserInput[]
+    createMany?: UserScoreCreateManyUserInputEnvelope
+    connect?: UserScoreWhereUniqueInput | UserScoreWhereUniqueInput[]
+  }
+
+  export type UserBadgeCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserBadgeCreateWithoutUserInput, UserBadgeUncheckedCreateWithoutUserInput> | UserBadgeCreateWithoutUserInput[] | UserBadgeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserBadgeCreateOrConnectWithoutUserInput | UserBadgeCreateOrConnectWithoutUserInput[]
+    createMany?: UserBadgeCreateManyUserInputEnvelope
+    connect?: UserBadgeWhereUniqueInput | UserBadgeWhereUniqueInput[]
+  }
+
+  export type ScoreEventCreateNestedManyWithoutUserInput = {
+    create?: XOR<ScoreEventCreateWithoutUserInput, ScoreEventUncheckedCreateWithoutUserInput> | ScoreEventCreateWithoutUserInput[] | ScoreEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ScoreEventCreateOrConnectWithoutUserInput | ScoreEventCreateOrConnectWithoutUserInput[]
+    createMany?: ScoreEventCreateManyUserInputEnvelope
+    connect?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+  }
+
   export type TicketUncheckedCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -53056,6 +59944,27 @@ export namespace Prisma {
     connectOrCreate?: VaultTrustedSessionCreateOrConnectWithoutUserInput | VaultTrustedSessionCreateOrConnectWithoutUserInput[]
     createMany?: VaultTrustedSessionCreateManyUserInputEnvelope
     connect?: VaultTrustedSessionWhereUniqueInput | VaultTrustedSessionWhereUniqueInput[]
+  }
+
+  export type UserScoreUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserScoreCreateWithoutUserInput, UserScoreUncheckedCreateWithoutUserInput> | UserScoreCreateWithoutUserInput[] | UserScoreUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserScoreCreateOrConnectWithoutUserInput | UserScoreCreateOrConnectWithoutUserInput[]
+    createMany?: UserScoreCreateManyUserInputEnvelope
+    connect?: UserScoreWhereUniqueInput | UserScoreWhereUniqueInput[]
+  }
+
+  export type UserBadgeUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserBadgeCreateWithoutUserInput, UserBadgeUncheckedCreateWithoutUserInput> | UserBadgeCreateWithoutUserInput[] | UserBadgeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserBadgeCreateOrConnectWithoutUserInput | UserBadgeCreateOrConnectWithoutUserInput[]
+    createMany?: UserBadgeCreateManyUserInputEnvelope
+    connect?: UserBadgeWhereUniqueInput | UserBadgeWhereUniqueInput[]
+  }
+
+  export type ScoreEventUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ScoreEventCreateWithoutUserInput, ScoreEventUncheckedCreateWithoutUserInput> | ScoreEventCreateWithoutUserInput[] | ScoreEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ScoreEventCreateOrConnectWithoutUserInput | ScoreEventCreateOrConnectWithoutUserInput[]
+    createMany?: ScoreEventCreateManyUserInputEnvelope
+    connect?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -53192,6 +60101,48 @@ export namespace Prisma {
     deleteMany?: VaultTrustedSessionScalarWhereInput | VaultTrustedSessionScalarWhereInput[]
   }
 
+  export type UserScoreUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserScoreCreateWithoutUserInput, UserScoreUncheckedCreateWithoutUserInput> | UserScoreCreateWithoutUserInput[] | UserScoreUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserScoreCreateOrConnectWithoutUserInput | UserScoreCreateOrConnectWithoutUserInput[]
+    upsert?: UserScoreUpsertWithWhereUniqueWithoutUserInput | UserScoreUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserScoreCreateManyUserInputEnvelope
+    set?: UserScoreWhereUniqueInput | UserScoreWhereUniqueInput[]
+    disconnect?: UserScoreWhereUniqueInput | UserScoreWhereUniqueInput[]
+    delete?: UserScoreWhereUniqueInput | UserScoreWhereUniqueInput[]
+    connect?: UserScoreWhereUniqueInput | UserScoreWhereUniqueInput[]
+    update?: UserScoreUpdateWithWhereUniqueWithoutUserInput | UserScoreUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserScoreUpdateManyWithWhereWithoutUserInput | UserScoreUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserScoreScalarWhereInput | UserScoreScalarWhereInput[]
+  }
+
+  export type UserBadgeUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserBadgeCreateWithoutUserInput, UserBadgeUncheckedCreateWithoutUserInput> | UserBadgeCreateWithoutUserInput[] | UserBadgeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserBadgeCreateOrConnectWithoutUserInput | UserBadgeCreateOrConnectWithoutUserInput[]
+    upsert?: UserBadgeUpsertWithWhereUniqueWithoutUserInput | UserBadgeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserBadgeCreateManyUserInputEnvelope
+    set?: UserBadgeWhereUniqueInput | UserBadgeWhereUniqueInput[]
+    disconnect?: UserBadgeWhereUniqueInput | UserBadgeWhereUniqueInput[]
+    delete?: UserBadgeWhereUniqueInput | UserBadgeWhereUniqueInput[]
+    connect?: UserBadgeWhereUniqueInput | UserBadgeWhereUniqueInput[]
+    update?: UserBadgeUpdateWithWhereUniqueWithoutUserInput | UserBadgeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserBadgeUpdateManyWithWhereWithoutUserInput | UserBadgeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserBadgeScalarWhereInput | UserBadgeScalarWhereInput[]
+  }
+
+  export type ScoreEventUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ScoreEventCreateWithoutUserInput, ScoreEventUncheckedCreateWithoutUserInput> | ScoreEventCreateWithoutUserInput[] | ScoreEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ScoreEventCreateOrConnectWithoutUserInput | ScoreEventCreateOrConnectWithoutUserInput[]
+    upsert?: ScoreEventUpsertWithWhereUniqueWithoutUserInput | ScoreEventUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ScoreEventCreateManyUserInputEnvelope
+    set?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+    disconnect?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+    delete?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+    connect?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+    update?: ScoreEventUpdateWithWhereUniqueWithoutUserInput | ScoreEventUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ScoreEventUpdateManyWithWhereWithoutUserInput | ScoreEventUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ScoreEventScalarWhereInput | ScoreEventScalarWhereInput[]
+  }
+
   export type TicketUncheckedUpdateManyWithoutCreatedByNestedInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -53300,6 +60251,48 @@ export namespace Prisma {
     deleteMany?: VaultTrustedSessionScalarWhereInput | VaultTrustedSessionScalarWhereInput[]
   }
 
+  export type UserScoreUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserScoreCreateWithoutUserInput, UserScoreUncheckedCreateWithoutUserInput> | UserScoreCreateWithoutUserInput[] | UserScoreUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserScoreCreateOrConnectWithoutUserInput | UserScoreCreateOrConnectWithoutUserInput[]
+    upsert?: UserScoreUpsertWithWhereUniqueWithoutUserInput | UserScoreUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserScoreCreateManyUserInputEnvelope
+    set?: UserScoreWhereUniqueInput | UserScoreWhereUniqueInput[]
+    disconnect?: UserScoreWhereUniqueInput | UserScoreWhereUniqueInput[]
+    delete?: UserScoreWhereUniqueInput | UserScoreWhereUniqueInput[]
+    connect?: UserScoreWhereUniqueInput | UserScoreWhereUniqueInput[]
+    update?: UserScoreUpdateWithWhereUniqueWithoutUserInput | UserScoreUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserScoreUpdateManyWithWhereWithoutUserInput | UserScoreUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserScoreScalarWhereInput | UserScoreScalarWhereInput[]
+  }
+
+  export type UserBadgeUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserBadgeCreateWithoutUserInput, UserBadgeUncheckedCreateWithoutUserInput> | UserBadgeCreateWithoutUserInput[] | UserBadgeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserBadgeCreateOrConnectWithoutUserInput | UserBadgeCreateOrConnectWithoutUserInput[]
+    upsert?: UserBadgeUpsertWithWhereUniqueWithoutUserInput | UserBadgeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserBadgeCreateManyUserInputEnvelope
+    set?: UserBadgeWhereUniqueInput | UserBadgeWhereUniqueInput[]
+    disconnect?: UserBadgeWhereUniqueInput | UserBadgeWhereUniqueInput[]
+    delete?: UserBadgeWhereUniqueInput | UserBadgeWhereUniqueInput[]
+    connect?: UserBadgeWhereUniqueInput | UserBadgeWhereUniqueInput[]
+    update?: UserBadgeUpdateWithWhereUniqueWithoutUserInput | UserBadgeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserBadgeUpdateManyWithWhereWithoutUserInput | UserBadgeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserBadgeScalarWhereInput | UserBadgeScalarWhereInput[]
+  }
+
+  export type ScoreEventUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ScoreEventCreateWithoutUserInput, ScoreEventUncheckedCreateWithoutUserInput> | ScoreEventCreateWithoutUserInput[] | ScoreEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ScoreEventCreateOrConnectWithoutUserInput | ScoreEventCreateOrConnectWithoutUserInput[]
+    upsert?: ScoreEventUpsertWithWhereUniqueWithoutUserInput | ScoreEventUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ScoreEventCreateManyUserInputEnvelope
+    set?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+    disconnect?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+    delete?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+    connect?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+    update?: ScoreEventUpdateWithWhereUniqueWithoutUserInput | ScoreEventUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ScoreEventUpdateManyWithWhereWithoutUserInput | ScoreEventUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ScoreEventScalarWhereInput | ScoreEventScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutVaultChallengesInput = {
     create?: XOR<UserCreateWithoutVaultChallengesInput, UserUncheckedCreateWithoutVaultChallengesInput>
     connectOrCreate?: UserCreateOrConnectWithoutVaultChallengesInput
@@ -53385,6 +60378,34 @@ export namespace Prisma {
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
     createMany?: UserCreateManyCompanyInputEnvelope
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type UserScoreCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<UserScoreCreateWithoutCompanyInput, UserScoreUncheckedCreateWithoutCompanyInput> | UserScoreCreateWithoutCompanyInput[] | UserScoreUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: UserScoreCreateOrConnectWithoutCompanyInput | UserScoreCreateOrConnectWithoutCompanyInput[]
+    createMany?: UserScoreCreateManyCompanyInputEnvelope
+    connect?: UserScoreWhereUniqueInput | UserScoreWhereUniqueInput[]
+  }
+
+  export type UserBadgeCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<UserBadgeCreateWithoutCompanyInput, UserBadgeUncheckedCreateWithoutCompanyInput> | UserBadgeCreateWithoutCompanyInput[] | UserBadgeUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: UserBadgeCreateOrConnectWithoutCompanyInput | UserBadgeCreateOrConnectWithoutCompanyInput[]
+    createMany?: UserBadgeCreateManyCompanyInputEnvelope
+    connect?: UserBadgeWhereUniqueInput | UserBadgeWhereUniqueInput[]
+  }
+
+  export type ScoreEventCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<ScoreEventCreateWithoutCompanyInput, ScoreEventUncheckedCreateWithoutCompanyInput> | ScoreEventCreateWithoutCompanyInput[] | ScoreEventUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ScoreEventCreateOrConnectWithoutCompanyInput | ScoreEventCreateOrConnectWithoutCompanyInput[]
+    createMany?: ScoreEventCreateManyCompanyInputEnvelope
+    connect?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+  }
+
+  export type BusinessHoursConfigCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<BusinessHoursConfigCreateWithoutCompanyInput, BusinessHoursConfigUncheckedCreateWithoutCompanyInput> | BusinessHoursConfigCreateWithoutCompanyInput[] | BusinessHoursConfigUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: BusinessHoursConfigCreateOrConnectWithoutCompanyInput | BusinessHoursConfigCreateOrConnectWithoutCompanyInput[]
+    createMany?: BusinessHoursConfigCreateManyCompanyInputEnvelope
+    connect?: BusinessHoursConfigWhereUniqueInput | BusinessHoursConfigWhereUniqueInput[]
   }
 
   export type CampaignCreateNestedManyWithoutCompanyInput = {
@@ -53559,6 +60580,34 @@ export namespace Prisma {
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
     createMany?: UserCreateManyCompanyInputEnvelope
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type UserScoreUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<UserScoreCreateWithoutCompanyInput, UserScoreUncheckedCreateWithoutCompanyInput> | UserScoreCreateWithoutCompanyInput[] | UserScoreUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: UserScoreCreateOrConnectWithoutCompanyInput | UserScoreCreateOrConnectWithoutCompanyInput[]
+    createMany?: UserScoreCreateManyCompanyInputEnvelope
+    connect?: UserScoreWhereUniqueInput | UserScoreWhereUniqueInput[]
+  }
+
+  export type UserBadgeUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<UserBadgeCreateWithoutCompanyInput, UserBadgeUncheckedCreateWithoutCompanyInput> | UserBadgeCreateWithoutCompanyInput[] | UserBadgeUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: UserBadgeCreateOrConnectWithoutCompanyInput | UserBadgeCreateOrConnectWithoutCompanyInput[]
+    createMany?: UserBadgeCreateManyCompanyInputEnvelope
+    connect?: UserBadgeWhereUniqueInput | UserBadgeWhereUniqueInput[]
+  }
+
+  export type ScoreEventUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<ScoreEventCreateWithoutCompanyInput, ScoreEventUncheckedCreateWithoutCompanyInput> | ScoreEventCreateWithoutCompanyInput[] | ScoreEventUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ScoreEventCreateOrConnectWithoutCompanyInput | ScoreEventCreateOrConnectWithoutCompanyInput[]
+    createMany?: ScoreEventCreateManyCompanyInputEnvelope
+    connect?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+  }
+
+  export type BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<BusinessHoursConfigCreateWithoutCompanyInput, BusinessHoursConfigUncheckedCreateWithoutCompanyInput> | BusinessHoursConfigCreateWithoutCompanyInput[] | BusinessHoursConfigUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: BusinessHoursConfigCreateOrConnectWithoutCompanyInput | BusinessHoursConfigCreateOrConnectWithoutCompanyInput[]
+    createMany?: BusinessHoursConfigCreateManyCompanyInputEnvelope
+    connect?: BusinessHoursConfigWhereUniqueInput | BusinessHoursConfigWhereUniqueInput[]
   }
 
   export type CampaignUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -53761,6 +60810,62 @@ export namespace Prisma {
     update?: UserUpdateWithWhereUniqueWithoutCompanyInput | UserUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: UserUpdateManyWithWhereWithoutCompanyInput | UserUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type UserScoreUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<UserScoreCreateWithoutCompanyInput, UserScoreUncheckedCreateWithoutCompanyInput> | UserScoreCreateWithoutCompanyInput[] | UserScoreUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: UserScoreCreateOrConnectWithoutCompanyInput | UserScoreCreateOrConnectWithoutCompanyInput[]
+    upsert?: UserScoreUpsertWithWhereUniqueWithoutCompanyInput | UserScoreUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: UserScoreCreateManyCompanyInputEnvelope
+    set?: UserScoreWhereUniqueInput | UserScoreWhereUniqueInput[]
+    disconnect?: UserScoreWhereUniqueInput | UserScoreWhereUniqueInput[]
+    delete?: UserScoreWhereUniqueInput | UserScoreWhereUniqueInput[]
+    connect?: UserScoreWhereUniqueInput | UserScoreWhereUniqueInput[]
+    update?: UserScoreUpdateWithWhereUniqueWithoutCompanyInput | UserScoreUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: UserScoreUpdateManyWithWhereWithoutCompanyInput | UserScoreUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: UserScoreScalarWhereInput | UserScoreScalarWhereInput[]
+  }
+
+  export type UserBadgeUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<UserBadgeCreateWithoutCompanyInput, UserBadgeUncheckedCreateWithoutCompanyInput> | UserBadgeCreateWithoutCompanyInput[] | UserBadgeUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: UserBadgeCreateOrConnectWithoutCompanyInput | UserBadgeCreateOrConnectWithoutCompanyInput[]
+    upsert?: UserBadgeUpsertWithWhereUniqueWithoutCompanyInput | UserBadgeUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: UserBadgeCreateManyCompanyInputEnvelope
+    set?: UserBadgeWhereUniqueInput | UserBadgeWhereUniqueInput[]
+    disconnect?: UserBadgeWhereUniqueInput | UserBadgeWhereUniqueInput[]
+    delete?: UserBadgeWhereUniqueInput | UserBadgeWhereUniqueInput[]
+    connect?: UserBadgeWhereUniqueInput | UserBadgeWhereUniqueInput[]
+    update?: UserBadgeUpdateWithWhereUniqueWithoutCompanyInput | UserBadgeUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: UserBadgeUpdateManyWithWhereWithoutCompanyInput | UserBadgeUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: UserBadgeScalarWhereInput | UserBadgeScalarWhereInput[]
+  }
+
+  export type ScoreEventUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<ScoreEventCreateWithoutCompanyInput, ScoreEventUncheckedCreateWithoutCompanyInput> | ScoreEventCreateWithoutCompanyInput[] | ScoreEventUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ScoreEventCreateOrConnectWithoutCompanyInput | ScoreEventCreateOrConnectWithoutCompanyInput[]
+    upsert?: ScoreEventUpsertWithWhereUniqueWithoutCompanyInput | ScoreEventUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: ScoreEventCreateManyCompanyInputEnvelope
+    set?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+    disconnect?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+    delete?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+    connect?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+    update?: ScoreEventUpdateWithWhereUniqueWithoutCompanyInput | ScoreEventUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: ScoreEventUpdateManyWithWhereWithoutCompanyInput | ScoreEventUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: ScoreEventScalarWhereInput | ScoreEventScalarWhereInput[]
+  }
+
+  export type BusinessHoursConfigUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<BusinessHoursConfigCreateWithoutCompanyInput, BusinessHoursConfigUncheckedCreateWithoutCompanyInput> | BusinessHoursConfigCreateWithoutCompanyInput[] | BusinessHoursConfigUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: BusinessHoursConfigCreateOrConnectWithoutCompanyInput | BusinessHoursConfigCreateOrConnectWithoutCompanyInput[]
+    upsert?: BusinessHoursConfigUpsertWithWhereUniqueWithoutCompanyInput | BusinessHoursConfigUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: BusinessHoursConfigCreateManyCompanyInputEnvelope
+    set?: BusinessHoursConfigWhereUniqueInput | BusinessHoursConfigWhereUniqueInput[]
+    disconnect?: BusinessHoursConfigWhereUniqueInput | BusinessHoursConfigWhereUniqueInput[]
+    delete?: BusinessHoursConfigWhereUniqueInput | BusinessHoursConfigWhereUniqueInput[]
+    connect?: BusinessHoursConfigWhereUniqueInput | BusinessHoursConfigWhereUniqueInput[]
+    update?: BusinessHoursConfigUpdateWithWhereUniqueWithoutCompanyInput | BusinessHoursConfigUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: BusinessHoursConfigUpdateManyWithWhereWithoutCompanyInput | BusinessHoursConfigUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: BusinessHoursConfigScalarWhereInput | BusinessHoursConfigScalarWhereInput[]
   }
 
   export type CampaignUpdateManyWithoutCompanyNestedInput = {
@@ -54107,6 +61212,62 @@ export namespace Prisma {
     update?: UserUpdateWithWhereUniqueWithoutCompanyInput | UserUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: UserUpdateManyWithWhereWithoutCompanyInput | UserUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type UserScoreUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<UserScoreCreateWithoutCompanyInput, UserScoreUncheckedCreateWithoutCompanyInput> | UserScoreCreateWithoutCompanyInput[] | UserScoreUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: UserScoreCreateOrConnectWithoutCompanyInput | UserScoreCreateOrConnectWithoutCompanyInput[]
+    upsert?: UserScoreUpsertWithWhereUniqueWithoutCompanyInput | UserScoreUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: UserScoreCreateManyCompanyInputEnvelope
+    set?: UserScoreWhereUniqueInput | UserScoreWhereUniqueInput[]
+    disconnect?: UserScoreWhereUniqueInput | UserScoreWhereUniqueInput[]
+    delete?: UserScoreWhereUniqueInput | UserScoreWhereUniqueInput[]
+    connect?: UserScoreWhereUniqueInput | UserScoreWhereUniqueInput[]
+    update?: UserScoreUpdateWithWhereUniqueWithoutCompanyInput | UserScoreUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: UserScoreUpdateManyWithWhereWithoutCompanyInput | UserScoreUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: UserScoreScalarWhereInput | UserScoreScalarWhereInput[]
+  }
+
+  export type UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<UserBadgeCreateWithoutCompanyInput, UserBadgeUncheckedCreateWithoutCompanyInput> | UserBadgeCreateWithoutCompanyInput[] | UserBadgeUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: UserBadgeCreateOrConnectWithoutCompanyInput | UserBadgeCreateOrConnectWithoutCompanyInput[]
+    upsert?: UserBadgeUpsertWithWhereUniqueWithoutCompanyInput | UserBadgeUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: UserBadgeCreateManyCompanyInputEnvelope
+    set?: UserBadgeWhereUniqueInput | UserBadgeWhereUniqueInput[]
+    disconnect?: UserBadgeWhereUniqueInput | UserBadgeWhereUniqueInput[]
+    delete?: UserBadgeWhereUniqueInput | UserBadgeWhereUniqueInput[]
+    connect?: UserBadgeWhereUniqueInput | UserBadgeWhereUniqueInput[]
+    update?: UserBadgeUpdateWithWhereUniqueWithoutCompanyInput | UserBadgeUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: UserBadgeUpdateManyWithWhereWithoutCompanyInput | UserBadgeUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: UserBadgeScalarWhereInput | UserBadgeScalarWhereInput[]
+  }
+
+  export type ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<ScoreEventCreateWithoutCompanyInput, ScoreEventUncheckedCreateWithoutCompanyInput> | ScoreEventCreateWithoutCompanyInput[] | ScoreEventUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ScoreEventCreateOrConnectWithoutCompanyInput | ScoreEventCreateOrConnectWithoutCompanyInput[]
+    upsert?: ScoreEventUpsertWithWhereUniqueWithoutCompanyInput | ScoreEventUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: ScoreEventCreateManyCompanyInputEnvelope
+    set?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+    disconnect?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+    delete?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+    connect?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+    update?: ScoreEventUpdateWithWhereUniqueWithoutCompanyInput | ScoreEventUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: ScoreEventUpdateManyWithWhereWithoutCompanyInput | ScoreEventUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: ScoreEventScalarWhereInput | ScoreEventScalarWhereInput[]
+  }
+
+  export type BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<BusinessHoursConfigCreateWithoutCompanyInput, BusinessHoursConfigUncheckedCreateWithoutCompanyInput> | BusinessHoursConfigCreateWithoutCompanyInput[] | BusinessHoursConfigUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: BusinessHoursConfigCreateOrConnectWithoutCompanyInput | BusinessHoursConfigCreateOrConnectWithoutCompanyInput[]
+    upsert?: BusinessHoursConfigUpsertWithWhereUniqueWithoutCompanyInput | BusinessHoursConfigUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: BusinessHoursConfigCreateManyCompanyInputEnvelope
+    set?: BusinessHoursConfigWhereUniqueInput | BusinessHoursConfigWhereUniqueInput[]
+    disconnect?: BusinessHoursConfigWhereUniqueInput | BusinessHoursConfigWhereUniqueInput[]
+    delete?: BusinessHoursConfigWhereUniqueInput | BusinessHoursConfigWhereUniqueInput[]
+    connect?: BusinessHoursConfigWhereUniqueInput | BusinessHoursConfigWhereUniqueInput[]
+    update?: BusinessHoursConfigUpdateWithWhereUniqueWithoutCompanyInput | BusinessHoursConfigUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: BusinessHoursConfigUpdateManyWithWhereWithoutCompanyInput | BusinessHoursConfigUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: BusinessHoursConfigScalarWhereInput | BusinessHoursConfigScalarWhereInput[]
   }
 
   export type CampaignUncheckedUpdateManyWithoutCompanyNestedInput = {
@@ -56249,6 +63410,172 @@ export namespace Prisma {
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutSubscriptionInput, CompanyUpdateWithoutSubscriptionInput>, CompanyUncheckedUpdateWithoutSubscriptionInput>
   }
 
+  export type CompanyCreateNestedOneWithoutBusinessHoursInput = {
+    create?: XOR<CompanyCreateWithoutBusinessHoursInput, CompanyUncheckedCreateWithoutBusinessHoursInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutBusinessHoursInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type BusinessHoursIntervalCreateNestedManyWithoutConfigInput = {
+    create?: XOR<BusinessHoursIntervalCreateWithoutConfigInput, BusinessHoursIntervalUncheckedCreateWithoutConfigInput> | BusinessHoursIntervalCreateWithoutConfigInput[] | BusinessHoursIntervalUncheckedCreateWithoutConfigInput[]
+    connectOrCreate?: BusinessHoursIntervalCreateOrConnectWithoutConfigInput | BusinessHoursIntervalCreateOrConnectWithoutConfigInput[]
+    createMany?: BusinessHoursIntervalCreateManyConfigInputEnvelope
+    connect?: BusinessHoursIntervalWhereUniqueInput | BusinessHoursIntervalWhereUniqueInput[]
+  }
+
+  export type BusinessHoursIntervalUncheckedCreateNestedManyWithoutConfigInput = {
+    create?: XOR<BusinessHoursIntervalCreateWithoutConfigInput, BusinessHoursIntervalUncheckedCreateWithoutConfigInput> | BusinessHoursIntervalCreateWithoutConfigInput[] | BusinessHoursIntervalUncheckedCreateWithoutConfigInput[]
+    connectOrCreate?: BusinessHoursIntervalCreateOrConnectWithoutConfigInput | BusinessHoursIntervalCreateOrConnectWithoutConfigInput[]
+    createMany?: BusinessHoursIntervalCreateManyConfigInputEnvelope
+    connect?: BusinessHoursIntervalWhereUniqueInput | BusinessHoursIntervalWhereUniqueInput[]
+  }
+
+  export type CompanyUpdateOneRequiredWithoutBusinessHoursNestedInput = {
+    create?: XOR<CompanyCreateWithoutBusinessHoursInput, CompanyUncheckedCreateWithoutBusinessHoursInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutBusinessHoursInput
+    upsert?: CompanyUpsertWithoutBusinessHoursInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutBusinessHoursInput, CompanyUpdateWithoutBusinessHoursInput>, CompanyUncheckedUpdateWithoutBusinessHoursInput>
+  }
+
+  export type BusinessHoursIntervalUpdateManyWithoutConfigNestedInput = {
+    create?: XOR<BusinessHoursIntervalCreateWithoutConfigInput, BusinessHoursIntervalUncheckedCreateWithoutConfigInput> | BusinessHoursIntervalCreateWithoutConfigInput[] | BusinessHoursIntervalUncheckedCreateWithoutConfigInput[]
+    connectOrCreate?: BusinessHoursIntervalCreateOrConnectWithoutConfigInput | BusinessHoursIntervalCreateOrConnectWithoutConfigInput[]
+    upsert?: BusinessHoursIntervalUpsertWithWhereUniqueWithoutConfigInput | BusinessHoursIntervalUpsertWithWhereUniqueWithoutConfigInput[]
+    createMany?: BusinessHoursIntervalCreateManyConfigInputEnvelope
+    set?: BusinessHoursIntervalWhereUniqueInput | BusinessHoursIntervalWhereUniqueInput[]
+    disconnect?: BusinessHoursIntervalWhereUniqueInput | BusinessHoursIntervalWhereUniqueInput[]
+    delete?: BusinessHoursIntervalWhereUniqueInput | BusinessHoursIntervalWhereUniqueInput[]
+    connect?: BusinessHoursIntervalWhereUniqueInput | BusinessHoursIntervalWhereUniqueInput[]
+    update?: BusinessHoursIntervalUpdateWithWhereUniqueWithoutConfigInput | BusinessHoursIntervalUpdateWithWhereUniqueWithoutConfigInput[]
+    updateMany?: BusinessHoursIntervalUpdateManyWithWhereWithoutConfigInput | BusinessHoursIntervalUpdateManyWithWhereWithoutConfigInput[]
+    deleteMany?: BusinessHoursIntervalScalarWhereInput | BusinessHoursIntervalScalarWhereInput[]
+  }
+
+  export type BusinessHoursIntervalUncheckedUpdateManyWithoutConfigNestedInput = {
+    create?: XOR<BusinessHoursIntervalCreateWithoutConfigInput, BusinessHoursIntervalUncheckedCreateWithoutConfigInput> | BusinessHoursIntervalCreateWithoutConfigInput[] | BusinessHoursIntervalUncheckedCreateWithoutConfigInput[]
+    connectOrCreate?: BusinessHoursIntervalCreateOrConnectWithoutConfigInput | BusinessHoursIntervalCreateOrConnectWithoutConfigInput[]
+    upsert?: BusinessHoursIntervalUpsertWithWhereUniqueWithoutConfigInput | BusinessHoursIntervalUpsertWithWhereUniqueWithoutConfigInput[]
+    createMany?: BusinessHoursIntervalCreateManyConfigInputEnvelope
+    set?: BusinessHoursIntervalWhereUniqueInput | BusinessHoursIntervalWhereUniqueInput[]
+    disconnect?: BusinessHoursIntervalWhereUniqueInput | BusinessHoursIntervalWhereUniqueInput[]
+    delete?: BusinessHoursIntervalWhereUniqueInput | BusinessHoursIntervalWhereUniqueInput[]
+    connect?: BusinessHoursIntervalWhereUniqueInput | BusinessHoursIntervalWhereUniqueInput[]
+    update?: BusinessHoursIntervalUpdateWithWhereUniqueWithoutConfigInput | BusinessHoursIntervalUpdateWithWhereUniqueWithoutConfigInput[]
+    updateMany?: BusinessHoursIntervalUpdateManyWithWhereWithoutConfigInput | BusinessHoursIntervalUpdateManyWithWhereWithoutConfigInput[]
+    deleteMany?: BusinessHoursIntervalScalarWhereInput | BusinessHoursIntervalScalarWhereInput[]
+  }
+
+  export type BusinessHoursConfigCreateNestedOneWithoutIntervalsInput = {
+    create?: XOR<BusinessHoursConfigCreateWithoutIntervalsInput, BusinessHoursConfigUncheckedCreateWithoutIntervalsInput>
+    connectOrCreate?: BusinessHoursConfigCreateOrConnectWithoutIntervalsInput
+    connect?: BusinessHoursConfigWhereUniqueInput
+  }
+
+  export type BusinessHoursConfigUpdateOneRequiredWithoutIntervalsNestedInput = {
+    create?: XOR<BusinessHoursConfigCreateWithoutIntervalsInput, BusinessHoursConfigUncheckedCreateWithoutIntervalsInput>
+    connectOrCreate?: BusinessHoursConfigCreateOrConnectWithoutIntervalsInput
+    upsert?: BusinessHoursConfigUpsertWithoutIntervalsInput
+    connect?: BusinessHoursConfigWhereUniqueInput
+    update?: XOR<XOR<BusinessHoursConfigUpdateToOneWithWhereWithoutIntervalsInput, BusinessHoursConfigUpdateWithoutIntervalsInput>, BusinessHoursConfigUncheckedUpdateWithoutIntervalsInput>
+  }
+
+  export type UserCreateNestedOneWithoutUserScoresInput = {
+    create?: XOR<UserCreateWithoutUserScoresInput, UserUncheckedCreateWithoutUserScoresInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserScoresInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutUserScoresInput = {
+    create?: XOR<CompanyCreateWithoutUserScoresInput, CompanyUncheckedCreateWithoutUserScoresInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutUserScoresInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutUserScoresNestedInput = {
+    create?: XOR<UserCreateWithoutUserScoresInput, UserUncheckedCreateWithoutUserScoresInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserScoresInput
+    upsert?: UserUpsertWithoutUserScoresInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUserScoresInput, UserUpdateWithoutUserScoresInput>, UserUncheckedUpdateWithoutUserScoresInput>
+  }
+
+  export type CompanyUpdateOneRequiredWithoutUserScoresNestedInput = {
+    create?: XOR<CompanyCreateWithoutUserScoresInput, CompanyUncheckedCreateWithoutUserScoresInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutUserScoresInput
+    upsert?: CompanyUpsertWithoutUserScoresInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutUserScoresInput, CompanyUpdateWithoutUserScoresInput>, CompanyUncheckedUpdateWithoutUserScoresInput>
+  }
+
+  export type UserCreateNestedOneWithoutUserBadgesInput = {
+    create?: XOR<UserCreateWithoutUserBadgesInput, UserUncheckedCreateWithoutUserBadgesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserBadgesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutUserBadgesInput = {
+    create?: XOR<CompanyCreateWithoutUserBadgesInput, CompanyUncheckedCreateWithoutUserBadgesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutUserBadgesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type EnumBadgeTypeFieldUpdateOperationsInput = {
+    set?: $Enums.BadgeType
+  }
+
+  export type EnumBadgeLevelFieldUpdateOperationsInput = {
+    set?: $Enums.BadgeLevel
+  }
+
+  export type UserUpdateOneRequiredWithoutUserBadgesNestedInput = {
+    create?: XOR<UserCreateWithoutUserBadgesInput, UserUncheckedCreateWithoutUserBadgesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserBadgesInput
+    upsert?: UserUpsertWithoutUserBadgesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUserBadgesInput, UserUpdateWithoutUserBadgesInput>, UserUncheckedUpdateWithoutUserBadgesInput>
+  }
+
+  export type CompanyUpdateOneRequiredWithoutUserBadgesNestedInput = {
+    create?: XOR<CompanyCreateWithoutUserBadgesInput, CompanyUncheckedCreateWithoutUserBadgesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutUserBadgesInput
+    upsert?: CompanyUpsertWithoutUserBadgesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutUserBadgesInput, CompanyUpdateWithoutUserBadgesInput>, CompanyUncheckedUpdateWithoutUserBadgesInput>
+  }
+
+  export type UserCreateNestedOneWithoutScoreEventsInput = {
+    create?: XOR<UserCreateWithoutScoreEventsInput, UserUncheckedCreateWithoutScoreEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutScoreEventsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutScoreEventsInput = {
+    create?: XOR<CompanyCreateWithoutScoreEventsInput, CompanyUncheckedCreateWithoutScoreEventsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutScoreEventsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type EnumScoreReasonFieldUpdateOperationsInput = {
+    set?: $Enums.ScoreReason
+  }
+
+  export type UserUpdateOneRequiredWithoutScoreEventsNestedInput = {
+    create?: XOR<UserCreateWithoutScoreEventsInput, UserUncheckedCreateWithoutScoreEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutScoreEventsInput
+    upsert?: UserUpsertWithoutScoreEventsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutScoreEventsInput, UserUpdateWithoutScoreEventsInput>, UserUncheckedUpdateWithoutScoreEventsInput>
+  }
+
+  export type CompanyUpdateOneRequiredWithoutScoreEventsNestedInput = {
+    create?: XOR<CompanyCreateWithoutScoreEventsInput, CompanyUncheckedCreateWithoutScoreEventsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutScoreEventsInput
+    upsert?: CompanyUpsertWithoutScoreEventsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutScoreEventsInput, CompanyUpdateWithoutScoreEventsInput>, CompanyUncheckedUpdateWithoutScoreEventsInput>
+  }
+
   export type CompanyCreateNestedOneWithoutBillingEventsInput = {
     create?: XOR<CompanyCreateWithoutBillingEventsInput, CompanyUncheckedCreateWithoutBillingEventsInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutBillingEventsInput
@@ -56858,6 +64185,57 @@ export namespace Prisma {
     _max?: NestedEnumSubscriptionStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumBadgeTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.BadgeType | EnumBadgeTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.BadgeType[] | ListEnumBadgeTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BadgeType[] | ListEnumBadgeTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBadgeTypeFilter<$PrismaModel> | $Enums.BadgeType
+  }
+
+  export type NestedEnumBadgeLevelFilter<$PrismaModel = never> = {
+    equals?: $Enums.BadgeLevel | EnumBadgeLevelFieldRefInput<$PrismaModel>
+    in?: $Enums.BadgeLevel[] | ListEnumBadgeLevelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BadgeLevel[] | ListEnumBadgeLevelFieldRefInput<$PrismaModel>
+    not?: NestedEnumBadgeLevelFilter<$PrismaModel> | $Enums.BadgeLevel
+  }
+
+  export type NestedEnumBadgeTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BadgeType | EnumBadgeTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.BadgeType[] | ListEnumBadgeTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BadgeType[] | ListEnumBadgeTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBadgeTypeWithAggregatesFilter<$PrismaModel> | $Enums.BadgeType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBadgeTypeFilter<$PrismaModel>
+    _max?: NestedEnumBadgeTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumBadgeLevelWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BadgeLevel | EnumBadgeLevelFieldRefInput<$PrismaModel>
+    in?: $Enums.BadgeLevel[] | ListEnumBadgeLevelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BadgeLevel[] | ListEnumBadgeLevelFieldRefInput<$PrismaModel>
+    not?: NestedEnumBadgeLevelWithAggregatesFilter<$PrismaModel> | $Enums.BadgeLevel
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBadgeLevelFilter<$PrismaModel>
+    _max?: NestedEnumBadgeLevelFilter<$PrismaModel>
+  }
+
+  export type NestedEnumScoreReasonFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScoreReason | EnumScoreReasonFieldRefInput<$PrismaModel>
+    in?: $Enums.ScoreReason[] | ListEnumScoreReasonFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScoreReason[] | ListEnumScoreReasonFieldRefInput<$PrismaModel>
+    not?: NestedEnumScoreReasonFilter<$PrismaModel> | $Enums.ScoreReason
+  }
+
+  export type NestedEnumScoreReasonWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScoreReason | EnumScoreReasonFieldRefInput<$PrismaModel>
+    in?: $Enums.ScoreReason[] | ListEnumScoreReasonFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScoreReason[] | ListEnumScoreReasonFieldRefInput<$PrismaModel>
+    not?: NestedEnumScoreReasonWithAggregatesFilter<$PrismaModel> | $Enums.ScoreReason
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumScoreReasonFilter<$PrismaModel>
+    _max?: NestedEnumScoreReasonFilter<$PrismaModel>
+  }
+
   export type CompanyCreateWithoutUsersInput = {
     id?: string
     name: string
@@ -56875,10 +64253,15 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -56921,10 +64304,15 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -57266,6 +64654,92 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UserScoreCreateWithoutUserInput = {
+    id?: string
+    totalPoints?: number
+    monthPoints?: number
+    month: number
+    year: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutUserScoresInput
+  }
+
+  export type UserScoreUncheckedCreateWithoutUserInput = {
+    id?: string
+    companyId: string
+    totalPoints?: number
+    monthPoints?: number
+    month: number
+    year: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserScoreCreateOrConnectWithoutUserInput = {
+    where: UserScoreWhereUniqueInput
+    create: XOR<UserScoreCreateWithoutUserInput, UserScoreUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserScoreCreateManyUserInputEnvelope = {
+    data: UserScoreCreateManyUserInput | UserScoreCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserBadgeCreateWithoutUserInput = {
+    id?: string
+    badge: $Enums.BadgeType
+    level?: $Enums.BadgeLevel
+    earnedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutUserBadgesInput
+  }
+
+  export type UserBadgeUncheckedCreateWithoutUserInput = {
+    id?: string
+    companyId: string
+    badge: $Enums.BadgeType
+    level?: $Enums.BadgeLevel
+    earnedAt?: Date | string
+  }
+
+  export type UserBadgeCreateOrConnectWithoutUserInput = {
+    where: UserBadgeWhereUniqueInput
+    create: XOR<UserBadgeCreateWithoutUserInput, UserBadgeUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserBadgeCreateManyUserInputEnvelope = {
+    data: UserBadgeCreateManyUserInput | UserBadgeCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ScoreEventCreateWithoutUserInput = {
+    id?: string
+    points: number
+    reason: $Enums.ScoreReason
+    referenceId?: string | null
+    createdAt?: Date | string
+    company: CompanyCreateNestedOneWithoutScoreEventsInput
+  }
+
+  export type ScoreEventUncheckedCreateWithoutUserInput = {
+    id?: string
+    companyId: string
+    points: number
+    reason: $Enums.ScoreReason
+    referenceId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ScoreEventCreateOrConnectWithoutUserInput = {
+    where: ScoreEventWhereUniqueInput
+    create: XOR<ScoreEventCreateWithoutUserInput, ScoreEventUncheckedCreateWithoutUserInput>
+  }
+
+  export type ScoreEventCreateManyUserInputEnvelope = {
+    data: ScoreEventCreateManyUserInput | ScoreEventCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutUsersInput = {
     update: XOR<CompanyUpdateWithoutUsersInput, CompanyUncheckedUpdateWithoutUsersInput>
     create: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
@@ -57294,10 +64768,15 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -57340,10 +64819,15 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -57617,6 +65101,94 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"VaultTrustedSession"> | Date | string
   }
 
+  export type UserScoreUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserScoreWhereUniqueInput
+    update: XOR<UserScoreUpdateWithoutUserInput, UserScoreUncheckedUpdateWithoutUserInput>
+    create: XOR<UserScoreCreateWithoutUserInput, UserScoreUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserScoreUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserScoreWhereUniqueInput
+    data: XOR<UserScoreUpdateWithoutUserInput, UserScoreUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserScoreUpdateManyWithWhereWithoutUserInput = {
+    where: UserScoreScalarWhereInput
+    data: XOR<UserScoreUpdateManyMutationInput, UserScoreUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserScoreScalarWhereInput = {
+    AND?: UserScoreScalarWhereInput | UserScoreScalarWhereInput[]
+    OR?: UserScoreScalarWhereInput[]
+    NOT?: UserScoreScalarWhereInput | UserScoreScalarWhereInput[]
+    id?: StringFilter<"UserScore"> | string
+    userId?: StringFilter<"UserScore"> | string
+    companyId?: StringFilter<"UserScore"> | string
+    totalPoints?: IntFilter<"UserScore"> | number
+    monthPoints?: IntFilter<"UserScore"> | number
+    month?: IntFilter<"UserScore"> | number
+    year?: IntFilter<"UserScore"> | number
+    createdAt?: DateTimeFilter<"UserScore"> | Date | string
+    updatedAt?: DateTimeFilter<"UserScore"> | Date | string
+  }
+
+  export type UserBadgeUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserBadgeWhereUniqueInput
+    update: XOR<UserBadgeUpdateWithoutUserInput, UserBadgeUncheckedUpdateWithoutUserInput>
+    create: XOR<UserBadgeCreateWithoutUserInput, UserBadgeUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserBadgeUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserBadgeWhereUniqueInput
+    data: XOR<UserBadgeUpdateWithoutUserInput, UserBadgeUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserBadgeUpdateManyWithWhereWithoutUserInput = {
+    where: UserBadgeScalarWhereInput
+    data: XOR<UserBadgeUpdateManyMutationInput, UserBadgeUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserBadgeScalarWhereInput = {
+    AND?: UserBadgeScalarWhereInput | UserBadgeScalarWhereInput[]
+    OR?: UserBadgeScalarWhereInput[]
+    NOT?: UserBadgeScalarWhereInput | UserBadgeScalarWhereInput[]
+    id?: StringFilter<"UserBadge"> | string
+    userId?: StringFilter<"UserBadge"> | string
+    companyId?: StringFilter<"UserBadge"> | string
+    badge?: EnumBadgeTypeFilter<"UserBadge"> | $Enums.BadgeType
+    level?: EnumBadgeLevelFilter<"UserBadge"> | $Enums.BadgeLevel
+    earnedAt?: DateTimeFilter<"UserBadge"> | Date | string
+  }
+
+  export type ScoreEventUpsertWithWhereUniqueWithoutUserInput = {
+    where: ScoreEventWhereUniqueInput
+    update: XOR<ScoreEventUpdateWithoutUserInput, ScoreEventUncheckedUpdateWithoutUserInput>
+    create: XOR<ScoreEventCreateWithoutUserInput, ScoreEventUncheckedCreateWithoutUserInput>
+  }
+
+  export type ScoreEventUpdateWithWhereUniqueWithoutUserInput = {
+    where: ScoreEventWhereUniqueInput
+    data: XOR<ScoreEventUpdateWithoutUserInput, ScoreEventUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ScoreEventUpdateManyWithWhereWithoutUserInput = {
+    where: ScoreEventScalarWhereInput
+    data: XOR<ScoreEventUpdateManyMutationInput, ScoreEventUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ScoreEventScalarWhereInput = {
+    AND?: ScoreEventScalarWhereInput | ScoreEventScalarWhereInput[]
+    OR?: ScoreEventScalarWhereInput[]
+    NOT?: ScoreEventScalarWhereInput | ScoreEventScalarWhereInput[]
+    id?: StringFilter<"ScoreEvent"> | string
+    userId?: StringFilter<"ScoreEvent"> | string
+    companyId?: StringFilter<"ScoreEvent"> | string
+    points?: IntFilter<"ScoreEvent"> | number
+    reason?: EnumScoreReasonFilter<"ScoreEvent"> | $Enums.ScoreReason
+    referenceId?: StringNullableFilter<"ScoreEvent"> | string | null
+    createdAt?: DateTimeFilter<"ScoreEvent"> | Date | string
+  }
+
   export type UserCreateWithoutVaultChallengesInput = {
     id?: string
     name: string
@@ -57634,6 +65206,9 @@ export namespace Prisma {
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
     googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
     vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutVaultChallengesInput = {
@@ -57653,6 +65228,9 @@ export namespace Prisma {
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
     googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
     vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutVaultChallengesInput = {
@@ -57688,6 +65266,9 @@ export namespace Prisma {
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
     googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
     vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultChallengesInput = {
@@ -57707,6 +65288,9 @@ export namespace Prisma {
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
     googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
     vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutVaultTrustedSessionsInput = {
@@ -57726,6 +65310,9 @@ export namespace Prisma {
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
     googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
     vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutVaultTrustedSessionsInput = {
@@ -57745,6 +65332,9 @@ export namespace Prisma {
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
     googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
     vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutVaultTrustedSessionsInput = {
@@ -57780,6 +65370,9 @@ export namespace Prisma {
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
     googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
     vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultTrustedSessionsInput = {
@@ -57799,6 +65392,9 @@ export namespace Prisma {
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
     googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
     vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutGoogleConnectionsInput = {
@@ -57818,6 +65414,9 @@ export namespace Prisma {
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
     vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
     vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGoogleConnectionsInput = {
@@ -57837,6 +65436,9 @@ export namespace Prisma {
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
     vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
     vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGoogleConnectionsInput = {
@@ -57872,6 +65474,9 @@ export namespace Prisma {
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
     vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
     vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGoogleConnectionsInput = {
@@ -57891,6 +65496,9 @@ export namespace Prisma {
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
     vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
     vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutSubCompaniesInput = {
@@ -57910,10 +65518,15 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -57956,10 +65569,15 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -58007,10 +65625,15 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -58053,10 +65676,15 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -58109,6 +65737,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
     vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
     vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyInput = {
@@ -58128,6 +65759,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
     vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
     vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyInput = {
@@ -58137,6 +65771,124 @@ export namespace Prisma {
 
   export type UserCreateManyCompanyInputEnvelope = {
     data: UserCreateManyCompanyInput | UserCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserScoreCreateWithoutCompanyInput = {
+    id?: string
+    totalPoints?: number
+    monthPoints?: number
+    month: number
+    year: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutUserScoresInput
+  }
+
+  export type UserScoreUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    userId: string
+    totalPoints?: number
+    monthPoints?: number
+    month: number
+    year: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserScoreCreateOrConnectWithoutCompanyInput = {
+    where: UserScoreWhereUniqueInput
+    create: XOR<UserScoreCreateWithoutCompanyInput, UserScoreUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type UserScoreCreateManyCompanyInputEnvelope = {
+    data: UserScoreCreateManyCompanyInput | UserScoreCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserBadgeCreateWithoutCompanyInput = {
+    id?: string
+    badge: $Enums.BadgeType
+    level?: $Enums.BadgeLevel
+    earnedAt?: Date | string
+    user: UserCreateNestedOneWithoutUserBadgesInput
+  }
+
+  export type UserBadgeUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    userId: string
+    badge: $Enums.BadgeType
+    level?: $Enums.BadgeLevel
+    earnedAt?: Date | string
+  }
+
+  export type UserBadgeCreateOrConnectWithoutCompanyInput = {
+    where: UserBadgeWhereUniqueInput
+    create: XOR<UserBadgeCreateWithoutCompanyInput, UserBadgeUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type UserBadgeCreateManyCompanyInputEnvelope = {
+    data: UserBadgeCreateManyCompanyInput | UserBadgeCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ScoreEventCreateWithoutCompanyInput = {
+    id?: string
+    points: number
+    reason: $Enums.ScoreReason
+    referenceId?: string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutScoreEventsInput
+  }
+
+  export type ScoreEventUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    userId: string
+    points: number
+    reason: $Enums.ScoreReason
+    referenceId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ScoreEventCreateOrConnectWithoutCompanyInput = {
+    where: ScoreEventWhereUniqueInput
+    create: XOR<ScoreEventCreateWithoutCompanyInput, ScoreEventUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type ScoreEventCreateManyCompanyInputEnvelope = {
+    data: ScoreEventCreateManyCompanyInput | ScoreEventCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BusinessHoursConfigCreateWithoutCompanyInput = {
+    id?: string
+    dayOfWeek: number
+    isOpen?: boolean
+    openTime?: string
+    closeTime?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    intervals?: BusinessHoursIntervalCreateNestedManyWithoutConfigInput
+  }
+
+  export type BusinessHoursConfigUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    dayOfWeek: number
+    isOpen?: boolean
+    openTime?: string
+    closeTime?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    intervals?: BusinessHoursIntervalUncheckedCreateNestedManyWithoutConfigInput
+  }
+
+  export type BusinessHoursConfigCreateOrConnectWithoutCompanyInput = {
+    where: BusinessHoursConfigWhereUniqueInput
+    create: XOR<BusinessHoursConfigCreateWithoutCompanyInput, BusinessHoursConfigUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type BusinessHoursConfigCreateManyCompanyInputEnvelope = {
+    data: BusinessHoursConfigCreateManyCompanyInput | BusinessHoursConfigCreateManyCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -59147,10 +66899,15 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -59193,10 +66950,15 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -59258,6 +67020,7 @@ export namespace Prisma {
     moduleCrm?: BoolFilter<"Company"> | boolean
     moduleTickets?: BoolFilter<"Company"> | boolean
     moduleAI?: BoolFilter<"Company"> | boolean
+    moduleGamificacao?: BoolFilter<"Company"> | boolean
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
     webhookToken?: StringNullableFilter<"Company"> | string | null
@@ -59292,6 +67055,84 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     whatsappSignature?: StringNullableFilter<"User"> | string | null
     companyId?: StringNullableFilter<"User"> | string | null
+  }
+
+  export type UserScoreUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: UserScoreWhereUniqueInput
+    update: XOR<UserScoreUpdateWithoutCompanyInput, UserScoreUncheckedUpdateWithoutCompanyInput>
+    create: XOR<UserScoreCreateWithoutCompanyInput, UserScoreUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type UserScoreUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: UserScoreWhereUniqueInput
+    data: XOR<UserScoreUpdateWithoutCompanyInput, UserScoreUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type UserScoreUpdateManyWithWhereWithoutCompanyInput = {
+    where: UserScoreScalarWhereInput
+    data: XOR<UserScoreUpdateManyMutationInput, UserScoreUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type UserBadgeUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: UserBadgeWhereUniqueInput
+    update: XOR<UserBadgeUpdateWithoutCompanyInput, UserBadgeUncheckedUpdateWithoutCompanyInput>
+    create: XOR<UserBadgeCreateWithoutCompanyInput, UserBadgeUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type UserBadgeUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: UserBadgeWhereUniqueInput
+    data: XOR<UserBadgeUpdateWithoutCompanyInput, UserBadgeUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type UserBadgeUpdateManyWithWhereWithoutCompanyInput = {
+    where: UserBadgeScalarWhereInput
+    data: XOR<UserBadgeUpdateManyMutationInput, UserBadgeUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type ScoreEventUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: ScoreEventWhereUniqueInput
+    update: XOR<ScoreEventUpdateWithoutCompanyInput, ScoreEventUncheckedUpdateWithoutCompanyInput>
+    create: XOR<ScoreEventCreateWithoutCompanyInput, ScoreEventUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type ScoreEventUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: ScoreEventWhereUniqueInput
+    data: XOR<ScoreEventUpdateWithoutCompanyInput, ScoreEventUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type ScoreEventUpdateManyWithWhereWithoutCompanyInput = {
+    where: ScoreEventScalarWhereInput
+    data: XOR<ScoreEventUpdateManyMutationInput, ScoreEventUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type BusinessHoursConfigUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: BusinessHoursConfigWhereUniqueInput
+    update: XOR<BusinessHoursConfigUpdateWithoutCompanyInput, BusinessHoursConfigUncheckedUpdateWithoutCompanyInput>
+    create: XOR<BusinessHoursConfigCreateWithoutCompanyInput, BusinessHoursConfigUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type BusinessHoursConfigUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: BusinessHoursConfigWhereUniqueInput
+    data: XOR<BusinessHoursConfigUpdateWithoutCompanyInput, BusinessHoursConfigUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type BusinessHoursConfigUpdateManyWithWhereWithoutCompanyInput = {
+    where: BusinessHoursConfigScalarWhereInput
+    data: XOR<BusinessHoursConfigUpdateManyMutationInput, BusinessHoursConfigUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type BusinessHoursConfigScalarWhereInput = {
+    AND?: BusinessHoursConfigScalarWhereInput | BusinessHoursConfigScalarWhereInput[]
+    OR?: BusinessHoursConfigScalarWhereInput[]
+    NOT?: BusinessHoursConfigScalarWhereInput | BusinessHoursConfigScalarWhereInput[]
+    id?: StringFilter<"BusinessHoursConfig"> | string
+    companyId?: StringFilter<"BusinessHoursConfig"> | string
+    dayOfWeek?: IntFilter<"BusinessHoursConfig"> | number
+    isOpen?: BoolFilter<"BusinessHoursConfig"> | boolean
+    openTime?: StringFilter<"BusinessHoursConfig"> | string
+    closeTime?: StringFilter<"BusinessHoursConfig"> | string
+    createdAt?: DateTimeFilter<"BusinessHoursConfig"> | Date | string
+    updatedAt?: DateTimeFilter<"BusinessHoursConfig"> | Date | string
   }
 
   export type CampaignUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -60063,11 +67904,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
@@ -60109,11 +67955,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
@@ -60359,11 +68210,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
@@ -60405,11 +68261,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
@@ -60556,11 +68417,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -60602,11 +68468,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -60797,11 +68668,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -60843,11 +68719,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -61012,11 +68893,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
@@ -61058,11 +68944,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
@@ -61367,11 +69258,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
@@ -61413,11 +69309,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
@@ -61787,11 +69688,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -61833,11 +69739,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -61895,11 +69806,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -61941,11 +69857,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -61987,11 +69908,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -62033,11 +69959,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -62084,6 +70015,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
     vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
     vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyContactInput = {
@@ -62103,6 +70037,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
     vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
     vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyContactInput = {
@@ -62138,11 +70075,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -62184,11 +70126,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -62241,6 +70188,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
     vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
     vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyContactInput = {
@@ -62260,6 +70210,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
     vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
     vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutWhatsappInstancesInput = {
@@ -62279,11 +70232,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
@@ -62325,11 +70283,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
@@ -62461,11 +70424,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
@@ -62507,11 +70475,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
@@ -62593,11 +70566,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -62639,11 +70617,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -62883,11 +70866,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -62929,11 +70917,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -63181,11 +71174,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -63227,11 +71225,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -63330,11 +71333,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -63376,11 +71384,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -63469,6 +71482,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
     vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
     vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConversationsAssignedInput = {
@@ -63488,6 +71504,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
     vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
     vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConversationsAssignedInput = {
@@ -63561,11 +71580,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -63607,11 +71631,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -63851,6 +71880,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
     vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
     vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversationsAssignedInput = {
@@ -63870,6 +71902,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
     vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
     vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorUpsertWithoutConversationsInput = {
@@ -63955,11 +71990,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -64001,11 +72041,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -64397,11 +72442,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -64443,11 +72493,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -64684,11 +72739,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -64730,11 +72790,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -64776,11 +72841,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -64822,11 +72892,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -64873,6 +72948,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
     vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
     vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketsAssignedInput = {
@@ -64892,6 +72970,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
     vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
     vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketsAssignedInput = {
@@ -64916,11 +72997,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -64962,11 +73048,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -65013,6 +73104,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
     vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
     vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketsCreatedInput = {
@@ -65032,6 +73126,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
     vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
     vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketsCreatedInput = {
@@ -65188,11 +73285,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -65234,11 +73336,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -65291,6 +73398,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
     vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
     vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsAssignedInput = {
@@ -65310,6 +73420,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
     vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
     vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutTicketsInput = {
@@ -65340,11 +73453,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -65386,11 +73504,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -65443,6 +73566,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
     vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
     vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsCreatedInput = {
@@ -65462,6 +73588,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
     vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
     vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorUpsertWithoutTicketsInput = {
@@ -65693,11 +73822,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -65739,11 +73873,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -65951,11 +74090,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -65997,11 +74141,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -66156,6 +74305,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
     vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
     vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSetoresInput = {
@@ -66175,6 +74327,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
     vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
     vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSetoresInput = {
@@ -66265,6 +74420,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
     vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
     vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSetoresInput = {
@@ -66284,6 +74442,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
     vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
     vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorCreateWithoutInstancesInput = {
@@ -66475,11 +74636,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -66521,11 +74687,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -66627,11 +74798,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -66673,11 +74849,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -66932,11 +75113,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -66978,11 +75164,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -67085,11 +75276,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -67131,11 +75327,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -67177,11 +75378,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -67223,11 +75429,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -67285,11 +75496,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -67331,11 +75547,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -67377,11 +75598,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -67423,11 +75649,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -67485,11 +75716,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -67531,11 +75767,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -67577,11 +75818,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -67623,11 +75869,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -67685,11 +75936,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -67731,11 +75987,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -67777,11 +76038,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -67823,11 +76089,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -67885,11 +76156,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -67931,11 +76207,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -67977,11 +76258,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -68023,11 +76309,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -68085,11 +76376,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -68131,11 +76427,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -68177,11 +76478,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -68223,11 +76529,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -68285,11 +76596,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -68331,11 +76647,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -68377,11 +76698,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -68423,11 +76749,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -68485,11 +76816,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -68531,11 +76867,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -68560,6 +76901,1309 @@ export namespace Prisma {
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
+  export type CompanyCreateWithoutBusinessHoursInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutBusinessHoursInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutBusinessHoursInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutBusinessHoursInput, CompanyUncheckedCreateWithoutBusinessHoursInput>
+  }
+
+  export type BusinessHoursIntervalCreateWithoutConfigInput = {
+    id?: string
+    startTime: string
+    endTime: string
+    label?: string | null
+  }
+
+  export type BusinessHoursIntervalUncheckedCreateWithoutConfigInput = {
+    id?: string
+    startTime: string
+    endTime: string
+    label?: string | null
+  }
+
+  export type BusinessHoursIntervalCreateOrConnectWithoutConfigInput = {
+    where: BusinessHoursIntervalWhereUniqueInput
+    create: XOR<BusinessHoursIntervalCreateWithoutConfigInput, BusinessHoursIntervalUncheckedCreateWithoutConfigInput>
+  }
+
+  export type BusinessHoursIntervalCreateManyConfigInputEnvelope = {
+    data: BusinessHoursIntervalCreateManyConfigInput | BusinessHoursIntervalCreateManyConfigInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutBusinessHoursInput = {
+    update: XOR<CompanyUpdateWithoutBusinessHoursInput, CompanyUncheckedUpdateWithoutBusinessHoursInput>
+    create: XOR<CompanyCreateWithoutBusinessHoursInput, CompanyUncheckedCreateWithoutBusinessHoursInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutBusinessHoursInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutBusinessHoursInput, CompanyUncheckedUpdateWithoutBusinessHoursInput>
+  }
+
+  export type CompanyUpdateWithoutBusinessHoursInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutBusinessHoursInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type BusinessHoursIntervalUpsertWithWhereUniqueWithoutConfigInput = {
+    where: BusinessHoursIntervalWhereUniqueInput
+    update: XOR<BusinessHoursIntervalUpdateWithoutConfigInput, BusinessHoursIntervalUncheckedUpdateWithoutConfigInput>
+    create: XOR<BusinessHoursIntervalCreateWithoutConfigInput, BusinessHoursIntervalUncheckedCreateWithoutConfigInput>
+  }
+
+  export type BusinessHoursIntervalUpdateWithWhereUniqueWithoutConfigInput = {
+    where: BusinessHoursIntervalWhereUniqueInput
+    data: XOR<BusinessHoursIntervalUpdateWithoutConfigInput, BusinessHoursIntervalUncheckedUpdateWithoutConfigInput>
+  }
+
+  export type BusinessHoursIntervalUpdateManyWithWhereWithoutConfigInput = {
+    where: BusinessHoursIntervalScalarWhereInput
+    data: XOR<BusinessHoursIntervalUpdateManyMutationInput, BusinessHoursIntervalUncheckedUpdateManyWithoutConfigInput>
+  }
+
+  export type BusinessHoursIntervalScalarWhereInput = {
+    AND?: BusinessHoursIntervalScalarWhereInput | BusinessHoursIntervalScalarWhereInput[]
+    OR?: BusinessHoursIntervalScalarWhereInput[]
+    NOT?: BusinessHoursIntervalScalarWhereInput | BusinessHoursIntervalScalarWhereInput[]
+    id?: StringFilter<"BusinessHoursInterval"> | string
+    configId?: StringFilter<"BusinessHoursInterval"> | string
+    startTime?: StringFilter<"BusinessHoursInterval"> | string
+    endTime?: StringFilter<"BusinessHoursInterval"> | string
+    label?: StringNullableFilter<"BusinessHoursInterval"> | string | null
+  }
+
+  export type BusinessHoursConfigCreateWithoutIntervalsInput = {
+    id?: string
+    dayOfWeek: number
+    isOpen?: boolean
+    openTime?: string
+    closeTime?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutBusinessHoursInput
+  }
+
+  export type BusinessHoursConfigUncheckedCreateWithoutIntervalsInput = {
+    id?: string
+    companyId: string
+    dayOfWeek: number
+    isOpen?: boolean
+    openTime?: string
+    closeTime?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BusinessHoursConfigCreateOrConnectWithoutIntervalsInput = {
+    where: BusinessHoursConfigWhereUniqueInput
+    create: XOR<BusinessHoursConfigCreateWithoutIntervalsInput, BusinessHoursConfigUncheckedCreateWithoutIntervalsInput>
+  }
+
+  export type BusinessHoursConfigUpsertWithoutIntervalsInput = {
+    update: XOR<BusinessHoursConfigUpdateWithoutIntervalsInput, BusinessHoursConfigUncheckedUpdateWithoutIntervalsInput>
+    create: XOR<BusinessHoursConfigCreateWithoutIntervalsInput, BusinessHoursConfigUncheckedCreateWithoutIntervalsInput>
+    where?: BusinessHoursConfigWhereInput
+  }
+
+  export type BusinessHoursConfigUpdateToOneWithWhereWithoutIntervalsInput = {
+    where?: BusinessHoursConfigWhereInput
+    data: XOR<BusinessHoursConfigUpdateWithoutIntervalsInput, BusinessHoursConfigUncheckedUpdateWithoutIntervalsInput>
+  }
+
+  export type BusinessHoursConfigUpdateWithoutIntervalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: IntFieldUpdateOperationsInput | number
+    isOpen?: BoolFieldUpdateOperationsInput | boolean
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutBusinessHoursNestedInput
+  }
+
+  export type BusinessHoursConfigUncheckedUpdateWithoutIntervalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: IntFieldUpdateOperationsInput | number
+    isOpen?: BoolFieldUpdateOperationsInput | boolean
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCreateWithoutUserScoresInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutUserScoresInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    companyId?: string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutUserScoresInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutUserScoresInput, UserUncheckedCreateWithoutUserScoresInput>
+  }
+
+  export type CompanyCreateWithoutUserScoresInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutUserScoresInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutUserScoresInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutUserScoresInput, CompanyUncheckedCreateWithoutUserScoresInput>
+  }
+
+  export type UserUpsertWithoutUserScoresInput = {
+    update: XOR<UserUpdateWithoutUserScoresInput, UserUncheckedUpdateWithoutUserScoresInput>
+    create: XOR<UserCreateWithoutUserScoresInput, UserUncheckedCreateWithoutUserScoresInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutUserScoresInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutUserScoresInput, UserUncheckedUpdateWithoutUserScoresInput>
+  }
+
+  export type UserUpdateWithoutUserScoresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutUserScoresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type CompanyUpsertWithoutUserScoresInput = {
+    update: XOR<CompanyUpdateWithoutUserScoresInput, CompanyUncheckedUpdateWithoutUserScoresInput>
+    create: XOR<CompanyCreateWithoutUserScoresInput, CompanyUncheckedCreateWithoutUserScoresInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutUserScoresInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutUserScoresInput, CompanyUncheckedUpdateWithoutUserScoresInput>
+  }
+
+  export type CompanyUpdateWithoutUserScoresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutUserScoresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type UserCreateWithoutUserBadgesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutUserBadgesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    companyId?: string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutUserBadgesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutUserBadgesInput, UserUncheckedCreateWithoutUserBadgesInput>
+  }
+
+  export type CompanyCreateWithoutUserBadgesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutUserBadgesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutUserBadgesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutUserBadgesInput, CompanyUncheckedCreateWithoutUserBadgesInput>
+  }
+
+  export type UserUpsertWithoutUserBadgesInput = {
+    update: XOR<UserUpdateWithoutUserBadgesInput, UserUncheckedUpdateWithoutUserBadgesInput>
+    create: XOR<UserCreateWithoutUserBadgesInput, UserUncheckedCreateWithoutUserBadgesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutUserBadgesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutUserBadgesInput, UserUncheckedUpdateWithoutUserBadgesInput>
+  }
+
+  export type UserUpdateWithoutUserBadgesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutUserBadgesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type CompanyUpsertWithoutUserBadgesInput = {
+    update: XOR<CompanyUpdateWithoutUserBadgesInput, CompanyUncheckedUpdateWithoutUserBadgesInput>
+    create: XOR<CompanyCreateWithoutUserBadgesInput, CompanyUncheckedCreateWithoutUserBadgesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutUserBadgesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutUserBadgesInput, CompanyUncheckedUpdateWithoutUserBadgesInput>
+  }
+
+  export type CompanyUpdateWithoutUserBadgesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutUserBadgesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type UserCreateWithoutScoreEventsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutScoreEventsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    companyId?: string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutScoreEventsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutScoreEventsInput, UserUncheckedCreateWithoutScoreEventsInput>
+  }
+
+  export type CompanyCreateWithoutScoreEventsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutScoreEventsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutScoreEventsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutScoreEventsInput, CompanyUncheckedCreateWithoutScoreEventsInput>
+  }
+
+  export type UserUpsertWithoutScoreEventsInput = {
+    update: XOR<UserUpdateWithoutScoreEventsInput, UserUncheckedUpdateWithoutScoreEventsInput>
+    create: XOR<UserCreateWithoutScoreEventsInput, UserUncheckedCreateWithoutScoreEventsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutScoreEventsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutScoreEventsInput, UserUncheckedUpdateWithoutScoreEventsInput>
+  }
+
+  export type UserUpdateWithoutScoreEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutScoreEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type CompanyUpsertWithoutScoreEventsInput = {
+    update: XOR<CompanyUpdateWithoutScoreEventsInput, CompanyUncheckedUpdateWithoutScoreEventsInput>
+    create: XOR<CompanyCreateWithoutScoreEventsInput, CompanyUncheckedCreateWithoutScoreEventsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutScoreEventsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutScoreEventsInput, CompanyUncheckedUpdateWithoutScoreEventsInput>
+  }
+
+  export type CompanyUpdateWithoutScoreEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutScoreEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
   export type CompanyCreateWithoutBillingEventsInput = {
     id?: string
     name: string
@@ -68577,11 +78221,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -68623,11 +78272,16 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -68685,11 +78339,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -68731,11 +78390,16 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -68855,6 +78519,34 @@ export namespace Prisma {
   export type VaultTrustedSessionCreateManyUserInput = {
     id?: string
     expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type UserScoreCreateManyUserInput = {
+    id?: string
+    companyId: string
+    totalPoints?: number
+    monthPoints?: number
+    month: number
+    year: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserBadgeCreateManyUserInput = {
+    id?: string
+    companyId: string
+    badge: $Enums.BadgeType
+    level?: $Enums.BadgeLevel
+    earnedAt?: Date | string
+  }
+
+  export type ScoreEventCreateManyUserInput = {
+    id?: string
+    companyId: string
+    points: number
+    reason: $Enums.ScoreReason
+    referenceId?: string | null
     createdAt?: Date | string
   }
 
@@ -69168,6 +78860,90 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserScoreUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    monthPoints?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutUserScoresNestedInput
+  }
+
+  export type UserScoreUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    monthPoints?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserScoreUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    monthPoints?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserBadgeUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    badge?: EnumBadgeTypeFieldUpdateOperationsInput | $Enums.BadgeType
+    level?: EnumBadgeLevelFieldUpdateOperationsInput | $Enums.BadgeLevel
+    earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutUserBadgesNestedInput
+  }
+
+  export type UserBadgeUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    badge?: EnumBadgeTypeFieldUpdateOperationsInput | $Enums.BadgeType
+    level?: EnumBadgeLevelFieldUpdateOperationsInput | $Enums.BadgeLevel
+    earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserBadgeUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    badge?: EnumBadgeTypeFieldUpdateOperationsInput | $Enums.BadgeType
+    level?: EnumBadgeLevelFieldUpdateOperationsInput | $Enums.BadgeLevel
+    earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScoreEventUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutScoreEventsNestedInput
+  }
+
+  export type ScoreEventUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScoreEventUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CompanyCreateManyParentCompanyInput = {
     id?: string
     name: string
@@ -69185,6 +78961,7 @@ export namespace Prisma {
     moduleCrm?: boolean
     moduleTickets?: boolean
     moduleAI?: boolean
+    moduleGamificacao?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
   }
@@ -69198,6 +78975,44 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     whatsappSignature?: string | null
+  }
+
+  export type UserScoreCreateManyCompanyInput = {
+    id?: string
+    userId: string
+    totalPoints?: number
+    monthPoints?: number
+    month: number
+    year: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserBadgeCreateManyCompanyInput = {
+    id?: string
+    userId: string
+    badge: $Enums.BadgeType
+    level?: $Enums.BadgeLevel
+    earnedAt?: Date | string
+  }
+
+  export type ScoreEventCreateManyCompanyInput = {
+    id?: string
+    userId: string
+    points: number
+    reason: $Enums.ScoreReason
+    referenceId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BusinessHoursConfigCreateManyCompanyInput = {
+    id?: string
+    dayOfWeek: number
+    isOpen?: boolean
+    openTime?: string
+    closeTime?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CampaignCreateManyCompanyInput = {
@@ -69548,10 +79363,15 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -69594,10 +79414,15 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -69640,6 +79465,7 @@ export namespace Prisma {
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -69661,6 +79487,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
     vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
     vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyInput = {
@@ -69680,6 +79509,9 @@ export namespace Prisma {
     googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
     vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
     vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCompanyInput = {
@@ -69691,6 +79523,122 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserScoreUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    monthPoints?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutUserScoresNestedInput
+  }
+
+  export type UserScoreUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    monthPoints?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserScoreUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    monthPoints?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserBadgeUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    badge?: EnumBadgeTypeFieldUpdateOperationsInput | $Enums.BadgeType
+    level?: EnumBadgeLevelFieldUpdateOperationsInput | $Enums.BadgeLevel
+    earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutUserBadgesNestedInput
+  }
+
+  export type UserBadgeUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    badge?: EnumBadgeTypeFieldUpdateOperationsInput | $Enums.BadgeType
+    level?: EnumBadgeLevelFieldUpdateOperationsInput | $Enums.BadgeLevel
+    earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserBadgeUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    badge?: EnumBadgeTypeFieldUpdateOperationsInput | $Enums.BadgeType
+    level?: EnumBadgeLevelFieldUpdateOperationsInput | $Enums.BadgeLevel
+    earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScoreEventUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutScoreEventsNestedInput
+  }
+
+  export type ScoreEventUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScoreEventUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BusinessHoursConfigUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: IntFieldUpdateOperationsInput | number
+    isOpen?: BoolFieldUpdateOperationsInput | boolean
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    intervals?: BusinessHoursIntervalUpdateManyWithoutConfigNestedInput
+  }
+
+  export type BusinessHoursConfigUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: IntFieldUpdateOperationsInput | number
+    isOpen?: BoolFieldUpdateOperationsInput | boolean
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    intervals?: BusinessHoursIntervalUncheckedUpdateManyWithoutConfigNestedInput
+  }
+
+  export type BusinessHoursConfigUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: IntFieldUpdateOperationsInput | number
+    isOpen?: BoolFieldUpdateOperationsInput | boolean
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CampaignUpdateWithoutCompanyInput = {
@@ -72130,6 +82078,34 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BusinessHoursIntervalCreateManyConfigInput = {
+    id?: string
+    startTime: string
+    endTime: string
+    label?: string | null
+  }
+
+  export type BusinessHoursIntervalUpdateWithoutConfigInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type BusinessHoursIntervalUncheckedUpdateWithoutConfigInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type BusinessHoursIntervalUncheckedUpdateManyWithoutConfigInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
 
 
   /**
@@ -72179,6 +82155,10 @@ export namespace Prisma {
      * @deprecated Use CompanyCredentialCountOutputTypeDefaultArgs instead
      */
     export type CompanyCredentialCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CompanyCredentialCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use BusinessHoursConfigCountOutputTypeDefaultArgs instead
+     */
+    export type BusinessHoursConfigCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BusinessHoursConfigCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserDefaultArgs instead
      */
@@ -72315,6 +82295,26 @@ export namespace Prisma {
      * @deprecated Use SubscriptionDefaultArgs instead
      */
     export type SubscriptionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SubscriptionDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use BusinessHoursConfigDefaultArgs instead
+     */
+    export type BusinessHoursConfigArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BusinessHoursConfigDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use BusinessHoursIntervalDefaultArgs instead
+     */
+    export type BusinessHoursIntervalArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BusinessHoursIntervalDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use UserScoreDefaultArgs instead
+     */
+    export type UserScoreArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserScoreDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use UserBadgeDefaultArgs instead
+     */
+    export type UserBadgeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserBadgeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ScoreEventDefaultArgs instead
+     */
+    export type ScoreEventArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ScoreEventDefaultArgs<ExtArgs>
     /**
      * @deprecated Use BillingEventDefaultArgs instead
      */

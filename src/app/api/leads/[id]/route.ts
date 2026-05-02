@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getClickupSettings, syncOportunidadeToClickup } from "@/lib/clickup";
 import { formatBrazilDateTime, formatBrazilDateTimeShort } from "@/lib/datetime";
+import { addScore } from "@/lib/gamification";
 
 // GET /api/leads/[id]
 export async function GET(
@@ -53,6 +54,8 @@ export async function PATCH(
   if (userRole !== "SUPER_ADMIN" && existing.companyId !== userCompanyId) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
   }
+
+  const userId = (session.user as any).id as string | undefined;
 
   const body = await req.json();
   const { name, phone, email, source, status, notes, value, campaignId, pipeline, pipelineStage, attendanceStatus, expectedReturnAt, clickupTaskId, trackingLinkId } = body;
@@ -163,6 +166,18 @@ export async function PATCH(
     }).catch(() => { /* não crítico */ });
     // Mantém o objeto lead retornado em sincronia
     (lead as any).notes = newNotesValue;
+  }
+
+  // Gamificação — fire-and-forget
+  if (userId) {
+    // Lead avançou de etapa no pipeline
+    if (pipelineStage !== undefined && pipelineStage !== existing.pipelineStage) {
+      void addScore(userId, existing.companyId, "LEAD_AVANCADO", id).catch(() => {});
+    }
+    // Lead convertido (status CLOSED = venda fechada)
+    if (status === "CLOSED" && existing.status !== "CLOSED") {
+      void addScore(userId, existing.companyId, "LEAD_CONVERTIDO", id).catch(() => {});
+    }
   }
 
   // ── ClickUp auto-sync (Oportunidades only) ────────────────────────────
