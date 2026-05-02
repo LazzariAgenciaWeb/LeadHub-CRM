@@ -41,6 +41,7 @@ export const GRADIENTS = {
   pipeline:     ["#ec4899", "#f97316"],   // pink → orange (CRM)
   setores:      ["#fbbf24", "#f59e0b"],   // yellow → amber (etiqueta)
   atendimento:  ["#06b6d4", "#3b82f6"],   // cyan → blue (relógio)
+  email:        ["#3b82f6", "#06b6d4"],   // blue → cyan (envelope)
 
   // Cofre / vault
   cofre:        ["#f59e0b", "#dc2626"],   // amber → red (segurança)

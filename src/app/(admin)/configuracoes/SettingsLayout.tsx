@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import {
   MessageSquare, Building2, Plug, Zap, CheckSquare, Sparkles, Webhook,
-  Workflow, Tag, Clock, Globe, type LucideIcon,
+  Workflow, Tag, Clock, Globe, Mail, type LucideIcon,
 } from "lucide-react";
 import { gradStroke, type GradientKey } from "@/components/IconGradients";
 
@@ -38,6 +38,7 @@ const SECTIONS: SectionItem[] = [
   { type: "item", key: "pipeline",    Icon: Workflow, grad: "pipeline",    label: "CRM / Pipeline", desc: "Etapas e configurações" },
   { type: "item", key: "setores",     Icon: Tag,      grad: "setores",     label: "Setores",        desc: "Times, acesso e permissões" },
   { type: "item", key: "atendimento", Icon: Clock,    grad: "atendimento", label: "Atendimento",    desc: "SLA, fila e regras de inbox" },
+  { type: "item", key: "email",       Icon: Mail,     grad: "email",       label: "E-mail (SMTP)",  desc: "Servidor de e-mail do sistema" },
 ];
 
 function isIntegSubKey(key: string) {

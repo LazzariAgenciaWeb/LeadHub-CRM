@@ -134,6 +134,24 @@ exports.Prisma.UserScalarFieldEnum = {
   companyId: 'companyId'
 };
 
+exports.Prisma.VaultEmailChallengeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  codeHash: 'codeHash',
+  credentialId: 'credentialId',
+  attempts: 'attempts',
+  used: 'used',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.VaultTrustedSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.UserGoogleConnectionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -712,6 +730,8 @@ exports.IntegrationStatus = exports.$Enums.IntegrationStatus = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  VaultEmailChallenge: 'VaultEmailChallenge',
+  VaultTrustedSession: 'VaultTrustedSession',
   UserGoogleConnection: 'UserGoogleConnection',
   Company: 'Company',
   Campaign: 'Campaign',

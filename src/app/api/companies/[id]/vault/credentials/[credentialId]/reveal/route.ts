@@ -2,9 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { authorizeVaultAccess } from "@/lib/vault-auth";
 import { tryDecryptSecret } from "@/lib/crypto";
+import { getActiveTrustedSession } from "@/lib/vault-2fa";
 
 // POST /api/companies/[id]/vault/credentials/[credentialId]/reveal
 // Body: { action?: "REVEAL" | "COPY" | "SHARE" }  default: REVEAL
+//
+// Pré-requisito: VaultTrustedSession ativa (criada via /api/vault/verify
+// após validar código de e-mail). Sem ela retorna 403 com requires2FA:true
+// pra UI abrir o modal de verificação por e-mail.
+//
 // Retorna a senha em texto claro e registra log de acesso.
 export async function POST(
   req: NextRequest,
@@ -13,6 +19,15 @@ export async function POST(
   const { id: companyId, credentialId } = await params;
   const auth = await authorizeVaultAccess(companyId);
   if (!auth.ok) return NextResponse.json({ error: auth.error }, { status: auth.status });
+
+  // 2FA: exige sessão de confiança ativa
+  const trustedUntil = await getActiveTrustedSession(auth.userId);
+  if (!trustedUntil) {
+    return NextResponse.json(
+      { error: "Verificação por e-mail necessária", requires2FA: true },
+      { status: 403 },
+    );
+  }
 
   const cred = await prisma.companyCredential.findUnique({
     where: { id: credentialId },

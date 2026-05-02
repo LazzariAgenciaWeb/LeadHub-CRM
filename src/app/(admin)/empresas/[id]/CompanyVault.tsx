@@ -7,6 +7,7 @@ import {
   Plus, Trash2, Pencil, ExternalLink, AlertTriangle, Check,
   KeyRound, ShieldCheck, Info, ChevronDown, ChevronRight,
 } from "lucide-react";
+import VaultVerifyModal from "./VaultVerifyModal";
 
 type AssetType =
   | "DOMAIN" | "HOSTING" | "WEBSITE" | "EMAIL_ACCOUNT" | "DATABASE"
@@ -84,6 +85,10 @@ export default function CompanyVault({ companyId }: { companyId: string }) {
   const [revealed, setRevealed] = useState<Record<string, string>>({});
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
+  // 2FA por e-mail: quando o backend retorna requires2FA, salvamos a ação
+  // pendente e abrimos o modal. Após verificação, retomamos a chamada.
+  const [pendingReveal, setPendingReveal] = useState<{ credId: string; action: "REVEAL" | "COPY" | "SHARE" } | null>(null);
+
   useEffect(() => {
     void loadAssets();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -117,7 +122,13 @@ export default function CompanyVault({ companyId }: { companyId: string }) {
       body: JSON.stringify({ action }),
     });
     if (!r.ok) {
-      alert((await r.json()).error || "Falha ao revelar");
+      const err = await r.json().catch(() => ({}));
+      // 2FA necessário → guarda a ação pendente e abre o modal de verificação
+      if (r.status === 403 && err.requires2FA) {
+        setPendingReveal({ credId, action });
+        return;
+      }
+      alert(err.error || "Falha ao revelar");
       return;
     }
     const { password } = await r.json();
@@ -215,25 +226,24 @@ export default function CompanyVault({ companyId }: { companyId: string }) {
               <div className="flex gap-2">
                 <Lock className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0 mt-0.5" />
                 <p>
-                  As senhas são gravadas <strong className="text-slate-200">criptografadas (AES-256-GCM)</strong> no banco.
-                  Mesmo um ataque ao banco não expõe os segredos sem a chave mestra.
+                  Senhas gravadas <strong className="text-slate-200">criptografadas (AES-256-GCM)</strong>.
+                  Cada visualização exige <strong className="text-slate-200">verificação por e-mail</strong> —
+                  enviamos um código de 6 dígitos pra sua conta cadastrada.
                 </p>
               </div>
               <div className="flex gap-2">
                 <Eye className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0 mt-0.5" />
                 <p>
                   <strong className="text-slate-200">Toda visualização é registrada</strong> (quem viu, quando, IP).
-                  Use <em>Mostrar</em> e <em>Copiar</em> para deixar rastro de auditoria.
+                  Após validar uma vez, próximas senhas podem ser reveladas por 15 min sem novo código.
                 </p>
               </div>
               <div className="flex gap-2">
                 <AlertTriangle className="w-3.5 h-3.5 text-amber-400 flex-shrink-0 mt-0.5" />
                 <p>
-                  <strong className="text-amber-300">Atenção operacional:</strong> a chave mestra fica na variável
-                  de ambiente <code className="bg-black/30 px-1 py-0.5 rounded text-amber-200">ENCRYPTION_KEY</code> do
-                  servidor. Se ela for <strong>perdida ou trocada</strong>, todas as senhas guardadas viram ilegíveis
-                  permanentemente — não há recuperação (é por design). Mantenha um backup dessa chave em local seguro
-                  (gerenciador de senhas, cofre físico, etc.) <strong>fora do servidor</strong>.
+                  <strong className="text-amber-300">Para o admin do servidor:</strong> a chave de criptografia
+                  (<code className="bg-black/30 px-1 py-0.5 rounded text-amber-200">ENCRYPTION_KEY</code>) deve
+                  ter backup fora do servidor. Sem ela, o banco vira ilegível — é a última linha de defesa do cofre.
                 </p>
               </div>
               <div className="flex gap-2">
@@ -340,6 +350,22 @@ export default function CompanyVault({ companyId }: { companyId: string }) {
           credential={showCredModal.credential}
           onClose={() => setShowCredModal(null)}
           onSaved={() => { setShowCredModal(null); void loadAssets(); }}
+        />
+      )}
+
+      {/* Modal de verificação por e-mail (2FA do cofre).
+          Aparece quando /reveal retorna requires2FA — após validar o código,
+          retomamos a chamada original (REVEAL/COPY/SHARE) automaticamente. */}
+      {pendingReveal && (
+        <VaultVerifyModal
+          credentialId={pendingReveal.credId}
+          onClose={() => setPendingReveal(null)}
+          onVerified={() => {
+            const pending = pendingReveal;
+            setPendingReveal(null);
+            // Retoma a ação original — agora o backend já tem trusted session
+            if (pending) void handleReveal(pending.credId, pending.action);
+          }}
         />
       )}
     </div>

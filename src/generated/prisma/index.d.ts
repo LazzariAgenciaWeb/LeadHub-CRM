@@ -19,6 +19,16 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model VaultEmailChallenge
+ * 
+ */
+export type VaultEmailChallenge = $Result.DefaultSelection<Prisma.$VaultEmailChallengePayload>
+/**
+ * Model VaultTrustedSession
+ * 
+ */
+export type VaultTrustedSession = $Result.DefaultSelection<Prisma.$VaultTrustedSessionPayload>
+/**
  * Model UserGoogleConnection
  * 
  */
@@ -547,6 +557,26 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs>;
+
+  /**
+   * `prisma.vaultEmailChallenge`: Exposes CRUD operations for the **VaultEmailChallenge** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VaultEmailChallenges
+    * const vaultEmailChallenges = await prisma.vaultEmailChallenge.findMany()
+    * ```
+    */
+  get vaultEmailChallenge(): Prisma.VaultEmailChallengeDelegate<ExtArgs>;
+
+  /**
+   * `prisma.vaultTrustedSession`: Exposes CRUD operations for the **VaultTrustedSession** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VaultTrustedSessions
+    * const vaultTrustedSessions = await prisma.vaultTrustedSession.findMany()
+    * ```
+    */
+  get vaultTrustedSession(): Prisma.VaultTrustedSessionDelegate<ExtArgs>;
 
   /**
    * `prisma.userGoogleConnection`: Exposes CRUD operations for the **UserGoogleConnection** model.
@@ -1289,6 +1319,8 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
+    VaultEmailChallenge: 'VaultEmailChallenge',
+    VaultTrustedSession: 'VaultTrustedSession',
     UserGoogleConnection: 'UserGoogleConnection',
     Company: 'Company',
     Campaign: 'Campaign',
@@ -1334,7 +1366,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1405,6 +1437,146 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      VaultEmailChallenge: {
+        payload: Prisma.$VaultEmailChallengePayload<ExtArgs>
+        fields: Prisma.VaultEmailChallengeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VaultEmailChallengeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VaultEmailChallengePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VaultEmailChallengeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VaultEmailChallengePayload>
+          }
+          findFirst: {
+            args: Prisma.VaultEmailChallengeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VaultEmailChallengePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VaultEmailChallengeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VaultEmailChallengePayload>
+          }
+          findMany: {
+            args: Prisma.VaultEmailChallengeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VaultEmailChallengePayload>[]
+          }
+          create: {
+            args: Prisma.VaultEmailChallengeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VaultEmailChallengePayload>
+          }
+          createMany: {
+            args: Prisma.VaultEmailChallengeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VaultEmailChallengeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VaultEmailChallengePayload>[]
+          }
+          delete: {
+            args: Prisma.VaultEmailChallengeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VaultEmailChallengePayload>
+          }
+          update: {
+            args: Prisma.VaultEmailChallengeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VaultEmailChallengePayload>
+          }
+          deleteMany: {
+            args: Prisma.VaultEmailChallengeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VaultEmailChallengeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.VaultEmailChallengeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VaultEmailChallengePayload>
+          }
+          aggregate: {
+            args: Prisma.VaultEmailChallengeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVaultEmailChallenge>
+          }
+          groupBy: {
+            args: Prisma.VaultEmailChallengeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VaultEmailChallengeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VaultEmailChallengeCountArgs<ExtArgs>
+            result: $Utils.Optional<VaultEmailChallengeCountAggregateOutputType> | number
+          }
+        }
+      }
+      VaultTrustedSession: {
+        payload: Prisma.$VaultTrustedSessionPayload<ExtArgs>
+        fields: Prisma.VaultTrustedSessionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VaultTrustedSessionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VaultTrustedSessionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VaultTrustedSessionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VaultTrustedSessionPayload>
+          }
+          findFirst: {
+            args: Prisma.VaultTrustedSessionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VaultTrustedSessionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VaultTrustedSessionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VaultTrustedSessionPayload>
+          }
+          findMany: {
+            args: Prisma.VaultTrustedSessionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VaultTrustedSessionPayload>[]
+          }
+          create: {
+            args: Prisma.VaultTrustedSessionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VaultTrustedSessionPayload>
+          }
+          createMany: {
+            args: Prisma.VaultTrustedSessionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VaultTrustedSessionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VaultTrustedSessionPayload>[]
+          }
+          delete: {
+            args: Prisma.VaultTrustedSessionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VaultTrustedSessionPayload>
+          }
+          update: {
+            args: Prisma.VaultTrustedSessionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VaultTrustedSessionPayload>
+          }
+          deleteMany: {
+            args: Prisma.VaultTrustedSessionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VaultTrustedSessionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.VaultTrustedSessionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VaultTrustedSessionPayload>
+          }
+          aggregate: {
+            args: Prisma.VaultTrustedSessionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVaultTrustedSession>
+          }
+          groupBy: {
+            args: Prisma.VaultTrustedSessionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VaultTrustedSessionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VaultTrustedSessionCountArgs<ExtArgs>
+            result: $Utils.Optional<VaultTrustedSessionCountAggregateOutputType> | number
           }
         }
       }
@@ -3673,6 +3845,8 @@ export namespace Prisma {
     setores: number
     conversationsAssigned: number
     googleConnections: number
+    vaultChallenges: number
+    vaultTrustedSessions: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3680,6 +3854,8 @@ export namespace Prisma {
     setores?: boolean | UserCountOutputTypeCountSetoresArgs
     conversationsAssigned?: boolean | UserCountOutputTypeCountConversationsAssignedArgs
     googleConnections?: boolean | UserCountOutputTypeCountGoogleConnectionsArgs
+    vaultChallenges?: boolean | UserCountOutputTypeCountVaultChallengesArgs
+    vaultTrustedSessions?: boolean | UserCountOutputTypeCountVaultTrustedSessionsArgs
   }
 
   // Custom InputTypes
@@ -3719,6 +3895,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountGoogleConnectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserGoogleConnectionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountVaultChallengesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VaultEmailChallengeWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountVaultTrustedSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VaultTrustedSessionWhereInput
   }
 
 
@@ -4553,6 +4743,8 @@ export namespace Prisma {
     setores?: boolean | User$setoresArgs<ExtArgs>
     conversationsAssigned?: boolean | User$conversationsAssignedArgs<ExtArgs>
     googleConnections?: boolean | User$googleConnectionsArgs<ExtArgs>
+    vaultChallenges?: boolean | User$vaultChallengesArgs<ExtArgs>
+    vaultTrustedSessions?: boolean | User$vaultTrustedSessionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -4588,6 +4780,8 @@ export namespace Prisma {
     setores?: boolean | User$setoresArgs<ExtArgs>
     conversationsAssigned?: boolean | User$conversationsAssignedArgs<ExtArgs>
     googleConnections?: boolean | User$googleConnectionsArgs<ExtArgs>
+    vaultChallenges?: boolean | User$vaultChallengesArgs<ExtArgs>
+    vaultTrustedSessions?: boolean | User$vaultTrustedSessionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4603,6 +4797,8 @@ export namespace Prisma {
       setores: Prisma.$SetorUserPayload<ExtArgs>[]
       conversationsAssigned: Prisma.$ConversationPayload<ExtArgs>[]
       googleConnections: Prisma.$UserGoogleConnectionPayload<ExtArgs>[]
+      vaultChallenges: Prisma.$VaultEmailChallengePayload<ExtArgs>[]
+      vaultTrustedSessions: Prisma.$VaultTrustedSessionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4984,6 +5180,8 @@ export namespace Prisma {
     setores<T extends User$setoresArgs<ExtArgs> = {}>(args?: Subset<T, User$setoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorUserPayload<ExtArgs>, T, "findMany"> | Null>
     conversationsAssigned<T extends User$conversationsAssignedArgs<ExtArgs> = {}>(args?: Subset<T, User$conversationsAssignedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany"> | Null>
     googleConnections<T extends User$googleConnectionsArgs<ExtArgs> = {}>(args?: Subset<T, User$googleConnectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserGoogleConnectionPayload<ExtArgs>, T, "findMany"> | Null>
+    vaultChallenges<T extends User$vaultChallengesArgs<ExtArgs> = {}>(args?: Subset<T, User$vaultChallengesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VaultEmailChallengePayload<ExtArgs>, T, "findMany"> | Null>
+    vaultTrustedSessions<T extends User$vaultTrustedSessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$vaultTrustedSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VaultTrustedSessionPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5450,6 +5648,46 @@ export namespace Prisma {
   }
 
   /**
+   * User.vaultChallenges
+   */
+  export type User$vaultChallengesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultEmailChallenge
+     */
+    select?: VaultEmailChallengeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultEmailChallengeInclude<ExtArgs> | null
+    where?: VaultEmailChallengeWhereInput
+    orderBy?: VaultEmailChallengeOrderByWithRelationInput | VaultEmailChallengeOrderByWithRelationInput[]
+    cursor?: VaultEmailChallengeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VaultEmailChallengeScalarFieldEnum | VaultEmailChallengeScalarFieldEnum[]
+  }
+
+  /**
+   * User.vaultTrustedSessions
+   */
+  export type User$vaultTrustedSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultTrustedSession
+     */
+    select?: VaultTrustedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultTrustedSessionInclude<ExtArgs> | null
+    where?: VaultTrustedSessionWhereInput
+    orderBy?: VaultTrustedSessionOrderByWithRelationInput | VaultTrustedSessionOrderByWithRelationInput[]
+    cursor?: VaultTrustedSessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VaultTrustedSessionScalarFieldEnum | VaultTrustedSessionScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5461,6 +5699,1930 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model VaultEmailChallenge
+   */
+
+  export type AggregateVaultEmailChallenge = {
+    _count: VaultEmailChallengeCountAggregateOutputType | null
+    _avg: VaultEmailChallengeAvgAggregateOutputType | null
+    _sum: VaultEmailChallengeSumAggregateOutputType | null
+    _min: VaultEmailChallengeMinAggregateOutputType | null
+    _max: VaultEmailChallengeMaxAggregateOutputType | null
+  }
+
+  export type VaultEmailChallengeAvgAggregateOutputType = {
+    attempts: number | null
+  }
+
+  export type VaultEmailChallengeSumAggregateOutputType = {
+    attempts: number | null
+  }
+
+  export type VaultEmailChallengeMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    codeHash: string | null
+    credentialId: string | null
+    attempts: number | null
+    used: boolean | null
+    expiresAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type VaultEmailChallengeMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    codeHash: string | null
+    credentialId: string | null
+    attempts: number | null
+    used: boolean | null
+    expiresAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type VaultEmailChallengeCountAggregateOutputType = {
+    id: number
+    userId: number
+    codeHash: number
+    credentialId: number
+    attempts: number
+    used: number
+    expiresAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type VaultEmailChallengeAvgAggregateInputType = {
+    attempts?: true
+  }
+
+  export type VaultEmailChallengeSumAggregateInputType = {
+    attempts?: true
+  }
+
+  export type VaultEmailChallengeMinAggregateInputType = {
+    id?: true
+    userId?: true
+    codeHash?: true
+    credentialId?: true
+    attempts?: true
+    used?: true
+    expiresAt?: true
+    createdAt?: true
+  }
+
+  export type VaultEmailChallengeMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    codeHash?: true
+    credentialId?: true
+    attempts?: true
+    used?: true
+    expiresAt?: true
+    createdAt?: true
+  }
+
+  export type VaultEmailChallengeCountAggregateInputType = {
+    id?: true
+    userId?: true
+    codeHash?: true
+    credentialId?: true
+    attempts?: true
+    used?: true
+    expiresAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type VaultEmailChallengeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VaultEmailChallenge to aggregate.
+     */
+    where?: VaultEmailChallengeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VaultEmailChallenges to fetch.
+     */
+    orderBy?: VaultEmailChallengeOrderByWithRelationInput | VaultEmailChallengeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VaultEmailChallengeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VaultEmailChallenges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VaultEmailChallenges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned VaultEmailChallenges
+    **/
+    _count?: true | VaultEmailChallengeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: VaultEmailChallengeAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: VaultEmailChallengeSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VaultEmailChallengeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VaultEmailChallengeMaxAggregateInputType
+  }
+
+  export type GetVaultEmailChallengeAggregateType<T extends VaultEmailChallengeAggregateArgs> = {
+        [P in keyof T & keyof AggregateVaultEmailChallenge]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVaultEmailChallenge[P]>
+      : GetScalarType<T[P], AggregateVaultEmailChallenge[P]>
+  }
+
+
+
+
+  export type VaultEmailChallengeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VaultEmailChallengeWhereInput
+    orderBy?: VaultEmailChallengeOrderByWithAggregationInput | VaultEmailChallengeOrderByWithAggregationInput[]
+    by: VaultEmailChallengeScalarFieldEnum[] | VaultEmailChallengeScalarFieldEnum
+    having?: VaultEmailChallengeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VaultEmailChallengeCountAggregateInputType | true
+    _avg?: VaultEmailChallengeAvgAggregateInputType
+    _sum?: VaultEmailChallengeSumAggregateInputType
+    _min?: VaultEmailChallengeMinAggregateInputType
+    _max?: VaultEmailChallengeMaxAggregateInputType
+  }
+
+  export type VaultEmailChallengeGroupByOutputType = {
+    id: string
+    userId: string
+    codeHash: string
+    credentialId: string | null
+    attempts: number
+    used: boolean
+    expiresAt: Date
+    createdAt: Date
+    _count: VaultEmailChallengeCountAggregateOutputType | null
+    _avg: VaultEmailChallengeAvgAggregateOutputType | null
+    _sum: VaultEmailChallengeSumAggregateOutputType | null
+    _min: VaultEmailChallengeMinAggregateOutputType | null
+    _max: VaultEmailChallengeMaxAggregateOutputType | null
+  }
+
+  type GetVaultEmailChallengeGroupByPayload<T extends VaultEmailChallengeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VaultEmailChallengeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VaultEmailChallengeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VaultEmailChallengeGroupByOutputType[P]>
+            : GetScalarType<T[P], VaultEmailChallengeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VaultEmailChallengeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    codeHash?: boolean
+    credentialId?: boolean
+    attempts?: boolean
+    used?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vaultEmailChallenge"]>
+
+  export type VaultEmailChallengeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    codeHash?: boolean
+    credentialId?: boolean
+    attempts?: boolean
+    used?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vaultEmailChallenge"]>
+
+  export type VaultEmailChallengeSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    codeHash?: boolean
+    credentialId?: boolean
+    attempts?: boolean
+    used?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type VaultEmailChallengeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type VaultEmailChallengeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $VaultEmailChallengePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "VaultEmailChallenge"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      codeHash: string
+      credentialId: string | null
+      attempts: number
+      used: boolean
+      expiresAt: Date
+      createdAt: Date
+    }, ExtArgs["result"]["vaultEmailChallenge"]>
+    composites: {}
+  }
+
+  type VaultEmailChallengeGetPayload<S extends boolean | null | undefined | VaultEmailChallengeDefaultArgs> = $Result.GetResult<Prisma.$VaultEmailChallengePayload, S>
+
+  type VaultEmailChallengeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<VaultEmailChallengeFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: VaultEmailChallengeCountAggregateInputType | true
+    }
+
+  export interface VaultEmailChallengeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['VaultEmailChallenge'], meta: { name: 'VaultEmailChallenge' } }
+    /**
+     * Find zero or one VaultEmailChallenge that matches the filter.
+     * @param {VaultEmailChallengeFindUniqueArgs} args - Arguments to find a VaultEmailChallenge
+     * @example
+     * // Get one VaultEmailChallenge
+     * const vaultEmailChallenge = await prisma.vaultEmailChallenge.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VaultEmailChallengeFindUniqueArgs>(args: SelectSubset<T, VaultEmailChallengeFindUniqueArgs<ExtArgs>>): Prisma__VaultEmailChallengeClient<$Result.GetResult<Prisma.$VaultEmailChallengePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one VaultEmailChallenge that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {VaultEmailChallengeFindUniqueOrThrowArgs} args - Arguments to find a VaultEmailChallenge
+     * @example
+     * // Get one VaultEmailChallenge
+     * const vaultEmailChallenge = await prisma.vaultEmailChallenge.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VaultEmailChallengeFindUniqueOrThrowArgs>(args: SelectSubset<T, VaultEmailChallengeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VaultEmailChallengeClient<$Result.GetResult<Prisma.$VaultEmailChallengePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first VaultEmailChallenge that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VaultEmailChallengeFindFirstArgs} args - Arguments to find a VaultEmailChallenge
+     * @example
+     * // Get one VaultEmailChallenge
+     * const vaultEmailChallenge = await prisma.vaultEmailChallenge.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VaultEmailChallengeFindFirstArgs>(args?: SelectSubset<T, VaultEmailChallengeFindFirstArgs<ExtArgs>>): Prisma__VaultEmailChallengeClient<$Result.GetResult<Prisma.$VaultEmailChallengePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first VaultEmailChallenge that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VaultEmailChallengeFindFirstOrThrowArgs} args - Arguments to find a VaultEmailChallenge
+     * @example
+     * // Get one VaultEmailChallenge
+     * const vaultEmailChallenge = await prisma.vaultEmailChallenge.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VaultEmailChallengeFindFirstOrThrowArgs>(args?: SelectSubset<T, VaultEmailChallengeFindFirstOrThrowArgs<ExtArgs>>): Prisma__VaultEmailChallengeClient<$Result.GetResult<Prisma.$VaultEmailChallengePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more VaultEmailChallenges that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VaultEmailChallengeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all VaultEmailChallenges
+     * const vaultEmailChallenges = await prisma.vaultEmailChallenge.findMany()
+     * 
+     * // Get first 10 VaultEmailChallenges
+     * const vaultEmailChallenges = await prisma.vaultEmailChallenge.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const vaultEmailChallengeWithIdOnly = await prisma.vaultEmailChallenge.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VaultEmailChallengeFindManyArgs>(args?: SelectSubset<T, VaultEmailChallengeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VaultEmailChallengePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a VaultEmailChallenge.
+     * @param {VaultEmailChallengeCreateArgs} args - Arguments to create a VaultEmailChallenge.
+     * @example
+     * // Create one VaultEmailChallenge
+     * const VaultEmailChallenge = await prisma.vaultEmailChallenge.create({
+     *   data: {
+     *     // ... data to create a VaultEmailChallenge
+     *   }
+     * })
+     * 
+     */
+    create<T extends VaultEmailChallengeCreateArgs>(args: SelectSubset<T, VaultEmailChallengeCreateArgs<ExtArgs>>): Prisma__VaultEmailChallengeClient<$Result.GetResult<Prisma.$VaultEmailChallengePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many VaultEmailChallenges.
+     * @param {VaultEmailChallengeCreateManyArgs} args - Arguments to create many VaultEmailChallenges.
+     * @example
+     * // Create many VaultEmailChallenges
+     * const vaultEmailChallenge = await prisma.vaultEmailChallenge.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VaultEmailChallengeCreateManyArgs>(args?: SelectSubset<T, VaultEmailChallengeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many VaultEmailChallenges and returns the data saved in the database.
+     * @param {VaultEmailChallengeCreateManyAndReturnArgs} args - Arguments to create many VaultEmailChallenges.
+     * @example
+     * // Create many VaultEmailChallenges
+     * const vaultEmailChallenge = await prisma.vaultEmailChallenge.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many VaultEmailChallenges and only return the `id`
+     * const vaultEmailChallengeWithIdOnly = await prisma.vaultEmailChallenge.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VaultEmailChallengeCreateManyAndReturnArgs>(args?: SelectSubset<T, VaultEmailChallengeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VaultEmailChallengePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a VaultEmailChallenge.
+     * @param {VaultEmailChallengeDeleteArgs} args - Arguments to delete one VaultEmailChallenge.
+     * @example
+     * // Delete one VaultEmailChallenge
+     * const VaultEmailChallenge = await prisma.vaultEmailChallenge.delete({
+     *   where: {
+     *     // ... filter to delete one VaultEmailChallenge
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VaultEmailChallengeDeleteArgs>(args: SelectSubset<T, VaultEmailChallengeDeleteArgs<ExtArgs>>): Prisma__VaultEmailChallengeClient<$Result.GetResult<Prisma.$VaultEmailChallengePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one VaultEmailChallenge.
+     * @param {VaultEmailChallengeUpdateArgs} args - Arguments to update one VaultEmailChallenge.
+     * @example
+     * // Update one VaultEmailChallenge
+     * const vaultEmailChallenge = await prisma.vaultEmailChallenge.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VaultEmailChallengeUpdateArgs>(args: SelectSubset<T, VaultEmailChallengeUpdateArgs<ExtArgs>>): Prisma__VaultEmailChallengeClient<$Result.GetResult<Prisma.$VaultEmailChallengePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more VaultEmailChallenges.
+     * @param {VaultEmailChallengeDeleteManyArgs} args - Arguments to filter VaultEmailChallenges to delete.
+     * @example
+     * // Delete a few VaultEmailChallenges
+     * const { count } = await prisma.vaultEmailChallenge.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VaultEmailChallengeDeleteManyArgs>(args?: SelectSubset<T, VaultEmailChallengeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VaultEmailChallenges.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VaultEmailChallengeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many VaultEmailChallenges
+     * const vaultEmailChallenge = await prisma.vaultEmailChallenge.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VaultEmailChallengeUpdateManyArgs>(args: SelectSubset<T, VaultEmailChallengeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one VaultEmailChallenge.
+     * @param {VaultEmailChallengeUpsertArgs} args - Arguments to update or create a VaultEmailChallenge.
+     * @example
+     * // Update or create a VaultEmailChallenge
+     * const vaultEmailChallenge = await prisma.vaultEmailChallenge.upsert({
+     *   create: {
+     *     // ... data to create a VaultEmailChallenge
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the VaultEmailChallenge we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VaultEmailChallengeUpsertArgs>(args: SelectSubset<T, VaultEmailChallengeUpsertArgs<ExtArgs>>): Prisma__VaultEmailChallengeClient<$Result.GetResult<Prisma.$VaultEmailChallengePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of VaultEmailChallenges.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VaultEmailChallengeCountArgs} args - Arguments to filter VaultEmailChallenges to count.
+     * @example
+     * // Count the number of VaultEmailChallenges
+     * const count = await prisma.vaultEmailChallenge.count({
+     *   where: {
+     *     // ... the filter for the VaultEmailChallenges we want to count
+     *   }
+     * })
+    **/
+    count<T extends VaultEmailChallengeCountArgs>(
+      args?: Subset<T, VaultEmailChallengeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VaultEmailChallengeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a VaultEmailChallenge.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VaultEmailChallengeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VaultEmailChallengeAggregateArgs>(args: Subset<T, VaultEmailChallengeAggregateArgs>): Prisma.PrismaPromise<GetVaultEmailChallengeAggregateType<T>>
+
+    /**
+     * Group by VaultEmailChallenge.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VaultEmailChallengeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VaultEmailChallengeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VaultEmailChallengeGroupByArgs['orderBy'] }
+        : { orderBy?: VaultEmailChallengeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VaultEmailChallengeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVaultEmailChallengeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the VaultEmailChallenge model
+   */
+  readonly fields: VaultEmailChallengeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for VaultEmailChallenge.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VaultEmailChallengeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the VaultEmailChallenge model
+   */ 
+  interface VaultEmailChallengeFieldRefs {
+    readonly id: FieldRef<"VaultEmailChallenge", 'String'>
+    readonly userId: FieldRef<"VaultEmailChallenge", 'String'>
+    readonly codeHash: FieldRef<"VaultEmailChallenge", 'String'>
+    readonly credentialId: FieldRef<"VaultEmailChallenge", 'String'>
+    readonly attempts: FieldRef<"VaultEmailChallenge", 'Int'>
+    readonly used: FieldRef<"VaultEmailChallenge", 'Boolean'>
+    readonly expiresAt: FieldRef<"VaultEmailChallenge", 'DateTime'>
+    readonly createdAt: FieldRef<"VaultEmailChallenge", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * VaultEmailChallenge findUnique
+   */
+  export type VaultEmailChallengeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultEmailChallenge
+     */
+    select?: VaultEmailChallengeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultEmailChallengeInclude<ExtArgs> | null
+    /**
+     * Filter, which VaultEmailChallenge to fetch.
+     */
+    where: VaultEmailChallengeWhereUniqueInput
+  }
+
+  /**
+   * VaultEmailChallenge findUniqueOrThrow
+   */
+  export type VaultEmailChallengeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultEmailChallenge
+     */
+    select?: VaultEmailChallengeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultEmailChallengeInclude<ExtArgs> | null
+    /**
+     * Filter, which VaultEmailChallenge to fetch.
+     */
+    where: VaultEmailChallengeWhereUniqueInput
+  }
+
+  /**
+   * VaultEmailChallenge findFirst
+   */
+  export type VaultEmailChallengeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultEmailChallenge
+     */
+    select?: VaultEmailChallengeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultEmailChallengeInclude<ExtArgs> | null
+    /**
+     * Filter, which VaultEmailChallenge to fetch.
+     */
+    where?: VaultEmailChallengeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VaultEmailChallenges to fetch.
+     */
+    orderBy?: VaultEmailChallengeOrderByWithRelationInput | VaultEmailChallengeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VaultEmailChallenges.
+     */
+    cursor?: VaultEmailChallengeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VaultEmailChallenges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VaultEmailChallenges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VaultEmailChallenges.
+     */
+    distinct?: VaultEmailChallengeScalarFieldEnum | VaultEmailChallengeScalarFieldEnum[]
+  }
+
+  /**
+   * VaultEmailChallenge findFirstOrThrow
+   */
+  export type VaultEmailChallengeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultEmailChallenge
+     */
+    select?: VaultEmailChallengeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultEmailChallengeInclude<ExtArgs> | null
+    /**
+     * Filter, which VaultEmailChallenge to fetch.
+     */
+    where?: VaultEmailChallengeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VaultEmailChallenges to fetch.
+     */
+    orderBy?: VaultEmailChallengeOrderByWithRelationInput | VaultEmailChallengeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VaultEmailChallenges.
+     */
+    cursor?: VaultEmailChallengeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VaultEmailChallenges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VaultEmailChallenges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VaultEmailChallenges.
+     */
+    distinct?: VaultEmailChallengeScalarFieldEnum | VaultEmailChallengeScalarFieldEnum[]
+  }
+
+  /**
+   * VaultEmailChallenge findMany
+   */
+  export type VaultEmailChallengeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultEmailChallenge
+     */
+    select?: VaultEmailChallengeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultEmailChallengeInclude<ExtArgs> | null
+    /**
+     * Filter, which VaultEmailChallenges to fetch.
+     */
+    where?: VaultEmailChallengeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VaultEmailChallenges to fetch.
+     */
+    orderBy?: VaultEmailChallengeOrderByWithRelationInput | VaultEmailChallengeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing VaultEmailChallenges.
+     */
+    cursor?: VaultEmailChallengeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VaultEmailChallenges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VaultEmailChallenges.
+     */
+    skip?: number
+    distinct?: VaultEmailChallengeScalarFieldEnum | VaultEmailChallengeScalarFieldEnum[]
+  }
+
+  /**
+   * VaultEmailChallenge create
+   */
+  export type VaultEmailChallengeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultEmailChallenge
+     */
+    select?: VaultEmailChallengeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultEmailChallengeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a VaultEmailChallenge.
+     */
+    data: XOR<VaultEmailChallengeCreateInput, VaultEmailChallengeUncheckedCreateInput>
+  }
+
+  /**
+   * VaultEmailChallenge createMany
+   */
+  export type VaultEmailChallengeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many VaultEmailChallenges.
+     */
+    data: VaultEmailChallengeCreateManyInput | VaultEmailChallengeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VaultEmailChallenge createManyAndReturn
+   */
+  export type VaultEmailChallengeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultEmailChallenge
+     */
+    select?: VaultEmailChallengeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many VaultEmailChallenges.
+     */
+    data: VaultEmailChallengeCreateManyInput | VaultEmailChallengeCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultEmailChallengeIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VaultEmailChallenge update
+   */
+  export type VaultEmailChallengeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultEmailChallenge
+     */
+    select?: VaultEmailChallengeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultEmailChallengeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a VaultEmailChallenge.
+     */
+    data: XOR<VaultEmailChallengeUpdateInput, VaultEmailChallengeUncheckedUpdateInput>
+    /**
+     * Choose, which VaultEmailChallenge to update.
+     */
+    where: VaultEmailChallengeWhereUniqueInput
+  }
+
+  /**
+   * VaultEmailChallenge updateMany
+   */
+  export type VaultEmailChallengeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update VaultEmailChallenges.
+     */
+    data: XOR<VaultEmailChallengeUpdateManyMutationInput, VaultEmailChallengeUncheckedUpdateManyInput>
+    /**
+     * Filter which VaultEmailChallenges to update
+     */
+    where?: VaultEmailChallengeWhereInput
+  }
+
+  /**
+   * VaultEmailChallenge upsert
+   */
+  export type VaultEmailChallengeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultEmailChallenge
+     */
+    select?: VaultEmailChallengeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultEmailChallengeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the VaultEmailChallenge to update in case it exists.
+     */
+    where: VaultEmailChallengeWhereUniqueInput
+    /**
+     * In case the VaultEmailChallenge found by the `where` argument doesn't exist, create a new VaultEmailChallenge with this data.
+     */
+    create: XOR<VaultEmailChallengeCreateInput, VaultEmailChallengeUncheckedCreateInput>
+    /**
+     * In case the VaultEmailChallenge was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VaultEmailChallengeUpdateInput, VaultEmailChallengeUncheckedUpdateInput>
+  }
+
+  /**
+   * VaultEmailChallenge delete
+   */
+  export type VaultEmailChallengeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultEmailChallenge
+     */
+    select?: VaultEmailChallengeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultEmailChallengeInclude<ExtArgs> | null
+    /**
+     * Filter which VaultEmailChallenge to delete.
+     */
+    where: VaultEmailChallengeWhereUniqueInput
+  }
+
+  /**
+   * VaultEmailChallenge deleteMany
+   */
+  export type VaultEmailChallengeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VaultEmailChallenges to delete
+     */
+    where?: VaultEmailChallengeWhereInput
+  }
+
+  /**
+   * VaultEmailChallenge without action
+   */
+  export type VaultEmailChallengeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultEmailChallenge
+     */
+    select?: VaultEmailChallengeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultEmailChallengeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model VaultTrustedSession
+   */
+
+  export type AggregateVaultTrustedSession = {
+    _count: VaultTrustedSessionCountAggregateOutputType | null
+    _min: VaultTrustedSessionMinAggregateOutputType | null
+    _max: VaultTrustedSessionMaxAggregateOutputType | null
+  }
+
+  export type VaultTrustedSessionMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type VaultTrustedSessionMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type VaultTrustedSessionCountAggregateOutputType = {
+    id: number
+    userId: number
+    expiresAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type VaultTrustedSessionMinAggregateInputType = {
+    id?: true
+    userId?: true
+    expiresAt?: true
+    createdAt?: true
+  }
+
+  export type VaultTrustedSessionMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    expiresAt?: true
+    createdAt?: true
+  }
+
+  export type VaultTrustedSessionCountAggregateInputType = {
+    id?: true
+    userId?: true
+    expiresAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type VaultTrustedSessionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VaultTrustedSession to aggregate.
+     */
+    where?: VaultTrustedSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VaultTrustedSessions to fetch.
+     */
+    orderBy?: VaultTrustedSessionOrderByWithRelationInput | VaultTrustedSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VaultTrustedSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VaultTrustedSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VaultTrustedSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned VaultTrustedSessions
+    **/
+    _count?: true | VaultTrustedSessionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VaultTrustedSessionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VaultTrustedSessionMaxAggregateInputType
+  }
+
+  export type GetVaultTrustedSessionAggregateType<T extends VaultTrustedSessionAggregateArgs> = {
+        [P in keyof T & keyof AggregateVaultTrustedSession]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVaultTrustedSession[P]>
+      : GetScalarType<T[P], AggregateVaultTrustedSession[P]>
+  }
+
+
+
+
+  export type VaultTrustedSessionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VaultTrustedSessionWhereInput
+    orderBy?: VaultTrustedSessionOrderByWithAggregationInput | VaultTrustedSessionOrderByWithAggregationInput[]
+    by: VaultTrustedSessionScalarFieldEnum[] | VaultTrustedSessionScalarFieldEnum
+    having?: VaultTrustedSessionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VaultTrustedSessionCountAggregateInputType | true
+    _min?: VaultTrustedSessionMinAggregateInputType
+    _max?: VaultTrustedSessionMaxAggregateInputType
+  }
+
+  export type VaultTrustedSessionGroupByOutputType = {
+    id: string
+    userId: string
+    expiresAt: Date
+    createdAt: Date
+    _count: VaultTrustedSessionCountAggregateOutputType | null
+    _min: VaultTrustedSessionMinAggregateOutputType | null
+    _max: VaultTrustedSessionMaxAggregateOutputType | null
+  }
+
+  type GetVaultTrustedSessionGroupByPayload<T extends VaultTrustedSessionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VaultTrustedSessionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VaultTrustedSessionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VaultTrustedSessionGroupByOutputType[P]>
+            : GetScalarType<T[P], VaultTrustedSessionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VaultTrustedSessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vaultTrustedSession"]>
+
+  export type VaultTrustedSessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vaultTrustedSession"]>
+
+  export type VaultTrustedSessionSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type VaultTrustedSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type VaultTrustedSessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $VaultTrustedSessionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "VaultTrustedSession"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      expiresAt: Date
+      createdAt: Date
+    }, ExtArgs["result"]["vaultTrustedSession"]>
+    composites: {}
+  }
+
+  type VaultTrustedSessionGetPayload<S extends boolean | null | undefined | VaultTrustedSessionDefaultArgs> = $Result.GetResult<Prisma.$VaultTrustedSessionPayload, S>
+
+  type VaultTrustedSessionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<VaultTrustedSessionFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: VaultTrustedSessionCountAggregateInputType | true
+    }
+
+  export interface VaultTrustedSessionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['VaultTrustedSession'], meta: { name: 'VaultTrustedSession' } }
+    /**
+     * Find zero or one VaultTrustedSession that matches the filter.
+     * @param {VaultTrustedSessionFindUniqueArgs} args - Arguments to find a VaultTrustedSession
+     * @example
+     * // Get one VaultTrustedSession
+     * const vaultTrustedSession = await prisma.vaultTrustedSession.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VaultTrustedSessionFindUniqueArgs>(args: SelectSubset<T, VaultTrustedSessionFindUniqueArgs<ExtArgs>>): Prisma__VaultTrustedSessionClient<$Result.GetResult<Prisma.$VaultTrustedSessionPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one VaultTrustedSession that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {VaultTrustedSessionFindUniqueOrThrowArgs} args - Arguments to find a VaultTrustedSession
+     * @example
+     * // Get one VaultTrustedSession
+     * const vaultTrustedSession = await prisma.vaultTrustedSession.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VaultTrustedSessionFindUniqueOrThrowArgs>(args: SelectSubset<T, VaultTrustedSessionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VaultTrustedSessionClient<$Result.GetResult<Prisma.$VaultTrustedSessionPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first VaultTrustedSession that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VaultTrustedSessionFindFirstArgs} args - Arguments to find a VaultTrustedSession
+     * @example
+     * // Get one VaultTrustedSession
+     * const vaultTrustedSession = await prisma.vaultTrustedSession.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VaultTrustedSessionFindFirstArgs>(args?: SelectSubset<T, VaultTrustedSessionFindFirstArgs<ExtArgs>>): Prisma__VaultTrustedSessionClient<$Result.GetResult<Prisma.$VaultTrustedSessionPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first VaultTrustedSession that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VaultTrustedSessionFindFirstOrThrowArgs} args - Arguments to find a VaultTrustedSession
+     * @example
+     * // Get one VaultTrustedSession
+     * const vaultTrustedSession = await prisma.vaultTrustedSession.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VaultTrustedSessionFindFirstOrThrowArgs>(args?: SelectSubset<T, VaultTrustedSessionFindFirstOrThrowArgs<ExtArgs>>): Prisma__VaultTrustedSessionClient<$Result.GetResult<Prisma.$VaultTrustedSessionPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more VaultTrustedSessions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VaultTrustedSessionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all VaultTrustedSessions
+     * const vaultTrustedSessions = await prisma.vaultTrustedSession.findMany()
+     * 
+     * // Get first 10 VaultTrustedSessions
+     * const vaultTrustedSessions = await prisma.vaultTrustedSession.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const vaultTrustedSessionWithIdOnly = await prisma.vaultTrustedSession.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VaultTrustedSessionFindManyArgs>(args?: SelectSubset<T, VaultTrustedSessionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VaultTrustedSessionPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a VaultTrustedSession.
+     * @param {VaultTrustedSessionCreateArgs} args - Arguments to create a VaultTrustedSession.
+     * @example
+     * // Create one VaultTrustedSession
+     * const VaultTrustedSession = await prisma.vaultTrustedSession.create({
+     *   data: {
+     *     // ... data to create a VaultTrustedSession
+     *   }
+     * })
+     * 
+     */
+    create<T extends VaultTrustedSessionCreateArgs>(args: SelectSubset<T, VaultTrustedSessionCreateArgs<ExtArgs>>): Prisma__VaultTrustedSessionClient<$Result.GetResult<Prisma.$VaultTrustedSessionPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many VaultTrustedSessions.
+     * @param {VaultTrustedSessionCreateManyArgs} args - Arguments to create many VaultTrustedSessions.
+     * @example
+     * // Create many VaultTrustedSessions
+     * const vaultTrustedSession = await prisma.vaultTrustedSession.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VaultTrustedSessionCreateManyArgs>(args?: SelectSubset<T, VaultTrustedSessionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many VaultTrustedSessions and returns the data saved in the database.
+     * @param {VaultTrustedSessionCreateManyAndReturnArgs} args - Arguments to create many VaultTrustedSessions.
+     * @example
+     * // Create many VaultTrustedSessions
+     * const vaultTrustedSession = await prisma.vaultTrustedSession.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many VaultTrustedSessions and only return the `id`
+     * const vaultTrustedSessionWithIdOnly = await prisma.vaultTrustedSession.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VaultTrustedSessionCreateManyAndReturnArgs>(args?: SelectSubset<T, VaultTrustedSessionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VaultTrustedSessionPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a VaultTrustedSession.
+     * @param {VaultTrustedSessionDeleteArgs} args - Arguments to delete one VaultTrustedSession.
+     * @example
+     * // Delete one VaultTrustedSession
+     * const VaultTrustedSession = await prisma.vaultTrustedSession.delete({
+     *   where: {
+     *     // ... filter to delete one VaultTrustedSession
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VaultTrustedSessionDeleteArgs>(args: SelectSubset<T, VaultTrustedSessionDeleteArgs<ExtArgs>>): Prisma__VaultTrustedSessionClient<$Result.GetResult<Prisma.$VaultTrustedSessionPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one VaultTrustedSession.
+     * @param {VaultTrustedSessionUpdateArgs} args - Arguments to update one VaultTrustedSession.
+     * @example
+     * // Update one VaultTrustedSession
+     * const vaultTrustedSession = await prisma.vaultTrustedSession.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VaultTrustedSessionUpdateArgs>(args: SelectSubset<T, VaultTrustedSessionUpdateArgs<ExtArgs>>): Prisma__VaultTrustedSessionClient<$Result.GetResult<Prisma.$VaultTrustedSessionPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more VaultTrustedSessions.
+     * @param {VaultTrustedSessionDeleteManyArgs} args - Arguments to filter VaultTrustedSessions to delete.
+     * @example
+     * // Delete a few VaultTrustedSessions
+     * const { count } = await prisma.vaultTrustedSession.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VaultTrustedSessionDeleteManyArgs>(args?: SelectSubset<T, VaultTrustedSessionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VaultTrustedSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VaultTrustedSessionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many VaultTrustedSessions
+     * const vaultTrustedSession = await prisma.vaultTrustedSession.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VaultTrustedSessionUpdateManyArgs>(args: SelectSubset<T, VaultTrustedSessionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one VaultTrustedSession.
+     * @param {VaultTrustedSessionUpsertArgs} args - Arguments to update or create a VaultTrustedSession.
+     * @example
+     * // Update or create a VaultTrustedSession
+     * const vaultTrustedSession = await prisma.vaultTrustedSession.upsert({
+     *   create: {
+     *     // ... data to create a VaultTrustedSession
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the VaultTrustedSession we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VaultTrustedSessionUpsertArgs>(args: SelectSubset<T, VaultTrustedSessionUpsertArgs<ExtArgs>>): Prisma__VaultTrustedSessionClient<$Result.GetResult<Prisma.$VaultTrustedSessionPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of VaultTrustedSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VaultTrustedSessionCountArgs} args - Arguments to filter VaultTrustedSessions to count.
+     * @example
+     * // Count the number of VaultTrustedSessions
+     * const count = await prisma.vaultTrustedSession.count({
+     *   where: {
+     *     // ... the filter for the VaultTrustedSessions we want to count
+     *   }
+     * })
+    **/
+    count<T extends VaultTrustedSessionCountArgs>(
+      args?: Subset<T, VaultTrustedSessionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VaultTrustedSessionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a VaultTrustedSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VaultTrustedSessionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VaultTrustedSessionAggregateArgs>(args: Subset<T, VaultTrustedSessionAggregateArgs>): Prisma.PrismaPromise<GetVaultTrustedSessionAggregateType<T>>
+
+    /**
+     * Group by VaultTrustedSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VaultTrustedSessionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VaultTrustedSessionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VaultTrustedSessionGroupByArgs['orderBy'] }
+        : { orderBy?: VaultTrustedSessionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VaultTrustedSessionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVaultTrustedSessionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the VaultTrustedSession model
+   */
+  readonly fields: VaultTrustedSessionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for VaultTrustedSession.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VaultTrustedSessionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the VaultTrustedSession model
+   */ 
+  interface VaultTrustedSessionFieldRefs {
+    readonly id: FieldRef<"VaultTrustedSession", 'String'>
+    readonly userId: FieldRef<"VaultTrustedSession", 'String'>
+    readonly expiresAt: FieldRef<"VaultTrustedSession", 'DateTime'>
+    readonly createdAt: FieldRef<"VaultTrustedSession", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * VaultTrustedSession findUnique
+   */
+  export type VaultTrustedSessionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultTrustedSession
+     */
+    select?: VaultTrustedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultTrustedSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which VaultTrustedSession to fetch.
+     */
+    where: VaultTrustedSessionWhereUniqueInput
+  }
+
+  /**
+   * VaultTrustedSession findUniqueOrThrow
+   */
+  export type VaultTrustedSessionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultTrustedSession
+     */
+    select?: VaultTrustedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultTrustedSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which VaultTrustedSession to fetch.
+     */
+    where: VaultTrustedSessionWhereUniqueInput
+  }
+
+  /**
+   * VaultTrustedSession findFirst
+   */
+  export type VaultTrustedSessionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultTrustedSession
+     */
+    select?: VaultTrustedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultTrustedSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which VaultTrustedSession to fetch.
+     */
+    where?: VaultTrustedSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VaultTrustedSessions to fetch.
+     */
+    orderBy?: VaultTrustedSessionOrderByWithRelationInput | VaultTrustedSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VaultTrustedSessions.
+     */
+    cursor?: VaultTrustedSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VaultTrustedSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VaultTrustedSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VaultTrustedSessions.
+     */
+    distinct?: VaultTrustedSessionScalarFieldEnum | VaultTrustedSessionScalarFieldEnum[]
+  }
+
+  /**
+   * VaultTrustedSession findFirstOrThrow
+   */
+  export type VaultTrustedSessionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultTrustedSession
+     */
+    select?: VaultTrustedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultTrustedSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which VaultTrustedSession to fetch.
+     */
+    where?: VaultTrustedSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VaultTrustedSessions to fetch.
+     */
+    orderBy?: VaultTrustedSessionOrderByWithRelationInput | VaultTrustedSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VaultTrustedSessions.
+     */
+    cursor?: VaultTrustedSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VaultTrustedSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VaultTrustedSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VaultTrustedSessions.
+     */
+    distinct?: VaultTrustedSessionScalarFieldEnum | VaultTrustedSessionScalarFieldEnum[]
+  }
+
+  /**
+   * VaultTrustedSession findMany
+   */
+  export type VaultTrustedSessionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultTrustedSession
+     */
+    select?: VaultTrustedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultTrustedSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which VaultTrustedSessions to fetch.
+     */
+    where?: VaultTrustedSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VaultTrustedSessions to fetch.
+     */
+    orderBy?: VaultTrustedSessionOrderByWithRelationInput | VaultTrustedSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing VaultTrustedSessions.
+     */
+    cursor?: VaultTrustedSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VaultTrustedSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VaultTrustedSessions.
+     */
+    skip?: number
+    distinct?: VaultTrustedSessionScalarFieldEnum | VaultTrustedSessionScalarFieldEnum[]
+  }
+
+  /**
+   * VaultTrustedSession create
+   */
+  export type VaultTrustedSessionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultTrustedSession
+     */
+    select?: VaultTrustedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultTrustedSessionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a VaultTrustedSession.
+     */
+    data: XOR<VaultTrustedSessionCreateInput, VaultTrustedSessionUncheckedCreateInput>
+  }
+
+  /**
+   * VaultTrustedSession createMany
+   */
+  export type VaultTrustedSessionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many VaultTrustedSessions.
+     */
+    data: VaultTrustedSessionCreateManyInput | VaultTrustedSessionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VaultTrustedSession createManyAndReturn
+   */
+  export type VaultTrustedSessionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultTrustedSession
+     */
+    select?: VaultTrustedSessionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many VaultTrustedSessions.
+     */
+    data: VaultTrustedSessionCreateManyInput | VaultTrustedSessionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultTrustedSessionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VaultTrustedSession update
+   */
+  export type VaultTrustedSessionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultTrustedSession
+     */
+    select?: VaultTrustedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultTrustedSessionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a VaultTrustedSession.
+     */
+    data: XOR<VaultTrustedSessionUpdateInput, VaultTrustedSessionUncheckedUpdateInput>
+    /**
+     * Choose, which VaultTrustedSession to update.
+     */
+    where: VaultTrustedSessionWhereUniqueInput
+  }
+
+  /**
+   * VaultTrustedSession updateMany
+   */
+  export type VaultTrustedSessionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update VaultTrustedSessions.
+     */
+    data: XOR<VaultTrustedSessionUpdateManyMutationInput, VaultTrustedSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which VaultTrustedSessions to update
+     */
+    where?: VaultTrustedSessionWhereInput
+  }
+
+  /**
+   * VaultTrustedSession upsert
+   */
+  export type VaultTrustedSessionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultTrustedSession
+     */
+    select?: VaultTrustedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultTrustedSessionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the VaultTrustedSession to update in case it exists.
+     */
+    where: VaultTrustedSessionWhereUniqueInput
+    /**
+     * In case the VaultTrustedSession found by the `where` argument doesn't exist, create a new VaultTrustedSession with this data.
+     */
+    create: XOR<VaultTrustedSessionCreateInput, VaultTrustedSessionUncheckedCreateInput>
+    /**
+     * In case the VaultTrustedSession was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VaultTrustedSessionUpdateInput, VaultTrustedSessionUncheckedUpdateInput>
+  }
+
+  /**
+   * VaultTrustedSession delete
+   */
+  export type VaultTrustedSessionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultTrustedSession
+     */
+    select?: VaultTrustedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultTrustedSessionInclude<ExtArgs> | null
+    /**
+     * Filter which VaultTrustedSession to delete.
+     */
+    where: VaultTrustedSessionWhereUniqueInput
+  }
+
+  /**
+   * VaultTrustedSession deleteMany
+   */
+  export type VaultTrustedSessionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VaultTrustedSessions to delete
+     */
+    where?: VaultTrustedSessionWhereInput
+  }
+
+  /**
+   * VaultTrustedSession without action
+   */
+  export type VaultTrustedSessionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VaultTrustedSession
+     */
+    select?: VaultTrustedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VaultTrustedSessionInclude<ExtArgs> | null
   }
 
 
@@ -37580,6 +39742,30 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const VaultEmailChallengeScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    codeHash: 'codeHash',
+    credentialId: 'credentialId',
+    attempts: 'attempts',
+    used: 'used',
+    expiresAt: 'expiresAt',
+    createdAt: 'createdAt'
+  };
+
+  export type VaultEmailChallengeScalarFieldEnum = (typeof VaultEmailChallengeScalarFieldEnum)[keyof typeof VaultEmailChallengeScalarFieldEnum]
+
+
+  export const VaultTrustedSessionScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    expiresAt: 'expiresAt',
+    createdAt: 'createdAt'
+  };
+
+  export type VaultTrustedSessionScalarFieldEnum = (typeof VaultTrustedSessionScalarFieldEnum)[keyof typeof VaultTrustedSessionScalarFieldEnum]
+
+
   export const UserGoogleConnectionScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
@@ -38181,6 +40367,27 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'CompanyStatus'
    */
   export type EnumCompanyStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CompanyStatus'>
@@ -38191,13 +40398,6 @@ export namespace Prisma {
    * Reference to a field of type 'CompanyStatus[]'
    */
   export type ListEnumCompanyStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CompanyStatus[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -38240,20 +40440,6 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -38454,6 +40640,8 @@ export namespace Prisma {
     setores?: SetorUserListRelationFilter
     conversationsAssigned?: ConversationListRelationFilter
     googleConnections?: UserGoogleConnectionListRelationFilter
+    vaultChallenges?: VaultEmailChallengeListRelationFilter
+    vaultTrustedSessions?: VaultTrustedSessionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -38472,6 +40660,8 @@ export namespace Prisma {
     setores?: SetorUserOrderByRelationAggregateInput
     conversationsAssigned?: ConversationOrderByRelationAggregateInput
     googleConnections?: UserGoogleConnectionOrderByRelationAggregateInput
+    vaultChallenges?: VaultEmailChallengeOrderByRelationAggregateInput
+    vaultTrustedSessions?: VaultTrustedSessionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -38493,6 +40683,8 @@ export namespace Prisma {
     setores?: SetorUserListRelationFilter
     conversationsAssigned?: ConversationListRelationFilter
     googleConnections?: UserGoogleConnectionListRelationFilter
+    vaultChallenges?: VaultEmailChallengeListRelationFilter
+    vaultTrustedSessions?: VaultTrustedSessionListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -38523,6 +40715,128 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     whatsappSignature?: StringNullableWithAggregatesFilter<"User"> | string | null
     companyId?: StringNullableWithAggregatesFilter<"User"> | string | null
+  }
+
+  export type VaultEmailChallengeWhereInput = {
+    AND?: VaultEmailChallengeWhereInput | VaultEmailChallengeWhereInput[]
+    OR?: VaultEmailChallengeWhereInput[]
+    NOT?: VaultEmailChallengeWhereInput | VaultEmailChallengeWhereInput[]
+    id?: StringFilter<"VaultEmailChallenge"> | string
+    userId?: StringFilter<"VaultEmailChallenge"> | string
+    codeHash?: StringFilter<"VaultEmailChallenge"> | string
+    credentialId?: StringNullableFilter<"VaultEmailChallenge"> | string | null
+    attempts?: IntFilter<"VaultEmailChallenge"> | number
+    used?: BoolFilter<"VaultEmailChallenge"> | boolean
+    expiresAt?: DateTimeFilter<"VaultEmailChallenge"> | Date | string
+    createdAt?: DateTimeFilter<"VaultEmailChallenge"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type VaultEmailChallengeOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    codeHash?: SortOrder
+    credentialId?: SortOrderInput | SortOrder
+    attempts?: SortOrder
+    used?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type VaultEmailChallengeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: VaultEmailChallengeWhereInput | VaultEmailChallengeWhereInput[]
+    OR?: VaultEmailChallengeWhereInput[]
+    NOT?: VaultEmailChallengeWhereInput | VaultEmailChallengeWhereInput[]
+    userId?: StringFilter<"VaultEmailChallenge"> | string
+    codeHash?: StringFilter<"VaultEmailChallenge"> | string
+    credentialId?: StringNullableFilter<"VaultEmailChallenge"> | string | null
+    attempts?: IntFilter<"VaultEmailChallenge"> | number
+    used?: BoolFilter<"VaultEmailChallenge"> | boolean
+    expiresAt?: DateTimeFilter<"VaultEmailChallenge"> | Date | string
+    createdAt?: DateTimeFilter<"VaultEmailChallenge"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type VaultEmailChallengeOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    codeHash?: SortOrder
+    credentialId?: SortOrderInput | SortOrder
+    attempts?: SortOrder
+    used?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    _count?: VaultEmailChallengeCountOrderByAggregateInput
+    _avg?: VaultEmailChallengeAvgOrderByAggregateInput
+    _max?: VaultEmailChallengeMaxOrderByAggregateInput
+    _min?: VaultEmailChallengeMinOrderByAggregateInput
+    _sum?: VaultEmailChallengeSumOrderByAggregateInput
+  }
+
+  export type VaultEmailChallengeScalarWhereWithAggregatesInput = {
+    AND?: VaultEmailChallengeScalarWhereWithAggregatesInput | VaultEmailChallengeScalarWhereWithAggregatesInput[]
+    OR?: VaultEmailChallengeScalarWhereWithAggregatesInput[]
+    NOT?: VaultEmailChallengeScalarWhereWithAggregatesInput | VaultEmailChallengeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"VaultEmailChallenge"> | string
+    userId?: StringWithAggregatesFilter<"VaultEmailChallenge"> | string
+    codeHash?: StringWithAggregatesFilter<"VaultEmailChallenge"> | string
+    credentialId?: StringNullableWithAggregatesFilter<"VaultEmailChallenge"> | string | null
+    attempts?: IntWithAggregatesFilter<"VaultEmailChallenge"> | number
+    used?: BoolWithAggregatesFilter<"VaultEmailChallenge"> | boolean
+    expiresAt?: DateTimeWithAggregatesFilter<"VaultEmailChallenge"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"VaultEmailChallenge"> | Date | string
+  }
+
+  export type VaultTrustedSessionWhereInput = {
+    AND?: VaultTrustedSessionWhereInput | VaultTrustedSessionWhereInput[]
+    OR?: VaultTrustedSessionWhereInput[]
+    NOT?: VaultTrustedSessionWhereInput | VaultTrustedSessionWhereInput[]
+    id?: StringFilter<"VaultTrustedSession"> | string
+    userId?: StringFilter<"VaultTrustedSession"> | string
+    expiresAt?: DateTimeFilter<"VaultTrustedSession"> | Date | string
+    createdAt?: DateTimeFilter<"VaultTrustedSession"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type VaultTrustedSessionOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type VaultTrustedSessionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: VaultTrustedSessionWhereInput | VaultTrustedSessionWhereInput[]
+    OR?: VaultTrustedSessionWhereInput[]
+    NOT?: VaultTrustedSessionWhereInput | VaultTrustedSessionWhereInput[]
+    userId?: StringFilter<"VaultTrustedSession"> | string
+    expiresAt?: DateTimeFilter<"VaultTrustedSession"> | Date | string
+    createdAt?: DateTimeFilter<"VaultTrustedSession"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type VaultTrustedSessionOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    _count?: VaultTrustedSessionCountOrderByAggregateInput
+    _max?: VaultTrustedSessionMaxOrderByAggregateInput
+    _min?: VaultTrustedSessionMinOrderByAggregateInput
+  }
+
+  export type VaultTrustedSessionScalarWhereWithAggregatesInput = {
+    AND?: VaultTrustedSessionScalarWhereWithAggregatesInput | VaultTrustedSessionScalarWhereWithAggregatesInput[]
+    OR?: VaultTrustedSessionScalarWhereWithAggregatesInput[]
+    NOT?: VaultTrustedSessionScalarWhereWithAggregatesInput | VaultTrustedSessionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"VaultTrustedSession"> | string
+    userId?: StringWithAggregatesFilter<"VaultTrustedSession"> | string
+    expiresAt?: DateTimeWithAggregatesFilter<"VaultTrustedSession"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"VaultTrustedSession"> | Date | string
   }
 
   export type UserGoogleConnectionWhereInput = {
@@ -41328,6 +43642,8 @@ export namespace Prisma {
     setores?: SetorUserCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
     googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -41345,6 +43661,8 @@ export namespace Prisma {
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
     googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -41362,6 +43680,8 @@ export namespace Prisma {
     setores?: SetorUserUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
     googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -41379,6 +43699,8 @@ export namespace Prisma {
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
     googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -41414,6 +43736,130 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type VaultEmailChallengeCreateInput = {
+    id?: string
+    codeHash: string
+    credentialId?: string | null
+    attempts?: number
+    used?: boolean
+    expiresAt: Date | string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutVaultChallengesInput
+  }
+
+  export type VaultEmailChallengeUncheckedCreateInput = {
+    id?: string
+    userId: string
+    codeHash: string
+    credentialId?: string | null
+    attempts?: number
+    used?: boolean
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type VaultEmailChallengeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codeHash?: StringFieldUpdateOperationsInput | string
+    credentialId?: NullableStringFieldUpdateOperationsInput | string | null
+    attempts?: IntFieldUpdateOperationsInput | number
+    used?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutVaultChallengesNestedInput
+  }
+
+  export type VaultEmailChallengeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    codeHash?: StringFieldUpdateOperationsInput | string
+    credentialId?: NullableStringFieldUpdateOperationsInput | string | null
+    attempts?: IntFieldUpdateOperationsInput | number
+    used?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VaultEmailChallengeCreateManyInput = {
+    id?: string
+    userId: string
+    codeHash: string
+    credentialId?: string | null
+    attempts?: number
+    used?: boolean
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type VaultEmailChallengeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codeHash?: StringFieldUpdateOperationsInput | string
+    credentialId?: NullableStringFieldUpdateOperationsInput | string | null
+    attempts?: IntFieldUpdateOperationsInput | number
+    used?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VaultEmailChallengeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    codeHash?: StringFieldUpdateOperationsInput | string
+    credentialId?: NullableStringFieldUpdateOperationsInput | string | null
+    attempts?: IntFieldUpdateOperationsInput | number
+    used?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VaultTrustedSessionCreateInput = {
+    id?: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutVaultTrustedSessionsInput
+  }
+
+  export type VaultTrustedSessionUncheckedCreateInput = {
+    id?: string
+    userId: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type VaultTrustedSessionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutVaultTrustedSessionsNestedInput
+  }
+
+  export type VaultTrustedSessionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VaultTrustedSessionCreateManyInput = {
+    id?: string
+    userId: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type VaultTrustedSessionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VaultTrustedSessionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserGoogleConnectionCreateInput = {
@@ -44585,6 +47031,18 @@ export namespace Prisma {
     none?: UserGoogleConnectionWhereInput
   }
 
+  export type VaultEmailChallengeListRelationFilter = {
+    every?: VaultEmailChallengeWhereInput
+    some?: VaultEmailChallengeWhereInput
+    none?: VaultEmailChallengeWhereInput
+  }
+
+  export type VaultTrustedSessionListRelationFilter = {
+    every?: VaultTrustedSessionWhereInput
+    some?: VaultTrustedSessionWhereInput
+    none?: VaultTrustedSessionWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -44603,6 +47061,14 @@ export namespace Prisma {
   }
 
   export type UserGoogleConnectionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type VaultEmailChallengeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type VaultTrustedSessionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -44702,6 +47168,113 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type UserRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type VaultEmailChallengeCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    codeHash?: SortOrder
+    credentialId?: SortOrder
+    attempts?: SortOrder
+    used?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type VaultEmailChallengeAvgOrderByAggregateInput = {
+    attempts?: SortOrder
+  }
+
+  export type VaultEmailChallengeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    codeHash?: SortOrder
+    credentialId?: SortOrder
+    attempts?: SortOrder
+    used?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type VaultEmailChallengeMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    codeHash?: SortOrder
+    credentialId?: SortOrder
+    attempts?: SortOrder
+    used?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type VaultEmailChallengeSumOrderByAggregateInput = {
+    attempts?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type VaultTrustedSessionCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type VaultTrustedSessionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type VaultTrustedSessionMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type DateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -44719,11 +47292,6 @@ export namespace Prisma {
     hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
     hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
     isEmpty?: boolean
-  }
-
-  export type UserRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
   }
 
   export type UserGoogleConnectionUserIdServiceCompoundUniqueInput = {
@@ -44799,11 +47367,6 @@ export namespace Prisma {
     in?: $Enums.CompanyStatus[] | ListEnumCompanyStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.CompanyStatus[] | ListEnumCompanyStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumCompanyStatusFilter<$PrismaModel> | $Enums.CompanyStatus
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type CompanyListRelationFilter = {
@@ -45082,14 +47645,6 @@ export namespace Prisma {
     _max?: NestedEnumCompanyStatusFilter<$PrismaModel>
   }
 
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type EnumCampaignSourceFilter<$PrismaModel = never> = {
     equals?: $Enums.CampaignSource | EnumCampaignSourceFieldRefInput<$PrismaModel>
     in?: $Enums.CampaignSource[] | ListEnumCampaignSourceFieldRefInput<$PrismaModel>
@@ -45214,17 +47769,6 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type CampaignNullableRelationFilter = {
     is?: CampaignWhereInput | null
     isNot?: CampaignWhereInput | null
@@ -45291,22 +47835,6 @@ export namespace Prisma {
 
   export type TrackingLinkSumOrderByAggregateInput = {
     clicks?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type TrackingLinkRelationFilter = {
@@ -47039,6 +49567,20 @@ export namespace Prisma {
     connect?: UserGoogleConnectionWhereUniqueInput | UserGoogleConnectionWhereUniqueInput[]
   }
 
+  export type VaultEmailChallengeCreateNestedManyWithoutUserInput = {
+    create?: XOR<VaultEmailChallengeCreateWithoutUserInput, VaultEmailChallengeUncheckedCreateWithoutUserInput> | VaultEmailChallengeCreateWithoutUserInput[] | VaultEmailChallengeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: VaultEmailChallengeCreateOrConnectWithoutUserInput | VaultEmailChallengeCreateOrConnectWithoutUserInput[]
+    createMany?: VaultEmailChallengeCreateManyUserInputEnvelope
+    connect?: VaultEmailChallengeWhereUniqueInput | VaultEmailChallengeWhereUniqueInput[]
+  }
+
+  export type VaultTrustedSessionCreateNestedManyWithoutUserInput = {
+    create?: XOR<VaultTrustedSessionCreateWithoutUserInput, VaultTrustedSessionUncheckedCreateWithoutUserInput> | VaultTrustedSessionCreateWithoutUserInput[] | VaultTrustedSessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: VaultTrustedSessionCreateOrConnectWithoutUserInput | VaultTrustedSessionCreateOrConnectWithoutUserInput[]
+    createMany?: VaultTrustedSessionCreateManyUserInputEnvelope
+    connect?: VaultTrustedSessionWhereUniqueInput | VaultTrustedSessionWhereUniqueInput[]
+  }
+
   export type TicketUncheckedCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -47071,6 +49613,20 @@ export namespace Prisma {
     connectOrCreate?: UserGoogleConnectionCreateOrConnectWithoutUserInput | UserGoogleConnectionCreateOrConnectWithoutUserInput[]
     createMany?: UserGoogleConnectionCreateManyUserInputEnvelope
     connect?: UserGoogleConnectionWhereUniqueInput | UserGoogleConnectionWhereUniqueInput[]
+  }
+
+  export type VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<VaultEmailChallengeCreateWithoutUserInput, VaultEmailChallengeUncheckedCreateWithoutUserInput> | VaultEmailChallengeCreateWithoutUserInput[] | VaultEmailChallengeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: VaultEmailChallengeCreateOrConnectWithoutUserInput | VaultEmailChallengeCreateOrConnectWithoutUserInput[]
+    createMany?: VaultEmailChallengeCreateManyUserInputEnvelope
+    connect?: VaultEmailChallengeWhereUniqueInput | VaultEmailChallengeWhereUniqueInput[]
+  }
+
+  export type VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<VaultTrustedSessionCreateWithoutUserInput, VaultTrustedSessionUncheckedCreateWithoutUserInput> | VaultTrustedSessionCreateWithoutUserInput[] | VaultTrustedSessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: VaultTrustedSessionCreateOrConnectWithoutUserInput | VaultTrustedSessionCreateOrConnectWithoutUserInput[]
+    createMany?: VaultTrustedSessionCreateManyUserInputEnvelope
+    connect?: VaultTrustedSessionWhereUniqueInput | VaultTrustedSessionWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -47165,6 +49721,34 @@ export namespace Prisma {
     deleteMany?: UserGoogleConnectionScalarWhereInput | UserGoogleConnectionScalarWhereInput[]
   }
 
+  export type VaultEmailChallengeUpdateManyWithoutUserNestedInput = {
+    create?: XOR<VaultEmailChallengeCreateWithoutUserInput, VaultEmailChallengeUncheckedCreateWithoutUserInput> | VaultEmailChallengeCreateWithoutUserInput[] | VaultEmailChallengeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: VaultEmailChallengeCreateOrConnectWithoutUserInput | VaultEmailChallengeCreateOrConnectWithoutUserInput[]
+    upsert?: VaultEmailChallengeUpsertWithWhereUniqueWithoutUserInput | VaultEmailChallengeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: VaultEmailChallengeCreateManyUserInputEnvelope
+    set?: VaultEmailChallengeWhereUniqueInput | VaultEmailChallengeWhereUniqueInput[]
+    disconnect?: VaultEmailChallengeWhereUniqueInput | VaultEmailChallengeWhereUniqueInput[]
+    delete?: VaultEmailChallengeWhereUniqueInput | VaultEmailChallengeWhereUniqueInput[]
+    connect?: VaultEmailChallengeWhereUniqueInput | VaultEmailChallengeWhereUniqueInput[]
+    update?: VaultEmailChallengeUpdateWithWhereUniqueWithoutUserInput | VaultEmailChallengeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: VaultEmailChallengeUpdateManyWithWhereWithoutUserInput | VaultEmailChallengeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: VaultEmailChallengeScalarWhereInput | VaultEmailChallengeScalarWhereInput[]
+  }
+
+  export type VaultTrustedSessionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<VaultTrustedSessionCreateWithoutUserInput, VaultTrustedSessionUncheckedCreateWithoutUserInput> | VaultTrustedSessionCreateWithoutUserInput[] | VaultTrustedSessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: VaultTrustedSessionCreateOrConnectWithoutUserInput | VaultTrustedSessionCreateOrConnectWithoutUserInput[]
+    upsert?: VaultTrustedSessionUpsertWithWhereUniqueWithoutUserInput | VaultTrustedSessionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: VaultTrustedSessionCreateManyUserInputEnvelope
+    set?: VaultTrustedSessionWhereUniqueInput | VaultTrustedSessionWhereUniqueInput[]
+    disconnect?: VaultTrustedSessionWhereUniqueInput | VaultTrustedSessionWhereUniqueInput[]
+    delete?: VaultTrustedSessionWhereUniqueInput | VaultTrustedSessionWhereUniqueInput[]
+    connect?: VaultTrustedSessionWhereUniqueInput | VaultTrustedSessionWhereUniqueInput[]
+    update?: VaultTrustedSessionUpdateWithWhereUniqueWithoutUserInput | VaultTrustedSessionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: VaultTrustedSessionUpdateManyWithWhereWithoutUserInput | VaultTrustedSessionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: VaultTrustedSessionScalarWhereInput | VaultTrustedSessionScalarWhereInput[]
+  }
+
   export type TicketUncheckedUpdateManyWithoutCreatedByNestedInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -47229,6 +49813,74 @@ export namespace Prisma {
     update?: UserGoogleConnectionUpdateWithWhereUniqueWithoutUserInput | UserGoogleConnectionUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: UserGoogleConnectionUpdateManyWithWhereWithoutUserInput | UserGoogleConnectionUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: UserGoogleConnectionScalarWhereInput | UserGoogleConnectionScalarWhereInput[]
+  }
+
+  export type VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<VaultEmailChallengeCreateWithoutUserInput, VaultEmailChallengeUncheckedCreateWithoutUserInput> | VaultEmailChallengeCreateWithoutUserInput[] | VaultEmailChallengeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: VaultEmailChallengeCreateOrConnectWithoutUserInput | VaultEmailChallengeCreateOrConnectWithoutUserInput[]
+    upsert?: VaultEmailChallengeUpsertWithWhereUniqueWithoutUserInput | VaultEmailChallengeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: VaultEmailChallengeCreateManyUserInputEnvelope
+    set?: VaultEmailChallengeWhereUniqueInput | VaultEmailChallengeWhereUniqueInput[]
+    disconnect?: VaultEmailChallengeWhereUniqueInput | VaultEmailChallengeWhereUniqueInput[]
+    delete?: VaultEmailChallengeWhereUniqueInput | VaultEmailChallengeWhereUniqueInput[]
+    connect?: VaultEmailChallengeWhereUniqueInput | VaultEmailChallengeWhereUniqueInput[]
+    update?: VaultEmailChallengeUpdateWithWhereUniqueWithoutUserInput | VaultEmailChallengeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: VaultEmailChallengeUpdateManyWithWhereWithoutUserInput | VaultEmailChallengeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: VaultEmailChallengeScalarWhereInput | VaultEmailChallengeScalarWhereInput[]
+  }
+
+  export type VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<VaultTrustedSessionCreateWithoutUserInput, VaultTrustedSessionUncheckedCreateWithoutUserInput> | VaultTrustedSessionCreateWithoutUserInput[] | VaultTrustedSessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: VaultTrustedSessionCreateOrConnectWithoutUserInput | VaultTrustedSessionCreateOrConnectWithoutUserInput[]
+    upsert?: VaultTrustedSessionUpsertWithWhereUniqueWithoutUserInput | VaultTrustedSessionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: VaultTrustedSessionCreateManyUserInputEnvelope
+    set?: VaultTrustedSessionWhereUniqueInput | VaultTrustedSessionWhereUniqueInput[]
+    disconnect?: VaultTrustedSessionWhereUniqueInput | VaultTrustedSessionWhereUniqueInput[]
+    delete?: VaultTrustedSessionWhereUniqueInput | VaultTrustedSessionWhereUniqueInput[]
+    connect?: VaultTrustedSessionWhereUniqueInput | VaultTrustedSessionWhereUniqueInput[]
+    update?: VaultTrustedSessionUpdateWithWhereUniqueWithoutUserInput | VaultTrustedSessionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: VaultTrustedSessionUpdateManyWithWhereWithoutUserInput | VaultTrustedSessionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: VaultTrustedSessionScalarWhereInput | VaultTrustedSessionScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutVaultChallengesInput = {
+    create?: XOR<UserCreateWithoutVaultChallengesInput, UserUncheckedCreateWithoutVaultChallengesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVaultChallengesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type UserUpdateOneRequiredWithoutVaultChallengesNestedInput = {
+    create?: XOR<UserCreateWithoutVaultChallengesInput, UserUncheckedCreateWithoutVaultChallengesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVaultChallengesInput
+    upsert?: UserUpsertWithoutVaultChallengesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutVaultChallengesInput, UserUpdateWithoutVaultChallengesInput>, UserUncheckedUpdateWithoutVaultChallengesInput>
+  }
+
+  export type UserCreateNestedOneWithoutVaultTrustedSessionsInput = {
+    create?: XOR<UserCreateWithoutVaultTrustedSessionsInput, UserUncheckedCreateWithoutVaultTrustedSessionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVaultTrustedSessionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutVaultTrustedSessionsNestedInput = {
+    create?: XOR<UserCreateWithoutVaultTrustedSessionsInput, UserUncheckedCreateWithoutVaultTrustedSessionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVaultTrustedSessionsInput
+    upsert?: UserUpsertWithoutVaultTrustedSessionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutVaultTrustedSessionsInput, UserUpdateWithoutVaultTrustedSessionsInput>, UserUncheckedUpdateWithoutVaultTrustedSessionsInput>
   }
 
   export type UserGoogleConnectionCreatescopesInput = {
@@ -47574,10 +50226,6 @@ export namespace Prisma {
 
   export type EnumCompanyStatusFieldUpdateOperationsInput = {
     set?: $Enums.CompanyStatus
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type CompanyUpdateOneWithoutSubCompaniesNestedInput = {
@@ -48442,14 +51090,6 @@ export namespace Prisma {
     connectOrCreate?: ClickEventCreateOrConnectWithoutTrackingLinkInput | ClickEventCreateOrConnectWithoutTrackingLinkInput[]
     createMany?: ClickEventCreateManyTrackingLinkInputEnvelope
     connect?: ClickEventWhereUniqueInput | ClickEventWhereUniqueInput[]
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type CampaignUpdateOneWithoutLinksNestedInput = {
@@ -50108,6 +52748,46 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -50140,11 +52820,6 @@ export namespace Prisma {
     not?: NestedEnumCompanyStatusFilter<$PrismaModel> | $Enums.CompanyStatus
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type NestedEnumCompanyStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.CompanyStatus | EnumCompanyStatusFieldRefInput<$PrismaModel>
     in?: $Enums.CompanyStatus[] | ListEnumCompanyStatusFieldRefInput<$PrismaModel>
@@ -50153,14 +52828,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumCompanyStatusFilter<$PrismaModel>
     _max?: NestedEnumCompanyStatusFilter<$PrismaModel>
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedEnumCampaignSourceFilter<$PrismaModel = never> = {
@@ -50222,33 +52889,6 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedEnumLeadStatusFilter<$PrismaModel = never> = {
@@ -50829,6 +53469,58 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type VaultEmailChallengeCreateWithoutUserInput = {
+    id?: string
+    codeHash: string
+    credentialId?: string | null
+    attempts?: number
+    used?: boolean
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type VaultEmailChallengeUncheckedCreateWithoutUserInput = {
+    id?: string
+    codeHash: string
+    credentialId?: string | null
+    attempts?: number
+    used?: boolean
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type VaultEmailChallengeCreateOrConnectWithoutUserInput = {
+    where: VaultEmailChallengeWhereUniqueInput
+    create: XOR<VaultEmailChallengeCreateWithoutUserInput, VaultEmailChallengeUncheckedCreateWithoutUserInput>
+  }
+
+  export type VaultEmailChallengeCreateManyUserInputEnvelope = {
+    data: VaultEmailChallengeCreateManyUserInput | VaultEmailChallengeCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type VaultTrustedSessionCreateWithoutUserInput = {
+    id?: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type VaultTrustedSessionUncheckedCreateWithoutUserInput = {
+    id?: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type VaultTrustedSessionCreateOrConnectWithoutUserInput = {
+    where: VaultTrustedSessionWhereUniqueInput
+    create: XOR<VaultTrustedSessionCreateWithoutUserInput, VaultTrustedSessionUncheckedCreateWithoutUserInput>
+  }
+
+  export type VaultTrustedSessionCreateManyUserInputEnvelope = {
+    data: VaultTrustedSessionCreateManyUserInput | VaultTrustedSessionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutUsersInput = {
     update: XOR<CompanyUpdateWithoutUsersInput, CompanyUncheckedUpdateWithoutUsersInput>
     create: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
@@ -51098,6 +53790,238 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"UserGoogleConnection"> | Date | string
   }
 
+  export type VaultEmailChallengeUpsertWithWhereUniqueWithoutUserInput = {
+    where: VaultEmailChallengeWhereUniqueInput
+    update: XOR<VaultEmailChallengeUpdateWithoutUserInput, VaultEmailChallengeUncheckedUpdateWithoutUserInput>
+    create: XOR<VaultEmailChallengeCreateWithoutUserInput, VaultEmailChallengeUncheckedCreateWithoutUserInput>
+  }
+
+  export type VaultEmailChallengeUpdateWithWhereUniqueWithoutUserInput = {
+    where: VaultEmailChallengeWhereUniqueInput
+    data: XOR<VaultEmailChallengeUpdateWithoutUserInput, VaultEmailChallengeUncheckedUpdateWithoutUserInput>
+  }
+
+  export type VaultEmailChallengeUpdateManyWithWhereWithoutUserInput = {
+    where: VaultEmailChallengeScalarWhereInput
+    data: XOR<VaultEmailChallengeUpdateManyMutationInput, VaultEmailChallengeUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type VaultEmailChallengeScalarWhereInput = {
+    AND?: VaultEmailChallengeScalarWhereInput | VaultEmailChallengeScalarWhereInput[]
+    OR?: VaultEmailChallengeScalarWhereInput[]
+    NOT?: VaultEmailChallengeScalarWhereInput | VaultEmailChallengeScalarWhereInput[]
+    id?: StringFilter<"VaultEmailChallenge"> | string
+    userId?: StringFilter<"VaultEmailChallenge"> | string
+    codeHash?: StringFilter<"VaultEmailChallenge"> | string
+    credentialId?: StringNullableFilter<"VaultEmailChallenge"> | string | null
+    attempts?: IntFilter<"VaultEmailChallenge"> | number
+    used?: BoolFilter<"VaultEmailChallenge"> | boolean
+    expiresAt?: DateTimeFilter<"VaultEmailChallenge"> | Date | string
+    createdAt?: DateTimeFilter<"VaultEmailChallenge"> | Date | string
+  }
+
+  export type VaultTrustedSessionUpsertWithWhereUniqueWithoutUserInput = {
+    where: VaultTrustedSessionWhereUniqueInput
+    update: XOR<VaultTrustedSessionUpdateWithoutUserInput, VaultTrustedSessionUncheckedUpdateWithoutUserInput>
+    create: XOR<VaultTrustedSessionCreateWithoutUserInput, VaultTrustedSessionUncheckedCreateWithoutUserInput>
+  }
+
+  export type VaultTrustedSessionUpdateWithWhereUniqueWithoutUserInput = {
+    where: VaultTrustedSessionWhereUniqueInput
+    data: XOR<VaultTrustedSessionUpdateWithoutUserInput, VaultTrustedSessionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type VaultTrustedSessionUpdateManyWithWhereWithoutUserInput = {
+    where: VaultTrustedSessionScalarWhereInput
+    data: XOR<VaultTrustedSessionUpdateManyMutationInput, VaultTrustedSessionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type VaultTrustedSessionScalarWhereInput = {
+    AND?: VaultTrustedSessionScalarWhereInput | VaultTrustedSessionScalarWhereInput[]
+    OR?: VaultTrustedSessionScalarWhereInput[]
+    NOT?: VaultTrustedSessionScalarWhereInput | VaultTrustedSessionScalarWhereInput[]
+    id?: StringFilter<"VaultTrustedSession"> | string
+    userId?: StringFilter<"VaultTrustedSession"> | string
+    expiresAt?: DateTimeFilter<"VaultTrustedSession"> | Date | string
+    createdAt?: DateTimeFilter<"VaultTrustedSession"> | Date | string
+  }
+
+  export type UserCreateWithoutVaultChallengesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutVaultChallengesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    companyId?: string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutVaultChallengesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutVaultChallengesInput, UserUncheckedCreateWithoutVaultChallengesInput>
+  }
+
+  export type UserUpsertWithoutVaultChallengesInput = {
+    update: XOR<UserUpdateWithoutVaultChallengesInput, UserUncheckedUpdateWithoutVaultChallengesInput>
+    create: XOR<UserCreateWithoutVaultChallengesInput, UserUncheckedCreateWithoutVaultChallengesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutVaultChallengesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutVaultChallengesInput, UserUncheckedUpdateWithoutVaultChallengesInput>
+  }
+
+  export type UserUpdateWithoutVaultChallengesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutVaultChallengesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutVaultTrustedSessionsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutVaultTrustedSessionsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    companyId?: string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutVaultTrustedSessionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutVaultTrustedSessionsInput, UserUncheckedCreateWithoutVaultTrustedSessionsInput>
+  }
+
+  export type UserUpsertWithoutVaultTrustedSessionsInput = {
+    update: XOR<UserUpdateWithoutVaultTrustedSessionsInput, UserUncheckedUpdateWithoutVaultTrustedSessionsInput>
+    create: XOR<UserCreateWithoutVaultTrustedSessionsInput, UserUncheckedCreateWithoutVaultTrustedSessionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutVaultTrustedSessionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutVaultTrustedSessionsInput, UserUncheckedUpdateWithoutVaultTrustedSessionsInput>
+  }
+
+  export type UserUpdateWithoutVaultTrustedSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutVaultTrustedSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type UserCreateWithoutGoogleConnectionsInput = {
     id?: string
     name: string
@@ -51112,6 +54036,8 @@ export namespace Prisma {
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
     setores?: SetorUserCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGoogleConnectionsInput = {
@@ -51128,6 +54054,8 @@ export namespace Prisma {
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGoogleConnectionsInput = {
@@ -51160,6 +54088,8 @@ export namespace Prisma {
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
     setores?: SetorUserUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGoogleConnectionsInput = {
@@ -51176,6 +54106,8 @@ export namespace Prisma {
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutSubCompaniesInput = {
@@ -51379,6 +54311,8 @@ export namespace Prisma {
     setores?: SetorUserCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
     googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyInput = {
@@ -51395,6 +54329,8 @@ export namespace Prisma {
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
     googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyInput = {
@@ -55044,6 +57980,8 @@ export namespace Prisma {
     setores?: SetorUserCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
     googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyContactInput = {
@@ -55060,6 +57998,8 @@ export namespace Prisma {
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
     googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyContactInput = {
@@ -55189,6 +58129,8 @@ export namespace Prisma {
     setores?: SetorUserUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
     googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyContactInput = {
@@ -55205,6 +58147,8 @@ export namespace Prisma {
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
     googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutWhatsappInstancesInput = {
@@ -56375,6 +59319,8 @@ export namespace Prisma {
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
     setores?: SetorUserCreateNestedManyWithoutUserInput
     googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConversationsAssignedInput = {
@@ -56391,6 +59337,8 @@ export namespace Prisma {
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
     googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConversationsAssignedInput = {
@@ -56743,6 +59691,8 @@ export namespace Prisma {
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
     setores?: SetorUserUpdateManyWithoutUserNestedInput
     googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversationsAssignedInput = {
@@ -56759,6 +59709,8 @@ export namespace Prisma {
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
     googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorUpsertWithoutConversationsInput = {
@@ -57718,6 +60670,8 @@ export namespace Prisma {
     setores?: SetorUserCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
     googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketsCreatedInput = {
@@ -57734,6 +60688,8 @@ export namespace Prisma {
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
     googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketsCreatedInput = {
@@ -57976,6 +60932,8 @@ export namespace Prisma {
     setores?: SetorUserUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
     googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsCreatedInput = {
@@ -57992,6 +60950,8 @@ export namespace Prisma {
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
     googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorUpsertWithoutTicketsInput = {
@@ -58643,6 +61603,8 @@ export namespace Prisma {
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
     conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
     googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSetoresInput = {
@@ -58659,6 +61621,8 @@ export namespace Prisma {
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
     googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSetoresInput = {
@@ -58746,6 +61710,8 @@ export namespace Prisma {
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
     googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSetoresInput = {
@@ -58762,6 +61728,8 @@ export namespace Prisma {
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
     googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorCreateWithoutInstancesInput = {
@@ -60799,6 +63767,22 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type VaultEmailChallengeCreateManyUserInput = {
+    id?: string
+    codeHash: string
+    credentialId?: string | null
+    attempts?: number
+    used?: boolean
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type VaultTrustedSessionCreateManyUserInput = {
+    id?: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
   export type TicketUpdateWithoutCreatedByInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -60980,6 +63964,54 @@ export namespace Prisma {
     lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VaultEmailChallengeUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codeHash?: StringFieldUpdateOperationsInput | string
+    credentialId?: NullableStringFieldUpdateOperationsInput | string | null
+    attempts?: IntFieldUpdateOperationsInput | number
+    used?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VaultEmailChallengeUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codeHash?: StringFieldUpdateOperationsInput | string
+    credentialId?: NullableStringFieldUpdateOperationsInput | string | null
+    attempts?: IntFieldUpdateOperationsInput | number
+    used?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VaultEmailChallengeUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codeHash?: StringFieldUpdateOperationsInput | string
+    credentialId?: NullableStringFieldUpdateOperationsInput | string | null
+    attempts?: IntFieldUpdateOperationsInput | number
+    used?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VaultTrustedSessionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VaultTrustedSessionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VaultTrustedSessionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CompanyCreateManyParentCompanyInput = {
@@ -61431,6 +64463,8 @@ export namespace Prisma {
     setores?: SetorUserUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
     googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyInput = {
@@ -61447,6 +64481,8 @@ export namespace Prisma {
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
     conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
     googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCompanyInput = {
@@ -63805,6 +66841,14 @@ export namespace Prisma {
      * @deprecated Use UserDefaultArgs instead
      */
     export type UserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use VaultEmailChallengeDefaultArgs instead
+     */
+    export type VaultEmailChallengeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = VaultEmailChallengeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use VaultTrustedSessionDefaultArgs instead
+     */
+    export type VaultTrustedSessionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = VaultTrustedSessionDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserGoogleConnectionDefaultArgs instead
      */

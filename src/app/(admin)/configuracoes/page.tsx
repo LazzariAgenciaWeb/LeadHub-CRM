@@ -10,6 +10,7 @@ import SetoresSection from "./SetoresSection";
 import WebhookSettings from "./WebhookSettings";
 import AtendimentoSettings from "./AtendimentoSettings";
 import IntegracoesGoogleSection from "./IntegracoesGoogleSection";
+import EmailSettings from "./EmailSettings";
 
 export default async function ConfiguracoesPage({
   searchParams,
@@ -193,6 +194,12 @@ export default async function ConfiguracoesPage({
         allInstances={allInstances as any}
       />
     );
+  } else if (secao === "email") {
+    if (!isSuperAdmin) {
+      content = <div className="p-6 text-slate-500 text-sm">Apenas Super Admin pode configurar SMTP.</div>;
+    } else {
+      content = <EmailSettings />;
+    }
   } else if (secao === "atendimento") {
     const cId = userCompanyId ?? "";
     const settingsRaw = await prisma.setting.findMany({

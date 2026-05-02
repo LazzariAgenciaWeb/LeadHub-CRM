@@ -32,8 +32,43 @@ model User {
   setores               SetorUser[]
   conversationsAssigned Conversation[]         @relation("ConversationAssignee")
   googleConnections     UserGoogleConnection[]
+  vaultChallenges       VaultEmailChallenge[]
+  vaultTrustedSessions  VaultTrustedSession[]
 
   @@index([companyId])
+}
+
+// ─── 2FA por e-mail para revelar credenciais do cofre ─────────────────────────
+// Cada vez que um usuário clica "Mostrar senha" e não tem trusted session
+// ativa, geramos um código de 6 dígitos e enviamos para o e-mail dele.
+// Após validar, criamos uma VaultTrustedSession de 15 min que dispensa
+// novos códigos no intervalo.
+
+model VaultEmailChallenge {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  codeHash     String // SHA-256 do código (não guardamos o texto claro)
+  credentialId String? // credencial alvo (auditoria; não restringe a verify)
+
+  attempts  Int      @default(0) // máx 5 tentativas por challenge
+  used      Boolean  @default(false)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId, expiresAt])
+}
+
+model VaultTrustedSession {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId, expiresAt])
 }
 
 // ─── Conexões pessoais com Google (Calendar e futuros serviços por usuário) ───
