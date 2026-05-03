@@ -306,7 +306,10 @@ export default async function ConfiguracoesPage({
         orderBy: { name: "asc" },
       }),
       prisma.user.findMany({
-        where: { companyId, role: "CLIENT" },
+        // ADMIN também pode pertencer a setor (aparece em rankings, recebe
+        // atribuição de chamados/conversas do setor). Antes filtrava só CLIENT
+        // e ADMIN sumia da lista de usuários disponíveis na edição do setor.
+        where: { companyId, role: { in: ["CLIENT", "ADMIN"] } },
         select: { id: true, name: true, email: true },
         orderBy: { name: "asc" },
       }),
