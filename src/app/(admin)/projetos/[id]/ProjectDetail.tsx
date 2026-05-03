@@ -112,11 +112,32 @@ export default function ProjectDetail({
     router.push("/projetos");
   }
 
+  const [syncMsg, setSyncMsg] = useState<string | null>(null);
   async function syncNow() {
     setSaving(true);
-    await fetch("/api/cron/projetos-sync", { method: "POST" });
-    setSaving(false);
-    router.refresh();
+    setSyncMsg(null);
+    try {
+      const res  = await fetch(`/api/projetos/${project.id}/sync`, { method: "POST" });
+      const data = await res.json();
+      if (!res.ok) {
+        setSyncMsg(`❌ ${data.error ?? "Erro ao sincronizar"}`);
+      } else {
+        const a = data.activities ?? {};
+        const summary = [
+          `${data.tasksFound} tarefas encontradas`,
+          a.created   ? `${a.created} criadas`     : null,
+          a.updated   ? `${a.updated} atualizadas` : null,
+          a.completed ? `${a.completed} concluídas`: null,
+        ].filter(Boolean).join(" · ");
+        setSyncMsg(`✓ ${summary}`);
+        router.refresh();
+      }
+    } catch (err: any) {
+      setSyncMsg(`❌ ${err?.message ?? "Erro de rede"}`);
+    } finally {
+      setSaving(false);
+      setTimeout(() => setSyncMsg(null), 6000);
+    }
   }
 
   const progress = project.taskCount > 0 ? Math.round((project.taskCompleted / project.taskCount) * 100) : 0;
@@ -207,6 +228,15 @@ export default function ProjectDetail({
                 <RefreshCw className={`w-3 h-3 ${saving ? "animate-spin" : ""}`} /> Sync
               </button>
             </div>
+            {syncMsg && (
+              <div className={`text-[11px] mb-2 px-2 py-1 rounded border ${
+                syncMsg.startsWith("✓")
+                  ? "text-emerald-300 bg-emerald-500/10 border-emerald-500/30"
+                  : "text-red-300 bg-red-500/10 border-red-500/30"
+              }`}>
+                {syncMsg}
+              </div>
+            )}
             {project.taskCount > 0 ? (
               <>
                 <div className="flex items-center justify-between text-xs mb-1">
