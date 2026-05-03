@@ -3,11 +3,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+type SetorOption = { id: string; name: string; users: { id: string; name: string }[] };
 type Option = { id: string; name: string };
 
 export default function NovoProjetoForm({
   setores, clientCompanies,
-}: { setores: Option[]; clientCompanies: Option[] }) {
+}: { setores: SetorOption[]; clientCompanies: Option[] }) {
   const router = useRouter();
   const [form, setForm] = useState({
     setorId:         setores[0]?.id ?? "",
@@ -19,8 +20,19 @@ export default function NovoProjetoForm({
     dueDate:         "",
     startDate:       "",
   });
+  const [memberIds, setMemberIds] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
   const [error, setError]   = useState<string | null>(null);
+
+  // Usuários do setor selecionado
+  const currentSetor = setores.find((s) => s.id === form.setorId);
+  const availableUsers = currentSetor?.users ?? [];
+
+  function toggleMember(userId: string) {
+    setMemberIds((prev) =>
+      prev.includes(userId) ? prev.filter((id) => id !== userId) : [...prev, userId]
+    );
+  }
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -35,6 +47,7 @@ export default function NovoProjetoForm({
           clientCompanyId: form.clientCompanyId || null,
           dueDate:         form.dueDate || null,
           startDate:       form.startDate || null,
+          memberIds,
         }),
       });
       if (!res.ok) {
@@ -52,6 +65,8 @@ export default function NovoProjetoForm({
 
   function set<K extends keyof typeof form>(key: K, value: (typeof form)[K]) {
     setForm((p) => ({ ...p, [key]: value }));
+    // Quando muda setor, limpa membros (eles podem não pertencer ao novo setor)
+    if (key === "setorId") setMemberIds([]);
   }
 
   return (
@@ -105,6 +120,39 @@ export default function NovoProjetoForm({
           <option value="">— sem cliente vinculado —</option>
           {clientCompanies.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
         </Select>
+      </div>
+
+      {/* Responsáveis (multi-select) */}
+      <div>
+        <Label>Responsáveis ({memberIds.length} selecionado{memberIds.length !== 1 ? "s" : ""})</Label>
+        {availableUsers.length === 0 ? (
+          <p className="text-slate-600 text-xs italic">Nenhum usuário cadastrado neste setor.</p>
+        ) : (
+          <div className="grid grid-cols-2 gap-1.5 bg-[#080b12] border border-[#1e2d45] rounded-lg p-2 max-h-40 overflow-y-auto">
+            {availableUsers.map((u) => {
+              const checked = memberIds.includes(u.id);
+              return (
+                <label
+                  key={u.id}
+                  className={`flex items-center gap-2 cursor-pointer text-xs px-2 py-1.5 rounded transition-colors ${
+                    checked ? "bg-indigo-500/15 text-white" : "text-slate-400 hover:bg-[#161f30]"
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={() => toggleMember(u.id)}
+                    className="w-4 h-4 rounded accent-indigo-500"
+                  />
+                  <span className="truncate">{u.name}</span>
+                </label>
+              );
+            })}
+          </div>
+        )}
+        <p className="text-slate-600 text-[10px] mt-1">
+          Os pontos de gamificação (entrega no prazo, atrasos) vão pra esses usuários.
+        </p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">

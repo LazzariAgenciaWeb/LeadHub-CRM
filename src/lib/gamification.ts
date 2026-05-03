@@ -432,7 +432,8 @@ export async function runProjectsDailyPenalties(companyId: string): Promise<void
   const projects = await prisma.setorClickupList.findMany({
     where: {
       taskNoDueDate: { gt: 0 },
-      status: { notIn: ["ENTREGUE", "CANCELADO"] },
+      // AGUARDANDO_CLIENTE pausa penalidades (depende do cliente, não da equipe)
+      status: { notIn: ["ENTREGUE", "CANCELADO", "AGUARDANDO_CLIENTE"] },
       setor: { companyId },
     },
     include: {

@@ -361,6 +361,7 @@ export type TicketPriority = (typeof TicketPriority)[keyof typeof TicketPriority
 export const ProjectStatus: {
   PLANEJAMENTO: 'PLANEJAMENTO',
   EM_ANDAMENTO: 'EM_ANDAMENTO',
+  AGUARDANDO_CLIENTE: 'AGUARDANDO_CLIENTE',
   PAUSADO: 'PAUSADO',
   ENTREGUE: 'ENTREGUE',
   CANCELADO: 'CANCELADO'

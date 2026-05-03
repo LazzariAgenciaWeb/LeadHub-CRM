@@ -28,11 +28,12 @@ type Project = {
 };
 
 const STATUS_LABEL: Record<ProjectStatus, { label: string; color: string }> = {
-  PLANEJAMENTO: { label: "Planejamento",  color: "bg-slate-500/20 text-slate-300" },
-  EM_ANDAMENTO: { label: "Em andamento",  color: "bg-blue-500/20 text-blue-300" },
-  PAUSADO:      { label: "Pausado",       color: "bg-amber-500/20 text-amber-300" },
-  ENTREGUE:     { label: "Entregue",      color: "bg-emerald-500/20 text-emerald-300" },
-  CANCELADO:    { label: "Cancelado",     color: "bg-red-500/20 text-red-300" },
+  PLANEJAMENTO:       { label: "Planejamento",       color: "bg-slate-500/20 text-slate-300" },
+  EM_ANDAMENTO:       { label: "Em andamento",       color: "bg-blue-500/20 text-blue-300" },
+  AGUARDANDO_CLIENTE: { label: "Aguardando cliente", color: "bg-cyan-500/20 text-cyan-300" },
+  PAUSADO:            { label: "Pausado",            color: "bg-amber-500/20 text-amber-300" },
+  ENTREGUE:           { label: "Entregue",           color: "bg-emerald-500/20 text-emerald-300" },
+  CANCELADO:          { label: "Cancelado",          color: "bg-red-500/20 text-red-300" },
 };
 
 export default function ProjectDetail({
@@ -157,6 +158,11 @@ export default function ProjectDetail({
             {project.deliveredAt && (
               <div className="mt-3 text-emerald-300 text-xs">
                 ✓ Entregue em {formatBrazilDateTime(project.deliveredAt)}
+              </div>
+            )}
+            {project.status === "AGUARDANDO_CLIENTE" && (
+              <div className="mt-3 text-cyan-300 text-xs bg-cyan-500/10 border border-cyan-500/30 rounded px-2 py-1.5">
+                ⏸ Penalidades pausadas — projeto não atualiza pontuação enquanto depende do cliente.
               </div>
             )}
           </div>

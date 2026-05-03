@@ -824,6 +824,7 @@ exports.TicketPriority = exports.$Enums.TicketPriority = {
 exports.ProjectStatus = exports.$Enums.ProjectStatus = {
   PLANEJAMENTO: 'PLANEJAMENTO',
   EM_ANDAMENTO: 'EM_ANDAMENTO',
+  AGUARDANDO_CLIENTE: 'AGUARDANDO_CLIENTE',
   PAUSADO: 'PAUSADO',
   ENTREGUE: 'ENTREGUE',
   CANCELADO: 'CANCELADO'

@@ -797,6 +797,7 @@ model SetorClickupList {
 enum ProjectStatus {
   PLANEJAMENTO
   EM_ANDAMENTO
+  AGUARDANDO_CLIENTE  // pausa penalidades de prazo (a culpa não é da equipe)
   PAUSADO
   ENTREGUE
   CANCELADO

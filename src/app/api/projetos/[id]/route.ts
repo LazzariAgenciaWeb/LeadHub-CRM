@@ -116,8 +116,11 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     }
   }
 
-  // Empurrou dueDate vencido — penaliza membros (cada empurrada)
-  if (isPushingPastDue && existing.setor.companyId) {
+  // Empurrou dueDate vencido — penaliza membros (cada empurrada),
+  // EXCETO quando o projeto está em AGUARDANDO_CLIENTE (a culpa não é da equipe).
+  const newStatus = (data.status ?? existing.status) as string;
+  const isWaitingClient = existing.status === "AGUARDANDO_CLIENTE" || newStatus === "AGUARDANDO_CLIENTE";
+  if (isPushingPastDue && existing.setor.companyId && !isWaitingClient) {
     const members = await prisma.projectMember.findMany({
       where:  { projectId: id },
       select: { userId: true },

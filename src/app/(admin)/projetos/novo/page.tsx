@@ -21,8 +21,18 @@ export default async function NovoProjetoPage() {
 
   const where = role === "SUPER_ADMIN" ? {} : { companyId: userCompanyId };
 
-  const [setores, clientCompanies] = await Promise.all([
-    prisma.setor.findMany({ where, orderBy: { name: "asc" }, select: { id: true, name: true } }),
+  const [setoresWithUsers, clientCompanies] = await Promise.all([
+    prisma.setor.findMany({
+      where,
+      orderBy: { name: "asc" },
+      select: {
+        id:    true,
+        name:  true,
+        users: {
+          include: { user: { select: { id: true, name: true } } },
+        },
+      },
+    }),
     role === "SUPER_ADMIN"
       ? prisma.company.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } })
       : prisma.company.findMany({
@@ -31,6 +41,13 @@ export default async function NovoProjetoPage() {
           select:  { id: true, name: true },
         }),
   ]);
+
+  // Lista de setor com usuários flatten — pra mostrar no multi-select
+  const setores = setoresWithUsers.map((s) => ({
+    id:    s.id,
+    name:  s.name,
+    users: s.users.map((su) => ({ id: su.user.id, name: su.user.name })),
+  }));
 
   return (
     <div className="p-6 max-w-2xl mx-auto">
