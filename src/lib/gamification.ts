@@ -50,6 +50,8 @@ export const SCORE_TABLE: Record<ScoreReason, number> = {
   BONUS_RECUPERACAO:       15,
   // Bônus mensal por superar mês anterior
   BONUS_SUPEROU_MES:       30,
+  // Incidente manual — pontos definidos no momento do registro pelo admin
+  INCIDENTE:                0,  // override pelo admin no momento do registro
 };
 
 // ─── Regras de badges (6 tiers cada) ──────────────────────────────────────────
@@ -234,6 +236,73 @@ export async function addScore(
   }
 
   return checkBadges(userId, companyId);
+}
+
+// ─── recordIncident ───────────────────────────────────────────────────────────
+
+/**
+ * Registra um incidente manual (admin) — penalidade variável com descrição.
+ *
+ * Uso: quando algo dá errado e admin precisa documentar + penalizar.
+ * Ex: "Cliente ficou sem email por 3 dias, ninguém configurou."
+ *
+ * Pontos sempre negativos. monthPoints decrementa, mas nunca abaixo de 0.
+ * Permanece registrado no histórico mesmo após reset mensal.
+ */
+export async function recordIncident(args: {
+  userId:      string;
+  companyId:   string;
+  points:      number;        // valor positivo, será convertido pra negativo
+  description: string;
+  authorId?:   string;
+  authorName?: string;
+  referenceId?: string;       // ex: project ID se for incidente em projeto
+}): Promise<void> {
+  const negPoints = -Math.abs(args.points);
+  const now = new Date();
+  const month = now.getMonth() + 1;
+  const year  = now.getFullYear();
+
+  await prisma.scoreEvent.create({
+    data: {
+      userId:      args.userId,
+      companyId:   args.companyId,
+      points:      negPoints,
+      reason:      ScoreReason.INCIDENTE,
+      referenceId: args.referenceId ?? null,
+      description: args.description,
+      authorId:    args.authorId    ?? null,
+      authorName:  args.authorName  ?? null,
+    },
+  });
+
+  await prisma.userScore.upsert({
+    where: { userId_month_year: { userId: args.userId, month, year } },
+    create: {
+      userId:           args.userId,
+      companyId:        args.companyId,
+      month,
+      year,
+      monthPoints:      0,
+      totalPoints:      0,
+      redeemablePoints: 0,
+    },
+    update: {
+      monthPoints: { increment: negPoints },
+      totalPoints: { increment: negPoints },
+      // redeemablePoints NÃO decrementa — preserva pontos já ganhos da pessoa
+    },
+  });
+
+  // Garante mês/total não-negativos
+  await prisma.userScore.updateMany({
+    where: { userId: args.userId, month, year, monthPoints: { lt: 0 } },
+    data:  { monthPoints: 0 },
+  });
+  await prisma.userScore.updateMany({
+    where: { userId: args.userId, totalPoints: { lt: 0 } },
+    data:  { totalPoints: 0 },
+  });
 }
 
 // ─── addScoreOnce ─────────────────────────────────────────────────────────────

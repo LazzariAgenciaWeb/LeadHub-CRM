@@ -3,10 +3,12 @@ import { REASON_LABEL } from "./labels";
 import { formatBrazilDateTime } from "@/lib/datetime";
 
 type Event = {
-  id:        string;
-  points:    number;
-  reason:    ScoreReason;
-  createdAt: Date;
+  id:          string;
+  points:      number;
+  reason:      ScoreReason;
+  description: string | null;
+  authorName:  string | null;
+  createdAt:   Date;
 };
 
 type Props = {
@@ -28,16 +30,27 @@ export default function RecentEvents({ events }: Props) {
       ) : (
         <div className="divide-y divide-[#1e2d45] max-h-[420px] overflow-y-auto">
           {events.map((ev) => {
-            const meta = REASON_LABEL[ev.reason];
+            const meta       = REASON_LABEL[ev.reason];
+            const isIncident = ev.reason === ScoreReason.INCIDENTE;
             return (
-              <div key={ev.id} className="flex items-center justify-between px-5 py-3">
+              <div key={ev.id} className="flex items-start justify-between px-5 py-3 gap-3">
                 <div className="min-w-0 flex-1">
-                  <p className="text-slate-200 text-sm truncate">{meta.text}</p>
+                  <p className={`text-sm ${isIncident ? "text-red-300 font-medium" : "text-slate-200"}`}>
+                    {isIncident ? "⚠️ " : ""}{meta.text}
+                  </p>
+                  {isIncident && ev.description && (
+                    <p className="text-slate-400 text-xs mt-1 leading-relaxed">
+                      “{ev.description}”
+                    </p>
+                  )}
                   <p className="text-slate-600 text-[11px] mt-0.5">
                     {formatBrazilDateTime(ev.createdAt)}
+                    {isIncident && ev.authorName && (
+                      <> · por <span className="text-slate-500">{ev.authorName}</span></>
+                    )}
                   </p>
                 </div>
-                <span className={`font-bold text-sm flex-shrink-0 ml-3 ${
+                <span className={`font-bold text-sm flex-shrink-0 ${
                   ev.points > 0 ? "text-emerald-400" : "text-red-400"
                 }`}>
                   {ev.points > 0 ? "+" : ""}{ev.points}

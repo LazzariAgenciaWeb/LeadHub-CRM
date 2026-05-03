@@ -740,6 +740,9 @@ exports.Prisma.ScoreEventScalarFieldEnum = {
   points: 'points',
   reason: 'reason',
   referenceId: 'referenceId',
+  description: 'description',
+  authorId: 'authorId',
+  authorName: 'authorName',
   createdAt: 'createdAt'
 };
 
@@ -1008,7 +1011,8 @@ exports.ScoreReason = exports.$Enums.ScoreReason = {
   BONUS_MADRUGADA: 'BONUS_MADRUGADA',
   BONUS_VENDA_RAPIDA: 'BONUS_VENDA_RAPIDA',
   BONUS_RECUPERACAO: 'BONUS_RECUPERACAO',
-  BONUS_SUPEROU_MES: 'BONUS_SUPEROU_MES'
+  BONUS_SUPEROU_MES: 'BONUS_SUPEROU_MES',
+  INCIDENTE: 'INCIDENTE'
 };
 
 exports.Prisma.ModelName = {

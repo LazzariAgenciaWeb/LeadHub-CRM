@@ -538,7 +538,8 @@ export const ScoreReason: {
   BONUS_MADRUGADA: 'BONUS_MADRUGADA',
   BONUS_VENDA_RAPIDA: 'BONUS_VENDA_RAPIDA',
   BONUS_RECUPERACAO: 'BONUS_RECUPERACAO',
-  BONUS_SUPEROU_MES: 'BONUS_SUPEROU_MES'
+  BONUS_SUPEROU_MES: 'BONUS_SUPEROU_MES',
+  INCIDENTE: 'INCIDENTE'
 };
 
 export type ScoreReason = (typeof ScoreReason)[keyof typeof ScoreReason]
@@ -53380,6 +53381,9 @@ export namespace Prisma {
     points: number | null
     reason: $Enums.ScoreReason | null
     referenceId: string | null
+    description: string | null
+    authorId: string | null
+    authorName: string | null
     createdAt: Date | null
   }
 
@@ -53390,6 +53394,9 @@ export namespace Prisma {
     points: number | null
     reason: $Enums.ScoreReason | null
     referenceId: string | null
+    description: string | null
+    authorId: string | null
+    authorName: string | null
     createdAt: Date | null
   }
 
@@ -53400,6 +53407,9 @@ export namespace Prisma {
     points: number
     reason: number
     referenceId: number
+    description: number
+    authorId: number
+    authorName: number
     createdAt: number
     _all: number
   }
@@ -53420,6 +53430,9 @@ export namespace Prisma {
     points?: true
     reason?: true
     referenceId?: true
+    description?: true
+    authorId?: true
+    authorName?: true
     createdAt?: true
   }
 
@@ -53430,6 +53443,9 @@ export namespace Prisma {
     points?: true
     reason?: true
     referenceId?: true
+    description?: true
+    authorId?: true
+    authorName?: true
     createdAt?: true
   }
 
@@ -53440,6 +53456,9 @@ export namespace Prisma {
     points?: true
     reason?: true
     referenceId?: true
+    description?: true
+    authorId?: true
+    authorName?: true
     createdAt?: true
     _all?: true
   }
@@ -53537,6 +53556,9 @@ export namespace Prisma {
     points: number
     reason: $Enums.ScoreReason
     referenceId: string | null
+    description: string | null
+    authorId: string | null
+    authorName: string | null
     createdAt: Date
     _count: ScoreEventCountAggregateOutputType | null
     _avg: ScoreEventAvgAggregateOutputType | null
@@ -53566,6 +53588,9 @@ export namespace Prisma {
     points?: boolean
     reason?: boolean
     referenceId?: boolean
+    description?: boolean
+    authorId?: boolean
+    authorName?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -53578,6 +53603,9 @@ export namespace Prisma {
     points?: boolean
     reason?: boolean
     referenceId?: boolean
+    description?: boolean
+    authorId?: boolean
+    authorName?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -53590,6 +53618,9 @@ export namespace Prisma {
     points?: boolean
     reason?: boolean
     referenceId?: boolean
+    description?: boolean
+    authorId?: boolean
+    authorName?: boolean
     createdAt?: boolean
   }
 
@@ -53615,6 +53646,9 @@ export namespace Prisma {
       points: number
       reason: $Enums.ScoreReason
       referenceId: string | null
+      description: string | null
+      authorId: string | null
+      authorName: string | null
       createdAt: Date
     }, ExtArgs["result"]["scoreEvent"]>
     composites: {}
@@ -54017,6 +54051,9 @@ export namespace Prisma {
     readonly points: FieldRef<"ScoreEvent", 'Int'>
     readonly reason: FieldRef<"ScoreEvent", 'ScoreReason'>
     readonly referenceId: FieldRef<"ScoreEvent", 'String'>
+    readonly description: FieldRef<"ScoreEvent", 'String'>
+    readonly authorId: FieldRef<"ScoreEvent", 'String'>
+    readonly authorName: FieldRef<"ScoreEvent", 'String'>
     readonly createdAt: FieldRef<"ScoreEvent", 'DateTime'>
   }
     
@@ -57104,6 +57141,9 @@ export namespace Prisma {
     points: 'points',
     reason: 'reason',
     referenceId: 'referenceId',
+    description: 'description',
+    authorId: 'authorId',
+    authorName: 'authorName',
     createdAt: 'createdAt'
   };
 
@@ -61681,6 +61721,9 @@ export namespace Prisma {
     points?: IntFilter<"ScoreEvent"> | number
     reason?: EnumScoreReasonFilter<"ScoreEvent"> | $Enums.ScoreReason
     referenceId?: StringNullableFilter<"ScoreEvent"> | string | null
+    description?: StringNullableFilter<"ScoreEvent"> | string | null
+    authorId?: StringNullableFilter<"ScoreEvent"> | string | null
+    authorName?: StringNullableFilter<"ScoreEvent"> | string | null
     createdAt?: DateTimeFilter<"ScoreEvent"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -61693,6 +61736,9 @@ export namespace Prisma {
     points?: SortOrder
     reason?: SortOrder
     referenceId?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    authorId?: SortOrderInput | SortOrder
+    authorName?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
     company?: CompanyOrderByWithRelationInput
@@ -61708,6 +61754,9 @@ export namespace Prisma {
     points?: IntFilter<"ScoreEvent"> | number
     reason?: EnumScoreReasonFilter<"ScoreEvent"> | $Enums.ScoreReason
     referenceId?: StringNullableFilter<"ScoreEvent"> | string | null
+    description?: StringNullableFilter<"ScoreEvent"> | string | null
+    authorId?: StringNullableFilter<"ScoreEvent"> | string | null
+    authorName?: StringNullableFilter<"ScoreEvent"> | string | null
     createdAt?: DateTimeFilter<"ScoreEvent"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -61720,6 +61769,9 @@ export namespace Prisma {
     points?: SortOrder
     reason?: SortOrder
     referenceId?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    authorId?: SortOrderInput | SortOrder
+    authorName?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: ScoreEventCountOrderByAggregateInput
     _avg?: ScoreEventAvgOrderByAggregateInput
@@ -61738,6 +61790,9 @@ export namespace Prisma {
     points?: IntWithAggregatesFilter<"ScoreEvent"> | number
     reason?: EnumScoreReasonWithAggregatesFilter<"ScoreEvent"> | $Enums.ScoreReason
     referenceId?: StringNullableWithAggregatesFilter<"ScoreEvent"> | string | null
+    description?: StringNullableWithAggregatesFilter<"ScoreEvent"> | string | null
+    authorId?: StringNullableWithAggregatesFilter<"ScoreEvent"> | string | null
+    authorName?: StringNullableWithAggregatesFilter<"ScoreEvent"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ScoreEvent"> | Date | string
   }
 
@@ -66394,6 +66449,9 @@ export namespace Prisma {
     points: number
     reason: $Enums.ScoreReason
     referenceId?: string | null
+    description?: string | null
+    authorId?: string | null
+    authorName?: string | null
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutScoreEventsInput
     company: CompanyCreateNestedOneWithoutScoreEventsInput
@@ -66406,6 +66464,9 @@ export namespace Prisma {
     points: number
     reason: $Enums.ScoreReason
     referenceId?: string | null
+    description?: string | null
+    authorId?: string | null
+    authorName?: string | null
     createdAt?: Date | string
   }
 
@@ -66414,6 +66475,9 @@ export namespace Prisma {
     points?: IntFieldUpdateOperationsInput | number
     reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutScoreEventsNestedInput
     company?: CompanyUpdateOneRequiredWithoutScoreEventsNestedInput
@@ -66426,6 +66490,9 @@ export namespace Prisma {
     points?: IntFieldUpdateOperationsInput | number
     reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -66436,6 +66503,9 @@ export namespace Prisma {
     points: number
     reason: $Enums.ScoreReason
     referenceId?: string | null
+    description?: string | null
+    authorId?: string | null
+    authorName?: string | null
     createdAt?: Date | string
   }
 
@@ -66444,6 +66514,9 @@ export namespace Prisma {
     points?: IntFieldUpdateOperationsInput | number
     reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -66454,6 +66527,9 @@ export namespace Prisma {
     points?: IntFieldUpdateOperationsInput | number
     reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -70052,6 +70128,9 @@ export namespace Prisma {
     points?: SortOrder
     reason?: SortOrder
     referenceId?: SortOrder
+    description?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -70066,6 +70145,9 @@ export namespace Prisma {
     points?: SortOrder
     reason?: SortOrder
     referenceId?: SortOrder
+    description?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -70076,6 +70158,9 @@ export namespace Prisma {
     points?: SortOrder
     reason?: SortOrder
     referenceId?: SortOrder
+    description?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -75788,6 +75873,9 @@ export namespace Prisma {
     points: number
     reason: $Enums.ScoreReason
     referenceId?: string | null
+    description?: string | null
+    authorId?: string | null
+    authorName?: string | null
     createdAt?: Date | string
     company: CompanyCreateNestedOneWithoutScoreEventsInput
   }
@@ -75798,6 +75886,9 @@ export namespace Prisma {
     points: number
     reason: $Enums.ScoreReason
     referenceId?: string | null
+    description?: string | null
+    authorId?: string | null
+    authorName?: string | null
     createdAt?: Date | string
   }
 
@@ -76324,6 +76415,9 @@ export namespace Prisma {
     points?: IntFilter<"ScoreEvent"> | number
     reason?: EnumScoreReasonFilter<"ScoreEvent"> | $Enums.ScoreReason
     referenceId?: StringNullableFilter<"ScoreEvent"> | string | null
+    description?: StringNullableFilter<"ScoreEvent"> | string | null
+    authorId?: StringNullableFilter<"ScoreEvent"> | string | null
+    authorName?: StringNullableFilter<"ScoreEvent"> | string | null
     createdAt?: DateTimeFilter<"ScoreEvent"> | Date | string
   }
 
@@ -77108,6 +77202,9 @@ export namespace Prisma {
     points: number
     reason: $Enums.ScoreReason
     referenceId?: string | null
+    description?: string | null
+    authorId?: string | null
+    authorName?: string | null
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutScoreEventsInput
   }
@@ -77118,6 +77215,9 @@ export namespace Prisma {
     points: number
     reason: $Enums.ScoreReason
     referenceId?: string | null
+    description?: string | null
+    authorId?: string | null
+    authorName?: string | null
     createdAt?: Date | string
   }
 
@@ -92706,6 +92806,9 @@ export namespace Prisma {
     points: number
     reason: $Enums.ScoreReason
     referenceId?: string | null
+    description?: string | null
+    authorId?: string | null
+    authorName?: string | null
     createdAt?: Date | string
   }
 
@@ -93103,6 +93206,9 @@ export namespace Prisma {
     points?: IntFieldUpdateOperationsInput | number
     reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutScoreEventsNestedInput
   }
@@ -93113,6 +93219,9 @@ export namespace Prisma {
     points?: IntFieldUpdateOperationsInput | number
     reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -93122,6 +93231,9 @@ export namespace Prisma {
     points?: IntFieldUpdateOperationsInput | number
     reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -93243,6 +93355,9 @@ export namespace Prisma {
     points: number
     reason: $Enums.ScoreReason
     referenceId?: string | null
+    description?: string | null
+    authorId?: string | null
+    authorName?: string | null
     createdAt?: Date | string
   }
 
@@ -93906,6 +94021,9 @@ export namespace Prisma {
     points?: IntFieldUpdateOperationsInput | number
     reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutScoreEventsNestedInput
   }
@@ -93916,6 +94034,9 @@ export namespace Prisma {
     points?: IntFieldUpdateOperationsInput | number
     reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -93925,6 +94046,9 @@ export namespace Prisma {
     points?: IntFieldUpdateOperationsInput | number
     reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

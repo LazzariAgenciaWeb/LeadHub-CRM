@@ -474,4 +474,5 @@ export const REASON_LABEL: Record<ScoreReason, { text: string; positive: boolean
   BONUS_VENDA_RAPIDA:     { text: "Lead criado e fechado no mesmo dia", positive: true  },
   BONUS_RECUPERACAO:      { text: "Lead perdido recuperado",            positive: true  },
   BONUS_SUPEROU_MES:      { text: "Superou pontuação do mês anterior",  positive: true  },
+  INCIDENTE:              { text: "Incidente registrado",                positive: false },
 };

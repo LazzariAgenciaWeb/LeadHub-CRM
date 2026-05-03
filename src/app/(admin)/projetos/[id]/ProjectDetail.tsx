@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowLeft, ExternalLink, Trash2, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
 import { ProjectStatus } from "@/generated/prisma";
 import { formatBrazilDateTime, formatBrazilDate } from "@/lib/datetime";
+import IncidentReporter from "./IncidentReporter";
 
 type Project = {
   id:                  string;
@@ -418,6 +419,12 @@ export default function ProjectDetail({
           <ClickupListIdEditor
             projectId={project.id}
             current={project.clickupListId}
+          />
+
+          {/* Registrar incidente (admin penaliza membro do projeto) */}
+          <IncidentReporter
+            projectId={project.id}
+            members={project.members.map((m) => ({ id: m.user.id, name: m.user.name }))}
           />
         </div>
       </div>

@@ -1365,6 +1365,10 @@ model ScoreEvent {
   points      Int
   reason      ScoreReason
   referenceId String?
+  // Para incidentes manuais (reason=INCIDENTE) e bônus customizados:
+  description String?     @db.Text  // o que aconteceu / contexto
+  authorId    String?                // quem registrou
+  authorName  String?                // snapshot (caso author seja deletado)
   createdAt   DateTime    @default(now())
 
   @@index([userId, createdAt])
@@ -1441,6 +1445,7 @@ enum ScoreReason {
   BONUS_VENDA_RAPIDA      // lead criado e fechado mesmo dia (Sortudo)
   BONUS_RECUPERACAO       // lead LOST → CLOSED (Fênix)
   BONUS_SUPEROU_MES       // mês corrente > mês anterior em pontos
+  INCIDENTE               // penalidade manual registrada por admin (ex: descuido com cliente)
 }
 
 // Trilha de auditoria de eventos de cobrança — útil pra suporte e debug.
