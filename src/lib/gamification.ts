@@ -530,8 +530,11 @@ export async function syncProjectTasks(
 
   const companyId = project.setor.companyId;
   const memberIds = project.members.map((m) => m.userId);
-  const isPaused  = project.status === "AGUARDANDO_CLIENTE"
-                 || project.status === "ENTREGUE"
+  // Só projetos finalizados pausam o registro/scoring de atividade.
+  // AGUARDANDO_CLIENTE NÃO pausa — a equipe ainda comenta, atualiza, cobra cliente,
+  // e isso conta como engajamento. (Penalidades de "empurrar dueDate macro do
+  // projeto" continuam pausadas no PATCH; isso aqui é só sync de tarefas.)
+  const isPaused  = project.status === "ENTREGUE"
                  || project.status === "CANCELADO";
 
   // Snapshot atual em DB
