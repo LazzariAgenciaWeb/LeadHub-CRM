@@ -6,6 +6,9 @@ type Props = {
   counts: Partial<Record<ScoreReason, number>>;
   // Quantas vezes o usuário foi rei do mês (especial — vem de UserBadge.count)
   reiDoMesCount: number;
+  // Tiers já conquistados (UserBadge) — usado como piso de progresso pra
+  // tolerar inconsistências entre ScoreEvent e UserBadge.
+  earnedBadges: { badge: BadgeType; tier: number }[];
 };
 
 // Mapeia BadgeType → ScoreReason que conta para o progresso
@@ -27,14 +30,31 @@ const ALL_BADGES: BadgeType[] = [
   "SPRINT_MASTER", "REI_DO_MES",
 ];
 
-export default function BadgesGrid({ counts, reiDoMesCount }: Props) {
+export default function BadgesGrid({ counts, reiDoMesCount, earnedBadges }: Props) {
+  // Maior tier por badge a partir do que já está em UserBadge
+  const maxTierByBadge = new Map<BadgeType, number>();
+  for (const eb of earnedBadges) {
+    const cur = maxTierByBadge.get(eb.badge) ?? 0;
+    if (eb.tier > cur) maxTierByBadge.set(eb.badge, eb.tier);
+  }
+
+  /** Conta efetiva do badge: máx entre eventos atuais e o threshold do tier
+   *  já conquistado (garante que badges existentes não apareçam como locked). */
+  function effectiveCount(badge: BadgeType): number {
+    const reason = BADGE_REASON[badge];
+    const fromEvents = badge === "REI_DO_MES"
+      ? reiDoMesCount
+      : reason ? (counts[reason] ?? 0) : 0;
+    const earnedTier = maxTierByBadge.get(badge) ?? 0;
+    if (earnedTier === 0) return fromEvents;
+    const tierThreshold = BADGE_TIERS[badge][earnedTier - 1].threshold;
+    return Math.max(fromEvents, tierThreshold);
+  }
+
   // Calcula o tier conquistado de cada badge para o resumo do header
   let unlockedCount = 0;
   for (const badge of ALL_BADGES) {
-    const reason = BADGE_REASON[badge];
-    const cnt    = badge === "REI_DO_MES" ? reiDoMesCount
-                 : reason ? (counts[reason] ?? 0) : 0;
-    const { currentTier } = getBadgeProgress(badge, cnt);
+    const { currentTier } = getBadgeProgress(badge, effectiveCount(badge));
     if (currentTier) unlockedCount++;
   }
 
@@ -51,11 +71,8 @@ export default function BadgesGrid({ counts, reiDoMesCount }: Props) {
 
       <div className="space-y-2.5">
         {ALL_BADGES.map((badge) => {
-          const meta   = BADGE_META[badge];
-          const reason = BADGE_REASON[badge];
-          const count  = badge === "REI_DO_MES"
-            ? reiDoMesCount
-            : reason ? (counts[reason] ?? 0) : 0;
+          const meta  = BADGE_META[badge];
+          const count = effectiveCount(badge);
 
           const { currentTier, nextTier, progress } = getBadgeProgress(badge, count);
           const tiers   = BADGE_TIERS[badge];

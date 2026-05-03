@@ -89,7 +89,11 @@ export default async function GamificacaoPage() {
 
         {/* Coluna lateral */}
         <div className="space-y-5">
-          <BadgesGrid counts={counts} reiDoMesCount={reiDoMesCount} />
+          <BadgesGrid
+            counts={counts}
+            reiDoMesCount={reiDoMesCount}
+            earnedBadges={myBadges.map((b) => ({ badge: b.badge, tier: b.tier }))}
+          />
           <RecentEvents events={myEvents} />
         </div>
       </div>
