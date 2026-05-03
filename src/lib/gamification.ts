@@ -36,6 +36,7 @@ export const SCORE_TABLE: Record<ScoreReason, number> = {
   CONVERSA_SEM_RESPOSTA:  -10,
   PRAZO_PRORROGADO:        -5,   // empurrar prazo depois de vencido (cumulativo)
   PROJETO_ATRASADO:       -30,   // projeto entregue depois do dueDate
+  TAREFA_SEM_PRAZO:        -3,   // tarefas no ClickUp sem due_date (cron diário)
 };
 
 // ─── Regras de badges (6 tiers cada) ──────────────────────────────────────────
@@ -413,6 +414,49 @@ export async function runDailyPenalties(companyId: string): Promise<void> {
     });
     if (alreadyToday) continue;
     await addScore(ticket.assigneeId, companyId, ScoreReason.SLA_VENCIDO, ticket.id);
+  }
+}
+
+// ─── runProjectsDailyPenalties ────────────────────────────────────────────────
+
+/**
+ * Penalidade diária por projeto que tem tarefas SEM due_date no ClickUp.
+ *
+ * Aplica -3 pts pra cada membro do projeto, idempotente por (projeto, dia).
+ * Roda como parte do cron daily da gamificação. Para de aplicar quando o
+ * pessoal preenche os prazos no ClickUp.
+ */
+export async function runProjectsDailyPenalties(companyId: string): Promise<void> {
+  const startOfDay = new Date(new Date().setHours(0, 0, 0, 0));
+
+  const projects = await prisma.setorClickupList.findMany({
+    where: {
+      taskNoDueDate: { gt: 0 },
+      status: { notIn: ["ENTREGUE", "CANCELADO"] },
+      setor: { companyId },
+    },
+    include: {
+      members: { select: { userId: true } },
+    },
+  });
+
+  for (const proj of projects) {
+    if (proj.members.length === 0) continue; // sem ninguém pra penalizar
+
+    for (const m of proj.members) {
+      const alreadyToday = await prisma.scoreEvent.findFirst({
+        where: {
+          userId:      m.userId,
+          companyId,
+          reason:      ScoreReason.TAREFA_SEM_PRAZO,
+          referenceId: proj.id,
+          createdAt:   { gte: startOfDay },
+        },
+      });
+      if (alreadyToday) continue;
+
+      await addScore(m.userId, companyId, ScoreReason.TAREFA_SEM_PRAZO, proj.id);
+    }
   }
 }
 

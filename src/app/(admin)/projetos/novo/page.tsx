@@ -9,10 +9,12 @@ export default async function NovoProjetoPage() {
   const role          = (session.user as any).role as string;
   const userCompanyId = (session.user as any).companyId as string | undefined;
 
-  if (role !== "SUPER_ADMIN" && role !== "ADMIN") {
+  // Sem companyId não dá pra criar projeto. Caso contrário, qualquer usuário
+  // logado da empresa pode criar projetos pros setores da empresa.
+  if (!userCompanyId && role !== "SUPER_ADMIN") {
     return (
       <div className="p-6">
-        <p className="text-slate-500 text-sm">Apenas admin pode criar projetos.</p>
+        <p className="text-slate-500 text-sm">Você precisa estar vinculado a uma empresa pra criar projetos.</p>
       </div>
     );
   }

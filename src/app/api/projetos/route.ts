@@ -35,9 +35,6 @@ export async function POST(req: NextRequest) {
 
   const role          = (session.user as any).role as string;
   const userCompanyId = (session.user as any).companyId as string | undefined;
-  if (role !== "SUPER_ADMIN" && role !== "ADMIN") {
-    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
-  }
 
   const body = await req.json();
   const { setorId, name, clickupListId, type, description, clientCompanyId, dueDate, startDate } = body;
@@ -45,10 +42,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "setorId, name e clickupListId obrigatórios" }, { status: 400 });
   }
 
-  // ADMIN só pode criar pra setor da própria empresa
+  // Qualquer usuário só pode criar projetos para setores da própria empresa
   const setor = await prisma.setor.findUnique({ where: { id: setorId }, select: { companyId: true } });
   if (!setor) return NextResponse.json({ error: "Setor não encontrado" }, { status: 404 });
-  if (role === "ADMIN" && setor.companyId !== userCompanyId) {
+  if (role !== "SUPER_ADMIN" && setor.companyId !== userCompanyId) {
     return NextResponse.json({ error: "Sem permissão pra criar nesse setor" }, { status: 403 });
   }
 

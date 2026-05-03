@@ -16,6 +16,7 @@ type Project = {
   taskCount:       number;
   taskCompleted:   number;
   taskOverdue:     number;
+  taskNoDueDate:   number;
   lastSyncedAt:    Date | string | null;
   setor:           { id: string; name: string };
   clientCompany:   { id: string; name: string } | null;
@@ -127,6 +128,11 @@ function ProjectCard({
           </div>
           {project.taskOverdue > 0 && (
             <div className="text-red-400 text-[10px] mt-1">⚠ {project.taskOverdue} atrasadas</div>
+          )}
+          {project.taskNoDueDate > 0 && (
+            <div className="text-amber-400 text-[10px] mt-1" title="Equipe perde -3 pts/dia até preencher datas no ClickUp">
+              ⚠ {project.taskNoDueDate} sem prazo
+            </div>
           )}
         </div>
       )}

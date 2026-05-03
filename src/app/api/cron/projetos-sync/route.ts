@@ -55,6 +55,7 @@ async function handle(req: NextRequest) {
         taskCount:     stats.taskCount,
         taskCompleted: stats.taskCompleted,
         taskOverdue:   stats.taskOverdue,
+        taskNoDueDate: stats.taskNoDueDate,
         lastSyncedAt:  new Date(),
       },
     });

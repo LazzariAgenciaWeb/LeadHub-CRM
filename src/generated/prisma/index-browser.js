@@ -452,6 +452,7 @@ exports.Prisma.SetorClickupListScalarFieldEnum = {
   taskCount: 'taskCount',
   taskCompleted: 'taskCompleted',
   taskOverdue: 'taskOverdue',
+  taskNoDueDate: 'taskNoDueDate',
   lastSyncedAt: 'lastSyncedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -923,7 +924,8 @@ exports.ScoreReason = exports.$Enums.ScoreReason = {
   SLA_VENCIDO: 'SLA_VENCIDO',
   CONVERSA_SEM_RESPOSTA: 'CONVERSA_SEM_RESPOSTA',
   PRAZO_PRORROGADO: 'PRAZO_PRORROGADO',
-  PROJETO_ATRASADO: 'PROJETO_ATRASADO'
+  PROJETO_ATRASADO: 'PROJETO_ATRASADO',
+  TAREFA_SEM_PRAZO: 'TAREFA_SEM_PRAZO'
 };
 
 exports.Prisma.ModelName = {

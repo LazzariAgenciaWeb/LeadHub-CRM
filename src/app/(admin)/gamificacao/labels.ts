@@ -8,6 +8,42 @@ export type BadgeMeta = {
   description: string;
 };
 
+// Categorias visuais — agrupam badges no painel pra dar contexto
+export type BadgeCategory =
+  | "ATENDIMENTO"
+  | "CHAMADOS"
+  | "VENDAS"
+  | "PROJETOS"
+  | "DISCIPLINA"
+  | "ESPECIAIS";
+
+export const CATEGORY_META: Record<BadgeCategory, { label: string; emoji: string; description: string }> = {
+  ATENDIMENTO: { emoji: "💬", label: "Atendimento", description: "Conversas e respostas no WhatsApp" },
+  CHAMADOS:    { emoji: "🎫", label: "Chamados",    description: "Tickets de suporte resolvidos" },
+  VENDAS:      { emoji: "💰", label: "Vendas",      description: "Conversões e movimentação no funil" },
+  PROJETOS:    { emoji: "🚀", label: "Projetos",    description: "Entregas no prazo" },
+  DISCIPLINA:  { emoji: "⏱️", label: "Disciplina",  description: "Pontualidade e consistência" },
+  ESPECIAIS:   { emoji: "👑", label: "Especiais",    description: "Conquistas raras de destaque" },
+};
+
+export const BADGE_CATEGORY: Record<BadgeType, BadgeCategory> = {
+  RAIO_VELOZ:      "ATENDIMENTO",
+  PRIMEIRO_DO_DIA: "ATENDIMENTO",
+  ZERO_PENDENCIA:  "ATENDIMENTO",
+  RESOLVEDOR:      "CHAMADOS",
+  CLOSER:          "VENDAS",
+  FUNIL_COMPLETO:  "VENDAS",
+  ANTECIPADOR:     "VENDAS",
+  ENTREGADOR:      "PROJETOS",
+  PONTUAL:         "DISCIPLINA",
+  SPRINT_MASTER:   "DISCIPLINA",
+  REI_DO_MES:      "ESPECIAIS",
+};
+
+export const CATEGORY_ORDER: BadgeCategory[] = [
+  "ATENDIMENTO", "CHAMADOS", "VENDAS", "PROJETOS", "DISCIPLINA", "ESPECIAIS",
+];
+
 export const BADGE_META: Record<BadgeType, BadgeMeta> = {
   RAIO_VELOZ:      { emoji: "⚡", name: "Velocidade",      description: "Respostas em menos de 5 minutos" },
   SPRINT_MASTER:   { emoji: "🏃", name: "Sprint",          description: "Dias consecutivos sem atraso" },
@@ -232,4 +268,5 @@ export const REASON_LABEL: Record<ScoreReason, { text: string; positive: boolean
   CONVERSA_SEM_RESPOSTA:  { text: "Conversa sem resposta há 24h",     positive: false },
   PRAZO_PRORROGADO:       { text: "Prazo prorrogado depois de vencido", positive: false },
   PROJETO_ATRASADO:       { text: "Projeto entregue com atraso",      positive: false },
+  TAREFA_SEM_PRAZO:       { text: "Tarefa do projeto sem data no ClickUp", positive: false },
 };

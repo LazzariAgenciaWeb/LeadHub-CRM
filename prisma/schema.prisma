@@ -779,6 +779,7 @@ model SetorClickupList {
   taskCount       Int           @default(0)
   taskCompleted   Int           @default(0)
   taskOverdue     Int           @default(0)
+  taskNoDueDate   Int           @default(0)  // tarefas sem due_date
   lastSyncedAt    DateTime?
 
   createdAt       DateTime      @default(now())
@@ -1321,6 +1322,7 @@ enum ScoreReason {
   CONVERSA_SEM_RESPOSTA
   PRAZO_PRORROGADO        // empurrar prazo depois de já vencido
   PROJETO_ATRASADO        // projeto entregue depois do dueDate
+  TAREFA_SEM_PRAZO        // tarefas no ClickUp sem due_date (cron diário)
 }
 
 // Trilha de auditoria de eventos de cobrança — útil pra suporte e debug.

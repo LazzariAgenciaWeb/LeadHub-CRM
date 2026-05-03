@@ -313,7 +313,12 @@ export async function syncOportunidadeToClickup({
 export async function fetchClickupListStats(
   apiToken: string,
   listId: string,
-): Promise<{ taskCount: number; taskCompleted: number; taskOverdue: number } | null> {
+): Promise<{
+  taskCount: number;
+  taskCompleted: number;
+  taskOverdue: number;
+  taskNoDueDate: number;
+} | null> {
   // include_closed=true porque por padrão a API exclui tarefas concluídas
   const url = `${BASE}/list/${listId}/task?include_closed=true&subtasks=true`;
   try {
@@ -329,6 +334,7 @@ export async function fetchClickupListStats(
     let taskCount     = 0;
     let taskCompleted = 0;
     let taskOverdue   = 0;
+    let taskNoDueDate = 0;
 
     for (const t of tasks) {
       taskCount++;
@@ -339,11 +345,12 @@ export async function fetchClickupListStats(
       } else {
         // due_date vem como string com epoch em ms; pode vir null
         const due = t.due_date ? Number(t.due_date) : null;
-        if (due && due < now) taskOverdue++;
+        if (!due) taskNoDueDate++;
+        else if (due < now) taskOverdue++;
       }
     }
 
-    return { taskCount, taskCompleted, taskOverdue };
+    return { taskCount, taskCompleted, taskOverdue, taskNoDueDate };
   } catch {
     return null;
   }

@@ -1,5 +1,9 @@
 import { BadgeType, ScoreReason } from "@/generated/prisma";
-import { BADGE_META, BADGE_TIERS, TIER_STYLES, REASON_LABEL, getBadgeProgress } from "./labels";
+import {
+  BADGE_META, BADGE_TIERS, TIER_STYLES, REASON_LABEL,
+  BADGE_CATEGORY, CATEGORY_META, CATEGORY_ORDER,
+  getBadgeProgress,
+} from "./labels";
 import BadgeInfoButton from "./BadgeInfoButton";
 
 type Props = {
@@ -61,6 +65,12 @@ export default function BadgesGrid({ counts, reiDoMesCount, earnedBadges }: Prop
     if (currentTier) unlockedCount++;
   }
 
+  // Agrupa badges por categoria preservando a ordem CATEGORY_ORDER
+  const byCategory = CATEGORY_ORDER.map((cat) => ({
+    category: cat,
+    badges: ALL_BADGES.filter((b) => BADGE_CATEGORY[b] === cat),
+  })).filter((g) => g.badges.length > 0);
+
   return (
     <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-2xl p-5">
       <div className="flex items-center justify-between mb-4">
@@ -72,8 +82,30 @@ export default function BadgesGrid({ counts, reiDoMesCount, earnedBadges }: Prop
         </div>
       </div>
 
-      <div className="space-y-2.5">
-        {ALL_BADGES.map((badge) => {
+      <div className="space-y-5">
+        {byCategory.map((group) => {
+          const meta = CATEGORY_META[group.category];
+          const earnedInCat = group.badges.filter((b) => {
+            const { currentTier } = getBadgeProgress(b, effectiveCount(b));
+            return !!currentTier;
+          }).length;
+
+          return (
+            <div key={group.category}>
+              <div className="flex items-center justify-between mb-2 px-1">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-sm">{meta.emoji}</span>
+                  <span className="text-[11px] uppercase tracking-wider text-slate-400 font-bold">
+                    {meta.label}
+                  </span>
+                </div>
+                <span className="text-slate-600 text-[10px]">
+                  {earnedInCat}/{group.badges.length}
+                </span>
+              </div>
+
+              <div className="space-y-2">
+                {group.badges.map((badge) => {
           const meta  = BADGE_META[badge];
           const count = effectiveCount(badge);
 
@@ -176,6 +208,10 @@ export default function BadgesGrid({ counts, reiDoMesCount, earnedBadges }: Prop
                     })}
                   </div>
                 </div>
+              </div>
+            </div>
+          );
+        })}
               </div>
             </div>
           );

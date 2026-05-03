@@ -40,16 +40,13 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const role          = (session.user as any).role as string;
   const userCompanyId = (session.user as any).companyId as string | undefined;
   const userId        = (session.user as any).id as string | undefined;
-  if (role !== "SUPER_ADMIN" && role !== "ADMIN") {
-    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
-  }
 
   const existing = await prisma.setorClickupList.findUnique({
     where: { id },
     include: { setor: { select: { companyId: true } } },
   });
   if (!existing) return NextResponse.json({ error: "Projeto não encontrado" }, { status: 404 });
-  if (role === "ADMIN" && existing.setor.companyId !== userCompanyId) {
+  if (role !== "SUPER_ADMIN" && existing.setor.companyId !== userCompanyId) {
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
 
@@ -144,16 +141,13 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   const { id } = await params;
   const role          = (session.user as any).role as string;
   const userCompanyId = (session.user as any).companyId as string | undefined;
-  if (role !== "SUPER_ADMIN" && role !== "ADMIN") {
-    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
-  }
 
   const project = await prisma.setorClickupList.findUnique({
     where: { id },
     include: { setor: { select: { companyId: true } } },
   });
   if (!project) return NextResponse.json({ error: "Projeto não encontrado" }, { status: 404 });
-  if (role === "ADMIN" && project.setor.companyId !== userCompanyId) {
+  if (role !== "SUPER_ADMIN" && project.setor.companyId !== userCompanyId) {
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
 

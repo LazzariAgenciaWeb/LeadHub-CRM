@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import {
-  runDailyPenalties, runDiaSemAtraso,
+  runDailyPenalties, runDiaSemAtraso, runProjectsDailyPenalties,
   grantReiDoMes, resetMonthlyScores,
 } from "@/lib/gamification";
 
@@ -56,6 +56,7 @@ async function handle(req: NextRequest) {
         results[company.id] = "dia_sem_atraso_aplicado";
       } else {
         await runDailyPenalties(company.id);
+        await runProjectsDailyPenalties(company.id);
         results[company.id] = "penalidades_aplicadas";
       }
     } catch (err: any) {
