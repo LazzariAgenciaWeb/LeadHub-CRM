@@ -5,6 +5,7 @@ import CRMCharts from "./CRMCharts";
 import UnansweredWidget from "./UnansweredWidget";
 import AtendimentoStats from "./AtendimentoStats";
 import PerformanceTeaser from "./PerformanceTeaser";
+import DashboardGamificacaoTop from "./DashboardGamificacaoTop";
 
 export default async function DashboardPage() {
   const session = await getEffectiveSession();
@@ -256,7 +257,10 @@ export default async function DashboardPage() {
         </p>
       </div>
 
-      {/* Widget de gamificação — sua posição, próxima conquista e ações que viram pontos */}
+      {/* Conquistas (medalhões) + ranking lateral — primeira coisa que se vê */}
+      <DashboardGamificacaoTop />
+
+      {/* Próxima conquista + ações que dão pontos agora */}
       <PerformanceTeaser />
 
       {/* KPI Cards */}
