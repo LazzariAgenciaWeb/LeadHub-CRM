@@ -4,6 +4,7 @@ import Link from "next/link";
 import CRMCharts from "./CRMCharts";
 import UnansweredWidget from "./UnansweredWidget";
 import AtendimentoStats from "./AtendimentoStats";
+import PerformanceTeaser from "./PerformanceTeaser";
 
 export default async function DashboardPage() {
   const session = await getEffectiveSession();
