@@ -16,6 +16,14 @@ interface TicketMessage {
   createdAt: string;
 }
 
+interface TicketActivity {
+  id: string;
+  type: string;
+  body: string | null;
+  authorName: string | null;
+  createdAt: string;
+}
+
 interface TicketStageOption {
   id: string;
   name: string;
@@ -37,6 +45,8 @@ interface Ticket {
   type?: "SUPPORT" | "INTERNAL";
   dueDate?: string | null;
   assigneeId?: string | null;
+  setorId?: string | null;
+  clientCompanyId?: string | null;
   assignee?: { id: string; name: string } | null;
   setor?: { id: string; name: string } | null;
   clientCompany?: { id: string; name: string; phone?: string | null; email?: string | null } | null;
@@ -44,6 +54,7 @@ interface Ticket {
   updatedAt: string;
   company: { id: string; name: string };
   messages: TicketMessage[];
+  activities?: TicketActivity[];
 }
 
 const PRIORITY_CONFIG: Record<string, { label: string; color: string; icon: string }> = {
@@ -75,15 +86,84 @@ export default function TicketDetail({
   setores?: { id: string; name: string }[];
   clientCompanies?: { id: string; name: string }[];
 }) {
-  // Suprime warnings de unused enquanto a UI de edição inline ainda não
-  // consome essas listas — payload já chega do server.
-  void users; void setores; void clientCompanies;
   const router = useRouter();
   const [, startTransition] = useTransition();
   const [messages, setMessages] = useState<TicketMessage[]>(ticket.messages);
+  const [activities] = useState<TicketActivity[]>(ticket.activities ?? []);
   const [status, setStatus] = useState(ticket.status);
   const [ticketStage, setTicketStage] = useState(ticket.ticketStage ?? stages[0]?.name ?? "");
   const [priority, setPriority] = useState(ticket.priority);
+
+  // ── Edição inline: cliente, prazo, atendente, setor, título ─────────────
+  const [assigneeId, setAssigneeId] = useState<string | null>(ticket.assigneeId ?? ticket.assignee?.id ?? null);
+  const [assigneeName, setAssigneeName] = useState<string | null>(ticket.assignee?.name ?? null);
+  const [setorId, setSetorId] = useState<string | null>(ticket.setorId ?? ticket.setor?.id ?? null);
+  const [setorName, setSetorName] = useState<string | null>(ticket.setor?.name ?? null);
+  const [clientId, setClientId] = useState<string | null>(ticket.clientCompanyId ?? ticket.clientCompany?.id ?? null);
+  const [clientName, setClientName] = useState<string | null>(ticket.clientCompany?.name ?? null);
+  const [dueDate, setDueDate] = useState<string | null>(ticket.dueDate ?? null);
+  const [title, setTitle] = useState(ticket.title);
+  const [editingTitle, setEditingTitle] = useState(false);
+  const [editingDue, setEditingDue] = useState(false);
+  const [savingMeta, setSavingMeta] = useState(false);
+
+  async function patchTicket(payload: Record<string, unknown>) {
+    setSavingMeta(true);
+    try {
+      await fetch(`/api/tickets/${ticket.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+    } finally {
+      setSavingMeta(false);
+      startTransition(() => router.refresh());
+    }
+  }
+
+  async function handleAssigneeChange(newId: string | null) {
+    setAssigneeId(newId);
+    const u = (users ?? []).find((x) => x.id === newId);
+    setAssigneeName(u?.name ?? null);
+    await patchTicket({ assigneeId: newId });
+  }
+
+  async function handleSetorChange(newId: string | null) {
+    setSetorId(newId);
+    const s = (setores ?? []).find((x) => x.id === newId);
+    setSetorName(s?.name ?? null);
+    await patchTicket({ setorId: newId });
+  }
+
+  async function handleClientChange(newId: string | null) {
+    setClientId(newId);
+    const c = (clientCompanies ?? []).find((x) => x.id === newId);
+    setClientName(c?.name ?? null);
+    await patchTicket({ clientCompanyId: newId });
+  }
+
+  async function handleDueDateChange(value: string) {
+    // value chega no formato "YYYY-MM-DDTHH:mm" do datetime-local
+    const iso = value ? new Date(value).toISOString() : null;
+    setDueDate(iso);
+    setEditingDue(false);
+    await patchTicket({ dueDate: iso });
+  }
+
+  async function handleTitleSave() {
+    setEditingTitle(false);
+    if (title.trim() && title !== ticket.title) {
+      await patchTicket({ title: title.trim() });
+    }
+  }
+
+  // Helper: converte ISO -> string aceita pelo <input type="datetime-local">
+  function toLocalInputValue(iso: string | null): string {
+    if (!iso) return "";
+    const d = new Date(iso);
+    const pad = (n: number) => String(n).padStart(2, "0");
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
   const [reply, setReply] = useState("");
   const [isInternal, setIsInternal] = useState(false);
   const [sending, setSending] = useState(false);
@@ -350,7 +430,27 @@ export default function TicketDetail({
         </div>
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
-            <h1 className="text-white font-bold text-lg leading-snug">{ticket.title}</h1>
+            {editingTitle && canManage ? (
+              <input
+                autoFocus
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                onBlur={handleTitleSave}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") { e.preventDefault(); handleTitleSave(); }
+                  if (e.key === "Escape") { setTitle(ticket.title); setEditingTitle(false); }
+                }}
+                className="w-full bg-[#0a0f1a] border border-indigo-500/50 rounded-lg px-3 py-1 text-white font-bold text-lg focus:outline-none"
+              />
+            ) : (
+              <h1
+                className={`text-white font-bold text-lg leading-snug ${canManage ? "cursor-text hover:bg-white/5 rounded px-1 -mx-1 transition-colors" : ""}`}
+                onClick={() => canManage && setEditingTitle(true)}
+                title={canManage ? "Clique para editar" : undefined}
+              >
+                {title}
+              </h1>
+            )}
             <div className="flex items-center gap-2 mt-2 flex-wrap">
               {/* Stage badge */}
               {currentStageObj && (
@@ -427,14 +527,36 @@ export default function TicketDetail({
               </div>
             )}
 
-            {/* Activity feed */}
-            {updates.length > 0 && (
+            {/* Activity feed — mistura mensagens e activities (mudanças de campo) ordenadas */}
+            {(() => {
+              type FeedItem =
+                | { kind: "msg"; createdAt: string; data: TicketMessage }
+                | { kind: "act"; createdAt: string; data: TicketActivity };
+              const feed: FeedItem[] = [
+                ...updates.map((m): FeedItem => ({ kind: "msg", createdAt: m.createdAt, data: m })),
+                ...activities.map((a): FeedItem => ({ kind: "act", createdAt: a.createdAt, data: a })),
+              ].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+              if (feed.length === 0) return null;
+              return (
               <div>
                 <div className="text-[10px] font-semibold text-slate-600 uppercase tracking-wider mb-3">
-                  Atualizações ({updates.length})
+                  Atualizações ({feed.length})
                 </div>
                 <div className="space-y-3">
-                  {updates.map((msg) => {
+                  {feed.map((item) => {
+                    if (item.kind === "act") {
+                      const a = item.data;
+                      return (
+                        <div key={`a-${a.id}`} className="flex items-center gap-2 text-[11px] text-slate-500 py-1 px-3 border-l-2 border-slate-700/50">
+                          <span className="text-slate-600">⚙️</span>
+                          <span className="flex-1">{a.body ?? a.type}</span>
+                          <span className="text-slate-700 font-mono text-[10px]">
+                            {new Date(a.createdAt).toLocaleString("pt-BR")}
+                          </span>
+                        </div>
+                      );
+                    }
+                    const msg = item.data;
                     const isAdmin = msg.authorRole === "SUPER_ADMIN";
                     if (msg.isInternal) {
                       return (
@@ -484,7 +606,8 @@ export default function TicketDetail({
                   })}
                 </div>
               </div>
-            )}
+              );
+            })()}
             <div ref={messagesEndRef} />
           </div>
 
@@ -627,7 +750,6 @@ export default function TicketDetail({
             </div>
           )}
 
-          {/* Company */}
           {/* Cliente do chamado — empresa que está sendo atendida.
               Distinto de "Empresa-agência" abaixo (a dona do ticket). */}
           {ticket.type !== "INTERNAL" && (
@@ -635,27 +757,36 @@ export default function TicketDetail({
               <div className="text-[10px] text-blue-400/80 uppercase tracking-wide mb-1.5 font-semibold">
                 🏢 Cliente do chamado
               </div>
-              {ticket.clientCompany ? (
-                <div>
-                  <Link
-                    href={`/empresas/${ticket.clientCompany.id}`}
-                    className="text-white text-sm font-semibold hover:text-blue-300 transition-colors block"
-                  >
-                    {ticket.clientCompany.name}
-                  </Link>
-                  {ticket.clientCompany.phone && (
-                    <p className="text-slate-500 text-[11px] mt-0.5">📞 {ticket.clientCompany.phone}</p>
-                  )}
-                  {ticket.clientCompany.email && (
-                    <p className="text-slate-500 text-[11px]">✉️ {ticket.clientCompany.email}</p>
-                  )}
-                </div>
+              {canManage ? (
+                <select
+                  value={clientId ?? ""}
+                  onChange={(e) => handleClientChange(e.target.value || null)}
+                  disabled={savingMeta}
+                  className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500"
+                >
+                  <option value="">— Sem cliente —</option>
+                  {(clientCompanies ?? []).map((c) => (
+                    <option key={c.id} value={c.id}>{c.name}</option>
+                  ))}
+                </select>
+              ) : clientName ? (
+                <div className="text-white text-sm font-semibold">{clientName}</div>
               ) : (
-                <div className="text-slate-500 text-xs italic">
-                  Sem cliente vinculado.
-                  <br />
-                  <span className="text-slate-600 text-[10px]">Edite no kanban ou via API.</span>
-                </div>
+                <div className="text-slate-500 text-xs italic">Sem cliente vinculado.</div>
+              )}
+              {clientId && ticket.clientCompany?.id === clientId && (
+                <Link
+                  href={`/empresas/${clientId}`}
+                  className="text-blue-400 hover:text-blue-300 text-[11px] mt-1.5 block transition-colors"
+                >
+                  Abrir ficha do cliente ↗
+                </Link>
+              )}
+              {ticket.clientCompany?.phone && ticket.clientCompany.id === clientId && (
+                <p className="text-slate-500 text-[11px] mt-0.5">📞 {ticket.clientCompany.phone}</p>
+              )}
+              {ticket.clientCompany?.email && ticket.clientCompany.id === clientId && (
+                <p className="text-slate-500 text-[11px]">✉️ {ticket.clientCompany.email}</p>
               )}
             </div>
           )}
@@ -668,14 +799,15 @@ export default function TicketDetail({
             </div>
           )}
 
-          {/* Prazo de encerramento */}
-          {ticket.dueDate && (() => {
-            const due = new Date(ticket.dueDate);
-            const ms = due.getTime() - Date.now();
+          {/* Prazo de encerramento — editável inline */}
+          {(() => {
+            const due = dueDate ? new Date(dueDate) : null;
+            const ms = due ? due.getTime() - Date.now() : 0;
             const days = ms / 86_400_000;
-            const overdue = days < 0;
-            const today = days >= 0 && days < 1;
-            const color = overdue ? "border-red-500/40 bg-red-500/10"
+            const overdue = !!due && days < 0;
+            const today = !!due && days >= 0 && days < 1;
+            const color = !due ? "border-[#1e2d45] bg-[#0f1623]"
+              : overdue ? "border-red-500/40 bg-red-500/10"
               : today ? "border-orange-500/40 bg-orange-500/10"
               : days < 3 ? "border-amber-500/30 bg-amber-500/5"
               : "border-[#1e2d45] bg-[#0f1623]";
@@ -685,47 +817,100 @@ export default function TicketDetail({
               : "text-slate-300";
             return (
               <div className={`border rounded-lg p-3 ${color}`}>
-                <div className="text-[10px] text-slate-500 uppercase tracking-wide mb-1.5">
-                  📅 Prazo de Encerramento
+                <div className="flex items-center justify-between mb-1.5">
+                  <div className="text-[10px] text-slate-500 uppercase tracking-wide">📅 Prazo de Encerramento</div>
+                  {canManage && !editingDue && (
+                    <button onClick={() => setEditingDue(true)} className="text-slate-600 hover:text-slate-300 text-[10px] transition-colors" title="Editar prazo">✏️</button>
+                  )}
                 </div>
-                <p className={`text-sm font-semibold ${textColor}`}>
-                  {due.toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })}
-                </p>
-                {overdue && <p className="text-red-400 text-[10px] mt-0.5 font-semibold animate-pulse">Atrasado</p>}
-                {today && <p className="text-orange-400 text-[10px] mt-0.5 font-semibold">Hoje</p>}
-                {!overdue && !today && days < 3 && (
-                  <p className="text-amber-400 text-[10px] mt-0.5">Em {Math.ceil(days)} dia{Math.ceil(days) !== 1 ? "s" : ""}</p>
+                {editingDue && canManage ? (
+                  <div className="space-y-1.5">
+                    <input
+                      type="datetime-local"
+                      defaultValue={toLocalInputValue(dueDate)}
+                      onBlur={(e) => handleDueDateChange(e.target.value)}
+                      autoFocus
+                      className="w-full bg-[#0a0f1a] border border-indigo-500/50 rounded px-2 py-1 text-xs text-white focus:outline-none"
+                    />
+                    <div className="flex items-center gap-2">
+                      <button onClick={() => { setEditingDue(false); }} className="text-slate-500 text-[10px] hover:text-white">Cancelar</button>
+                      {dueDate && (
+                        <button onClick={() => handleDueDateChange("")} className="text-red-400 text-[10px] hover:text-red-300 ml-auto">Remover prazo</button>
+                      )}
+                    </div>
+                  </div>
+                ) : due ? (
+                  <>
+                    <p className={`text-sm font-semibold ${textColor}`}>
+                      {due.toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })}
+                    </p>
+                    {overdue && <p className="text-red-400 text-[10px] mt-0.5 font-semibold animate-pulse">Atrasado</p>}
+                    {today && <p className="text-orange-400 text-[10px] mt-0.5 font-semibold">Hoje</p>}
+                    {!overdue && !today && days < 3 && (
+                      <p className="text-amber-400 text-[10px] mt-0.5">Em {Math.ceil(days)} dia{Math.ceil(days) !== 1 ? "s" : ""}</p>
+                    )}
+                  </>
+                ) : (
+                  <p className="text-slate-500 text-xs italic">Sem prazo definido</p>
                 )}
               </div>
             );
           })()}
 
-          {/* Atendente responsável */}
-          {ticket.assignee && (
-            <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
-              <div className="text-[10px] text-slate-500 uppercase tracking-wide mb-1.5">
-                👤 Atendente
-              </div>
+          {/* Atendente responsável — editável */}
+          <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
+            <div className="text-[10px] text-slate-500 uppercase tracking-wide mb-1.5">
+              👤 Atendente
+            </div>
+            {canManage ? (
+              <select
+                value={assigneeId ?? ""}
+                onChange={(e) => handleAssigneeChange(e.target.value || null)}
+                disabled={savingMeta}
+                className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
+              >
+                <option value="">— Sem atendente —</option>
+                {(users ?? []).map((u) => (
+                  <option key={u.id} value={u.id}>{u.name ?? u.email ?? u.id}</option>
+                ))}
+              </select>
+            ) : assigneeName ? (
               <div className="flex items-center gap-2">
                 <span className="w-6 h-6 rounded-full bg-indigo-500/20 flex items-center justify-center text-[10px] font-bold text-indigo-300">
-                  {ticket.assignee.name.charAt(0).toUpperCase()}
+                  {assigneeName.charAt(0).toUpperCase()}
                 </span>
-                <span className="text-slate-200 text-sm">{ticket.assignee.name}</span>
+                <span className="text-slate-200 text-sm">{assigneeName}</span>
               </div>
-            </div>
-          )}
+            ) : (
+              <span className="text-slate-500 text-xs italic">Sem atendente</span>
+            )}
+          </div>
 
-          {/* Setor responsável */}
-          {ticket.setor && (
-            <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
-              <div className="text-[10px] text-slate-500 uppercase tracking-wide mb-1.5">
-                🏷️ Setor
-              </div>
-              <span className="inline-block text-[11px] font-semibold text-violet-300 bg-violet-500/10 border border-violet-500/20 px-2 py-0.5 rounded">
-                {ticket.setor.name}
-              </span>
+          {/* Setor responsável — editável */}
+          <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
+            <div className="text-[10px] text-slate-500 uppercase tracking-wide mb-1.5">
+              🏷️ Setor
             </div>
-          )}
+            {canManage ? (
+              <select
+                value={setorId ?? ""}
+                onChange={(e) => handleSetorChange(e.target.value || null)}
+                disabled={savingMeta}
+                className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-violet-500"
+              >
+                <option value="">— Sem setor —</option>
+                {(setores ?? []).map((s) => (
+                  <option key={s.id} value={s.id}>{s.name}</option>
+                ))}
+              </select>
+            ) : setorName ? (
+              <span className="inline-block text-[11px] font-semibold text-violet-300 bg-violet-500/10 border border-violet-500/20 px-2 py-0.5 rounded">
+                {setorName}
+              </span>
+            ) : (
+              <span className="text-slate-500 text-xs italic">Sem setor</span>
+            )}
+          </div>
 
           {/* Empresa-agência — só super admin precisa ver/mudar */}
           {isSuperAdmin && (
