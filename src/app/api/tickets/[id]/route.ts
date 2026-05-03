@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getClickupSettings, syncTicketToClickup } from "@/lib/clickup";
-import { addScore } from "@/lib/gamification";
+import { addScoreOnce, revertScore } from "@/lib/gamification";
 import { ActivityType } from "@/generated/prisma";
 import { formatBrazilDateTime } from "@/lib/datetime";
 
@@ -214,11 +214,13 @@ export async function PATCH(
     }
   }
 
-  // Gamificação: pontua quando ticket vai para RESOLVED pela primeira vez
+  // Gamificação: pontua quando ticket vai para RESOLVED.
+  // addScoreOnce é idempotente por (userId, reason, referenceId) — reabrir e
+  // fechar o mesmo ticket de novo NÃO duplica pontos.
   if (status === "RESOLVED" && existing?.status !== "RESOLVED" && existing?.companyId) {
     const scorer = ticket.assigneeId ?? assigneeId ?? userId;
     if (scorer) {
-      void addScore(scorer, existing.companyId, "TICKET_RESOLVIDO", id).catch(() => {});
+      void addScoreOnce(scorer, existing.companyId, "TICKET_RESOLVIDO", id).catch(() => {});
     }
   }
 
@@ -236,6 +238,27 @@ export async function DELETE(
   }
 
   const { id } = await params;
+
+  const ticket = await prisma.ticket.findUnique({
+    where: { id },
+    select: { companyId: true },
+  });
+
+  // Identifica todos os usuários que pontuaram por este ticket (resolvido,
+  // SLA vencido, etc.) — pode ser mais de um se o assigneeId mudou.
+  const orphanedEvents = ticket ? await prisma.scoreEvent.findMany({
+    where:  { companyId: ticket.companyId, referenceId: id },
+    select: { userId: true },
+    distinct: ["userId"],
+  }) : [];
+
   await prisma.ticket.delete({ where: { id } });
+
+  if (ticket) {
+    for (const ev of orphanedEvents) {
+      await revertScore(ev.userId, ticket.companyId, id).catch(() => {});
+    }
+  }
+
   return NextResponse.json({ ok: true });
 }

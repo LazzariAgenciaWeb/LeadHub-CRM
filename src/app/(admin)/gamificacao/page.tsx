@@ -7,6 +7,11 @@ import Leaderboard from "./Leaderboard";
 import BadgesGrid from "./BadgesGrid";
 import RecentEvents from "./RecentEvents";
 
+// Sem cache — toda visita lê os dados atuais (pontos, badges e feed atualizam
+// imediatamente após qualquer ação do usuário em outras páginas).
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function GamificacaoPage() {
   const session = await getEffectiveSession();
   if (!session) return null;

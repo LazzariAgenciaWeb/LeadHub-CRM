@@ -133,6 +133,69 @@ export async function addScore(
   return checkBadges(userId, companyId);
 }
 
+// ─── addScoreOnce ─────────────────────────────────────────────────────────────
+
+/**
+ * Versão idempotente de addScore: só cria o evento se ainda não houver um com
+ * o mesmo (userId, reason, referenceId). Use para ações que podem se repetir
+ * (reabrir/fechar ticket, alternar lead status) sem duplicar pontos.
+ */
+export async function addScoreOnce(
+  userId:      string,
+  companyId:   string,
+  reason:      ScoreReason,
+  referenceId: string,
+): Promise<{ badge: BadgeType; tier: number }[]> {
+  const existing = await prisma.scoreEvent.findFirst({
+    where: { userId, reason, referenceId },
+    select: { id: true },
+  });
+  if (existing) return [];
+  return addScore(userId, companyId, reason, referenceId);
+}
+
+// ─── revertScore ──────────────────────────────────────────────────────────────
+
+/**
+ * Remove os ScoreEvents relacionados a uma referência (ex: ticket ou lead
+ * deletado) e ajusta o UserScore. Badges já conquistadas NÃO são removidas
+ * (você não perde uma conquista — só os pontos retornam).
+ */
+export async function revertScore(
+  userId:      string,
+  companyId:   string,
+  referenceId: string,
+  reason?:     ScoreReason,
+): Promise<void> {
+  const where = { userId, companyId, referenceId, ...(reason ? { reason } : {}) };
+  const events = await prisma.scoreEvent.findMany({
+    where,
+    select: { id: true, points: true, createdAt: true },
+  });
+  if (events.length === 0) return;
+
+  for (const ev of events) {
+    const m = ev.createdAt.getMonth() + 1;
+    const y = ev.createdAt.getFullYear();
+    await prisma.$transaction([
+      prisma.scoreEvent.delete({ where: { id: ev.id } }),
+      prisma.userScore.updateMany({
+        where: { userId, month: m, year: y },
+        data: {
+          monthPoints: { decrement: ev.points },
+          totalPoints: { decrement: ev.points },
+        },
+      }),
+    ]);
+  }
+
+  // Garante que monthPoints/totalPoints não fiquem negativos
+  await prisma.userScore.updateMany({
+    where: { userId, OR: [{ monthPoints: { lt: 0 } }, { totalPoints: { lt: 0 } }] },
+    data:  { monthPoints: 0 },
+  });
+}
+
 // ─── checkBadges ──────────────────────────────────────────────────────────────
 
 /**

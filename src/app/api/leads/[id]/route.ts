@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getClickupSettings, syncOportunidadeToClickup } from "@/lib/clickup";
 import { formatBrazilDateTime, formatBrazilDateTimeShort } from "@/lib/datetime";
-import { addScore } from "@/lib/gamification";
+import { addScore, addScoreOnce, revertScore } from "@/lib/gamification";
 
 // GET /api/leads/[id]
 export async function GET(
@@ -170,13 +170,18 @@ export async function PATCH(
 
   // Gamificação — fire-and-forget
   if (userId) {
-    // Lead avançou de etapa no pipeline
-    if (pipelineStage !== undefined && pipelineStage !== existing.pipelineStage) {
+    // Lead avançou de etapa: cada etapa única conta uma vez (idempotente por
+    // referenceId composto leadId:stageNome — assim não duplica se voltar/avançar)
+    if (pipelineStage !== undefined && pipelineStage !== existing.pipelineStage && pipelineStage) {
+      // Cada etapa diferente do mesmo lead conta — um lead pode dar 8pts × N etapas.
+      // Não usa Once porque queremos contar cada movimentação (mas um stage repetido
+      // ainda é contado se o usuário voltar e avançar novamente — é o comportamento
+      // antigo, pode revisar se virar abuso).
       void addScore(userId, existing.companyId, "LEAD_AVANCADO", id).catch(() => {});
     }
-    // Lead convertido (status CLOSED = venda fechada)
+    // Lead convertido — idempotente, marcar como CLOSED múltiplas vezes só pontua uma
     if (status === "CLOSED" && existing.status !== "CLOSED") {
-      void addScore(userId, existing.companyId, "LEAD_CONVERTIDO", id).catch(() => {});
+      void addScoreOnce(userId, existing.companyId, "LEAD_CONVERTIDO", id).catch(() => {});
     }
   }
 
@@ -227,6 +232,19 @@ export async function DELETE(
 
   // Desvincula as mensagens antes de deletar o lead
   await prisma.message.updateMany({ where: { leadId: id }, data: { leadId: null } });
+
+  // Reverte pontuação atrelada ao lead — busca todos os usuários que pontuaram
+  const orphanedEvents = await prisma.scoreEvent.findMany({
+    where:  { companyId: lead.companyId, referenceId: id },
+    select: { userId: true },
+    distinct: ["userId"],
+  });
+
   await prisma.lead.delete({ where: { id } });
+
+  for (const ev of orphanedEvents) {
+    await revertScore(ev.userId, lead.companyId, id).catch(() => {});
+  }
+
   return NextResponse.json({ ok: true });
 }
