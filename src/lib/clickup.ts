@@ -30,17 +30,44 @@ const TICKET_STATUS_MAP: Record<string, string> = {
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-/** Load ClickUp API token and list IDs from the Settings table. Returns null if not configured. */
-export async function getClickupSettings(): Promise<ClickupSettings | null> {
-  const rows = await prisma.setting.findMany({
-    where: { key: { in: ["clickup_api_token", "clickup_oportunidades_list_id", "clickup_tickets_list_id"] } },
-  });
+/**
+ * Carrega as configurações do ClickUp.
+ *
+ * - **Token**: sempre global (a agência tem 1 conta no ClickUp).
+ * - **List IDs**: per-empresa (`clickup_X_list_id:<companyId>`); cai pro
+ *   global se a empresa não tiver configurado o seu.
+ *
+ * Retorna null se não houver token configurado.
+ */
+export async function getClickupSettings(companyId?: string): Promise<ClickupSettings | null> {
+  const keys = [
+    "clickup_api_token",
+    "clickup_oportunidades_list_id",
+    "clickup_tickets_list_id",
+  ];
+  if (companyId) {
+    keys.push(
+      `clickup_oportunidades_list_id:${companyId}`,
+      `clickup_tickets_list_id:${companyId}`,
+    );
+  }
+
+  const rows = await prisma.setting.findMany({ where: { key: { in: keys } } });
   const map: Record<string, string> = {};
   for (const r of rows) map[r.key] = r.value;
 
-  const apiToken          = map["clickup_api_token"]?.trim() ?? "";
-  const oportunidadesListId = map["clickup_oportunidades_list_id"]?.trim() ?? "";
-  const ticketsListId     = map["clickup_tickets_list_id"]?.trim() ?? "";
+  const apiToken = map["clickup_api_token"]?.trim() ?? "";
+  // Per-empresa primeiro, fallback pro global
+  const oportunidadesListId = (
+    (companyId && map[`clickup_oportunidades_list_id:${companyId}`]?.trim()) ||
+    map["clickup_oportunidades_list_id"]?.trim() ||
+    ""
+  );
+  const ticketsListId = (
+    (companyId && map[`clickup_tickets_list_id:${companyId}`]?.trim()) ||
+    map["clickup_tickets_list_id"]?.trim() ||
+    ""
+  );
 
   if (!apiToken) return null;
   return { apiToken, oportunidadesListId, ticketsListId };

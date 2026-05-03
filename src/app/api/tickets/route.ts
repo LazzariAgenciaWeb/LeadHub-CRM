@@ -166,7 +166,7 @@ export async function POST(req: NextRequest) {
 
   // ── ClickUp auto-sync (só SUPPORT — INTERNAL fica fora) ──────────────────
   if (ticket.type === "SUPPORT") {
-    const clickupSettings = await getClickupSettings();
+    const clickupSettings = await getClickupSettings(ticket.companyId);
     if (clickupSettings?.ticketsListId) {
       const baseUrl = process.env.NEXTAUTH_URL ?? "";
       const leadhubUrl = `${baseUrl}/chamados/${ticket.id}`;

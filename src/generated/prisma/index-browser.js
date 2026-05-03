@@ -437,6 +437,21 @@ exports.Prisma.SetorScalarFieldEnum = {
   canCreateCompanies: 'canCreateCompanies'
 };
 
+exports.Prisma.SetorClickupListScalarFieldEnum = {
+  id: 'id',
+  setorId: 'setorId',
+  clickupListId: 'clickupListId',
+  name: 'name',
+  type: 'type',
+  clientCompanyId: 'clientCompanyId',
+  taskCount: 'taskCount',
+  taskCompleted: 'taskCompleted',
+  taskOverdue: 'taskOverdue',
+  lastSyncedAt: 'lastSyncedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SetorUserScalarFieldEnum = {
   setorId: 'setorId',
   userId: 'userId'
@@ -910,6 +925,7 @@ exports.Prisma.ModelName = {
   Ticket: 'Ticket',
   TicketMessage: 'TicketMessage',
   Setor: 'Setor',
+  SetorClickupList: 'SetorClickupList',
   SetorUser: 'SetorUser',
   SetorInstance: 'SetorInstance',
   CompanyAsset: 'CompanyAsset',

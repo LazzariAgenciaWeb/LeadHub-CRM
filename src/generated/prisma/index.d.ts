@@ -124,6 +124,11 @@ export type TicketMessage = $Result.DefaultSelection<Prisma.$TicketMessagePayloa
  */
 export type Setor = $Result.DefaultSelection<Prisma.$SetorPayload>
 /**
+ * Model SetorClickupList
+ * 
+ */
+export type SetorClickupList = $Result.DefaultSelection<Prisma.$SetorClickupListPayload>
+/**
  * Model SetorUser
  * 
  */
@@ -898,6 +903,16 @@ export class PrismaClient<
   get setor(): Prisma.SetorDelegate<ExtArgs>;
 
   /**
+   * `prisma.setorClickupList`: Exposes CRUD operations for the **SetorClickupList** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SetorClickupLists
+    * const setorClickupLists = await prisma.setorClickupList.findMany()
+    * ```
+    */
+  get setorClickupList(): Prisma.SetorClickupListDelegate<ExtArgs>;
+
+  /**
    * `prisma.setorUser`: Exposes CRUD operations for the **SetorUser** model.
     * Example usage:
     * ```ts
@@ -1549,6 +1564,7 @@ export namespace Prisma {
     Ticket: 'Ticket',
     TicketMessage: 'TicketMessage',
     Setor: 'Setor',
+    SetorClickupList: 'SetorClickupList',
     SetorUser: 'SetorUser',
     SetorInstance: 'SetorInstance',
     CompanyAsset: 'CompanyAsset',
@@ -1583,7 +1599,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "billingEvent"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "billingEvent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3124,6 +3140,76 @@ export namespace Prisma {
           count: {
             args: Prisma.SetorCountArgs<ExtArgs>
             result: $Utils.Optional<SetorCountAggregateOutputType> | number
+          }
+        }
+      }
+      SetorClickupList: {
+        payload: Prisma.$SetorClickupListPayload<ExtArgs>
+        fields: Prisma.SetorClickupListFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SetorClickupListFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorClickupListPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SetorClickupListFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorClickupListPayload>
+          }
+          findFirst: {
+            args: Prisma.SetorClickupListFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorClickupListPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SetorClickupListFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorClickupListPayload>
+          }
+          findMany: {
+            args: Prisma.SetorClickupListFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorClickupListPayload>[]
+          }
+          create: {
+            args: Prisma.SetorClickupListCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorClickupListPayload>
+          }
+          createMany: {
+            args: Prisma.SetorClickupListCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SetorClickupListCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorClickupListPayload>[]
+          }
+          delete: {
+            args: Prisma.SetorClickupListDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorClickupListPayload>
+          }
+          update: {
+            args: Prisma.SetorClickupListUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorClickupListPayload>
+          }
+          deleteMany: {
+            args: Prisma.SetorClickupListDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SetorClickupListUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SetorClickupListUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorClickupListPayload>
+          }
+          aggregate: {
+            args: Prisma.SetorClickupListAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSetorClickupList>
+          }
+          groupBy: {
+            args: Prisma.SetorClickupListGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SetorClickupListGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SetorClickupListCountArgs<ExtArgs>
+            result: $Utils.Optional<SetorClickupListCountAggregateOutputType> | number
           }
         }
       }
@@ -4736,6 +4822,7 @@ export namespace Prisma {
     userBadges: number
     scoreEvents: number
     scoreRuleConfigs: number
+    setorClickupListsAsClient: number
     businessHours: number
     campaigns: number
     leads: number
@@ -4768,6 +4855,7 @@ export namespace Prisma {
     userBadges?: boolean | CompanyCountOutputTypeCountUserBadgesArgs
     scoreEvents?: boolean | CompanyCountOutputTypeCountScoreEventsArgs
     scoreRuleConfigs?: boolean | CompanyCountOutputTypeCountScoreRuleConfigsArgs
+    setorClickupListsAsClient?: boolean | CompanyCountOutputTypeCountSetorClickupListsAsClientArgs
     businessHours?: boolean | CompanyCountOutputTypeCountBusinessHoursArgs
     campaigns?: boolean | CompanyCountOutputTypeCountCampaignsArgs
     leads?: boolean | CompanyCountOutputTypeCountLeadsArgs
@@ -4844,6 +4932,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountScoreRuleConfigsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ScoreRuleConfigWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountSetorClickupListsAsClientArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SetorClickupListWhereInput
   }
 
   /**
@@ -5302,6 +5397,7 @@ export namespace Prisma {
     instances: number
     tickets: number
     conversations: number
+    clickupLists: number
   }
 
   export type SetorCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5309,6 +5405,7 @@ export namespace Prisma {
     instances?: boolean | SetorCountOutputTypeCountInstancesArgs
     tickets?: boolean | SetorCountOutputTypeCountTicketsArgs
     conversations?: boolean | SetorCountOutputTypeCountConversationsArgs
+    clickupLists?: boolean | SetorCountOutputTypeCountClickupListsArgs
   }
 
   // Custom InputTypes
@@ -5348,6 +5445,13 @@ export namespace Prisma {
    */
   export type SetorCountOutputTypeCountConversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ConversationWhereInput
+  }
+
+  /**
+   * SetorCountOutputType without action
+   */
+  export type SetorCountOutputTypeCountClickupListsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SetorClickupListWhereInput
   }
 
 
@@ -9969,6 +10073,7 @@ export namespace Prisma {
     userBadges?: boolean | Company$userBadgesArgs<ExtArgs>
     scoreEvents?: boolean | Company$scoreEventsArgs<ExtArgs>
     scoreRuleConfigs?: boolean | Company$scoreRuleConfigsArgs<ExtArgs>
+    setorClickupListsAsClient?: boolean | Company$setorClickupListsAsClientArgs<ExtArgs>
     businessHours?: boolean | Company$businessHoursArgs<ExtArgs>
     campaigns?: boolean | Company$campaignsArgs<ExtArgs>
     leads?: boolean | Company$leadsArgs<ExtArgs>
@@ -10051,6 +10156,7 @@ export namespace Prisma {
     userBadges?: boolean | Company$userBadgesArgs<ExtArgs>
     scoreEvents?: boolean | Company$scoreEventsArgs<ExtArgs>
     scoreRuleConfigs?: boolean | Company$scoreRuleConfigsArgs<ExtArgs>
+    setorClickupListsAsClient?: boolean | Company$setorClickupListsAsClientArgs<ExtArgs>
     businessHours?: boolean | Company$businessHoursArgs<ExtArgs>
     campaigns?: boolean | Company$campaignsArgs<ExtArgs>
     leads?: boolean | Company$leadsArgs<ExtArgs>
@@ -10091,6 +10197,7 @@ export namespace Prisma {
       userBadges: Prisma.$UserBadgePayload<ExtArgs>[]
       scoreEvents: Prisma.$ScoreEventPayload<ExtArgs>[]
       scoreRuleConfigs: Prisma.$ScoreRuleConfigPayload<ExtArgs>[]
+      setorClickupListsAsClient: Prisma.$SetorClickupListPayload<ExtArgs>[]
       businessHours: Prisma.$BusinessHoursConfigPayload<ExtArgs>[]
       campaigns: Prisma.$CampaignPayload<ExtArgs>[]
       leads: Prisma.$LeadPayload<ExtArgs>[]
@@ -10508,6 +10615,7 @@ export namespace Prisma {
     userBadges<T extends Company$userBadgesArgs<ExtArgs> = {}>(args?: Subset<T, Company$userBadgesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserBadgePayload<ExtArgs>, T, "findMany"> | Null>
     scoreEvents<T extends Company$scoreEventsArgs<ExtArgs> = {}>(args?: Subset<T, Company$scoreEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScoreEventPayload<ExtArgs>, T, "findMany"> | Null>
     scoreRuleConfigs<T extends Company$scoreRuleConfigsArgs<ExtArgs> = {}>(args?: Subset<T, Company$scoreRuleConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScoreRuleConfigPayload<ExtArgs>, T, "findMany"> | Null>
+    setorClickupListsAsClient<T extends Company$setorClickupListsAsClientArgs<ExtArgs> = {}>(args?: Subset<T, Company$setorClickupListsAsClientArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findMany"> | Null>
     businessHours<T extends Company$businessHoursArgs<ExtArgs> = {}>(args?: Subset<T, Company$businessHoursArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BusinessHoursConfigPayload<ExtArgs>, T, "findMany"> | Null>
     campaigns<T extends Company$campaignsArgs<ExtArgs> = {}>(args?: Subset<T, Company$campaignsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findMany"> | Null>
     leads<T extends Company$leadsArgs<ExtArgs> = {}>(args?: Subset<T, Company$leadsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findMany"> | Null>
@@ -11031,6 +11139,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ScoreRuleConfigScalarFieldEnum | ScoreRuleConfigScalarFieldEnum[]
+  }
+
+  /**
+   * Company.setorClickupListsAsClient
+   */
+  export type Company$setorClickupListsAsClientArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorClickupList
+     */
+    select?: SetorClickupListSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorClickupListInclude<ExtArgs> | null
+    where?: SetorClickupListWhereInput
+    orderBy?: SetorClickupListOrderByWithRelationInput | SetorClickupListOrderByWithRelationInput[]
+    cursor?: SetorClickupListWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SetorClickupListScalarFieldEnum | SetorClickupListScalarFieldEnum[]
   }
 
   /**
@@ -28896,6 +29024,7 @@ export namespace Prisma {
     instances?: boolean | Setor$instancesArgs<ExtArgs>
     tickets?: boolean | Setor$ticketsArgs<ExtArgs>
     conversations?: boolean | Setor$conversationsArgs<ExtArgs>
+    clickupLists?: boolean | Setor$clickupListsArgs<ExtArgs>
     _count?: boolean | SetorCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["setor"]>
 
@@ -28944,6 +29073,7 @@ export namespace Prisma {
     instances?: boolean | Setor$instancesArgs<ExtArgs>
     tickets?: boolean | Setor$ticketsArgs<ExtArgs>
     conversations?: boolean | Setor$conversationsArgs<ExtArgs>
+    clickupLists?: boolean | Setor$clickupListsArgs<ExtArgs>
     _count?: boolean | SetorCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SetorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -28958,6 +29088,7 @@ export namespace Prisma {
       instances: Prisma.$SetorInstancePayload<ExtArgs>[]
       tickets: Prisma.$TicketPayload<ExtArgs>[]
       conversations: Prisma.$ConversationPayload<ExtArgs>[]
+      clickupLists: Prisma.$SetorClickupListPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -29345,6 +29476,7 @@ export namespace Prisma {
     instances<T extends Setor$instancesArgs<ExtArgs> = {}>(args?: Subset<T, Setor$instancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorInstancePayload<ExtArgs>, T, "findMany"> | Null>
     tickets<T extends Setor$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, Setor$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany"> | Null>
     conversations<T extends Setor$conversationsArgs<ExtArgs> = {}>(args?: Subset<T, Setor$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany"> | Null>
+    clickupLists<T extends Setor$clickupListsArgs<ExtArgs> = {}>(args?: Subset<T, Setor$clickupListsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -29788,6 +29920,26 @@ export namespace Prisma {
   }
 
   /**
+   * Setor.clickupLists
+   */
+  export type Setor$clickupListsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorClickupList
+     */
+    select?: SetorClickupListSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorClickupListInclude<ExtArgs> | null
+    where?: SetorClickupListWhereInput
+    orderBy?: SetorClickupListOrderByWithRelationInput | SetorClickupListOrderByWithRelationInput[]
+    cursor?: SetorClickupListWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SetorClickupListScalarFieldEnum | SetorClickupListScalarFieldEnum[]
+  }
+
+  /**
    * Setor without action
    */
   export type SetorDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -29799,6 +29951,1086 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: SetorInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SetorClickupList
+   */
+
+  export type AggregateSetorClickupList = {
+    _count: SetorClickupListCountAggregateOutputType | null
+    _avg: SetorClickupListAvgAggregateOutputType | null
+    _sum: SetorClickupListSumAggregateOutputType | null
+    _min: SetorClickupListMinAggregateOutputType | null
+    _max: SetorClickupListMaxAggregateOutputType | null
+  }
+
+  export type SetorClickupListAvgAggregateOutputType = {
+    taskCount: number | null
+    taskCompleted: number | null
+    taskOverdue: number | null
+  }
+
+  export type SetorClickupListSumAggregateOutputType = {
+    taskCount: number | null
+    taskCompleted: number | null
+    taskOverdue: number | null
+  }
+
+  export type SetorClickupListMinAggregateOutputType = {
+    id: string | null
+    setorId: string | null
+    clickupListId: string | null
+    name: string | null
+    type: string | null
+    clientCompanyId: string | null
+    taskCount: number | null
+    taskCompleted: number | null
+    taskOverdue: number | null
+    lastSyncedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SetorClickupListMaxAggregateOutputType = {
+    id: string | null
+    setorId: string | null
+    clickupListId: string | null
+    name: string | null
+    type: string | null
+    clientCompanyId: string | null
+    taskCount: number | null
+    taskCompleted: number | null
+    taskOverdue: number | null
+    lastSyncedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SetorClickupListCountAggregateOutputType = {
+    id: number
+    setorId: number
+    clickupListId: number
+    name: number
+    type: number
+    clientCompanyId: number
+    taskCount: number
+    taskCompleted: number
+    taskOverdue: number
+    lastSyncedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SetorClickupListAvgAggregateInputType = {
+    taskCount?: true
+    taskCompleted?: true
+    taskOverdue?: true
+  }
+
+  export type SetorClickupListSumAggregateInputType = {
+    taskCount?: true
+    taskCompleted?: true
+    taskOverdue?: true
+  }
+
+  export type SetorClickupListMinAggregateInputType = {
+    id?: true
+    setorId?: true
+    clickupListId?: true
+    name?: true
+    type?: true
+    clientCompanyId?: true
+    taskCount?: true
+    taskCompleted?: true
+    taskOverdue?: true
+    lastSyncedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SetorClickupListMaxAggregateInputType = {
+    id?: true
+    setorId?: true
+    clickupListId?: true
+    name?: true
+    type?: true
+    clientCompanyId?: true
+    taskCount?: true
+    taskCompleted?: true
+    taskOverdue?: true
+    lastSyncedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SetorClickupListCountAggregateInputType = {
+    id?: true
+    setorId?: true
+    clickupListId?: true
+    name?: true
+    type?: true
+    clientCompanyId?: true
+    taskCount?: true
+    taskCompleted?: true
+    taskOverdue?: true
+    lastSyncedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SetorClickupListAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SetorClickupList to aggregate.
+     */
+    where?: SetorClickupListWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SetorClickupLists to fetch.
+     */
+    orderBy?: SetorClickupListOrderByWithRelationInput | SetorClickupListOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SetorClickupListWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SetorClickupLists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SetorClickupLists.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SetorClickupLists
+    **/
+    _count?: true | SetorClickupListCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SetorClickupListAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SetorClickupListSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SetorClickupListMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SetorClickupListMaxAggregateInputType
+  }
+
+  export type GetSetorClickupListAggregateType<T extends SetorClickupListAggregateArgs> = {
+        [P in keyof T & keyof AggregateSetorClickupList]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSetorClickupList[P]>
+      : GetScalarType<T[P], AggregateSetorClickupList[P]>
+  }
+
+
+
+
+  export type SetorClickupListGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SetorClickupListWhereInput
+    orderBy?: SetorClickupListOrderByWithAggregationInput | SetorClickupListOrderByWithAggregationInput[]
+    by: SetorClickupListScalarFieldEnum[] | SetorClickupListScalarFieldEnum
+    having?: SetorClickupListScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SetorClickupListCountAggregateInputType | true
+    _avg?: SetorClickupListAvgAggregateInputType
+    _sum?: SetorClickupListSumAggregateInputType
+    _min?: SetorClickupListMinAggregateInputType
+    _max?: SetorClickupListMaxAggregateInputType
+  }
+
+  export type SetorClickupListGroupByOutputType = {
+    id: string
+    setorId: string
+    clickupListId: string
+    name: string
+    type: string | null
+    clientCompanyId: string | null
+    taskCount: number
+    taskCompleted: number
+    taskOverdue: number
+    lastSyncedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: SetorClickupListCountAggregateOutputType | null
+    _avg: SetorClickupListAvgAggregateOutputType | null
+    _sum: SetorClickupListSumAggregateOutputType | null
+    _min: SetorClickupListMinAggregateOutputType | null
+    _max: SetorClickupListMaxAggregateOutputType | null
+  }
+
+  type GetSetorClickupListGroupByPayload<T extends SetorClickupListGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SetorClickupListGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SetorClickupListGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SetorClickupListGroupByOutputType[P]>
+            : GetScalarType<T[P], SetorClickupListGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SetorClickupListSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    setorId?: boolean
+    clickupListId?: boolean
+    name?: boolean
+    type?: boolean
+    clientCompanyId?: boolean
+    taskCount?: boolean
+    taskCompleted?: boolean
+    taskOverdue?: boolean
+    lastSyncedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    setor?: boolean | SetorDefaultArgs<ExtArgs>
+    clientCompany?: boolean | SetorClickupList$clientCompanyArgs<ExtArgs>
+  }, ExtArgs["result"]["setorClickupList"]>
+
+  export type SetorClickupListSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    setorId?: boolean
+    clickupListId?: boolean
+    name?: boolean
+    type?: boolean
+    clientCompanyId?: boolean
+    taskCount?: boolean
+    taskCompleted?: boolean
+    taskOverdue?: boolean
+    lastSyncedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    setor?: boolean | SetorDefaultArgs<ExtArgs>
+    clientCompany?: boolean | SetorClickupList$clientCompanyArgs<ExtArgs>
+  }, ExtArgs["result"]["setorClickupList"]>
+
+  export type SetorClickupListSelectScalar = {
+    id?: boolean
+    setorId?: boolean
+    clickupListId?: boolean
+    name?: boolean
+    type?: boolean
+    clientCompanyId?: boolean
+    taskCount?: boolean
+    taskCompleted?: boolean
+    taskOverdue?: boolean
+    lastSyncedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SetorClickupListInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    setor?: boolean | SetorDefaultArgs<ExtArgs>
+    clientCompany?: boolean | SetorClickupList$clientCompanyArgs<ExtArgs>
+  }
+  export type SetorClickupListIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    setor?: boolean | SetorDefaultArgs<ExtArgs>
+    clientCompany?: boolean | SetorClickupList$clientCompanyArgs<ExtArgs>
+  }
+
+  export type $SetorClickupListPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SetorClickupList"
+    objects: {
+      setor: Prisma.$SetorPayload<ExtArgs>
+      clientCompany: Prisma.$CompanyPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      setorId: string
+      clickupListId: string
+      name: string
+      type: string | null
+      clientCompanyId: string | null
+      taskCount: number
+      taskCompleted: number
+      taskOverdue: number
+      lastSyncedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["setorClickupList"]>
+    composites: {}
+  }
+
+  type SetorClickupListGetPayload<S extends boolean | null | undefined | SetorClickupListDefaultArgs> = $Result.GetResult<Prisma.$SetorClickupListPayload, S>
+
+  type SetorClickupListCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<SetorClickupListFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: SetorClickupListCountAggregateInputType | true
+    }
+
+  export interface SetorClickupListDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SetorClickupList'], meta: { name: 'SetorClickupList' } }
+    /**
+     * Find zero or one SetorClickupList that matches the filter.
+     * @param {SetorClickupListFindUniqueArgs} args - Arguments to find a SetorClickupList
+     * @example
+     * // Get one SetorClickupList
+     * const setorClickupList = await prisma.setorClickupList.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SetorClickupListFindUniqueArgs>(args: SelectSubset<T, SetorClickupListFindUniqueArgs<ExtArgs>>): Prisma__SetorClickupListClient<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one SetorClickupList that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {SetorClickupListFindUniqueOrThrowArgs} args - Arguments to find a SetorClickupList
+     * @example
+     * // Get one SetorClickupList
+     * const setorClickupList = await prisma.setorClickupList.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SetorClickupListFindUniqueOrThrowArgs>(args: SelectSubset<T, SetorClickupListFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SetorClickupListClient<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first SetorClickupList that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorClickupListFindFirstArgs} args - Arguments to find a SetorClickupList
+     * @example
+     * // Get one SetorClickupList
+     * const setorClickupList = await prisma.setorClickupList.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SetorClickupListFindFirstArgs>(args?: SelectSubset<T, SetorClickupListFindFirstArgs<ExtArgs>>): Prisma__SetorClickupListClient<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first SetorClickupList that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorClickupListFindFirstOrThrowArgs} args - Arguments to find a SetorClickupList
+     * @example
+     * // Get one SetorClickupList
+     * const setorClickupList = await prisma.setorClickupList.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SetorClickupListFindFirstOrThrowArgs>(args?: SelectSubset<T, SetorClickupListFindFirstOrThrowArgs<ExtArgs>>): Prisma__SetorClickupListClient<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more SetorClickupLists that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorClickupListFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SetorClickupLists
+     * const setorClickupLists = await prisma.setorClickupList.findMany()
+     * 
+     * // Get first 10 SetorClickupLists
+     * const setorClickupLists = await prisma.setorClickupList.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const setorClickupListWithIdOnly = await prisma.setorClickupList.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SetorClickupListFindManyArgs>(args?: SelectSubset<T, SetorClickupListFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a SetorClickupList.
+     * @param {SetorClickupListCreateArgs} args - Arguments to create a SetorClickupList.
+     * @example
+     * // Create one SetorClickupList
+     * const SetorClickupList = await prisma.setorClickupList.create({
+     *   data: {
+     *     // ... data to create a SetorClickupList
+     *   }
+     * })
+     * 
+     */
+    create<T extends SetorClickupListCreateArgs>(args: SelectSubset<T, SetorClickupListCreateArgs<ExtArgs>>): Prisma__SetorClickupListClient<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many SetorClickupLists.
+     * @param {SetorClickupListCreateManyArgs} args - Arguments to create many SetorClickupLists.
+     * @example
+     * // Create many SetorClickupLists
+     * const setorClickupList = await prisma.setorClickupList.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SetorClickupListCreateManyArgs>(args?: SelectSubset<T, SetorClickupListCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SetorClickupLists and returns the data saved in the database.
+     * @param {SetorClickupListCreateManyAndReturnArgs} args - Arguments to create many SetorClickupLists.
+     * @example
+     * // Create many SetorClickupLists
+     * const setorClickupList = await prisma.setorClickupList.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SetorClickupLists and only return the `id`
+     * const setorClickupListWithIdOnly = await prisma.setorClickupList.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SetorClickupListCreateManyAndReturnArgs>(args?: SelectSubset<T, SetorClickupListCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a SetorClickupList.
+     * @param {SetorClickupListDeleteArgs} args - Arguments to delete one SetorClickupList.
+     * @example
+     * // Delete one SetorClickupList
+     * const SetorClickupList = await prisma.setorClickupList.delete({
+     *   where: {
+     *     // ... filter to delete one SetorClickupList
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SetorClickupListDeleteArgs>(args: SelectSubset<T, SetorClickupListDeleteArgs<ExtArgs>>): Prisma__SetorClickupListClient<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one SetorClickupList.
+     * @param {SetorClickupListUpdateArgs} args - Arguments to update one SetorClickupList.
+     * @example
+     * // Update one SetorClickupList
+     * const setorClickupList = await prisma.setorClickupList.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SetorClickupListUpdateArgs>(args: SelectSubset<T, SetorClickupListUpdateArgs<ExtArgs>>): Prisma__SetorClickupListClient<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more SetorClickupLists.
+     * @param {SetorClickupListDeleteManyArgs} args - Arguments to filter SetorClickupLists to delete.
+     * @example
+     * // Delete a few SetorClickupLists
+     * const { count } = await prisma.setorClickupList.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SetorClickupListDeleteManyArgs>(args?: SelectSubset<T, SetorClickupListDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SetorClickupLists.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorClickupListUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SetorClickupLists
+     * const setorClickupList = await prisma.setorClickupList.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SetorClickupListUpdateManyArgs>(args: SelectSubset<T, SetorClickupListUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one SetorClickupList.
+     * @param {SetorClickupListUpsertArgs} args - Arguments to update or create a SetorClickupList.
+     * @example
+     * // Update or create a SetorClickupList
+     * const setorClickupList = await prisma.setorClickupList.upsert({
+     *   create: {
+     *     // ... data to create a SetorClickupList
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SetorClickupList we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SetorClickupListUpsertArgs>(args: SelectSubset<T, SetorClickupListUpsertArgs<ExtArgs>>): Prisma__SetorClickupListClient<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of SetorClickupLists.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorClickupListCountArgs} args - Arguments to filter SetorClickupLists to count.
+     * @example
+     * // Count the number of SetorClickupLists
+     * const count = await prisma.setorClickupList.count({
+     *   where: {
+     *     // ... the filter for the SetorClickupLists we want to count
+     *   }
+     * })
+    **/
+    count<T extends SetorClickupListCountArgs>(
+      args?: Subset<T, SetorClickupListCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SetorClickupListCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SetorClickupList.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorClickupListAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SetorClickupListAggregateArgs>(args: Subset<T, SetorClickupListAggregateArgs>): Prisma.PrismaPromise<GetSetorClickupListAggregateType<T>>
+
+    /**
+     * Group by SetorClickupList.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorClickupListGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SetorClickupListGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SetorClickupListGroupByArgs['orderBy'] }
+        : { orderBy?: SetorClickupListGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SetorClickupListGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSetorClickupListGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SetorClickupList model
+   */
+  readonly fields: SetorClickupListFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SetorClickupList.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SetorClickupListClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    setor<T extends SetorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SetorDefaultArgs<ExtArgs>>): Prisma__SetorClient<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    clientCompany<T extends SetorClickupList$clientCompanyArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$clientCompanyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SetorClickupList model
+   */ 
+  interface SetorClickupListFieldRefs {
+    readonly id: FieldRef<"SetorClickupList", 'String'>
+    readonly setorId: FieldRef<"SetorClickupList", 'String'>
+    readonly clickupListId: FieldRef<"SetorClickupList", 'String'>
+    readonly name: FieldRef<"SetorClickupList", 'String'>
+    readonly type: FieldRef<"SetorClickupList", 'String'>
+    readonly clientCompanyId: FieldRef<"SetorClickupList", 'String'>
+    readonly taskCount: FieldRef<"SetorClickupList", 'Int'>
+    readonly taskCompleted: FieldRef<"SetorClickupList", 'Int'>
+    readonly taskOverdue: FieldRef<"SetorClickupList", 'Int'>
+    readonly lastSyncedAt: FieldRef<"SetorClickupList", 'DateTime'>
+    readonly createdAt: FieldRef<"SetorClickupList", 'DateTime'>
+    readonly updatedAt: FieldRef<"SetorClickupList", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SetorClickupList findUnique
+   */
+  export type SetorClickupListFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorClickupList
+     */
+    select?: SetorClickupListSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorClickupListInclude<ExtArgs> | null
+    /**
+     * Filter, which SetorClickupList to fetch.
+     */
+    where: SetorClickupListWhereUniqueInput
+  }
+
+  /**
+   * SetorClickupList findUniqueOrThrow
+   */
+  export type SetorClickupListFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorClickupList
+     */
+    select?: SetorClickupListSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorClickupListInclude<ExtArgs> | null
+    /**
+     * Filter, which SetorClickupList to fetch.
+     */
+    where: SetorClickupListWhereUniqueInput
+  }
+
+  /**
+   * SetorClickupList findFirst
+   */
+  export type SetorClickupListFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorClickupList
+     */
+    select?: SetorClickupListSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorClickupListInclude<ExtArgs> | null
+    /**
+     * Filter, which SetorClickupList to fetch.
+     */
+    where?: SetorClickupListWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SetorClickupLists to fetch.
+     */
+    orderBy?: SetorClickupListOrderByWithRelationInput | SetorClickupListOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SetorClickupLists.
+     */
+    cursor?: SetorClickupListWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SetorClickupLists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SetorClickupLists.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SetorClickupLists.
+     */
+    distinct?: SetorClickupListScalarFieldEnum | SetorClickupListScalarFieldEnum[]
+  }
+
+  /**
+   * SetorClickupList findFirstOrThrow
+   */
+  export type SetorClickupListFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorClickupList
+     */
+    select?: SetorClickupListSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorClickupListInclude<ExtArgs> | null
+    /**
+     * Filter, which SetorClickupList to fetch.
+     */
+    where?: SetorClickupListWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SetorClickupLists to fetch.
+     */
+    orderBy?: SetorClickupListOrderByWithRelationInput | SetorClickupListOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SetorClickupLists.
+     */
+    cursor?: SetorClickupListWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SetorClickupLists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SetorClickupLists.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SetorClickupLists.
+     */
+    distinct?: SetorClickupListScalarFieldEnum | SetorClickupListScalarFieldEnum[]
+  }
+
+  /**
+   * SetorClickupList findMany
+   */
+  export type SetorClickupListFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorClickupList
+     */
+    select?: SetorClickupListSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorClickupListInclude<ExtArgs> | null
+    /**
+     * Filter, which SetorClickupLists to fetch.
+     */
+    where?: SetorClickupListWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SetorClickupLists to fetch.
+     */
+    orderBy?: SetorClickupListOrderByWithRelationInput | SetorClickupListOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SetorClickupLists.
+     */
+    cursor?: SetorClickupListWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SetorClickupLists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SetorClickupLists.
+     */
+    skip?: number
+    distinct?: SetorClickupListScalarFieldEnum | SetorClickupListScalarFieldEnum[]
+  }
+
+  /**
+   * SetorClickupList create
+   */
+  export type SetorClickupListCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorClickupList
+     */
+    select?: SetorClickupListSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorClickupListInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SetorClickupList.
+     */
+    data: XOR<SetorClickupListCreateInput, SetorClickupListUncheckedCreateInput>
+  }
+
+  /**
+   * SetorClickupList createMany
+   */
+  export type SetorClickupListCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SetorClickupLists.
+     */
+    data: SetorClickupListCreateManyInput | SetorClickupListCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SetorClickupList createManyAndReturn
+   */
+  export type SetorClickupListCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorClickupList
+     */
+    select?: SetorClickupListSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many SetorClickupLists.
+     */
+    data: SetorClickupListCreateManyInput | SetorClickupListCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorClickupListIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SetorClickupList update
+   */
+  export type SetorClickupListUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorClickupList
+     */
+    select?: SetorClickupListSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorClickupListInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SetorClickupList.
+     */
+    data: XOR<SetorClickupListUpdateInput, SetorClickupListUncheckedUpdateInput>
+    /**
+     * Choose, which SetorClickupList to update.
+     */
+    where: SetorClickupListWhereUniqueInput
+  }
+
+  /**
+   * SetorClickupList updateMany
+   */
+  export type SetorClickupListUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SetorClickupLists.
+     */
+    data: XOR<SetorClickupListUpdateManyMutationInput, SetorClickupListUncheckedUpdateManyInput>
+    /**
+     * Filter which SetorClickupLists to update
+     */
+    where?: SetorClickupListWhereInput
+  }
+
+  /**
+   * SetorClickupList upsert
+   */
+  export type SetorClickupListUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorClickupList
+     */
+    select?: SetorClickupListSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorClickupListInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SetorClickupList to update in case it exists.
+     */
+    where: SetorClickupListWhereUniqueInput
+    /**
+     * In case the SetorClickupList found by the `where` argument doesn't exist, create a new SetorClickupList with this data.
+     */
+    create: XOR<SetorClickupListCreateInput, SetorClickupListUncheckedCreateInput>
+    /**
+     * In case the SetorClickupList was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SetorClickupListUpdateInput, SetorClickupListUncheckedUpdateInput>
+  }
+
+  /**
+   * SetorClickupList delete
+   */
+  export type SetorClickupListDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorClickupList
+     */
+    select?: SetorClickupListSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorClickupListInclude<ExtArgs> | null
+    /**
+     * Filter which SetorClickupList to delete.
+     */
+    where: SetorClickupListWhereUniqueInput
+  }
+
+  /**
+   * SetorClickupList deleteMany
+   */
+  export type SetorClickupListDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SetorClickupLists to delete
+     */
+    where?: SetorClickupListWhereInput
+  }
+
+  /**
+   * SetorClickupList.clientCompany
+   */
+  export type SetorClickupList$clientCompanyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Company
+     */
+    select?: CompanySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyInclude<ExtArgs> | null
+    where?: CompanyWhereInput
+  }
+
+  /**
+   * SetorClickupList without action
+   */
+  export type SetorClickupListDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorClickupList
+     */
+    select?: SetorClickupListSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorClickupListInclude<ExtArgs> | null
   }
 
 
@@ -49547,6 +50779,24 @@ export namespace Prisma {
   export type SetorScalarFieldEnum = (typeof SetorScalarFieldEnum)[keyof typeof SetorScalarFieldEnum]
 
 
+  export const SetorClickupListScalarFieldEnum: {
+    id: 'id',
+    setorId: 'setorId',
+    clickupListId: 'clickupListId',
+    name: 'name',
+    type: 'type',
+    clientCompanyId: 'clientCompanyId',
+    taskCount: 'taskCount',
+    taskCompleted: 'taskCompleted',
+    taskOverdue: 'taskOverdue',
+    lastSyncedAt: 'lastSyncedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SetorClickupListScalarFieldEnum = (typeof SetorClickupListScalarFieldEnum)[keyof typeof SetorClickupListScalarFieldEnum]
+
+
   export const SetorUserScalarFieldEnum: {
     setorId: 'setorId',
     userId: 'userId'
@@ -50626,6 +51876,7 @@ export namespace Prisma {
     userBadges?: UserBadgeListRelationFilter
     scoreEvents?: ScoreEventListRelationFilter
     scoreRuleConfigs?: ScoreRuleConfigListRelationFilter
+    setorClickupListsAsClient?: SetorClickupListListRelationFilter
     businessHours?: BusinessHoursConfigListRelationFilter
     campaigns?: CampaignListRelationFilter
     leads?: LeadListRelationFilter
@@ -50680,6 +51931,7 @@ export namespace Prisma {
     userBadges?: UserBadgeOrderByRelationAggregateInput
     scoreEvents?: ScoreEventOrderByRelationAggregateInput
     scoreRuleConfigs?: ScoreRuleConfigOrderByRelationAggregateInput
+    setorClickupListsAsClient?: SetorClickupListOrderByRelationAggregateInput
     businessHours?: BusinessHoursConfigOrderByRelationAggregateInput
     campaigns?: CampaignOrderByRelationAggregateInput
     leads?: LeadOrderByRelationAggregateInput
@@ -50737,6 +51989,7 @@ export namespace Prisma {
     userBadges?: UserBadgeListRelationFilter
     scoreEvents?: ScoreEventListRelationFilter
     scoreRuleConfigs?: ScoreRuleConfigListRelationFilter
+    setorClickupListsAsClient?: SetorClickupListListRelationFilter
     businessHours?: BusinessHoursConfigListRelationFilter
     campaigns?: CampaignListRelationFilter
     leads?: LeadListRelationFilter
@@ -52327,6 +53580,7 @@ export namespace Prisma {
     instances?: SetorInstanceListRelationFilter
     tickets?: TicketListRelationFilter
     conversations?: ConversationListRelationFilter
+    clickupLists?: SetorClickupListListRelationFilter
   }
 
   export type SetorOrderByWithRelationInput = {
@@ -52351,6 +53605,7 @@ export namespace Prisma {
     instances?: SetorInstanceOrderByRelationAggregateInput
     tickets?: TicketOrderByRelationAggregateInput
     conversations?: ConversationOrderByRelationAggregateInput
+    clickupLists?: SetorClickupListOrderByRelationAggregateInput
   }
 
   export type SetorWhereUniqueInput = Prisma.AtLeast<{
@@ -52378,6 +53633,7 @@ export namespace Prisma {
     instances?: SetorInstanceListRelationFilter
     tickets?: TicketListRelationFilter
     conversations?: ConversationListRelationFilter
+    clickupLists?: SetorClickupListListRelationFilter
   }, "id">
 
   export type SetorOrderByWithAggregationInput = {
@@ -52422,6 +53678,102 @@ export namespace Prisma {
     canSendMessages?: BoolWithAggregatesFilter<"Setor"> | boolean
     canViewCompanies?: BoolWithAggregatesFilter<"Setor"> | boolean
     canCreateCompanies?: BoolWithAggregatesFilter<"Setor"> | boolean
+  }
+
+  export type SetorClickupListWhereInput = {
+    AND?: SetorClickupListWhereInput | SetorClickupListWhereInput[]
+    OR?: SetorClickupListWhereInput[]
+    NOT?: SetorClickupListWhereInput | SetorClickupListWhereInput[]
+    id?: StringFilter<"SetorClickupList"> | string
+    setorId?: StringFilter<"SetorClickupList"> | string
+    clickupListId?: StringFilter<"SetorClickupList"> | string
+    name?: StringFilter<"SetorClickupList"> | string
+    type?: StringNullableFilter<"SetorClickupList"> | string | null
+    clientCompanyId?: StringNullableFilter<"SetorClickupList"> | string | null
+    taskCount?: IntFilter<"SetorClickupList"> | number
+    taskCompleted?: IntFilter<"SetorClickupList"> | number
+    taskOverdue?: IntFilter<"SetorClickupList"> | number
+    lastSyncedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
+    createdAt?: DateTimeFilter<"SetorClickupList"> | Date | string
+    updatedAt?: DateTimeFilter<"SetorClickupList"> | Date | string
+    setor?: XOR<SetorRelationFilter, SetorWhereInput>
+    clientCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
+  }
+
+  export type SetorClickupListOrderByWithRelationInput = {
+    id?: SortOrder
+    setorId?: SortOrder
+    clickupListId?: SortOrder
+    name?: SortOrder
+    type?: SortOrderInput | SortOrder
+    clientCompanyId?: SortOrderInput | SortOrder
+    taskCount?: SortOrder
+    taskCompleted?: SortOrder
+    taskOverdue?: SortOrder
+    lastSyncedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    setor?: SetorOrderByWithRelationInput
+    clientCompany?: CompanyOrderByWithRelationInput
+  }
+
+  export type SetorClickupListWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    setorId_clickupListId?: SetorClickupListSetorIdClickupListIdCompoundUniqueInput
+    AND?: SetorClickupListWhereInput | SetorClickupListWhereInput[]
+    OR?: SetorClickupListWhereInput[]
+    NOT?: SetorClickupListWhereInput | SetorClickupListWhereInput[]
+    setorId?: StringFilter<"SetorClickupList"> | string
+    clickupListId?: StringFilter<"SetorClickupList"> | string
+    name?: StringFilter<"SetorClickupList"> | string
+    type?: StringNullableFilter<"SetorClickupList"> | string | null
+    clientCompanyId?: StringNullableFilter<"SetorClickupList"> | string | null
+    taskCount?: IntFilter<"SetorClickupList"> | number
+    taskCompleted?: IntFilter<"SetorClickupList"> | number
+    taskOverdue?: IntFilter<"SetorClickupList"> | number
+    lastSyncedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
+    createdAt?: DateTimeFilter<"SetorClickupList"> | Date | string
+    updatedAt?: DateTimeFilter<"SetorClickupList"> | Date | string
+    setor?: XOR<SetorRelationFilter, SetorWhereInput>
+    clientCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
+  }, "id" | "setorId_clickupListId">
+
+  export type SetorClickupListOrderByWithAggregationInput = {
+    id?: SortOrder
+    setorId?: SortOrder
+    clickupListId?: SortOrder
+    name?: SortOrder
+    type?: SortOrderInput | SortOrder
+    clientCompanyId?: SortOrderInput | SortOrder
+    taskCount?: SortOrder
+    taskCompleted?: SortOrder
+    taskOverdue?: SortOrder
+    lastSyncedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SetorClickupListCountOrderByAggregateInput
+    _avg?: SetorClickupListAvgOrderByAggregateInput
+    _max?: SetorClickupListMaxOrderByAggregateInput
+    _min?: SetorClickupListMinOrderByAggregateInput
+    _sum?: SetorClickupListSumOrderByAggregateInput
+  }
+
+  export type SetorClickupListScalarWhereWithAggregatesInput = {
+    AND?: SetorClickupListScalarWhereWithAggregatesInput | SetorClickupListScalarWhereWithAggregatesInput[]
+    OR?: SetorClickupListScalarWhereWithAggregatesInput[]
+    NOT?: SetorClickupListScalarWhereWithAggregatesInput | SetorClickupListScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SetorClickupList"> | string
+    setorId?: StringWithAggregatesFilter<"SetorClickupList"> | string
+    clickupListId?: StringWithAggregatesFilter<"SetorClickupList"> | string
+    name?: StringWithAggregatesFilter<"SetorClickupList"> | string
+    type?: StringNullableWithAggregatesFilter<"SetorClickupList"> | string | null
+    clientCompanyId?: StringNullableWithAggregatesFilter<"SetorClickupList"> | string | null
+    taskCount?: IntWithAggregatesFilter<"SetorClickupList"> | number
+    taskCompleted?: IntWithAggregatesFilter<"SetorClickupList"> | number
+    taskOverdue?: IntWithAggregatesFilter<"SetorClickupList"> | number
+    lastSyncedAt?: DateTimeNullableWithAggregatesFilter<"SetorClickupList"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"SetorClickupList"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SetorClickupList"> | Date | string
   }
 
   export type SetorUserWhereInput = {
@@ -54383,6 +55735,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -54436,6 +55789,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -54489,6 +55843,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -54542,6 +55897,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -56266,6 +57622,7 @@ export namespace Prisma {
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
     conversations?: ConversationCreateNestedManyWithoutSetorInput
+    clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUncheckedCreateInput = {
@@ -56289,6 +57646,7 @@ export namespace Prisma {
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
+    clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUpdateInput = {
@@ -56312,6 +57670,7 @@ export namespace Prisma {
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUpdateManyWithoutSetorNestedInput
+    clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateInput = {
@@ -56335,6 +57694,7 @@ export namespace Prisma {
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
+    clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorCreateManyInput = {
@@ -56391,6 +57751,109 @@ export namespace Prisma {
     canSendMessages?: BoolFieldUpdateOperationsInput | boolean
     canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type SetorClickupListCreateInput = {
+    id?: string
+    clickupListId: string
+    name: string
+    type?: string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    lastSyncedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    setor: SetorCreateNestedOneWithoutClickupListsInput
+    clientCompany?: CompanyCreateNestedOneWithoutSetorClickupListsAsClientInput
+  }
+
+  export type SetorClickupListUncheckedCreateInput = {
+    id?: string
+    setorId: string
+    clickupListId: string
+    name: string
+    type?: string | null
+    clientCompanyId?: string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    lastSyncedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SetorClickupListUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clickupListId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
+    clientCompany?: CompanyUpdateOneWithoutSetorClickupListsAsClientNestedInput
+  }
+
+  export type SetorClickupListUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    setorId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SetorClickupListCreateManyInput = {
+    id?: string
+    setorId: string
+    clickupListId: string
+    name: string
+    type?: string | null
+    clientCompanyId?: string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    lastSyncedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SetorClickupListUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clickupListId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SetorClickupListUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    setorId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SetorUserCreateInput = {
@@ -58564,6 +60027,12 @@ export namespace Prisma {
     none?: ScoreRuleConfigWhereInput
   }
 
+  export type SetorClickupListListRelationFilter = {
+    every?: SetorClickupListWhereInput
+    some?: SetorClickupListWhereInput
+    none?: SetorClickupListWhereInput
+  }
+
   export type BusinessHoursConfigListRelationFilter = {
     every?: BusinessHoursConfigWhereInput
     some?: BusinessHoursConfigWhereInput
@@ -58698,6 +60167,10 @@ export namespace Prisma {
   }
 
   export type ScoreRuleConfigOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SetorClickupListOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -60065,6 +61538,68 @@ export namespace Prisma {
   export type SetorRelationFilter = {
     is?: SetorWhereInput
     isNot?: SetorWhereInput
+  }
+
+  export type SetorClickupListSetorIdClickupListIdCompoundUniqueInput = {
+    setorId: string
+    clickupListId: string
+  }
+
+  export type SetorClickupListCountOrderByAggregateInput = {
+    id?: SortOrder
+    setorId?: SortOrder
+    clickupListId?: SortOrder
+    name?: SortOrder
+    type?: SortOrder
+    clientCompanyId?: SortOrder
+    taskCount?: SortOrder
+    taskCompleted?: SortOrder
+    taskOverdue?: SortOrder
+    lastSyncedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SetorClickupListAvgOrderByAggregateInput = {
+    taskCount?: SortOrder
+    taskCompleted?: SortOrder
+    taskOverdue?: SortOrder
+  }
+
+  export type SetorClickupListMaxOrderByAggregateInput = {
+    id?: SortOrder
+    setorId?: SortOrder
+    clickupListId?: SortOrder
+    name?: SortOrder
+    type?: SortOrder
+    clientCompanyId?: SortOrder
+    taskCount?: SortOrder
+    taskCompleted?: SortOrder
+    taskOverdue?: SortOrder
+    lastSyncedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SetorClickupListMinOrderByAggregateInput = {
+    id?: SortOrder
+    setorId?: SortOrder
+    clickupListId?: SortOrder
+    name?: SortOrder
+    type?: SortOrder
+    clientCompanyId?: SortOrder
+    taskCount?: SortOrder
+    taskCompleted?: SortOrder
+    taskOverdue?: SortOrder
+    lastSyncedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SetorClickupListSumOrderByAggregateInput = {
+    taskCount?: SortOrder
+    taskCompleted?: SortOrder
+    taskOverdue?: SortOrder
   }
 
   export type SetorUserSetorIdUserIdCompoundUniqueInput = {
@@ -61807,6 +63342,13 @@ export namespace Prisma {
     connect?: ScoreRuleConfigWhereUniqueInput | ScoreRuleConfigWhereUniqueInput[]
   }
 
+  export type SetorClickupListCreateNestedManyWithoutClientCompanyInput = {
+    create?: XOR<SetorClickupListCreateWithoutClientCompanyInput, SetorClickupListUncheckedCreateWithoutClientCompanyInput> | SetorClickupListCreateWithoutClientCompanyInput[] | SetorClickupListUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutClientCompanyInput | SetorClickupListCreateOrConnectWithoutClientCompanyInput[]
+    createMany?: SetorClickupListCreateManyClientCompanyInputEnvelope
+    connect?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+  }
+
   export type BusinessHoursConfigCreateNestedManyWithoutCompanyInput = {
     create?: XOR<BusinessHoursConfigCreateWithoutCompanyInput, BusinessHoursConfigUncheckedCreateWithoutCompanyInput> | BusinessHoursConfigCreateWithoutCompanyInput[] | BusinessHoursConfigUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: BusinessHoursConfigCreateOrConnectWithoutCompanyInput | BusinessHoursConfigCreateOrConnectWithoutCompanyInput[]
@@ -62014,6 +63556,13 @@ export namespace Prisma {
     connectOrCreate?: ScoreRuleConfigCreateOrConnectWithoutCompanyInput | ScoreRuleConfigCreateOrConnectWithoutCompanyInput[]
     createMany?: ScoreRuleConfigCreateManyCompanyInputEnvelope
     connect?: ScoreRuleConfigWhereUniqueInput | ScoreRuleConfigWhereUniqueInput[]
+  }
+
+  export type SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput = {
+    create?: XOR<SetorClickupListCreateWithoutClientCompanyInput, SetorClickupListUncheckedCreateWithoutClientCompanyInput> | SetorClickupListCreateWithoutClientCompanyInput[] | SetorClickupListUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutClientCompanyInput | SetorClickupListCreateOrConnectWithoutClientCompanyInput[]
+    createMany?: SetorClickupListCreateManyClientCompanyInputEnvelope
+    connect?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
   }
 
   export type BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -62279,6 +63828,20 @@ export namespace Prisma {
     update?: ScoreRuleConfigUpdateWithWhereUniqueWithoutCompanyInput | ScoreRuleConfigUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: ScoreRuleConfigUpdateManyWithWhereWithoutCompanyInput | ScoreRuleConfigUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: ScoreRuleConfigScalarWhereInput | ScoreRuleConfigScalarWhereInput[]
+  }
+
+  export type SetorClickupListUpdateManyWithoutClientCompanyNestedInput = {
+    create?: XOR<SetorClickupListCreateWithoutClientCompanyInput, SetorClickupListUncheckedCreateWithoutClientCompanyInput> | SetorClickupListCreateWithoutClientCompanyInput[] | SetorClickupListUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutClientCompanyInput | SetorClickupListCreateOrConnectWithoutClientCompanyInput[]
+    upsert?: SetorClickupListUpsertWithWhereUniqueWithoutClientCompanyInput | SetorClickupListUpsertWithWhereUniqueWithoutClientCompanyInput[]
+    createMany?: SetorClickupListCreateManyClientCompanyInputEnvelope
+    set?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+    disconnect?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+    delete?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+    connect?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+    update?: SetorClickupListUpdateWithWhereUniqueWithoutClientCompanyInput | SetorClickupListUpdateWithWhereUniqueWithoutClientCompanyInput[]
+    updateMany?: SetorClickupListUpdateManyWithWhereWithoutClientCompanyInput | SetorClickupListUpdateManyWithWhereWithoutClientCompanyInput[]
+    deleteMany?: SetorClickupListScalarWhereInput | SetorClickupListScalarWhereInput[]
   }
 
   export type BusinessHoursConfigUpdateManyWithoutCompanyNestedInput = {
@@ -62695,6 +64258,20 @@ export namespace Prisma {
     update?: ScoreRuleConfigUpdateWithWhereUniqueWithoutCompanyInput | ScoreRuleConfigUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: ScoreRuleConfigUpdateManyWithWhereWithoutCompanyInput | ScoreRuleConfigUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: ScoreRuleConfigScalarWhereInput | ScoreRuleConfigScalarWhereInput[]
+  }
+
+  export type SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput = {
+    create?: XOR<SetorClickupListCreateWithoutClientCompanyInput, SetorClickupListUncheckedCreateWithoutClientCompanyInput> | SetorClickupListCreateWithoutClientCompanyInput[] | SetorClickupListUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutClientCompanyInput | SetorClickupListCreateOrConnectWithoutClientCompanyInput[]
+    upsert?: SetorClickupListUpsertWithWhereUniqueWithoutClientCompanyInput | SetorClickupListUpsertWithWhereUniqueWithoutClientCompanyInput[]
+    createMany?: SetorClickupListCreateManyClientCompanyInputEnvelope
+    set?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+    disconnect?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+    delete?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+    connect?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+    update?: SetorClickupListUpdateWithWhereUniqueWithoutClientCompanyInput | SetorClickupListUpdateWithWhereUniqueWithoutClientCompanyInput[]
+    updateMany?: SetorClickupListUpdateManyWithWhereWithoutClientCompanyInput | SetorClickupListUpdateManyWithWhereWithoutClientCompanyInput[]
+    deleteMany?: SetorClickupListScalarWhereInput | SetorClickupListScalarWhereInput[]
   }
 
   export type BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput = {
@@ -64355,6 +65932,13 @@ export namespace Prisma {
     connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
   }
 
+  export type SetorClickupListCreateNestedManyWithoutSetorInput = {
+    create?: XOR<SetorClickupListCreateWithoutSetorInput, SetorClickupListUncheckedCreateWithoutSetorInput> | SetorClickupListCreateWithoutSetorInput[] | SetorClickupListUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutSetorInput | SetorClickupListCreateOrConnectWithoutSetorInput[]
+    createMany?: SetorClickupListCreateManySetorInputEnvelope
+    connect?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+  }
+
   export type SetorUserUncheckedCreateNestedManyWithoutSetorInput = {
     create?: XOR<SetorUserCreateWithoutSetorInput, SetorUserUncheckedCreateWithoutSetorInput> | SetorUserCreateWithoutSetorInput[] | SetorUserUncheckedCreateWithoutSetorInput[]
     connectOrCreate?: SetorUserCreateOrConnectWithoutSetorInput | SetorUserCreateOrConnectWithoutSetorInput[]
@@ -64381,6 +65965,13 @@ export namespace Prisma {
     connectOrCreate?: ConversationCreateOrConnectWithoutSetorInput | ConversationCreateOrConnectWithoutSetorInput[]
     createMany?: ConversationCreateManySetorInputEnvelope
     connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+  }
+
+  export type SetorClickupListUncheckedCreateNestedManyWithoutSetorInput = {
+    create?: XOR<SetorClickupListCreateWithoutSetorInput, SetorClickupListUncheckedCreateWithoutSetorInput> | SetorClickupListCreateWithoutSetorInput[] | SetorClickupListUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutSetorInput | SetorClickupListCreateOrConnectWithoutSetorInput[]
+    createMany?: SetorClickupListCreateManySetorInputEnvelope
+    connect?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
   }
 
   export type CompanyUpdateOneRequiredWithoutSetoresNestedInput = {
@@ -64447,6 +66038,20 @@ export namespace Prisma {
     deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
   }
 
+  export type SetorClickupListUpdateManyWithoutSetorNestedInput = {
+    create?: XOR<SetorClickupListCreateWithoutSetorInput, SetorClickupListUncheckedCreateWithoutSetorInput> | SetorClickupListCreateWithoutSetorInput[] | SetorClickupListUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutSetorInput | SetorClickupListCreateOrConnectWithoutSetorInput[]
+    upsert?: SetorClickupListUpsertWithWhereUniqueWithoutSetorInput | SetorClickupListUpsertWithWhereUniqueWithoutSetorInput[]
+    createMany?: SetorClickupListCreateManySetorInputEnvelope
+    set?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+    disconnect?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+    delete?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+    connect?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+    update?: SetorClickupListUpdateWithWhereUniqueWithoutSetorInput | SetorClickupListUpdateWithWhereUniqueWithoutSetorInput[]
+    updateMany?: SetorClickupListUpdateManyWithWhereWithoutSetorInput | SetorClickupListUpdateManyWithWhereWithoutSetorInput[]
+    deleteMany?: SetorClickupListScalarWhereInput | SetorClickupListScalarWhereInput[]
+  }
+
   export type SetorUserUncheckedUpdateManyWithoutSetorNestedInput = {
     create?: XOR<SetorUserCreateWithoutSetorInput, SetorUserUncheckedCreateWithoutSetorInput> | SetorUserCreateWithoutSetorInput[] | SetorUserUncheckedCreateWithoutSetorInput[]
     connectOrCreate?: SetorUserCreateOrConnectWithoutSetorInput | SetorUserCreateOrConnectWithoutSetorInput[]
@@ -64501,6 +66106,50 @@ export namespace Prisma {
     update?: ConversationUpdateWithWhereUniqueWithoutSetorInput | ConversationUpdateWithWhereUniqueWithoutSetorInput[]
     updateMany?: ConversationUpdateManyWithWhereWithoutSetorInput | ConversationUpdateManyWithWhereWithoutSetorInput[]
     deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
+  }
+
+  export type SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput = {
+    create?: XOR<SetorClickupListCreateWithoutSetorInput, SetorClickupListUncheckedCreateWithoutSetorInput> | SetorClickupListCreateWithoutSetorInput[] | SetorClickupListUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutSetorInput | SetorClickupListCreateOrConnectWithoutSetorInput[]
+    upsert?: SetorClickupListUpsertWithWhereUniqueWithoutSetorInput | SetorClickupListUpsertWithWhereUniqueWithoutSetorInput[]
+    createMany?: SetorClickupListCreateManySetorInputEnvelope
+    set?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+    disconnect?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+    delete?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+    connect?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+    update?: SetorClickupListUpdateWithWhereUniqueWithoutSetorInput | SetorClickupListUpdateWithWhereUniqueWithoutSetorInput[]
+    updateMany?: SetorClickupListUpdateManyWithWhereWithoutSetorInput | SetorClickupListUpdateManyWithWhereWithoutSetorInput[]
+    deleteMany?: SetorClickupListScalarWhereInput | SetorClickupListScalarWhereInput[]
+  }
+
+  export type SetorCreateNestedOneWithoutClickupListsInput = {
+    create?: XOR<SetorCreateWithoutClickupListsInput, SetorUncheckedCreateWithoutClickupListsInput>
+    connectOrCreate?: SetorCreateOrConnectWithoutClickupListsInput
+    connect?: SetorWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutSetorClickupListsAsClientInput = {
+    create?: XOR<CompanyCreateWithoutSetorClickupListsAsClientInput, CompanyUncheckedCreateWithoutSetorClickupListsAsClientInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutSetorClickupListsAsClientInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type SetorUpdateOneRequiredWithoutClickupListsNestedInput = {
+    create?: XOR<SetorCreateWithoutClickupListsInput, SetorUncheckedCreateWithoutClickupListsInput>
+    connectOrCreate?: SetorCreateOrConnectWithoutClickupListsInput
+    upsert?: SetorUpsertWithoutClickupListsInput
+    connect?: SetorWhereUniqueInput
+    update?: XOR<XOR<SetorUpdateToOneWithWhereWithoutClickupListsInput, SetorUpdateWithoutClickupListsInput>, SetorUncheckedUpdateWithoutClickupListsInput>
+  }
+
+  export type CompanyUpdateOneWithoutSetorClickupListsAsClientNestedInput = {
+    create?: XOR<CompanyCreateWithoutSetorClickupListsAsClientInput, CompanyUncheckedCreateWithoutSetorClickupListsAsClientInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutSetorClickupListsAsClientInput
+    upsert?: CompanyUpsertWithoutSetorClickupListsAsClientInput
+    disconnect?: CompanyWhereInput | boolean
+    delete?: CompanyWhereInput | boolean
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutSetorClickupListsAsClientInput, CompanyUpdateWithoutSetorClickupListsAsClientInput>, CompanyUncheckedUpdateWithoutSetorClickupListsAsClientInput>
   }
 
   export type SetorCreateNestedOneWithoutUsersInput = {
@@ -65713,6 +67362,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -65765,6 +67415,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -66230,6 +67881,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -66282,6 +67934,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -66994,6 +68647,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -67046,6 +68700,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -67103,6 +68758,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -67155,6 +68811,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -67358,6 +69015,44 @@ export namespace Prisma {
 
   export type ScoreRuleConfigCreateManyCompanyInputEnvelope = {
     data: ScoreRuleConfigCreateManyCompanyInput | ScoreRuleConfigCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SetorClickupListCreateWithoutClientCompanyInput = {
+    id?: string
+    clickupListId: string
+    name: string
+    type?: string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    lastSyncedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    setor: SetorCreateNestedOneWithoutClickupListsInput
+  }
+
+  export type SetorClickupListUncheckedCreateWithoutClientCompanyInput = {
+    id?: string
+    setorId: string
+    clickupListId: string
+    name: string
+    type?: string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    lastSyncedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SetorClickupListCreateOrConnectWithoutClientCompanyInput = {
+    where: SetorClickupListWhereUniqueInput
+    create: XOR<SetorClickupListCreateWithoutClientCompanyInput, SetorClickupListUncheckedCreateWithoutClientCompanyInput>
+  }
+
+  export type SetorClickupListCreateManyClientCompanyInputEnvelope = {
+    data: SetorClickupListCreateManyClientCompanyInput | SetorClickupListCreateManyClientCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -67857,6 +69552,7 @@ export namespace Prisma {
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
     conversations?: ConversationCreateNestedManyWithoutSetorInput
+    clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUncheckedCreateWithoutCompanyInput = {
@@ -67879,6 +69575,7 @@ export namespace Prisma {
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
+    clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
   }
 
   export type SetorCreateOrConnectWithoutCompanyInput = {
@@ -68409,6 +70106,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -68461,6 +70159,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -68636,6 +70335,40 @@ export namespace Prisma {
     points?: IntFilter<"ScoreRuleConfig"> | number
     affectsRanking?: BoolFilter<"ScoreRuleConfig"> | boolean
     updatedAt?: DateTimeFilter<"ScoreRuleConfig"> | Date | string
+  }
+
+  export type SetorClickupListUpsertWithWhereUniqueWithoutClientCompanyInput = {
+    where: SetorClickupListWhereUniqueInput
+    update: XOR<SetorClickupListUpdateWithoutClientCompanyInput, SetorClickupListUncheckedUpdateWithoutClientCompanyInput>
+    create: XOR<SetorClickupListCreateWithoutClientCompanyInput, SetorClickupListUncheckedCreateWithoutClientCompanyInput>
+  }
+
+  export type SetorClickupListUpdateWithWhereUniqueWithoutClientCompanyInput = {
+    where: SetorClickupListWhereUniqueInput
+    data: XOR<SetorClickupListUpdateWithoutClientCompanyInput, SetorClickupListUncheckedUpdateWithoutClientCompanyInput>
+  }
+
+  export type SetorClickupListUpdateManyWithWhereWithoutClientCompanyInput = {
+    where: SetorClickupListScalarWhereInput
+    data: XOR<SetorClickupListUpdateManyMutationInput, SetorClickupListUncheckedUpdateManyWithoutClientCompanyInput>
+  }
+
+  export type SetorClickupListScalarWhereInput = {
+    AND?: SetorClickupListScalarWhereInput | SetorClickupListScalarWhereInput[]
+    OR?: SetorClickupListScalarWhereInput[]
+    NOT?: SetorClickupListScalarWhereInput | SetorClickupListScalarWhereInput[]
+    id?: StringFilter<"SetorClickupList"> | string
+    setorId?: StringFilter<"SetorClickupList"> | string
+    clickupListId?: StringFilter<"SetorClickupList"> | string
+    name?: StringFilter<"SetorClickupList"> | string
+    type?: StringNullableFilter<"SetorClickupList"> | string | null
+    clientCompanyId?: StringNullableFilter<"SetorClickupList"> | string | null
+    taskCount?: IntFilter<"SetorClickupList"> | number
+    taskCompleted?: IntFilter<"SetorClickupList"> | number
+    taskOverdue?: IntFilter<"SetorClickupList"> | number
+    lastSyncedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
+    createdAt?: DateTimeFilter<"SetorClickupList"> | Date | string
+    updatedAt?: DateTimeFilter<"SetorClickupList"> | Date | string
   }
 
   export type BusinessHoursConfigUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -69447,6 +71180,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -69499,6 +71233,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -69755,6 +71490,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -69807,6 +71543,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -69964,6 +71701,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -70016,6 +71754,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -70217,6 +71956,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -70269,6 +72009,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -70444,6 +72185,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -70496,6 +72238,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -70811,6 +72554,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -70863,6 +72607,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -71243,6 +72988,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -71295,6 +73041,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -71363,6 +73110,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -71415,6 +73163,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -71467,6 +73216,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -71519,6 +73269,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -71638,6 +73389,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -71690,6 +73442,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -71799,6 +73552,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -71851,6 +73605,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -71993,6 +73748,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -72045,6 +73801,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -72137,6 +73894,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -72189,6 +73947,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -72439,6 +74198,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -72491,6 +74251,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -72749,6 +74510,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -72801,6 +74563,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -72910,6 +74673,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -72962,6 +74726,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -73105,6 +74870,7 @@ export namespace Prisma {
     users?: SetorUserCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
+    clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUncheckedCreateWithoutConversationsInput = {
@@ -73127,6 +74893,7 @@ export namespace Prisma {
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
+    clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
   }
 
   export type SetorCreateOrConnectWithoutConversationsInput = {
@@ -73161,6 +74928,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -73213,6 +74981,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -73513,6 +75282,7 @@ export namespace Prisma {
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
+    clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateWithoutConversationsInput = {
@@ -73535,6 +75305,7 @@ export namespace Prisma {
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
+    clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
   }
 
   export type CompanyUpsertWithoutConversationsInput = {
@@ -73575,6 +75346,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -73627,6 +75399,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -74029,6 +75802,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -74081,6 +75855,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -74328,6 +76103,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -74380,6 +76156,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -74432,6 +76209,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -74484,6 +76262,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -74592,6 +76371,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -74644,6 +76424,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -74745,6 +76526,7 @@ export namespace Prisma {
     users?: SetorUserCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
     conversations?: ConversationCreateNestedManyWithoutSetorInput
+    clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUncheckedCreateWithoutTicketsInput = {
@@ -74767,6 +76549,7 @@ export namespace Prisma {
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
+    clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
   }
 
   export type SetorCreateOrConnectWithoutTicketsInput = {
@@ -74884,6 +76667,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -74936,6 +76720,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -75056,6 +76841,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -75108,6 +76894,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -75221,6 +77008,7 @@ export namespace Prisma {
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUpdateManyWithoutSetorNestedInput
+    clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateWithoutTicketsInput = {
@@ -75243,6 +77031,7 @@ export namespace Prisma {
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
+    clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
   }
 
   export type TicketMessageUpsertWithWhereUniqueWithoutTicketInput = {
@@ -75429,6 +77218,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -75481,6 +77271,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -75661,6 +77452,44 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SetorClickupListCreateWithoutSetorInput = {
+    id?: string
+    clickupListId: string
+    name: string
+    type?: string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    lastSyncedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    clientCompany?: CompanyCreateNestedOneWithoutSetorClickupListsAsClientInput
+  }
+
+  export type SetorClickupListUncheckedCreateWithoutSetorInput = {
+    id?: string
+    clickupListId: string
+    name: string
+    type?: string | null
+    clientCompanyId?: string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    lastSyncedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SetorClickupListCreateOrConnectWithoutSetorInput = {
+    where: SetorClickupListWhereUniqueInput
+    create: XOR<SetorClickupListCreateWithoutSetorInput, SetorClickupListUncheckedCreateWithoutSetorInput>
+  }
+
+  export type SetorClickupListCreateManySetorInputEnvelope = {
+    data: SetorClickupListCreateManySetorInput | SetorClickupListCreateManySetorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutSetoresInput = {
     update: XOR<CompanyUpdateWithoutSetoresInput, CompanyUncheckedUpdateWithoutSetoresInput>
     create: XOR<CompanyCreateWithoutSetoresInput, CompanyUncheckedCreateWithoutSetoresInput>
@@ -75699,6 +77528,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -75751,6 +77581,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -75840,6 +77671,358 @@ export namespace Prisma {
     data: XOR<ConversationUpdateManyMutationInput, ConversationUncheckedUpdateManyWithoutSetorInput>
   }
 
+  export type SetorClickupListUpsertWithWhereUniqueWithoutSetorInput = {
+    where: SetorClickupListWhereUniqueInput
+    update: XOR<SetorClickupListUpdateWithoutSetorInput, SetorClickupListUncheckedUpdateWithoutSetorInput>
+    create: XOR<SetorClickupListCreateWithoutSetorInput, SetorClickupListUncheckedCreateWithoutSetorInput>
+  }
+
+  export type SetorClickupListUpdateWithWhereUniqueWithoutSetorInput = {
+    where: SetorClickupListWhereUniqueInput
+    data: XOR<SetorClickupListUpdateWithoutSetorInput, SetorClickupListUncheckedUpdateWithoutSetorInput>
+  }
+
+  export type SetorClickupListUpdateManyWithWhereWithoutSetorInput = {
+    where: SetorClickupListScalarWhereInput
+    data: XOR<SetorClickupListUpdateManyMutationInput, SetorClickupListUncheckedUpdateManyWithoutSetorInput>
+  }
+
+  export type SetorCreateWithoutClickupListsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
+    company: CompanyCreateNestedOneWithoutSetoresInput
+    users?: SetorUserCreateNestedManyWithoutSetorInput
+    instances?: SetorInstanceCreateNestedManyWithoutSetorInput
+    tickets?: TicketCreateNestedManyWithoutSetorInput
+    conversations?: ConversationCreateNestedManyWithoutSetorInput
+  }
+
+  export type SetorUncheckedCreateWithoutClickupListsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
+    users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
+    instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
+  }
+
+  export type SetorCreateOrConnectWithoutClickupListsInput = {
+    where: SetorWhereUniqueInput
+    create: XOR<SetorCreateWithoutClickupListsInput, SetorUncheckedCreateWithoutClickupListsInput>
+  }
+
+  export type CompanyCreateWithoutSetorClickupListsAsClientInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutSetorClickupListsAsClientInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutSetorClickupListsAsClientInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutSetorClickupListsAsClientInput, CompanyUncheckedCreateWithoutSetorClickupListsAsClientInput>
+  }
+
+  export type SetorUpsertWithoutClickupListsInput = {
+    update: XOR<SetorUpdateWithoutClickupListsInput, SetorUncheckedUpdateWithoutClickupListsInput>
+    create: XOR<SetorCreateWithoutClickupListsInput, SetorUncheckedCreateWithoutClickupListsInput>
+    where?: SetorWhereInput
+  }
+
+  export type SetorUpdateToOneWithWhereWithoutClickupListsInput = {
+    where?: SetorWhereInput
+    data: XOR<SetorUpdateWithoutClickupListsInput, SetorUncheckedUpdateWithoutClickupListsInput>
+  }
+
+  export type SetorUpdateWithoutClickupListsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
+    users?: SetorUserUpdateManyWithoutSetorNestedInput
+    instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
+    tickets?: TicketUpdateManyWithoutSetorNestedInput
+    conversations?: ConversationUpdateManyWithoutSetorNestedInput
+  }
+
+  export type SetorUncheckedUpdateWithoutClickupListsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
+    instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
+  }
+
+  export type CompanyUpsertWithoutSetorClickupListsAsClientInput = {
+    update: XOR<CompanyUpdateWithoutSetorClickupListsAsClientInput, CompanyUncheckedUpdateWithoutSetorClickupListsAsClientInput>
+    create: XOR<CompanyCreateWithoutSetorClickupListsAsClientInput, CompanyUncheckedCreateWithoutSetorClickupListsAsClientInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutSetorClickupListsAsClientInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutSetorClickupListsAsClientInput, CompanyUncheckedUpdateWithoutSetorClickupListsAsClientInput>
+  }
+
+  export type CompanyUpdateWithoutSetorClickupListsAsClientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutSetorClickupListsAsClientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
   export type SetorCreateWithoutUsersInput = {
     id?: string
     name: string
@@ -75860,6 +78043,7 @@ export namespace Prisma {
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
     conversations?: ConversationCreateNestedManyWithoutSetorInput
+    clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUncheckedCreateWithoutUsersInput = {
@@ -75882,6 +78066,7 @@ export namespace Prisma {
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
+    clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
   }
 
   export type SetorCreateOrConnectWithoutUsersInput = {
@@ -75971,6 +78156,7 @@ export namespace Prisma {
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUpdateManyWithoutSetorNestedInput
+    clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateWithoutUsersInput = {
@@ -75993,6 +78179,7 @@ export namespace Prisma {
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
+    clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
   }
 
   export type UserUpsertWithoutSetoresInput = {
@@ -76072,6 +78259,7 @@ export namespace Prisma {
     users?: SetorUserCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
     conversations?: ConversationCreateNestedManyWithoutSetorInput
+    clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUncheckedCreateWithoutInstancesInput = {
@@ -76094,6 +78282,7 @@ export namespace Prisma {
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
+    clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
   }
 
   export type SetorCreateOrConnectWithoutInstancesInput = {
@@ -76163,6 +78352,7 @@ export namespace Prisma {
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUpdateManyWithoutSetorNestedInput
+    clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateWithoutInstancesInput = {
@@ -76185,6 +78375,7 @@ export namespace Prisma {
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
+    clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutSetoresInput = {
@@ -76251,6 +78442,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -76303,6 +78495,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -76415,6 +78608,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -76467,6 +78661,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -76732,6 +78927,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -76784,6 +78980,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -76897,6 +79094,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -76949,6 +79147,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -77001,6 +79200,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -77053,6 +79253,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -77121,6 +79322,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -77173,6 +79375,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -77225,6 +79428,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -77277,6 +79481,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -77345,6 +79550,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -77397,6 +79603,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -77449,6 +79656,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -77501,6 +79709,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -77569,6 +79778,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -77621,6 +79831,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -77673,6 +79884,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -77725,6 +79937,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -77793,6 +80006,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -77845,6 +80059,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -77897,6 +80112,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -77949,6 +80165,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -78017,6 +80234,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -78069,6 +80287,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -78121,6 +80340,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -78173,6 +80393,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -78241,6 +80462,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -78293,6 +80515,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -78345,6 +80568,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -78397,6 +80621,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -78465,6 +80690,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -78517,6 +80743,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -78569,6 +80796,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -78621,6 +80849,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -78713,6 +80942,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -78765,6 +80995,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -78954,6 +81185,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -79006,6 +81238,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -79131,6 +81364,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -79183,6 +81417,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -79286,6 +81521,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -79338,6 +81574,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -79463,6 +81700,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -79515,6 +81753,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -79618,6 +81857,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -79670,6 +81910,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -79795,6 +82036,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -79847,6 +82089,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -79899,6 +82142,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -79951,6 +82195,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -80019,6 +82264,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -80071,6 +82317,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -80124,6 +82371,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -80176,6 +82424,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -80244,6 +82493,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -80296,6 +82546,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -80912,6 +83163,20 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type SetorClickupListCreateManyClientCompanyInput = {
+    id?: string
+    setorId: string
+    clickupListId: string
+    name: string
+    type?: string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    lastSyncedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type BusinessHoursConfigCreateManyCompanyInput = {
     id?: string
     dayOfWeek: number
@@ -81279,6 +83544,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -81331,6 +83597,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -81545,6 +83812,48 @@ export namespace Prisma {
     enabled?: BoolFieldUpdateOperationsInput | boolean
     points?: IntFieldUpdateOperationsInput | number
     affectsRanking?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SetorClickupListUpdateWithoutClientCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clickupListId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
+  }
+
+  export type SetorClickupListUncheckedUpdateWithoutClientCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    setorId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SetorClickupListUncheckedUpdateManyWithoutClientCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    setorId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -82101,6 +84410,7 @@ export namespace Prisma {
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUpdateManyWithoutSetorNestedInput
+    clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateWithoutCompanyInput = {
@@ -82123,6 +84433,7 @@ export namespace Prisma {
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
+    clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateManyWithoutCompanyInput = {
@@ -83744,6 +86055,20 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type SetorClickupListCreateManySetorInput = {
+    id?: string
+    clickupListId: string
+    name: string
+    type?: string | null
+    clientCompanyId?: string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    lastSyncedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type SetorUserUpdateWithoutSetorInput = {
     user?: UserUpdateOneRequiredWithoutSetoresNestedInput
   }
@@ -83899,6 +86224,48 @@ export namespace Prisma {
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SetorClickupListUpdateWithoutSetorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clickupListId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneWithoutSetorClickupListsAsClientNestedInput
+  }
+
+  export type SetorClickupListUncheckedUpdateWithoutSetorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clickupListId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SetorClickupListUncheckedUpdateManyWithoutSetorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clickupListId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -84186,6 +86553,10 @@ export namespace Prisma {
      * @deprecated Use SetorDefaultArgs instead
      */
     export type SetorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SetorDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use SetorClickupListDefaultArgs instead
+     */
+    export type SetorClickupListArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SetorClickupListDefaultArgs<ExtArgs>
     /**
      * @deprecated Use SetorUserDefaultArgs instead
      */

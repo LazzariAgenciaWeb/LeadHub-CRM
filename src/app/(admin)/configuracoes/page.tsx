@@ -185,15 +185,39 @@ export default async function ConfiguracoesPage({
       </div>
     );
   } else if (secao === "integracoes-clickup") {
-    const settingsRaw = await prisma.setting.findMany({
-      where: {
-        key: { in: ["clickup_api_token", "clickup_oportunidades_list_id", "clickup_tickets_list_id"] },
-      },
-    });
-    const settings: Record<string, string> = {};
-    for (const s of settingsRaw) settings[s.key] = s.value;
+    const cId = userCompanyId ?? "";
+    const keys = [
+      "clickup_api_token",
+      "clickup_oportunidades_list_id",
+      "clickup_tickets_list_id",
+    ];
+    if (cId) {
+      keys.push(
+        `clickup_oportunidades_list_id:${cId}`,
+        `clickup_tickets_list_id:${cId}`,
+      );
+    }
+    const settingsRaw = await prisma.setting.findMany({ where: { key: { in: keys } } });
+    const map: Record<string, string> = {};
+    for (const s of settingsRaw) map[s.key] = s.value;
 
-    content = <ClickupSettings settings={settings} />;
+    // Resolve listas efetivas: per-empresa primeiro, fallback global
+    const opPerCompany     = cId ? map[`clickup_oportunidades_list_id:${cId}`] : "";
+    const ticketPerCompany = cId ? map[`clickup_tickets_list_id:${cId}`] : "";
+    const opEffective      = opPerCompany || map["clickup_oportunidades_list_id"] || "";
+    const ticketEffective  = ticketPerCompany || map["clickup_tickets_list_id"] || "";
+
+    content = (
+      <ClickupSettings
+        isSuperAdmin={isSuperAdmin}
+        companyId={cId}
+        apiToken={map["clickup_api_token"] ?? ""}
+        opListId={isSuperAdmin ? (map["clickup_oportunidades_list_id"] ?? "") : opEffective}
+        ticketListId={isSuperAdmin ? (map["clickup_tickets_list_id"] ?? "") : ticketEffective}
+        isPerCompanyOp={!!opPerCompany}
+        isPerCompanyTicket={!!ticketPerCompany}
+      />
+    );
   } else if (secao === "integracoes-webhook") {
     const companyId = userCompanyId ?? "";
     let webhookToken: string | null = null;

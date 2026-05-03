@@ -201,7 +201,7 @@ export async function PATCH(
   // Only sync status/priority/stage updates — not manual ID changes
   const effectiveClickupId = ticket.clickupTaskId ?? existing?.clickupTaskId ?? null;
   if (effectiveClickupId && (status || priority || title || ticketStage)) {
-    const clickupSettings = await getClickupSettings();
+    const clickupSettings = await getClickupSettings(ticket.companyId);
     if (clickupSettings) {
       await syncTicketToClickup({
         settings: clickupSettings,

@@ -26,7 +26,7 @@ export async function POST(
   });
   if (!ticket) return NextResponse.json({ error: "Chamado não encontrado" }, { status: 404 });
 
-  const settings = await getClickupSettings();
+  const settings = await getClickupSettings(ticket.companyId);
   if (!settings) {
     return NextResponse.json(
       { error: "ClickUp não configurado. Verifique API Token em Configurações → Integrações → ClickUp." },

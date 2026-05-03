@@ -61,7 +61,7 @@ export async function POST(
   // Não sincroniza notas internas para o ClickUp
   const isInternalMsg = isInternal && (userRole === "SUPER_ADMIN" || userRole === "ADMIN");
   if (!isInternalMsg && ticket.clickupTaskId) {
-    const clickupSettings = await getClickupSettings();
+    const clickupSettings = await getClickupSettings(ticket.companyId);
     if (clickupSettings) {
       const authorLabel = userRole === "SUPER_ADMIN"
         ? `💬 Suporte — ${session.user?.name ?? "Atendente"}`

@@ -115,7 +115,7 @@ export async function POST(req: NextRequest) {
 
   // ── ClickUp auto-sync (Oportunidades only) ────────────────────────────
   if (pipeline === "OPORTUNIDADES") {
-    const clickupSettings = await getClickupSettings();
+    const clickupSettings = await getClickupSettings(lead.companyId);
     if (clickupSettings?.oportunidadesListId) {
       const newTaskId = await syncOportunidadeToClickup({
         settings: clickupSettings,

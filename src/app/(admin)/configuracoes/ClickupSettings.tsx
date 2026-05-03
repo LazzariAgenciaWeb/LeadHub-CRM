@@ -3,33 +3,57 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+interface Props {
+  isSuperAdmin: boolean;
+  companyId:    string;          // empresa do usuário (ADMIN) ou vazio
+  // Token (só relevante pro SUPER_ADMIN)
+  apiToken:     string;
+  // List IDs efetivos pra esta empresa (per-company OU fallback global)
+  opListId:     string;
+  ticketListId: string;
+  // Indica se o ID veio do per-company (true) ou ainda é o legacy global (false)
+  isPerCompanyOp:     boolean;
+  isPerCompanyTicket: boolean;
+}
+
 export default function ClickupSettings({
-  settings,
-}: {
-  settings: Record<string, string>;
-}) {
+  isSuperAdmin, companyId,
+  apiToken: initialToken,
+  opListId: initialOp,
+  ticketListId: initialTk,
+  isPerCompanyOp,
+  isPerCompanyTicket,
+}: Props) {
   const router = useRouter();
 
-  const [apiToken, setApiToken] = useState(settings.clickup_api_token ?? "");
-  const [opListId, setOpListId] = useState(settings.clickup_oportunidades_list_id ?? "");
-  const [ticketListId, setTicketListId] = useState(settings.clickup_tickets_list_id ?? "");
+  const [apiToken, setApiToken] = useState(initialToken);
+  const [opListId, setOpListId] = useState(initialOp);
+  const [ticketListId, setTicketListId] = useState(initialTk);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [testing, setTesting] = useState(false);
   const [testResult, setTestResult] = useState<{ ok: boolean; user?: string; error?: string } | null>(null);
 
+  // Chaves de Setting que serão salvas:
+  // - SUPER_ADMIN: token (global) + list IDs globais (legacy)
+  // - ADMIN: list IDs per-empresa (clickup_X_list_id:companyId)
+  const opKey     = isSuperAdmin ? "clickup_oportunidades_list_id" : `clickup_oportunidades_list_id:${companyId}`;
+  const ticketKey = isSuperAdmin ? "clickup_tickets_list_id"        : `clickup_tickets_list_id:${companyId}`;
+
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
     setTestResult(null);
+
+    const items: { key: string; value: string }[] = [];
+    if (isSuperAdmin) items.push({ key: "clickup_api_token", value: apiToken });
+    items.push({ key: opKey,     value: opListId });
+    items.push({ key: ticketKey, value: ticketListId });
+
     await fetch("/api/settings", {
-      method: "PUT",
+      method:  "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify([
-        { key: "clickup_api_token", value: apiToken },
-        { key: "clickup_oportunidades_list_id", value: opListId },
-        { key: "clickup_tickets_list_id", value: ticketListId },
-      ]),
+      body:    JSON.stringify(items),
     });
     setSaving(false);
     setSaved(true);
@@ -59,7 +83,6 @@ export default function ClickupSettings({
 
   return (
     <div className="p-6 max-w-2xl space-y-6">
-      {/* Header */}
       <div className="flex items-center gap-3 mb-2">
         <div className="w-10 h-10 rounded-xl bg-[#7B68EE]/20 flex items-center justify-center text-xl">✅</div>
         <div>
@@ -70,16 +93,16 @@ export default function ClickupSettings({
         </div>
       </div>
 
-      {/* API Token */}
-      <section className="bg-[#0f1623] border border-[#1e2d45] rounded-xl overflow-hidden">
-        <div className="px-5 py-4 border-b border-[#1e2d45]">
-          <h2 className="text-white font-bold text-sm">🔑 API Token</h2>
-          <p className="text-slate-500 text-xs mt-0.5">
-            Encontre em: ClickUp → Configurações → Apps → API Token.
-          </p>
-        </div>
-        <form onSubmit={handleSave} className="p-5 space-y-5">
-          <div>
+      {/* API Token — só super_admin (global pra agência inteira) */}
+      {isSuperAdmin && (
+        <section className="bg-[#0f1623] border border-[#1e2d45] rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-[#1e2d45]">
+            <h2 className="text-white font-bold text-sm">🔑 API Token (global)</h2>
+            <p className="text-slate-500 text-xs mt-0.5">
+              Configurado pelo super admin. Encontre em: ClickUp → Configurações → Apps → API Token.
+            </p>
+          </div>
+          <div className="p-5">
             <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
               Personal API Token
             </label>
@@ -110,10 +133,28 @@ export default function ClickupSettings({
               </div>
             )}
           </div>
+        </section>
+      )}
 
+      {/* List IDs — per-empresa (admin) ou global (super_admin) */}
+      <section className="bg-[#0f1623] border border-[#1e2d45] rounded-xl overflow-hidden">
+        <div className="px-5 py-4 border-b border-[#1e2d45]">
+          <h2 className="text-white font-bold text-sm">📋 Listas do ClickUp</h2>
+          <p className="text-slate-500 text-xs mt-0.5">
+            {isSuperAdmin
+              ? "Listas globais (fallback). Cada empresa pode sobrescrever com as próprias."
+              : "Configurações da sua empresa. Substituem as listas globais."}
+          </p>
+        </div>
+        <form onSubmit={handleSave} className="p-5 space-y-5">
           <div>
-            <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+            <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide flex items-center gap-2 mb-1.5">
               List ID — Oportunidades
+              {!isSuperAdmin && !isPerCompanyOp && opListId && (
+                <span className="text-amber-400 text-[10px] normal-case font-normal">
+                  ⓘ herdado da config global
+                </span>
+              )}
             </label>
             <input
               type="text"
@@ -123,13 +164,18 @@ export default function ClickupSettings({
               className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
             />
             <p className="text-slate-600 text-[10px] mt-1">
-              ID da lista onde novas oportunidades serão criadas como tarefas.
+              Lista onde novas oportunidades viram tarefas.
             </p>
           </div>
 
           <div>
-            <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+            <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide flex items-center gap-2 mb-1.5">
               List ID — Chamados
+              {!isSuperAdmin && !isPerCompanyTicket && ticketListId && (
+                <span className="text-amber-400 text-[10px] normal-case font-normal">
+                  ⓘ herdado da config global
+                </span>
+              )}
             </label>
             <input
               type="text"
@@ -139,7 +185,7 @@ export default function ClickupSettings({
               className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
             />
             <p className="text-slate-600 text-[10px] mt-1">
-              ID da lista onde novos chamados serão criados como tarefas.
+              Lista onde novos chamados viram tarefas.
             </p>
           </div>
 
@@ -153,7 +199,6 @@ export default function ClickupSettings({
         </form>
       </section>
 
-      {/* Dica de como encontrar o List ID */}
       <section className="bg-indigo-500/5 border border-indigo-500/20 rounded-xl p-4">
         <div className="flex gap-3">
           <span className="text-lg">💡</span>
@@ -166,34 +211,6 @@ export default function ClickupSettings({
             </p>
           </div>
         </div>
-      </section>
-
-      {/* Escopo */}
-      <section className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5">
-        <h3 className="text-white font-semibold text-sm mb-3">📋 O que é sincronizado</h3>
-        <div className="space-y-2">
-          <div className="flex items-start gap-3 text-sm">
-            <span className="text-green-400 text-base mt-0.5">✅</span>
-            <div>
-              <div className="text-slate-300">Oportunidades (pipeline CRM)</div>
-              <div className="text-slate-500 text-xs">Criadas automaticamente ao mover para OPORTUNIDADES; atualizadas ao mudar etapa/prioridade.</div>
-            </div>
-          </div>
-          <div className="flex items-start gap-3 text-sm">
-            <span className="text-green-400 text-base mt-0.5">✅</span>
-            <div>
-              <div className="text-slate-300">Chamados (helpdesk)</div>
-              <div className="text-slate-500 text-xs">Criados automaticamente no ClickUp ao abrir; status atualizado em tempo real.</div>
-            </div>
-          </div>
-          <div className="flex items-center gap-3 text-sm">
-            <span className="text-slate-600 text-base">❌</span>
-            <span className="text-slate-500">Prospecção e Leads (não sincronizados)</span>
-          </div>
-        </div>
-        <p className="text-slate-600 text-xs mt-3">
-          Sincronização automática ativada quando o API Token e os List IDs estão configurados. O ID da tarefa ClickUp também pode ser vinculado manualmente em cada oportunidade ou chamado.
-        </p>
       </section>
     </div>
   );

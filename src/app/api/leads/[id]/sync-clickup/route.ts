@@ -26,7 +26,7 @@ export async function POST(
   });
   if (!lead) return NextResponse.json({ error: "Oportunidade não encontrada" }, { status: 404 });
 
-  const settings = await getClickupSettings();
+  const settings = await getClickupSettings(lead.companyId);
   if (!settings) {
     return NextResponse.json(
       { error: "ClickUp não configurado. Verifique API Token em Configurações → Integrações → ClickUp." },

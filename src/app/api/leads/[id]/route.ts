@@ -195,7 +195,7 @@ export async function PATCH(
   // ── ClickUp auto-sync (Oportunidades only) ────────────────────────────
   const effectivePipeline = pipeline ?? existing.pipeline;
   if (effectivePipeline === "OPORTUNIDADES") {
-    const clickupSettings = await getClickupSettings();
+    const clickupSettings = await getClickupSettings(existing.companyId);
     if (clickupSettings?.oportunidadesListId) {
       const effectiveClickupId = lead.clickupTaskId ?? null;
       const newTaskId = await syncOportunidadeToClickup({

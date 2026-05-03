@@ -153,6 +153,7 @@ model Company {
   userBadges        UserBadge[]
   scoreEvents       ScoreEvent[]
   scoreRuleConfigs  ScoreRuleConfig[]
+  setorClickupListsAsClient SetorClickupList[] @relation("SetorClickupListClient")
   businessHours     BusinessHoursConfig[]
   campaigns         Campaign[]
   leads             Lead[]
@@ -744,8 +745,37 @@ model Setor {
   instances     SetorInstance[]
   tickets       Ticket[]
   conversations Conversation[]
+  clickupLists  SetorClickupList[]
 
   @@index([companyId])
+}
+
+// Lista do ClickUp atrelada a um setor — base pra feature de Projetos.
+// Um setor pode ter várias listas (ex: "Sites em produção", "Mídias mensais").
+// Cada lista é fonte de tarefas pra um Project no LeadHub.
+model SetorClickupList {
+  id              String   @id @default(cuid())
+  setorId         String
+  setor           Setor    @relation(fields: [setorId], references: [id], onDelete: Cascade)
+
+  clickupListId   String
+  name            String
+  type            String?  // "SITE" | "MIDIA" | "CAMPANHA" | etc.
+  clientCompanyId String?
+  clientCompany   Company? @relation("SetorClickupListClient", fields: [clientCompanyId], references: [id], onDelete: SetNull)
+
+  // Cache de sync vindo do ClickUp via cron
+  taskCount       Int      @default(0)
+  taskCompleted   Int      @default(0)
+  taskOverdue     Int      @default(0)
+  lastSyncedAt    DateTime?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([setorId, clickupListId])
+  @@index([setorId])
+  @@index([clientCompanyId])
 }
 
 // Pivot: usuário ↔ setor (N:N — um usuário pode pertencer a vários setores)
