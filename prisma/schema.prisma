@@ -38,6 +38,7 @@ model User {
   userScores          UserScore[]
   userBadges          UserBadge[]
   scoreEvents         ScoreEvent[]
+  projectMemberships  ProjectMember[]
   rankingCategory     RankingCategory @default(PRODUCAO)
 
   @@index([companyId])
@@ -750,32 +751,67 @@ model Setor {
   @@index([companyId])
 }
 
-// Lista do ClickUp atrelada a um setor — base pra feature de Projetos.
-// Um setor pode ter várias listas (ex: "Sites em produção", "Mídias mensais").
-// Cada lista é fonte de tarefas pra um Project no LeadHub.
+// Project: lista do ClickUp atrelada a um setor com gestão própria de prazo,
+// status e equipe. Tarefas detalhadas vivem no ClickUp; o LeadHub controla
+// o nível "macro" (entrega, prazo, membros).
+//
+// Mantém o nome SetorClickupList por compatibilidade com a migration anterior;
+// representa um Project completo.
 model SetorClickupList {
-  id              String   @id @default(cuid())
+  id              String        @id @default(cuid())
   setorId         String
-  setor           Setor    @relation(fields: [setorId], references: [id], onDelete: Cascade)
+  setor           Setor         @relation(fields: [setorId], references: [id], onDelete: Cascade)
 
   clickupListId   String
   name            String
-  type            String?  // "SITE" | "MIDIA" | "CAMPANHA" | etc.
+  description     String?       @db.Text
+  type            String?       // "SITE" | "MIDIA" | "CAMPANHA" | etc.
   clientCompanyId String?
-  clientCompany   Company? @relation("SetorClickupListClient", fields: [clientCompanyId], references: [id], onDelete: SetNull)
+  clientCompany   Company?      @relation("SetorClickupListClient", fields: [clientCompanyId], references: [id], onDelete: SetNull)
+
+  // Gestão de projeto
+  status          ProjectStatus @default(PLANEJAMENTO)
+  startDate       DateTime?
+  dueDate         DateTime?
+  deliveredAt     DateTime?
 
   // Cache de sync vindo do ClickUp via cron
-  taskCount       Int      @default(0)
-  taskCompleted   Int      @default(0)
-  taskOverdue     Int      @default(0)
+  taskCount       Int           @default(0)
+  taskCompleted   Int           @default(0)
+  taskOverdue     Int           @default(0)
   lastSyncedAt    DateTime?
 
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  members         ProjectMember[]
 
   @@unique([setorId, clickupListId])
   @@index([setorId])
   @@index([clientCompanyId])
+  @@index([status])
+  @@index([dueDate])
+}
+
+enum ProjectStatus {
+  PLANEJAMENTO
+  EM_ANDAMENTO
+  PAUSADO
+  ENTREGUE
+  CANCELADO
+}
+
+model ProjectMember {
+  projectId String
+  project   SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      String           @default("MEMBER")  // "LEAD" | "MEMBER"
+  createdAt DateTime         @default(now())
+
+  @@id([projectId, userId])
+  @@index([projectId])
+  @@index([userId])
 }
 
 // Pivot: usuário ↔ setor (N:N — um usuário pode pertencer a vários setores)
@@ -1264,6 +1300,7 @@ enum BadgeType {
   FUNIL_COMPLETO    // lead avançou todas as etapas em <7 dias
   REI_DO_MES        // 1o lugar no ranking mensal
   PONTUAL           // dias terminados sem nada atrasado
+  ENTREGADOR        // projetos entregues no prazo
 }
 
 enum ScoreReason {
@@ -1278,9 +1315,12 @@ enum ScoreReason {
   ATENDIMENTO_MESMO_DIA
   NOTA_REGISTRADA
   PRIMEIRO_CONTATO        // triagem / "estamos encaminhando" em conversa de outro
+  PROJETO_ENTREGUE        // projeto marcado como ENTREGUE
+  PROJETO_ENTREGUE_NO_PRAZO // bônus quando deliveredAt <= dueDate
   SLA_VENCIDO
   CONVERSA_SEM_RESPOSTA
   PRAZO_PRORROGADO        // empurrar prazo depois de já vencido
+  PROJETO_ATRASADO        // projeto entregue depois do dueDate
 }
 
 // Trilha de auditoria de eventos de cobrança — útil pra suporte e debug.

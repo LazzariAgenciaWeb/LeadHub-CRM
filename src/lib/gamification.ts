@@ -29,10 +29,13 @@ export const SCORE_TABLE: Record<ScoreReason, number> = {
   NOTA_REGISTRADA:          2,
   PRIMEIRO_CONTATO:         3,   // triagem em conversa que não é sua (idempotente por conversa)
   DIA_SEM_ATRASO:          15,   // dia terminado sem nada atrasado (cron)
+  PROJETO_ENTREGUE:        50,   // projeto marcado como ENTREGUE (idempotente)
+  PROJETO_ENTREGUE_NO_PRAZO: 25, // bônus se entregue antes/no prazo
   // Penalidades (pontos negativos)
   SLA_VENCIDO:            -15,
   CONVERSA_SEM_RESPOSTA:  -10,
   PRAZO_PRORROGADO:        -5,   // empurrar prazo depois de vencido (cumulativo)
+  PROJETO_ATRASADO:       -30,   // projeto entregue depois do dueDate
 };
 
 // ─── Regras de badges (6 tiers cada) ──────────────────────────────────────────
@@ -85,6 +88,11 @@ const BADGE_RULES: BadgeRule[] = [
     badge: BadgeType.PONTUAL,
     reasons: [ScoreReason.DIA_SEM_ATRASO],
     thresholds: [3, 10, 25, 60, 150, 365],
+  },
+  {
+    badge: BadgeType.ENTREGADOR,
+    reasons: [ScoreReason.PROJETO_ENTREGUE_NO_PRAZO],
+    thresholds: [1, 3, 8, 20, 50, 150],
   },
 ];
 

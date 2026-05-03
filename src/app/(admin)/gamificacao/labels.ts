@@ -19,6 +19,7 @@ export const BADGE_META: Record<BadgeType, BadgeMeta> = {
   FUNIL_COMPLETO:  { emoji: "📈", name: "Funil",           description: "Leads avançados no pipeline" },
   REI_DO_MES:      { emoji: "👑", name: "Reinado",         description: "1º lugar no ranking mensal" },
   PONTUAL:         { emoji: "⏱️", name: "Pontualidade",    description: "Dias terminados sem nada atrasado" },
+  ENTREGADOR:      { emoji: "🚀", name: "Entrega",          description: "Projetos entregues no prazo" },
 };
 
 // ─── Tier definitions ─────────────────────────────────────────────────────────
@@ -111,6 +112,14 @@ export const BADGE_TIERS: Record<BadgeType, Tier[]> = {
     { level: 4, name: "Suíço",         threshold: 60  },
     { level: 5, name: "Implacável",    threshold: 150 },
     { level: 6, name: "Highlander",    threshold: 365 },
+  ],
+  ENTREGADOR: [
+    { level: 1, name: "Estreante",     threshold: 1   },
+    { level: 2, name: "Confiável",     threshold: 3   },
+    { level: 3, name: "Veterano",      threshold: 8   },
+    { level: 4, name: "Top Player",    threshold: 20  },
+    { level: 5, name: "Lenda",         threshold: 50  },
+    { level: 6, name: "Highlander",    threshold: 150 },
   ],
 };
 
@@ -217,7 +226,10 @@ export const REASON_LABEL: Record<ScoreReason, { text: string; positive: boolean
   NOTA_REGISTRADA:        { text: "Nota interna registrada",          positive: true  },
   PRIMEIRO_CONTATO:       { text: "Primeiro contato em conversa de outro", positive: true },
   DIA_SEM_ATRASO:         { text: "Dia terminado sem nada atrasado",  positive: true  },
+  PROJETO_ENTREGUE:       { text: "Projeto entregue",                 positive: true  },
+  PROJETO_ENTREGUE_NO_PRAZO: { text: "Projeto entregue no prazo",      positive: true  },
   SLA_VENCIDO:            { text: "SLA de chamado vencido",           positive: false },
   CONVERSA_SEM_RESPOSTA:  { text: "Conversa sem resposta há 24h",     positive: false },
   PRAZO_PRORROGADO:       { text: "Prazo prorrogado depois de vencido", positive: false },
+  PROJETO_ATRASADO:       { text: "Projeto entregue com atraso",      positive: false },
 };

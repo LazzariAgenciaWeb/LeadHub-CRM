@@ -442,14 +442,26 @@ exports.Prisma.SetorClickupListScalarFieldEnum = {
   setorId: 'setorId',
   clickupListId: 'clickupListId',
   name: 'name',
+  description: 'description',
   type: 'type',
   clientCompanyId: 'clientCompanyId',
+  status: 'status',
+  startDate: 'startDate',
+  dueDate: 'dueDate',
+  deliveredAt: 'deliveredAt',
   taskCount: 'taskCount',
   taskCompleted: 'taskCompleted',
   taskOverdue: 'taskOverdue',
   lastSyncedAt: 'lastSyncedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProjectMemberScalarFieldEnum = {
+  projectId: 'projectId',
+  userId: 'userId',
+  role: 'role',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SetorUserScalarFieldEnum = {
@@ -808,6 +820,14 @@ exports.TicketPriority = exports.$Enums.TicketPriority = {
   URGENT: 'URGENT'
 };
 
+exports.ProjectStatus = exports.$Enums.ProjectStatus = {
+  PLANEJAMENTO: 'PLANEJAMENTO',
+  EM_ANDAMENTO: 'EM_ANDAMENTO',
+  PAUSADO: 'PAUSADO',
+  ENTREGUE: 'ENTREGUE',
+  CANCELADO: 'CANCELADO'
+};
+
 exports.AssetType = exports.$Enums.AssetType = {
   DOMAIN: 'DOMAIN',
   HOSTING: 'HOSTING',
@@ -882,7 +902,8 @@ exports.BadgeType = exports.$Enums.BadgeType = {
   CLOSER: 'CLOSER',
   FUNIL_COMPLETO: 'FUNIL_COMPLETO',
   REI_DO_MES: 'REI_DO_MES',
-  PONTUAL: 'PONTUAL'
+  PONTUAL: 'PONTUAL',
+  ENTREGADOR: 'ENTREGADOR'
 };
 
 exports.ScoreReason = exports.$Enums.ScoreReason = {
@@ -897,9 +918,12 @@ exports.ScoreReason = exports.$Enums.ScoreReason = {
   ATENDIMENTO_MESMO_DIA: 'ATENDIMENTO_MESMO_DIA',
   NOTA_REGISTRADA: 'NOTA_REGISTRADA',
   PRIMEIRO_CONTATO: 'PRIMEIRO_CONTATO',
+  PROJETO_ENTREGUE: 'PROJETO_ENTREGUE',
+  PROJETO_ENTREGUE_NO_PRAZO: 'PROJETO_ENTREGUE_NO_PRAZO',
   SLA_VENCIDO: 'SLA_VENCIDO',
   CONVERSA_SEM_RESPOSTA: 'CONVERSA_SEM_RESPOSTA',
-  PRAZO_PRORROGADO: 'PRAZO_PRORROGADO'
+  PRAZO_PRORROGADO: 'PRAZO_PRORROGADO',
+  PROJETO_ATRASADO: 'PROJETO_ATRASADO'
 };
 
 exports.Prisma.ModelName = {
@@ -926,6 +950,7 @@ exports.Prisma.ModelName = {
   TicketMessage: 'TicketMessage',
   Setor: 'Setor',
   SetorClickupList: 'SetorClickupList',
+  ProjectMember: 'ProjectMember',
   SetorUser: 'SetorUser',
   SetorInstance: 'SetorInstance',
   CompanyAsset: 'CompanyAsset',

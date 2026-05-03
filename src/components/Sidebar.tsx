@@ -10,7 +10,7 @@ import {
   Zap, X, Home, MessageSquare, Sparkles, Building2, Briefcase,
   Search, Target, Lightbulb, Megaphone, LifeBuoy, Link2,
   Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, CalendarDays,
-  BarChart3, Trophy, type LucideIcon,
+  BarChart3, Trophy, FolderKanban, type LucideIcon,
 } from "lucide-react";
 import VersionBadge from "./VersionBadge";
 import { gradStroke, type GradientKey } from "./IconGradients";
@@ -150,6 +150,7 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
   const bottomLinks: SidebarLink[] = ([
     { href: "/campanhas",     Icon: Megaphone,    label: "Campanhas",     grad: "campanhas",     show: _isAdmin },
     { href: "/chamados",      Icon: LifeBuoy,     label: "Chamados",      grad: "chamados",      show: _isAdmin || (hasModule(session, "tickets") && can(session, "canViewTickets")) },
+    { href: "/projetos",      Icon: FolderKanban, label: "Projetos",      grad: "pipeline",      show: true },
     { href: "/gamificacao",   Icon: Trophy,       label: "Ranking",       grad: "gamificacao",   show: true },
     { href: "/links",         Icon: Link2,        label: "Links",         grad: "links",         show: _isAdmin },
     { href: "/configuracoes", Icon: Settings,     label: "Configurações", grad: "configuracoes", show: _isAdmin || can(session, "canViewConfig") },

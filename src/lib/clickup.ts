@@ -301,3 +301,50 @@ export async function syncOportunidadeToClickup({
 
   return newId;
 }
+
+// ── Project sync ──────────────────────────────────────────────────────────────
+
+/**
+ * Busca estatísticas de uma lista do ClickUp: total de tarefas, concluídas e
+ * vencidas. Usado pelo cron de sync de Projetos.
+ *
+ * Retorna null se a lista não for encontrada ou houver erro de auth.
+ */
+export async function fetchClickupListStats(
+  apiToken: string,
+  listId: string,
+): Promise<{ taskCount: number; taskCompleted: number; taskOverdue: number } | null> {
+  // include_closed=true porque por padrão a API exclui tarefas concluídas
+  const url = `${BASE}/list/${listId}/task?include_closed=true&subtasks=true`;
+  try {
+    const res = await fetch(url, {
+      headers: { Authorization: apiToken },
+      cache:   "no-store",
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    const tasks: any[] = data.tasks ?? [];
+
+    const now = Date.now();
+    let taskCount     = 0;
+    let taskCompleted = 0;
+    let taskOverdue   = 0;
+
+    for (const t of tasks) {
+      taskCount++;
+      // ClickUp marca status.type = "closed" quando a task está concluída
+      const isDone = t.status?.type === "closed" || t.status?.type === "done";
+      if (isDone) {
+        taskCompleted++;
+      } else {
+        // due_date vem como string com epoch em ms; pode vir null
+        const due = t.due_date ? Number(t.due_date) : null;
+        if (due && due < now) taskOverdue++;
+      }
+    }
+
+    return { taskCount, taskCompleted, taskOverdue };
+  } catch {
+    return null;
+  }
+}
