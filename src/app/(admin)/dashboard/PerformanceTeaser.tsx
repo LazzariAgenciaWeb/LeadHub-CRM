@@ -25,6 +25,10 @@ const BADGE_REASON: Record<BadgeType, ScoreReason | null> = {
   GERADOR:         "TAREFA_CRIADA",
   SPRINT_MASTER:   null,
   REI_DO_MES:      null,
+  CORUJA:          null,
+  MADRUGADOR:      null,
+  SORTUDO:         null,
+  FENIX:           null,
 };
 
 const ALL_BADGES: BadgeType[] = [

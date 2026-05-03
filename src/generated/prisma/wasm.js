@@ -934,7 +934,11 @@ exports.BadgeType = exports.$Enums.BadgeType = {
   ENTREGADOR: 'ENTREGADOR',
   CONSTRUTOR: 'CONSTRUTOR',
   ENGAJADO: 'ENGAJADO',
-  GERADOR: 'GERADOR'
+  GERADOR: 'GERADOR',
+  CORUJA: 'CORUJA',
+  MADRUGADOR: 'MADRUGADOR',
+  SORTUDO: 'SORTUDO',
+  FENIX: 'FENIX'
 };
 
 exports.ScoreReason = exports.$Enums.ScoreReason = {

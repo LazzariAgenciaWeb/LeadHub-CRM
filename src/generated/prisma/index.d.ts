@@ -479,7 +479,11 @@ export const BadgeType: {
   ENTREGADOR: 'ENTREGADOR',
   CONSTRUTOR: 'CONSTRUTOR',
   ENGAJADO: 'ENGAJADO',
-  GERADOR: 'GERADOR'
+  GERADOR: 'GERADOR',
+  CORUJA: 'CORUJA',
+  MADRUGADOR: 'MADRUGADOR',
+  SORTUDO: 'SORTUDO',
+  FENIX: 'FENIX'
 };
 
 export type BadgeType = (typeof BadgeType)[keyof typeof BadgeType]

@@ -2,6 +2,7 @@ import { Trophy, TrendingUp, Award } from "lucide-react";
 import { gradStroke } from "@/components/IconGradients";
 import { BadgeType, ScoreReason } from "@/generated/prisma";
 import BadgeMedallion from "./BadgeMedallion";
+import { shouldShowBadge } from "./labels";
 
 const BADGE_REASON: Record<BadgeType, ScoreReason | null> = {
   RAIO_VELOZ:      "RESPOSTA_RAPIDA_5MIN",
@@ -18,6 +19,10 @@ const BADGE_REASON: Record<BadgeType, ScoreReason | null> = {
   GERADOR:         "TAREFA_CRIADA",
   SPRINT_MASTER:   null,
   REI_DO_MES:      null,
+  CORUJA:          null,
+  MADRUGADOR:      null,
+  SORTUDO:         null,
+  FENIX:           null,
 };
 
 const ALL_BADGES: BadgeType[] = [
@@ -25,6 +30,7 @@ const ALL_BADGES: BadgeType[] = [
   "PRIMEIRO_DO_DIA", "ZERO_PENDENCIA", "FUNIL_COMPLETO",
   "PONTUAL", "ENTREGADOR", "CONSTRUTOR", "ENGAJADO", "GERADOR",
   "SPRINT_MASTER", "REI_DO_MES",
+  "CORUJA", "MADRUGADOR", "SORTUDO", "FENIX",
 ];
 
 type Props = {
@@ -39,11 +45,13 @@ type Props = {
   counts:        Partial<Record<ScoreReason, number>>;
   // REI_DO_MES (calculado por UserBadge.count)
   reiDoMesCount: number;
+  // Se o user é admin — vê easter eggs sem desbloquear
+  isAdmin?: boolean;
 };
 
 export default function MyProfileCard({
   userName, monthPoints, totalPoints, position, totalUsers,
-  earnedBadges, counts, reiDoMesCount,
+  earnedBadges, counts, reiDoMesCount, isAdmin = false,
 }: Props) {
   const positionLabel = position
     ? position === 1 ? "🥇 1º"
@@ -73,6 +81,10 @@ export default function MyProfileCard({
   }
 
   const distinctEarned = new Set(earnedBadges.map((b) => b.badge)).size;
+
+  // Filtra easter eggs não conquistados pra não-admin
+  const earnedSet = new Set(earnedBadges.map((b) => b.badge));
+  const visibleBadges = ALL_BADGES.filter((b) => shouldShowBadge(b, isAdmin, earnedSet.has(b)));
 
   return (
     <div className="bg-gradient-to-br from-[#0a0f1a] to-[#0f1623] border border-[#1e2d45] rounded-2xl p-6">
@@ -125,7 +137,7 @@ export default function MyProfileCard({
           Suas conquistas — termômetro de progresso
         </p>
         <div className="grid grid-cols-4 sm:grid-cols-6 gap-3">
-          {ALL_BADGES.map((badge) => (
+          {visibleBadges.map((badge) => (
             <BadgeMedallion
               key={badge}
               badge={badge}

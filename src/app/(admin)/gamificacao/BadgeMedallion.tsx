@@ -1,7 +1,9 @@
 import {
   Zap, CircleCheck, DollarSign, Target, Sunrise, Sparkles,
   TrendingUp, Clock, Rocket, Activity, Crown,
-  Hammer, Repeat, Sprout, type LucideIcon,
+  Hammer, Repeat, Sprout,
+  Moon, Clover, Flame,
+  type LucideIcon,
 } from "lucide-react";
 import { BadgeType } from "@/generated/prisma";
 import {
@@ -13,6 +15,7 @@ const ICONS: Record<string, LucideIcon> = {
   Zap, CircleCheck, DollarSign, Target, Sunrise, Sparkles,
   TrendingUp, Clock, Rocket, Activity, Crown,
   Hammer, Repeat, Sprout,
+  Moon, Clover, Flame,
 };
 
 type Props = {

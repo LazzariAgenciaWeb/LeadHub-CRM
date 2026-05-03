@@ -5,7 +5,7 @@ import { ScoreReason, BadgeType } from "@/generated/prisma";
 import Link from "next/link";
 import { Trophy, ArrowRight } from "lucide-react";
 import BadgeMedallion from "../gamificacao/BadgeMedallion";
-import { BADGE_TIERS } from "../gamificacao/labels";
+import { BADGE_TIERS, shouldShowBadge } from "../gamificacao/labels";
 
 const BADGE_REASON: Record<BadgeType, ScoreReason | null> = {
   RAIO_VELOZ:      "RESPOSTA_RAPIDA_5MIN",
@@ -22,6 +22,10 @@ const BADGE_REASON: Record<BadgeType, ScoreReason | null> = {
   GERADOR:         "TAREFA_CRIADA",
   SPRINT_MASTER:   null,
   REI_DO_MES:      null,
+  CORUJA:          null,
+  MADRUGADOR:      null,
+  SORTUDO:         null,
+  FENIX:           null,
 };
 
 const ALL_BADGES: BadgeType[] = [
@@ -29,6 +33,7 @@ const ALL_BADGES: BadgeType[] = [
   "PRIMEIRO_DO_DIA", "ZERO_PENDENCIA", "FUNIL_COMPLETO",
   "PONTUAL", "ENTREGADOR", "CONSTRUTOR", "ENGAJADO", "GERADOR",
   "SPRINT_MASTER", "REI_DO_MES",
+  "CORUJA", "MADRUGADOR", "SORTUDO", "FENIX",
 ];
 
 export default async function DashboardGamificacaoTop() {
@@ -37,6 +42,8 @@ export default async function DashboardGamificacaoTop() {
 
   const sessionUserId = (session.user as any).id        as string;
   const companyId     = (session.user as any).companyId as string | undefined;
+  const role          = (session.user as any).role      as string;
+  const isAdmin       = role === "ADMIN" || role === "SUPER_ADMIN";
   const isImpersonating = !!(session as any)._impersonating;
 
   if (!companyId) return null;
@@ -81,6 +88,12 @@ export default async function DashboardGamificacaoTop() {
     const cur = maxTierByBadge.get(b.badge) ?? 0;
     if (b.tier > cur) maxTierByBadge.set(b.badge, b.tier);
   }
+
+  // Filtra easter eggs não conquistados pra não-admin
+  const visibleBadges = ALL_BADGES.filter((b) => {
+    const earned = (maxTierByBadge.get(b) ?? 0) > 0;
+    return shouldShowBadge(b, isAdmin, earned);
+  });
   function effectiveCount(badge: BadgeType): number {
     const reason = BADGE_REASON[badge];
     const fromEvents = badge === "REI_DO_MES" ? reiDoMesCount
@@ -122,7 +135,8 @@ export default async function DashboardGamificacaoTop() {
               🎖️ {isImpersonating ? "Conquistas do top da empresa" : "Suas conquistas"}
             </h3>
             <p className="text-slate-500 text-xs mt-0.5">
-              {distinctEarned} de {ALL_BADGES.length} desbloqueadas · {monthPoints} pts no mês
+              {distinctEarned} de {visibleBadges.length} desbloqueadas · {monthPoints} pts no mês
+              {isAdmin && <span className="text-fuchsia-400/70"> · 🥚 vê easter eggs</span>}
               {isImpersonating && me && <span className="text-amber-400/80"> · {me.name}</span>}
             </p>
           </div>
@@ -135,7 +149,7 @@ export default async function DashboardGamificacaoTop() {
         </div>
 
         <div className="grid grid-cols-5 sm:grid-cols-7 gap-2">
-          {ALL_BADGES.map((badge) => (
+          {visibleBadges.map((badge) => (
             <BadgeMedallion key={badge} badge={badge} count={effectiveCount(badge)} size={56} />
           ))}
         </div>

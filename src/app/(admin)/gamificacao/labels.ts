@@ -6,6 +6,9 @@ export type BadgeMeta = {
   emoji:       string;
   name:        string;
   description: string;
+  // Quando true, esconde dos usuários não-admin até que conquistem o tier 1.
+  // Admins (ADMIN/SUPER_ADMIN) sempre veem todas.
+  isHidden?:   boolean;
 };
 
 // Categorias visuais — agrupam badges no painel pra dar contexto
@@ -41,6 +44,10 @@ export const BADGE_CATEGORY: Record<BadgeType, BadgeCategory> = {
   PONTUAL:         "DISCIPLINA",
   SPRINT_MASTER:   "DISCIPLINA",
   REI_DO_MES:      "ESPECIAIS",
+  CORUJA:          "ESPECIAIS",
+  MADRUGADOR:      "ESPECIAIS",
+  SORTUDO:         "ESPECIAIS",
+  FENIX:           "ESPECIAIS",
 };
 
 export const CATEGORY_ORDER: BadgeCategory[] = [
@@ -62,6 +69,11 @@ export const BADGE_META: Record<BadgeType, BadgeMeta> = {
   CONSTRUTOR:      { emoji: "🔨", name: "Construção",       description: "Tarefas de projetos concluídas no ClickUp" },
   ENGAJADO:        { emoji: "🌀", name: "Engajamento",      description: "Tarefas de projetos atualizadas no ClickUp" },
   GERADOR:         { emoji: "🌱", name: "Geração",          description: "Tarefas criadas em projetos no ClickUp" },
+  // Easter eggs — só admins veem antes de conquistar
+  CORUJA:          { emoji: "🦉", name: "Coruja",           description: "Respostas dadas após as 22h",                isHidden: true },
+  MADRUGADOR:      { emoji: "🌙", name: "Madrugador",       description: "Respostas antes das 7h da manhã",            isHidden: true },
+  SORTUDO:          { emoji: "🍀", name: "Sortudo",          description: "Lead criado e fechado no mesmo dia",         isHidden: true },
+  FENIX:            { emoji: "🧨", name: "Fênix",            description: "Recuperou um lead perdido e fechou venda",  isHidden: true },
 };
 
 // ─── Tier definitions ─────────────────────────────────────────────────────────
@@ -187,6 +199,39 @@ export const BADGE_TIERS: Record<BadgeType, Tier[]> = {
     { level: 5, name: "Visionário",    threshold: 400  },
     { level: 6, name: "Highlander",    threshold: 1000 },
   ],
+  // Easter eggs — limiares menores e mais raros
+  CORUJA: [
+    { level: 1, name: "Insônia",       threshold: 3   },
+    { level: 2, name: "Coruja",        threshold: 15  },
+    { level: 3, name: "Notívago",      threshold: 50  },
+    { level: 4, name: "Vampiro",       threshold: 150 },
+    { level: 5, name: "Lua Cheia",     threshold: 400 },
+    { level: 6, name: "Highlander",    threshold: 1000 },
+  ],
+  MADRUGADOR: [
+    { level: 1, name: "Galo",          threshold: 3   },
+    { level: 2, name: "Madrugador",    threshold: 15  },
+    { level: 3, name: "Café Forte",    threshold: 50  },
+    { level: 4, name: "Aurora",        threshold: 150 },
+    { level: 5, name: "Sol da Manhã",  threshold: 400 },
+    { level: 6, name: "Highlander",    threshold: 1000 },
+  ],
+  SORTUDO: [
+    { level: 1, name: "Trevo",         threshold: 1   },
+    { level: 2, name: "Sortudo",       threshold: 3   },
+    { level: 3, name: "Predestinado",  threshold: 10  },
+    { level: 4, name: "Astro",         threshold: 25  },
+    { level: 5, name: "Lendário",      threshold: 60  },
+    { level: 6, name: "Highlander",    threshold: 150 },
+  ],
+  FENIX: [
+    { level: 1, name: "Brasa",         threshold: 1   },
+    { level: 2, name: "Fênix",         threshold: 3   },
+    { level: 3, name: "Renascido",     threshold: 8   },
+    { level: 4, name: "Salvador",      threshold: 20  },
+    { level: 5, name: "Imortal",       threshold: 50  },
+    { level: 6, name: "Highlander",    threshold: 120 },
+  ],
 };
 
 // ─── Estilos visuais por tier ─────────────────────────────────────────────────
@@ -250,6 +295,10 @@ export const BADGE_LUCIDE: Record<BadgeType, string> = {
   GERADOR:         "Sprout",
   SPRINT_MASTER:   "Activity",
   REI_DO_MES:      "Crown",
+  CORUJA:          "Moon",
+  MADRUGADOR:      "Sunrise",
+  SORTUDO:         "Clover",
+  FENIX:           "Flame",
 };
 
 /**
@@ -310,6 +359,21 @@ export const TIER_STYLES: Record<number, TierStyle> = {
     badgeText: "text-fuchsia-200",
   },
 };
+
+/**
+ * Decide se o badge deve ser exibido pra esse usuário:
+ *   - Admins (ADMIN/SUPER_ADMIN) sempre veem todas as badges
+ *   - Usuários CLIENT só veem easter eggs (isHidden=true) se já conquistaram o tier 1
+ */
+export function shouldShowBadge(
+  badge:    BadgeType,
+  isAdmin:  boolean,
+  earned:   boolean,
+): boolean {
+  if (isAdmin) return true;
+  if (!BADGE_META[badge].isHidden) return true;
+  return earned; // mostra hidden só se já tem
+}
 
 /**
  * Dado um BadgeType e um número de eventos, retorna:

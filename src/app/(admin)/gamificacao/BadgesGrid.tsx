@@ -3,7 +3,7 @@ import {
   BADGE_META, BADGE_TIERS, TIER_STYLES, REASON_LABEL,
   BADGE_CATEGORY, CATEGORY_META, CATEGORY_ORDER,
   BAR_GRADIENT, ICON_GLOW,
-  getBadgeProgress,
+  getBadgeProgress, shouldShowBadge,
 } from "./labels";
 import BadgeInfoButton from "./BadgeInfoButton";
 
@@ -15,6 +15,8 @@ type Props = {
   // Tiers já conquistados (UserBadge) — usado como piso de progresso pra
   // tolerar inconsistências entre ScoreEvent e UserBadge.
   earnedBadges: { badge: BadgeType; tier: number }[];
+  // Se o user logado é admin (vê easter eggs antes de desbloquear)
+  isAdmin?: boolean;
 };
 
 // Mapeia BadgeType → ScoreReason que conta para o progresso
@@ -33,6 +35,11 @@ const BADGE_REASON: Record<BadgeType, ScoreReason | null> = {
   GERADOR:         "TAREFA_CRIADA",
   SPRINT_MASTER:   null, // futuro — sem implementação ainda
   REI_DO_MES:      null, // calculado por UserBadge, não por ScoreEvent
+  // Easter eggs — concedidos manualmente / por cron específico (sem ScoreReason direta)
+  CORUJA:          null,
+  MADRUGADOR:      null,
+  SORTUDO:         null,
+  FENIX:           null,
 };
 
 const ALL_BADGES: BadgeType[] = [
@@ -40,15 +47,23 @@ const ALL_BADGES: BadgeType[] = [
   "PRIMEIRO_DO_DIA", "ZERO_PENDENCIA", "FUNIL_COMPLETO",
   "PONTUAL", "ENTREGADOR", "CONSTRUTOR", "ENGAJADO", "GERADOR",
   "SPRINT_MASTER", "REI_DO_MES",
+  // Easter eggs (escondidas pra não-admin)
+  "CORUJA", "MADRUGADOR", "SORTUDO", "FENIX",
 ];
 
-export default function BadgesGrid({ counts, reiDoMesCount, earnedBadges }: Props) {
+export default function BadgesGrid({ counts, reiDoMesCount, earnedBadges, isAdmin = false }: Props) {
   // Maior tier por badge a partir do que já está em UserBadge
   const maxTierByBadge = new Map<BadgeType, number>();
   for (const eb of earnedBadges) {
     const cur = maxTierByBadge.get(eb.badge) ?? 0;
     if (eb.tier > cur) maxTierByBadge.set(eb.badge, eb.tier);
   }
+
+  // Filtra easter eggs não conquistados de não-admin
+  const visibleBadges = ALL_BADGES.filter((b) => {
+    const earned = (maxTierByBadge.get(b) ?? 0) > 0;
+    return shouldShowBadge(b, isAdmin, earned);
+  });
 
   /** Conta efetiva do badge: máx entre eventos atuais e o threshold do tier
    *  já conquistado (garante que badges existentes não apareçam como locked). */
@@ -63,17 +78,17 @@ export default function BadgesGrid({ counts, reiDoMesCount, earnedBadges }: Prop
     return Math.max(fromEvents, tierThreshold);
   }
 
-  // Calcula o tier conquistado de cada badge para o resumo do header
+  // Calcula o tier conquistado das badges visíveis pra resumo do header
   let unlockedCount = 0;
-  for (const badge of ALL_BADGES) {
+  for (const badge of visibleBadges) {
     const { currentTier } = getBadgeProgress(badge, effectiveCount(badge));
     if (currentTier) unlockedCount++;
   }
 
-  // Agrupa badges por categoria preservando a ordem CATEGORY_ORDER
+  // Agrupa badges visíveis por categoria preservando a ordem CATEGORY_ORDER
   const byCategory = CATEGORY_ORDER.map((cat) => ({
     category: cat,
-    badges: ALL_BADGES.filter((b) => BADGE_CATEGORY[b] === cat),
+    badges: visibleBadges.filter((b) => BADGE_CATEGORY[b] === cat),
   })).filter((g) => g.badges.length > 0);
 
   return (
@@ -82,7 +97,8 @@ export default function BadgesGrid({ counts, reiDoMesCount, earnedBadges }: Prop
         <div>
           <h3 className="text-white font-semibold text-sm">🎖️ Conquistas</h3>
           <p className="text-slate-500 text-xs mt-0.5">
-            {unlockedCount} de {ALL_BADGES.length} desbloqueadas — 6 níveis cada
+            {unlockedCount} de {visibleBadges.length} desbloqueadas — 6 níveis cada
+            {isAdmin && <span className="text-fuchsia-400/70"> · 🥚 admin vê easter eggs</span>}
           </p>
         </div>
       </div>

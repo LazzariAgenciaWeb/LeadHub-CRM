@@ -1346,6 +1346,11 @@ enum BadgeType {
   CONSTRUTOR        // tarefas concluídas no ClickUp
   ENGAJADO          // tarefas atualizadas no ClickUp
   GERADOR           // tarefas criadas no ClickUp
+  // Easter eggs — escondidas pra não-admin até desbloquearem
+  CORUJA            // respostas após o expediente (após 22h, dia útil)
+  MADRUGADOR        // respostas antes das 7h
+  SORTUDO           // lead criado e fechado no mesmo dia
+  FENIX             // lead que estava LOST e voltou pra CLOSED
 }
 
 enum ScoreReason {

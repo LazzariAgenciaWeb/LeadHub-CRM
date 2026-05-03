@@ -24,6 +24,8 @@ export default async function GamificacaoPage({
   const sessionUserId = (session.user as any).id        as string;
   const sessionName   = (session.user as any).name      as string;
   const companyId     = (session.user as any).companyId as string | undefined;
+  const role          = (session.user as any).role      as string;
+  const isAdmin       = role === "ADMIN" || role === "SUPER_ADMIN";
   const isImpersonating = !!(session as any)._impersonating;
 
   if (!companyId) {
@@ -121,6 +123,7 @@ export default async function GamificacaoPage({
             earnedBadges={myBadges.map((b) => ({ badge: b.badge, tier: b.tier }))}
             counts={counts}
             reiDoMesCount={reiDoMesCount}
+            isAdmin={isAdmin}
           />
 
           <Leaderboard ranking={ranking} currentUserId={viewUserId} />
@@ -132,6 +135,7 @@ export default async function GamificacaoPage({
             counts={counts}
             reiDoMesCount={reiDoMesCount}
             earnedBadges={myBadges.map((b) => ({ badge: b.badge, tier: b.tier }))}
+            isAdmin={isAdmin}
           />
           <RecentEvents events={myEvents} />
         </div>
