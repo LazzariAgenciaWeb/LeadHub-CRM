@@ -26,7 +26,8 @@ export default async function GamificacaoPage({
   const sessionName   = (session.user as any).name      as string;
   const companyId     = (session.user as any).companyId as string | undefined;
   const role          = (session.user as any).role      as string;
-  const isAdmin       = role === "ADMIN" || role === "SUPER_ADMIN";
+  const canManageUsers = !!(session.user as any).permissions?.canManageUsers;
+  const isAdmin       = role === "ADMIN" || role === "SUPER_ADMIN" || canManageUsers;
   const isImpersonating = !!(session as any)._impersonating;
 
   if (!companyId) {

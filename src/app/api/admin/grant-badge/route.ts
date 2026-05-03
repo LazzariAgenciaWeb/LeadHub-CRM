@@ -9,9 +9,10 @@ export async function POST(req: NextRequest) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
-  const role          = (session.user as any).role as string;
-  const userCompanyId = (session.user as any).companyId as string | undefined;
-  if (role !== "SUPER_ADMIN" && role !== "ADMIN") {
+  const role           = (session.user as any).role as string;
+  const userCompanyId  = (session.user as any).companyId as string | undefined;
+  const canManageUsers = !!(session.user as any).permissions?.canManageUsers;
+  if (role !== "SUPER_ADMIN" && role !== "ADMIN" && !canManageUsers) {
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
 
@@ -23,8 +24,8 @@ export async function POST(req: NextRequest) {
   // ADMIN só pode conceder pra users da própria empresa
   const target = await prisma.user.findUnique({ where: { id: userId }, select: { companyId: true } });
   if (!target) return NextResponse.json({ error: "Usuário não encontrado" }, { status: 404 });
-  if (role === "ADMIN" && target.companyId !== userCompanyId) {
-    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  if (role !== "SUPER_ADMIN" && target.companyId !== userCompanyId) {
+    return NextResponse.json({ error: "Sem permissão (empresa diferente)" }, { status: 403 });
   }
   const targetCompanyId = target.companyId;
   if (!targetCompanyId) return NextResponse.json({ error: "Usuário sem empresa" }, { status: 400 });
@@ -43,9 +44,10 @@ export async function DELETE(req: NextRequest) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
-  const role          = (session.user as any).role as string;
-  const userCompanyId = (session.user as any).companyId as string | undefined;
-  if (role !== "SUPER_ADMIN" && role !== "ADMIN") {
+  const role           = (session.user as any).role as string;
+  const userCompanyId  = (session.user as any).companyId as string | undefined;
+  const canManageUsers = !!(session.user as any).permissions?.canManageUsers;
+  if (role !== "SUPER_ADMIN" && role !== "ADMIN" && !canManageUsers) {
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
 
@@ -59,8 +61,8 @@ export async function DELETE(req: NextRequest) {
 
   const target = await prisma.user.findUnique({ where: { id: userId }, select: { companyId: true } });
   if (!target) return NextResponse.json({ error: "Usuário não encontrado" }, { status: 404 });
-  if (role === "ADMIN" && target.companyId !== userCompanyId) {
-    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  if (role !== "SUPER_ADMIN" && target.companyId !== userCompanyId) {
+    return NextResponse.json({ error: "Sem permissão (empresa diferente)" }, { status: 403 });
   }
 
   await prisma.userBadge.deleteMany({
