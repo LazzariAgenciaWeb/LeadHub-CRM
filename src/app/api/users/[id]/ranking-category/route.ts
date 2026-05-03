@@ -14,7 +14,12 @@ export async function PATCH(
 
   const role           = (session.user as any).role as string;
   const userCompanyId  = (session.user as any).companyId as string | undefined;
-  if (role !== "SUPER_ADMIN" && role !== "ADMIN") {
+  const canManageUsers = !!(session.user as any).permissions?.canManageUsers;
+
+  // SUPER_ADMIN, ADMIN, ou CLIENT com canManageUsers (gerente/líder)
+  const isAuthorized =
+    role === "SUPER_ADMIN" || role === "ADMIN" || canManageUsers;
+  if (!isAuthorized) {
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
 
@@ -22,9 +27,9 @@ export async function PATCH(
   const target = await prisma.user.findUnique({ where: { id }, select: { companyId: true } });
   if (!target) return NextResponse.json({ error: "Usuário não encontrado" }, { status: 404 });
 
-  // Admin só edita usuários da própria empresa
-  if (role === "ADMIN" && target.companyId !== userCompanyId) {
-    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  // Não-super-admin só edita usuários da própria empresa
+  if (role !== "SUPER_ADMIN" && target.companyId !== userCompanyId) {
+    return NextResponse.json({ error: "Sem permissão (empresa diferente)" }, { status: 403 });
   }
 
   const { rankingCategory } = await req.json();
