@@ -132,7 +132,8 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt',
   whatsappSignature: 'whatsappSignature',
   companyId: 'companyId',
-  rankingCategory: 'rankingCategory'
+  rankingCategory: 'rankingCategory',
+  lastBadgeSeenAt: 'lastBadgeSeenAt'
 };
 
 exports.Prisma.VaultEmailChallengeScalarFieldEnum = {
@@ -453,6 +454,7 @@ exports.Prisma.SetorClickupListScalarFieldEnum = {
   taskCompleted: 'taskCompleted',
   taskOverdue: 'taskOverdue',
   taskNoDueDate: 'taskNoDueDate',
+  taskNoAssignee: 'taskNoAssignee',
   lastSyncedAt: 'lastSyncedAt',
   clientExpectedAt: 'clientExpectedAt',
   clientLastContactAt: 'clientLastContactAt',
@@ -467,6 +469,7 @@ exports.Prisma.ProjectTaskStateScalarFieldEnum = {
   name: 'name',
   statusName: 'statusName',
   isCompleted: 'isCompleted',
+  hasNoAssignee: 'hasNoAssignee',
   dateUpdated: 'dateUpdated',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -681,12 +684,40 @@ exports.Prisma.BusinessHoursIntervalScalarFieldEnum = {
   label: 'label'
 };
 
+exports.Prisma.RewardScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  name: 'name',
+  description: 'description',
+  cost: 'cost',
+  available: 'available',
+  imageUrl: 'imageUrl',
+  stock: 'stock',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RewardRedemptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  companyId: 'companyId',
+  rewardId: 'rewardId',
+  rewardName: 'rewardName',
+  cost: 'cost',
+  status: 'status',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  resolvedAt: 'resolvedAt'
+};
+
 exports.Prisma.UserScoreScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   companyId: 'companyId',
   totalPoints: 'totalPoints',
   monthPoints: 'monthPoints',
+  redeemablePoints: 'redeemablePoints',
   month: 'month',
   year: 'year',
   createdAt: 'createdAt',
@@ -920,6 +951,13 @@ exports.SubscriptionStatus = exports.$Enums.SubscriptionStatus = {
   INCOMPLETE: 'INCOMPLETE'
 };
 
+exports.RedemptionStatus = exports.$Enums.RedemptionStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  DELIVERED: 'DELIVERED',
+  REJECTED: 'REJECTED'
+};
+
 exports.BadgeType = exports.$Enums.BadgeType = {
   RAIO_VELOZ: 'RAIO_VELOZ',
   SPRINT_MASTER: 'SPRINT_MASTER',
@@ -963,7 +1001,14 @@ exports.ScoreReason = exports.$Enums.ScoreReason = {
   TAREFA_CRIADA: 'TAREFA_CRIADA',
   TAREFA_ATUALIZADA: 'TAREFA_ATUALIZADA',
   TAREFA_CONCLUIDA: 'TAREFA_CONCLUIDA',
-  TAREFA_ATRASADA: 'TAREFA_ATRASADA'
+  TAREFA_ATRASADA: 'TAREFA_ATRASADA',
+  TAREFA_SEM_RESPONSAVEL: 'TAREFA_SEM_RESPONSAVEL',
+  STREAK_DIA: 'STREAK_DIA',
+  BONUS_NOITE: 'BONUS_NOITE',
+  BONUS_MADRUGADA: 'BONUS_MADRUGADA',
+  BONUS_VENDA_RAPIDA: 'BONUS_VENDA_RAPIDA',
+  BONUS_RECUPERACAO: 'BONUS_RECUPERACAO',
+  BONUS_SUPEROU_MES: 'BONUS_SUPEROU_MES'
 };
 
 exports.Prisma.ModelName = {
@@ -1007,6 +1052,8 @@ exports.Prisma.ModelName = {
   Subscription: 'Subscription',
   BusinessHoursConfig: 'BusinessHoursConfig',
   BusinessHoursInterval: 'BusinessHoursInterval',
+  Reward: 'Reward',
+  RewardRedemption: 'RewardRedemption',
   UserScore: 'UserScore',
   UserBadge: 'UserBadge',
   ScoreEvent: 'ScoreEvent',

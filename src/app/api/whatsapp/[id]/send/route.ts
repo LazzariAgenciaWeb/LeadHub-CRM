@@ -109,6 +109,7 @@ export async function POST(
     //  1. Resposta rápida (1ª resposta da conversa, dentro de 5/30 min úteis)
     //  2. Primeiro contato em conversa de outro — quando não sou o assignee,
     //     ganho um bônus pequeno por triar/encaminhar (idempotente por conversa).
+    //  3. Easter eggs: Coruja (resposta após 22h) e Madrugador (antes 7h)
     if (userId && convBefore) {
       // 1. Resposta rápida (uma vez por conversa, controlado por firstResponseAt)
       if (!convBefore.firstResponseAt) {
@@ -122,6 +123,15 @@ export async function POST(
       const isNotMine = !convBefore.assigneeId || convBefore.assigneeId !== userId;
       if (isNotMine) {
         void addScoreOnce(userId, instance.companyId, "PRIMEIRO_CONTATO", conv.id).catch(() => {});
+      }
+      // 3. Easter eggs por horário — idempotente por (user, dia)
+      const now = new Date();
+      const hour = now.getHours();
+      const dayKey = now.toISOString().slice(0, 10); // YYYY-MM-DD
+      if (hour >= 22 || hour < 5) {
+        void addScoreOnce(userId, instance.companyId, "BONUS_NOITE", `${userId}:${dayKey}:noite`).catch(() => {});
+      } else if (hour < 7) {
+        void addScoreOnce(userId, instance.companyId, "BONUS_MADRUGADA", `${userId}:${dayKey}:madrugada`).catch(() => {});
       }
     }
 

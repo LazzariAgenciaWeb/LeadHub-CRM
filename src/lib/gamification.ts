@@ -38,9 +38,18 @@ export const SCORE_TABLE: Record<ScoreReason, number> = {
   PROJETO_ATRASADO:       -30,   // projeto entregue depois do dueDate
   TAREFA_SEM_PRAZO:        -3,   // tarefas no ClickUp sem due_date (cron diário)
   TAREFA_ATRASADA:         -3,   // tarefas no ClickUp overdue (cron diário)
+  TAREFA_SEM_RESPONSAVEL:  -3,   // tarefas no ClickUp sem assignee (cron diário)
   TAREFA_CRIADA:            1,   // tarefa criada no ClickUp (sync)
   TAREFA_ATUALIZADA:        1,   // tarefa atualizada no ClickUp (sync)
   TAREFA_CONCLUIDA:         3,   // tarefa concluída no ClickUp (sync)
+  STREAK_DIA:               1,   // alimenta SPRINT_MASTER (1 ponto por dia consecutivo)
+  // Easter eggs — pequenos bônus
+  BONUS_NOITE:              2,
+  BONUS_MADRUGADA:          2,
+  BONUS_VENDA_RAPIDA:      10,
+  BONUS_RECUPERACAO:       15,
+  // Bônus mensal por superar mês anterior
+  BONUS_SUPEROU_MES:       30,
 };
 
 // ─── Regras de badges (6 tiers cada) ──────────────────────────────────────────
@@ -114,6 +123,32 @@ const BADGE_RULES: BadgeRule[] = [
     reasons: [ScoreReason.TAREFA_CRIADA],
     thresholds: [5, 20, 60, 150, 400, 1000],
   },
+  {
+    badge: BadgeType.SPRINT_MASTER,
+    reasons: [ScoreReason.STREAK_DIA],
+    thresholds: [3, 7, 15, 30, 60, 180],
+  },
+  // Easter eggs
+  {
+    badge: BadgeType.CORUJA,
+    reasons: [ScoreReason.BONUS_NOITE],
+    thresholds: [3, 15, 50, 150, 400, 1000],
+  },
+  {
+    badge: BadgeType.MADRUGADOR,
+    reasons: [ScoreReason.BONUS_MADRUGADA],
+    thresholds: [3, 15, 50, 150, 400, 1000],
+  },
+  {
+    badge: BadgeType.SORTUDO,
+    reasons: [ScoreReason.BONUS_VENDA_RAPIDA],
+    thresholds: [1, 3, 10, 25, 60, 150],
+  },
+  {
+    badge: BadgeType.FENIX,
+    reasons: [ScoreReason.BONUS_RECUPERACAO],
+    thresholds: [1, 3, 8, 20, 50, 120],
+  },
 ];
 
 // REI_DO_MES tem rule especial — é incrementado pelo cron via grantReiDoMes.
@@ -170,6 +205,9 @@ export async function addScore(
 
   // Só atualiza o placar se a razão afeta ranking
   if (rule.affectsRanking) {
+    // redeemablePoints só incrementa pra pontos positivos (penalidade não tira do bolso)
+    const redeemableDelta = Math.max(0, points);
+
     await prisma.userScore.upsert({
       where: { userId_month_year: { userId, month, year } },
       create: {
@@ -177,12 +215,14 @@ export async function addScore(
         companyId,
         month,
         year,
-        monthPoints: Math.max(0, points),
-        totalPoints: Math.max(0, points),
+        monthPoints:      Math.max(0, points),
+        totalPoints:      Math.max(0, points),
+        redeemablePoints: redeemableDelta,
       },
       update: {
-        monthPoints: { increment: points },
-        totalPoints: { increment: points },
+        monthPoints:      { increment: points },
+        totalPoints:      { increment: points },
+        redeemablePoints: { increment: redeemableDelta },
       },
     });
 
@@ -342,27 +382,53 @@ export async function grantReiDoMes(companyId: string): Promise<void> {
 // ─── resetMonthlyScores ───────────────────────────────────────────────────────
 
 /**
- * Zera monthPoints para todos os usuários da empresa.
+ * Zera monthPoints para todos os usuários da empresa e concede BONUS_SUPEROU_MES
+ * a quem superou os pontos do mês anterior (estímulo a melhorar).
+ *
  * Chamado pelo cron no dia 1 de cada mês (APÓS grantReiDoMes).
- * totalPoints nunca é alterado.
+ * totalPoints e redeemablePoints nunca são alterados.
  */
 export async function resetMonthlyScores(companyId: string): Promise<void> {
-  const now   = new Date();
-  const month = now.getMonth() + 1;
-  const year  = now.getFullYear();
+  const now           = new Date();
+  const newMonth      = now.getMonth() + 1;
+  const newYear       = now.getFullYear();
+  // Mês que acabou de fechar
+  const closedMonth   = now.getMonth() === 0 ? 12 : now.getMonth();
+  const closedYear    = now.getMonth() === 0 ? now.getFullYear() - 1 : now.getFullYear();
+  // Mês ANTERIOR ao que fechou (pra comparar)
+  const prevMonth     = closedMonth === 1 ? 12 : closedMonth - 1;
+  const prevYear      = closedMonth === 1 ? closedYear - 1 : closedYear;
+
+  // Pega scores de todos usuários nos 2 meses pra comparar
+  const closedScores = await prisma.userScore.findMany({
+    where:  { companyId, month: closedMonth, year: closedYear },
+  });
+  const prevScores = await prisma.userScore.findMany({
+    where:  { companyId, month: prevMonth, year: prevYear },
+  });
+  const prevByUser = new Map(prevScores.map((s) => [s.userId, s.monthPoints]));
+
+  // Quem superou o mês anterior ganha BONUS_SUPEROU_MES (entra no novo mês)
+  for (const cur of closedScores) {
+    const before = prevByUser.get(cur.userId) ?? 0;
+    if (cur.monthPoints > before && before > 0) {
+      // só bonifica quem realmente cresceu (evita +30 pra quem estreou agora)
+      await addScore(cur.userId, companyId, ScoreReason.BONUS_SUPEROU_MES);
+    }
+  }
 
   // Cria o registro vazio do novo mês para todos que já tiveram pontuação
   const previous = await prisma.userScore.findMany({
-    where:  { companyId },
-    select: { userId: true },
+    where:    { companyId },
+    select:   { userId: true },
     distinct: ["userId"],
   });
 
   await prisma.$transaction(
     previous.map((s) =>
       prisma.userScore.upsert({
-        where:  { userId_month_year: { userId: s.userId, month, year } },
-        create: { userId: s.userId, companyId, month, year, monthPoints: 0, totalPoints: 0 },
+        where:  { userId_month_year: { userId: s.userId, month: newMonth, year: newYear } },
+        create: { userId: s.userId, companyId, month: newMonth, year: newYear, monthPoints: 0, totalPoints: 0, redeemablePoints: 0 },
         update: { monthPoints: 0 },
       })
     )
@@ -451,7 +517,7 @@ export async function runDailyPenalties(companyId: string): Promise<void> {
  */
 export async function syncProjectTasks(
   projectId: string,
-  tasks:     Array<{ id: string; name: string; statusName: string | null; isCompleted: boolean; dueDate: number | null; dateUpdated: number | null }>,
+  tasks:     Array<{ id: string; name: string; statusName: string | null; isCompleted: boolean; hasNoAssignee: boolean; dueDate: number | null; dateUpdated: number | null }>,
 ): Promise<{ created: number; updated: number; completed: number }> {
   const project = await prisma.setorClickupList.findUnique({
     where: { id: projectId },
@@ -477,17 +543,20 @@ export async function syncProjectTasks(
 
   // Atualiza agregados
   const now = Date.now();
-  let taskCount = 0, taskCompleted = 0, taskOverdue = 0, taskNoDueDate = 0;
+  let taskCount = 0, taskCompleted = 0, taskOverdue = 0, taskNoDueDate = 0, taskNoAssignee = 0;
   for (const t of tasks) {
     taskCount++;
     if (t.isCompleted) taskCompleted++;
-    else if (t.dueDate && t.dueDate < now) taskOverdue++;
-    else if (!t.dueDate) taskNoDueDate++;
+    else {
+      if (t.dueDate && t.dueDate < now) taskOverdue++;
+      else if (!t.dueDate) taskNoDueDate++;
+      if (t.hasNoAssignee) taskNoAssignee++;
+    }
   }
 
   await prisma.setorClickupList.update({
     where: { id: projectId },
-    data:  { taskCount, taskCompleted, taskOverdue, taskNoDueDate, lastSyncedAt: new Date() },
+    data:  { taskCount, taskCompleted, taskOverdue, taskNoDueDate, taskNoAssignee, lastSyncedAt: new Date() },
   });
 
   let created = 0, updated = 0, completed = 0;
@@ -538,17 +607,19 @@ export async function syncProjectTasks(
       where: { projectId_taskId: { projectId, taskId: t.id } },
       create: {
         projectId,
-        taskId:      t.id,
-        name:        t.name,
-        statusName:  t.statusName,
-        isCompleted: t.isCompleted,
-        dateUpdated: t.dateUpdated ? BigInt(t.dateUpdated) : null,
+        taskId:        t.id,
+        name:          t.name,
+        statusName:    t.statusName,
+        isCompleted:   t.isCompleted,
+        hasNoAssignee: t.hasNoAssignee,
+        dateUpdated:   t.dateUpdated ? BigInt(t.dateUpdated) : null,
       },
       update: {
-        name:        t.name,
-        statusName:  t.statusName,
-        isCompleted: t.isCompleted,
-        dateUpdated: t.dateUpdated ? BigInt(t.dateUpdated) : null,
+        name:          t.name,
+        statusName:    t.statusName,
+        isCompleted:   t.isCompleted,
+        hasNoAssignee: t.hasNoAssignee,
+        dateUpdated:   t.dateUpdated ? BigInt(t.dateUpdated) : null,
       },
     });
   }
@@ -594,8 +665,9 @@ export async function runProjectsDailyPenalties(companyId: string): Promise<void
       status: { notIn: ["ENTREGUE", "CANCELADO"] },
       setor:  { companyId },
       OR: [
-        { taskNoDueDate: { gt: 0 } },
-        { taskOverdue:   { gt: 0 } },
+        { taskNoDueDate:   { gt: 0 } },
+        { taskOverdue:     { gt: 0 } },
+        { taskNoAssignee:  { gt: 0 } },
       ],
     },
     include: {
@@ -607,8 +679,9 @@ export async function runProjectsDailyPenalties(companyId: string): Promise<void
     if (proj.members.length === 0) continue; // sem ninguém pra penalizar
 
     const reasons: ScoreReason[] = [];
-    if (proj.taskNoDueDate > 0) reasons.push(ScoreReason.TAREFA_SEM_PRAZO);
-    if (proj.taskOverdue > 0)   reasons.push(ScoreReason.TAREFA_ATRASADA);
+    if (proj.taskNoDueDate  > 0) reasons.push(ScoreReason.TAREFA_SEM_PRAZO);
+    if (proj.taskOverdue    > 0) reasons.push(ScoreReason.TAREFA_ATRASADA);
+    if (proj.taskNoAssignee > 0) reasons.push(ScoreReason.TAREFA_SEM_RESPONSAVEL);
 
     for (const m of proj.members) {
       for (const reason of reasons) {
@@ -711,6 +784,22 @@ export async function runDiaSemAtraso(companyId: string): Promise<void> {
     if (hasActive === 0) continue;
 
     await addScore(userId, companyId, ScoreReason.DIA_SEM_ATRASO);
+
+    // Streak — se ontem também recebeu DIA_SEM_ATRASO, conta como sequência (alimenta SPRINT_MASTER)
+    const yesterdayStart = new Date(startOfDay.getTime() - 24 * 60 * 60 * 1000);
+    const yesterdayEnd   = new Date(startOfDay.getTime() - 1);
+    const yesterdayEvent = await prisma.scoreEvent.findFirst({
+      where: {
+        userId,
+        companyId,
+        reason:    ScoreReason.DIA_SEM_ATRASO,
+        createdAt: { gte: yesterdayStart, lte: yesterdayEnd },
+      },
+      select: { id: true },
+    });
+    if (yesterdayEvent) {
+      await addScore(userId, companyId, ScoreReason.STREAK_DIA);
+    }
   }
 }
 

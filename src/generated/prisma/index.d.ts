@@ -214,6 +214,16 @@ export type BusinessHoursConfig = $Result.DefaultSelection<Prisma.$BusinessHours
  */
 export type BusinessHoursInterval = $Result.DefaultSelection<Prisma.$BusinessHoursIntervalPayload>
 /**
+ * Model Reward
+ * 
+ */
+export type Reward = $Result.DefaultSelection<Prisma.$RewardPayload>
+/**
+ * Model RewardRedemption
+ * 
+ */
+export type RewardRedemption = $Result.DefaultSelection<Prisma.$RewardRedemptionPayload>
+/**
  * Model UserScore
  * 
  */
@@ -465,6 +475,16 @@ export const SubscriptionStatus: {
 export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus]
 
 
+export const RedemptionStatus: {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  DELIVERED: 'DELIVERED',
+  REJECTED: 'REJECTED'
+};
+
+export type RedemptionStatus = (typeof RedemptionStatus)[keyof typeof RedemptionStatus]
+
+
 export const BadgeType: {
   RAIO_VELOZ: 'RAIO_VELOZ',
   SPRINT_MASTER: 'SPRINT_MASTER',
@@ -511,7 +531,14 @@ export const ScoreReason: {
   TAREFA_CRIADA: 'TAREFA_CRIADA',
   TAREFA_ATUALIZADA: 'TAREFA_ATUALIZADA',
   TAREFA_CONCLUIDA: 'TAREFA_CONCLUIDA',
-  TAREFA_ATRASADA: 'TAREFA_ATRASADA'
+  TAREFA_ATRASADA: 'TAREFA_ATRASADA',
+  TAREFA_SEM_RESPONSAVEL: 'TAREFA_SEM_RESPONSAVEL',
+  STREAK_DIA: 'STREAK_DIA',
+  BONUS_NOITE: 'BONUS_NOITE',
+  BONUS_MADRUGADA: 'BONUS_MADRUGADA',
+  BONUS_VENDA_RAPIDA: 'BONUS_VENDA_RAPIDA',
+  BONUS_RECUPERACAO: 'BONUS_RECUPERACAO',
+  BONUS_SUPEROU_MES: 'BONUS_SUPEROU_MES'
 };
 
 export type ScoreReason = (typeof ScoreReason)[keyof typeof ScoreReason]
@@ -597,6 +624,10 @@ export const PlanTier: typeof $Enums.PlanTier
 export type SubscriptionStatus = $Enums.SubscriptionStatus
 
 export const SubscriptionStatus: typeof $Enums.SubscriptionStatus
+
+export type RedemptionStatus = $Enums.RedemptionStatus
+
+export const RedemptionStatus: typeof $Enums.RedemptionStatus
 
 export type BadgeType = $Enums.BadgeType
 
@@ -1130,6 +1161,26 @@ export class PrismaClient<
   get businessHoursInterval(): Prisma.BusinessHoursIntervalDelegate<ExtArgs>;
 
   /**
+   * `prisma.reward`: Exposes CRUD operations for the **Reward** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Rewards
+    * const rewards = await prisma.reward.findMany()
+    * ```
+    */
+  get reward(): Prisma.RewardDelegate<ExtArgs>;
+
+  /**
+   * `prisma.rewardRedemption`: Exposes CRUD operations for the **RewardRedemption** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RewardRedemptions
+    * const rewardRedemptions = await prisma.rewardRedemption.findMany()
+    * ```
+    */
+  get rewardRedemption(): Prisma.RewardRedemptionDelegate<ExtArgs>;
+
+  /**
    * `prisma.userScore`: Exposes CRUD operations for the **UserScore** model.
     * Example usage:
     * ```ts
@@ -1659,6 +1710,8 @@ export namespace Prisma {
     Subscription: 'Subscription',
     BusinessHoursConfig: 'BusinessHoursConfig',
     BusinessHoursInterval: 'BusinessHoursInterval',
+    Reward: 'Reward',
+    RewardRedemption: 'RewardRedemption',
     UserScore: 'UserScore',
     UserBadge: 'UserBadge',
     ScoreEvent: 'ScoreEvent',
@@ -1679,7 +1732,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "billingEvent"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "billingEvent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4483,6 +4536,146 @@ export namespace Prisma {
           }
         }
       }
+      Reward: {
+        payload: Prisma.$RewardPayload<ExtArgs>
+        fields: Prisma.RewardFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RewardFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RewardPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RewardFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RewardPayload>
+          }
+          findFirst: {
+            args: Prisma.RewardFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RewardPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RewardFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RewardPayload>
+          }
+          findMany: {
+            args: Prisma.RewardFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RewardPayload>[]
+          }
+          create: {
+            args: Prisma.RewardCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RewardPayload>
+          }
+          createMany: {
+            args: Prisma.RewardCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RewardCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RewardPayload>[]
+          }
+          delete: {
+            args: Prisma.RewardDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RewardPayload>
+          }
+          update: {
+            args: Prisma.RewardUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RewardPayload>
+          }
+          deleteMany: {
+            args: Prisma.RewardDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RewardUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.RewardUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RewardPayload>
+          }
+          aggregate: {
+            args: Prisma.RewardAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReward>
+          }
+          groupBy: {
+            args: Prisma.RewardGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RewardGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RewardCountArgs<ExtArgs>
+            result: $Utils.Optional<RewardCountAggregateOutputType> | number
+          }
+        }
+      }
+      RewardRedemption: {
+        payload: Prisma.$RewardRedemptionPayload<ExtArgs>
+        fields: Prisma.RewardRedemptionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RewardRedemptionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RewardRedemptionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RewardRedemptionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RewardRedemptionPayload>
+          }
+          findFirst: {
+            args: Prisma.RewardRedemptionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RewardRedemptionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RewardRedemptionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RewardRedemptionPayload>
+          }
+          findMany: {
+            args: Prisma.RewardRedemptionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RewardRedemptionPayload>[]
+          }
+          create: {
+            args: Prisma.RewardRedemptionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RewardRedemptionPayload>
+          }
+          createMany: {
+            args: Prisma.RewardRedemptionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RewardRedemptionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RewardRedemptionPayload>[]
+          }
+          delete: {
+            args: Prisma.RewardRedemptionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RewardRedemptionPayload>
+          }
+          update: {
+            args: Prisma.RewardRedemptionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RewardRedemptionPayload>
+          }
+          deleteMany: {
+            args: Prisma.RewardRedemptionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RewardRedemptionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.RewardRedemptionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RewardRedemptionPayload>
+          }
+          aggregate: {
+            args: Prisma.RewardRedemptionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRewardRedemption>
+          }
+          groupBy: {
+            args: Prisma.RewardRedemptionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RewardRedemptionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RewardRedemptionCountArgs<ExtArgs>
+            result: $Utils.Optional<RewardRedemptionCountAggregateOutputType> | number
+          }
+        }
+      }
       UserScore: {
         payload: Prisma.$UserScorePayload<ExtArgs>
         fields: Prisma.UserScoreFieldRefs
@@ -5005,6 +5198,7 @@ export namespace Prisma {
     userBadges: number
     scoreEvents: number
     projectMemberships: number
+    rewardRedemptions: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5019,6 +5213,7 @@ export namespace Prisma {
     userBadges?: boolean | UserCountOutputTypeCountUserBadgesArgs
     scoreEvents?: boolean | UserCountOutputTypeCountScoreEventsArgs
     projectMemberships?: boolean | UserCountOutputTypeCountProjectMembershipsArgs
+    rewardRedemptions?: boolean | UserCountOutputTypeCountRewardRedemptionsArgs
   }
 
   // Custom InputTypes
@@ -5109,6 +5304,13 @@ export namespace Prisma {
     where?: ProjectMemberWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRewardRedemptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RewardRedemptionWhereInput
+  }
+
 
   /**
    * Count Type CompanyCountOutputType
@@ -5122,6 +5324,8 @@ export namespace Prisma {
     scoreEvents: number
     scoreRuleConfigs: number
     setorClickupListsAsClient: number
+    rewards: number
+    rewardRedemptions: number
     businessHours: number
     campaigns: number
     leads: number
@@ -5155,6 +5359,8 @@ export namespace Prisma {
     scoreEvents?: boolean | CompanyCountOutputTypeCountScoreEventsArgs
     scoreRuleConfigs?: boolean | CompanyCountOutputTypeCountScoreRuleConfigsArgs
     setorClickupListsAsClient?: boolean | CompanyCountOutputTypeCountSetorClickupListsAsClientArgs
+    rewards?: boolean | CompanyCountOutputTypeCountRewardsArgs
+    rewardRedemptions?: boolean | CompanyCountOutputTypeCountRewardRedemptionsArgs
     businessHours?: boolean | CompanyCountOutputTypeCountBusinessHoursArgs
     campaigns?: boolean | CompanyCountOutputTypeCountCampaignsArgs
     leads?: boolean | CompanyCountOutputTypeCountLeadsArgs
@@ -5238,6 +5444,20 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountSetorClickupListsAsClientArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SetorClickupListWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountRewardsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RewardWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountRewardRedemptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RewardRedemptionWhereInput
   }
 
   /**
@@ -5897,6 +6117,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type RewardCountOutputType
+   */
+
+  export type RewardCountOutputType = {
+    redemptions: number
+  }
+
+  export type RewardCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    redemptions?: boolean | RewardCountOutputTypeCountRedemptionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * RewardCountOutputType without action
+   */
+  export type RewardCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RewardCountOutputType
+     */
+    select?: RewardCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * RewardCountOutputType without action
+   */
+  export type RewardCountOutputTypeCountRedemptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RewardRedemptionWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -5921,6 +6172,7 @@ export namespace Prisma {
     whatsappSignature: string | null
     companyId: string | null
     rankingCategory: $Enums.RankingCategory | null
+    lastBadgeSeenAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -5934,6 +6186,7 @@ export namespace Prisma {
     whatsappSignature: string | null
     companyId: string | null
     rankingCategory: $Enums.RankingCategory | null
+    lastBadgeSeenAt: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -5947,6 +6200,7 @@ export namespace Prisma {
     whatsappSignature: number
     companyId: number
     rankingCategory: number
+    lastBadgeSeenAt: number
     _all: number
   }
 
@@ -5962,6 +6216,7 @@ export namespace Prisma {
     whatsappSignature?: true
     companyId?: true
     rankingCategory?: true
+    lastBadgeSeenAt?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -5975,6 +6230,7 @@ export namespace Prisma {
     whatsappSignature?: true
     companyId?: true
     rankingCategory?: true
+    lastBadgeSeenAt?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -5988,6 +6244,7 @@ export namespace Prisma {
     whatsappSignature?: true
     companyId?: true
     rankingCategory?: true
+    lastBadgeSeenAt?: true
     _all?: true
   }
 
@@ -6074,6 +6331,7 @@ export namespace Prisma {
     whatsappSignature: string | null
     companyId: string | null
     rankingCategory: $Enums.RankingCategory
+    lastBadgeSeenAt: Date | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -6104,6 +6362,7 @@ export namespace Prisma {
     whatsappSignature?: boolean
     companyId?: boolean
     rankingCategory?: boolean
+    lastBadgeSeenAt?: boolean
     company?: boolean | User$companyArgs<ExtArgs>
     ticketsCreated?: boolean | User$ticketsCreatedArgs<ExtArgs>
     ticketsAssigned?: boolean | User$ticketsAssignedArgs<ExtArgs>
@@ -6117,6 +6376,7 @@ export namespace Prisma {
     userBadges?: boolean | User$userBadgesArgs<ExtArgs>
     scoreEvents?: boolean | User$scoreEventsArgs<ExtArgs>
     projectMemberships?: boolean | User$projectMembershipsArgs<ExtArgs>
+    rewardRedemptions?: boolean | User$rewardRedemptionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -6131,6 +6391,7 @@ export namespace Prisma {
     whatsappSignature?: boolean
     companyId?: boolean
     rankingCategory?: boolean
+    lastBadgeSeenAt?: boolean
     company?: boolean | User$companyArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -6145,6 +6406,7 @@ export namespace Prisma {
     whatsappSignature?: boolean
     companyId?: boolean
     rankingCategory?: boolean
+    lastBadgeSeenAt?: boolean
   }
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6161,6 +6423,7 @@ export namespace Prisma {
     userBadges?: boolean | User$userBadgesArgs<ExtArgs>
     scoreEvents?: boolean | User$scoreEventsArgs<ExtArgs>
     projectMemberships?: boolean | User$projectMembershipsArgs<ExtArgs>
+    rewardRedemptions?: boolean | User$rewardRedemptionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6183,6 +6446,7 @@ export namespace Prisma {
       userBadges: Prisma.$UserBadgePayload<ExtArgs>[]
       scoreEvents: Prisma.$ScoreEventPayload<ExtArgs>[]
       projectMemberships: Prisma.$ProjectMemberPayload<ExtArgs>[]
+      rewardRedemptions: Prisma.$RewardRedemptionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6195,6 +6459,7 @@ export namespace Prisma {
       whatsappSignature: string | null
       companyId: string | null
       rankingCategory: $Enums.RankingCategory
+      lastBadgeSeenAt: Date | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -6572,6 +6837,7 @@ export namespace Prisma {
     userBadges<T extends User$userBadgesArgs<ExtArgs> = {}>(args?: Subset<T, User$userBadgesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserBadgePayload<ExtArgs>, T, "findMany"> | Null>
     scoreEvents<T extends User$scoreEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$scoreEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScoreEventPayload<ExtArgs>, T, "findMany"> | Null>
     projectMemberships<T extends User$projectMembershipsArgs<ExtArgs> = {}>(args?: Subset<T, User$projectMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMemberPayload<ExtArgs>, T, "findMany"> | Null>
+    rewardRedemptions<T extends User$rewardRedemptionsArgs<ExtArgs> = {}>(args?: Subset<T, User$rewardRedemptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RewardRedemptionPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6611,6 +6877,7 @@ export namespace Prisma {
     readonly whatsappSignature: FieldRef<"User", 'String'>
     readonly companyId: FieldRef<"User", 'String'>
     readonly rankingCategory: FieldRef<"User", 'RankingCategory'>
+    readonly lastBadgeSeenAt: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -7176,6 +7443,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ProjectMemberScalarFieldEnum | ProjectMemberScalarFieldEnum[]
+  }
+
+  /**
+   * User.rewardRedemptions
+   */
+  export type User$rewardRedemptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RewardRedemption
+     */
+    select?: RewardRedemptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardRedemptionInclude<ExtArgs> | null
+    where?: RewardRedemptionWhereInput
+    orderBy?: RewardRedemptionOrderByWithRelationInput | RewardRedemptionOrderByWithRelationInput[]
+    cursor?: RewardRedemptionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RewardRedemptionScalarFieldEnum | RewardRedemptionScalarFieldEnum[]
   }
 
   /**
@@ -10446,6 +10733,8 @@ export namespace Prisma {
     scoreEvents?: boolean | Company$scoreEventsArgs<ExtArgs>
     scoreRuleConfigs?: boolean | Company$scoreRuleConfigsArgs<ExtArgs>
     setorClickupListsAsClient?: boolean | Company$setorClickupListsAsClientArgs<ExtArgs>
+    rewards?: boolean | Company$rewardsArgs<ExtArgs>
+    rewardRedemptions?: boolean | Company$rewardRedemptionsArgs<ExtArgs>
     businessHours?: boolean | Company$businessHoursArgs<ExtArgs>
     campaigns?: boolean | Company$campaignsArgs<ExtArgs>
     leads?: boolean | Company$leadsArgs<ExtArgs>
@@ -10529,6 +10818,8 @@ export namespace Prisma {
     scoreEvents?: boolean | Company$scoreEventsArgs<ExtArgs>
     scoreRuleConfigs?: boolean | Company$scoreRuleConfigsArgs<ExtArgs>
     setorClickupListsAsClient?: boolean | Company$setorClickupListsAsClientArgs<ExtArgs>
+    rewards?: boolean | Company$rewardsArgs<ExtArgs>
+    rewardRedemptions?: boolean | Company$rewardRedemptionsArgs<ExtArgs>
     businessHours?: boolean | Company$businessHoursArgs<ExtArgs>
     campaigns?: boolean | Company$campaignsArgs<ExtArgs>
     leads?: boolean | Company$leadsArgs<ExtArgs>
@@ -10570,6 +10861,8 @@ export namespace Prisma {
       scoreEvents: Prisma.$ScoreEventPayload<ExtArgs>[]
       scoreRuleConfigs: Prisma.$ScoreRuleConfigPayload<ExtArgs>[]
       setorClickupListsAsClient: Prisma.$SetorClickupListPayload<ExtArgs>[]
+      rewards: Prisma.$RewardPayload<ExtArgs>[]
+      rewardRedemptions: Prisma.$RewardRedemptionPayload<ExtArgs>[]
       businessHours: Prisma.$BusinessHoursConfigPayload<ExtArgs>[]
       campaigns: Prisma.$CampaignPayload<ExtArgs>[]
       leads: Prisma.$LeadPayload<ExtArgs>[]
@@ -10988,6 +11281,8 @@ export namespace Prisma {
     scoreEvents<T extends Company$scoreEventsArgs<ExtArgs> = {}>(args?: Subset<T, Company$scoreEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScoreEventPayload<ExtArgs>, T, "findMany"> | Null>
     scoreRuleConfigs<T extends Company$scoreRuleConfigsArgs<ExtArgs> = {}>(args?: Subset<T, Company$scoreRuleConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScoreRuleConfigPayload<ExtArgs>, T, "findMany"> | Null>
     setorClickupListsAsClient<T extends Company$setorClickupListsAsClientArgs<ExtArgs> = {}>(args?: Subset<T, Company$setorClickupListsAsClientArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findMany"> | Null>
+    rewards<T extends Company$rewardsArgs<ExtArgs> = {}>(args?: Subset<T, Company$rewardsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RewardPayload<ExtArgs>, T, "findMany"> | Null>
+    rewardRedemptions<T extends Company$rewardRedemptionsArgs<ExtArgs> = {}>(args?: Subset<T, Company$rewardRedemptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RewardRedemptionPayload<ExtArgs>, T, "findMany"> | Null>
     businessHours<T extends Company$businessHoursArgs<ExtArgs> = {}>(args?: Subset<T, Company$businessHoursArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BusinessHoursConfigPayload<ExtArgs>, T, "findMany"> | Null>
     campaigns<T extends Company$campaignsArgs<ExtArgs> = {}>(args?: Subset<T, Company$campaignsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findMany"> | Null>
     leads<T extends Company$leadsArgs<ExtArgs> = {}>(args?: Subset<T, Company$leadsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findMany"> | Null>
@@ -11531,6 +11826,46 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SetorClickupListScalarFieldEnum | SetorClickupListScalarFieldEnum[]
+  }
+
+  /**
+   * Company.rewards
+   */
+  export type Company$rewardsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reward
+     */
+    select?: RewardSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardInclude<ExtArgs> | null
+    where?: RewardWhereInput
+    orderBy?: RewardOrderByWithRelationInput | RewardOrderByWithRelationInput[]
+    cursor?: RewardWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RewardScalarFieldEnum | RewardScalarFieldEnum[]
+  }
+
+  /**
+   * Company.rewardRedemptions
+   */
+  export type Company$rewardRedemptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RewardRedemption
+     */
+    select?: RewardRedemptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardRedemptionInclude<ExtArgs> | null
+    where?: RewardRedemptionWhereInput
+    orderBy?: RewardRedemptionOrderByWithRelationInput | RewardRedemptionOrderByWithRelationInput[]
+    cursor?: RewardRedemptionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RewardRedemptionScalarFieldEnum | RewardRedemptionScalarFieldEnum[]
   }
 
   /**
@@ -30343,6 +30678,7 @@ export namespace Prisma {
     taskCompleted: number | null
     taskOverdue: number | null
     taskNoDueDate: number | null
+    taskNoAssignee: number | null
   }
 
   export type SetorClickupListSumAggregateOutputType = {
@@ -30350,6 +30686,7 @@ export namespace Prisma {
     taskCompleted: number | null
     taskOverdue: number | null
     taskNoDueDate: number | null
+    taskNoAssignee: number | null
   }
 
   export type SetorClickupListMinAggregateOutputType = {
@@ -30368,6 +30705,7 @@ export namespace Prisma {
     taskCompleted: number | null
     taskOverdue: number | null
     taskNoDueDate: number | null
+    taskNoAssignee: number | null
     lastSyncedAt: Date | null
     clientExpectedAt: Date | null
     clientLastContactAt: Date | null
@@ -30391,6 +30729,7 @@ export namespace Prisma {
     taskCompleted: number | null
     taskOverdue: number | null
     taskNoDueDate: number | null
+    taskNoAssignee: number | null
     lastSyncedAt: Date | null
     clientExpectedAt: Date | null
     clientLastContactAt: Date | null
@@ -30414,6 +30753,7 @@ export namespace Prisma {
     taskCompleted: number
     taskOverdue: number
     taskNoDueDate: number
+    taskNoAssignee: number
     lastSyncedAt: number
     clientExpectedAt: number
     clientLastContactAt: number
@@ -30428,6 +30768,7 @@ export namespace Prisma {
     taskCompleted?: true
     taskOverdue?: true
     taskNoDueDate?: true
+    taskNoAssignee?: true
   }
 
   export type SetorClickupListSumAggregateInputType = {
@@ -30435,6 +30776,7 @@ export namespace Prisma {
     taskCompleted?: true
     taskOverdue?: true
     taskNoDueDate?: true
+    taskNoAssignee?: true
   }
 
   export type SetorClickupListMinAggregateInputType = {
@@ -30453,6 +30795,7 @@ export namespace Prisma {
     taskCompleted?: true
     taskOverdue?: true
     taskNoDueDate?: true
+    taskNoAssignee?: true
     lastSyncedAt?: true
     clientExpectedAt?: true
     clientLastContactAt?: true
@@ -30476,6 +30819,7 @@ export namespace Prisma {
     taskCompleted?: true
     taskOverdue?: true
     taskNoDueDate?: true
+    taskNoAssignee?: true
     lastSyncedAt?: true
     clientExpectedAt?: true
     clientLastContactAt?: true
@@ -30499,6 +30843,7 @@ export namespace Prisma {
     taskCompleted?: true
     taskOverdue?: true
     taskNoDueDate?: true
+    taskNoAssignee?: true
     lastSyncedAt?: true
     clientExpectedAt?: true
     clientLastContactAt?: true
@@ -30609,6 +30954,7 @@ export namespace Prisma {
     taskCompleted: number
     taskOverdue: number
     taskNoDueDate: number
+    taskNoAssignee: number
     lastSyncedAt: Date | null
     clientExpectedAt: Date | null
     clientLastContactAt: Date | null
@@ -30651,6 +30997,7 @@ export namespace Prisma {
     taskCompleted?: boolean
     taskOverdue?: boolean
     taskNoDueDate?: boolean
+    taskNoAssignee?: boolean
     lastSyncedAt?: boolean
     clientExpectedAt?: boolean
     clientLastContactAt?: boolean
@@ -30680,6 +31027,7 @@ export namespace Prisma {
     taskCompleted?: boolean
     taskOverdue?: boolean
     taskNoDueDate?: boolean
+    taskNoAssignee?: boolean
     lastSyncedAt?: boolean
     clientExpectedAt?: boolean
     clientLastContactAt?: boolean
@@ -30705,6 +31053,7 @@ export namespace Prisma {
     taskCompleted?: boolean
     taskOverdue?: boolean
     taskNoDueDate?: boolean
+    taskNoAssignee?: boolean
     lastSyncedAt?: boolean
     clientExpectedAt?: boolean
     clientLastContactAt?: boolean
@@ -30750,6 +31099,7 @@ export namespace Prisma {
       taskCompleted: number
       taskOverdue: number
       taskNoDueDate: number
+      taskNoAssignee: number
       lastSyncedAt: Date | null
       clientExpectedAt: Date | null
       clientLastContactAt: Date | null
@@ -31168,6 +31518,7 @@ export namespace Prisma {
     readonly taskCompleted: FieldRef<"SetorClickupList", 'Int'>
     readonly taskOverdue: FieldRef<"SetorClickupList", 'Int'>
     readonly taskNoDueDate: FieldRef<"SetorClickupList", 'Int'>
+    readonly taskNoAssignee: FieldRef<"SetorClickupList", 'Int'>
     readonly lastSyncedAt: FieldRef<"SetorClickupList", 'DateTime'>
     readonly clientExpectedAt: FieldRef<"SetorClickupList", 'DateTime'>
     readonly clientLastContactAt: FieldRef<"SetorClickupList", 'DateTime'>
@@ -31607,6 +31958,7 @@ export namespace Prisma {
     name: string | null
     statusName: string | null
     isCompleted: boolean | null
+    hasNoAssignee: boolean | null
     dateUpdated: bigint | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -31619,6 +31971,7 @@ export namespace Prisma {
     name: string | null
     statusName: string | null
     isCompleted: boolean | null
+    hasNoAssignee: boolean | null
     dateUpdated: bigint | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -31631,6 +31984,7 @@ export namespace Prisma {
     name: number
     statusName: number
     isCompleted: number
+    hasNoAssignee: number
     dateUpdated: number
     createdAt: number
     updatedAt: number
@@ -31653,6 +32007,7 @@ export namespace Prisma {
     name?: true
     statusName?: true
     isCompleted?: true
+    hasNoAssignee?: true
     dateUpdated?: true
     createdAt?: true
     updatedAt?: true
@@ -31665,6 +32020,7 @@ export namespace Prisma {
     name?: true
     statusName?: true
     isCompleted?: true
+    hasNoAssignee?: true
     dateUpdated?: true
     createdAt?: true
     updatedAt?: true
@@ -31677,6 +32033,7 @@ export namespace Prisma {
     name?: true
     statusName?: true
     isCompleted?: true
+    hasNoAssignee?: true
     dateUpdated?: true
     createdAt?: true
     updatedAt?: true
@@ -31776,6 +32133,7 @@ export namespace Prisma {
     name: string
     statusName: string | null
     isCompleted: boolean
+    hasNoAssignee: boolean
     dateUpdated: bigint | null
     createdAt: Date
     updatedAt: Date
@@ -31807,6 +32165,7 @@ export namespace Prisma {
     name?: boolean
     statusName?: boolean
     isCompleted?: boolean
+    hasNoAssignee?: boolean
     dateUpdated?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -31820,6 +32179,7 @@ export namespace Prisma {
     name?: boolean
     statusName?: boolean
     isCompleted?: boolean
+    hasNoAssignee?: boolean
     dateUpdated?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -31833,6 +32193,7 @@ export namespace Prisma {
     name?: boolean
     statusName?: boolean
     isCompleted?: boolean
+    hasNoAssignee?: boolean
     dateUpdated?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -31857,6 +32218,7 @@ export namespace Prisma {
       name: string
       statusName: string | null
       isCompleted: boolean
+      hasNoAssignee: boolean
       dateUpdated: bigint | null
       createdAt: Date
       updatedAt: Date
@@ -32260,6 +32622,7 @@ export namespace Prisma {
     readonly name: FieldRef<"ProjectTaskState", 'String'>
     readonly statusName: FieldRef<"ProjectTaskState", 'String'>
     readonly isCompleted: FieldRef<"ProjectTaskState", 'Boolean'>
+    readonly hasNoAssignee: FieldRef<"ProjectTaskState", 'Boolean'>
     readonly dateUpdated: FieldRef<"ProjectTaskState", 'BigInt'>
     readonly createdAt: FieldRef<"ProjectTaskState", 'DateTime'>
     readonly updatedAt: FieldRef<"ProjectTaskState", 'DateTime'>
@@ -48849,6 +49212,2114 @@ export namespace Prisma {
 
 
   /**
+   * Model Reward
+   */
+
+  export type AggregateReward = {
+    _count: RewardCountAggregateOutputType | null
+    _avg: RewardAvgAggregateOutputType | null
+    _sum: RewardSumAggregateOutputType | null
+    _min: RewardMinAggregateOutputType | null
+    _max: RewardMaxAggregateOutputType | null
+  }
+
+  export type RewardAvgAggregateOutputType = {
+    cost: number | null
+    stock: number | null
+  }
+
+  export type RewardSumAggregateOutputType = {
+    cost: number | null
+    stock: number | null
+  }
+
+  export type RewardMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    name: string | null
+    description: string | null
+    cost: number | null
+    available: boolean | null
+    imageUrl: string | null
+    stock: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RewardMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    name: string | null
+    description: string | null
+    cost: number | null
+    available: boolean | null
+    imageUrl: string | null
+    stock: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RewardCountAggregateOutputType = {
+    id: number
+    companyId: number
+    name: number
+    description: number
+    cost: number
+    available: number
+    imageUrl: number
+    stock: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type RewardAvgAggregateInputType = {
+    cost?: true
+    stock?: true
+  }
+
+  export type RewardSumAggregateInputType = {
+    cost?: true
+    stock?: true
+  }
+
+  export type RewardMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    name?: true
+    description?: true
+    cost?: true
+    available?: true
+    imageUrl?: true
+    stock?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RewardMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    name?: true
+    description?: true
+    cost?: true
+    available?: true
+    imageUrl?: true
+    stock?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RewardCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    name?: true
+    description?: true
+    cost?: true
+    available?: true
+    imageUrl?: true
+    stock?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type RewardAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Reward to aggregate.
+     */
+    where?: RewardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Rewards to fetch.
+     */
+    orderBy?: RewardOrderByWithRelationInput | RewardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RewardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Rewards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Rewards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Rewards
+    **/
+    _count?: true | RewardCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RewardAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RewardSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RewardMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RewardMaxAggregateInputType
+  }
+
+  export type GetRewardAggregateType<T extends RewardAggregateArgs> = {
+        [P in keyof T & keyof AggregateReward]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReward[P]>
+      : GetScalarType<T[P], AggregateReward[P]>
+  }
+
+
+
+
+  export type RewardGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RewardWhereInput
+    orderBy?: RewardOrderByWithAggregationInput | RewardOrderByWithAggregationInput[]
+    by: RewardScalarFieldEnum[] | RewardScalarFieldEnum
+    having?: RewardScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RewardCountAggregateInputType | true
+    _avg?: RewardAvgAggregateInputType
+    _sum?: RewardSumAggregateInputType
+    _min?: RewardMinAggregateInputType
+    _max?: RewardMaxAggregateInputType
+  }
+
+  export type RewardGroupByOutputType = {
+    id: string
+    companyId: string
+    name: string
+    description: string | null
+    cost: number
+    available: boolean
+    imageUrl: string | null
+    stock: number | null
+    createdAt: Date
+    updatedAt: Date
+    _count: RewardCountAggregateOutputType | null
+    _avg: RewardAvgAggregateOutputType | null
+    _sum: RewardSumAggregateOutputType | null
+    _min: RewardMinAggregateOutputType | null
+    _max: RewardMaxAggregateOutputType | null
+  }
+
+  type GetRewardGroupByPayload<T extends RewardGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RewardGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RewardGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RewardGroupByOutputType[P]>
+            : GetScalarType<T[P], RewardGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RewardSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    name?: boolean
+    description?: boolean
+    cost?: boolean
+    available?: boolean
+    imageUrl?: boolean
+    stock?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    redemptions?: boolean | Reward$redemptionsArgs<ExtArgs>
+    _count?: boolean | RewardCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reward"]>
+
+  export type RewardSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    name?: boolean
+    description?: boolean
+    cost?: boolean
+    available?: boolean
+    imageUrl?: boolean
+    stock?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reward"]>
+
+  export type RewardSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    name?: boolean
+    description?: boolean
+    cost?: boolean
+    available?: boolean
+    imageUrl?: boolean
+    stock?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type RewardInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    redemptions?: boolean | Reward$redemptionsArgs<ExtArgs>
+    _count?: boolean | RewardCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type RewardIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $RewardPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Reward"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      redemptions: Prisma.$RewardRedemptionPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      name: string
+      description: string | null
+      cost: number
+      available: boolean
+      imageUrl: string | null
+      stock: number | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["reward"]>
+    composites: {}
+  }
+
+  type RewardGetPayload<S extends boolean | null | undefined | RewardDefaultArgs> = $Result.GetResult<Prisma.$RewardPayload, S>
+
+  type RewardCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<RewardFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: RewardCountAggregateInputType | true
+    }
+
+  export interface RewardDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Reward'], meta: { name: 'Reward' } }
+    /**
+     * Find zero or one Reward that matches the filter.
+     * @param {RewardFindUniqueArgs} args - Arguments to find a Reward
+     * @example
+     * // Get one Reward
+     * const reward = await prisma.reward.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RewardFindUniqueArgs>(args: SelectSubset<T, RewardFindUniqueArgs<ExtArgs>>): Prisma__RewardClient<$Result.GetResult<Prisma.$RewardPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Reward that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {RewardFindUniqueOrThrowArgs} args - Arguments to find a Reward
+     * @example
+     * // Get one Reward
+     * const reward = await prisma.reward.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RewardFindUniqueOrThrowArgs>(args: SelectSubset<T, RewardFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RewardClient<$Result.GetResult<Prisma.$RewardPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Reward that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RewardFindFirstArgs} args - Arguments to find a Reward
+     * @example
+     * // Get one Reward
+     * const reward = await prisma.reward.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RewardFindFirstArgs>(args?: SelectSubset<T, RewardFindFirstArgs<ExtArgs>>): Prisma__RewardClient<$Result.GetResult<Prisma.$RewardPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Reward that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RewardFindFirstOrThrowArgs} args - Arguments to find a Reward
+     * @example
+     * // Get one Reward
+     * const reward = await prisma.reward.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RewardFindFirstOrThrowArgs>(args?: SelectSubset<T, RewardFindFirstOrThrowArgs<ExtArgs>>): Prisma__RewardClient<$Result.GetResult<Prisma.$RewardPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Rewards that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RewardFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Rewards
+     * const rewards = await prisma.reward.findMany()
+     * 
+     * // Get first 10 Rewards
+     * const rewards = await prisma.reward.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const rewardWithIdOnly = await prisma.reward.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RewardFindManyArgs>(args?: SelectSubset<T, RewardFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RewardPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Reward.
+     * @param {RewardCreateArgs} args - Arguments to create a Reward.
+     * @example
+     * // Create one Reward
+     * const Reward = await prisma.reward.create({
+     *   data: {
+     *     // ... data to create a Reward
+     *   }
+     * })
+     * 
+     */
+    create<T extends RewardCreateArgs>(args: SelectSubset<T, RewardCreateArgs<ExtArgs>>): Prisma__RewardClient<$Result.GetResult<Prisma.$RewardPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Rewards.
+     * @param {RewardCreateManyArgs} args - Arguments to create many Rewards.
+     * @example
+     * // Create many Rewards
+     * const reward = await prisma.reward.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RewardCreateManyArgs>(args?: SelectSubset<T, RewardCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Rewards and returns the data saved in the database.
+     * @param {RewardCreateManyAndReturnArgs} args - Arguments to create many Rewards.
+     * @example
+     * // Create many Rewards
+     * const reward = await prisma.reward.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Rewards and only return the `id`
+     * const rewardWithIdOnly = await prisma.reward.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RewardCreateManyAndReturnArgs>(args?: SelectSubset<T, RewardCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RewardPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Reward.
+     * @param {RewardDeleteArgs} args - Arguments to delete one Reward.
+     * @example
+     * // Delete one Reward
+     * const Reward = await prisma.reward.delete({
+     *   where: {
+     *     // ... filter to delete one Reward
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RewardDeleteArgs>(args: SelectSubset<T, RewardDeleteArgs<ExtArgs>>): Prisma__RewardClient<$Result.GetResult<Prisma.$RewardPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Reward.
+     * @param {RewardUpdateArgs} args - Arguments to update one Reward.
+     * @example
+     * // Update one Reward
+     * const reward = await prisma.reward.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RewardUpdateArgs>(args: SelectSubset<T, RewardUpdateArgs<ExtArgs>>): Prisma__RewardClient<$Result.GetResult<Prisma.$RewardPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Rewards.
+     * @param {RewardDeleteManyArgs} args - Arguments to filter Rewards to delete.
+     * @example
+     * // Delete a few Rewards
+     * const { count } = await prisma.reward.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RewardDeleteManyArgs>(args?: SelectSubset<T, RewardDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Rewards.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RewardUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Rewards
+     * const reward = await prisma.reward.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RewardUpdateManyArgs>(args: SelectSubset<T, RewardUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Reward.
+     * @param {RewardUpsertArgs} args - Arguments to update or create a Reward.
+     * @example
+     * // Update or create a Reward
+     * const reward = await prisma.reward.upsert({
+     *   create: {
+     *     // ... data to create a Reward
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Reward we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RewardUpsertArgs>(args: SelectSubset<T, RewardUpsertArgs<ExtArgs>>): Prisma__RewardClient<$Result.GetResult<Prisma.$RewardPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Rewards.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RewardCountArgs} args - Arguments to filter Rewards to count.
+     * @example
+     * // Count the number of Rewards
+     * const count = await prisma.reward.count({
+     *   where: {
+     *     // ... the filter for the Rewards we want to count
+     *   }
+     * })
+    **/
+    count<T extends RewardCountArgs>(
+      args?: Subset<T, RewardCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RewardCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Reward.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RewardAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RewardAggregateArgs>(args: Subset<T, RewardAggregateArgs>): Prisma.PrismaPromise<GetRewardAggregateType<T>>
+
+    /**
+     * Group by Reward.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RewardGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RewardGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RewardGroupByArgs['orderBy'] }
+        : { orderBy?: RewardGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RewardGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRewardGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Reward model
+   */
+  readonly fields: RewardFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Reward.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RewardClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    redemptions<T extends Reward$redemptionsArgs<ExtArgs> = {}>(args?: Subset<T, Reward$redemptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RewardRedemptionPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Reward model
+   */ 
+  interface RewardFieldRefs {
+    readonly id: FieldRef<"Reward", 'String'>
+    readonly companyId: FieldRef<"Reward", 'String'>
+    readonly name: FieldRef<"Reward", 'String'>
+    readonly description: FieldRef<"Reward", 'String'>
+    readonly cost: FieldRef<"Reward", 'Int'>
+    readonly available: FieldRef<"Reward", 'Boolean'>
+    readonly imageUrl: FieldRef<"Reward", 'String'>
+    readonly stock: FieldRef<"Reward", 'Int'>
+    readonly createdAt: FieldRef<"Reward", 'DateTime'>
+    readonly updatedAt: FieldRef<"Reward", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Reward findUnique
+   */
+  export type RewardFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reward
+     */
+    select?: RewardSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardInclude<ExtArgs> | null
+    /**
+     * Filter, which Reward to fetch.
+     */
+    where: RewardWhereUniqueInput
+  }
+
+  /**
+   * Reward findUniqueOrThrow
+   */
+  export type RewardFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reward
+     */
+    select?: RewardSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardInclude<ExtArgs> | null
+    /**
+     * Filter, which Reward to fetch.
+     */
+    where: RewardWhereUniqueInput
+  }
+
+  /**
+   * Reward findFirst
+   */
+  export type RewardFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reward
+     */
+    select?: RewardSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardInclude<ExtArgs> | null
+    /**
+     * Filter, which Reward to fetch.
+     */
+    where?: RewardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Rewards to fetch.
+     */
+    orderBy?: RewardOrderByWithRelationInput | RewardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Rewards.
+     */
+    cursor?: RewardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Rewards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Rewards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Rewards.
+     */
+    distinct?: RewardScalarFieldEnum | RewardScalarFieldEnum[]
+  }
+
+  /**
+   * Reward findFirstOrThrow
+   */
+  export type RewardFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reward
+     */
+    select?: RewardSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardInclude<ExtArgs> | null
+    /**
+     * Filter, which Reward to fetch.
+     */
+    where?: RewardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Rewards to fetch.
+     */
+    orderBy?: RewardOrderByWithRelationInput | RewardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Rewards.
+     */
+    cursor?: RewardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Rewards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Rewards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Rewards.
+     */
+    distinct?: RewardScalarFieldEnum | RewardScalarFieldEnum[]
+  }
+
+  /**
+   * Reward findMany
+   */
+  export type RewardFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reward
+     */
+    select?: RewardSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardInclude<ExtArgs> | null
+    /**
+     * Filter, which Rewards to fetch.
+     */
+    where?: RewardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Rewards to fetch.
+     */
+    orderBy?: RewardOrderByWithRelationInput | RewardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Rewards.
+     */
+    cursor?: RewardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Rewards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Rewards.
+     */
+    skip?: number
+    distinct?: RewardScalarFieldEnum | RewardScalarFieldEnum[]
+  }
+
+  /**
+   * Reward create
+   */
+  export type RewardCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reward
+     */
+    select?: RewardSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Reward.
+     */
+    data: XOR<RewardCreateInput, RewardUncheckedCreateInput>
+  }
+
+  /**
+   * Reward createMany
+   */
+  export type RewardCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Rewards.
+     */
+    data: RewardCreateManyInput | RewardCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Reward createManyAndReturn
+   */
+  export type RewardCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reward
+     */
+    select?: RewardSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Rewards.
+     */
+    data: RewardCreateManyInput | RewardCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Reward update
+   */
+  export type RewardUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reward
+     */
+    select?: RewardSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Reward.
+     */
+    data: XOR<RewardUpdateInput, RewardUncheckedUpdateInput>
+    /**
+     * Choose, which Reward to update.
+     */
+    where: RewardWhereUniqueInput
+  }
+
+  /**
+   * Reward updateMany
+   */
+  export type RewardUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Rewards.
+     */
+    data: XOR<RewardUpdateManyMutationInput, RewardUncheckedUpdateManyInput>
+    /**
+     * Filter which Rewards to update
+     */
+    where?: RewardWhereInput
+  }
+
+  /**
+   * Reward upsert
+   */
+  export type RewardUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reward
+     */
+    select?: RewardSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Reward to update in case it exists.
+     */
+    where: RewardWhereUniqueInput
+    /**
+     * In case the Reward found by the `where` argument doesn't exist, create a new Reward with this data.
+     */
+    create: XOR<RewardCreateInput, RewardUncheckedCreateInput>
+    /**
+     * In case the Reward was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RewardUpdateInput, RewardUncheckedUpdateInput>
+  }
+
+  /**
+   * Reward delete
+   */
+  export type RewardDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reward
+     */
+    select?: RewardSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardInclude<ExtArgs> | null
+    /**
+     * Filter which Reward to delete.
+     */
+    where: RewardWhereUniqueInput
+  }
+
+  /**
+   * Reward deleteMany
+   */
+  export type RewardDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Rewards to delete
+     */
+    where?: RewardWhereInput
+  }
+
+  /**
+   * Reward.redemptions
+   */
+  export type Reward$redemptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RewardRedemption
+     */
+    select?: RewardRedemptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardRedemptionInclude<ExtArgs> | null
+    where?: RewardRedemptionWhereInput
+    orderBy?: RewardRedemptionOrderByWithRelationInput | RewardRedemptionOrderByWithRelationInput[]
+    cursor?: RewardRedemptionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RewardRedemptionScalarFieldEnum | RewardRedemptionScalarFieldEnum[]
+  }
+
+  /**
+   * Reward without action
+   */
+  export type RewardDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reward
+     */
+    select?: RewardSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RewardRedemption
+   */
+
+  export type AggregateRewardRedemption = {
+    _count: RewardRedemptionCountAggregateOutputType | null
+    _avg: RewardRedemptionAvgAggregateOutputType | null
+    _sum: RewardRedemptionSumAggregateOutputType | null
+    _min: RewardRedemptionMinAggregateOutputType | null
+    _max: RewardRedemptionMaxAggregateOutputType | null
+  }
+
+  export type RewardRedemptionAvgAggregateOutputType = {
+    cost: number | null
+  }
+
+  export type RewardRedemptionSumAggregateOutputType = {
+    cost: number | null
+  }
+
+  export type RewardRedemptionMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    rewardId: string | null
+    rewardName: string | null
+    cost: number | null
+    status: $Enums.RedemptionStatus | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    resolvedAt: Date | null
+  }
+
+  export type RewardRedemptionMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    rewardId: string | null
+    rewardName: string | null
+    cost: number | null
+    status: $Enums.RedemptionStatus | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    resolvedAt: Date | null
+  }
+
+  export type RewardRedemptionCountAggregateOutputType = {
+    id: number
+    userId: number
+    companyId: number
+    rewardId: number
+    rewardName: number
+    cost: number
+    status: number
+    notes: number
+    createdAt: number
+    updatedAt: number
+    resolvedAt: number
+    _all: number
+  }
+
+
+  export type RewardRedemptionAvgAggregateInputType = {
+    cost?: true
+  }
+
+  export type RewardRedemptionSumAggregateInputType = {
+    cost?: true
+  }
+
+  export type RewardRedemptionMinAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    rewardId?: true
+    rewardName?: true
+    cost?: true
+    status?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    resolvedAt?: true
+  }
+
+  export type RewardRedemptionMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    rewardId?: true
+    rewardName?: true
+    cost?: true
+    status?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    resolvedAt?: true
+  }
+
+  export type RewardRedemptionCountAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    rewardId?: true
+    rewardName?: true
+    cost?: true
+    status?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    resolvedAt?: true
+    _all?: true
+  }
+
+  export type RewardRedemptionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RewardRedemption to aggregate.
+     */
+    where?: RewardRedemptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RewardRedemptions to fetch.
+     */
+    orderBy?: RewardRedemptionOrderByWithRelationInput | RewardRedemptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RewardRedemptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RewardRedemptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RewardRedemptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RewardRedemptions
+    **/
+    _count?: true | RewardRedemptionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RewardRedemptionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RewardRedemptionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RewardRedemptionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RewardRedemptionMaxAggregateInputType
+  }
+
+  export type GetRewardRedemptionAggregateType<T extends RewardRedemptionAggregateArgs> = {
+        [P in keyof T & keyof AggregateRewardRedemption]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRewardRedemption[P]>
+      : GetScalarType<T[P], AggregateRewardRedemption[P]>
+  }
+
+
+
+
+  export type RewardRedemptionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RewardRedemptionWhereInput
+    orderBy?: RewardRedemptionOrderByWithAggregationInput | RewardRedemptionOrderByWithAggregationInput[]
+    by: RewardRedemptionScalarFieldEnum[] | RewardRedemptionScalarFieldEnum
+    having?: RewardRedemptionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RewardRedemptionCountAggregateInputType | true
+    _avg?: RewardRedemptionAvgAggregateInputType
+    _sum?: RewardRedemptionSumAggregateInputType
+    _min?: RewardRedemptionMinAggregateInputType
+    _max?: RewardRedemptionMaxAggregateInputType
+  }
+
+  export type RewardRedemptionGroupByOutputType = {
+    id: string
+    userId: string
+    companyId: string
+    rewardId: string
+    rewardName: string
+    cost: number
+    status: $Enums.RedemptionStatus
+    notes: string | null
+    createdAt: Date
+    updatedAt: Date
+    resolvedAt: Date | null
+    _count: RewardRedemptionCountAggregateOutputType | null
+    _avg: RewardRedemptionAvgAggregateOutputType | null
+    _sum: RewardRedemptionSumAggregateOutputType | null
+    _min: RewardRedemptionMinAggregateOutputType | null
+    _max: RewardRedemptionMaxAggregateOutputType | null
+  }
+
+  type GetRewardRedemptionGroupByPayload<T extends RewardRedemptionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RewardRedemptionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RewardRedemptionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RewardRedemptionGroupByOutputType[P]>
+            : GetScalarType<T[P], RewardRedemptionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RewardRedemptionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    rewardId?: boolean
+    rewardName?: boolean
+    cost?: boolean
+    status?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    resolvedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    reward?: boolean | RewardDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["rewardRedemption"]>
+
+  export type RewardRedemptionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    rewardId?: boolean
+    rewardName?: boolean
+    cost?: boolean
+    status?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    resolvedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    reward?: boolean | RewardDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["rewardRedemption"]>
+
+  export type RewardRedemptionSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    rewardId?: boolean
+    rewardName?: boolean
+    cost?: boolean
+    status?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    resolvedAt?: boolean
+  }
+
+  export type RewardRedemptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    reward?: boolean | RewardDefaultArgs<ExtArgs>
+  }
+  export type RewardRedemptionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    reward?: boolean | RewardDefaultArgs<ExtArgs>
+  }
+
+  export type $RewardRedemptionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RewardRedemption"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      company: Prisma.$CompanyPayload<ExtArgs>
+      reward: Prisma.$RewardPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      companyId: string
+      rewardId: string
+      rewardName: string
+      cost: number
+      status: $Enums.RedemptionStatus
+      notes: string | null
+      createdAt: Date
+      updatedAt: Date
+      resolvedAt: Date | null
+    }, ExtArgs["result"]["rewardRedemption"]>
+    composites: {}
+  }
+
+  type RewardRedemptionGetPayload<S extends boolean | null | undefined | RewardRedemptionDefaultArgs> = $Result.GetResult<Prisma.$RewardRedemptionPayload, S>
+
+  type RewardRedemptionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<RewardRedemptionFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: RewardRedemptionCountAggregateInputType | true
+    }
+
+  export interface RewardRedemptionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RewardRedemption'], meta: { name: 'RewardRedemption' } }
+    /**
+     * Find zero or one RewardRedemption that matches the filter.
+     * @param {RewardRedemptionFindUniqueArgs} args - Arguments to find a RewardRedemption
+     * @example
+     * // Get one RewardRedemption
+     * const rewardRedemption = await prisma.rewardRedemption.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RewardRedemptionFindUniqueArgs>(args: SelectSubset<T, RewardRedemptionFindUniqueArgs<ExtArgs>>): Prisma__RewardRedemptionClient<$Result.GetResult<Prisma.$RewardRedemptionPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one RewardRedemption that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {RewardRedemptionFindUniqueOrThrowArgs} args - Arguments to find a RewardRedemption
+     * @example
+     * // Get one RewardRedemption
+     * const rewardRedemption = await prisma.rewardRedemption.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RewardRedemptionFindUniqueOrThrowArgs>(args: SelectSubset<T, RewardRedemptionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RewardRedemptionClient<$Result.GetResult<Prisma.$RewardRedemptionPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first RewardRedemption that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RewardRedemptionFindFirstArgs} args - Arguments to find a RewardRedemption
+     * @example
+     * // Get one RewardRedemption
+     * const rewardRedemption = await prisma.rewardRedemption.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RewardRedemptionFindFirstArgs>(args?: SelectSubset<T, RewardRedemptionFindFirstArgs<ExtArgs>>): Prisma__RewardRedemptionClient<$Result.GetResult<Prisma.$RewardRedemptionPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first RewardRedemption that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RewardRedemptionFindFirstOrThrowArgs} args - Arguments to find a RewardRedemption
+     * @example
+     * // Get one RewardRedemption
+     * const rewardRedemption = await prisma.rewardRedemption.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RewardRedemptionFindFirstOrThrowArgs>(args?: SelectSubset<T, RewardRedemptionFindFirstOrThrowArgs<ExtArgs>>): Prisma__RewardRedemptionClient<$Result.GetResult<Prisma.$RewardRedemptionPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more RewardRedemptions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RewardRedemptionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RewardRedemptions
+     * const rewardRedemptions = await prisma.rewardRedemption.findMany()
+     * 
+     * // Get first 10 RewardRedemptions
+     * const rewardRedemptions = await prisma.rewardRedemption.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const rewardRedemptionWithIdOnly = await prisma.rewardRedemption.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RewardRedemptionFindManyArgs>(args?: SelectSubset<T, RewardRedemptionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RewardRedemptionPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a RewardRedemption.
+     * @param {RewardRedemptionCreateArgs} args - Arguments to create a RewardRedemption.
+     * @example
+     * // Create one RewardRedemption
+     * const RewardRedemption = await prisma.rewardRedemption.create({
+     *   data: {
+     *     // ... data to create a RewardRedemption
+     *   }
+     * })
+     * 
+     */
+    create<T extends RewardRedemptionCreateArgs>(args: SelectSubset<T, RewardRedemptionCreateArgs<ExtArgs>>): Prisma__RewardRedemptionClient<$Result.GetResult<Prisma.$RewardRedemptionPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many RewardRedemptions.
+     * @param {RewardRedemptionCreateManyArgs} args - Arguments to create many RewardRedemptions.
+     * @example
+     * // Create many RewardRedemptions
+     * const rewardRedemption = await prisma.rewardRedemption.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RewardRedemptionCreateManyArgs>(args?: SelectSubset<T, RewardRedemptionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RewardRedemptions and returns the data saved in the database.
+     * @param {RewardRedemptionCreateManyAndReturnArgs} args - Arguments to create many RewardRedemptions.
+     * @example
+     * // Create many RewardRedemptions
+     * const rewardRedemption = await prisma.rewardRedemption.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RewardRedemptions and only return the `id`
+     * const rewardRedemptionWithIdOnly = await prisma.rewardRedemption.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RewardRedemptionCreateManyAndReturnArgs>(args?: SelectSubset<T, RewardRedemptionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RewardRedemptionPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a RewardRedemption.
+     * @param {RewardRedemptionDeleteArgs} args - Arguments to delete one RewardRedemption.
+     * @example
+     * // Delete one RewardRedemption
+     * const RewardRedemption = await prisma.rewardRedemption.delete({
+     *   where: {
+     *     // ... filter to delete one RewardRedemption
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RewardRedemptionDeleteArgs>(args: SelectSubset<T, RewardRedemptionDeleteArgs<ExtArgs>>): Prisma__RewardRedemptionClient<$Result.GetResult<Prisma.$RewardRedemptionPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one RewardRedemption.
+     * @param {RewardRedemptionUpdateArgs} args - Arguments to update one RewardRedemption.
+     * @example
+     * // Update one RewardRedemption
+     * const rewardRedemption = await prisma.rewardRedemption.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RewardRedemptionUpdateArgs>(args: SelectSubset<T, RewardRedemptionUpdateArgs<ExtArgs>>): Prisma__RewardRedemptionClient<$Result.GetResult<Prisma.$RewardRedemptionPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more RewardRedemptions.
+     * @param {RewardRedemptionDeleteManyArgs} args - Arguments to filter RewardRedemptions to delete.
+     * @example
+     * // Delete a few RewardRedemptions
+     * const { count } = await prisma.rewardRedemption.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RewardRedemptionDeleteManyArgs>(args?: SelectSubset<T, RewardRedemptionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RewardRedemptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RewardRedemptionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RewardRedemptions
+     * const rewardRedemption = await prisma.rewardRedemption.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RewardRedemptionUpdateManyArgs>(args: SelectSubset<T, RewardRedemptionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one RewardRedemption.
+     * @param {RewardRedemptionUpsertArgs} args - Arguments to update or create a RewardRedemption.
+     * @example
+     * // Update or create a RewardRedemption
+     * const rewardRedemption = await prisma.rewardRedemption.upsert({
+     *   create: {
+     *     // ... data to create a RewardRedemption
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RewardRedemption we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RewardRedemptionUpsertArgs>(args: SelectSubset<T, RewardRedemptionUpsertArgs<ExtArgs>>): Prisma__RewardRedemptionClient<$Result.GetResult<Prisma.$RewardRedemptionPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of RewardRedemptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RewardRedemptionCountArgs} args - Arguments to filter RewardRedemptions to count.
+     * @example
+     * // Count the number of RewardRedemptions
+     * const count = await prisma.rewardRedemption.count({
+     *   where: {
+     *     // ... the filter for the RewardRedemptions we want to count
+     *   }
+     * })
+    **/
+    count<T extends RewardRedemptionCountArgs>(
+      args?: Subset<T, RewardRedemptionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RewardRedemptionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RewardRedemption.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RewardRedemptionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RewardRedemptionAggregateArgs>(args: Subset<T, RewardRedemptionAggregateArgs>): Prisma.PrismaPromise<GetRewardRedemptionAggregateType<T>>
+
+    /**
+     * Group by RewardRedemption.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RewardRedemptionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RewardRedemptionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RewardRedemptionGroupByArgs['orderBy'] }
+        : { orderBy?: RewardRedemptionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RewardRedemptionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRewardRedemptionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RewardRedemption model
+   */
+  readonly fields: RewardRedemptionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RewardRedemption.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RewardRedemptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    reward<T extends RewardDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RewardDefaultArgs<ExtArgs>>): Prisma__RewardClient<$Result.GetResult<Prisma.$RewardPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RewardRedemption model
+   */ 
+  interface RewardRedemptionFieldRefs {
+    readonly id: FieldRef<"RewardRedemption", 'String'>
+    readonly userId: FieldRef<"RewardRedemption", 'String'>
+    readonly companyId: FieldRef<"RewardRedemption", 'String'>
+    readonly rewardId: FieldRef<"RewardRedemption", 'String'>
+    readonly rewardName: FieldRef<"RewardRedemption", 'String'>
+    readonly cost: FieldRef<"RewardRedemption", 'Int'>
+    readonly status: FieldRef<"RewardRedemption", 'RedemptionStatus'>
+    readonly notes: FieldRef<"RewardRedemption", 'String'>
+    readonly createdAt: FieldRef<"RewardRedemption", 'DateTime'>
+    readonly updatedAt: FieldRef<"RewardRedemption", 'DateTime'>
+    readonly resolvedAt: FieldRef<"RewardRedemption", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RewardRedemption findUnique
+   */
+  export type RewardRedemptionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RewardRedemption
+     */
+    select?: RewardRedemptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardRedemptionInclude<ExtArgs> | null
+    /**
+     * Filter, which RewardRedemption to fetch.
+     */
+    where: RewardRedemptionWhereUniqueInput
+  }
+
+  /**
+   * RewardRedemption findUniqueOrThrow
+   */
+  export type RewardRedemptionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RewardRedemption
+     */
+    select?: RewardRedemptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardRedemptionInclude<ExtArgs> | null
+    /**
+     * Filter, which RewardRedemption to fetch.
+     */
+    where: RewardRedemptionWhereUniqueInput
+  }
+
+  /**
+   * RewardRedemption findFirst
+   */
+  export type RewardRedemptionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RewardRedemption
+     */
+    select?: RewardRedemptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardRedemptionInclude<ExtArgs> | null
+    /**
+     * Filter, which RewardRedemption to fetch.
+     */
+    where?: RewardRedemptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RewardRedemptions to fetch.
+     */
+    orderBy?: RewardRedemptionOrderByWithRelationInput | RewardRedemptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RewardRedemptions.
+     */
+    cursor?: RewardRedemptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RewardRedemptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RewardRedemptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RewardRedemptions.
+     */
+    distinct?: RewardRedemptionScalarFieldEnum | RewardRedemptionScalarFieldEnum[]
+  }
+
+  /**
+   * RewardRedemption findFirstOrThrow
+   */
+  export type RewardRedemptionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RewardRedemption
+     */
+    select?: RewardRedemptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardRedemptionInclude<ExtArgs> | null
+    /**
+     * Filter, which RewardRedemption to fetch.
+     */
+    where?: RewardRedemptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RewardRedemptions to fetch.
+     */
+    orderBy?: RewardRedemptionOrderByWithRelationInput | RewardRedemptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RewardRedemptions.
+     */
+    cursor?: RewardRedemptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RewardRedemptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RewardRedemptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RewardRedemptions.
+     */
+    distinct?: RewardRedemptionScalarFieldEnum | RewardRedemptionScalarFieldEnum[]
+  }
+
+  /**
+   * RewardRedemption findMany
+   */
+  export type RewardRedemptionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RewardRedemption
+     */
+    select?: RewardRedemptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardRedemptionInclude<ExtArgs> | null
+    /**
+     * Filter, which RewardRedemptions to fetch.
+     */
+    where?: RewardRedemptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RewardRedemptions to fetch.
+     */
+    orderBy?: RewardRedemptionOrderByWithRelationInput | RewardRedemptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RewardRedemptions.
+     */
+    cursor?: RewardRedemptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RewardRedemptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RewardRedemptions.
+     */
+    skip?: number
+    distinct?: RewardRedemptionScalarFieldEnum | RewardRedemptionScalarFieldEnum[]
+  }
+
+  /**
+   * RewardRedemption create
+   */
+  export type RewardRedemptionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RewardRedemption
+     */
+    select?: RewardRedemptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardRedemptionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RewardRedemption.
+     */
+    data: XOR<RewardRedemptionCreateInput, RewardRedemptionUncheckedCreateInput>
+  }
+
+  /**
+   * RewardRedemption createMany
+   */
+  export type RewardRedemptionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RewardRedemptions.
+     */
+    data: RewardRedemptionCreateManyInput | RewardRedemptionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RewardRedemption createManyAndReturn
+   */
+  export type RewardRedemptionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RewardRedemption
+     */
+    select?: RewardRedemptionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many RewardRedemptions.
+     */
+    data: RewardRedemptionCreateManyInput | RewardRedemptionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardRedemptionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RewardRedemption update
+   */
+  export type RewardRedemptionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RewardRedemption
+     */
+    select?: RewardRedemptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardRedemptionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RewardRedemption.
+     */
+    data: XOR<RewardRedemptionUpdateInput, RewardRedemptionUncheckedUpdateInput>
+    /**
+     * Choose, which RewardRedemption to update.
+     */
+    where: RewardRedemptionWhereUniqueInput
+  }
+
+  /**
+   * RewardRedemption updateMany
+   */
+  export type RewardRedemptionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RewardRedemptions.
+     */
+    data: XOR<RewardRedemptionUpdateManyMutationInput, RewardRedemptionUncheckedUpdateManyInput>
+    /**
+     * Filter which RewardRedemptions to update
+     */
+    where?: RewardRedemptionWhereInput
+  }
+
+  /**
+   * RewardRedemption upsert
+   */
+  export type RewardRedemptionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RewardRedemption
+     */
+    select?: RewardRedemptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardRedemptionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RewardRedemption to update in case it exists.
+     */
+    where: RewardRedemptionWhereUniqueInput
+    /**
+     * In case the RewardRedemption found by the `where` argument doesn't exist, create a new RewardRedemption with this data.
+     */
+    create: XOR<RewardRedemptionCreateInput, RewardRedemptionUncheckedCreateInput>
+    /**
+     * In case the RewardRedemption was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RewardRedemptionUpdateInput, RewardRedemptionUncheckedUpdateInput>
+  }
+
+  /**
+   * RewardRedemption delete
+   */
+  export type RewardRedemptionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RewardRedemption
+     */
+    select?: RewardRedemptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardRedemptionInclude<ExtArgs> | null
+    /**
+     * Filter which RewardRedemption to delete.
+     */
+    where: RewardRedemptionWhereUniqueInput
+  }
+
+  /**
+   * RewardRedemption deleteMany
+   */
+  export type RewardRedemptionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RewardRedemptions to delete
+     */
+    where?: RewardRedemptionWhereInput
+  }
+
+  /**
+   * RewardRedemption without action
+   */
+  export type RewardRedemptionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RewardRedemption
+     */
+    select?: RewardRedemptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RewardRedemptionInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model UserScore
    */
 
@@ -48863,6 +51334,7 @@ export namespace Prisma {
   export type UserScoreAvgAggregateOutputType = {
     totalPoints: number | null
     monthPoints: number | null
+    redeemablePoints: number | null
     month: number | null
     year: number | null
   }
@@ -48870,6 +51342,7 @@ export namespace Prisma {
   export type UserScoreSumAggregateOutputType = {
     totalPoints: number | null
     monthPoints: number | null
+    redeemablePoints: number | null
     month: number | null
     year: number | null
   }
@@ -48880,6 +51353,7 @@ export namespace Prisma {
     companyId: string | null
     totalPoints: number | null
     monthPoints: number | null
+    redeemablePoints: number | null
     month: number | null
     year: number | null
     createdAt: Date | null
@@ -48892,6 +51366,7 @@ export namespace Prisma {
     companyId: string | null
     totalPoints: number | null
     monthPoints: number | null
+    redeemablePoints: number | null
     month: number | null
     year: number | null
     createdAt: Date | null
@@ -48904,6 +51379,7 @@ export namespace Prisma {
     companyId: number
     totalPoints: number
     monthPoints: number
+    redeemablePoints: number
     month: number
     year: number
     createdAt: number
@@ -48915,6 +51391,7 @@ export namespace Prisma {
   export type UserScoreAvgAggregateInputType = {
     totalPoints?: true
     monthPoints?: true
+    redeemablePoints?: true
     month?: true
     year?: true
   }
@@ -48922,6 +51399,7 @@ export namespace Prisma {
   export type UserScoreSumAggregateInputType = {
     totalPoints?: true
     monthPoints?: true
+    redeemablePoints?: true
     month?: true
     year?: true
   }
@@ -48932,6 +51410,7 @@ export namespace Prisma {
     companyId?: true
     totalPoints?: true
     monthPoints?: true
+    redeemablePoints?: true
     month?: true
     year?: true
     createdAt?: true
@@ -48944,6 +51423,7 @@ export namespace Prisma {
     companyId?: true
     totalPoints?: true
     monthPoints?: true
+    redeemablePoints?: true
     month?: true
     year?: true
     createdAt?: true
@@ -48956,6 +51436,7 @@ export namespace Prisma {
     companyId?: true
     totalPoints?: true
     monthPoints?: true
+    redeemablePoints?: true
     month?: true
     year?: true
     createdAt?: true
@@ -49055,6 +51536,7 @@ export namespace Prisma {
     companyId: string
     totalPoints: number
     monthPoints: number
+    redeemablePoints: number
     month: number
     year: number
     createdAt: Date
@@ -49086,6 +51568,7 @@ export namespace Prisma {
     companyId?: boolean
     totalPoints?: boolean
     monthPoints?: boolean
+    redeemablePoints?: boolean
     month?: boolean
     year?: boolean
     createdAt?: boolean
@@ -49100,6 +51583,7 @@ export namespace Prisma {
     companyId?: boolean
     totalPoints?: boolean
     monthPoints?: boolean
+    redeemablePoints?: boolean
     month?: boolean
     year?: boolean
     createdAt?: boolean
@@ -49114,6 +51598,7 @@ export namespace Prisma {
     companyId?: boolean
     totalPoints?: boolean
     monthPoints?: boolean
+    redeemablePoints?: boolean
     month?: boolean
     year?: boolean
     createdAt?: boolean
@@ -49141,6 +51626,7 @@ export namespace Prisma {
       companyId: string
       totalPoints: number
       monthPoints: number
+      redeemablePoints: number
       month: number
       year: number
       createdAt: Date
@@ -49545,6 +52031,7 @@ export namespace Prisma {
     readonly companyId: FieldRef<"UserScore", 'String'>
     readonly totalPoints: FieldRef<"UserScore", 'Int'>
     readonly monthPoints: FieldRef<"UserScore", 'Int'>
+    readonly redeemablePoints: FieldRef<"UserScore", 'Int'>
     readonly month: FieldRef<"UserScore", 'Int'>
     readonly year: FieldRef<"UserScore", 'Int'>
     readonly createdAt: FieldRef<"UserScore", 'DateTime'>
@@ -53877,7 +56364,8 @@ export namespace Prisma {
     updatedAt: 'updatedAt',
     whatsappSignature: 'whatsappSignature',
     companyId: 'companyId',
-    rankingCategory: 'rankingCategory'
+    rankingCategory: 'rankingCategory',
+    lastBadgeSeenAt: 'lastBadgeSeenAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -54264,6 +56752,7 @@ export namespace Prisma {
     taskCompleted: 'taskCompleted',
     taskOverdue: 'taskOverdue',
     taskNoDueDate: 'taskNoDueDate',
+    taskNoAssignee: 'taskNoAssignee',
     lastSyncedAt: 'lastSyncedAt',
     clientExpectedAt: 'clientExpectedAt',
     clientLastContactAt: 'clientLastContactAt',
@@ -54281,6 +56770,7 @@ export namespace Prisma {
     name: 'name',
     statusName: 'statusName',
     isCompleted: 'isCompleted',
+    hasNoAssignee: 'hasNoAssignee',
     dateUpdated: 'dateUpdated',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -54546,12 +57036,46 @@ export namespace Prisma {
   export type BusinessHoursIntervalScalarFieldEnum = (typeof BusinessHoursIntervalScalarFieldEnum)[keyof typeof BusinessHoursIntervalScalarFieldEnum]
 
 
+  export const RewardScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    name: 'name',
+    description: 'description',
+    cost: 'cost',
+    available: 'available',
+    imageUrl: 'imageUrl',
+    stock: 'stock',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type RewardScalarFieldEnum = (typeof RewardScalarFieldEnum)[keyof typeof RewardScalarFieldEnum]
+
+
+  export const RewardRedemptionScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    companyId: 'companyId',
+    rewardId: 'rewardId',
+    rewardName: 'rewardName',
+    cost: 'cost',
+    status: 'status',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    resolvedAt: 'resolvedAt'
+  };
+
+  export type RewardRedemptionScalarFieldEnum = (typeof RewardRedemptionScalarFieldEnum)[keyof typeof RewardRedemptionScalarFieldEnum]
+
+
   export const UserScoreScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
     companyId: 'companyId',
     totalPoints: 'totalPoints',
     monthPoints: 'monthPoints',
+    redeemablePoints: 'redeemablePoints',
     month: 'month',
     year: 'year',
     createdAt: 'createdAt',
@@ -55024,6 +57548,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'RedemptionStatus'
+   */
+  export type EnumRedemptionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RedemptionStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'RedemptionStatus[]'
+   */
+  export type ListEnumRedemptionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RedemptionStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'BadgeType'
    */
   export type EnumBadgeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BadgeType'>
@@ -55068,6 +57606,7 @@ export namespace Prisma {
     whatsappSignature?: StringNullableFilter<"User"> | string | null
     companyId?: StringNullableFilter<"User"> | string | null
     rankingCategory?: EnumRankingCategoryFilter<"User"> | $Enums.RankingCategory
+    lastBadgeSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     company?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     ticketsCreated?: TicketListRelationFilter
     ticketsAssigned?: TicketListRelationFilter
@@ -55081,6 +57620,7 @@ export namespace Prisma {
     userBadges?: UserBadgeListRelationFilter
     scoreEvents?: ScoreEventListRelationFilter
     projectMemberships?: ProjectMemberListRelationFilter
+    rewardRedemptions?: RewardRedemptionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -55094,6 +57634,7 @@ export namespace Prisma {
     whatsappSignature?: SortOrderInput | SortOrder
     companyId?: SortOrderInput | SortOrder
     rankingCategory?: SortOrder
+    lastBadgeSeenAt?: SortOrderInput | SortOrder
     company?: CompanyOrderByWithRelationInput
     ticketsCreated?: TicketOrderByRelationAggregateInput
     ticketsAssigned?: TicketOrderByRelationAggregateInput
@@ -55107,6 +57648,7 @@ export namespace Prisma {
     userBadges?: UserBadgeOrderByRelationAggregateInput
     scoreEvents?: ScoreEventOrderByRelationAggregateInput
     projectMemberships?: ProjectMemberOrderByRelationAggregateInput
+    rewardRedemptions?: RewardRedemptionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -55123,6 +57665,7 @@ export namespace Prisma {
     whatsappSignature?: StringNullableFilter<"User"> | string | null
     companyId?: StringNullableFilter<"User"> | string | null
     rankingCategory?: EnumRankingCategoryFilter<"User"> | $Enums.RankingCategory
+    lastBadgeSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     company?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     ticketsCreated?: TicketListRelationFilter
     ticketsAssigned?: TicketListRelationFilter
@@ -55136,6 +57679,7 @@ export namespace Prisma {
     userBadges?: UserBadgeListRelationFilter
     scoreEvents?: ScoreEventListRelationFilter
     projectMemberships?: ProjectMemberListRelationFilter
+    rewardRedemptions?: RewardRedemptionListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -55149,6 +57693,7 @@ export namespace Prisma {
     whatsappSignature?: SortOrderInput | SortOrder
     companyId?: SortOrderInput | SortOrder
     rankingCategory?: SortOrder
+    lastBadgeSeenAt?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -55168,6 +57713,7 @@ export namespace Prisma {
     whatsappSignature?: StringNullableWithAggregatesFilter<"User"> | string | null
     companyId?: StringNullableWithAggregatesFilter<"User"> | string | null
     rankingCategory?: EnumRankingCategoryWithAggregatesFilter<"User"> | $Enums.RankingCategory
+    lastBadgeSeenAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
 
   export type VaultEmailChallengeWhereInput = {
@@ -55425,6 +57971,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventListRelationFilter
     scoreRuleConfigs?: ScoreRuleConfigListRelationFilter
     setorClickupListsAsClient?: SetorClickupListListRelationFilter
+    rewards?: RewardListRelationFilter
+    rewardRedemptions?: RewardRedemptionListRelationFilter
     businessHours?: BusinessHoursConfigListRelationFilter
     campaigns?: CampaignListRelationFilter
     leads?: LeadListRelationFilter
@@ -55480,6 +58028,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventOrderByRelationAggregateInput
     scoreRuleConfigs?: ScoreRuleConfigOrderByRelationAggregateInput
     setorClickupListsAsClient?: SetorClickupListOrderByRelationAggregateInput
+    rewards?: RewardOrderByRelationAggregateInput
+    rewardRedemptions?: RewardRedemptionOrderByRelationAggregateInput
     businessHours?: BusinessHoursConfigOrderByRelationAggregateInput
     campaigns?: CampaignOrderByRelationAggregateInput
     leads?: LeadOrderByRelationAggregateInput
@@ -55538,6 +58088,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventListRelationFilter
     scoreRuleConfigs?: ScoreRuleConfigListRelationFilter
     setorClickupListsAsClient?: SetorClickupListListRelationFilter
+    rewards?: RewardListRelationFilter
+    rewardRedemptions?: RewardRedemptionListRelationFilter
     businessHours?: BusinessHoursConfigListRelationFilter
     campaigns?: CampaignListRelationFilter
     leads?: LeadListRelationFilter
@@ -57247,6 +59799,7 @@ export namespace Prisma {
     taskCompleted?: IntFilter<"SetorClickupList"> | number
     taskOverdue?: IntFilter<"SetorClickupList"> | number
     taskNoDueDate?: IntFilter<"SetorClickupList"> | number
+    taskNoAssignee?: IntFilter<"SetorClickupList"> | number
     lastSyncedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     clientExpectedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     clientLastContactAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
@@ -57275,6 +59828,7 @@ export namespace Prisma {
     taskCompleted?: SortOrder
     taskOverdue?: SortOrder
     taskNoDueDate?: SortOrder
+    taskNoAssignee?: SortOrder
     lastSyncedAt?: SortOrderInput | SortOrder
     clientExpectedAt?: SortOrderInput | SortOrder
     clientLastContactAt?: SortOrderInput | SortOrder
@@ -57307,6 +59861,7 @@ export namespace Prisma {
     taskCompleted?: IntFilter<"SetorClickupList"> | number
     taskOverdue?: IntFilter<"SetorClickupList"> | number
     taskNoDueDate?: IntFilter<"SetorClickupList"> | number
+    taskNoAssignee?: IntFilter<"SetorClickupList"> | number
     lastSyncedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     clientExpectedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     clientLastContactAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
@@ -57335,6 +59890,7 @@ export namespace Prisma {
     taskCompleted?: SortOrder
     taskOverdue?: SortOrder
     taskNoDueDate?: SortOrder
+    taskNoAssignee?: SortOrder
     lastSyncedAt?: SortOrderInput | SortOrder
     clientExpectedAt?: SortOrderInput | SortOrder
     clientLastContactAt?: SortOrderInput | SortOrder
@@ -57366,6 +59922,7 @@ export namespace Prisma {
     taskCompleted?: IntWithAggregatesFilter<"SetorClickupList"> | number
     taskOverdue?: IntWithAggregatesFilter<"SetorClickupList"> | number
     taskNoDueDate?: IntWithAggregatesFilter<"SetorClickupList"> | number
+    taskNoAssignee?: IntWithAggregatesFilter<"SetorClickupList"> | number
     lastSyncedAt?: DateTimeNullableWithAggregatesFilter<"SetorClickupList"> | Date | string | null
     clientExpectedAt?: DateTimeNullableWithAggregatesFilter<"SetorClickupList"> | Date | string | null
     clientLastContactAt?: DateTimeNullableWithAggregatesFilter<"SetorClickupList"> | Date | string | null
@@ -57383,6 +59940,7 @@ export namespace Prisma {
     name?: StringFilter<"ProjectTaskState"> | string
     statusName?: StringNullableFilter<"ProjectTaskState"> | string | null
     isCompleted?: BoolFilter<"ProjectTaskState"> | boolean
+    hasNoAssignee?: BoolFilter<"ProjectTaskState"> | boolean
     dateUpdated?: BigIntNullableFilter<"ProjectTaskState"> | bigint | number | null
     createdAt?: DateTimeFilter<"ProjectTaskState"> | Date | string
     updatedAt?: DateTimeFilter<"ProjectTaskState"> | Date | string
@@ -57396,6 +59954,7 @@ export namespace Prisma {
     name?: SortOrder
     statusName?: SortOrderInput | SortOrder
     isCompleted?: SortOrder
+    hasNoAssignee?: SortOrder
     dateUpdated?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -57413,6 +59972,7 @@ export namespace Prisma {
     name?: StringFilter<"ProjectTaskState"> | string
     statusName?: StringNullableFilter<"ProjectTaskState"> | string | null
     isCompleted?: BoolFilter<"ProjectTaskState"> | boolean
+    hasNoAssignee?: BoolFilter<"ProjectTaskState"> | boolean
     dateUpdated?: BigIntNullableFilter<"ProjectTaskState"> | bigint | number | null
     createdAt?: DateTimeFilter<"ProjectTaskState"> | Date | string
     updatedAt?: DateTimeFilter<"ProjectTaskState"> | Date | string
@@ -57426,6 +59986,7 @@ export namespace Prisma {
     name?: SortOrder
     statusName?: SortOrderInput | SortOrder
     isCompleted?: SortOrder
+    hasNoAssignee?: SortOrder
     dateUpdated?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -57446,6 +60007,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"ProjectTaskState"> | string
     statusName?: StringNullableWithAggregatesFilter<"ProjectTaskState"> | string | null
     isCompleted?: BoolWithAggregatesFilter<"ProjectTaskState"> | boolean
+    hasNoAssignee?: BoolWithAggregatesFilter<"ProjectTaskState"> | boolean
     dateUpdated?: BigIntNullableWithAggregatesFilter<"ProjectTaskState"> | bigint | number | null
     createdAt?: DateTimeWithAggregatesFilter<"ProjectTaskState"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ProjectTaskState"> | Date | string
@@ -58779,6 +61341,184 @@ export namespace Prisma {
     label?: StringNullableWithAggregatesFilter<"BusinessHoursInterval"> | string | null
   }
 
+  export type RewardWhereInput = {
+    AND?: RewardWhereInput | RewardWhereInput[]
+    OR?: RewardWhereInput[]
+    NOT?: RewardWhereInput | RewardWhereInput[]
+    id?: StringFilter<"Reward"> | string
+    companyId?: StringFilter<"Reward"> | string
+    name?: StringFilter<"Reward"> | string
+    description?: StringNullableFilter<"Reward"> | string | null
+    cost?: IntFilter<"Reward"> | number
+    available?: BoolFilter<"Reward"> | boolean
+    imageUrl?: StringNullableFilter<"Reward"> | string | null
+    stock?: IntNullableFilter<"Reward"> | number | null
+    createdAt?: DateTimeFilter<"Reward"> | Date | string
+    updatedAt?: DateTimeFilter<"Reward"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    redemptions?: RewardRedemptionListRelationFilter
+  }
+
+  export type RewardOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    cost?: SortOrder
+    available?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    stock?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    redemptions?: RewardRedemptionOrderByRelationAggregateInput
+  }
+
+  export type RewardWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RewardWhereInput | RewardWhereInput[]
+    OR?: RewardWhereInput[]
+    NOT?: RewardWhereInput | RewardWhereInput[]
+    companyId?: StringFilter<"Reward"> | string
+    name?: StringFilter<"Reward"> | string
+    description?: StringNullableFilter<"Reward"> | string | null
+    cost?: IntFilter<"Reward"> | number
+    available?: BoolFilter<"Reward"> | boolean
+    imageUrl?: StringNullableFilter<"Reward"> | string | null
+    stock?: IntNullableFilter<"Reward"> | number | null
+    createdAt?: DateTimeFilter<"Reward"> | Date | string
+    updatedAt?: DateTimeFilter<"Reward"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    redemptions?: RewardRedemptionListRelationFilter
+  }, "id">
+
+  export type RewardOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    cost?: SortOrder
+    available?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    stock?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: RewardCountOrderByAggregateInput
+    _avg?: RewardAvgOrderByAggregateInput
+    _max?: RewardMaxOrderByAggregateInput
+    _min?: RewardMinOrderByAggregateInput
+    _sum?: RewardSumOrderByAggregateInput
+  }
+
+  export type RewardScalarWhereWithAggregatesInput = {
+    AND?: RewardScalarWhereWithAggregatesInput | RewardScalarWhereWithAggregatesInput[]
+    OR?: RewardScalarWhereWithAggregatesInput[]
+    NOT?: RewardScalarWhereWithAggregatesInput | RewardScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Reward"> | string
+    companyId?: StringWithAggregatesFilter<"Reward"> | string
+    name?: StringWithAggregatesFilter<"Reward"> | string
+    description?: StringNullableWithAggregatesFilter<"Reward"> | string | null
+    cost?: IntWithAggregatesFilter<"Reward"> | number
+    available?: BoolWithAggregatesFilter<"Reward"> | boolean
+    imageUrl?: StringNullableWithAggregatesFilter<"Reward"> | string | null
+    stock?: IntNullableWithAggregatesFilter<"Reward"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"Reward"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Reward"> | Date | string
+  }
+
+  export type RewardRedemptionWhereInput = {
+    AND?: RewardRedemptionWhereInput | RewardRedemptionWhereInput[]
+    OR?: RewardRedemptionWhereInput[]
+    NOT?: RewardRedemptionWhereInput | RewardRedemptionWhereInput[]
+    id?: StringFilter<"RewardRedemption"> | string
+    userId?: StringFilter<"RewardRedemption"> | string
+    companyId?: StringFilter<"RewardRedemption"> | string
+    rewardId?: StringFilter<"RewardRedemption"> | string
+    rewardName?: StringFilter<"RewardRedemption"> | string
+    cost?: IntFilter<"RewardRedemption"> | number
+    status?: EnumRedemptionStatusFilter<"RewardRedemption"> | $Enums.RedemptionStatus
+    notes?: StringNullableFilter<"RewardRedemption"> | string | null
+    createdAt?: DateTimeFilter<"RewardRedemption"> | Date | string
+    updatedAt?: DateTimeFilter<"RewardRedemption"> | Date | string
+    resolvedAt?: DateTimeNullableFilter<"RewardRedemption"> | Date | string | null
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    reward?: XOR<RewardRelationFilter, RewardWhereInput>
+  }
+
+  export type RewardRedemptionOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    rewardId?: SortOrder
+    rewardName?: SortOrder
+    cost?: SortOrder
+    status?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    resolvedAt?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
+    reward?: RewardOrderByWithRelationInput
+  }
+
+  export type RewardRedemptionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RewardRedemptionWhereInput | RewardRedemptionWhereInput[]
+    OR?: RewardRedemptionWhereInput[]
+    NOT?: RewardRedemptionWhereInput | RewardRedemptionWhereInput[]
+    userId?: StringFilter<"RewardRedemption"> | string
+    companyId?: StringFilter<"RewardRedemption"> | string
+    rewardId?: StringFilter<"RewardRedemption"> | string
+    rewardName?: StringFilter<"RewardRedemption"> | string
+    cost?: IntFilter<"RewardRedemption"> | number
+    status?: EnumRedemptionStatusFilter<"RewardRedemption"> | $Enums.RedemptionStatus
+    notes?: StringNullableFilter<"RewardRedemption"> | string | null
+    createdAt?: DateTimeFilter<"RewardRedemption"> | Date | string
+    updatedAt?: DateTimeFilter<"RewardRedemption"> | Date | string
+    resolvedAt?: DateTimeNullableFilter<"RewardRedemption"> | Date | string | null
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    reward?: XOR<RewardRelationFilter, RewardWhereInput>
+  }, "id">
+
+  export type RewardRedemptionOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    rewardId?: SortOrder
+    rewardName?: SortOrder
+    cost?: SortOrder
+    status?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    resolvedAt?: SortOrderInput | SortOrder
+    _count?: RewardRedemptionCountOrderByAggregateInput
+    _avg?: RewardRedemptionAvgOrderByAggregateInput
+    _max?: RewardRedemptionMaxOrderByAggregateInput
+    _min?: RewardRedemptionMinOrderByAggregateInput
+    _sum?: RewardRedemptionSumOrderByAggregateInput
+  }
+
+  export type RewardRedemptionScalarWhereWithAggregatesInput = {
+    AND?: RewardRedemptionScalarWhereWithAggregatesInput | RewardRedemptionScalarWhereWithAggregatesInput[]
+    OR?: RewardRedemptionScalarWhereWithAggregatesInput[]
+    NOT?: RewardRedemptionScalarWhereWithAggregatesInput | RewardRedemptionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RewardRedemption"> | string
+    userId?: StringWithAggregatesFilter<"RewardRedemption"> | string
+    companyId?: StringWithAggregatesFilter<"RewardRedemption"> | string
+    rewardId?: StringWithAggregatesFilter<"RewardRedemption"> | string
+    rewardName?: StringWithAggregatesFilter<"RewardRedemption"> | string
+    cost?: IntWithAggregatesFilter<"RewardRedemption"> | number
+    status?: EnumRedemptionStatusWithAggregatesFilter<"RewardRedemption"> | $Enums.RedemptionStatus
+    notes?: StringNullableWithAggregatesFilter<"RewardRedemption"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"RewardRedemption"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"RewardRedemption"> | Date | string
+    resolvedAt?: DateTimeNullableWithAggregatesFilter<"RewardRedemption"> | Date | string | null
+  }
+
   export type UserScoreWhereInput = {
     AND?: UserScoreWhereInput | UserScoreWhereInput[]
     OR?: UserScoreWhereInput[]
@@ -58788,6 +61528,7 @@ export namespace Prisma {
     companyId?: StringFilter<"UserScore"> | string
     totalPoints?: IntFilter<"UserScore"> | number
     monthPoints?: IntFilter<"UserScore"> | number
+    redeemablePoints?: IntFilter<"UserScore"> | number
     month?: IntFilter<"UserScore"> | number
     year?: IntFilter<"UserScore"> | number
     createdAt?: DateTimeFilter<"UserScore"> | Date | string
@@ -58802,6 +61543,7 @@ export namespace Prisma {
     companyId?: SortOrder
     totalPoints?: SortOrder
     monthPoints?: SortOrder
+    redeemablePoints?: SortOrder
     month?: SortOrder
     year?: SortOrder
     createdAt?: SortOrder
@@ -58820,6 +61562,7 @@ export namespace Prisma {
     companyId?: StringFilter<"UserScore"> | string
     totalPoints?: IntFilter<"UserScore"> | number
     monthPoints?: IntFilter<"UserScore"> | number
+    redeemablePoints?: IntFilter<"UserScore"> | number
     month?: IntFilter<"UserScore"> | number
     year?: IntFilter<"UserScore"> | number
     createdAt?: DateTimeFilter<"UserScore"> | Date | string
@@ -58834,6 +61577,7 @@ export namespace Prisma {
     companyId?: SortOrder
     totalPoints?: SortOrder
     monthPoints?: SortOrder
+    redeemablePoints?: SortOrder
     month?: SortOrder
     year?: SortOrder
     createdAt?: SortOrder
@@ -58854,6 +61598,7 @@ export namespace Prisma {
     companyId?: StringWithAggregatesFilter<"UserScore"> | string
     totalPoints?: IntWithAggregatesFilter<"UserScore"> | number
     monthPoints?: IntWithAggregatesFilter<"UserScore"> | number
+    redeemablePoints?: IntWithAggregatesFilter<"UserScore"> | number
     month?: IntWithAggregatesFilter<"UserScore"> | number
     year?: IntWithAggregatesFilter<"UserScore"> | number
     createdAt?: DateTimeWithAggregatesFilter<"UserScore"> | Date | string
@@ -59146,6 +61891,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -59159,6 +61905,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -59172,6 +61919,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -59184,6 +61932,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -59196,6 +61945,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -59209,6 +61959,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -59222,6 +61973,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -59234,6 +61986,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -59247,6 +62000,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -59259,6 +62013,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -59272,6 +62027,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type VaultEmailChallengeCreateInput = {
@@ -59544,6 +62300,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -59598,6 +62356,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -59652,6 +62412,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -59706,6 +62468,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -61575,6 +64339,7 @@ export namespace Prisma {
     taskCompleted?: number
     taskOverdue?: number
     taskNoDueDate?: number
+    taskNoAssignee?: number
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
@@ -61603,6 +64368,7 @@ export namespace Prisma {
     taskCompleted?: number
     taskOverdue?: number
     taskNoDueDate?: number
+    taskNoAssignee?: number
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
@@ -61627,6 +64393,7 @@ export namespace Prisma {
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -61655,6 +64422,7 @@ export namespace Prisma {
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -61681,6 +64449,7 @@ export namespace Prisma {
     taskCompleted?: number
     taskOverdue?: number
     taskNoDueDate?: number
+    taskNoAssignee?: number
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
@@ -61702,6 +64471,7 @@ export namespace Prisma {
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -61725,6 +64495,7 @@ export namespace Prisma {
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -61738,6 +64509,7 @@ export namespace Prisma {
     name: string
     statusName?: string | null
     isCompleted?: boolean
+    hasNoAssignee?: boolean
     dateUpdated?: bigint | number | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -61751,6 +64523,7 @@ export namespace Prisma {
     name: string
     statusName?: string | null
     isCompleted?: boolean
+    hasNoAssignee?: boolean
     dateUpdated?: bigint | number | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -61762,6 +64535,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     statusName?: NullableStringFieldUpdateOperationsInput | string | null
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    hasNoAssignee?: BoolFieldUpdateOperationsInput | boolean
     dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -61775,6 +64549,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     statusName?: NullableStringFieldUpdateOperationsInput | string | null
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    hasNoAssignee?: BoolFieldUpdateOperationsInput | boolean
     dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -61787,6 +64562,7 @@ export namespace Prisma {
     name: string
     statusName?: string | null
     isCompleted?: boolean
+    hasNoAssignee?: boolean
     dateUpdated?: bigint | number | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -61798,6 +64574,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     statusName?: NullableStringFieldUpdateOperationsInput | string | null
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    hasNoAssignee?: BoolFieldUpdateOperationsInput | boolean
     dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -61810,6 +64587,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     statusName?: NullableStringFieldUpdateOperationsInput | string | null
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    hasNoAssignee?: BoolFieldUpdateOperationsInput | boolean
     dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -63272,10 +66050,200 @@ export namespace Prisma {
     label?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type RewardCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    cost: number
+    available?: boolean
+    imageUrl?: string | null
+    stock?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutRewardsInput
+    redemptions?: RewardRedemptionCreateNestedManyWithoutRewardInput
+  }
+
+  export type RewardUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    name: string
+    description?: string | null
+    cost: number
+    available?: boolean
+    imageUrl?: string | null
+    stock?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    redemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutRewardInput
+  }
+
+  export type RewardUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: IntFieldUpdateOperationsInput | number
+    available?: BoolFieldUpdateOperationsInput | boolean
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    stock?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutRewardsNestedInput
+    redemptions?: RewardRedemptionUpdateManyWithoutRewardNestedInput
+  }
+
+  export type RewardUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: IntFieldUpdateOperationsInput | number
+    available?: BoolFieldUpdateOperationsInput | boolean
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    stock?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    redemptions?: RewardRedemptionUncheckedUpdateManyWithoutRewardNestedInput
+  }
+
+  export type RewardCreateManyInput = {
+    id?: string
+    companyId: string
+    name: string
+    description?: string | null
+    cost: number
+    available?: boolean
+    imageUrl?: string | null
+    stock?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RewardUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: IntFieldUpdateOperationsInput | number
+    available?: BoolFieldUpdateOperationsInput | boolean
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    stock?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RewardUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: IntFieldUpdateOperationsInput | number
+    available?: BoolFieldUpdateOperationsInput | boolean
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    stock?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RewardRedemptionCreateInput = {
+    id?: string
+    rewardName: string
+    cost: number
+    status?: $Enums.RedemptionStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutRewardRedemptionsInput
+    company: CompanyCreateNestedOneWithoutRewardRedemptionsInput
+    reward: RewardCreateNestedOneWithoutRedemptionsInput
+  }
+
+  export type RewardRedemptionUncheckedCreateInput = {
+    id?: string
+    userId: string
+    companyId: string
+    rewardId: string
+    rewardName: string
+    cost: number
+    status?: $Enums.RedemptionStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
+  export type RewardRedemptionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rewardName?: StringFieldUpdateOperationsInput | string
+    cost?: IntFieldUpdateOperationsInput | number
+    status?: EnumRedemptionStatusFieldUpdateOperationsInput | $Enums.RedemptionStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutRewardRedemptionsNestedInput
+    company?: CompanyUpdateOneRequiredWithoutRewardRedemptionsNestedInput
+    reward?: RewardUpdateOneRequiredWithoutRedemptionsNestedInput
+  }
+
+  export type RewardRedemptionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    rewardId?: StringFieldUpdateOperationsInput | string
+    rewardName?: StringFieldUpdateOperationsInput | string
+    cost?: IntFieldUpdateOperationsInput | number
+    status?: EnumRedemptionStatusFieldUpdateOperationsInput | $Enums.RedemptionStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type RewardRedemptionCreateManyInput = {
+    id?: string
+    userId: string
+    companyId: string
+    rewardId: string
+    rewardName: string
+    cost: number
+    status?: $Enums.RedemptionStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
+  export type RewardRedemptionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rewardName?: StringFieldUpdateOperationsInput | string
+    cost?: IntFieldUpdateOperationsInput | number
+    status?: EnumRedemptionStatusFieldUpdateOperationsInput | $Enums.RedemptionStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type RewardRedemptionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    rewardId?: StringFieldUpdateOperationsInput | string
+    rewardName?: StringFieldUpdateOperationsInput | string
+    cost?: IntFieldUpdateOperationsInput | number
+    status?: EnumRedemptionStatusFieldUpdateOperationsInput | $Enums.RedemptionStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type UserScoreCreateInput = {
     id?: string
     totalPoints?: number
     monthPoints?: number
+    redeemablePoints?: number
     month: number
     year: number
     createdAt?: Date | string
@@ -63290,6 +66258,7 @@ export namespace Prisma {
     companyId: string
     totalPoints?: number
     monthPoints?: number
+    redeemablePoints?: number
     month: number
     year: number
     createdAt?: Date | string
@@ -63300,6 +66269,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     totalPoints?: IntFieldUpdateOperationsInput | number
     monthPoints?: IntFieldUpdateOperationsInput | number
+    redeemablePoints?: IntFieldUpdateOperationsInput | number
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -63314,6 +66284,7 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     totalPoints?: IntFieldUpdateOperationsInput | number
     monthPoints?: IntFieldUpdateOperationsInput | number
+    redeemablePoints?: IntFieldUpdateOperationsInput | number
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -63326,6 +66297,7 @@ export namespace Prisma {
     companyId: string
     totalPoints?: number
     monthPoints?: number
+    redeemablePoints?: number
     month: number
     year: number
     createdAt?: Date | string
@@ -63336,6 +66308,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     totalPoints?: IntFieldUpdateOperationsInput | number
     monthPoints?: IntFieldUpdateOperationsInput | number
+    redeemablePoints?: IntFieldUpdateOperationsInput | number
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -63348,6 +66321,7 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     totalPoints?: IntFieldUpdateOperationsInput | number
     monthPoints?: IntFieldUpdateOperationsInput | number
+    redeemablePoints?: IntFieldUpdateOperationsInput | number
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -63683,6 +66657,17 @@ export namespace Prisma {
     not?: NestedEnumRankingCategoryFilter<$PrismaModel> | $Enums.RankingCategory
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type CompanyNullableRelationFilter = {
     is?: CompanyWhereInput | null
     isNot?: CompanyWhereInput | null
@@ -63753,6 +66738,12 @@ export namespace Prisma {
     none?: ProjectMemberWhereInput
   }
 
+  export type RewardRedemptionListRelationFilter = {
+    every?: RewardRedemptionWhereInput
+    some?: RewardRedemptionWhereInput
+    none?: RewardRedemptionWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -63798,6 +66789,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type RewardRedemptionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -63809,6 +66804,7 @@ export namespace Prisma {
     whatsappSignature?: SortOrder
     companyId?: SortOrder
     rankingCategory?: SortOrder
+    lastBadgeSeenAt?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -63822,6 +66818,7 @@ export namespace Prisma {
     whatsappSignature?: SortOrder
     companyId?: SortOrder
     rankingCategory?: SortOrder
+    lastBadgeSeenAt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -63835,6 +66832,7 @@ export namespace Prisma {
     whatsappSignature?: SortOrder
     companyId?: SortOrder
     rankingCategory?: SortOrder
+    lastBadgeSeenAt?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -63905,6 +66903,20 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRankingCategoryFilter<$PrismaModel>
     _max?: NestedEnumRankingCategoryFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -64014,17 +67026,6 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type StringNullableListFilter<$PrismaModel = never> = {
     equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     has?: string | StringFieldRefInput<$PrismaModel> | null
@@ -64087,20 +67088,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
   export type EnumCompanyStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.CompanyStatus | EnumCompanyStatusFieldRefInput<$PrismaModel>
     in?: $Enums.CompanyStatus[] | ListEnumCompanyStatusFieldRefInput<$PrismaModel>
@@ -64130,6 +67117,12 @@ export namespace Prisma {
     every?: SetorClickupListWhereInput
     some?: SetorClickupListWhereInput
     none?: SetorClickupListWhereInput
+  }
+
+  export type RewardListRelationFilter = {
+    every?: RewardWhereInput
+    some?: RewardWhereInput
+    none?: RewardWhereInput
   }
 
   export type BusinessHoursConfigListRelationFilter = {
@@ -64270,6 +67263,10 @@ export namespace Prisma {
   }
 
   export type SetorClickupListOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RewardOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -65687,6 +68684,7 @@ export namespace Prisma {
     taskCompleted?: SortOrder
     taskOverdue?: SortOrder
     taskNoDueDate?: SortOrder
+    taskNoAssignee?: SortOrder
     lastSyncedAt?: SortOrder
     clientExpectedAt?: SortOrder
     clientLastContactAt?: SortOrder
@@ -65699,6 +68697,7 @@ export namespace Prisma {
     taskCompleted?: SortOrder
     taskOverdue?: SortOrder
     taskNoDueDate?: SortOrder
+    taskNoAssignee?: SortOrder
   }
 
   export type SetorClickupListMaxOrderByAggregateInput = {
@@ -65717,6 +68716,7 @@ export namespace Prisma {
     taskCompleted?: SortOrder
     taskOverdue?: SortOrder
     taskNoDueDate?: SortOrder
+    taskNoAssignee?: SortOrder
     lastSyncedAt?: SortOrder
     clientExpectedAt?: SortOrder
     clientLastContactAt?: SortOrder
@@ -65740,6 +68740,7 @@ export namespace Prisma {
     taskCompleted?: SortOrder
     taskOverdue?: SortOrder
     taskNoDueDate?: SortOrder
+    taskNoAssignee?: SortOrder
     lastSyncedAt?: SortOrder
     clientExpectedAt?: SortOrder
     clientLastContactAt?: SortOrder
@@ -65752,6 +68753,7 @@ export namespace Prisma {
     taskCompleted?: SortOrder
     taskOverdue?: SortOrder
     taskNoDueDate?: SortOrder
+    taskNoAssignee?: SortOrder
   }
 
   export type EnumProjectStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -65792,6 +68794,7 @@ export namespace Prisma {
     name?: SortOrder
     statusName?: SortOrder
     isCompleted?: SortOrder
+    hasNoAssignee?: SortOrder
     dateUpdated?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -65808,6 +68811,7 @@ export namespace Prisma {
     name?: SortOrder
     statusName?: SortOrder
     isCompleted?: SortOrder
+    hasNoAssignee?: SortOrder
     dateUpdated?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -65820,6 +68824,7 @@ export namespace Prisma {
     name?: SortOrder
     statusName?: SortOrder
     isCompleted?: SortOrder
+    hasNoAssignee?: SortOrder
     dateUpdated?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -66793,6 +69798,127 @@ export namespace Prisma {
     label?: SortOrder
   }
 
+  export type RewardCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    cost?: SortOrder
+    available?: SortOrder
+    imageUrl?: SortOrder
+    stock?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RewardAvgOrderByAggregateInput = {
+    cost?: SortOrder
+    stock?: SortOrder
+  }
+
+  export type RewardMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    cost?: SortOrder
+    available?: SortOrder
+    imageUrl?: SortOrder
+    stock?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RewardMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    cost?: SortOrder
+    available?: SortOrder
+    imageUrl?: SortOrder
+    stock?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RewardSumOrderByAggregateInput = {
+    cost?: SortOrder
+    stock?: SortOrder
+  }
+
+  export type EnumRedemptionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.RedemptionStatus | EnumRedemptionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.RedemptionStatus[] | ListEnumRedemptionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RedemptionStatus[] | ListEnumRedemptionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumRedemptionStatusFilter<$PrismaModel> | $Enums.RedemptionStatus
+  }
+
+  export type RewardRelationFilter = {
+    is?: RewardWhereInput
+    isNot?: RewardWhereInput
+  }
+
+  export type RewardRedemptionCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    rewardId?: SortOrder
+    rewardName?: SortOrder
+    cost?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    resolvedAt?: SortOrder
+  }
+
+  export type RewardRedemptionAvgOrderByAggregateInput = {
+    cost?: SortOrder
+  }
+
+  export type RewardRedemptionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    rewardId?: SortOrder
+    rewardName?: SortOrder
+    cost?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    resolvedAt?: SortOrder
+  }
+
+  export type RewardRedemptionMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    rewardId?: SortOrder
+    rewardName?: SortOrder
+    cost?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    resolvedAt?: SortOrder
+  }
+
+  export type RewardRedemptionSumOrderByAggregateInput = {
+    cost?: SortOrder
+  }
+
+  export type EnumRedemptionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RedemptionStatus | EnumRedemptionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.RedemptionStatus[] | ListEnumRedemptionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RedemptionStatus[] | ListEnumRedemptionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumRedemptionStatusWithAggregatesFilter<$PrismaModel> | $Enums.RedemptionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRedemptionStatusFilter<$PrismaModel>
+    _max?: NestedEnumRedemptionStatusFilter<$PrismaModel>
+  }
+
   export type UserScoreUserIdMonthYearCompoundUniqueInput = {
     userId: string
     month: number
@@ -66805,6 +69931,7 @@ export namespace Prisma {
     companyId?: SortOrder
     totalPoints?: SortOrder
     monthPoints?: SortOrder
+    redeemablePoints?: SortOrder
     month?: SortOrder
     year?: SortOrder
     createdAt?: SortOrder
@@ -66814,6 +69941,7 @@ export namespace Prisma {
   export type UserScoreAvgOrderByAggregateInput = {
     totalPoints?: SortOrder
     monthPoints?: SortOrder
+    redeemablePoints?: SortOrder
     month?: SortOrder
     year?: SortOrder
   }
@@ -66824,6 +69952,7 @@ export namespace Prisma {
     companyId?: SortOrder
     totalPoints?: SortOrder
     monthPoints?: SortOrder
+    redeemablePoints?: SortOrder
     month?: SortOrder
     year?: SortOrder
     createdAt?: SortOrder
@@ -66836,6 +69965,7 @@ export namespace Prisma {
     companyId?: SortOrder
     totalPoints?: SortOrder
     monthPoints?: SortOrder
+    redeemablePoints?: SortOrder
     month?: SortOrder
     year?: SortOrder
     createdAt?: SortOrder
@@ -66845,6 +69975,7 @@ export namespace Prisma {
   export type UserScoreSumOrderByAggregateInput = {
     totalPoints?: SortOrder
     monthPoints?: SortOrder
+    redeemablePoints?: SortOrder
     month?: SortOrder
     year?: SortOrder
   }
@@ -67133,6 +70264,13 @@ export namespace Prisma {
     connect?: ProjectMemberWhereUniqueInput | ProjectMemberWhereUniqueInput[]
   }
 
+  export type RewardRedemptionCreateNestedManyWithoutUserInput = {
+    create?: XOR<RewardRedemptionCreateWithoutUserInput, RewardRedemptionUncheckedCreateWithoutUserInput> | RewardRedemptionCreateWithoutUserInput[] | RewardRedemptionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RewardRedemptionCreateOrConnectWithoutUserInput | RewardRedemptionCreateOrConnectWithoutUserInput[]
+    createMany?: RewardRedemptionCreateManyUserInputEnvelope
+    connect?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+  }
+
   export type TicketUncheckedCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -67216,6 +70354,13 @@ export namespace Prisma {
     connect?: ProjectMemberWhereUniqueInput | ProjectMemberWhereUniqueInput[]
   }
 
+  export type RewardRedemptionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<RewardRedemptionCreateWithoutUserInput, RewardRedemptionUncheckedCreateWithoutUserInput> | RewardRedemptionCreateWithoutUserInput[] | RewardRedemptionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RewardRedemptionCreateOrConnectWithoutUserInput | RewardRedemptionCreateOrConnectWithoutUserInput[]
+    createMany?: RewardRedemptionCreateManyUserInputEnvelope
+    connect?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -67234,6 +70379,10 @@ export namespace Prisma {
 
   export type EnumRankingCategoryFieldUpdateOperationsInput = {
     set?: $Enums.RankingCategory
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type CompanyUpdateOneWithoutUsersNestedInput = {
@@ -67410,6 +70559,20 @@ export namespace Prisma {
     deleteMany?: ProjectMemberScalarWhereInput | ProjectMemberScalarWhereInput[]
   }
 
+  export type RewardRedemptionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RewardRedemptionCreateWithoutUserInput, RewardRedemptionUncheckedCreateWithoutUserInput> | RewardRedemptionCreateWithoutUserInput[] | RewardRedemptionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RewardRedemptionCreateOrConnectWithoutUserInput | RewardRedemptionCreateOrConnectWithoutUserInput[]
+    upsert?: RewardRedemptionUpsertWithWhereUniqueWithoutUserInput | RewardRedemptionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RewardRedemptionCreateManyUserInputEnvelope
+    set?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    disconnect?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    delete?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    connect?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    update?: RewardRedemptionUpdateWithWhereUniqueWithoutUserInput | RewardRedemptionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RewardRedemptionUpdateManyWithWhereWithoutUserInput | RewardRedemptionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RewardRedemptionScalarWhereInput | RewardRedemptionScalarWhereInput[]
+  }
+
   export type TicketUncheckedUpdateManyWithoutCreatedByNestedInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -67574,6 +70737,20 @@ export namespace Prisma {
     deleteMany?: ProjectMemberScalarWhereInput | ProjectMemberScalarWhereInput[]
   }
 
+  export type RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RewardRedemptionCreateWithoutUserInput, RewardRedemptionUncheckedCreateWithoutUserInput> | RewardRedemptionCreateWithoutUserInput[] | RewardRedemptionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RewardRedemptionCreateOrConnectWithoutUserInput | RewardRedemptionCreateOrConnectWithoutUserInput[]
+    upsert?: RewardRedemptionUpsertWithWhereUniqueWithoutUserInput | RewardRedemptionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RewardRedemptionCreateManyUserInputEnvelope
+    set?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    disconnect?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    delete?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    connect?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    update?: RewardRedemptionUpdateWithWhereUniqueWithoutUserInput | RewardRedemptionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RewardRedemptionUpdateManyWithWhereWithoutUserInput | RewardRedemptionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RewardRedemptionScalarWhereInput | RewardRedemptionScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutVaultChallengesInput = {
     create?: XOR<UserCreateWithoutVaultChallengesInput, UserUncheckedCreateWithoutVaultChallengesInput>
     connectOrCreate?: UserCreateOrConnectWithoutVaultChallengesInput
@@ -67622,10 +70799,6 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutGoogleConnectionsInput, UserUncheckedCreateWithoutGoogleConnectionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutGoogleConnectionsInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type UserGoogleConnectionUpdatescopesInput = {
@@ -67694,6 +70867,20 @@ export namespace Prisma {
     connectOrCreate?: SetorClickupListCreateOrConnectWithoutClientCompanyInput | SetorClickupListCreateOrConnectWithoutClientCompanyInput[]
     createMany?: SetorClickupListCreateManyClientCompanyInputEnvelope
     connect?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+  }
+
+  export type RewardCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<RewardCreateWithoutCompanyInput, RewardUncheckedCreateWithoutCompanyInput> | RewardCreateWithoutCompanyInput[] | RewardUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: RewardCreateOrConnectWithoutCompanyInput | RewardCreateOrConnectWithoutCompanyInput[]
+    createMany?: RewardCreateManyCompanyInputEnvelope
+    connect?: RewardWhereUniqueInput | RewardWhereUniqueInput[]
+  }
+
+  export type RewardRedemptionCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<RewardRedemptionCreateWithoutCompanyInput, RewardRedemptionUncheckedCreateWithoutCompanyInput> | RewardRedemptionCreateWithoutCompanyInput[] | RewardRedemptionUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: RewardRedemptionCreateOrConnectWithoutCompanyInput | RewardRedemptionCreateOrConnectWithoutCompanyInput[]
+    createMany?: RewardRedemptionCreateManyCompanyInputEnvelope
+    connect?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
   }
 
   export type BusinessHoursConfigCreateNestedManyWithoutCompanyInput = {
@@ -67910,6 +71097,20 @@ export namespace Prisma {
     connectOrCreate?: SetorClickupListCreateOrConnectWithoutClientCompanyInput | SetorClickupListCreateOrConnectWithoutClientCompanyInput[]
     createMany?: SetorClickupListCreateManyClientCompanyInputEnvelope
     connect?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+  }
+
+  export type RewardUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<RewardCreateWithoutCompanyInput, RewardUncheckedCreateWithoutCompanyInput> | RewardCreateWithoutCompanyInput[] | RewardUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: RewardCreateOrConnectWithoutCompanyInput | RewardCreateOrConnectWithoutCompanyInput[]
+    createMany?: RewardCreateManyCompanyInputEnvelope
+    connect?: RewardWhereUniqueInput | RewardWhereUniqueInput[]
+  }
+
+  export type RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<RewardRedemptionCreateWithoutCompanyInput, RewardRedemptionUncheckedCreateWithoutCompanyInput> | RewardRedemptionCreateWithoutCompanyInput[] | RewardRedemptionUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: RewardRedemptionCreateOrConnectWithoutCompanyInput | RewardRedemptionCreateOrConnectWithoutCompanyInput[]
+    createMany?: RewardRedemptionCreateManyCompanyInputEnvelope
+    connect?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
   }
 
   export type BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -68189,6 +71390,34 @@ export namespace Prisma {
     update?: SetorClickupListUpdateWithWhereUniqueWithoutClientCompanyInput | SetorClickupListUpdateWithWhereUniqueWithoutClientCompanyInput[]
     updateMany?: SetorClickupListUpdateManyWithWhereWithoutClientCompanyInput | SetorClickupListUpdateManyWithWhereWithoutClientCompanyInput[]
     deleteMany?: SetorClickupListScalarWhereInput | SetorClickupListScalarWhereInput[]
+  }
+
+  export type RewardUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<RewardCreateWithoutCompanyInput, RewardUncheckedCreateWithoutCompanyInput> | RewardCreateWithoutCompanyInput[] | RewardUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: RewardCreateOrConnectWithoutCompanyInput | RewardCreateOrConnectWithoutCompanyInput[]
+    upsert?: RewardUpsertWithWhereUniqueWithoutCompanyInput | RewardUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: RewardCreateManyCompanyInputEnvelope
+    set?: RewardWhereUniqueInput | RewardWhereUniqueInput[]
+    disconnect?: RewardWhereUniqueInput | RewardWhereUniqueInput[]
+    delete?: RewardWhereUniqueInput | RewardWhereUniqueInput[]
+    connect?: RewardWhereUniqueInput | RewardWhereUniqueInput[]
+    update?: RewardUpdateWithWhereUniqueWithoutCompanyInput | RewardUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: RewardUpdateManyWithWhereWithoutCompanyInput | RewardUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: RewardScalarWhereInput | RewardScalarWhereInput[]
+  }
+
+  export type RewardRedemptionUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<RewardRedemptionCreateWithoutCompanyInput, RewardRedemptionUncheckedCreateWithoutCompanyInput> | RewardRedemptionCreateWithoutCompanyInput[] | RewardRedemptionUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: RewardRedemptionCreateOrConnectWithoutCompanyInput | RewardRedemptionCreateOrConnectWithoutCompanyInput[]
+    upsert?: RewardRedemptionUpsertWithWhereUniqueWithoutCompanyInput | RewardRedemptionUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: RewardRedemptionCreateManyCompanyInputEnvelope
+    set?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    disconnect?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    delete?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    connect?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    update?: RewardRedemptionUpdateWithWhereUniqueWithoutCompanyInput | RewardRedemptionUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: RewardRedemptionUpdateManyWithWhereWithoutCompanyInput | RewardRedemptionUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: RewardRedemptionScalarWhereInput | RewardRedemptionScalarWhereInput[]
   }
 
   export type BusinessHoursConfigUpdateManyWithoutCompanyNestedInput = {
@@ -68619,6 +71848,34 @@ export namespace Prisma {
     update?: SetorClickupListUpdateWithWhereUniqueWithoutClientCompanyInput | SetorClickupListUpdateWithWhereUniqueWithoutClientCompanyInput[]
     updateMany?: SetorClickupListUpdateManyWithWhereWithoutClientCompanyInput | SetorClickupListUpdateManyWithWhereWithoutClientCompanyInput[]
     deleteMany?: SetorClickupListScalarWhereInput | SetorClickupListScalarWhereInput[]
+  }
+
+  export type RewardUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<RewardCreateWithoutCompanyInput, RewardUncheckedCreateWithoutCompanyInput> | RewardCreateWithoutCompanyInput[] | RewardUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: RewardCreateOrConnectWithoutCompanyInput | RewardCreateOrConnectWithoutCompanyInput[]
+    upsert?: RewardUpsertWithWhereUniqueWithoutCompanyInput | RewardUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: RewardCreateManyCompanyInputEnvelope
+    set?: RewardWhereUniqueInput | RewardWhereUniqueInput[]
+    disconnect?: RewardWhereUniqueInput | RewardWhereUniqueInput[]
+    delete?: RewardWhereUniqueInput | RewardWhereUniqueInput[]
+    connect?: RewardWhereUniqueInput | RewardWhereUniqueInput[]
+    update?: RewardUpdateWithWhereUniqueWithoutCompanyInput | RewardUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: RewardUpdateManyWithWhereWithoutCompanyInput | RewardUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: RewardScalarWhereInput | RewardScalarWhereInput[]
+  }
+
+  export type RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<RewardRedemptionCreateWithoutCompanyInput, RewardRedemptionUncheckedCreateWithoutCompanyInput> | RewardRedemptionCreateWithoutCompanyInput[] | RewardRedemptionUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: RewardRedemptionCreateOrConnectWithoutCompanyInput | RewardRedemptionCreateOrConnectWithoutCompanyInput[]
+    upsert?: RewardRedemptionUpsertWithWhereUniqueWithoutCompanyInput | RewardRedemptionUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: RewardRedemptionCreateManyCompanyInputEnvelope
+    set?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    disconnect?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    delete?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    connect?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    update?: RewardRedemptionUpdateWithWhereUniqueWithoutCompanyInput | RewardRedemptionUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: RewardRedemptionUpdateManyWithWhereWithoutCompanyInput | RewardRedemptionUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: RewardRedemptionScalarWhereInput | RewardRedemptionScalarWhereInput[]
   }
 
   export type BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput = {
@@ -71111,6 +74368,108 @@ export namespace Prisma {
     update?: XOR<XOR<BusinessHoursConfigUpdateToOneWithWhereWithoutIntervalsInput, BusinessHoursConfigUpdateWithoutIntervalsInput>, BusinessHoursConfigUncheckedUpdateWithoutIntervalsInput>
   }
 
+  export type CompanyCreateNestedOneWithoutRewardsInput = {
+    create?: XOR<CompanyCreateWithoutRewardsInput, CompanyUncheckedCreateWithoutRewardsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutRewardsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type RewardRedemptionCreateNestedManyWithoutRewardInput = {
+    create?: XOR<RewardRedemptionCreateWithoutRewardInput, RewardRedemptionUncheckedCreateWithoutRewardInput> | RewardRedemptionCreateWithoutRewardInput[] | RewardRedemptionUncheckedCreateWithoutRewardInput[]
+    connectOrCreate?: RewardRedemptionCreateOrConnectWithoutRewardInput | RewardRedemptionCreateOrConnectWithoutRewardInput[]
+    createMany?: RewardRedemptionCreateManyRewardInputEnvelope
+    connect?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+  }
+
+  export type RewardRedemptionUncheckedCreateNestedManyWithoutRewardInput = {
+    create?: XOR<RewardRedemptionCreateWithoutRewardInput, RewardRedemptionUncheckedCreateWithoutRewardInput> | RewardRedemptionCreateWithoutRewardInput[] | RewardRedemptionUncheckedCreateWithoutRewardInput[]
+    connectOrCreate?: RewardRedemptionCreateOrConnectWithoutRewardInput | RewardRedemptionCreateOrConnectWithoutRewardInput[]
+    createMany?: RewardRedemptionCreateManyRewardInputEnvelope
+    connect?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+  }
+
+  export type CompanyUpdateOneRequiredWithoutRewardsNestedInput = {
+    create?: XOR<CompanyCreateWithoutRewardsInput, CompanyUncheckedCreateWithoutRewardsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutRewardsInput
+    upsert?: CompanyUpsertWithoutRewardsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutRewardsInput, CompanyUpdateWithoutRewardsInput>, CompanyUncheckedUpdateWithoutRewardsInput>
+  }
+
+  export type RewardRedemptionUpdateManyWithoutRewardNestedInput = {
+    create?: XOR<RewardRedemptionCreateWithoutRewardInput, RewardRedemptionUncheckedCreateWithoutRewardInput> | RewardRedemptionCreateWithoutRewardInput[] | RewardRedemptionUncheckedCreateWithoutRewardInput[]
+    connectOrCreate?: RewardRedemptionCreateOrConnectWithoutRewardInput | RewardRedemptionCreateOrConnectWithoutRewardInput[]
+    upsert?: RewardRedemptionUpsertWithWhereUniqueWithoutRewardInput | RewardRedemptionUpsertWithWhereUniqueWithoutRewardInput[]
+    createMany?: RewardRedemptionCreateManyRewardInputEnvelope
+    set?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    disconnect?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    delete?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    connect?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    update?: RewardRedemptionUpdateWithWhereUniqueWithoutRewardInput | RewardRedemptionUpdateWithWhereUniqueWithoutRewardInput[]
+    updateMany?: RewardRedemptionUpdateManyWithWhereWithoutRewardInput | RewardRedemptionUpdateManyWithWhereWithoutRewardInput[]
+    deleteMany?: RewardRedemptionScalarWhereInput | RewardRedemptionScalarWhereInput[]
+  }
+
+  export type RewardRedemptionUncheckedUpdateManyWithoutRewardNestedInput = {
+    create?: XOR<RewardRedemptionCreateWithoutRewardInput, RewardRedemptionUncheckedCreateWithoutRewardInput> | RewardRedemptionCreateWithoutRewardInput[] | RewardRedemptionUncheckedCreateWithoutRewardInput[]
+    connectOrCreate?: RewardRedemptionCreateOrConnectWithoutRewardInput | RewardRedemptionCreateOrConnectWithoutRewardInput[]
+    upsert?: RewardRedemptionUpsertWithWhereUniqueWithoutRewardInput | RewardRedemptionUpsertWithWhereUniqueWithoutRewardInput[]
+    createMany?: RewardRedemptionCreateManyRewardInputEnvelope
+    set?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    disconnect?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    delete?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    connect?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+    update?: RewardRedemptionUpdateWithWhereUniqueWithoutRewardInput | RewardRedemptionUpdateWithWhereUniqueWithoutRewardInput[]
+    updateMany?: RewardRedemptionUpdateManyWithWhereWithoutRewardInput | RewardRedemptionUpdateManyWithWhereWithoutRewardInput[]
+    deleteMany?: RewardRedemptionScalarWhereInput | RewardRedemptionScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutRewardRedemptionsInput = {
+    create?: XOR<UserCreateWithoutRewardRedemptionsInput, UserUncheckedCreateWithoutRewardRedemptionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRewardRedemptionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutRewardRedemptionsInput = {
+    create?: XOR<CompanyCreateWithoutRewardRedemptionsInput, CompanyUncheckedCreateWithoutRewardRedemptionsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutRewardRedemptionsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type RewardCreateNestedOneWithoutRedemptionsInput = {
+    create?: XOR<RewardCreateWithoutRedemptionsInput, RewardUncheckedCreateWithoutRedemptionsInput>
+    connectOrCreate?: RewardCreateOrConnectWithoutRedemptionsInput
+    connect?: RewardWhereUniqueInput
+  }
+
+  export type EnumRedemptionStatusFieldUpdateOperationsInput = {
+    set?: $Enums.RedemptionStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutRewardRedemptionsNestedInput = {
+    create?: XOR<UserCreateWithoutRewardRedemptionsInput, UserUncheckedCreateWithoutRewardRedemptionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRewardRedemptionsInput
+    upsert?: UserUpsertWithoutRewardRedemptionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRewardRedemptionsInput, UserUpdateWithoutRewardRedemptionsInput>, UserUncheckedUpdateWithoutRewardRedemptionsInput>
+  }
+
+  export type CompanyUpdateOneRequiredWithoutRewardRedemptionsNestedInput = {
+    create?: XOR<CompanyCreateWithoutRewardRedemptionsInput, CompanyUncheckedCreateWithoutRewardRedemptionsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutRewardRedemptionsInput
+    upsert?: CompanyUpsertWithoutRewardRedemptionsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutRewardRedemptionsInput, CompanyUpdateWithoutRewardRedemptionsInput>, CompanyUncheckedUpdateWithoutRewardRedemptionsInput>
+  }
+
+  export type RewardUpdateOneRequiredWithoutRedemptionsNestedInput = {
+    create?: XOR<RewardCreateWithoutRedemptionsInput, RewardUncheckedCreateWithoutRedemptionsInput>
+    connectOrCreate?: RewardCreateOrConnectWithoutRedemptionsInput
+    upsert?: RewardUpsertWithoutRedemptionsInput
+    connect?: RewardWhereUniqueInput
+    update?: XOR<XOR<RewardUpdateToOneWithWhereWithoutRedemptionsInput, RewardUpdateWithoutRedemptionsInput>, RewardUncheckedUpdateWithoutRedemptionsInput>
+  }
+
   export type UserCreateNestedOneWithoutUserScoresInput = {
     create?: XOR<UserCreateWithoutUserScoresInput, UserUncheckedCreateWithoutUserScoresInput>
     connectOrCreate?: UserCreateOrConnectWithoutUserScoresInput
@@ -71284,6 +74643,17 @@ export namespace Prisma {
     not?: NestedEnumRankingCategoryFilter<$PrismaModel> | $Enums.RankingCategory
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -71374,6 +74744,20 @@ export namespace Prisma {
     _max?: NestedEnumRankingCategoryFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -71412,31 +74796,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumCompanyStatusFilter<$PrismaModel = never> = {
@@ -71887,6 +75246,23 @@ export namespace Prisma {
     _max?: NestedEnumSubscriptionStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumRedemptionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.RedemptionStatus | EnumRedemptionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.RedemptionStatus[] | ListEnumRedemptionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RedemptionStatus[] | ListEnumRedemptionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumRedemptionStatusFilter<$PrismaModel> | $Enums.RedemptionStatus
+  }
+
+  export type NestedEnumRedemptionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RedemptionStatus | EnumRedemptionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.RedemptionStatus[] | ListEnumRedemptionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RedemptionStatus[] | ListEnumRedemptionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumRedemptionStatusWithAggregatesFilter<$PrismaModel> | $Enums.RedemptionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRedemptionStatusFilter<$PrismaModel>
+    _max?: NestedEnumRedemptionStatusFilter<$PrismaModel>
+  }
+
   export type NestedEnumBadgeTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.BadgeType | EnumBadgeTypeFieldRefInput<$PrismaModel>
     in?: $Enums.BadgeType[] | ListEnumBadgeTypeFieldRefInput<$PrismaModel>
@@ -71948,6 +75324,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -72001,6 +75379,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -72347,6 +75727,7 @@ export namespace Prisma {
     id?: string
     totalPoints?: number
     monthPoints?: number
+    redeemablePoints?: number
     month: number
     year: number
     createdAt?: Date | string
@@ -72359,6 +75740,7 @@ export namespace Prisma {
     companyId: string
     totalPoints?: number
     monthPoints?: number
+    redeemablePoints?: number
     month: number
     year: number
     createdAt?: Date | string
@@ -72451,6 +75833,42 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type RewardRedemptionCreateWithoutUserInput = {
+    id?: string
+    rewardName: string
+    cost: number
+    status?: $Enums.RedemptionStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+    company: CompanyCreateNestedOneWithoutRewardRedemptionsInput
+    reward: RewardCreateNestedOneWithoutRedemptionsInput
+  }
+
+  export type RewardRedemptionUncheckedCreateWithoutUserInput = {
+    id?: string
+    companyId: string
+    rewardId: string
+    rewardName: string
+    cost: number
+    status?: $Enums.RedemptionStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
+  export type RewardRedemptionCreateOrConnectWithoutUserInput = {
+    where: RewardRedemptionWhereUniqueInput
+    create: XOR<RewardRedemptionCreateWithoutUserInput, RewardRedemptionUncheckedCreateWithoutUserInput>
+  }
+
+  export type RewardRedemptionCreateManyUserInputEnvelope = {
+    data: RewardRedemptionCreateManyUserInput | RewardRedemptionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutUsersInput = {
     update: XOR<CompanyUpdateWithoutUsersInput, CompanyUncheckedUpdateWithoutUsersInput>
     create: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
@@ -72489,6 +75907,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -72542,6 +75962,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -72841,6 +76263,7 @@ export namespace Prisma {
     companyId?: StringFilter<"UserScore"> | string
     totalPoints?: IntFilter<"UserScore"> | number
     monthPoints?: IntFilter<"UserScore"> | number
+    redeemablePoints?: IntFilter<"UserScore"> | number
     month?: IntFilter<"UserScore"> | number
     year?: IntFilter<"UserScore"> | number
     createdAt?: DateTimeFilter<"UserScore"> | Date | string
@@ -72930,6 +76353,39 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ProjectMember"> | Date | string
   }
 
+  export type RewardRedemptionUpsertWithWhereUniqueWithoutUserInput = {
+    where: RewardRedemptionWhereUniqueInput
+    update: XOR<RewardRedemptionUpdateWithoutUserInput, RewardRedemptionUncheckedUpdateWithoutUserInput>
+    create: XOR<RewardRedemptionCreateWithoutUserInput, RewardRedemptionUncheckedCreateWithoutUserInput>
+  }
+
+  export type RewardRedemptionUpdateWithWhereUniqueWithoutUserInput = {
+    where: RewardRedemptionWhereUniqueInput
+    data: XOR<RewardRedemptionUpdateWithoutUserInput, RewardRedemptionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type RewardRedemptionUpdateManyWithWhereWithoutUserInput = {
+    where: RewardRedemptionScalarWhereInput
+    data: XOR<RewardRedemptionUpdateManyMutationInput, RewardRedemptionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type RewardRedemptionScalarWhereInput = {
+    AND?: RewardRedemptionScalarWhereInput | RewardRedemptionScalarWhereInput[]
+    OR?: RewardRedemptionScalarWhereInput[]
+    NOT?: RewardRedemptionScalarWhereInput | RewardRedemptionScalarWhereInput[]
+    id?: StringFilter<"RewardRedemption"> | string
+    userId?: StringFilter<"RewardRedemption"> | string
+    companyId?: StringFilter<"RewardRedemption"> | string
+    rewardId?: StringFilter<"RewardRedemption"> | string
+    rewardName?: StringFilter<"RewardRedemption"> | string
+    cost?: IntFilter<"RewardRedemption"> | number
+    status?: EnumRedemptionStatusFilter<"RewardRedemption"> | $Enums.RedemptionStatus
+    notes?: StringNullableFilter<"RewardRedemption"> | string | null
+    createdAt?: DateTimeFilter<"RewardRedemption"> | Date | string
+    updatedAt?: DateTimeFilter<"RewardRedemption"> | Date | string
+    resolvedAt?: DateTimeNullableFilter<"RewardRedemption"> | Date | string | null
+  }
+
   export type UserCreateWithoutVaultChallengesInput = {
     id?: string
     name: string
@@ -72940,6 +76396,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -72952,6 +76409,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutVaultChallengesInput = {
@@ -72965,6 +76423,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -72976,6 +76435,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutVaultChallengesInput = {
@@ -73004,6 +76464,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -73016,6 +76477,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultChallengesInput = {
@@ -73029,6 +76491,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -73040,6 +76503,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutVaultTrustedSessionsInput = {
@@ -73052,6 +76516,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -73064,6 +76529,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutVaultTrustedSessionsInput = {
@@ -73077,6 +76543,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -73088,6 +76555,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutVaultTrustedSessionsInput = {
@@ -73116,6 +76584,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -73128,6 +76597,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultTrustedSessionsInput = {
@@ -73141,6 +76611,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -73152,6 +76623,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutGoogleConnectionsInput = {
@@ -73164,6 +76636,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -73176,6 +76649,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGoogleConnectionsInput = {
@@ -73189,6 +76663,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -73200,6 +76675,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGoogleConnectionsInput = {
@@ -73228,6 +76704,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -73240,6 +76717,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGoogleConnectionsInput = {
@@ -73253,6 +76731,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -73264,6 +76743,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutSubCompaniesInput = {
@@ -73293,6 +76773,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -73346,6 +76828,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -73404,6 +76888,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -73457,6 +76943,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -73503,6 +76991,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
@@ -73515,6 +77004,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyInput = {
@@ -73527,6 +77017,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -73539,6 +77030,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyInput = {
@@ -73555,6 +77047,7 @@ export namespace Prisma {
     id?: string
     totalPoints?: number
     monthPoints?: number
+    redeemablePoints?: number
     month: number
     year: number
     createdAt?: Date | string
@@ -73567,6 +77060,7 @@ export namespace Prisma {
     userId: string
     totalPoints?: number
     monthPoints?: number
+    redeemablePoints?: number
     month: number
     year: number
     createdAt?: Date | string
@@ -73679,6 +77173,7 @@ export namespace Prisma {
     taskCompleted?: number
     taskOverdue?: number
     taskNoDueDate?: number
+    taskNoAssignee?: number
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
@@ -73705,6 +77200,7 @@ export namespace Prisma {
     taskCompleted?: number
     taskOverdue?: number
     taskNoDueDate?: number
+    taskNoAssignee?: number
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
@@ -73722,6 +77218,78 @@ export namespace Prisma {
 
   export type SetorClickupListCreateManyClientCompanyInputEnvelope = {
     data: SetorClickupListCreateManyClientCompanyInput | SetorClickupListCreateManyClientCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RewardCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    cost: number
+    available?: boolean
+    imageUrl?: string | null
+    stock?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    redemptions?: RewardRedemptionCreateNestedManyWithoutRewardInput
+  }
+
+  export type RewardUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    cost: number
+    available?: boolean
+    imageUrl?: string | null
+    stock?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    redemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutRewardInput
+  }
+
+  export type RewardCreateOrConnectWithoutCompanyInput = {
+    where: RewardWhereUniqueInput
+    create: XOR<RewardCreateWithoutCompanyInput, RewardUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type RewardCreateManyCompanyInputEnvelope = {
+    data: RewardCreateManyCompanyInput | RewardCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RewardRedemptionCreateWithoutCompanyInput = {
+    id?: string
+    rewardName: string
+    cost: number
+    status?: $Enums.RedemptionStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutRewardRedemptionsInput
+    reward: RewardCreateNestedOneWithoutRedemptionsInput
+  }
+
+  export type RewardRedemptionUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    userId: string
+    rewardId: string
+    rewardName: string
+    cost: number
+    status?: $Enums.RedemptionStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
+  export type RewardRedemptionCreateOrConnectWithoutCompanyInput = {
+    where: RewardRedemptionWhereUniqueInput
+    create: XOR<RewardRedemptionCreateWithoutCompanyInput, RewardRedemptionUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type RewardRedemptionCreateManyCompanyInputEnvelope = {
+    data: RewardRedemptionCreateManyCompanyInput | RewardRedemptionCreateManyCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -74776,6 +78344,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -74829,6 +78399,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -74927,6 +78499,7 @@ export namespace Prisma {
     whatsappSignature?: StringNullableFilter<"User"> | string | null
     companyId?: StringNullableFilter<"User"> | string | null
     rankingCategory?: EnumRankingCategoryFilter<"User"> | $Enums.RankingCategory
+    lastBadgeSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
   }
 
   export type UserScoreUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -75041,11 +78614,60 @@ export namespace Prisma {
     taskCompleted?: IntFilter<"SetorClickupList"> | number
     taskOverdue?: IntFilter<"SetorClickupList"> | number
     taskNoDueDate?: IntFilter<"SetorClickupList"> | number
+    taskNoAssignee?: IntFilter<"SetorClickupList"> | number
     lastSyncedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     clientExpectedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     clientLastContactAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     createdAt?: DateTimeFilter<"SetorClickupList"> | Date | string
     updatedAt?: DateTimeFilter<"SetorClickupList"> | Date | string
+  }
+
+  export type RewardUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: RewardWhereUniqueInput
+    update: XOR<RewardUpdateWithoutCompanyInput, RewardUncheckedUpdateWithoutCompanyInput>
+    create: XOR<RewardCreateWithoutCompanyInput, RewardUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type RewardUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: RewardWhereUniqueInput
+    data: XOR<RewardUpdateWithoutCompanyInput, RewardUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type RewardUpdateManyWithWhereWithoutCompanyInput = {
+    where: RewardScalarWhereInput
+    data: XOR<RewardUpdateManyMutationInput, RewardUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type RewardScalarWhereInput = {
+    AND?: RewardScalarWhereInput | RewardScalarWhereInput[]
+    OR?: RewardScalarWhereInput[]
+    NOT?: RewardScalarWhereInput | RewardScalarWhereInput[]
+    id?: StringFilter<"Reward"> | string
+    companyId?: StringFilter<"Reward"> | string
+    name?: StringFilter<"Reward"> | string
+    description?: StringNullableFilter<"Reward"> | string | null
+    cost?: IntFilter<"Reward"> | number
+    available?: BoolFilter<"Reward"> | boolean
+    imageUrl?: StringNullableFilter<"Reward"> | string | null
+    stock?: IntNullableFilter<"Reward"> | number | null
+    createdAt?: DateTimeFilter<"Reward"> | Date | string
+    updatedAt?: DateTimeFilter<"Reward"> | Date | string
+  }
+
+  export type RewardRedemptionUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: RewardRedemptionWhereUniqueInput
+    update: XOR<RewardRedemptionUpdateWithoutCompanyInput, RewardRedemptionUncheckedUpdateWithoutCompanyInput>
+    create: XOR<RewardRedemptionCreateWithoutCompanyInput, RewardRedemptionUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type RewardRedemptionUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: RewardRedemptionWhereUniqueInput
+    data: XOR<RewardRedemptionUpdateWithoutCompanyInput, RewardRedemptionUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type RewardRedemptionUpdateManyWithWhereWithoutCompanyInput = {
+    where: RewardRedemptionScalarWhereInput
+    data: XOR<RewardRedemptionUpdateManyMutationInput, RewardRedemptionUncheckedUpdateManyWithoutCompanyInput>
   }
 
   export type BusinessHoursConfigUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -75858,6 +79480,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -75911,6 +79535,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -76168,6 +79794,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -76221,6 +79849,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -76379,6 +80009,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -76432,6 +80064,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -76634,6 +80268,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -76687,6 +80323,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -76863,6 +80501,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -76916,6 +80556,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -77232,6 +80874,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -77285,6 +80929,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -77666,6 +81312,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -77719,6 +81367,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -77788,6 +81438,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -77841,6 +81493,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -77894,6 +81548,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -77947,6 +81603,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -77987,6 +81645,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -77999,6 +81658,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyContactInput = {
@@ -78012,6 +81672,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
@@ -78023,6 +81684,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyContactInput = {
@@ -78069,6 +81731,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -78122,6 +81786,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -78168,6 +81834,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -78180,6 +81847,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyContactInput = {
@@ -78193,6 +81861,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
@@ -78204,6 +81873,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutWhatsappInstancesInput = {
@@ -78234,6 +81904,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -78287,6 +81959,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -78430,6 +82104,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -78483,6 +82159,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -78576,6 +82254,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -78629,6 +82309,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -78880,6 +82562,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -78933,6 +82617,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -79192,6 +82878,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -79245,6 +82933,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -79355,6 +83045,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -79408,6 +83100,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -79490,6 +83184,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -79502,6 +83197,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConversationsAssignedInput = {
@@ -79515,6 +83211,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -79526,6 +83223,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConversationsAssignedInput = {
@@ -79612,6 +83310,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -79665,6 +83365,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -79898,6 +83600,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -79910,6 +83613,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversationsAssignedInput = {
@@ -79923,6 +83627,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -79934,6 +83639,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorUpsertWithoutConversationsInput = {
@@ -80032,6 +83738,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -80085,6 +83793,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -80488,6 +84198,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -80541,6 +84253,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -80789,6 +84503,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -80842,6 +84558,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -80895,6 +84613,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -80948,6 +84668,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -80988,6 +84710,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
@@ -81000,6 +84723,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketsAssignedInput = {
@@ -81013,6 +84737,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
@@ -81024,6 +84749,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketsAssignedInput = {
@@ -81059,6 +84785,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -81112,6 +84840,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -81152,6 +84882,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
@@ -81164,6 +84895,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketsCreatedInput = {
@@ -81177,6 +84909,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
@@ -81188,6 +84921,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketsCreatedInput = {
@@ -81357,6 +85091,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -81410,6 +85146,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -81456,6 +85194,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
@@ -81468,6 +85207,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsAssignedInput = {
@@ -81481,6 +85221,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
@@ -81492,6 +85233,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutTicketsInput = {
@@ -81533,6 +85275,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -81586,6 +85330,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -81632,6 +85378,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
@@ -81644,6 +85391,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsCreatedInput = {
@@ -81657,6 +85405,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
@@ -81668,6 +85417,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorUpsertWithoutTicketsInput = {
@@ -81912,6 +85662,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -81965,6 +85717,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -82159,6 +85913,7 @@ export namespace Prisma {
     taskCompleted?: number
     taskOverdue?: number
     taskNoDueDate?: number
+    taskNoAssignee?: number
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
@@ -82185,6 +85940,7 @@ export namespace Prisma {
     taskCompleted?: number
     taskOverdue?: number
     taskNoDueDate?: number
+    taskNoAssignee?: number
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
@@ -82244,6 +86000,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -82297,6 +86055,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -82480,6 +86240,8 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -82533,6 +86295,8 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -82592,6 +86356,7 @@ export namespace Prisma {
     name: string
     statusName?: string | null
     isCompleted?: boolean
+    hasNoAssignee?: boolean
     dateUpdated?: bigint | number | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -82603,6 +86368,7 @@ export namespace Prisma {
     name: string
     statusName?: string | null
     isCompleted?: boolean
+    hasNoAssignee?: boolean
     dateUpdated?: bigint | number | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -82745,6 +86511,8 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -82798,6 +86566,8 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -82866,6 +86636,7 @@ export namespace Prisma {
     name?: StringFilter<"ProjectTaskState"> | string
     statusName?: StringNullableFilter<"ProjectTaskState"> | string | null
     isCompleted?: BoolFilter<"ProjectTaskState"> | boolean
+    hasNoAssignee?: BoolFilter<"ProjectTaskState"> | boolean
     dateUpdated?: BigIntNullableFilter<"ProjectTaskState"> | bigint | number | null
     createdAt?: DateTimeFilter<"ProjectTaskState"> | Date | string
     updatedAt?: DateTimeFilter<"ProjectTaskState"> | Date | string
@@ -82916,6 +86687,7 @@ export namespace Prisma {
     taskCompleted?: number
     taskOverdue?: number
     taskNoDueDate?: number
+    taskNoAssignee?: number
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
@@ -82943,6 +86715,7 @@ export namespace Prisma {
     taskCompleted?: number
     taskOverdue?: number
     taskNoDueDate?: number
+    taskNoAssignee?: number
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
@@ -82982,6 +86755,7 @@ export namespace Prisma {
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -83009,6 +86783,7 @@ export namespace Prisma {
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -83032,6 +86807,7 @@ export namespace Prisma {
     taskCompleted?: number
     taskOverdue?: number
     taskNoDueDate?: number
+    taskNoAssignee?: number
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
@@ -83059,6 +86835,7 @@ export namespace Prisma {
     taskCompleted?: number
     taskOverdue?: number
     taskNoDueDate?: number
+    taskNoAssignee?: number
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
@@ -83098,6 +86875,7 @@ export namespace Prisma {
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -83125,6 +86903,7 @@ export namespace Prisma {
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -83148,6 +86927,7 @@ export namespace Prisma {
     taskCompleted?: number
     taskOverdue?: number
     taskNoDueDate?: number
+    taskNoAssignee?: number
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
@@ -83175,6 +86955,7 @@ export namespace Prisma {
     taskCompleted?: number
     taskOverdue?: number
     taskNoDueDate?: number
+    taskNoAssignee?: number
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
@@ -83199,6 +86980,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -83211,6 +86993,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectMembershipsInput = {
@@ -83224,6 +87007,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -83235,6 +87019,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectMembershipsInput = {
@@ -83267,6 +87052,7 @@ export namespace Prisma {
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -83294,6 +87080,7 @@ export namespace Prisma {
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -83324,6 +87111,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -83336,6 +87124,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
@@ -83349,6 +87138,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -83360,6 +87150,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorCreateWithoutUsersInput = {
@@ -83423,6 +87214,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -83435,6 +87227,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSetoresInput = {
@@ -83448,6 +87241,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -83459,6 +87253,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSetoresInput = {
@@ -83544,6 +87339,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -83556,6 +87352,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSetoresInput = {
@@ -83569,6 +87366,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -83580,6 +87378,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorCreateWithoutInstancesInput = {
@@ -83786,6 +87585,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -83839,6 +87640,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -83952,6 +87755,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -84005,6 +87810,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -84271,6 +88078,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -84324,6 +88133,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -84438,6 +88249,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -84491,6 +88304,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -84544,6 +88359,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -84597,6 +88414,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -84666,6 +88485,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -84719,6 +88540,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -84772,6 +88595,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -84825,6 +88650,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -84894,6 +88721,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -84947,6 +88776,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -85000,6 +88831,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -85053,6 +88886,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -85122,6 +88957,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -85175,6 +89012,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -85228,6 +89067,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -85281,6 +89122,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -85350,6 +89193,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -85403,6 +89248,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -85456,6 +89303,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -85509,6 +89358,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -85578,6 +89429,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -85631,6 +89484,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -85684,6 +89539,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -85737,6 +89594,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -85806,6 +89665,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -85859,6 +89720,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -85912,6 +89775,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -85965,6 +89830,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -86034,6 +89901,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -86087,6 +89956,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -86140,6 +90011,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -86193,6 +90066,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -86286,6 +90161,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -86339,6 +90216,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -86451,6 +90330,718 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CompanyCreateWithoutRewardsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutRewardsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutRewardsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutRewardsInput, CompanyUncheckedCreateWithoutRewardsInput>
+  }
+
+  export type RewardRedemptionCreateWithoutRewardInput = {
+    id?: string
+    rewardName: string
+    cost: number
+    status?: $Enums.RedemptionStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutRewardRedemptionsInput
+    company: CompanyCreateNestedOneWithoutRewardRedemptionsInput
+  }
+
+  export type RewardRedemptionUncheckedCreateWithoutRewardInput = {
+    id?: string
+    userId: string
+    companyId: string
+    rewardName: string
+    cost: number
+    status?: $Enums.RedemptionStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
+  export type RewardRedemptionCreateOrConnectWithoutRewardInput = {
+    where: RewardRedemptionWhereUniqueInput
+    create: XOR<RewardRedemptionCreateWithoutRewardInput, RewardRedemptionUncheckedCreateWithoutRewardInput>
+  }
+
+  export type RewardRedemptionCreateManyRewardInputEnvelope = {
+    data: RewardRedemptionCreateManyRewardInput | RewardRedemptionCreateManyRewardInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutRewardsInput = {
+    update: XOR<CompanyUpdateWithoutRewardsInput, CompanyUncheckedUpdateWithoutRewardsInput>
+    create: XOR<CompanyCreateWithoutRewardsInput, CompanyUncheckedCreateWithoutRewardsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutRewardsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutRewardsInput, CompanyUncheckedUpdateWithoutRewardsInput>
+  }
+
+  export type CompanyUpdateWithoutRewardsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutRewardsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type RewardRedemptionUpsertWithWhereUniqueWithoutRewardInput = {
+    where: RewardRedemptionWhereUniqueInput
+    update: XOR<RewardRedemptionUpdateWithoutRewardInput, RewardRedemptionUncheckedUpdateWithoutRewardInput>
+    create: XOR<RewardRedemptionCreateWithoutRewardInput, RewardRedemptionUncheckedCreateWithoutRewardInput>
+  }
+
+  export type RewardRedemptionUpdateWithWhereUniqueWithoutRewardInput = {
+    where: RewardRedemptionWhereUniqueInput
+    data: XOR<RewardRedemptionUpdateWithoutRewardInput, RewardRedemptionUncheckedUpdateWithoutRewardInput>
+  }
+
+  export type RewardRedemptionUpdateManyWithWhereWithoutRewardInput = {
+    where: RewardRedemptionScalarWhereInput
+    data: XOR<RewardRedemptionUpdateManyMutationInput, RewardRedemptionUncheckedUpdateManyWithoutRewardInput>
+  }
+
+  export type UserCreateWithoutRewardRedemptionsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutRewardRedemptionsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutRewardRedemptionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRewardRedemptionsInput, UserUncheckedCreateWithoutRewardRedemptionsInput>
+  }
+
+  export type CompanyCreateWithoutRewardRedemptionsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutRewardRedemptionsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutRewardRedemptionsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutRewardRedemptionsInput, CompanyUncheckedCreateWithoutRewardRedemptionsInput>
+  }
+
+  export type RewardCreateWithoutRedemptionsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    cost: number
+    available?: boolean
+    imageUrl?: string | null
+    stock?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutRewardsInput
+  }
+
+  export type RewardUncheckedCreateWithoutRedemptionsInput = {
+    id?: string
+    companyId: string
+    name: string
+    description?: string | null
+    cost: number
+    available?: boolean
+    imageUrl?: string | null
+    stock?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RewardCreateOrConnectWithoutRedemptionsInput = {
+    where: RewardWhereUniqueInput
+    create: XOR<RewardCreateWithoutRedemptionsInput, RewardUncheckedCreateWithoutRedemptionsInput>
+  }
+
+  export type UserUpsertWithoutRewardRedemptionsInput = {
+    update: XOR<UserUpdateWithoutRewardRedemptionsInput, UserUncheckedUpdateWithoutRewardRedemptionsInput>
+    create: XOR<UserCreateWithoutRewardRedemptionsInput, UserUncheckedCreateWithoutRewardRedemptionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRewardRedemptionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRewardRedemptionsInput, UserUncheckedUpdateWithoutRewardRedemptionsInput>
+  }
+
+  export type UserUpdateWithoutRewardRedemptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRewardRedemptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type CompanyUpsertWithoutRewardRedemptionsInput = {
+    update: XOR<CompanyUpdateWithoutRewardRedemptionsInput, CompanyUncheckedUpdateWithoutRewardRedemptionsInput>
+    create: XOR<CompanyCreateWithoutRewardRedemptionsInput, CompanyUncheckedCreateWithoutRewardRedemptionsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutRewardRedemptionsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutRewardRedemptionsInput, CompanyUncheckedUpdateWithoutRewardRedemptionsInput>
+  }
+
+  export type CompanyUpdateWithoutRewardRedemptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutRewardRedemptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type RewardUpsertWithoutRedemptionsInput = {
+    update: XOR<RewardUpdateWithoutRedemptionsInput, RewardUncheckedUpdateWithoutRedemptionsInput>
+    create: XOR<RewardCreateWithoutRedemptionsInput, RewardUncheckedCreateWithoutRedemptionsInput>
+    where?: RewardWhereInput
+  }
+
+  export type RewardUpdateToOneWithWhereWithoutRedemptionsInput = {
+    where?: RewardWhereInput
+    data: XOR<RewardUpdateWithoutRedemptionsInput, RewardUncheckedUpdateWithoutRedemptionsInput>
+  }
+
+  export type RewardUpdateWithoutRedemptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: IntFieldUpdateOperationsInput | number
+    available?: BoolFieldUpdateOperationsInput | boolean
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    stock?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutRewardsNestedInput
+  }
+
+  export type RewardUncheckedUpdateWithoutRedemptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: IntFieldUpdateOperationsInput | number
+    available?: BoolFieldUpdateOperationsInput | boolean
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    stock?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserCreateWithoutUserScoresInput = {
     id?: string
     name: string
@@ -86461,6 +91052,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -86473,6 +91065,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserScoresInput = {
@@ -86486,6 +91079,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -86497,6 +91091,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserScoresInput = {
@@ -86531,6 +91126,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -86584,6 +91181,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -86636,6 +91235,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -86648,6 +91248,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserScoresInput = {
@@ -86661,6 +91262,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -86672,6 +91274,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutUserScoresInput = {
@@ -86712,6 +91315,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -86765,6 +91370,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -86801,6 +91408,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -86813,6 +91421,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserBadgesInput = {
@@ -86826,6 +91435,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -86837,6 +91447,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserBadgesInput = {
@@ -86871,6 +91482,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -86924,6 +91537,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -86976,6 +91591,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -86988,6 +91604,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserBadgesInput = {
@@ -87001,6 +91618,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -87012,6 +91630,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutUserBadgesInput = {
@@ -87052,6 +91671,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -87105,6 +91726,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -87141,6 +91764,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -87153,6 +91777,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutScoreEventsInput = {
@@ -87166,6 +91791,7 @@ export namespace Prisma {
     whatsappSignature?: string | null
     companyId?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -87177,6 +91803,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutScoreEventsInput = {
@@ -87211,6 +91838,8 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -87264,6 +91893,8 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -87316,6 +91947,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -87328,6 +91960,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutScoreEventsInput = {
@@ -87341,6 +91974,7 @@ export namespace Prisma {
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -87352,6 +91986,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutScoreEventsInput = {
@@ -87392,6 +92027,8 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -87445,6 +92082,8 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -87498,6 +92137,8 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -87551,6 +92192,8 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -87620,6 +92263,8 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -87673,6 +92318,8 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -87727,6 +92374,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -87780,6 +92429,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -87849,6 +92500,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -87902,6 +92555,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -88030,6 +92685,7 @@ export namespace Prisma {
     companyId: string
     totalPoints?: number
     monthPoints?: number
+    redeemablePoints?: number
     month: number
     year: number
     createdAt?: Date | string
@@ -88057,6 +92713,19 @@ export namespace Prisma {
     projectId: string
     role?: string
     createdAt?: Date | string
+  }
+
+  export type RewardRedemptionCreateManyUserInput = {
+    id?: string
+    companyId: string
+    rewardId: string
+    rewardName: string
+    cost: number
+    status?: $Enums.RedemptionStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
   }
 
   export type TicketUpdateWithoutCreatedByInput = {
@@ -88373,6 +93042,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     totalPoints?: IntFieldUpdateOperationsInput | number
     monthPoints?: IntFieldUpdateOperationsInput | number
+    redeemablePoints?: IntFieldUpdateOperationsInput | number
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -88385,6 +93055,7 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     totalPoints?: IntFieldUpdateOperationsInput | number
     monthPoints?: IntFieldUpdateOperationsInput | number
+    redeemablePoints?: IntFieldUpdateOperationsInput | number
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -88396,6 +93067,7 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     totalPoints?: IntFieldUpdateOperationsInput | number
     monthPoints?: IntFieldUpdateOperationsInput | number
+    redeemablePoints?: IntFieldUpdateOperationsInput | number
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -88471,6 +93143,45 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RewardRedemptionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rewardName?: StringFieldUpdateOperationsInput | string
+    cost?: IntFieldUpdateOperationsInput | number
+    status?: EnumRedemptionStatusFieldUpdateOperationsInput | $Enums.RedemptionStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneRequiredWithoutRewardRedemptionsNestedInput
+    reward?: RewardUpdateOneRequiredWithoutRedemptionsNestedInput
+  }
+
+  export type RewardRedemptionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    rewardId?: StringFieldUpdateOperationsInput | string
+    rewardName?: StringFieldUpdateOperationsInput | string
+    cost?: IntFieldUpdateOperationsInput | number
+    status?: EnumRedemptionStatusFieldUpdateOperationsInput | $Enums.RedemptionStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type RewardRedemptionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    rewardId?: StringFieldUpdateOperationsInput | string
+    rewardName?: StringFieldUpdateOperationsInput | string
+    cost?: IntFieldUpdateOperationsInput | number
+    status?: EnumRedemptionStatusFieldUpdateOperationsInput | $Enums.RedemptionStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type CompanyCreateManyParentCompanyInput = {
     id?: string
     name: string
@@ -88503,6 +93214,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
   }
 
   export type UserScoreCreateManyCompanyInput = {
@@ -88510,6 +93222,7 @@ export namespace Prisma {
     userId: string
     totalPoints?: number
     monthPoints?: number
+    redeemablePoints?: number
     month: number
     year: number
     createdAt?: Date | string
@@ -88557,11 +93270,37 @@ export namespace Prisma {
     taskCompleted?: number
     taskOverdue?: number
     taskNoDueDate?: number
+    taskNoAssignee?: number
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type RewardCreateManyCompanyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    cost: number
+    available?: boolean
+    imageUrl?: string | null
+    stock?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RewardRedemptionCreateManyCompanyInput = {
+    id?: string
+    userId: string
+    rewardId: string
+    rewardName: string
+    cost: number
+    status?: $Enums.RedemptionStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
   }
 
   export type BusinessHoursConfigCreateManyCompanyInput = {
@@ -88932,6 +93671,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -88985,6 +93726,8 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -89043,6 +93786,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
@@ -89055,6 +93799,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyInput = {
@@ -89067,6 +93812,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -89079,6 +93825,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCompanyInput = {
@@ -89091,12 +93838,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserScoreUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     totalPoints?: IntFieldUpdateOperationsInput | number
     monthPoints?: IntFieldUpdateOperationsInput | number
+    redeemablePoints?: IntFieldUpdateOperationsInput | number
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -89109,6 +93858,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     totalPoints?: IntFieldUpdateOperationsInput | number
     monthPoints?: IntFieldUpdateOperationsInput | number
+    redeemablePoints?: IntFieldUpdateOperationsInput | number
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -89120,6 +93870,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     totalPoints?: IntFieldUpdateOperationsInput | number
     monthPoints?: IntFieldUpdateOperationsInput | number
+    redeemablePoints?: IntFieldUpdateOperationsInput | number
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -89218,6 +93969,7 @@ export namespace Prisma {
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -89244,6 +93996,7 @@ export namespace Prisma {
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -89269,11 +94022,89 @@ export namespace Prisma {
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RewardUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: IntFieldUpdateOperationsInput | number
+    available?: BoolFieldUpdateOperationsInput | boolean
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    stock?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    redemptions?: RewardRedemptionUpdateManyWithoutRewardNestedInput
+  }
+
+  export type RewardUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: IntFieldUpdateOperationsInput | number
+    available?: BoolFieldUpdateOperationsInput | boolean
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    stock?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    redemptions?: RewardRedemptionUncheckedUpdateManyWithoutRewardNestedInput
+  }
+
+  export type RewardUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: IntFieldUpdateOperationsInput | number
+    available?: BoolFieldUpdateOperationsInput | boolean
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    stock?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RewardRedemptionUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rewardName?: StringFieldUpdateOperationsInput | string
+    cost?: IntFieldUpdateOperationsInput | number
+    status?: EnumRedemptionStatusFieldUpdateOperationsInput | $Enums.RedemptionStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutRewardRedemptionsNestedInput
+    reward?: RewardUpdateOneRequiredWithoutRedemptionsNestedInput
+  }
+
+  export type RewardRedemptionUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    rewardId?: StringFieldUpdateOperationsInput | string
+    rewardName?: StringFieldUpdateOperationsInput | string
+    cost?: IntFieldUpdateOperationsInput | number
+    status?: EnumRedemptionStatusFieldUpdateOperationsInput | $Enums.RedemptionStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type RewardRedemptionUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    rewardId?: StringFieldUpdateOperationsInput | string
+    rewardName?: StringFieldUpdateOperationsInput | string
+    cost?: IntFieldUpdateOperationsInput | number
+    status?: EnumRedemptionStatusFieldUpdateOperationsInput | $Enums.RedemptionStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BusinessHoursConfigUpdateWithoutCompanyInput = {
@@ -91489,6 +96320,7 @@ export namespace Prisma {
     taskCompleted?: number
     taskOverdue?: number
     taskNoDueDate?: number
+    taskNoAssignee?: number
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
@@ -91669,6 +96501,7 @@ export namespace Prisma {
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -91695,6 +96528,7 @@ export namespace Prisma {
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -91720,6 +96554,7 @@ export namespace Prisma {
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -91739,6 +96574,7 @@ export namespace Prisma {
     name: string
     statusName?: string | null
     isCompleted?: boolean
+    hasNoAssignee?: boolean
     dateUpdated?: bigint | number | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -91779,6 +96615,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     statusName?: NullableStringFieldUpdateOperationsInput | string | null
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    hasNoAssignee?: BoolFieldUpdateOperationsInput | boolean
     dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -91790,6 +96627,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     statusName?: NullableStringFieldUpdateOperationsInput | string | null
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    hasNoAssignee?: BoolFieldUpdateOperationsInput | boolean
     dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -91801,6 +96639,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     statusName?: NullableStringFieldUpdateOperationsInput | string | null
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    hasNoAssignee?: BoolFieldUpdateOperationsInput | boolean
     dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -91981,6 +96820,58 @@ export namespace Prisma {
     label?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type RewardRedemptionCreateManyRewardInput = {
+    id?: string
+    userId: string
+    companyId: string
+    rewardName: string
+    cost: number
+    status?: $Enums.RedemptionStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resolvedAt?: Date | string | null
+  }
+
+  export type RewardRedemptionUpdateWithoutRewardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rewardName?: StringFieldUpdateOperationsInput | string
+    cost?: IntFieldUpdateOperationsInput | number
+    status?: EnumRedemptionStatusFieldUpdateOperationsInput | $Enums.RedemptionStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutRewardRedemptionsNestedInput
+    company?: CompanyUpdateOneRequiredWithoutRewardRedemptionsNestedInput
+  }
+
+  export type RewardRedemptionUncheckedUpdateWithoutRewardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    rewardName?: StringFieldUpdateOperationsInput | string
+    cost?: IntFieldUpdateOperationsInput | number
+    status?: EnumRedemptionStatusFieldUpdateOperationsInput | $Enums.RedemptionStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type RewardRedemptionUncheckedUpdateManyWithoutRewardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    rewardName?: StringFieldUpdateOperationsInput | string
+    cost?: IntFieldUpdateOperationsInput | number
+    status?: EnumRedemptionStatusFieldUpdateOperationsInput | $Enums.RedemptionStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
 
 
   /**
@@ -92038,6 +96929,10 @@ export namespace Prisma {
      * @deprecated Use BusinessHoursConfigCountOutputTypeDefaultArgs instead
      */
     export type BusinessHoursConfigCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BusinessHoursConfigCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RewardCountOutputTypeDefaultArgs instead
+     */
+    export type RewardCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RewardCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserDefaultArgs instead
      */
@@ -92198,6 +97093,14 @@ export namespace Prisma {
      * @deprecated Use BusinessHoursIntervalDefaultArgs instead
      */
     export type BusinessHoursIntervalArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BusinessHoursIntervalDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RewardDefaultArgs instead
+     */
+    export type RewardArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RewardDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RewardRedemptionDefaultArgs instead
+     */
+    export type RewardRedemptionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RewardRedemptionDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserScoreDefaultArgs instead
      */

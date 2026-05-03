@@ -1,37 +1,9 @@
-import { Trophy, TrendingUp, Award } from "lucide-react";
+import Link from "next/link";
+import { Trophy, TrendingUp, Award, History, Gift } from "lucide-react";
 import { gradStroke } from "@/components/IconGradients";
 import { BadgeType, ScoreReason } from "@/generated/prisma";
 import BadgeMedallion from "./BadgeMedallion";
-import { shouldShowBadge } from "./labels";
-
-const BADGE_REASON: Record<BadgeType, ScoreReason | null> = {
-  RAIO_VELOZ:      "RESPOSTA_RAPIDA_5MIN",
-  RESOLVEDOR:      "TICKET_RESOLVIDO",
-  CLOSER:          "LEAD_CONVERTIDO",
-  ANTECIPADOR:     "RETORNO_ANTECIPADO",
-  PRIMEIRO_DO_DIA: "ATENDIMENTO_MESMO_DIA",
-  ZERO_PENDENCIA:  "DIA_SEM_PENDENCIA",
-  FUNIL_COMPLETO:  "LEAD_AVANCADO",
-  PONTUAL:         "DIA_SEM_ATRASO",
-  ENTREGADOR:      "PROJETO_ENTREGUE_NO_PRAZO",
-  CONSTRUTOR:      "TAREFA_CONCLUIDA",
-  ENGAJADO:        "TAREFA_ATUALIZADA",
-  GERADOR:         "TAREFA_CRIADA",
-  SPRINT_MASTER:   null,
-  REI_DO_MES:      null,
-  CORUJA:          null,
-  MADRUGADOR:      null,
-  SORTUDO:         null,
-  FENIX:           null,
-};
-
-const ALL_BADGES: BadgeType[] = [
-  "RAIO_VELOZ", "RESOLVEDOR", "CLOSER", "ANTECIPADOR",
-  "PRIMEIRO_DO_DIA", "ZERO_PENDENCIA", "FUNIL_COMPLETO",
-  "PONTUAL", "ENTREGADOR", "CONSTRUTOR", "ENGAJADO", "GERADOR",
-  "SPRINT_MASTER", "REI_DO_MES",
-  "CORUJA", "MADRUGADOR", "SORTUDO", "FENIX",
-];
+import { shouldShowBadge, ALL_BADGES, BADGE_REASON } from "./labels";
 
 type Props = {
   userName:    string;
@@ -126,9 +98,19 @@ export default function MyProfileCard({
         </div>
       </div>
 
-      <div className="mt-4 pt-4 border-t border-[#1e2d45] flex items-center justify-between text-xs">
-        <span className="text-slate-500">Acumulado total</span>
-        <span className="text-white font-medium">{totalPoints} pts</span>
+      <div className="mt-4 pt-4 border-t border-[#1e2d45] flex items-center justify-between text-xs gap-2">
+        <Link
+          href="/gamificacao/historico"
+          className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors"
+        >
+          <History className="w-3 h-3" /> {totalPoints} pts no histórico
+        </Link>
+        <Link
+          href="/gamificacao/premios"
+          className="flex items-center gap-1 px-2 py-1 rounded bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 transition-colors"
+        >
+          <Gift className="w-3 h-3" /> Trocar por prêmios
+        </Link>
       </div>
 
       {/* Medalhões — barra termômetro circular por badge */}

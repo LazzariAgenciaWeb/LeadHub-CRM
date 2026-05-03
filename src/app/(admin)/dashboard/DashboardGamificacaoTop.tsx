@@ -5,36 +5,7 @@ import { ScoreReason, BadgeType } from "@/generated/prisma";
 import Link from "next/link";
 import { Trophy, ArrowRight } from "lucide-react";
 import BadgeMedallion from "../gamificacao/BadgeMedallion";
-import { BADGE_TIERS, shouldShowBadge } from "../gamificacao/labels";
-
-const BADGE_REASON: Record<BadgeType, ScoreReason | null> = {
-  RAIO_VELOZ:      "RESPOSTA_RAPIDA_5MIN",
-  RESOLVEDOR:      "TICKET_RESOLVIDO",
-  CLOSER:          "LEAD_CONVERTIDO",
-  ANTECIPADOR:     "RETORNO_ANTECIPADO",
-  PRIMEIRO_DO_DIA: "ATENDIMENTO_MESMO_DIA",
-  ZERO_PENDENCIA:  "DIA_SEM_PENDENCIA",
-  FUNIL_COMPLETO:  "LEAD_AVANCADO",
-  PONTUAL:         "DIA_SEM_ATRASO",
-  ENTREGADOR:      "PROJETO_ENTREGUE_NO_PRAZO",
-  CONSTRUTOR:      "TAREFA_CONCLUIDA",
-  ENGAJADO:        "TAREFA_ATUALIZADA",
-  GERADOR:         "TAREFA_CRIADA",
-  SPRINT_MASTER:   null,
-  REI_DO_MES:      null,
-  CORUJA:          null,
-  MADRUGADOR:      null,
-  SORTUDO:         null,
-  FENIX:           null,
-};
-
-const ALL_BADGES: BadgeType[] = [
-  "RAIO_VELOZ", "RESOLVEDOR", "CLOSER", "ANTECIPADOR",
-  "PRIMEIRO_DO_DIA", "ZERO_PENDENCIA", "FUNIL_COMPLETO",
-  "PONTUAL", "ENTREGADOR", "CONSTRUTOR", "ENGAJADO", "GERADOR",
-  "SPRINT_MASTER", "REI_DO_MES",
-  "CORUJA", "MADRUGADOR", "SORTUDO", "FENIX",
-];
+import { BADGE_TIERS, ALL_BADGES, BADGE_REASON, shouldShowBadge } from "../gamificacao/labels";
 
 export default async function DashboardGamificacaoTop() {
   const session = await getEffectiveSession();

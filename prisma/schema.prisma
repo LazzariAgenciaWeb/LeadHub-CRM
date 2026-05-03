@@ -40,6 +40,9 @@ model User {
   scoreEvents         ScoreEvent[]
   projectMemberships  ProjectMember[]
   rankingCategory     RankingCategory @default(PRODUCAO)
+  // Timestamp da última vez que o user "viu" os badges — pra toast de novidades
+  lastBadgeSeenAt     DateTime?
+  rewardRedemptions   RewardRedemption[]
 
   @@index([companyId])
 }
@@ -155,6 +158,8 @@ model Company {
   scoreEvents       ScoreEvent[]
   scoreRuleConfigs  ScoreRuleConfig[]
   setorClickupListsAsClient SetorClickupList[] @relation("SetorClickupListClient")
+  rewards           Reward[]
+  rewardRedemptions RewardRedemption[]
   businessHours     BusinessHoursConfig[]
   campaigns         Campaign[]
   leads             Lead[]
@@ -780,6 +785,7 @@ model SetorClickupList {
   taskCompleted   Int           @default(0)
   taskOverdue     Int           @default(0)
   taskNoDueDate   Int           @default(0)  // tarefas sem due_date
+  taskNoAssignee  Int           @default(0)  // tarefas sem responsável
   lastSyncedAt    DateTime?
 
   // Acompanhamento de cobrança ao cliente (quando AGUARDANDO_CLIENTE)
@@ -803,16 +809,17 @@ model SetorClickupList {
 // Snapshot do estado das tarefas do ClickUp — usado pra comparar entre syncs
 // e detectar criações, atualizações e conclusões.
 model ProjectTaskState {
-  id          String           @id @default(cuid())
-  projectId   String
-  project     SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  taskId      String           // ID no ClickUp
-  name        String
-  statusName  String?
-  isCompleted Boolean          @default(false)
-  dateUpdated BigInt?          // epoch ms
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
+  id            String           @id @default(cuid())
+  projectId     String
+  project       SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  taskId        String           // ID no ClickUp
+  name          String
+  statusName    String?
+  isCompleted   Boolean          @default(false)
+  hasNoAssignee Boolean          @default(false)
+  dateUpdated   BigInt?          // epoch ms
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
 
   @@unique([projectId, taskId])
   @@index([projectId])
@@ -1261,6 +1268,56 @@ model BusinessHoursInterval {
   @@index([configId])
 }
 
+// ─── Sistema de Prêmios ───────────────────────────────────────────────────────
+// Catálogo configurável pela empresa: ☕ café (100 pts) → ✈️ viagem (15k pts).
+// Resgate debita redeemablePoints, gera RewardRedemption pendente que admin
+// aprova/recusa.
+
+model Reward {
+  id          String   @id @default(cuid())
+  companyId   String
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  cost        Int
+  available   Boolean  @default(true)
+  imageUrl    String?
+  stock       Int?     // null = ilimitado
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  redemptions RewardRedemption[]
+
+  @@index([companyId, available])
+}
+
+model RewardRedemption {
+  id         String           @id @default(cuid())
+  userId     String
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyId  String
+  company    Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  rewardId   String
+  reward     Reward           @relation(fields: [rewardId], references: [id], onDelete: Restrict)
+  rewardName String           // snapshot
+  cost       Int
+  status     RedemptionStatus @default(PENDING)
+  notes      String?          // admin note (motivo de rejeição, etc.)
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+  resolvedAt DateTime?
+
+  @@index([userId, createdAt])
+  @@index([companyId, status])
+}
+
+enum RedemptionStatus {
+  PENDING     // aguardando aprovação do admin
+  APPROVED    // aprovado, em trânsito
+  DELIVERED   // entregue
+  REJECTED    // recusado (pontos devolvidos)
+}
+
 // ─── Gamificação ──────────────────────────────────────────────────────────────
 // Pontuação mensal e histórica por usuário. monthPoints reseta no dia 1 de
 // cada mês via cron. totalPoints nunca zera (histórico vitalício).
@@ -1271,8 +1328,9 @@ model UserScore {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   companyId   String
   company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  totalPoints Int      @default(0)
-  monthPoints Int      @default(0)
+  totalPoints Int      @default(0)   // histórico vitalício (nunca decrementa via resgate)
+  monthPoints Int      @default(0)   // do mês corrente (reseta dia 1)
+  redeemablePoints Int @default(0)   // disponíveis pra trocar por prêmios
   month       Int
   year        Int
   createdAt   DateTime @default(now())
@@ -1376,6 +1434,13 @@ enum ScoreReason {
   TAREFA_ATUALIZADA       // tarefa atualizada no ClickUp (sync)
   TAREFA_CONCLUIDA        // tarefa concluída no ClickUp (sync)
   TAREFA_ATRASADA         // tarefa overdue no ClickUp (cron diário)
+  TAREFA_SEM_RESPONSAVEL  // tarefa sem assignee no ClickUp (cron diário)
+  STREAK_DIA              // dia consecutivo sem atraso (alimenta SPRINT_MASTER)
+  BONUS_NOITE             // mensagem fora do horário comercial (Coruja)
+  BONUS_MADRUGADA         // mensagem antes das 7h (Madrugador)
+  BONUS_VENDA_RAPIDA      // lead criado e fechado mesmo dia (Sortudo)
+  BONUS_RECUPERACAO       // lead LOST → CLOSED (Fênix)
+  BONUS_SUPEROU_MES       // mês corrente > mês anterior em pontos
 }
 
 // Trilha de auditoria de eventos de cobrança — útil pra suporte e debug.

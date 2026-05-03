@@ -7,35 +7,11 @@ import { Trophy, Zap, Target, ArrowRight } from "lucide-react";
 import { gradStroke } from "@/components/IconGradients";
 import {
   BADGE_META, BADGE_TIERS, TIER_STYLES, getBadgeProgress,
+  ALL_BADGES as ALL_BADGES_FULL, BADGE_REASON,
 } from "../gamificacao/labels";
 
-// Mesmo mapa do BadgesGrid — relaciona BadgeType ao ScoreReason que conta
-const BADGE_REASON: Record<BadgeType, ScoreReason | null> = {
-  RAIO_VELOZ:      "RESPOSTA_RAPIDA_5MIN",
-  RESOLVEDOR:      "TICKET_RESOLVIDO",
-  CLOSER:          "LEAD_CONVERTIDO",
-  ANTECIPADOR:     "RETORNO_ANTECIPADO",
-  PRIMEIRO_DO_DIA: "ATENDIMENTO_MESMO_DIA",
-  ZERO_PENDENCIA:  "DIA_SEM_PENDENCIA",
-  FUNIL_COMPLETO:  "LEAD_AVANCADO",
-  PONTUAL:         "DIA_SEM_ATRASO",
-  ENTREGADOR:      "PROJETO_ENTREGUE_NO_PRAZO",
-  CONSTRUTOR:      "TAREFA_CONCLUIDA",
-  ENGAJADO:        "TAREFA_ATUALIZADA",
-  GERADOR:         "TAREFA_CRIADA",
-  SPRINT_MASTER:   null,
-  REI_DO_MES:      null,
-  CORUJA:          null,
-  MADRUGADOR:      null,
-  SORTUDO:         null,
-  FENIX:           null,
-};
-
-const ALL_BADGES: BadgeType[] = [
-  "RAIO_VELOZ", "RESOLVEDOR", "ANTECIPADOR", "CLOSER",
-  "PRIMEIRO_DO_DIA", "ZERO_PENDENCIA", "FUNIL_COMPLETO", "PONTUAL",
-  "ENTREGADOR", "CONSTRUTOR", "ENGAJADO", "GERADOR",
-];
+// "Próxima conquista" só considera badges com reason rastreável (não REI/easter eggs)
+const ALL_BADGES: BadgeType[] = ALL_BADGES_FULL.filter((b) => BADGE_REASON[b] !== null);
 
 export default async function PerformanceTeaser() {
   const session = await getEffectiveSession();

@@ -182,6 +182,20 @@ export async function PATCH(
     // Lead convertido — idempotente, marcar como CLOSED múltiplas vezes só pontua uma
     if (status === "CLOSED" && existing.status !== "CLOSED") {
       void addScoreOnce(userId, existing.companyId, "LEAD_CONVERTIDO", id).catch(() => {});
+
+      // Easter eggs ligados a conversão:
+      const today = new Date().toDateString();
+      const createdToday = existing.createdAt.toDateString() === today;
+
+      // 🍀 Sortudo: lead criado e fechado no mesmo dia
+      if (createdToday) {
+        void addScoreOnce(userId, existing.companyId, "BONUS_VENDA_RAPIDA", id).catch(() => {});
+      }
+
+      // 🧨 Fênix: lead que já estava como LOST e voltou pra CLOSED
+      if (existing.status === "LOST") {
+        void addScoreOnce(userId, existing.companyId, "BONUS_RECUPERACAO", id).catch(() => {});
+      }
     }
     // Penalidade: empurrar expectedReturnAt depois de já estar vencido (cumulativa)
     if (

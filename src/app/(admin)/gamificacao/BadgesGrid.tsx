@@ -3,6 +3,7 @@ import {
   BADGE_META, BADGE_TIERS, TIER_STYLES, REASON_LABEL,
   BADGE_CATEGORY, CATEGORY_META, CATEGORY_ORDER,
   BAR_GRADIENT, ICON_GLOW,
+  ALL_BADGES, BADGE_REASON,
   getBadgeProgress, shouldShowBadge,
 } from "./labels";
 import BadgeInfoButton from "./BadgeInfoButton";
@@ -19,37 +20,6 @@ type Props = {
   isAdmin?: boolean;
 };
 
-// Mapeia BadgeType → ScoreReason que conta para o progresso
-const BADGE_REASON: Record<BadgeType, ScoreReason | null> = {
-  RAIO_VELOZ:      "RESPOSTA_RAPIDA_5MIN",
-  RESOLVEDOR:      "TICKET_RESOLVIDO",
-  CLOSER:          "LEAD_CONVERTIDO",
-  ANTECIPADOR:     "RETORNO_ANTECIPADO",
-  PRIMEIRO_DO_DIA: "ATENDIMENTO_MESMO_DIA",
-  ZERO_PENDENCIA:  "DIA_SEM_PENDENCIA",
-  FUNIL_COMPLETO:  "LEAD_AVANCADO",
-  PONTUAL:         "DIA_SEM_ATRASO",
-  ENTREGADOR:      "PROJETO_ENTREGUE_NO_PRAZO",
-  CONSTRUTOR:      "TAREFA_CONCLUIDA",
-  ENGAJADO:        "TAREFA_ATUALIZADA",
-  GERADOR:         "TAREFA_CRIADA",
-  SPRINT_MASTER:   null, // futuro — sem implementação ainda
-  REI_DO_MES:      null, // calculado por UserBadge, não por ScoreEvent
-  // Easter eggs — concedidos manualmente / por cron específico (sem ScoreReason direta)
-  CORUJA:          null,
-  MADRUGADOR:      null,
-  SORTUDO:         null,
-  FENIX:           null,
-};
-
-const ALL_BADGES: BadgeType[] = [
-  "RAIO_VELOZ", "RESOLVEDOR", "ANTECIPADOR", "CLOSER",
-  "PRIMEIRO_DO_DIA", "ZERO_PENDENCIA", "FUNIL_COMPLETO",
-  "PONTUAL", "ENTREGADOR", "CONSTRUTOR", "ENGAJADO", "GERADOR",
-  "SPRINT_MASTER", "REI_DO_MES",
-  // Easter eggs (escondidas pra não-admin)
-  "CORUJA", "MADRUGADOR", "SORTUDO", "FENIX",
-];
 
 export default function BadgesGrid({ counts, reiDoMesCount, earnedBadges, isAdmin = false }: Props) {
   // Maior tier por badge a partir do que já está em UserBadge

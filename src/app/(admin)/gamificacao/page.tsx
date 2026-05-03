@@ -7,6 +7,7 @@ import Leaderboard from "./Leaderboard";
 import BadgesGrid from "./BadgesGrid";
 import RecentEvents from "./RecentEvents";
 import ImpersonationViewSwitcher from "./ImpersonationViewSwitcher";
+import AdminGrantBadge from "./AdminGrantBadge";
 
 // Sem cache — toda visita lê os dados atuais (pontos, badges e feed atualizam
 // imediatamente após qualquer ação do usuário em outras páginas).
@@ -63,6 +64,15 @@ export default async function GamificacaoPage({
       viewedFromImpersonation = true;
     }
   }
+
+  // Lista de usuários da empresa (admin pra conceder badges)
+  const allUsersInCompany = isAdmin
+    ? await prisma.user.findMany({
+        where:   { companyId },
+        select:  { id: true, name: true },
+        orderBy: { name: "asc" },
+      })
+    : [];
 
   // Busca paralela (já com viewUserId resolvido)
   const [myScore, myBadges, myEvents, eventCounts, reiDoMesCount] = await Promise.all([
@@ -140,6 +150,11 @@ export default async function GamificacaoPage({
           <RecentEvents events={myEvents} />
         </div>
       </div>
+
+      {/* Botão flutuante admin pra conceder badges manuais */}
+      {isAdmin && allUsersInCompany.length > 0 && (
+        <AdminGrantBadge users={allUsersInCompany} />
+      )}
     </div>
   );
 }

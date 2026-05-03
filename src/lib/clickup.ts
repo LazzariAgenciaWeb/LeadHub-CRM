@@ -312,12 +312,13 @@ export async function syncOportunidadeToClickup({
  */
 /** Tipo enxuto de tarefa do ClickUp usado nos syncs. */
 export type ClickupTaskLite = {
-  id:           string;
-  name:         string;
-  statusName:   string | null;
-  isCompleted:  boolean;
-  dueDate:      number | null;     // epoch ms
-  dateUpdated:  number | null;     // epoch ms
+  id:            string;
+  name:          string;
+  statusName:    string | null;
+  isCompleted:   boolean;
+  hasNoAssignee: boolean;
+  dueDate:       number | null;     // epoch ms
+  dateUpdated:   number | null;     // epoch ms
 };
 
 /**
@@ -338,12 +339,13 @@ export async function fetchClickupTasks(
     const data = await res.json();
     const raw: any[] = data.tasks ?? [];
     return raw.map((t) => ({
-      id:          String(t.id),
-      name:        String(t.name ?? ""),
-      statusName:  t.status?.status ?? null,
-      isCompleted: t.status?.type === "closed" || t.status?.type === "done",
-      dueDate:     t.due_date     ? Number(t.due_date)     : null,
-      dateUpdated: t.date_updated ? Number(t.date_updated) : null,
+      id:            String(t.id),
+      name:          String(t.name ?? ""),
+      statusName:    t.status?.status ?? null,
+      isCompleted:   t.status?.type === "closed" || t.status?.type === "done",
+      hasNoAssignee: !Array.isArray(t.assignees) || t.assignees.length === 0,
+      dueDate:       t.due_date     ? Number(t.due_date)     : null,
+      dateUpdated:   t.date_updated ? Number(t.date_updated) : null,
     }));
   } catch {
     return null;
@@ -358,6 +360,7 @@ export async function fetchClickupListStats(
   taskCompleted: number;
   taskOverdue: number;
   taskNoDueDate: number;
+  taskNoAssignee: number;
 } | null> {
   // include_closed=true porque por padrão a API exclui tarefas concluídas
   const url = `${BASE}/list/${listId}/task?include_closed=true&subtasks=true`;
@@ -371,26 +374,27 @@ export async function fetchClickupListStats(
     const tasks: any[] = data.tasks ?? [];
 
     const now = Date.now();
-    let taskCount     = 0;
-    let taskCompleted = 0;
-    let taskOverdue   = 0;
-    let taskNoDueDate = 0;
+    let taskCount      = 0;
+    let taskCompleted  = 0;
+    let taskOverdue    = 0;
+    let taskNoDueDate  = 0;
+    let taskNoAssignee = 0;
 
     for (const t of tasks) {
       taskCount++;
-      // ClickUp marca status.type = "closed" quando a task está concluída
       const isDone = t.status?.type === "closed" || t.status?.type === "done";
+      const noAssignee = !Array.isArray(t.assignees) || t.assignees.length === 0;
       if (isDone) {
         taskCompleted++;
       } else {
-        // due_date vem como string com epoch em ms; pode vir null
         const due = t.due_date ? Number(t.due_date) : null;
         if (!due) taskNoDueDate++;
         else if (due < now) taskOverdue++;
+        if (noAssignee) taskNoAssignee++;
       }
     }
 
-    return { taskCount, taskCompleted, taskOverdue, taskNoDueDate };
+    return { taskCount, taskCompleted, taskOverdue, taskNoDueDate, taskNoAssignee };
   } catch {
     return null;
   }

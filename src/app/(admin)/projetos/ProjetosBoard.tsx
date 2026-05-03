@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { ProjectStatus } from "@/generated/prisma";
 import { ExternalLink } from "lucide-react";
 
@@ -40,6 +42,44 @@ const TYPE_BADGE: Record<string, string> = {
 };
 
 export default function ProjetosBoard({ projects }: { projects: Project[] }) {
+  const router = useRouter();
+  const [_, startTransition] = useTransition();
+  const [draggingId, setDraggingId]   = useState<string | null>(null);
+  const [hoverColumn, setHoverColumn] = useState<ProjectStatus | null>(null);
+
+  function onDragStart(e: React.DragEvent, projectId: string) {
+    setDraggingId(projectId);
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", projectId);
+  }
+
+  function onDragEnd() {
+    setDraggingId(null);
+    setHoverColumn(null);
+  }
+
+  function onDragOver(e: React.DragEvent, status: ProjectStatus) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    setHoverColumn(status);
+  }
+
+  async function onDrop(e: React.DragEvent, status: ProjectStatus) {
+    e.preventDefault();
+    const projectId = e.dataTransfer.getData("text/plain");
+    setDraggingId(null);
+    setHoverColumn(null);
+    if (!projectId) return;
+    const proj = projects.find((p) => p.id === projectId);
+    if (!proj || proj.status === status) return;
+    await fetch(`/api/projetos/${projectId}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ status }),
+    });
+    startTransition(() => router.refresh());
+  }
+
   const grouped = COLUMNS.map((col) => ({
     ...col,
     items: projects.filter((p) => p.status === col.status),
@@ -47,21 +87,44 @@ export default function ProjetosBoard({ projects }: { projects: Project[] }) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
-      {grouped.map((col) => (
-        <div key={col.status} className={`rounded-xl border ${col.color} flex flex-col`}>
-          <div className="px-3 py-2.5 border-b border-[#1e2d45] flex items-center justify-between">
-            <span className="text-white text-xs font-semibold">{col.label}</span>
-            <span className="text-slate-500 text-[10px]">{col.items.length}</span>
+      {grouped.map((col) => {
+        const isHover = hoverColumn === col.status;
+        return (
+          <div
+            key={col.status}
+            onDragOver={(e) => onDragOver(e, col.status)}
+            onDragLeave={() => setHoverColumn((h) => h === col.status ? null : h)}
+            onDrop={(e) => onDrop(e, col.status)}
+            className={`rounded-xl border ${col.color} flex flex-col transition-all ${
+              isHover ? "ring-2 ring-fuchsia-500/50 scale-[1.01]" : ""
+            }`}
+          >
+            <div className="px-3 py-2.5 border-b border-[#1e2d45] flex items-center justify-between">
+              <span className="text-white text-xs font-semibold">{col.label}</span>
+              <span className="text-slate-500 text-[10px]">{col.items.length}</span>
+            </div>
+            <div className="p-2 space-y-2 min-h-[100px]">
+              {col.items.length === 0 ? (
+                <div className="text-slate-700 text-[11px] text-center py-6 italic">
+                  {isHover ? "↓ solte aqui" : "vazio"}
+                </div>
+              ) : col.items.map((p) => (
+                <div
+                  key={p.id}
+                  draggable
+                  onDragStart={(e) => onDragStart(e, p.id)}
+                  onDragEnd={onDragEnd}
+                  className={`cursor-grab active:cursor-grabbing transition-opacity ${
+                    draggingId === p.id ? "opacity-40" : ""
+                  }`}
+                >
+                  <ProjectCard project={p} />
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="p-2 space-y-2 min-h-[100px]">
-            {col.items.length === 0 ? (
-              <div className="text-slate-700 text-[11px] text-center py-6">vazio</div>
-            ) : col.items.map((p) => (
-              <ProjectCard key={p.id} project={p} />
-            ))}
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

@@ -11,6 +11,40 @@ export type BadgeMeta = {
   isHidden?:   boolean;
 };
 
+// Lista canônica de todos os BadgeTypes na ordem de exibição preferida
+// (atendimento → chamados → vendas → projetos → disciplina → especiais).
+// Importado por todos os componentes que listam badges.
+export const ALL_BADGES: BadgeType[] = [
+  "RAIO_VELOZ", "RESOLVEDOR", "ANTECIPADOR", "CLOSER",
+  "PRIMEIRO_DO_DIA", "ZERO_PENDENCIA", "FUNIL_COMPLETO",
+  "PONTUAL", "ENTREGADOR", "CONSTRUTOR", "ENGAJADO", "GERADOR",
+  "SPRINT_MASTER", "REI_DO_MES",
+  "CORUJA", "MADRUGADOR", "SORTUDO", "FENIX",
+];
+
+// Mapeia BadgeType → ScoreReason que conta para o progresso (null = badge
+// concedido manualmente / por cron específico, sem ScoreEvent direto).
+export const BADGE_REASON: Record<BadgeType, ScoreReason | null> = {
+  RAIO_VELOZ:      "RESPOSTA_RAPIDA_5MIN",
+  RESOLVEDOR:      "TICKET_RESOLVIDO",
+  CLOSER:          "LEAD_CONVERTIDO",
+  ANTECIPADOR:     "RETORNO_ANTECIPADO",
+  PRIMEIRO_DO_DIA: "ATENDIMENTO_MESMO_DIA",
+  ZERO_PENDENCIA:  "DIA_SEM_PENDENCIA",
+  FUNIL_COMPLETO:  "LEAD_AVANCADO",
+  PONTUAL:         "DIA_SEM_ATRASO",
+  ENTREGADOR:      "PROJETO_ENTREGUE_NO_PRAZO",
+  CONSTRUTOR:      "TAREFA_CONCLUIDA",
+  ENGAJADO:        "TAREFA_ATUALIZADA",
+  GERADOR:         "TAREFA_CRIADA",
+  SPRINT_MASTER:   "STREAK_DIA",
+  REI_DO_MES:      null,
+  CORUJA:          "BONUS_NOITE",
+  MADRUGADOR:      "BONUS_MADRUGADA",
+  SORTUDO:         "BONUS_VENDA_RAPIDA",
+  FENIX:           "BONUS_RECUPERACAO",
+};
+
 // Categorias visuais — agrupam badges no painel pra dar contexto
 export type BadgeCategory =
   | "ATENDIMENTO"
@@ -430,7 +464,14 @@ export const REASON_LABEL: Record<ScoreReason, { text: string; positive: boolean
   PROJETO_ATRASADO:       { text: "Projeto entregue com atraso",      positive: false },
   TAREFA_SEM_PRAZO:       { text: "Tarefa do projeto sem data no ClickUp", positive: false },
   TAREFA_ATRASADA:        { text: "Tarefa atrasada no ClickUp",       positive: false },
+  TAREFA_SEM_RESPONSAVEL: { text: "Tarefa sem responsável no ClickUp", positive: false },
   TAREFA_CRIADA:          { text: "Tarefa criada no ClickUp",         positive: true  },
   TAREFA_ATUALIZADA:      { text: "Tarefa atualizada no ClickUp",     positive: true  },
   TAREFA_CONCLUIDA:       { text: "Tarefa concluída no ClickUp",      positive: true  },
+  STREAK_DIA:             { text: "Dia consecutivo sem atraso (sprint)", positive: true  },
+  BONUS_NOITE:            { text: "Resposta após as 22h (Coruja)",     positive: true  },
+  BONUS_MADRUGADA:        { text: "Resposta antes das 7h (Madrugador)", positive: true  },
+  BONUS_VENDA_RAPIDA:     { text: "Lead criado e fechado no mesmo dia", positive: true  },
+  BONUS_RECUPERACAO:      { text: "Lead perdido recuperado",            positive: true  },
+  BONUS_SUPEROU_MES:      { text: "Superou pontuação do mês anterior",  positive: true  },
 };

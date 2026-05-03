@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Session } from "next-auth";
 import Sidebar from "./Sidebar";
 import MobileBottomNav from "./MobileBottomNav";
+import BadgeToastNotifier from "./BadgeToastNotifier";
 
 interface LayoutShellProps {
   children: React.ReactNode;
@@ -91,6 +92,9 @@ export default function LayoutShell({ children, session, banner }: LayoutShellPr
         {/* Bottom nav mobile */}
         <MobileBottomNav />
       </div>
+
+      {/* Toast global de novos badges (polling silencioso) */}
+      <BadgeToastNotifier />
     </div>
   );
 }
