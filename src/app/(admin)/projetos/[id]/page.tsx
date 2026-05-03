@@ -39,10 +39,18 @@ export default async function ProjectDetailPage({
     include: { user: { select: { id: true, name: true } } },
   });
 
+  // Últimas atividades de tarefas do ClickUp (histórico)
+  const activities = await prisma.projectActivity.findMany({
+    where:   { projectId: project.id },
+    orderBy: { createdAt: "desc" },
+    take:    30,
+  });
+
   return (
     <ProjectDetail
       project={project as any}
       availableUsers={setorUsers.map((su) => su.user)}
+      activities={activities}
     />
   );
 }

@@ -382,7 +382,10 @@ export default async function ConfiguracoesPage({
       "TICKET_RESOLVIDO", "LEAD_AVANCADO", "LEAD_CONVERTIDO",
       "DIA_SEM_PENDENCIA", "DIA_SEM_ATRASO", "RETORNO_ANTECIPADO",
       "ATENDIMENTO_MESMO_DIA", "NOTA_REGISTRADA", "PRIMEIRO_CONTATO",
+      "PROJETO_ENTREGUE", "PROJETO_ENTREGUE_NO_PRAZO",
+      "TAREFA_CRIADA", "TAREFA_ATUALIZADA", "TAREFA_CONCLUIDA",
       "SLA_VENCIDO", "CONVERSA_SEM_RESPOSTA", "PRAZO_PRORROGADO",
+      "PROJETO_ATRASADO", "TAREFA_SEM_PRAZO",
     ];
     const [configs, users] = cId ? await Promise.all([
       prisma.scoreRuleConfig.findMany({ where: { companyId: cId } }),

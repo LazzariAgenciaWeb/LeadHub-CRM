@@ -35,6 +35,9 @@ export const BADGE_CATEGORY: Record<BadgeType, BadgeCategory> = {
   FUNIL_COMPLETO:  "VENDAS",
   ANTECIPADOR:     "VENDAS",
   ENTREGADOR:      "PROJETOS",
+  CONSTRUTOR:      "PROJETOS",
+  ENGAJADO:        "PROJETOS",
+  GERADOR:         "PROJETOS",
   PONTUAL:         "DISCIPLINA",
   SPRINT_MASTER:   "DISCIPLINA",
   REI_DO_MES:      "ESPECIAIS",
@@ -56,6 +59,9 @@ export const BADGE_META: Record<BadgeType, BadgeMeta> = {
   REI_DO_MES:      { emoji: "👑", name: "Reinado",         description: "1º lugar no ranking mensal" },
   PONTUAL:         { emoji: "⏱️", name: "Pontualidade",    description: "Dias terminados sem nada atrasado" },
   ENTREGADOR:      { emoji: "🚀", name: "Entrega",          description: "Projetos entregues no prazo" },
+  CONSTRUTOR:      { emoji: "🔨", name: "Construção",       description: "Tarefas de projetos concluídas no ClickUp" },
+  ENGAJADO:        { emoji: "🌀", name: "Engajamento",      description: "Tarefas de projetos atualizadas no ClickUp" },
+  GERADOR:         { emoji: "🌱", name: "Geração",          description: "Tarefas criadas em projetos no ClickUp" },
 };
 
 // ─── Tier definitions ─────────────────────────────────────────────────────────
@@ -157,6 +163,30 @@ export const BADGE_TIERS: Record<BadgeType, Tier[]> = {
     { level: 5, name: "Lenda",         threshold: 50  },
     { level: 6, name: "Highlander",    threshold: 150 },
   ],
+  CONSTRUTOR: [
+    { level: 1, name: "Aprendiz",      threshold: 5    },
+    { level: 2, name: "Pedreiro",      threshold: 25   },
+    { level: 3, name: "Engenheiro",    threshold: 75   },
+    { level: 4, name: "Arquiteto",     threshold: 200  },
+    { level: 5, name: "Mestre de Obras", threshold: 500 },
+    { level: 6, name: "Highlander",    threshold: 1500 },
+  ],
+  ENGAJADO: [
+    { level: 1, name: "Atento",        threshold: 10   },
+    { level: 2, name: "Ativo",         threshold: 50   },
+    { level: 3, name: "Mantenedor",    threshold: 150  },
+    { level: 4, name: "Cuidadoso",     threshold: 500  },
+    { level: 5, name: "Dedicado",      threshold: 1500 },
+    { level: 6, name: "Highlander",    threshold: 5000 },
+  ],
+  GERADOR: [
+    { level: 1, name: "Iniciador",     threshold: 5    },
+    { level: 2, name: "Idealizador",   threshold: 20   },
+    { level: 3, name: "Planejador",    threshold: 60   },
+    { level: 4, name: "Estrategista",  threshold: 150  },
+    { level: 5, name: "Visionário",    threshold: 400  },
+    { level: 6, name: "Highlander",    threshold: 1000 },
+  ],
 };
 
 // ─── Estilos visuais por tier ─────────────────────────────────────────────────
@@ -215,6 +245,9 @@ export const BADGE_LUCIDE: Record<BadgeType, string> = {
   FUNIL_COMPLETO:  "TrendingUp",
   PONTUAL:         "Clock",
   ENTREGADOR:      "Rocket",
+  CONSTRUTOR:      "Hammer",
+  ENGAJADO:        "Repeat",
+  GERADOR:         "Sprout",
   SPRINT_MASTER:   "Activity",
   REI_DO_MES:      "Crown",
 };
@@ -332,4 +365,7 @@ export const REASON_LABEL: Record<ScoreReason, { text: string; positive: boolean
   PRAZO_PRORROGADO:       { text: "Prazo prorrogado depois de vencido", positive: false },
   PROJETO_ATRASADO:       { text: "Projeto entregue com atraso",      positive: false },
   TAREFA_SEM_PRAZO:       { text: "Tarefa do projeto sem data no ClickUp", positive: false },
+  TAREFA_CRIADA:          { text: "Tarefa criada no ClickUp",         positive: true  },
+  TAREFA_ATUALIZADA:      { text: "Tarefa atualizada no ClickUp",     positive: true  },
+  TAREFA_CONCLUIDA:       { text: "Tarefa concluída no ClickUp",      positive: true  },
 };

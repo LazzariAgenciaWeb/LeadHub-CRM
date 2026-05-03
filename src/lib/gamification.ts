@@ -37,6 +37,9 @@ export const SCORE_TABLE: Record<ScoreReason, number> = {
   PRAZO_PRORROGADO:        -5,   // empurrar prazo depois de vencido (cumulativo)
   PROJETO_ATRASADO:       -30,   // projeto entregue depois do dueDate
   TAREFA_SEM_PRAZO:        -3,   // tarefas no ClickUp sem due_date (cron diário)
+  TAREFA_CRIADA:            1,   // tarefa criada no ClickUp (sync)
+  TAREFA_ATUALIZADA:        1,   // tarefa atualizada no ClickUp (sync)
+  TAREFA_CONCLUIDA:         3,   // tarefa concluída no ClickUp (sync)
 };
 
 // ─── Regras de badges (6 tiers cada) ──────────────────────────────────────────
@@ -94,6 +97,21 @@ const BADGE_RULES: BadgeRule[] = [
     badge: BadgeType.ENTREGADOR,
     reasons: [ScoreReason.PROJETO_ENTREGUE_NO_PRAZO],
     thresholds: [1, 3, 8, 20, 50, 150],
+  },
+  {
+    badge: BadgeType.CONSTRUTOR,
+    reasons: [ScoreReason.TAREFA_CONCLUIDA],
+    thresholds: [5, 25, 75, 200, 500, 1500],
+  },
+  {
+    badge: BadgeType.ENGAJADO,
+    reasons: [ScoreReason.TAREFA_ATUALIZADA],
+    thresholds: [10, 50, 150, 500, 1500, 5000],
+  },
+  {
+    badge: BadgeType.GERADOR,
+    reasons: [ScoreReason.TAREFA_CRIADA],
+    thresholds: [5, 20, 60, 150, 400, 1000],
   },
 ];
 
@@ -415,6 +433,142 @@ export async function runDailyPenalties(companyId: string): Promise<void> {
     if (alreadyToday) continue;
     await addScore(ticket.assigneeId, companyId, ScoreReason.SLA_VENCIDO, ticket.id);
   }
+}
+
+// ─── syncProjectTasks ─────────────────────────────────────────────────────────
+
+/**
+ * Compara o estado atual das tarefas (vindas do ClickUp) com o snapshot
+ * armazenado em ProjectTaskState e:
+ *
+ *  1. Atualiza counts agregados (taskCount, completed, overdue, noDueDate)
+ *  2. Detecta criações, atualizações e conclusões → cria ProjectActivity
+ *  3. Pontua os membros do projeto via addScore
+ *  4. Atualiza ProjectTaskState com os valores novos
+ *
+ * Primeira sync: NÃO gera atividades nem pontos (só estabelece baseline).
+ */
+export async function syncProjectTasks(
+  projectId: string,
+  tasks:     Array<{ id: string; name: string; statusName: string | null; isCompleted: boolean; dueDate: number | null; dateUpdated: number | null }>,
+): Promise<{ created: number; updated: number; completed: number }> {
+  const project = await prisma.setorClickupList.findUnique({
+    where: { id: projectId },
+    include: {
+      members: { select: { userId: true } },
+      setor:   { select: { companyId: true } },
+    },
+  });
+  if (!project) return { created: 0, updated: 0, completed: 0 };
+
+  const companyId = project.setor.companyId;
+  const memberIds = project.members.map((m) => m.userId);
+  const isPaused  = project.status === "AGUARDANDO_CLIENTE"
+                 || project.status === "ENTREGUE"
+                 || project.status === "CANCELADO";
+
+  // Snapshot atual em DB
+  const stored = await prisma.projectTaskState.findMany({
+    where: { projectId },
+  });
+  const isFirstSync = stored.length === 0;
+  const storedById = new Map(stored.map((s) => [s.taskId, s]));
+
+  // Atualiza agregados
+  const now = Date.now();
+  let taskCount = 0, taskCompleted = 0, taskOverdue = 0, taskNoDueDate = 0;
+  for (const t of tasks) {
+    taskCount++;
+    if (t.isCompleted) taskCompleted++;
+    else if (t.dueDate && t.dueDate < now) taskOverdue++;
+    else if (!t.dueDate) taskNoDueDate++;
+  }
+
+  await prisma.setorClickupList.update({
+    where: { id: projectId },
+    data:  { taskCount, taskCompleted, taskOverdue, taskNoDueDate, lastSyncedAt: new Date() },
+  });
+
+  let created = 0, updated = 0, completed = 0;
+  const activitiesToInsert: Array<{ type: string; taskName: string; taskId: string }> = [];
+
+  for (const t of tasks) {
+    const prev = storedById.get(t.id);
+
+    if (!prev) {
+      // Tarefa nova
+      if (!isFirstSync && !isPaused) {
+        activitiesToInsert.push({ type: "TASK_CREATED", taskName: t.name, taskId: t.id });
+        for (const uid of memberIds) {
+          void addScore(uid, companyId, ScoreReason.TAREFA_CRIADA, `${projectId}:${t.id}:CREATED`).catch(() => {});
+        }
+        created++;
+      }
+    } else {
+      // Tarefa virou concluída
+      if (!prev.isCompleted && t.isCompleted) {
+        if (!isFirstSync && !isPaused) {
+          activitiesToInsert.push({ type: "TASK_COMPLETED", taskName: t.name, taskId: t.id });
+          for (const uid of memberIds) {
+            void addScore(uid, companyId, ScoreReason.TAREFA_CONCLUIDA, `${projectId}:${t.id}:COMPLETED`).catch(() => {});
+          }
+          completed++;
+        }
+      }
+      // Atualização (date_updated mudou) — só conta se não for a transição pra concluída
+      else if (
+        prev.dateUpdated && t.dateUpdated &&
+        Number(prev.dateUpdated) < t.dateUpdated &&
+        !isFirstSync && !isPaused
+      ) {
+        activitiesToInsert.push({ type: "TASK_UPDATED", taskName: t.name, taskId: t.id });
+        // Idempotência por timestamp — referenceId inclui o dateUpdated
+        for (const uid of memberIds) {
+          void addScore(uid, companyId, ScoreReason.TAREFA_ATUALIZADA, `${projectId}:${t.id}:${t.dateUpdated}`).catch(() => {});
+        }
+        updated++;
+      }
+    }
+  }
+
+  // Atualiza snapshot (upsert por task)
+  for (const t of tasks) {
+    await prisma.projectTaskState.upsert({
+      where: { projectId_taskId: { projectId, taskId: t.id } },
+      create: {
+        projectId,
+        taskId:      t.id,
+        name:        t.name,
+        statusName:  t.statusName,
+        isCompleted: t.isCompleted,
+        dateUpdated: t.dateUpdated ? BigInt(t.dateUpdated) : null,
+      },
+      update: {
+        name:        t.name,
+        statusName:  t.statusName,
+        isCompleted: t.isCompleted,
+        dateUpdated: t.dateUpdated ? BigInt(t.dateUpdated) : null,
+      },
+    });
+  }
+
+  // Remove states de tarefas que não existem mais
+  const currentIds = new Set(tasks.map((t) => t.id));
+  const orphans = stored.filter((s) => !currentIds.has(s.taskId));
+  if (orphans.length > 0) {
+    await prisma.projectTaskState.deleteMany({
+      where: { id: { in: orphans.map((o) => o.id) } },
+    });
+  }
+
+  // Insere atividades
+  if (activitiesToInsert.length > 0) {
+    await prisma.projectActivity.createMany({
+      data: activitiesToInsert.map((a) => ({ projectId, ...a })),
+    });
+  }
+
+  return { created, updated, completed };
 }
 
 // ─── runProjectsDailyPenalties ────────────────────────────────────────────────

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Trash2, RefreshCw } from "lucide-react";
+import { ArrowLeft, ExternalLink, Trash2, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
 import { ProjectStatus } from "@/generated/prisma";
 import { formatBrazilDateTime, formatBrazilDate } from "@/lib/datetime";
 
@@ -27,20 +27,45 @@ type Project = {
   members:         { user: { id: string; name: string; email: string } }[];
 };
 
-const STATUS_LABEL: Record<ProjectStatus, { label: string; color: string }> = {
-  PLANEJAMENTO:       { label: "Planejamento",       color: "bg-slate-500/20 text-slate-300" },
-  EM_ANDAMENTO:       { label: "Em andamento",       color: "bg-blue-500/20 text-blue-300" },
-  AGUARDANDO_CLIENTE: { label: "Aguardando cliente", color: "bg-cyan-500/20 text-cyan-300" },
-  PAUSADO:            { label: "Pausado",            color: "bg-amber-500/20 text-amber-300" },
-  ENTREGUE:           { label: "Entregue",           color: "bg-emerald-500/20 text-emerald-300" },
-  CANCELADO:          { label: "Cancelado",          color: "bg-red-500/20 text-red-300" },
+const STATUS_LABEL: Record<ProjectStatus, { label: string; color: string; activeColor: string; ringColor: string }> = {
+  PLANEJAMENTO:       { label: "Planejamento",       color: "bg-slate-500/20 text-slate-300", activeColor: "bg-slate-500/40 text-slate-100",   ringColor: "ring-slate-400/50" },
+  EM_ANDAMENTO:       { label: "Em andamento",       color: "bg-blue-500/20 text-blue-300",    activeColor: "bg-blue-500/40 text-blue-50",      ringColor: "ring-blue-400/60" },
+  AGUARDANDO_CLIENTE: { label: "Aguardando cliente", color: "bg-cyan-500/20 text-cyan-300",    activeColor: "bg-cyan-500/40 text-cyan-50",      ringColor: "ring-cyan-400/60" },
+  PAUSADO:            { label: "Pausado",            color: "bg-amber-500/20 text-amber-300",  activeColor: "bg-amber-500/40 text-amber-50",    ringColor: "ring-amber-400/60" },
+  ENTREGUE:           { label: "Entregue",           color: "bg-emerald-500/20 text-emerald-300", activeColor: "bg-emerald-500/40 text-emerald-50", ringColor: "ring-emerald-400/60" },
+  CANCELADO:          { label: "Cancelado",          color: "bg-red-500/20 text-red-300",      activeColor: "bg-red-500/40 text-red-50",        ringColor: "ring-red-400/60" },
+};
+
+const ACTIVITY_META: Record<string, { icon: string; text: string; color: string }> = {
+  TASK_CREATED:   { icon: "✨", text: "Criada:",     color: "text-cyan-300"    },
+  TASK_UPDATED:   { icon: "📝", text: "Atualizada:", color: "text-amber-300"   },
+  TASK_COMPLETED: { icon: "✅", text: "Concluída:",  color: "text-emerald-300" },
+};
+
+// Ordem sequencial pra navegação com setas
+const STATUS_ORDER: ProjectStatus[] = [
+  "PLANEJAMENTO",
+  "EM_ANDAMENTO",
+  "AGUARDANDO_CLIENTE",
+  "PAUSADO",
+  "ENTREGUE",
+  "CANCELADO",
+];
+
+type Activity = {
+  id:        string;
+  type:      string;     // TASK_CREATED | TASK_UPDATED | TASK_COMPLETED
+  taskName:  string;
+  taskId:    string;
+  createdAt: Date | string;
 };
 
 export default function ProjectDetail({
-  project, availableUsers,
+  project, availableUsers, activities,
 }: {
   project: Project;
   availableUsers: { id: string; name: string }[];
+  activities: Activity[];
 }) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
@@ -135,26 +160,18 @@ export default function ProjectDetail({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         {/* Coluna principal */}
         <div className="lg:col-span-2 space-y-5">
-          {/* Status atual */}
+          {/* Status — pipeline horizontal com navegação */}
           <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5">
             <div className="flex items-center justify-between mb-3">
               <span className="text-slate-500 text-xs uppercase tracking-wider">Status</span>
-              <span className={`text-xs font-bold px-2 py-1 rounded ${STATUS_LABEL[project.status].color}`}>
-                {STATUS_LABEL[project.status].label}
-              </span>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {(Object.keys(STATUS_LABEL) as ProjectStatus[]).filter((s) => s !== project.status).map((s) => (
-                <button
-                  key={s}
-                  onClick={() => changeStatus(s)}
-                  disabled={saving}
-                  className="text-xs px-3 py-1.5 rounded bg-[#080b12] hover:bg-[#161f30] border border-[#1e2d45] text-slate-300"
-                >
-                  → {STATUS_LABEL[s].label}
-                </button>
-              ))}
-            </div>
+
+            <StatusPipeline
+              current={project.status}
+              onChange={changeStatus}
+              disabled={saving}
+            />
+
             {project.deliveredAt && (
               <div className="mt-3 text-emerald-300 text-xs">
                 ✓ Entregue em {formatBrazilDateTime(project.deliveredAt)}
@@ -231,6 +248,52 @@ export default function ProjectDetail({
               placeholder="Escopo, observações, links..."
               className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
             />
+          </div>
+
+          {/* Histórico de tarefas (do ClickUp) */}
+          <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl overflow-hidden">
+            <div className="px-5 py-4 border-b border-[#1e2d45]">
+              <h3 className="text-white font-semibold text-sm">📋 Histórico de tarefas</h3>
+              <p className="text-slate-500 text-xs mt-0.5">
+                Movimentações detectadas no ClickUp via sync. Cada uma vira pontos de gamificação.
+              </p>
+            </div>
+            {activities.length === 0 ? (
+              <div className="p-6 text-center text-slate-500 text-xs">
+                Nenhuma movimentação ainda. Faça uma sync e edite tarefas no ClickUp.
+              </div>
+            ) : (
+              <div className="divide-y divide-[#1e2d45] max-h-[420px] overflow-y-auto">
+                {activities.map((a) => {
+                  const meta = ACTIVITY_META[a.type] ?? { icon: "📝", text: "Atualizada", color: "text-slate-400" };
+                  return (
+                    <div key={a.id} className="flex items-center justify-between px-5 py-2.5 hover:bg-[#080b12]/50">
+                      <div className="flex items-center gap-2 min-w-0 flex-1">
+                        <span className="text-base flex-shrink-0">{meta.icon}</span>
+                        <div className="min-w-0 flex-1">
+                          <div className="text-slate-300 text-xs">
+                            <span className={`font-medium ${meta.color}`}>{meta.text}</span>{" "}
+                            <span className="text-white truncate">{a.taskName}</span>
+                          </div>
+                          <div className="text-slate-600 text-[10px] mt-0.5">
+                            {formatBrazilDateTime(a.createdAt)}
+                          </div>
+                        </div>
+                      </div>
+                      <a
+                        href={`https://app.clickup.com/t/${a.taskId}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-slate-600 hover:text-[#7B68EE] flex-shrink-0"
+                        title="Abrir tarefa no ClickUp"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
 
@@ -310,6 +373,66 @@ export default function ProjectDetail({
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+/**
+ * Pipeline horizontal de status. O ativo aparece colorido com a cor da
+ * categoria; os outros ficam discretos. Setas <> permitem navegar
+ * sequencialmente; clique direto em qualquer pílula faz jump.
+ */
+function StatusPipeline({
+  current, onChange, disabled,
+}: {
+  current:  ProjectStatus;
+  onChange: (s: ProjectStatus) => void;
+  disabled: boolean;
+}) {
+  const idx = STATUS_ORDER.indexOf(current);
+  const prev = idx > 0 ? STATUS_ORDER[idx - 1] : null;
+  const next = idx < STATUS_ORDER.length - 1 ? STATUS_ORDER[idx + 1] : null;
+
+  return (
+    <div className="flex items-center gap-2">
+      <button
+        onClick={() => prev && onChange(prev)}
+        disabled={disabled || !prev}
+        title={prev ? `Voltar pra ${STATUS_LABEL[prev].label}` : ""}
+        className="w-8 h-8 flex-shrink-0 rounded-lg bg-[#080b12] hover:bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
+      >
+        <ChevronLeft className="w-4 h-4" />
+      </button>
+
+      <div className="flex-1 flex items-center gap-1 overflow-x-auto">
+        {STATUS_ORDER.map((s) => {
+          const meta = STATUS_LABEL[s];
+          const isActive = s === current;
+          return (
+            <button
+              key={s}
+              onClick={() => !isActive && onChange(s)}
+              disabled={disabled || isActive}
+              className={`flex-1 min-w-fit text-[11px] font-medium px-2.5 py-2 rounded-lg transition-all whitespace-nowrap ${
+                isActive
+                  ? `${meta.activeColor} ring-2 ${meta.ringColor} font-bold shadow-lg`
+                  : "bg-[#080b12] hover:bg-[#161f30] border border-[#1e2d45] text-slate-500 hover:text-slate-300"
+              }`}
+            >
+              {meta.label}
+            </button>
+          );
+        })}
+      </div>
+
+      <button
+        onClick={() => next && onChange(next)}
+        disabled={disabled || !next}
+        title={next ? `Avançar pra ${STATUS_LABEL[next].label}` : ""}
+        className="w-8 h-8 flex-shrink-0 rounded-lg bg-[#080b12] hover:bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
+      >
+        <ChevronRight className="w-4 h-4" />
+      </button>
     </div>
   );
 }

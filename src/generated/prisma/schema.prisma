@@ -785,13 +785,46 @@ model SetorClickupList {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  members ProjectMember[]
+  members    ProjectMember[]
+  taskStates ProjectTaskState[]
+  activities ProjectActivity[]
 
   @@unique([setorId, clickupListId])
   @@index([setorId])
   @@index([clientCompanyId])
   @@index([status])
   @@index([dueDate])
+}
+
+// Snapshot do estado das tarefas do ClickUp — usado pra comparar entre syncs
+// e detectar criações, atualizações e conclusões.
+model ProjectTaskState {
+  id          String           @id @default(cuid())
+  projectId   String
+  project     SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  taskId      String // ID no ClickUp
+  name        String
+  statusName  String?
+  isCompleted Boolean          @default(false)
+  dateUpdated BigInt? // epoch ms
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@unique([projectId, taskId])
+  @@index([projectId])
+}
+
+// Log de eventos sobre tarefas — alimenta o histórico no detail do projeto.
+model ProjectActivity {
+  id        String           @id @default(cuid())
+  projectId String
+  project   SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  type      String // "TASK_CREATED" | "TASK_UPDATED" | "TASK_COMPLETED"
+  taskName  String
+  taskId    String
+  createdAt DateTime         @default(now())
+
+  @@index([projectId, createdAt])
 }
 
 enum ProjectStatus {
@@ -1303,6 +1336,9 @@ enum BadgeType {
   REI_DO_MES // 1o lugar no ranking mensal
   PONTUAL // dias terminados sem nada atrasado
   ENTREGADOR // projetos entregues no prazo
+  CONSTRUTOR // tarefas concluídas no ClickUp
+  ENGAJADO // tarefas atualizadas no ClickUp
+  GERADOR // tarefas criadas no ClickUp
 }
 
 enum ScoreReason {
@@ -1324,6 +1360,9 @@ enum ScoreReason {
   PRAZO_PRORROGADO // empurrar prazo depois de já vencido
   PROJETO_ATRASADO // projeto entregue depois do dueDate
   TAREFA_SEM_PRAZO // tarefas no ClickUp sem due_date (cron diário)
+  TAREFA_CRIADA // tarefa criada no ClickUp (sync)
+  TAREFA_ATUALIZADA // tarefa atualizada no ClickUp (sync)
+  TAREFA_CONCLUIDA // tarefa concluída no ClickUp (sync)
 }
 
 // Trilha de auditoria de eventos de cobrança — útil pra suporte e debug.

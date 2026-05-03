@@ -310,6 +310,46 @@ export async function syncOportunidadeToClickup({
  *
  * Retorna null se a lista não for encontrada ou houver erro de auth.
  */
+/** Tipo enxuto de tarefa do ClickUp usado nos syncs. */
+export type ClickupTaskLite = {
+  id:           string;
+  name:         string;
+  statusName:   string | null;
+  isCompleted:  boolean;
+  dueDate:      number | null;     // epoch ms
+  dateUpdated:  number | null;     // epoch ms
+};
+
+/**
+ * Retorna a lista completa de tarefas de uma lista do ClickUp em formato
+ * enxuto. Usado pelo sync que detecta criações/atualizações/conclusões.
+ */
+export async function fetchClickupTasks(
+  apiToken: string,
+  listId: string,
+): Promise<ClickupTaskLite[] | null> {
+  const url = `${BASE}/list/${listId}/task?include_closed=true&subtasks=true`;
+  try {
+    const res = await fetch(url, {
+      headers: { Authorization: apiToken },
+      cache:   "no-store",
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    const raw: any[] = data.tasks ?? [];
+    return raw.map((t) => ({
+      id:          String(t.id),
+      name:        String(t.name ?? ""),
+      statusName:  t.status?.status ?? null,
+      isCompleted: t.status?.type === "closed" || t.status?.type === "done",
+      dueDate:     t.due_date     ? Number(t.due_date)     : null,
+      dateUpdated: t.date_updated ? Number(t.date_updated) : null,
+    }));
+  } catch {
+    return null;
+  }
+}
+
 export async function fetchClickupListStats(
   apiToken: string,
   listId: string,

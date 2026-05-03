@@ -129,6 +129,16 @@ export type Setor = $Result.DefaultSelection<Prisma.$SetorPayload>
  */
 export type SetorClickupList = $Result.DefaultSelection<Prisma.$SetorClickupListPayload>
 /**
+ * Model ProjectTaskState
+ * 
+ */
+export type ProjectTaskState = $Result.DefaultSelection<Prisma.$ProjectTaskStatePayload>
+/**
+ * Model ProjectActivity
+ * 
+ */
+export type ProjectActivity = $Result.DefaultSelection<Prisma.$ProjectActivityPayload>
+/**
  * Model ProjectMember
  * 
  */
@@ -466,7 +476,10 @@ export const BadgeType: {
   FUNIL_COMPLETO: 'FUNIL_COMPLETO',
   REI_DO_MES: 'REI_DO_MES',
   PONTUAL: 'PONTUAL',
-  ENTREGADOR: 'ENTREGADOR'
+  ENTREGADOR: 'ENTREGADOR',
+  CONSTRUTOR: 'CONSTRUTOR',
+  ENGAJADO: 'ENGAJADO',
+  GERADOR: 'GERADOR'
 };
 
 export type BadgeType = (typeof BadgeType)[keyof typeof BadgeType]
@@ -490,7 +503,10 @@ export const ScoreReason: {
   CONVERSA_SEM_RESPOSTA: 'CONVERSA_SEM_RESPOSTA',
   PRAZO_PRORROGADO: 'PRAZO_PRORROGADO',
   PROJETO_ATRASADO: 'PROJETO_ATRASADO',
-  TAREFA_SEM_PRAZO: 'TAREFA_SEM_PRAZO'
+  TAREFA_SEM_PRAZO: 'TAREFA_SEM_PRAZO',
+  TAREFA_CRIADA: 'TAREFA_CRIADA',
+  TAREFA_ATUALIZADA: 'TAREFA_ATUALIZADA',
+  TAREFA_CONCLUIDA: 'TAREFA_CONCLUIDA'
 };
 
 export type ScoreReason = (typeof ScoreReason)[keyof typeof ScoreReason]
@@ -937,6 +953,26 @@ export class PrismaClient<
     * ```
     */
   get setorClickupList(): Prisma.SetorClickupListDelegate<ExtArgs>;
+
+  /**
+   * `prisma.projectTaskState`: Exposes CRUD operations for the **ProjectTaskState** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProjectTaskStates
+    * const projectTaskStates = await prisma.projectTaskState.findMany()
+    * ```
+    */
+  get projectTaskState(): Prisma.ProjectTaskStateDelegate<ExtArgs>;
+
+  /**
+   * `prisma.projectActivity`: Exposes CRUD operations for the **ProjectActivity** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProjectActivities
+    * const projectActivities = await prisma.projectActivity.findMany()
+    * ```
+    */
+  get projectActivity(): Prisma.ProjectActivityDelegate<ExtArgs>;
 
   /**
    * `prisma.projectMember`: Exposes CRUD operations for the **ProjectMember** model.
@@ -1601,6 +1637,8 @@ export namespace Prisma {
     TicketMessage: 'TicketMessage',
     Setor: 'Setor',
     SetorClickupList: 'SetorClickupList',
+    ProjectTaskState: 'ProjectTaskState',
+    ProjectActivity: 'ProjectActivity',
     ProjectMember: 'ProjectMember',
     SetorUser: 'SetorUser',
     SetorInstance: 'SetorInstance',
@@ -1636,7 +1674,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "billingEvent"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "billingEvent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3247,6 +3285,146 @@ export namespace Prisma {
           count: {
             args: Prisma.SetorClickupListCountArgs<ExtArgs>
             result: $Utils.Optional<SetorClickupListCountAggregateOutputType> | number
+          }
+        }
+      }
+      ProjectTaskState: {
+        payload: Prisma.$ProjectTaskStatePayload<ExtArgs>
+        fields: Prisma.ProjectTaskStateFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProjectTaskStateFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTaskStatePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProjectTaskStateFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTaskStatePayload>
+          }
+          findFirst: {
+            args: Prisma.ProjectTaskStateFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTaskStatePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProjectTaskStateFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTaskStatePayload>
+          }
+          findMany: {
+            args: Prisma.ProjectTaskStateFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTaskStatePayload>[]
+          }
+          create: {
+            args: Prisma.ProjectTaskStateCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTaskStatePayload>
+          }
+          createMany: {
+            args: Prisma.ProjectTaskStateCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProjectTaskStateCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTaskStatePayload>[]
+          }
+          delete: {
+            args: Prisma.ProjectTaskStateDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTaskStatePayload>
+          }
+          update: {
+            args: Prisma.ProjectTaskStateUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTaskStatePayload>
+          }
+          deleteMany: {
+            args: Prisma.ProjectTaskStateDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProjectTaskStateUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ProjectTaskStateUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTaskStatePayload>
+          }
+          aggregate: {
+            args: Prisma.ProjectTaskStateAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProjectTaskState>
+          }
+          groupBy: {
+            args: Prisma.ProjectTaskStateGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProjectTaskStateGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProjectTaskStateCountArgs<ExtArgs>
+            result: $Utils.Optional<ProjectTaskStateCountAggregateOutputType> | number
+          }
+        }
+      }
+      ProjectActivity: {
+        payload: Prisma.$ProjectActivityPayload<ExtArgs>
+        fields: Prisma.ProjectActivityFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProjectActivityFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectActivityPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProjectActivityFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectActivityPayload>
+          }
+          findFirst: {
+            args: Prisma.ProjectActivityFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectActivityPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProjectActivityFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectActivityPayload>
+          }
+          findMany: {
+            args: Prisma.ProjectActivityFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectActivityPayload>[]
+          }
+          create: {
+            args: Prisma.ProjectActivityCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectActivityPayload>
+          }
+          createMany: {
+            args: Prisma.ProjectActivityCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProjectActivityCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectActivityPayload>[]
+          }
+          delete: {
+            args: Prisma.ProjectActivityDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectActivityPayload>
+          }
+          update: {
+            args: Prisma.ProjectActivityUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectActivityPayload>
+          }
+          deleteMany: {
+            args: Prisma.ProjectActivityDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProjectActivityUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ProjectActivityUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectActivityPayload>
+          }
+          aggregate: {
+            args: Prisma.ProjectActivityAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProjectActivity>
+          }
+          groupBy: {
+            args: Prisma.ProjectActivityGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProjectActivityGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProjectActivityCountArgs<ExtArgs>
+            result: $Utils.Optional<ProjectActivityCountAggregateOutputType> | number
           }
         }
       }
@@ -5577,10 +5755,14 @@ export namespace Prisma {
 
   export type SetorClickupListCountOutputType = {
     members: number
+    taskStates: number
+    activities: number
   }
 
   export type SetorClickupListCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | SetorClickupListCountOutputTypeCountMembersArgs
+    taskStates?: boolean | SetorClickupListCountOutputTypeCountTaskStatesArgs
+    activities?: boolean | SetorClickupListCountOutputTypeCountActivitiesArgs
   }
 
   // Custom InputTypes
@@ -5599,6 +5781,20 @@ export namespace Prisma {
    */
   export type SetorClickupListCountOutputTypeCountMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProjectMemberWhereInput
+  }
+
+  /**
+   * SetorClickupListCountOutputType without action
+   */
+  export type SetorClickupListCountOutputTypeCountTaskStatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectTaskStateWhereInput
+  }
+
+  /**
+   * SetorClickupListCountOutputType without action
+   */
+  export type SetorClickupListCountOutputTypeCountActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectActivityWhereInput
   }
 
 
@@ -30442,6 +30638,8 @@ export namespace Prisma {
     setor?: boolean | SetorDefaultArgs<ExtArgs>
     clientCompany?: boolean | SetorClickupList$clientCompanyArgs<ExtArgs>
     members?: boolean | SetorClickupList$membersArgs<ExtArgs>
+    taskStates?: boolean | SetorClickupList$taskStatesArgs<ExtArgs>
+    activities?: boolean | SetorClickupList$activitiesArgs<ExtArgs>
     _count?: boolean | SetorClickupListCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["setorClickupList"]>
 
@@ -30493,6 +30691,8 @@ export namespace Prisma {
     setor?: boolean | SetorDefaultArgs<ExtArgs>
     clientCompany?: boolean | SetorClickupList$clientCompanyArgs<ExtArgs>
     members?: boolean | SetorClickupList$membersArgs<ExtArgs>
+    taskStates?: boolean | SetorClickupList$taskStatesArgs<ExtArgs>
+    activities?: boolean | SetorClickupList$activitiesArgs<ExtArgs>
     _count?: boolean | SetorClickupListCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SetorClickupListIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -30506,6 +30706,8 @@ export namespace Prisma {
       setor: Prisma.$SetorPayload<ExtArgs>
       clientCompany: Prisma.$CompanyPayload<ExtArgs> | null
       members: Prisma.$ProjectMemberPayload<ExtArgs>[]
+      taskStates: Prisma.$ProjectTaskStatePayload<ExtArgs>[]
+      activities: Prisma.$ProjectActivityPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -30893,6 +31095,8 @@ export namespace Prisma {
     setor<T extends SetorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SetorDefaultArgs<ExtArgs>>): Prisma__SetorClient<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     clientCompany<T extends SetorClickupList$clientCompanyArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$clientCompanyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     members<T extends SetorClickupList$membersArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMemberPayload<ExtArgs>, T, "findMany"> | Null>
+    taskStates<T extends SetorClickupList$taskStatesArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$taskStatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectTaskStatePayload<ExtArgs>, T, "findMany"> | Null>
+    activities<T extends SetorClickupList$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectActivityPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -31293,6 +31497,46 @@ export namespace Prisma {
   }
 
   /**
+   * SetorClickupList.taskStates
+   */
+  export type SetorClickupList$taskStatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskState
+     */
+    select?: ProjectTaskStateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskStateInclude<ExtArgs> | null
+    where?: ProjectTaskStateWhereInput
+    orderBy?: ProjectTaskStateOrderByWithRelationInput | ProjectTaskStateOrderByWithRelationInput[]
+    cursor?: ProjectTaskStateWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectTaskStateScalarFieldEnum | ProjectTaskStateScalarFieldEnum[]
+  }
+
+  /**
+   * SetorClickupList.activities
+   */
+  export type SetorClickupList$activitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectActivity
+     */
+    select?: ProjectActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectActivityInclude<ExtArgs> | null
+    where?: ProjectActivityWhereInput
+    orderBy?: ProjectActivityOrderByWithRelationInput | ProjectActivityOrderByWithRelationInput[]
+    cursor?: ProjectActivityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectActivityScalarFieldEnum | ProjectActivityScalarFieldEnum[]
+  }
+
+  /**
    * SetorClickupList without action
    */
   export type SetorClickupListDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -31304,6 +31548,1966 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: SetorClickupListInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ProjectTaskState
+   */
+
+  export type AggregateProjectTaskState = {
+    _count: ProjectTaskStateCountAggregateOutputType | null
+    _avg: ProjectTaskStateAvgAggregateOutputType | null
+    _sum: ProjectTaskStateSumAggregateOutputType | null
+    _min: ProjectTaskStateMinAggregateOutputType | null
+    _max: ProjectTaskStateMaxAggregateOutputType | null
+  }
+
+  export type ProjectTaskStateAvgAggregateOutputType = {
+    dateUpdated: number | null
+  }
+
+  export type ProjectTaskStateSumAggregateOutputType = {
+    dateUpdated: bigint | null
+  }
+
+  export type ProjectTaskStateMinAggregateOutputType = {
+    id: string | null
+    projectId: string | null
+    taskId: string | null
+    name: string | null
+    statusName: string | null
+    isCompleted: boolean | null
+    dateUpdated: bigint | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ProjectTaskStateMaxAggregateOutputType = {
+    id: string | null
+    projectId: string | null
+    taskId: string | null
+    name: string | null
+    statusName: string | null
+    isCompleted: boolean | null
+    dateUpdated: bigint | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ProjectTaskStateCountAggregateOutputType = {
+    id: number
+    projectId: number
+    taskId: number
+    name: number
+    statusName: number
+    isCompleted: number
+    dateUpdated: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ProjectTaskStateAvgAggregateInputType = {
+    dateUpdated?: true
+  }
+
+  export type ProjectTaskStateSumAggregateInputType = {
+    dateUpdated?: true
+  }
+
+  export type ProjectTaskStateMinAggregateInputType = {
+    id?: true
+    projectId?: true
+    taskId?: true
+    name?: true
+    statusName?: true
+    isCompleted?: true
+    dateUpdated?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ProjectTaskStateMaxAggregateInputType = {
+    id?: true
+    projectId?: true
+    taskId?: true
+    name?: true
+    statusName?: true
+    isCompleted?: true
+    dateUpdated?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ProjectTaskStateCountAggregateInputType = {
+    id?: true
+    projectId?: true
+    taskId?: true
+    name?: true
+    statusName?: true
+    isCompleted?: true
+    dateUpdated?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ProjectTaskStateAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectTaskState to aggregate.
+     */
+    where?: ProjectTaskStateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectTaskStates to fetch.
+     */
+    orderBy?: ProjectTaskStateOrderByWithRelationInput | ProjectTaskStateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProjectTaskStateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectTaskStates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectTaskStates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProjectTaskStates
+    **/
+    _count?: true | ProjectTaskStateCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ProjectTaskStateAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ProjectTaskStateSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProjectTaskStateMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProjectTaskStateMaxAggregateInputType
+  }
+
+  export type GetProjectTaskStateAggregateType<T extends ProjectTaskStateAggregateArgs> = {
+        [P in keyof T & keyof AggregateProjectTaskState]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProjectTaskState[P]>
+      : GetScalarType<T[P], AggregateProjectTaskState[P]>
+  }
+
+
+
+
+  export type ProjectTaskStateGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectTaskStateWhereInput
+    orderBy?: ProjectTaskStateOrderByWithAggregationInput | ProjectTaskStateOrderByWithAggregationInput[]
+    by: ProjectTaskStateScalarFieldEnum[] | ProjectTaskStateScalarFieldEnum
+    having?: ProjectTaskStateScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProjectTaskStateCountAggregateInputType | true
+    _avg?: ProjectTaskStateAvgAggregateInputType
+    _sum?: ProjectTaskStateSumAggregateInputType
+    _min?: ProjectTaskStateMinAggregateInputType
+    _max?: ProjectTaskStateMaxAggregateInputType
+  }
+
+  export type ProjectTaskStateGroupByOutputType = {
+    id: string
+    projectId: string
+    taskId: string
+    name: string
+    statusName: string | null
+    isCompleted: boolean
+    dateUpdated: bigint | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ProjectTaskStateCountAggregateOutputType | null
+    _avg: ProjectTaskStateAvgAggregateOutputType | null
+    _sum: ProjectTaskStateSumAggregateOutputType | null
+    _min: ProjectTaskStateMinAggregateOutputType | null
+    _max: ProjectTaskStateMaxAggregateOutputType | null
+  }
+
+  type GetProjectTaskStateGroupByPayload<T extends ProjectTaskStateGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProjectTaskStateGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProjectTaskStateGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProjectTaskStateGroupByOutputType[P]>
+            : GetScalarType<T[P], ProjectTaskStateGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProjectTaskStateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    taskId?: boolean
+    name?: boolean
+    statusName?: boolean
+    isCompleted?: boolean
+    dateUpdated?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectTaskState"]>
+
+  export type ProjectTaskStateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    taskId?: boolean
+    name?: boolean
+    statusName?: boolean
+    isCompleted?: boolean
+    dateUpdated?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectTaskState"]>
+
+  export type ProjectTaskStateSelectScalar = {
+    id?: boolean
+    projectId?: boolean
+    taskId?: boolean
+    name?: boolean
+    statusName?: boolean
+    isCompleted?: boolean
+    dateUpdated?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ProjectTaskStateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+  }
+  export type ProjectTaskStateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+  }
+
+  export type $ProjectTaskStatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProjectTaskState"
+    objects: {
+      project: Prisma.$SetorClickupListPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      projectId: string
+      taskId: string
+      name: string
+      statusName: string | null
+      isCompleted: boolean
+      dateUpdated: bigint | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["projectTaskState"]>
+    composites: {}
+  }
+
+  type ProjectTaskStateGetPayload<S extends boolean | null | undefined | ProjectTaskStateDefaultArgs> = $Result.GetResult<Prisma.$ProjectTaskStatePayload, S>
+
+  type ProjectTaskStateCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ProjectTaskStateFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ProjectTaskStateCountAggregateInputType | true
+    }
+
+  export interface ProjectTaskStateDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProjectTaskState'], meta: { name: 'ProjectTaskState' } }
+    /**
+     * Find zero or one ProjectTaskState that matches the filter.
+     * @param {ProjectTaskStateFindUniqueArgs} args - Arguments to find a ProjectTaskState
+     * @example
+     * // Get one ProjectTaskState
+     * const projectTaskState = await prisma.projectTaskState.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProjectTaskStateFindUniqueArgs>(args: SelectSubset<T, ProjectTaskStateFindUniqueArgs<ExtArgs>>): Prisma__ProjectTaskStateClient<$Result.GetResult<Prisma.$ProjectTaskStatePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ProjectTaskState that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ProjectTaskStateFindUniqueOrThrowArgs} args - Arguments to find a ProjectTaskState
+     * @example
+     * // Get one ProjectTaskState
+     * const projectTaskState = await prisma.projectTaskState.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProjectTaskStateFindUniqueOrThrowArgs>(args: SelectSubset<T, ProjectTaskStateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProjectTaskStateClient<$Result.GetResult<Prisma.$ProjectTaskStatePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ProjectTaskState that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTaskStateFindFirstArgs} args - Arguments to find a ProjectTaskState
+     * @example
+     * // Get one ProjectTaskState
+     * const projectTaskState = await prisma.projectTaskState.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProjectTaskStateFindFirstArgs>(args?: SelectSubset<T, ProjectTaskStateFindFirstArgs<ExtArgs>>): Prisma__ProjectTaskStateClient<$Result.GetResult<Prisma.$ProjectTaskStatePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ProjectTaskState that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTaskStateFindFirstOrThrowArgs} args - Arguments to find a ProjectTaskState
+     * @example
+     * // Get one ProjectTaskState
+     * const projectTaskState = await prisma.projectTaskState.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProjectTaskStateFindFirstOrThrowArgs>(args?: SelectSubset<T, ProjectTaskStateFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProjectTaskStateClient<$Result.GetResult<Prisma.$ProjectTaskStatePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ProjectTaskStates that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTaskStateFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProjectTaskStates
+     * const projectTaskStates = await prisma.projectTaskState.findMany()
+     * 
+     * // Get first 10 ProjectTaskStates
+     * const projectTaskStates = await prisma.projectTaskState.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const projectTaskStateWithIdOnly = await prisma.projectTaskState.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProjectTaskStateFindManyArgs>(args?: SelectSubset<T, ProjectTaskStateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectTaskStatePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ProjectTaskState.
+     * @param {ProjectTaskStateCreateArgs} args - Arguments to create a ProjectTaskState.
+     * @example
+     * // Create one ProjectTaskState
+     * const ProjectTaskState = await prisma.projectTaskState.create({
+     *   data: {
+     *     // ... data to create a ProjectTaskState
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProjectTaskStateCreateArgs>(args: SelectSubset<T, ProjectTaskStateCreateArgs<ExtArgs>>): Prisma__ProjectTaskStateClient<$Result.GetResult<Prisma.$ProjectTaskStatePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ProjectTaskStates.
+     * @param {ProjectTaskStateCreateManyArgs} args - Arguments to create many ProjectTaskStates.
+     * @example
+     * // Create many ProjectTaskStates
+     * const projectTaskState = await prisma.projectTaskState.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProjectTaskStateCreateManyArgs>(args?: SelectSubset<T, ProjectTaskStateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProjectTaskStates and returns the data saved in the database.
+     * @param {ProjectTaskStateCreateManyAndReturnArgs} args - Arguments to create many ProjectTaskStates.
+     * @example
+     * // Create many ProjectTaskStates
+     * const projectTaskState = await prisma.projectTaskState.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProjectTaskStates and only return the `id`
+     * const projectTaskStateWithIdOnly = await prisma.projectTaskState.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProjectTaskStateCreateManyAndReturnArgs>(args?: SelectSubset<T, ProjectTaskStateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectTaskStatePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ProjectTaskState.
+     * @param {ProjectTaskStateDeleteArgs} args - Arguments to delete one ProjectTaskState.
+     * @example
+     * // Delete one ProjectTaskState
+     * const ProjectTaskState = await prisma.projectTaskState.delete({
+     *   where: {
+     *     // ... filter to delete one ProjectTaskState
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProjectTaskStateDeleteArgs>(args: SelectSubset<T, ProjectTaskStateDeleteArgs<ExtArgs>>): Prisma__ProjectTaskStateClient<$Result.GetResult<Prisma.$ProjectTaskStatePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ProjectTaskState.
+     * @param {ProjectTaskStateUpdateArgs} args - Arguments to update one ProjectTaskState.
+     * @example
+     * // Update one ProjectTaskState
+     * const projectTaskState = await prisma.projectTaskState.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProjectTaskStateUpdateArgs>(args: SelectSubset<T, ProjectTaskStateUpdateArgs<ExtArgs>>): Prisma__ProjectTaskStateClient<$Result.GetResult<Prisma.$ProjectTaskStatePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ProjectTaskStates.
+     * @param {ProjectTaskStateDeleteManyArgs} args - Arguments to filter ProjectTaskStates to delete.
+     * @example
+     * // Delete a few ProjectTaskStates
+     * const { count } = await prisma.projectTaskState.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProjectTaskStateDeleteManyArgs>(args?: SelectSubset<T, ProjectTaskStateDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProjectTaskStates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTaskStateUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProjectTaskStates
+     * const projectTaskState = await prisma.projectTaskState.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProjectTaskStateUpdateManyArgs>(args: SelectSubset<T, ProjectTaskStateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ProjectTaskState.
+     * @param {ProjectTaskStateUpsertArgs} args - Arguments to update or create a ProjectTaskState.
+     * @example
+     * // Update or create a ProjectTaskState
+     * const projectTaskState = await prisma.projectTaskState.upsert({
+     *   create: {
+     *     // ... data to create a ProjectTaskState
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProjectTaskState we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProjectTaskStateUpsertArgs>(args: SelectSubset<T, ProjectTaskStateUpsertArgs<ExtArgs>>): Prisma__ProjectTaskStateClient<$Result.GetResult<Prisma.$ProjectTaskStatePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ProjectTaskStates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTaskStateCountArgs} args - Arguments to filter ProjectTaskStates to count.
+     * @example
+     * // Count the number of ProjectTaskStates
+     * const count = await prisma.projectTaskState.count({
+     *   where: {
+     *     // ... the filter for the ProjectTaskStates we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProjectTaskStateCountArgs>(
+      args?: Subset<T, ProjectTaskStateCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProjectTaskStateCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProjectTaskState.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTaskStateAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProjectTaskStateAggregateArgs>(args: Subset<T, ProjectTaskStateAggregateArgs>): Prisma.PrismaPromise<GetProjectTaskStateAggregateType<T>>
+
+    /**
+     * Group by ProjectTaskState.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTaskStateGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProjectTaskStateGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProjectTaskStateGroupByArgs['orderBy'] }
+        : { orderBy?: ProjectTaskStateGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProjectTaskStateGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProjectTaskStateGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProjectTaskState model
+   */
+  readonly fields: ProjectTaskStateFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProjectTaskState.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProjectTaskStateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    project<T extends SetorClickupListDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupListDefaultArgs<ExtArgs>>): Prisma__SetorClickupListClient<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProjectTaskState model
+   */ 
+  interface ProjectTaskStateFieldRefs {
+    readonly id: FieldRef<"ProjectTaskState", 'String'>
+    readonly projectId: FieldRef<"ProjectTaskState", 'String'>
+    readonly taskId: FieldRef<"ProjectTaskState", 'String'>
+    readonly name: FieldRef<"ProjectTaskState", 'String'>
+    readonly statusName: FieldRef<"ProjectTaskState", 'String'>
+    readonly isCompleted: FieldRef<"ProjectTaskState", 'Boolean'>
+    readonly dateUpdated: FieldRef<"ProjectTaskState", 'BigInt'>
+    readonly createdAt: FieldRef<"ProjectTaskState", 'DateTime'>
+    readonly updatedAt: FieldRef<"ProjectTaskState", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProjectTaskState findUnique
+   */
+  export type ProjectTaskStateFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskState
+     */
+    select?: ProjectTaskStateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskStateInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectTaskState to fetch.
+     */
+    where: ProjectTaskStateWhereUniqueInput
+  }
+
+  /**
+   * ProjectTaskState findUniqueOrThrow
+   */
+  export type ProjectTaskStateFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskState
+     */
+    select?: ProjectTaskStateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskStateInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectTaskState to fetch.
+     */
+    where: ProjectTaskStateWhereUniqueInput
+  }
+
+  /**
+   * ProjectTaskState findFirst
+   */
+  export type ProjectTaskStateFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskState
+     */
+    select?: ProjectTaskStateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskStateInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectTaskState to fetch.
+     */
+    where?: ProjectTaskStateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectTaskStates to fetch.
+     */
+    orderBy?: ProjectTaskStateOrderByWithRelationInput | ProjectTaskStateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectTaskStates.
+     */
+    cursor?: ProjectTaskStateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectTaskStates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectTaskStates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectTaskStates.
+     */
+    distinct?: ProjectTaskStateScalarFieldEnum | ProjectTaskStateScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectTaskState findFirstOrThrow
+   */
+  export type ProjectTaskStateFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskState
+     */
+    select?: ProjectTaskStateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskStateInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectTaskState to fetch.
+     */
+    where?: ProjectTaskStateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectTaskStates to fetch.
+     */
+    orderBy?: ProjectTaskStateOrderByWithRelationInput | ProjectTaskStateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectTaskStates.
+     */
+    cursor?: ProjectTaskStateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectTaskStates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectTaskStates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectTaskStates.
+     */
+    distinct?: ProjectTaskStateScalarFieldEnum | ProjectTaskStateScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectTaskState findMany
+   */
+  export type ProjectTaskStateFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskState
+     */
+    select?: ProjectTaskStateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskStateInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectTaskStates to fetch.
+     */
+    where?: ProjectTaskStateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectTaskStates to fetch.
+     */
+    orderBy?: ProjectTaskStateOrderByWithRelationInput | ProjectTaskStateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProjectTaskStates.
+     */
+    cursor?: ProjectTaskStateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectTaskStates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectTaskStates.
+     */
+    skip?: number
+    distinct?: ProjectTaskStateScalarFieldEnum | ProjectTaskStateScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectTaskState create
+   */
+  export type ProjectTaskStateCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskState
+     */
+    select?: ProjectTaskStateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskStateInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProjectTaskState.
+     */
+    data: XOR<ProjectTaskStateCreateInput, ProjectTaskStateUncheckedCreateInput>
+  }
+
+  /**
+   * ProjectTaskState createMany
+   */
+  export type ProjectTaskStateCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProjectTaskStates.
+     */
+    data: ProjectTaskStateCreateManyInput | ProjectTaskStateCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ProjectTaskState createManyAndReturn
+   */
+  export type ProjectTaskStateCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskState
+     */
+    select?: ProjectTaskStateSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ProjectTaskStates.
+     */
+    data: ProjectTaskStateCreateManyInput | ProjectTaskStateCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskStateIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProjectTaskState update
+   */
+  export type ProjectTaskStateUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskState
+     */
+    select?: ProjectTaskStateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskStateInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProjectTaskState.
+     */
+    data: XOR<ProjectTaskStateUpdateInput, ProjectTaskStateUncheckedUpdateInput>
+    /**
+     * Choose, which ProjectTaskState to update.
+     */
+    where: ProjectTaskStateWhereUniqueInput
+  }
+
+  /**
+   * ProjectTaskState updateMany
+   */
+  export type ProjectTaskStateUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProjectTaskStates.
+     */
+    data: XOR<ProjectTaskStateUpdateManyMutationInput, ProjectTaskStateUncheckedUpdateManyInput>
+    /**
+     * Filter which ProjectTaskStates to update
+     */
+    where?: ProjectTaskStateWhereInput
+  }
+
+  /**
+   * ProjectTaskState upsert
+   */
+  export type ProjectTaskStateUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskState
+     */
+    select?: ProjectTaskStateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskStateInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProjectTaskState to update in case it exists.
+     */
+    where: ProjectTaskStateWhereUniqueInput
+    /**
+     * In case the ProjectTaskState found by the `where` argument doesn't exist, create a new ProjectTaskState with this data.
+     */
+    create: XOR<ProjectTaskStateCreateInput, ProjectTaskStateUncheckedCreateInput>
+    /**
+     * In case the ProjectTaskState was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProjectTaskStateUpdateInput, ProjectTaskStateUncheckedUpdateInput>
+  }
+
+  /**
+   * ProjectTaskState delete
+   */
+  export type ProjectTaskStateDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskState
+     */
+    select?: ProjectTaskStateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskStateInclude<ExtArgs> | null
+    /**
+     * Filter which ProjectTaskState to delete.
+     */
+    where: ProjectTaskStateWhereUniqueInput
+  }
+
+  /**
+   * ProjectTaskState deleteMany
+   */
+  export type ProjectTaskStateDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectTaskStates to delete
+     */
+    where?: ProjectTaskStateWhereInput
+  }
+
+  /**
+   * ProjectTaskState without action
+   */
+  export type ProjectTaskStateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTaskState
+     */
+    select?: ProjectTaskStateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskStateInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ProjectActivity
+   */
+
+  export type AggregateProjectActivity = {
+    _count: ProjectActivityCountAggregateOutputType | null
+    _min: ProjectActivityMinAggregateOutputType | null
+    _max: ProjectActivityMaxAggregateOutputType | null
+  }
+
+  export type ProjectActivityMinAggregateOutputType = {
+    id: string | null
+    projectId: string | null
+    type: string | null
+    taskName: string | null
+    taskId: string | null
+    createdAt: Date | null
+  }
+
+  export type ProjectActivityMaxAggregateOutputType = {
+    id: string | null
+    projectId: string | null
+    type: string | null
+    taskName: string | null
+    taskId: string | null
+    createdAt: Date | null
+  }
+
+  export type ProjectActivityCountAggregateOutputType = {
+    id: number
+    projectId: number
+    type: number
+    taskName: number
+    taskId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ProjectActivityMinAggregateInputType = {
+    id?: true
+    projectId?: true
+    type?: true
+    taskName?: true
+    taskId?: true
+    createdAt?: true
+  }
+
+  export type ProjectActivityMaxAggregateInputType = {
+    id?: true
+    projectId?: true
+    type?: true
+    taskName?: true
+    taskId?: true
+    createdAt?: true
+  }
+
+  export type ProjectActivityCountAggregateInputType = {
+    id?: true
+    projectId?: true
+    type?: true
+    taskName?: true
+    taskId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ProjectActivityAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectActivity to aggregate.
+     */
+    where?: ProjectActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectActivities to fetch.
+     */
+    orderBy?: ProjectActivityOrderByWithRelationInput | ProjectActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProjectActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectActivities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectActivities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProjectActivities
+    **/
+    _count?: true | ProjectActivityCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProjectActivityMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProjectActivityMaxAggregateInputType
+  }
+
+  export type GetProjectActivityAggregateType<T extends ProjectActivityAggregateArgs> = {
+        [P in keyof T & keyof AggregateProjectActivity]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProjectActivity[P]>
+      : GetScalarType<T[P], AggregateProjectActivity[P]>
+  }
+
+
+
+
+  export type ProjectActivityGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectActivityWhereInput
+    orderBy?: ProjectActivityOrderByWithAggregationInput | ProjectActivityOrderByWithAggregationInput[]
+    by: ProjectActivityScalarFieldEnum[] | ProjectActivityScalarFieldEnum
+    having?: ProjectActivityScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProjectActivityCountAggregateInputType | true
+    _min?: ProjectActivityMinAggregateInputType
+    _max?: ProjectActivityMaxAggregateInputType
+  }
+
+  export type ProjectActivityGroupByOutputType = {
+    id: string
+    projectId: string
+    type: string
+    taskName: string
+    taskId: string
+    createdAt: Date
+    _count: ProjectActivityCountAggregateOutputType | null
+    _min: ProjectActivityMinAggregateOutputType | null
+    _max: ProjectActivityMaxAggregateOutputType | null
+  }
+
+  type GetProjectActivityGroupByPayload<T extends ProjectActivityGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProjectActivityGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProjectActivityGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProjectActivityGroupByOutputType[P]>
+            : GetScalarType<T[P], ProjectActivityGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProjectActivitySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    type?: boolean
+    taskName?: boolean
+    taskId?: boolean
+    createdAt?: boolean
+    project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectActivity"]>
+
+  export type ProjectActivitySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    type?: boolean
+    taskName?: boolean
+    taskId?: boolean
+    createdAt?: boolean
+    project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectActivity"]>
+
+  export type ProjectActivitySelectScalar = {
+    id?: boolean
+    projectId?: boolean
+    type?: boolean
+    taskName?: boolean
+    taskId?: boolean
+    createdAt?: boolean
+  }
+
+  export type ProjectActivityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+  }
+  export type ProjectActivityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+  }
+
+  export type $ProjectActivityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProjectActivity"
+    objects: {
+      project: Prisma.$SetorClickupListPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      projectId: string
+      type: string
+      taskName: string
+      taskId: string
+      createdAt: Date
+    }, ExtArgs["result"]["projectActivity"]>
+    composites: {}
+  }
+
+  type ProjectActivityGetPayload<S extends boolean | null | undefined | ProjectActivityDefaultArgs> = $Result.GetResult<Prisma.$ProjectActivityPayload, S>
+
+  type ProjectActivityCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ProjectActivityFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ProjectActivityCountAggregateInputType | true
+    }
+
+  export interface ProjectActivityDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProjectActivity'], meta: { name: 'ProjectActivity' } }
+    /**
+     * Find zero or one ProjectActivity that matches the filter.
+     * @param {ProjectActivityFindUniqueArgs} args - Arguments to find a ProjectActivity
+     * @example
+     * // Get one ProjectActivity
+     * const projectActivity = await prisma.projectActivity.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProjectActivityFindUniqueArgs>(args: SelectSubset<T, ProjectActivityFindUniqueArgs<ExtArgs>>): Prisma__ProjectActivityClient<$Result.GetResult<Prisma.$ProjectActivityPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ProjectActivity that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ProjectActivityFindUniqueOrThrowArgs} args - Arguments to find a ProjectActivity
+     * @example
+     * // Get one ProjectActivity
+     * const projectActivity = await prisma.projectActivity.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProjectActivityFindUniqueOrThrowArgs>(args: SelectSubset<T, ProjectActivityFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProjectActivityClient<$Result.GetResult<Prisma.$ProjectActivityPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ProjectActivity that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectActivityFindFirstArgs} args - Arguments to find a ProjectActivity
+     * @example
+     * // Get one ProjectActivity
+     * const projectActivity = await prisma.projectActivity.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProjectActivityFindFirstArgs>(args?: SelectSubset<T, ProjectActivityFindFirstArgs<ExtArgs>>): Prisma__ProjectActivityClient<$Result.GetResult<Prisma.$ProjectActivityPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ProjectActivity that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectActivityFindFirstOrThrowArgs} args - Arguments to find a ProjectActivity
+     * @example
+     * // Get one ProjectActivity
+     * const projectActivity = await prisma.projectActivity.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProjectActivityFindFirstOrThrowArgs>(args?: SelectSubset<T, ProjectActivityFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProjectActivityClient<$Result.GetResult<Prisma.$ProjectActivityPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ProjectActivities that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectActivityFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProjectActivities
+     * const projectActivities = await prisma.projectActivity.findMany()
+     * 
+     * // Get first 10 ProjectActivities
+     * const projectActivities = await prisma.projectActivity.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const projectActivityWithIdOnly = await prisma.projectActivity.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProjectActivityFindManyArgs>(args?: SelectSubset<T, ProjectActivityFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectActivityPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ProjectActivity.
+     * @param {ProjectActivityCreateArgs} args - Arguments to create a ProjectActivity.
+     * @example
+     * // Create one ProjectActivity
+     * const ProjectActivity = await prisma.projectActivity.create({
+     *   data: {
+     *     // ... data to create a ProjectActivity
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProjectActivityCreateArgs>(args: SelectSubset<T, ProjectActivityCreateArgs<ExtArgs>>): Prisma__ProjectActivityClient<$Result.GetResult<Prisma.$ProjectActivityPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ProjectActivities.
+     * @param {ProjectActivityCreateManyArgs} args - Arguments to create many ProjectActivities.
+     * @example
+     * // Create many ProjectActivities
+     * const projectActivity = await prisma.projectActivity.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProjectActivityCreateManyArgs>(args?: SelectSubset<T, ProjectActivityCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProjectActivities and returns the data saved in the database.
+     * @param {ProjectActivityCreateManyAndReturnArgs} args - Arguments to create many ProjectActivities.
+     * @example
+     * // Create many ProjectActivities
+     * const projectActivity = await prisma.projectActivity.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProjectActivities and only return the `id`
+     * const projectActivityWithIdOnly = await prisma.projectActivity.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProjectActivityCreateManyAndReturnArgs>(args?: SelectSubset<T, ProjectActivityCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectActivityPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ProjectActivity.
+     * @param {ProjectActivityDeleteArgs} args - Arguments to delete one ProjectActivity.
+     * @example
+     * // Delete one ProjectActivity
+     * const ProjectActivity = await prisma.projectActivity.delete({
+     *   where: {
+     *     // ... filter to delete one ProjectActivity
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProjectActivityDeleteArgs>(args: SelectSubset<T, ProjectActivityDeleteArgs<ExtArgs>>): Prisma__ProjectActivityClient<$Result.GetResult<Prisma.$ProjectActivityPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ProjectActivity.
+     * @param {ProjectActivityUpdateArgs} args - Arguments to update one ProjectActivity.
+     * @example
+     * // Update one ProjectActivity
+     * const projectActivity = await prisma.projectActivity.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProjectActivityUpdateArgs>(args: SelectSubset<T, ProjectActivityUpdateArgs<ExtArgs>>): Prisma__ProjectActivityClient<$Result.GetResult<Prisma.$ProjectActivityPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ProjectActivities.
+     * @param {ProjectActivityDeleteManyArgs} args - Arguments to filter ProjectActivities to delete.
+     * @example
+     * // Delete a few ProjectActivities
+     * const { count } = await prisma.projectActivity.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProjectActivityDeleteManyArgs>(args?: SelectSubset<T, ProjectActivityDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProjectActivities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectActivityUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProjectActivities
+     * const projectActivity = await prisma.projectActivity.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProjectActivityUpdateManyArgs>(args: SelectSubset<T, ProjectActivityUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ProjectActivity.
+     * @param {ProjectActivityUpsertArgs} args - Arguments to update or create a ProjectActivity.
+     * @example
+     * // Update or create a ProjectActivity
+     * const projectActivity = await prisma.projectActivity.upsert({
+     *   create: {
+     *     // ... data to create a ProjectActivity
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProjectActivity we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProjectActivityUpsertArgs>(args: SelectSubset<T, ProjectActivityUpsertArgs<ExtArgs>>): Prisma__ProjectActivityClient<$Result.GetResult<Prisma.$ProjectActivityPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ProjectActivities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectActivityCountArgs} args - Arguments to filter ProjectActivities to count.
+     * @example
+     * // Count the number of ProjectActivities
+     * const count = await prisma.projectActivity.count({
+     *   where: {
+     *     // ... the filter for the ProjectActivities we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProjectActivityCountArgs>(
+      args?: Subset<T, ProjectActivityCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProjectActivityCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProjectActivity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectActivityAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProjectActivityAggregateArgs>(args: Subset<T, ProjectActivityAggregateArgs>): Prisma.PrismaPromise<GetProjectActivityAggregateType<T>>
+
+    /**
+     * Group by ProjectActivity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectActivityGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProjectActivityGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProjectActivityGroupByArgs['orderBy'] }
+        : { orderBy?: ProjectActivityGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProjectActivityGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProjectActivityGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProjectActivity model
+   */
+  readonly fields: ProjectActivityFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProjectActivity.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProjectActivityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    project<T extends SetorClickupListDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupListDefaultArgs<ExtArgs>>): Prisma__SetorClickupListClient<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProjectActivity model
+   */ 
+  interface ProjectActivityFieldRefs {
+    readonly id: FieldRef<"ProjectActivity", 'String'>
+    readonly projectId: FieldRef<"ProjectActivity", 'String'>
+    readonly type: FieldRef<"ProjectActivity", 'String'>
+    readonly taskName: FieldRef<"ProjectActivity", 'String'>
+    readonly taskId: FieldRef<"ProjectActivity", 'String'>
+    readonly createdAt: FieldRef<"ProjectActivity", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProjectActivity findUnique
+   */
+  export type ProjectActivityFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectActivity
+     */
+    select?: ProjectActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectActivity to fetch.
+     */
+    where: ProjectActivityWhereUniqueInput
+  }
+
+  /**
+   * ProjectActivity findUniqueOrThrow
+   */
+  export type ProjectActivityFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectActivity
+     */
+    select?: ProjectActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectActivity to fetch.
+     */
+    where: ProjectActivityWhereUniqueInput
+  }
+
+  /**
+   * ProjectActivity findFirst
+   */
+  export type ProjectActivityFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectActivity
+     */
+    select?: ProjectActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectActivity to fetch.
+     */
+    where?: ProjectActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectActivities to fetch.
+     */
+    orderBy?: ProjectActivityOrderByWithRelationInput | ProjectActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectActivities.
+     */
+    cursor?: ProjectActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectActivities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectActivities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectActivities.
+     */
+    distinct?: ProjectActivityScalarFieldEnum | ProjectActivityScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectActivity findFirstOrThrow
+   */
+  export type ProjectActivityFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectActivity
+     */
+    select?: ProjectActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectActivity to fetch.
+     */
+    where?: ProjectActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectActivities to fetch.
+     */
+    orderBy?: ProjectActivityOrderByWithRelationInput | ProjectActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectActivities.
+     */
+    cursor?: ProjectActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectActivities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectActivities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectActivities.
+     */
+    distinct?: ProjectActivityScalarFieldEnum | ProjectActivityScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectActivity findMany
+   */
+  export type ProjectActivityFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectActivity
+     */
+    select?: ProjectActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectActivities to fetch.
+     */
+    where?: ProjectActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectActivities to fetch.
+     */
+    orderBy?: ProjectActivityOrderByWithRelationInput | ProjectActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProjectActivities.
+     */
+    cursor?: ProjectActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectActivities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectActivities.
+     */
+    skip?: number
+    distinct?: ProjectActivityScalarFieldEnum | ProjectActivityScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectActivity create
+   */
+  export type ProjectActivityCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectActivity
+     */
+    select?: ProjectActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectActivityInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProjectActivity.
+     */
+    data: XOR<ProjectActivityCreateInput, ProjectActivityUncheckedCreateInput>
+  }
+
+  /**
+   * ProjectActivity createMany
+   */
+  export type ProjectActivityCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProjectActivities.
+     */
+    data: ProjectActivityCreateManyInput | ProjectActivityCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ProjectActivity createManyAndReturn
+   */
+  export type ProjectActivityCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectActivity
+     */
+    select?: ProjectActivitySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ProjectActivities.
+     */
+    data: ProjectActivityCreateManyInput | ProjectActivityCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectActivityIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProjectActivity update
+   */
+  export type ProjectActivityUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectActivity
+     */
+    select?: ProjectActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectActivityInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProjectActivity.
+     */
+    data: XOR<ProjectActivityUpdateInput, ProjectActivityUncheckedUpdateInput>
+    /**
+     * Choose, which ProjectActivity to update.
+     */
+    where: ProjectActivityWhereUniqueInput
+  }
+
+  /**
+   * ProjectActivity updateMany
+   */
+  export type ProjectActivityUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProjectActivities.
+     */
+    data: XOR<ProjectActivityUpdateManyMutationInput, ProjectActivityUncheckedUpdateManyInput>
+    /**
+     * Filter which ProjectActivities to update
+     */
+    where?: ProjectActivityWhereInput
+  }
+
+  /**
+   * ProjectActivity upsert
+   */
+  export type ProjectActivityUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectActivity
+     */
+    select?: ProjectActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectActivityInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProjectActivity to update in case it exists.
+     */
+    where: ProjectActivityWhereUniqueInput
+    /**
+     * In case the ProjectActivity found by the `where` argument doesn't exist, create a new ProjectActivity with this data.
+     */
+    create: XOR<ProjectActivityCreateInput, ProjectActivityUncheckedCreateInput>
+    /**
+     * In case the ProjectActivity was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProjectActivityUpdateInput, ProjectActivityUncheckedUpdateInput>
+  }
+
+  /**
+   * ProjectActivity delete
+   */
+  export type ProjectActivityDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectActivity
+     */
+    select?: ProjectActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectActivityInclude<ExtArgs> | null
+    /**
+     * Filter which ProjectActivity to delete.
+     */
+    where: ProjectActivityWhereUniqueInput
+  }
+
+  /**
+   * ProjectActivity deleteMany
+   */
+  export type ProjectActivityDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectActivities to delete
+     */
+    where?: ProjectActivityWhereInput
+  }
+
+  /**
+   * ProjectActivity without action
+   */
+  export type ProjectActivityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectActivity
+     */
+    select?: ProjectActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectActivityInclude<ExtArgs> | null
   }
 
 
@@ -52003,6 +54207,33 @@ export namespace Prisma {
   export type SetorClickupListScalarFieldEnum = (typeof SetorClickupListScalarFieldEnum)[keyof typeof SetorClickupListScalarFieldEnum]
 
 
+  export const ProjectTaskStateScalarFieldEnum: {
+    id: 'id',
+    projectId: 'projectId',
+    taskId: 'taskId',
+    name: 'name',
+    statusName: 'statusName',
+    isCompleted: 'isCompleted',
+    dateUpdated: 'dateUpdated',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ProjectTaskStateScalarFieldEnum = (typeof ProjectTaskStateScalarFieldEnum)[keyof typeof ProjectTaskStateScalarFieldEnum]
+
+
+  export const ProjectActivityScalarFieldEnum: {
+    id: 'id',
+    projectId: 'projectId',
+    type: 'type',
+    taskName: 'taskName',
+    taskId: 'taskId',
+    createdAt: 'createdAt'
+  };
+
+  export type ProjectActivityScalarFieldEnum = (typeof ProjectActivityScalarFieldEnum)[keyof typeof ProjectActivityScalarFieldEnum]
+
+
   export const ProjectMemberScalarFieldEnum: {
     projectId: 'projectId',
     userId: 'userId',
@@ -52607,6 +54838,20 @@ export namespace Prisma {
    * Reference to a field of type 'ProjectStatus[]'
    */
   export type ListEnumProjectStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'BigInt'
+   */
+  export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
+    
+
+
+  /**
+   * Reference to a field of type 'BigInt[]'
+   */
+  export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
     
 
 
@@ -54938,6 +57183,8 @@ export namespace Prisma {
     setor?: XOR<SetorRelationFilter, SetorWhereInput>
     clientCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     members?: ProjectMemberListRelationFilter
+    taskStates?: ProjectTaskStateListRelationFilter
+    activities?: ProjectActivityListRelationFilter
   }
 
   export type SetorClickupListOrderByWithRelationInput = {
@@ -54962,6 +57209,8 @@ export namespace Prisma {
     setor?: SetorOrderByWithRelationInput
     clientCompany?: CompanyOrderByWithRelationInput
     members?: ProjectMemberOrderByRelationAggregateInput
+    taskStates?: ProjectTaskStateOrderByRelationAggregateInput
+    activities?: ProjectActivityOrderByRelationAggregateInput
   }
 
   export type SetorClickupListWhereUniqueInput = Prisma.AtLeast<{
@@ -54990,6 +57239,8 @@ export namespace Prisma {
     setor?: XOR<SetorRelationFilter, SetorWhereInput>
     clientCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     members?: ProjectMemberListRelationFilter
+    taskStates?: ProjectTaskStateListRelationFilter
+    activities?: ProjectActivityListRelationFilter
   }, "id" | "setorId_clickupListId">
 
   export type SetorClickupListOrderByWithAggregationInput = {
@@ -55040,6 +57291,144 @@ export namespace Prisma {
     lastSyncedAt?: DateTimeNullableWithAggregatesFilter<"SetorClickupList"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"SetorClickupList"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"SetorClickupList"> | Date | string
+  }
+
+  export type ProjectTaskStateWhereInput = {
+    AND?: ProjectTaskStateWhereInput | ProjectTaskStateWhereInput[]
+    OR?: ProjectTaskStateWhereInput[]
+    NOT?: ProjectTaskStateWhereInput | ProjectTaskStateWhereInput[]
+    id?: StringFilter<"ProjectTaskState"> | string
+    projectId?: StringFilter<"ProjectTaskState"> | string
+    taskId?: StringFilter<"ProjectTaskState"> | string
+    name?: StringFilter<"ProjectTaskState"> | string
+    statusName?: StringNullableFilter<"ProjectTaskState"> | string | null
+    isCompleted?: BoolFilter<"ProjectTaskState"> | boolean
+    dateUpdated?: BigIntNullableFilter<"ProjectTaskState"> | bigint | number | null
+    createdAt?: DateTimeFilter<"ProjectTaskState"> | Date | string
+    updatedAt?: DateTimeFilter<"ProjectTaskState"> | Date | string
+    project?: XOR<SetorClickupListRelationFilter, SetorClickupListWhereInput>
+  }
+
+  export type ProjectTaskStateOrderByWithRelationInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    taskId?: SortOrder
+    name?: SortOrder
+    statusName?: SortOrderInput | SortOrder
+    isCompleted?: SortOrder
+    dateUpdated?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    project?: SetorClickupListOrderByWithRelationInput
+  }
+
+  export type ProjectTaskStateWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    projectId_taskId?: ProjectTaskStateProjectIdTaskIdCompoundUniqueInput
+    AND?: ProjectTaskStateWhereInput | ProjectTaskStateWhereInput[]
+    OR?: ProjectTaskStateWhereInput[]
+    NOT?: ProjectTaskStateWhereInput | ProjectTaskStateWhereInput[]
+    projectId?: StringFilter<"ProjectTaskState"> | string
+    taskId?: StringFilter<"ProjectTaskState"> | string
+    name?: StringFilter<"ProjectTaskState"> | string
+    statusName?: StringNullableFilter<"ProjectTaskState"> | string | null
+    isCompleted?: BoolFilter<"ProjectTaskState"> | boolean
+    dateUpdated?: BigIntNullableFilter<"ProjectTaskState"> | bigint | number | null
+    createdAt?: DateTimeFilter<"ProjectTaskState"> | Date | string
+    updatedAt?: DateTimeFilter<"ProjectTaskState"> | Date | string
+    project?: XOR<SetorClickupListRelationFilter, SetorClickupListWhereInput>
+  }, "id" | "projectId_taskId">
+
+  export type ProjectTaskStateOrderByWithAggregationInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    taskId?: SortOrder
+    name?: SortOrder
+    statusName?: SortOrderInput | SortOrder
+    isCompleted?: SortOrder
+    dateUpdated?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ProjectTaskStateCountOrderByAggregateInput
+    _avg?: ProjectTaskStateAvgOrderByAggregateInput
+    _max?: ProjectTaskStateMaxOrderByAggregateInput
+    _min?: ProjectTaskStateMinOrderByAggregateInput
+    _sum?: ProjectTaskStateSumOrderByAggregateInput
+  }
+
+  export type ProjectTaskStateScalarWhereWithAggregatesInput = {
+    AND?: ProjectTaskStateScalarWhereWithAggregatesInput | ProjectTaskStateScalarWhereWithAggregatesInput[]
+    OR?: ProjectTaskStateScalarWhereWithAggregatesInput[]
+    NOT?: ProjectTaskStateScalarWhereWithAggregatesInput | ProjectTaskStateScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ProjectTaskState"> | string
+    projectId?: StringWithAggregatesFilter<"ProjectTaskState"> | string
+    taskId?: StringWithAggregatesFilter<"ProjectTaskState"> | string
+    name?: StringWithAggregatesFilter<"ProjectTaskState"> | string
+    statusName?: StringNullableWithAggregatesFilter<"ProjectTaskState"> | string | null
+    isCompleted?: BoolWithAggregatesFilter<"ProjectTaskState"> | boolean
+    dateUpdated?: BigIntNullableWithAggregatesFilter<"ProjectTaskState"> | bigint | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"ProjectTaskState"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ProjectTaskState"> | Date | string
+  }
+
+  export type ProjectActivityWhereInput = {
+    AND?: ProjectActivityWhereInput | ProjectActivityWhereInput[]
+    OR?: ProjectActivityWhereInput[]
+    NOT?: ProjectActivityWhereInput | ProjectActivityWhereInput[]
+    id?: StringFilter<"ProjectActivity"> | string
+    projectId?: StringFilter<"ProjectActivity"> | string
+    type?: StringFilter<"ProjectActivity"> | string
+    taskName?: StringFilter<"ProjectActivity"> | string
+    taskId?: StringFilter<"ProjectActivity"> | string
+    createdAt?: DateTimeFilter<"ProjectActivity"> | Date | string
+    project?: XOR<SetorClickupListRelationFilter, SetorClickupListWhereInput>
+  }
+
+  export type ProjectActivityOrderByWithRelationInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    type?: SortOrder
+    taskName?: SortOrder
+    taskId?: SortOrder
+    createdAt?: SortOrder
+    project?: SetorClickupListOrderByWithRelationInput
+  }
+
+  export type ProjectActivityWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ProjectActivityWhereInput | ProjectActivityWhereInput[]
+    OR?: ProjectActivityWhereInput[]
+    NOT?: ProjectActivityWhereInput | ProjectActivityWhereInput[]
+    projectId?: StringFilter<"ProjectActivity"> | string
+    type?: StringFilter<"ProjectActivity"> | string
+    taskName?: StringFilter<"ProjectActivity"> | string
+    taskId?: StringFilter<"ProjectActivity"> | string
+    createdAt?: DateTimeFilter<"ProjectActivity"> | Date | string
+    project?: XOR<SetorClickupListRelationFilter, SetorClickupListWhereInput>
+  }, "id">
+
+  export type ProjectActivityOrderByWithAggregationInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    type?: SortOrder
+    taskName?: SortOrder
+    taskId?: SortOrder
+    createdAt?: SortOrder
+    _count?: ProjectActivityCountOrderByAggregateInput
+    _max?: ProjectActivityMaxOrderByAggregateInput
+    _min?: ProjectActivityMinOrderByAggregateInput
+  }
+
+  export type ProjectActivityScalarWhereWithAggregatesInput = {
+    AND?: ProjectActivityScalarWhereWithAggregatesInput | ProjectActivityScalarWhereWithAggregatesInput[]
+    OR?: ProjectActivityScalarWhereWithAggregatesInput[]
+    NOT?: ProjectActivityScalarWhereWithAggregatesInput | ProjectActivityScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ProjectActivity"> | string
+    projectId?: StringWithAggregatesFilter<"ProjectActivity"> | string
+    type?: StringWithAggregatesFilter<"ProjectActivity"> | string
+    taskName?: StringWithAggregatesFilter<"ProjectActivity"> | string
+    taskId?: StringWithAggregatesFilter<"ProjectActivity"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ProjectActivity"> | Date | string
   }
 
   export type ProjectMemberWhereInput = {
@@ -59097,6 +61486,8 @@ export namespace Prisma {
     setor: SetorCreateNestedOneWithoutClickupListsInput
     clientCompany?: CompanyCreateNestedOneWithoutSetorClickupListsAsClientInput
     members?: ProjectMemberCreateNestedManyWithoutProjectInput
+    taskStates?: ProjectTaskStateCreateNestedManyWithoutProjectInput
+    activities?: ProjectActivityCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateInput = {
@@ -59119,6 +61510,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+    taskStates?: ProjectTaskStateUncheckedCreateNestedManyWithoutProjectInput
+    activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUpdateInput = {
@@ -59141,6 +61534,8 @@ export namespace Prisma {
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
     clientCompany?: CompanyUpdateOneWithoutSetorClickupListsAsClientNestedInput
     members?: ProjectMemberUpdateManyWithoutProjectNestedInput
+    taskStates?: ProjectTaskStateUpdateManyWithoutProjectNestedInput
+    activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateInput = {
@@ -59163,6 +61558,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+    taskStates?: ProjectTaskStateUncheckedUpdateManyWithoutProjectNestedInput
+    activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListCreateManyInput = {
@@ -59224,6 +61621,151 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectTaskStateCreateInput = {
+    id?: string
+    taskId: string
+    name: string
+    statusName?: string | null
+    isCompleted?: boolean
+    dateUpdated?: bigint | number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    project: SetorClickupListCreateNestedOneWithoutTaskStatesInput
+  }
+
+  export type ProjectTaskStateUncheckedCreateInput = {
+    id?: string
+    projectId: string
+    taskId: string
+    name: string
+    statusName?: string | null
+    isCompleted?: boolean
+    dateUpdated?: bigint | number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProjectTaskStateUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    statusName?: NullableStringFieldUpdateOperationsInput | string | null
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: SetorClickupListUpdateOneRequiredWithoutTaskStatesNestedInput
+  }
+
+  export type ProjectTaskStateUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    statusName?: NullableStringFieldUpdateOperationsInput | string | null
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectTaskStateCreateManyInput = {
+    id?: string
+    projectId: string
+    taskId: string
+    name: string
+    statusName?: string | null
+    isCompleted?: boolean
+    dateUpdated?: bigint | number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProjectTaskStateUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    statusName?: NullableStringFieldUpdateOperationsInput | string | null
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectTaskStateUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    statusName?: NullableStringFieldUpdateOperationsInput | string | null
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectActivityCreateInput = {
+    id?: string
+    type: string
+    taskName: string
+    taskId: string
+    createdAt?: Date | string
+    project: SetorClickupListCreateNestedOneWithoutActivitiesInput
+  }
+
+  export type ProjectActivityUncheckedCreateInput = {
+    id?: string
+    projectId: string
+    type: string
+    taskName: string
+    taskId: string
+    createdAt?: Date | string
+  }
+
+  export type ProjectActivityUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    taskName?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: SetorClickupListUpdateOneRequiredWithoutActivitiesNestedInput
+  }
+
+  export type ProjectActivityUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    taskName?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectActivityCreateManyInput = {
+    id?: string
+    projectId: string
+    type: string
+    taskName: string
+    taskId: string
+    createdAt?: Date | string
+  }
+
+  export type ProjectActivityUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    taskName?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectActivityUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    taskName?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProjectMemberCreateInput = {
@@ -62974,6 +65516,26 @@ export namespace Prisma {
     isNot?: SetorWhereInput
   }
 
+  export type ProjectTaskStateListRelationFilter = {
+    every?: ProjectTaskStateWhereInput
+    some?: ProjectTaskStateWhereInput
+    none?: ProjectTaskStateWhereInput
+  }
+
+  export type ProjectActivityListRelationFilter = {
+    every?: ProjectActivityWhereInput
+    some?: ProjectActivityWhereInput
+    none?: ProjectActivityWhereInput
+  }
+
+  export type ProjectTaskStateOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ProjectActivityOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type SetorClickupListSetorIdClickupListIdCompoundUniqueInput = {
     setorId: string
     clickupListId: string
@@ -63066,9 +65628,112 @@ export namespace Prisma {
     _max?: NestedEnumProjectStatusFilter<$PrismaModel>
   }
 
+  export type BigIntNullableFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntNullableFilter<$PrismaModel> | bigint | number | null
+  }
+
   export type SetorClickupListRelationFilter = {
     is?: SetorClickupListWhereInput
     isNot?: SetorClickupListWhereInput
+  }
+
+  export type ProjectTaskStateProjectIdTaskIdCompoundUniqueInput = {
+    projectId: string
+    taskId: string
+  }
+
+  export type ProjectTaskStateCountOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    taskId?: SortOrder
+    name?: SortOrder
+    statusName?: SortOrder
+    isCompleted?: SortOrder
+    dateUpdated?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProjectTaskStateAvgOrderByAggregateInput = {
+    dateUpdated?: SortOrder
+  }
+
+  export type ProjectTaskStateMaxOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    taskId?: SortOrder
+    name?: SortOrder
+    statusName?: SortOrder
+    isCompleted?: SortOrder
+    dateUpdated?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProjectTaskStateMinOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    taskId?: SortOrder
+    name?: SortOrder
+    statusName?: SortOrder
+    isCompleted?: SortOrder
+    dateUpdated?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProjectTaskStateSumOrderByAggregateInput = {
+    dateUpdated?: SortOrder
+  }
+
+  export type BigIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntNullableWithAggregatesFilter<$PrismaModel> | bigint | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedBigIntNullableFilter<$PrismaModel>
+    _min?: NestedBigIntNullableFilter<$PrismaModel>
+    _max?: NestedBigIntNullableFilter<$PrismaModel>
+  }
+
+  export type ProjectActivityCountOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    type?: SortOrder
+    taskName?: SortOrder
+    taskId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ProjectActivityMaxOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    type?: SortOrder
+    taskName?: SortOrder
+    taskId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ProjectActivityMinOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    type?: SortOrder
+    taskName?: SortOrder
+    taskId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type ProjectMemberProjectIdUserIdCompoundUniqueInput = {
@@ -67678,11 +70343,39 @@ export namespace Prisma {
     connect?: ProjectMemberWhereUniqueInput | ProjectMemberWhereUniqueInput[]
   }
 
+  export type ProjectTaskStateCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ProjectTaskStateCreateWithoutProjectInput, ProjectTaskStateUncheckedCreateWithoutProjectInput> | ProjectTaskStateCreateWithoutProjectInput[] | ProjectTaskStateUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectTaskStateCreateOrConnectWithoutProjectInput | ProjectTaskStateCreateOrConnectWithoutProjectInput[]
+    createMany?: ProjectTaskStateCreateManyProjectInputEnvelope
+    connect?: ProjectTaskStateWhereUniqueInput | ProjectTaskStateWhereUniqueInput[]
+  }
+
+  export type ProjectActivityCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ProjectActivityCreateWithoutProjectInput, ProjectActivityUncheckedCreateWithoutProjectInput> | ProjectActivityCreateWithoutProjectInput[] | ProjectActivityUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectActivityCreateOrConnectWithoutProjectInput | ProjectActivityCreateOrConnectWithoutProjectInput[]
+    createMany?: ProjectActivityCreateManyProjectInputEnvelope
+    connect?: ProjectActivityWhereUniqueInput | ProjectActivityWhereUniqueInput[]
+  }
+
   export type ProjectMemberUncheckedCreateNestedManyWithoutProjectInput = {
     create?: XOR<ProjectMemberCreateWithoutProjectInput, ProjectMemberUncheckedCreateWithoutProjectInput> | ProjectMemberCreateWithoutProjectInput[] | ProjectMemberUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectMemberCreateOrConnectWithoutProjectInput | ProjectMemberCreateOrConnectWithoutProjectInput[]
     createMany?: ProjectMemberCreateManyProjectInputEnvelope
     connect?: ProjectMemberWhereUniqueInput | ProjectMemberWhereUniqueInput[]
+  }
+
+  export type ProjectTaskStateUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ProjectTaskStateCreateWithoutProjectInput, ProjectTaskStateUncheckedCreateWithoutProjectInput> | ProjectTaskStateCreateWithoutProjectInput[] | ProjectTaskStateUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectTaskStateCreateOrConnectWithoutProjectInput | ProjectTaskStateCreateOrConnectWithoutProjectInput[]
+    createMany?: ProjectTaskStateCreateManyProjectInputEnvelope
+    connect?: ProjectTaskStateWhereUniqueInput | ProjectTaskStateWhereUniqueInput[]
+  }
+
+  export type ProjectActivityUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ProjectActivityCreateWithoutProjectInput, ProjectActivityUncheckedCreateWithoutProjectInput> | ProjectActivityCreateWithoutProjectInput[] | ProjectActivityUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectActivityCreateOrConnectWithoutProjectInput | ProjectActivityCreateOrConnectWithoutProjectInput[]
+    createMany?: ProjectActivityCreateManyProjectInputEnvelope
+    connect?: ProjectActivityWhereUniqueInput | ProjectActivityWhereUniqueInput[]
   }
 
   export type EnumProjectStatusFieldUpdateOperationsInput = {
@@ -67721,6 +70414,34 @@ export namespace Prisma {
     deleteMany?: ProjectMemberScalarWhereInput | ProjectMemberScalarWhereInput[]
   }
 
+  export type ProjectTaskStateUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ProjectTaskStateCreateWithoutProjectInput, ProjectTaskStateUncheckedCreateWithoutProjectInput> | ProjectTaskStateCreateWithoutProjectInput[] | ProjectTaskStateUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectTaskStateCreateOrConnectWithoutProjectInput | ProjectTaskStateCreateOrConnectWithoutProjectInput[]
+    upsert?: ProjectTaskStateUpsertWithWhereUniqueWithoutProjectInput | ProjectTaskStateUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ProjectTaskStateCreateManyProjectInputEnvelope
+    set?: ProjectTaskStateWhereUniqueInput | ProjectTaskStateWhereUniqueInput[]
+    disconnect?: ProjectTaskStateWhereUniqueInput | ProjectTaskStateWhereUniqueInput[]
+    delete?: ProjectTaskStateWhereUniqueInput | ProjectTaskStateWhereUniqueInput[]
+    connect?: ProjectTaskStateWhereUniqueInput | ProjectTaskStateWhereUniqueInput[]
+    update?: ProjectTaskStateUpdateWithWhereUniqueWithoutProjectInput | ProjectTaskStateUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ProjectTaskStateUpdateManyWithWhereWithoutProjectInput | ProjectTaskStateUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ProjectTaskStateScalarWhereInput | ProjectTaskStateScalarWhereInput[]
+  }
+
+  export type ProjectActivityUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ProjectActivityCreateWithoutProjectInput, ProjectActivityUncheckedCreateWithoutProjectInput> | ProjectActivityCreateWithoutProjectInput[] | ProjectActivityUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectActivityCreateOrConnectWithoutProjectInput | ProjectActivityCreateOrConnectWithoutProjectInput[]
+    upsert?: ProjectActivityUpsertWithWhereUniqueWithoutProjectInput | ProjectActivityUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ProjectActivityCreateManyProjectInputEnvelope
+    set?: ProjectActivityWhereUniqueInput | ProjectActivityWhereUniqueInput[]
+    disconnect?: ProjectActivityWhereUniqueInput | ProjectActivityWhereUniqueInput[]
+    delete?: ProjectActivityWhereUniqueInput | ProjectActivityWhereUniqueInput[]
+    connect?: ProjectActivityWhereUniqueInput | ProjectActivityWhereUniqueInput[]
+    update?: ProjectActivityUpdateWithWhereUniqueWithoutProjectInput | ProjectActivityUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ProjectActivityUpdateManyWithWhereWithoutProjectInput | ProjectActivityUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ProjectActivityScalarWhereInput | ProjectActivityScalarWhereInput[]
+  }
+
   export type ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput = {
     create?: XOR<ProjectMemberCreateWithoutProjectInput, ProjectMemberUncheckedCreateWithoutProjectInput> | ProjectMemberCreateWithoutProjectInput[] | ProjectMemberUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectMemberCreateOrConnectWithoutProjectInput | ProjectMemberCreateOrConnectWithoutProjectInput[]
@@ -67733,6 +70454,70 @@ export namespace Prisma {
     update?: ProjectMemberUpdateWithWhereUniqueWithoutProjectInput | ProjectMemberUpdateWithWhereUniqueWithoutProjectInput[]
     updateMany?: ProjectMemberUpdateManyWithWhereWithoutProjectInput | ProjectMemberUpdateManyWithWhereWithoutProjectInput[]
     deleteMany?: ProjectMemberScalarWhereInput | ProjectMemberScalarWhereInput[]
+  }
+
+  export type ProjectTaskStateUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ProjectTaskStateCreateWithoutProjectInput, ProjectTaskStateUncheckedCreateWithoutProjectInput> | ProjectTaskStateCreateWithoutProjectInput[] | ProjectTaskStateUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectTaskStateCreateOrConnectWithoutProjectInput | ProjectTaskStateCreateOrConnectWithoutProjectInput[]
+    upsert?: ProjectTaskStateUpsertWithWhereUniqueWithoutProjectInput | ProjectTaskStateUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ProjectTaskStateCreateManyProjectInputEnvelope
+    set?: ProjectTaskStateWhereUniqueInput | ProjectTaskStateWhereUniqueInput[]
+    disconnect?: ProjectTaskStateWhereUniqueInput | ProjectTaskStateWhereUniqueInput[]
+    delete?: ProjectTaskStateWhereUniqueInput | ProjectTaskStateWhereUniqueInput[]
+    connect?: ProjectTaskStateWhereUniqueInput | ProjectTaskStateWhereUniqueInput[]
+    update?: ProjectTaskStateUpdateWithWhereUniqueWithoutProjectInput | ProjectTaskStateUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ProjectTaskStateUpdateManyWithWhereWithoutProjectInput | ProjectTaskStateUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ProjectTaskStateScalarWhereInput | ProjectTaskStateScalarWhereInput[]
+  }
+
+  export type ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ProjectActivityCreateWithoutProjectInput, ProjectActivityUncheckedCreateWithoutProjectInput> | ProjectActivityCreateWithoutProjectInput[] | ProjectActivityUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectActivityCreateOrConnectWithoutProjectInput | ProjectActivityCreateOrConnectWithoutProjectInput[]
+    upsert?: ProjectActivityUpsertWithWhereUniqueWithoutProjectInput | ProjectActivityUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ProjectActivityCreateManyProjectInputEnvelope
+    set?: ProjectActivityWhereUniqueInput | ProjectActivityWhereUniqueInput[]
+    disconnect?: ProjectActivityWhereUniqueInput | ProjectActivityWhereUniqueInput[]
+    delete?: ProjectActivityWhereUniqueInput | ProjectActivityWhereUniqueInput[]
+    connect?: ProjectActivityWhereUniqueInput | ProjectActivityWhereUniqueInput[]
+    update?: ProjectActivityUpdateWithWhereUniqueWithoutProjectInput | ProjectActivityUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ProjectActivityUpdateManyWithWhereWithoutProjectInput | ProjectActivityUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ProjectActivityScalarWhereInput | ProjectActivityScalarWhereInput[]
+  }
+
+  export type SetorClickupListCreateNestedOneWithoutTaskStatesInput = {
+    create?: XOR<SetorClickupListCreateWithoutTaskStatesInput, SetorClickupListUncheckedCreateWithoutTaskStatesInput>
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutTaskStatesInput
+    connect?: SetorClickupListWhereUniqueInput
+  }
+
+  export type NullableBigIntFieldUpdateOperationsInput = {
+    set?: bigint | number | null
+    increment?: bigint | number
+    decrement?: bigint | number
+    multiply?: bigint | number
+    divide?: bigint | number
+  }
+
+  export type SetorClickupListUpdateOneRequiredWithoutTaskStatesNestedInput = {
+    create?: XOR<SetorClickupListCreateWithoutTaskStatesInput, SetorClickupListUncheckedCreateWithoutTaskStatesInput>
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutTaskStatesInput
+    upsert?: SetorClickupListUpsertWithoutTaskStatesInput
+    connect?: SetorClickupListWhereUniqueInput
+    update?: XOR<XOR<SetorClickupListUpdateToOneWithWhereWithoutTaskStatesInput, SetorClickupListUpdateWithoutTaskStatesInput>, SetorClickupListUncheckedUpdateWithoutTaskStatesInput>
+  }
+
+  export type SetorClickupListCreateNestedOneWithoutActivitiesInput = {
+    create?: XOR<SetorClickupListCreateWithoutActivitiesInput, SetorClickupListUncheckedCreateWithoutActivitiesInput>
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutActivitiesInput
+    connect?: SetorClickupListWhereUniqueInput
+  }
+
+  export type SetorClickupListUpdateOneRequiredWithoutActivitiesNestedInput = {
+    create?: XOR<SetorClickupListCreateWithoutActivitiesInput, SetorClickupListUncheckedCreateWithoutActivitiesInput>
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutActivitiesInput
+    upsert?: SetorClickupListUpsertWithoutActivitiesInput
+    connect?: SetorClickupListWhereUniqueInput
+    update?: XOR<XOR<SetorClickupListUpdateToOneWithWhereWithoutActivitiesInput, SetorClickupListUpdateWithoutActivitiesInput>, SetorClickupListUncheckedUpdateWithoutActivitiesInput>
   }
 
   export type SetorClickupListCreateNestedOneWithoutMembersInput = {
@@ -68793,6 +71578,33 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumProjectStatusFilter<$PrismaModel>
     _max?: NestedEnumProjectStatusFilter<$PrismaModel>
+  }
+
+  export type NestedBigIntNullableFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntNullableFilter<$PrismaModel> | bigint | number | null
+  }
+
+  export type NestedBigIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntNullableWithAggregatesFilter<$PrismaModel> | bigint | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedBigIntNullableFilter<$PrismaModel>
+    _min?: NestedBigIntNullableFilter<$PrismaModel>
+    _max?: NestedBigIntNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumAssetTypeFilter<$PrismaModel = never> = {
@@ -70727,6 +73539,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutClickupListsInput
     members?: ProjectMemberCreateNestedManyWithoutProjectInput
+    taskStates?: ProjectTaskStateCreateNestedManyWithoutProjectInput
+    activities?: ProjectActivityCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutClientCompanyInput = {
@@ -70748,6 +73562,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+    taskStates?: ProjectTaskStateUncheckedCreateNestedManyWithoutProjectInput
+    activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutClientCompanyInput = {
@@ -79197,6 +82013,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     clientCompany?: CompanyCreateNestedOneWithoutSetorClickupListsAsClientInput
     members?: ProjectMemberCreateNestedManyWithoutProjectInput
+    taskStates?: ProjectTaskStateCreateNestedManyWithoutProjectInput
+    activities?: ProjectActivityCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutSetorInput = {
@@ -79218,6 +82036,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+    taskStates?: ProjectTaskStateUncheckedCreateNestedManyWithoutProjectInput
+    activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutSetorInput = {
@@ -79611,6 +82431,64 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ProjectTaskStateCreateWithoutProjectInput = {
+    id?: string
+    taskId: string
+    name: string
+    statusName?: string | null
+    isCompleted?: boolean
+    dateUpdated?: bigint | number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProjectTaskStateUncheckedCreateWithoutProjectInput = {
+    id?: string
+    taskId: string
+    name: string
+    statusName?: string | null
+    isCompleted?: boolean
+    dateUpdated?: bigint | number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProjectTaskStateCreateOrConnectWithoutProjectInput = {
+    where: ProjectTaskStateWhereUniqueInput
+    create: XOR<ProjectTaskStateCreateWithoutProjectInput, ProjectTaskStateUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ProjectTaskStateCreateManyProjectInputEnvelope = {
+    data: ProjectTaskStateCreateManyProjectInput | ProjectTaskStateCreateManyProjectInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProjectActivityCreateWithoutProjectInput = {
+    id?: string
+    type: string
+    taskName: string
+    taskId: string
+    createdAt?: Date | string
+  }
+
+  export type ProjectActivityUncheckedCreateWithoutProjectInput = {
+    id?: string
+    type: string
+    taskName: string
+    taskId: string
+    createdAt?: Date | string
+  }
+
+  export type ProjectActivityCreateOrConnectWithoutProjectInput = {
+    where: ProjectActivityWhereUniqueInput
+    create: XOR<ProjectActivityCreateWithoutProjectInput, ProjectActivityUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ProjectActivityCreateManyProjectInputEnvelope = {
+    data: ProjectActivityCreateManyProjectInput | ProjectActivityCreateManyProjectInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SetorUpsertWithoutClickupListsInput = {
     update: XOR<SetorUpdateWithoutClickupListsInput, SetorUncheckedUpdateWithoutClickupListsInput>
     create: XOR<SetorCreateWithoutClickupListsInput, SetorUncheckedCreateWithoutClickupListsInput>
@@ -79801,6 +82679,281 @@ export namespace Prisma {
     data: XOR<ProjectMemberUpdateManyMutationInput, ProjectMemberUncheckedUpdateManyWithoutProjectInput>
   }
 
+  export type ProjectTaskStateUpsertWithWhereUniqueWithoutProjectInput = {
+    where: ProjectTaskStateWhereUniqueInput
+    update: XOR<ProjectTaskStateUpdateWithoutProjectInput, ProjectTaskStateUncheckedUpdateWithoutProjectInput>
+    create: XOR<ProjectTaskStateCreateWithoutProjectInput, ProjectTaskStateUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ProjectTaskStateUpdateWithWhereUniqueWithoutProjectInput = {
+    where: ProjectTaskStateWhereUniqueInput
+    data: XOR<ProjectTaskStateUpdateWithoutProjectInput, ProjectTaskStateUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type ProjectTaskStateUpdateManyWithWhereWithoutProjectInput = {
+    where: ProjectTaskStateScalarWhereInput
+    data: XOR<ProjectTaskStateUpdateManyMutationInput, ProjectTaskStateUncheckedUpdateManyWithoutProjectInput>
+  }
+
+  export type ProjectTaskStateScalarWhereInput = {
+    AND?: ProjectTaskStateScalarWhereInput | ProjectTaskStateScalarWhereInput[]
+    OR?: ProjectTaskStateScalarWhereInput[]
+    NOT?: ProjectTaskStateScalarWhereInput | ProjectTaskStateScalarWhereInput[]
+    id?: StringFilter<"ProjectTaskState"> | string
+    projectId?: StringFilter<"ProjectTaskState"> | string
+    taskId?: StringFilter<"ProjectTaskState"> | string
+    name?: StringFilter<"ProjectTaskState"> | string
+    statusName?: StringNullableFilter<"ProjectTaskState"> | string | null
+    isCompleted?: BoolFilter<"ProjectTaskState"> | boolean
+    dateUpdated?: BigIntNullableFilter<"ProjectTaskState"> | bigint | number | null
+    createdAt?: DateTimeFilter<"ProjectTaskState"> | Date | string
+    updatedAt?: DateTimeFilter<"ProjectTaskState"> | Date | string
+  }
+
+  export type ProjectActivityUpsertWithWhereUniqueWithoutProjectInput = {
+    where: ProjectActivityWhereUniqueInput
+    update: XOR<ProjectActivityUpdateWithoutProjectInput, ProjectActivityUncheckedUpdateWithoutProjectInput>
+    create: XOR<ProjectActivityCreateWithoutProjectInput, ProjectActivityUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ProjectActivityUpdateWithWhereUniqueWithoutProjectInput = {
+    where: ProjectActivityWhereUniqueInput
+    data: XOR<ProjectActivityUpdateWithoutProjectInput, ProjectActivityUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type ProjectActivityUpdateManyWithWhereWithoutProjectInput = {
+    where: ProjectActivityScalarWhereInput
+    data: XOR<ProjectActivityUpdateManyMutationInput, ProjectActivityUncheckedUpdateManyWithoutProjectInput>
+  }
+
+  export type ProjectActivityScalarWhereInput = {
+    AND?: ProjectActivityScalarWhereInput | ProjectActivityScalarWhereInput[]
+    OR?: ProjectActivityScalarWhereInput[]
+    NOT?: ProjectActivityScalarWhereInput | ProjectActivityScalarWhereInput[]
+    id?: StringFilter<"ProjectActivity"> | string
+    projectId?: StringFilter<"ProjectActivity"> | string
+    type?: StringFilter<"ProjectActivity"> | string
+    taskName?: StringFilter<"ProjectActivity"> | string
+    taskId?: StringFilter<"ProjectActivity"> | string
+    createdAt?: DateTimeFilter<"ProjectActivity"> | Date | string
+  }
+
+  export type SetorClickupListCreateWithoutTaskStatesInput = {
+    id?: string
+    clickupListId: string
+    name: string
+    description?: string | null
+    type?: string | null
+    status?: $Enums.ProjectStatus
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    deliveredAt?: Date | string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    taskNoDueDate?: number
+    lastSyncedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    setor: SetorCreateNestedOneWithoutClickupListsInput
+    clientCompany?: CompanyCreateNestedOneWithoutSetorClickupListsAsClientInput
+    members?: ProjectMemberCreateNestedManyWithoutProjectInput
+    activities?: ProjectActivityCreateNestedManyWithoutProjectInput
+  }
+
+  export type SetorClickupListUncheckedCreateWithoutTaskStatesInput = {
+    id?: string
+    setorId: string
+    clickupListId: string
+    name: string
+    description?: string | null
+    type?: string | null
+    clientCompanyId?: string | null
+    status?: $Enums.ProjectStatus
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    deliveredAt?: Date | string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    taskNoDueDate?: number
+    lastSyncedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+    activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type SetorClickupListCreateOrConnectWithoutTaskStatesInput = {
+    where: SetorClickupListWhereUniqueInput
+    create: XOR<SetorClickupListCreateWithoutTaskStatesInput, SetorClickupListUncheckedCreateWithoutTaskStatesInput>
+  }
+
+  export type SetorClickupListUpsertWithoutTaskStatesInput = {
+    update: XOR<SetorClickupListUpdateWithoutTaskStatesInput, SetorClickupListUncheckedUpdateWithoutTaskStatesInput>
+    create: XOR<SetorClickupListCreateWithoutTaskStatesInput, SetorClickupListUncheckedCreateWithoutTaskStatesInput>
+    where?: SetorClickupListWhereInput
+  }
+
+  export type SetorClickupListUpdateToOneWithWhereWithoutTaskStatesInput = {
+    where?: SetorClickupListWhereInput
+    data: XOR<SetorClickupListUpdateWithoutTaskStatesInput, SetorClickupListUncheckedUpdateWithoutTaskStatesInput>
+  }
+
+  export type SetorClickupListUpdateWithoutTaskStatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clickupListId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
+    clientCompany?: CompanyUpdateOneWithoutSetorClickupListsAsClientNestedInput
+    members?: ProjectMemberUpdateManyWithoutProjectNestedInput
+    activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
+  }
+
+  export type SetorClickupListUncheckedUpdateWithoutTaskStatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    setorId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+    activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type SetorClickupListCreateWithoutActivitiesInput = {
+    id?: string
+    clickupListId: string
+    name: string
+    description?: string | null
+    type?: string | null
+    status?: $Enums.ProjectStatus
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    deliveredAt?: Date | string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    taskNoDueDate?: number
+    lastSyncedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    setor: SetorCreateNestedOneWithoutClickupListsInput
+    clientCompany?: CompanyCreateNestedOneWithoutSetorClickupListsAsClientInput
+    members?: ProjectMemberCreateNestedManyWithoutProjectInput
+    taskStates?: ProjectTaskStateCreateNestedManyWithoutProjectInput
+  }
+
+  export type SetorClickupListUncheckedCreateWithoutActivitiesInput = {
+    id?: string
+    setorId: string
+    clickupListId: string
+    name: string
+    description?: string | null
+    type?: string | null
+    clientCompanyId?: string | null
+    status?: $Enums.ProjectStatus
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    deliveredAt?: Date | string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    taskNoDueDate?: number
+    lastSyncedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+    taskStates?: ProjectTaskStateUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type SetorClickupListCreateOrConnectWithoutActivitiesInput = {
+    where: SetorClickupListWhereUniqueInput
+    create: XOR<SetorClickupListCreateWithoutActivitiesInput, SetorClickupListUncheckedCreateWithoutActivitiesInput>
+  }
+
+  export type SetorClickupListUpsertWithoutActivitiesInput = {
+    update: XOR<SetorClickupListUpdateWithoutActivitiesInput, SetorClickupListUncheckedUpdateWithoutActivitiesInput>
+    create: XOR<SetorClickupListCreateWithoutActivitiesInput, SetorClickupListUncheckedCreateWithoutActivitiesInput>
+    where?: SetorClickupListWhereInput
+  }
+
+  export type SetorClickupListUpdateToOneWithWhereWithoutActivitiesInput = {
+    where?: SetorClickupListWhereInput
+    data: XOR<SetorClickupListUpdateWithoutActivitiesInput, SetorClickupListUncheckedUpdateWithoutActivitiesInput>
+  }
+
+  export type SetorClickupListUpdateWithoutActivitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clickupListId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
+    clientCompany?: CompanyUpdateOneWithoutSetorClickupListsAsClientNestedInput
+    members?: ProjectMemberUpdateManyWithoutProjectNestedInput
+    taskStates?: ProjectTaskStateUpdateManyWithoutProjectNestedInput
+  }
+
+  export type SetorClickupListUncheckedUpdateWithoutActivitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    setorId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+    taskStates?: ProjectTaskStateUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
   export type SetorClickupListCreateWithoutMembersInput = {
     id?: string
     clickupListId: string
@@ -79820,6 +82973,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutClickupListsInput
     clientCompany?: CompanyCreateNestedOneWithoutSetorClickupListsAsClientInput
+    taskStates?: ProjectTaskStateCreateNestedManyWithoutProjectInput
+    activities?: ProjectActivityCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutMembersInput = {
@@ -79841,6 +82996,8 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    taskStates?: ProjectTaskStateUncheckedCreateNestedManyWithoutProjectInput
+    activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutMembersInput = {
@@ -79931,6 +83088,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
     clientCompany?: CompanyUpdateOneWithoutSetorClickupListsAsClientNestedInput
+    taskStates?: ProjectTaskStateUpdateManyWithoutProjectNestedInput
+    activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutMembersInput = {
@@ -79952,6 +83111,8 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    taskStates?: ProjectTaskStateUncheckedUpdateManyWithoutProjectNestedInput
+    activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type UserUpsertWithoutProjectMembershipsInput = {
@@ -85872,6 +89033,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
     members?: ProjectMemberUpdateManyWithoutProjectNestedInput
+    taskStates?: ProjectTaskStateUpdateManyWithoutProjectNestedInput
+    activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutClientCompanyInput = {
@@ -85893,6 +89056,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+    taskStates?: ProjectTaskStateUncheckedUpdateManyWithoutProjectNestedInput
+    activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateManyWithoutClientCompanyInput = {
@@ -88311,6 +91476,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientCompany?: CompanyUpdateOneWithoutSetorClickupListsAsClientNestedInput
     members?: ProjectMemberUpdateManyWithoutProjectNestedInput
+    taskStates?: ProjectTaskStateUpdateManyWithoutProjectNestedInput
+    activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutSetorInput = {
@@ -88332,6 +91499,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+    taskStates?: ProjectTaskStateUncheckedUpdateManyWithoutProjectNestedInput
+    activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateManyWithoutSetorInput = {
@@ -88360,6 +91529,25 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type ProjectTaskStateCreateManyProjectInput = {
+    id?: string
+    taskId: string
+    name: string
+    statusName?: string | null
+    isCompleted?: boolean
+    dateUpdated?: bigint | number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProjectActivityCreateManyProjectInput = {
+    id?: string
+    type: string
+    taskName: string
+    taskId: string
+    createdAt?: Date | string
+  }
+
   export type ProjectMemberUpdateWithoutProjectInput = {
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -88375,6 +91563,63 @@ export namespace Prisma {
   export type ProjectMemberUncheckedUpdateManyWithoutProjectInput = {
     userId?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectTaskStateUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    statusName?: NullableStringFieldUpdateOperationsInput | string | null
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectTaskStateUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    statusName?: NullableStringFieldUpdateOperationsInput | string | null
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectTaskStateUncheckedUpdateManyWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    statusName?: NullableStringFieldUpdateOperationsInput | string | null
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectActivityUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    taskName?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectActivityUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    taskName?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectActivityUncheckedUpdateManyWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    taskName?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -88669,6 +91914,14 @@ export namespace Prisma {
      * @deprecated Use SetorClickupListDefaultArgs instead
      */
     export type SetorClickupListArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SetorClickupListDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ProjectTaskStateDefaultArgs instead
+     */
+    export type ProjectTaskStateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProjectTaskStateDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ProjectActivityDefaultArgs instead
+     */
+    export type ProjectActivityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProjectActivityDefaultArgs<ExtArgs>
     /**
      * @deprecated Use ProjectMemberDefaultArgs instead
      */

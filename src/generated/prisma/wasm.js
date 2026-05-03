@@ -458,6 +458,27 @@ exports.Prisma.SetorClickupListScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ProjectTaskStateScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  taskId: 'taskId',
+  name: 'name',
+  statusName: 'statusName',
+  isCompleted: 'isCompleted',
+  dateUpdated: 'dateUpdated',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProjectActivityScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  type: 'type',
+  taskName: 'taskName',
+  taskId: 'taskId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.ProjectMemberScalarFieldEnum = {
   projectId: 'projectId',
   userId: 'userId',
@@ -905,7 +926,10 @@ exports.BadgeType = exports.$Enums.BadgeType = {
   FUNIL_COMPLETO: 'FUNIL_COMPLETO',
   REI_DO_MES: 'REI_DO_MES',
   PONTUAL: 'PONTUAL',
-  ENTREGADOR: 'ENTREGADOR'
+  ENTREGADOR: 'ENTREGADOR',
+  CONSTRUTOR: 'CONSTRUTOR',
+  ENGAJADO: 'ENGAJADO',
+  GERADOR: 'GERADOR'
 };
 
 exports.ScoreReason = exports.$Enums.ScoreReason = {
@@ -926,7 +950,10 @@ exports.ScoreReason = exports.$Enums.ScoreReason = {
   CONVERSA_SEM_RESPOSTA: 'CONVERSA_SEM_RESPOSTA',
   PRAZO_PRORROGADO: 'PRAZO_PRORROGADO',
   PROJETO_ATRASADO: 'PROJETO_ATRASADO',
-  TAREFA_SEM_PRAZO: 'TAREFA_SEM_PRAZO'
+  TAREFA_SEM_PRAZO: 'TAREFA_SEM_PRAZO',
+  TAREFA_CRIADA: 'TAREFA_CRIADA',
+  TAREFA_ATUALIZADA: 'TAREFA_ATUALIZADA',
+  TAREFA_CONCLUIDA: 'TAREFA_CONCLUIDA'
 };
 
 exports.Prisma.ModelName = {
@@ -953,6 +980,8 @@ exports.Prisma.ModelName = {
   TicketMessage: 'TicketMessage',
   Setor: 'Setor',
   SetorClickupList: 'SetorClickupList',
+  ProjectTaskState: 'ProjectTaskState',
+  ProjectActivity: 'ProjectActivity',
   ProjectMember: 'ProjectMember',
   SetorUser: 'SetorUser',
   SetorInstance: 'SetorInstance',

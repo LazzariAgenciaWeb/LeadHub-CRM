@@ -20,6 +20,9 @@ const BADGE_REASON: Record<BadgeType, ScoreReason | null> = {
   FUNIL_COMPLETO:  "LEAD_AVANCADO",
   PONTUAL:         "DIA_SEM_ATRASO",
   ENTREGADOR:      "PROJETO_ENTREGUE_NO_PRAZO",
+  CONSTRUTOR:      "TAREFA_CONCLUIDA",
+  ENGAJADO:        "TAREFA_ATUALIZADA",
+  GERADOR:         "TAREFA_CRIADA",
   SPRINT_MASTER:   null,
   REI_DO_MES:      null,
 };
@@ -27,7 +30,7 @@ const BADGE_REASON: Record<BadgeType, ScoreReason | null> = {
 const ALL_BADGES: BadgeType[] = [
   "RAIO_VELOZ", "RESOLVEDOR", "ANTECIPADOR", "CLOSER",
   "PRIMEIRO_DO_DIA", "ZERO_PENDENCIA", "FUNIL_COMPLETO", "PONTUAL",
-  "ENTREGADOR",
+  "ENTREGADOR", "CONSTRUTOR", "ENGAJADO", "GERADOR",
 ];
 
 export default async function PerformanceTeaser() {

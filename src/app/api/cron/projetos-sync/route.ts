@@ -1,17 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getClickupSettings, fetchClickupListStats } from "@/lib/clickup";
+import { getClickupSettings, fetchClickupTasks } from "@/lib/clickup";
+import { syncProjectTasks } from "@/lib/gamification";
 
 /**
  * GET/POST /api/cron/projetos-sync
  *
- * Sincroniza estatísticas de cada projeto (taskCount/completed/overdue) via
- * ClickUp API. Roda a cada 15-30 min via cron externo.
+ * Sincroniza projetos com ClickUp:
+ *  - Atualiza contadores de tarefas (taskCount/completed/overdue/noDueDate)
+ *  - Detecta criações, atualizações e conclusões de tarefas
+ *  - Cria entries em ProjectActivity (histórico no detail)
+ *  - Pontua membros via TAREFA_CRIADA / ATUALIZADA / CONCLUIDA
  *
- * Apenas projetos não finalizados (status ≠ ENTREGUE/CANCELADO) são tocados,
- * pra economizar chamadas.
+ * Apenas projetos com status diferente de ENTREGUE/CANCELADO são tocados.
  *
- * Segurança: header `Authorization: Bearer <CRON_SECRET>` quando configurado.
+ * Segurança: header `Authorization: Bearer <CRON_SECRET>`.
  */
 async function handle(req: NextRequest) {
   const cronSecret = process.env.CRON_SECRET;
@@ -27,10 +30,11 @@ async function handle(req: NextRequest) {
     include: { setor: { select: { companyId: true } } },
   });
 
-  // Agrupa por companyId pra reusar token
+  // Cache de settings por empresa pra evitar query repetida
   const settingsByCompany = new Map<string, Awaited<ReturnType<typeof getClickupSettings>>>();
   let synced = 0;
   let errors = 0;
+  let totalCreated = 0, totalUpdated = 0, totalCompleted = 0;
 
   for (const proj of projects) {
     const cid = proj.setor.companyId;
@@ -43,30 +47,25 @@ async function handle(req: NextRequest) {
       continue;
     }
 
-    const stats = await fetchClickupListStats(settings.apiToken, proj.clickupListId);
-    if (!stats) {
+    const tasks = await fetchClickupTasks(settings.apiToken, proj.clickupListId);
+    if (!tasks) {
       errors++;
       continue;
     }
 
-    await prisma.setorClickupList.update({
-      where: { id: proj.id },
-      data:  {
-        taskCount:     stats.taskCount,
-        taskCompleted: stats.taskCompleted,
-        taskOverdue:   stats.taskOverdue,
-        taskNoDueDate: stats.taskNoDueDate,
-        lastSyncedAt:  new Date(),
-      },
-    });
+    const result = await syncProjectTasks(proj.id, tasks);
     synced++;
+    totalCreated   += result.created;
+    totalUpdated   += result.updated;
+    totalCompleted += result.completed;
   }
 
   return NextResponse.json({
     ok: true,
-    total: projects.length,
+    total:    projects.length,
     synced,
     errors,
+    activities: { created: totalCreated, updated: totalUpdated, completed: totalCompleted },
     timestamp: new Date().toISOString(),
   });
 }
