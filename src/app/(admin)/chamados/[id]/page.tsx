@@ -37,9 +37,16 @@ export default async function TicketPage({
   // Lookups para edição inline (cliente, atendente, setor)
   const lookupCompanyId = ticket.companyId;
   const [users, setores, clientCompanies] = await Promise.all([
+    // Atendentes: qualquer usuário da empresa-agência (ADMIN, SUPER_ADMIN
+    // ou CLIENT-agente) + SUPER_ADMINs sem company vinculada (escopo global).
     prisma.user.findMany({
-      where: { companyId: lookupCompanyId, role: { in: ["ADMIN", "SUPER_ADMIN"] } },
-      select: { id: true, name: true, email: true },
+      where: {
+        OR: [
+          { companyId: lookupCompanyId },
+          { role: "SUPER_ADMIN" },
+        ],
+      },
+      select: { id: true, name: true, email: true, role: true },
       orderBy: { name: "asc" },
     }),
     prisma.setor.findMany({
