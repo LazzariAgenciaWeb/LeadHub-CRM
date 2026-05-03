@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { ActivityType, ConversationStatus } from "@/generated/prisma";
 import { mapConvStatusToLegacy } from "@/lib/whatsapp";
 import { formatBrazilDateTime, formatBrazilDateTimeShort } from "@/lib/datetime";
-import { addScoreOnce } from "@/lib/gamification";
+import { addScore, addScoreOnce } from "@/lib/gamification";
 
 const VALID_STATUS: ConversationStatus[] = ["OPEN", "PENDING", "IN_PROGRESS", "WAITING_CUSTOMER", "SCHEDULED", "CLOSED"];
 
@@ -129,6 +129,15 @@ export async function PATCH(
     if (conv.scheduledReturnAt && conv.scheduledReturnAt > new Date()) {
       void addScoreOnce(scorer, conv.companyId, "RETORNO_ANTECIPADO", conv.id).catch(() => {});
     }
+  }
+
+  // Penalidade: empurrar scheduledReturnAt depois de já estar vencido.
+  if (
+    "scheduledReturnAt" in body &&
+    conv.scheduledReturnAt && conv.scheduledReturnAt < new Date()
+  ) {
+    const scorer = updated.assigneeId ?? userId;
+    void addScore(scorer, conv.companyId, "PRAZO_PRORROGADO", conv.id).catch(() => {});
   }
 
   if (activities.length > 0) {

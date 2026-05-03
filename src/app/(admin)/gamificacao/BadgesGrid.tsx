@@ -20,6 +20,7 @@ const BADGE_REASON: Record<BadgeType, ScoreReason | null> = {
   PRIMEIRO_DO_DIA: "ATENDIMENTO_MESMO_DIA",
   ZERO_PENDENCIA:  "DIA_SEM_PENDENCIA",
   FUNIL_COMPLETO:  "LEAD_AVANCADO",
+  PONTUAL:         "DIA_SEM_ATRASO",
   SPRINT_MASTER:   null, // futuro — sem implementação ainda
   REI_DO_MES:      null, // calculado por UserBadge, não por ScoreEvent
 };
@@ -27,7 +28,7 @@ const BADGE_REASON: Record<BadgeType, ScoreReason | null> = {
 const ALL_BADGES: BadgeType[] = [
   "RAIO_VELOZ", "RESOLVEDOR", "ANTECIPADOR", "CLOSER",
   "PRIMEIRO_DO_DIA", "ZERO_PENDENCIA", "FUNIL_COMPLETO",
-  "SPRINT_MASTER", "REI_DO_MES",
+  "PONTUAL", "SPRINT_MASTER", "REI_DO_MES",
 ];
 
 export default function BadgesGrid({ counts, reiDoMesCount, earnedBadges }: Props) {

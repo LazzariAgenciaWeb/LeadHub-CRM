@@ -1,17 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { runDailyPenalties, grantReiDoMes, resetMonthlyScores } from "@/lib/gamification";
+import {
+  runDailyPenalties, runDiaSemAtraso,
+  grantReiDoMes, resetMonthlyScores,
+} from "@/lib/gamification";
 
 /**
  * GET/POST /api/cron/gamificacao
  *
- * Dois modos controlados pelo parâmetro `?mode=`:
+ * Modos via `?mode=`:
  *
- *   daily   (default) — roda toda manhã ao abrir o horário comercial.
+ *   daily   (default) — manhã ao abrir o expediente.
  *     - Aplica penalidades: conversas sem resposta > 24h, tickets com SLA vencido.
- *     - Verifica se é dia 1 do mês → concede REI_DO_MES e reseta monthPoints.
+ *     - Dia 1 do mês: concede REI_DO_MES e reseta monthPoints.
  *
- *   monthly — forçar reset mensal manualmente (raramente necessário).
+ *   evening — fim do expediente (recomendado às 19h ou closeTime do horário).
+ *     - Premia DIA_SEM_ATRASO: usuários que terminaram o dia sem itens vencidos.
+ *
+ *   monthly — forçar reset mensal manualmente (raro).
  *
  * Segurança: header `Authorization: Bearer <CRON_SECRET>` (mesmo padrão do cron/sla).
  */
@@ -28,7 +34,6 @@ async function handle(req: NextRequest) {
   const now  = new Date();
   const isFirstOfMonth = now.getDate() === 1;
 
-  // Busca todas as empresas com gamificação ativa
   const companies = await prisma.company.findMany({
     where:  { moduleGamificacao: true },
     select: { id: true, name: true },
@@ -42,10 +47,13 @@ async function handle(req: NextRequest) {
 
   for (const company of companies) {
     try {
-      if (mode === "monthly" || isFirstOfMonth) {
+      if (mode === "monthly" || (mode === "daily" && isFirstOfMonth)) {
         await grantReiDoMes(company.id);
         await resetMonthlyScores(company.id);
         results[company.id] = "reset_mensal";
+      } else if (mode === "evening") {
+        await runDiaSemAtraso(company.id);
+        results[company.id] = "dia_sem_atraso_aplicado";
       } else {
         await runDailyPenalties(company.id);
         results[company.id] = "penalidades_aplicadas";

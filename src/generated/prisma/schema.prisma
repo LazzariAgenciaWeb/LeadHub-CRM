@@ -1206,6 +1206,7 @@ enum BadgeType {
   CLOSER // 5 conversões de lead no mês
   FUNIL_COMPLETO // lead avançou todas as etapas em <7 dias
   REI_DO_MES // 1o lugar no ranking mensal
+  PONTUAL // dias terminados sem nada atrasado
 }
 
 enum ScoreReason {
@@ -1215,12 +1216,14 @@ enum ScoreReason {
   LEAD_AVANCADO
   LEAD_CONVERTIDO
   DIA_SEM_PENDENCIA
+  DIA_SEM_ATRASO // dia terminado sem dueDate/scheduledReturnAt vencidos
   RETORNO_ANTECIPADO
   ATENDIMENTO_MESMO_DIA
   NOTA_REGISTRADA
   PRIMEIRO_CONTATO // triagem / "estamos encaminhando" em conversa de outro
   SLA_VENCIDO
   CONVERSA_SEM_RESPOSTA
+  PRAZO_PRORROGADO // empurrar prazo depois de já vencido
 }
 
 // Trilha de auditoria de eventos de cobrança — útil pra suporte e debug.

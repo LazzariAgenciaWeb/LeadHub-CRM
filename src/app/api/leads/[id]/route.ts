@@ -183,6 +183,13 @@ export async function PATCH(
     if (status === "CLOSED" && existing.status !== "CLOSED") {
       void addScoreOnce(userId, existing.companyId, "LEAD_CONVERTIDO", id).catch(() => {});
     }
+    // Penalidade: empurrar expectedReturnAt depois de já estar vencido (cumulativa)
+    if (
+      expectedReturnAt !== undefined && existing.expectedReturnAt &&
+      existing.expectedReturnAt < new Date()
+    ) {
+      void addScore(userId, existing.companyId, "PRAZO_PRORROGADO", id).catch(() => {});
+    }
   }
 
   // ── ClickUp auto-sync (Oportunidades only) ────────────────────────────

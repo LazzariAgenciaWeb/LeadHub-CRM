@@ -18,6 +18,7 @@ export const BADGE_META: Record<BadgeType, BadgeMeta> = {
   CLOSER:          { emoji: "💰", name: "Vendas",          description: "Leads convertidos em venda" },
   FUNIL_COMPLETO:  { emoji: "📈", name: "Funil",           description: "Leads avançados no pipeline" },
   REI_DO_MES:      { emoji: "👑", name: "Reinado",         description: "1º lugar no ranking mensal" },
+  PONTUAL:         { emoji: "⏱️", name: "Pontualidade",    description: "Dias terminados sem nada atrasado" },
 };
 
 // ─── Tier definitions ─────────────────────────────────────────────────────────
@@ -102,6 +103,14 @@ export const BADGE_TIERS: Record<BadgeType, Tier[]> = {
     { level: 4, name: "Tetracampeão",  threshold: 5  },
     { level: 5, name: "Lenda Mensal",  threshold: 10 },
     { level: 6, name: "Highlander",    threshold: 20 },
+  ],
+  PONTUAL: [
+    { level: 1, name: "Atento",        threshold: 3   },
+    { level: 2, name: "Pontual",       threshold: 10  },
+    { level: 3, name: "Confiável",     threshold: 25  },
+    { level: 4, name: "Suíço",         threshold: 60  },
+    { level: 5, name: "Implacável",    threshold: 150 },
+    { level: 6, name: "Highlander",    threshold: 365 },
   ],
 };
 
@@ -207,6 +216,8 @@ export const REASON_LABEL: Record<ScoreReason, { text: string; positive: boolean
   ATENDIMENTO_MESMO_DIA:  { text: "Atendimento fechado no dia",       positive: true  },
   NOTA_REGISTRADA:        { text: "Nota interna registrada",          positive: true  },
   PRIMEIRO_CONTATO:       { text: "Primeiro contato em conversa de outro", positive: true },
+  DIA_SEM_ATRASO:         { text: "Dia terminado sem nada atrasado",  positive: true  },
   SLA_VENCIDO:            { text: "SLA de chamado vencido",           positive: false },
   CONVERSA_SEM_RESPOSTA:  { text: "Conversa sem resposta há 24h",     positive: false },
+  PRAZO_PRORROGADO:       { text: "Prazo prorrogado depois de vencido", positive: false },
 };

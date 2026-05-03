@@ -28,9 +28,11 @@ export const SCORE_TABLE: Record<ScoreReason, number> = {
   ATENDIMENTO_MESMO_DIA:    5,
   NOTA_REGISTRADA:          2,
   PRIMEIRO_CONTATO:         3,   // triagem em conversa que não é sua (idempotente por conversa)
+  DIA_SEM_ATRASO:          15,   // dia terminado sem nada atrasado (cron)
   // Penalidades (pontos negativos)
   SLA_VENCIDO:            -15,
   CONVERSA_SEM_RESPOSTA:  -10,
+  PRAZO_PRORROGADO:        -5,   // empurrar prazo depois de vencido (cumulativo)
 };
 
 // ─── Regras de badges (6 tiers cada) ──────────────────────────────────────────
@@ -78,6 +80,11 @@ const BADGE_RULES: BadgeRule[] = [
     badge: BadgeType.FUNIL_COMPLETO,
     reasons: [ScoreReason.LEAD_AVANCADO],
     thresholds: [5, 25, 75, 200, 500, 1500],
+  },
+  {
+    badge: BadgeType.PONTUAL,
+    reasons: [ScoreReason.DIA_SEM_ATRASO],
+    thresholds: [3, 10, 25, 60, 150, 365],
   },
 ];
 
@@ -371,6 +378,92 @@ export async function runDailyPenalties(companyId: string): Promise<void> {
     });
     if (alreadyToday) continue;
     await addScore(ticket.assigneeId, companyId, ScoreReason.SLA_VENCIDO, ticket.id);
+  }
+}
+
+// ─── runDiaSemAtraso ──────────────────────────────────────────────────────────
+
+/**
+ * No fim do expediente: para cada usuário ativo, se ele NÃO tem nenhum item
+ * com prazo vencido (ticket.dueDate, conversation.scheduledReturnAt ou
+ * lead.expectedReturnAt < agora) E tinha pelo menos 1 item ativo durante o
+ * dia, recebe DIA_SEM_ATRASO (+15 pts).
+ *
+ * Idempotente por (userId, dia) — só fica uma vez por dia.
+ */
+export async function runDiaSemAtraso(companyId: string): Promise<void> {
+  const now = new Date();
+  const startOfDay = new Date(new Date().setHours(0, 0, 0, 0));
+
+  // Coleta todos os usuários da empresa que têm itens (assignee de algo)
+  const [ticketAssignees, convAssignees] = await Promise.all([
+    prisma.ticket.findMany({
+      where:  { companyId, assigneeId: { not: null } },
+      select: { assigneeId: true },
+      distinct: ["assigneeId"],
+    }),
+    prisma.conversation.findMany({
+      where:  { companyId, assigneeId: { not: null } },
+      select: { assigneeId: true },
+      distinct: ["assigneeId"],
+    }),
+  ]);
+  const userIds = new Set<string>();
+  for (const t of ticketAssignees)  if (t.assigneeId) userIds.add(t.assigneeId);
+  for (const c of convAssignees)     if (c.assigneeId) userIds.add(c.assigneeId);
+
+  for (const userId of userIds) {
+    // Já recebeu DIA_SEM_ATRASO hoje? Skip.
+    const alreadyToday = await prisma.scoreEvent.findFirst({
+      where: {
+        userId,
+        companyId,
+        reason:    ScoreReason.DIA_SEM_ATRASO,
+        createdAt: { gte: startOfDay },
+      },
+    });
+    if (alreadyToday) continue;
+
+    // Conta itens vencidos do usuário
+    const [overdueTickets, overdueConvs, overdueLeads] = await Promise.all([
+      prisma.ticket.count({
+        where: {
+          companyId, assigneeId: userId,
+          status: { in: ["OPEN", "IN_PROGRESS"] },
+          dueDate: { lt: now },
+        },
+      }),
+      prisma.conversation.count({
+        where: {
+          companyId, assigneeId: userId,
+          status: { not: "CLOSED" },
+          scheduledReturnAt: { lt: now },
+        },
+      }),
+      prisma.lead.count({
+        where: {
+          companyId,
+          status: { notIn: ["CLOSED", "LOST"] },
+          expectedReturnAt: { lt: now },
+          // O Lead model não tem assigneeId — usamos a Conversation associada.
+          // Um lead "do usuário" é o que está vinculado a uma conversa atribuída a ele.
+          conversation: { assigneeId: userId },
+        },
+      }),
+    ]);
+
+    if (overdueTickets + overdueConvs + overdueLeads > 0) continue;
+
+    // Confirma que tinha pelo menos 1 item ativo (evita ganhar pontos por ser fantasma)
+    const hasActive = await prisma.ticket.count({
+      where: { companyId, assigneeId: userId, status: { in: ["OPEN", "IN_PROGRESS", "RESOLVED"] } },
+    }) + await prisma.conversation.count({
+      where: { companyId, assigneeId: userId },
+    });
+
+    if (hasActive === 0) continue;
+
+    await addScore(userId, companyId, ScoreReason.DIA_SEM_ATRASO);
   }
 }
 

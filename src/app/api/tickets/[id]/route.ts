@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getClickupSettings, syncTicketToClickup } from "@/lib/clickup";
-import { addScoreOnce, revertScore } from "@/lib/gamification";
+import { addScore, addScoreOnce, revertScore } from "@/lib/gamification";
 import { ActivityType } from "@/generated/prisma";
 import { formatBrazilDateTime } from "@/lib/datetime";
 
@@ -221,6 +221,18 @@ export async function PATCH(
     const scorer = ticket.assigneeId ?? assigneeId ?? userId;
     if (scorer) {
       void addScoreOnce(scorer, existing.companyId, "TICKET_RESOLVIDO", id).catch(() => {});
+    }
+  }
+
+  // Penalidade: empurrar dueDate depois de já estar vencido (cumulativa).
+  if (
+    dueDate !== undefined && existing?.dueDate &&
+    existing.dueDate < new Date() &&
+    existing.companyId
+  ) {
+    const scorer = ticket.assigneeId ?? assigneeId ?? userId;
+    if (scorer) {
+      void addScore(scorer, existing.companyId, "PRAZO_PRORROGADO", id).catch(() => {});
     }
   }
 
