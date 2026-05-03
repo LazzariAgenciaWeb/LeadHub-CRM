@@ -27,6 +27,7 @@ export const SCORE_TABLE: Record<ScoreReason, number> = {
   RETORNO_ANTECIPADO:      12,
   ATENDIMENTO_MESMO_DIA:    5,
   NOTA_REGISTRADA:          2,
+  PRIMEIRO_CONTATO:         3,   // triagem em conversa que não é sua (idempotente por conversa)
   // Penalidades (pontos negativos)
   SLA_VENCIDO:            -15,
   CONVERSA_SEM_RESPOSTA:  -10,

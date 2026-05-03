@@ -1218,6 +1218,7 @@ enum ScoreReason {
   RETORNO_ANTECIPADO
   ATENDIMENTO_MESMO_DIA
   NOTA_REGISTRADA
+  PRIMEIRO_CONTATO // triagem / "estamos encaminhando" em conversa de outro
   SLA_VENCIDO
   CONVERSA_SEM_RESPOSTA
 }

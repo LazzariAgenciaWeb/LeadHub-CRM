@@ -206,6 +206,7 @@ export const REASON_LABEL: Record<ScoreReason, { text: string; positive: boolean
   RETORNO_ANTECIPADO:     { text: "Retorno antes do prazo",           positive: true  },
   ATENDIMENTO_MESMO_DIA:  { text: "Atendimento fechado no dia",       positive: true  },
   NOTA_REGISTRADA:        { text: "Nota interna registrada",          positive: true  },
+  PRIMEIRO_CONTATO:       { text: "Primeiro contato em conversa de outro", positive: true },
   SLA_VENCIDO:            { text: "SLA de chamado vencido",           positive: false },
   CONVERSA_SEM_RESPOSTA:  { text: "Conversa sem resposta há 24h",     positive: false },
 };

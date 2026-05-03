@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { evolutionSendText } from "@/lib/evolution";
 import { upsertConversation } from "@/lib/whatsapp";
-import { addScore } from "@/lib/gamification";
+import { addScore, addScoreOnce } from "@/lib/gamification";
 import { businessMinutesBetween } from "@/lib/business-hours";
 
 // POST /api/whatsapp/[id]/send
@@ -72,7 +72,7 @@ export async function POST(
     const convBefore = !phone.includes("@g.us") && !phone.includes("@lid")
       ? await prisma.conversation.findUnique({
           where: { companyId_phone: { companyId: instance.companyId, phone: phoneForStorage } },
-          select: { firstResponseAt: true, createdAt: true },
+          select: { firstResponseAt: true, createdAt: true, assigneeId: true },
         }).catch(() => null)
       : null;
 
@@ -105,12 +105,23 @@ export async function POST(
       include: { instance: { select: { instanceName: true } }, campaign: { select: { id: true, name: true } } },
     });
 
-    // Gamificação: pontua resposta rápida se esta for a primeira resposta do atendente
-    if (userId && convBefore && !convBefore.firstResponseAt) {
-      const mins = businessMinutesBetween(convBefore.createdAt, new Date());
-      const reason = mins <= 5 ? "RESPOSTA_RAPIDA_5MIN" : mins <= 30 ? "RESPOSTA_RAPIDA_30MIN" : null;
-      if (reason) {
-        void addScore(userId, instance.companyId, reason, conv.id).catch(() => {});
+    // Gamificação:
+    //  1. Resposta rápida (1ª resposta da conversa, dentro de 5/30 min úteis)
+    //  2. Primeiro contato em conversa de outro — quando não sou o assignee,
+    //     ganho um bônus pequeno por triar/encaminhar (idempotente por conversa).
+    if (userId && convBefore) {
+      // 1. Resposta rápida (uma vez por conversa, controlado por firstResponseAt)
+      if (!convBefore.firstResponseAt) {
+        const mins = businessMinutesBetween(convBefore.createdAt, new Date());
+        const reason = mins <= 5 ? "RESPOSTA_RAPIDA_5MIN" : mins <= 30 ? "RESPOSTA_RAPIDA_30MIN" : null;
+        if (reason) {
+          void addScore(userId, instance.companyId, reason, conv.id).catch(() => {});
+        }
+      }
+      // 2. Primeiro contato em conversa que não é minha (idempotente por conversa)
+      const isNotMine = !convBefore.assigneeId || convBefore.assigneeId !== userId;
+      if (isNotMine) {
+        void addScoreOnce(userId, instance.companyId, "PRIMEIRO_CONTATO", conv.id).catch(() => {});
       }
     }
 
