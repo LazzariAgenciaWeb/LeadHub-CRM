@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { User as UserIcon, Users as UsersIcon } from "lucide-react";
 
 interface Contact {
   id: string;
@@ -12,8 +13,19 @@ interface Contact {
   hasAccess: boolean;
   notes: string | null;
   createdAt: string;
-  user: { id: string; name: string; email: string } | null;
+  user: { id: string; name: string; email: string; role?: string } | null;
+  // Estágio CRM derivado de Lead.pipeline. "Cliente" = não há Lead (default).
+  pipeline?: "PROSPECCAO" | "LEADS" | "OPORTUNIDADES" | null;
+  // Quantidade aproximada de membros únicos do grupo (só pra isGroup=true)
+  groupMemberCount?: number | null;
 }
+
+const PIPELINE_BADGE: Record<string, { label: string; cls: string; icon: string }> = {
+  PROSPECCAO:    { label: "Prospect",    icon: "🔍", cls: "text-cyan-300 bg-cyan-500/10 border border-cyan-500/30" },
+  LEADS:         { label: "Lead",        icon: "🎯", cls: "text-emerald-300 bg-emerald-500/10 border border-emerald-500/30" },
+  OPORTUNIDADES: { label: "Oportunidade",icon: "💼", cls: "text-amber-300 bg-amber-500/10 border border-amber-500/30" },
+  CLIENTE:       { label: "Cliente",     icon: "✅", cls: "text-indigo-300 bg-indigo-500/10 border border-indigo-500/30" },
+};
 
 const ROLE_OPTIONS = [
   { value: "CONTACT",       label: "Contato",          icon: "👤" },
@@ -90,13 +102,29 @@ export default function CompanyContacts({
   const [companySearchTransfer, setCompanySearchTransfer] = useState("");
   const [bulkResult, setBulkResult] = useState<string | null>(null);
 
-  function toggleSelected(id: string) {
+  // Anchor pro shift-click range select. Guarda o último id clicado sem
+  // shift; o próximo shift-click seleciona tudo entre âncora e clicado.
+  const [lastClickedId, setLastClickedId] = useState<string | null>(null);
+
+  function toggleSelected(id: string, opts?: { shift?: boolean }) {
     setSelectedIds((prev) => {
       const next = new Set(prev);
+      if (opts?.shift && lastClickedId && lastClickedId !== id) {
+        // Range select baseado na ordem visível atual
+        const ids = visibleContacts.map((c) => c.id);
+        const a = ids.indexOf(lastClickedId);
+        const b = ids.indexOf(id);
+        if (a >= 0 && b >= 0) {
+          const [from, to] = a < b ? [a, b] : [b, a];
+          for (let i = from; i <= to; i++) next.add(ids[i]);
+          return next;
+        }
+      }
       if (next.has(id)) next.delete(id);
       else next.add(id);
       return next;
     });
+    if (!opts?.shift) setLastClickedId(id);
   }
   function toggleSelectAll() {
     setSelectedIds((prev) => prev.size === visibleContacts.length ? new Set() : new Set(visibleContacts.map((c) => c.id)));
@@ -245,6 +273,20 @@ export default function CompanyContacts({
     }
   }
 
+  async function handleToggleAdminRole(contact: Contact) {
+    if (!contact.user) return;
+    const isAdmin = contact.user.role === "ADMIN" || contact.user.role === "SUPER_ADMIN";
+    const targetRole = isAdmin ? "CLIENT" : "ADMIN";
+    if (!confirm(
+      isAdmin
+        ? `Remover privilégios de ADMIN de ${contact.user.email}? Volta a ser atendente comum.`
+        : `Promover ${contact.user.email} a ADMIN da empresa? Ele poderá editar usuários, configurações e gerir o portal.`
+    )) return;
+    setSaving(true);
+    await patchContact(contact.id, { userRole: targetRole });
+    setSaving(false);
+  }
+
   async function handleResetPassword(contact: Contact) {
     if (!contact.user) return;
     if (!confirm(`Redefinir a senha de ${contact.user.email}? A senha atual deixará de funcionar.`)) return;
@@ -355,34 +397,26 @@ export default function CompanyContacts({
         </div>
       </div>
 
-      {/* Barra de ações em massa — aparece quando há seleção */}
+      {/* Barra de ações em massa — flutuante fixa no rodapé pra não exigir
+          scroll quando o usuário está mais embaixo na lista. */}
       {selectedIds.size > 0 && (
-        <div className="px-5 py-2.5 bg-indigo-500/10 border-b border-indigo-500/30 flex items-center justify-between gap-2 sticky top-0 z-10">
-          <div className="flex items-center gap-3 text-sm">
-            <span className="text-indigo-200 font-semibold">
-              {selectedIds.size} selecionado{selectedIds.size !== 1 ? "s" : ""}
-            </span>
-            <button
-              onClick={clearSelection}
-              className="text-slate-400 hover:text-white text-xs transition-colors"
-            >
-              Limpar
-            </button>
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={openTransferModal}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold transition-colors"
-            >
-              ↗ Transferir empresa
-            </button>
-            <button
-              onClick={() => setShowBulkDeleteConfirm(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-600/80 hover:bg-red-600 text-white text-xs font-semibold transition-colors"
-            >
-              🗑 Excluir
-            </button>
-          </div>
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-3 rounded-full bg-[#0a0e16] border border-indigo-500/40 shadow-2xl shadow-indigo-500/20">
+          <span className="text-indigo-200 font-semibold text-sm">
+            {selectedIds.size} selecionado{selectedIds.size !== 1 ? "s" : ""}
+          </span>
+          <button
+            onClick={clearSelection}
+            className="text-slate-400 hover:text-white text-xs transition-colors"
+          >
+            Limpar
+          </button>
+          <div className="w-px h-5 bg-[#1e2d45]" />
+          <button
+            onClick={openTransferModal}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold transition-colors"
+          >
+            ↗ Transferir empresa
+          </button>
         </div>
       )}
 
@@ -492,7 +526,12 @@ export default function CompanyContacts({
                     <input
                       type="checkbox"
                       checked={isSelected}
-                      onChange={() => toggleSelected(c.id)}
+                      onClick={(e) => {
+                        // Usa onClick pra capturar shiftKey — onChange não recebe.
+                        toggleSelected(c.id, { shift: (e as any).shiftKey });
+                        e.preventDefault();
+                      }}
+                      onChange={() => { /* gerenciado pelo onClick acima */ }}
                       className="w-4 h-4 rounded accent-indigo-500"
                     />
                   </label>
@@ -535,9 +574,13 @@ export default function CompanyContacts({
                 ) : (
                   /* ── Modo visualização ── */
                   <div className="flex items-center gap-3">
-                    {/* Avatar */}
-                    <div className="w-9 h-9 rounded-full bg-[#1e2d45] flex items-center justify-center text-base flex-shrink-0">
-                      {c.isGroup ? "👥" : "👤"}
+                    {/* Avatar — Lucide User pra contato, Users pra grupo */}
+                    <div className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 ${
+                      c.isGroup ? "bg-indigo-500/15 text-indigo-300" : "bg-[#1e2d45] text-slate-400"
+                    }`}>
+                      {c.isGroup
+                        ? <UsersIcon className="w-4.5 h-4.5" strokeWidth={2} />
+                        : <UserIcon className="w-4.5 h-4.5" strokeWidth={2} />}
                     </div>
 
                     {/* Info */}
@@ -546,21 +589,39 @@ export default function CompanyContacts({
                         <span className="text-white text-sm font-semibold">
                           {c.name ?? (c.isGroup ? "Grupo sem nome" : "Sem nome")}
                         </span>
-                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${ROLE_BADGE[c.role] ?? "text-slate-400 bg-white/5"}`}>
-                          {rl.icon} {rl.label}
-                        </span>
-                        {c.isGroup && (
-                          <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium text-indigo-400 bg-indigo-500/10">
-                            👥 Grupo
+                        {/* Badge: GRUPO ou ROLE — nunca os dois (eram redundantes) */}
+                        {c.isGroup ? (
+                          <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium text-indigo-300 bg-indigo-500/10 border border-indigo-500/20">
+                            Grupo{typeof c.groupMemberCount === "number" ? ` · ${c.groupMemberCount} contatos` : ""}
+                          </span>
+                        ) : (
+                          <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${ROLE_BADGE[c.role] ?? "text-slate-400 bg-white/5"}`}>
+                            {rl.icon} {rl.label}
                           </span>
                         )}
+                        {/* Estágio CRM (Prospect/Lead/Oportunidade/Cliente) */}
+                        {(() => {
+                          const key = c.pipeline ?? "CLIENTE";
+                          const cfg = PIPELINE_BADGE[key];
+                          if (!cfg) return null;
+                          return (
+                            <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${cfg.cls}`}>
+                              {cfg.icon} {cfg.label}
+                            </span>
+                          );
+                        })()}
                       </div>
                       <div className="text-slate-500 text-xs mt-0.5">
                         {formatPhone(c.phone, c.isGroup)}
                       </div>
                       {c.user && (
-                        <div className="text-green-400 text-[10px] mt-0.5">
-                          🔑 Portal: {c.user.email}
+                        <div className="text-green-400 text-[10px] mt-0.5 flex items-center gap-2 flex-wrap">
+                          <span>🔑 Portal: {c.user.email}</span>
+                          {(c.user.role === "ADMIN" || c.user.role === "SUPER_ADMIN") && (
+                            <span className="text-amber-300 bg-amber-500/10 border border-amber-500/30 px-1.5 py-0.5 rounded text-[10px] font-bold">
+                              {c.user.role === "SUPER_ADMIN" ? "SUPER ADMIN" : "ADMIN"}
+                            </span>
+                          )}
                         </div>
                       )}
                     </div>
@@ -602,6 +663,20 @@ export default function CompanyContacts({
                           title="Redefinir senha"
                         >
                           🔑
+                        </button>
+                      )}
+                      {c.user && c.user.role !== "SUPER_ADMIN" && (
+                        <button
+                          onClick={() => handleToggleAdminRole(c)}
+                          disabled={saving}
+                          className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors text-xs disabled:opacity-50 ${
+                            c.user.role === "ADMIN"
+                              ? "bg-amber-500/15 text-amber-300 hover:bg-amber-500/25"
+                              : "hover:bg-amber-500/10 text-slate-500 hover:text-amber-400"
+                          }`}
+                          title={c.user.role === "ADMIN" ? "Remover ADMIN da empresa" : "Promover a ADMIN da empresa"}
+                        >
+                          ⭐
                         </button>
                       )}
                       {c.user && (

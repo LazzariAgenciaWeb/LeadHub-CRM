@@ -1,9 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import {
   MessageSquare, Building2, Plug, Zap, CheckSquare, Sparkles, Webhook,
   Workflow, Tag, Clock, Globe, Mail, FileText, Users, KeyRound, Shield, CreditCard,
+  ChevronDown, ChevronRight,
   type LucideIcon,
 } from "lucide-react";
 import { gradStroke, type GradientKey } from "@/components/IconGradients";
@@ -30,7 +32,10 @@ const SECTIONS: SectionItem[] = [
     children: [
       { key: "minha-empresa-dados",     Icon: FileText,  grad: "empresa",       label: "Dados",       desc: "Nome, logo e informações" },
       { key: "minha-empresa-contatos",  Icon: Users,     grad: "whatsapp",      label: "Contatos",    desc: "Pessoas e grupos do WhatsApp" },
-      { key: "minha-empresa-acessos",   Icon: KeyRound,  grad: "empresa",       label: "Quem tem acesso", desc: "Usuários do portal" },
+      { key: "minha-empresa-acessos",   Icon: KeyRound,  grad: "empresa",       label: "Usuários",    desc: "Logins, acesso e mesclagem" },
+      { key: "setores",                 Icon: Tag,       grad: "setores",       label: "Setores",     desc: "Times, acesso e permissões" },
+      { key: "atendimento",             Icon: Clock,     grad: "atendimento",   label: "Atendimento", desc: "SLA, fila e regras de inbox" },
+      { key: "email",                   Icon: Mail,      grad: "email",         label: "E-mail (SMTP)", desc: "Servidor de e-mail" },
       { key: "minha-empresa-cofre",     Icon: Shield,    grad: "cofre",         label: "Cofre",       desc: "Senhas e credenciais" },
       { key: "minha-empresa-plano",     Icon: CreditCard,grad: "oportunidades", label: "Plano atual", desc: "Assinatura e mudança de plano" },
     ],
@@ -50,16 +55,17 @@ const SECTIONS: SectionItem[] = [
     ],
   },
   { type: "item", key: "pipeline",    Icon: Workflow, grad: "pipeline",    label: "CRM / Pipeline", desc: "Etapas e configurações" },
-  { type: "item", key: "setores",     Icon: Tag,      grad: "setores",     label: "Setores",        desc: "Times, acesso e permissões" },
-  { type: "item", key: "atendimento", Icon: Clock,    grad: "atendimento", label: "Atendimento",    desc: "SLA, fila e regras de inbox" },
-  { type: "item", key: "email",       Icon: Mail,     grad: "email",       label: "E-mail (SMTP)",  desc: "Servidor de e-mail do sistema" },
 ];
 
 function isIntegSubKey(key: string) {
   return key.startsWith("integracoes-");
 }
 function isMinhaEmpresaSubKey(key: string) {
-  return key.startsWith("minha-empresa-");
+  // Inclui chaves que vivem visualmente em "Minha Empresa" mesmo sem prefixo
+  return key.startsWith("minha-empresa-")
+    || key === "setores"
+    || key === "atendimento"
+    || key === "email";
 }
 
 export default function SettingsLayout({
@@ -70,6 +76,17 @@ export default function SettingsLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+
+  // Estado de colapso por grupo. Inicia aberto se a seção ativa pertence
+  // ao grupo (pra usuário não precisar abrir manualmente toda vez).
+  const [collapsed, setCollapsed] = useState<Record<string, boolean>>(() => ({
+    "minha-empresa": !isMinhaEmpresaSubKey(activeSection),
+    "integracoes":   !isIntegSubKey(activeSection),
+  }));
+
+  function toggleGroup(key: string) {
+    setCollapsed((prev) => ({ ...prev, [key]: !prev[key] }));
+  }
 
   function goSection(key: string) {
     router.push(`/configuracoes?secao=${key}`);
@@ -110,16 +127,24 @@ export default function SettingsLayout({
             : s.key === "minha-empresa"
             ? isMinhaEmpresaSubKey(activeSection)
             : false;
+          const isCollapsed = !!collapsed[s.key];
           return (
             <div key={s.key} className="mb-0.5">
-              {/* Group header — not clickable, just a label */}
-              <div className={`flex items-center gap-2.5 px-2.5 py-2 rounded-lg ${groupActive ? "bg-[#161f30]" : ""}`}>
+              {/* Group header — clicável pra colapsar/expandir */}
+              <button
+                onClick={() => toggleGroup(s.key)}
+                className={`w-full text-left flex items-center gap-2.5 px-2.5 py-2 rounded-lg transition-colors ${groupActive ? "bg-[#161f30]" : "hover:bg-[#161f30]/60"}`}
+              >
                 <s.Icon className="w-4 h-4 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke(s.grad)} />
-                <div className={`text-[13px] font-medium leading-tight ${groupActive ? "text-slate-200" : "text-slate-400"}`}>
+                <div className={`flex-1 text-[13px] font-medium leading-tight ${groupActive ? "text-slate-200" : "text-slate-400"}`}>
                   {s.label}
                 </div>
-              </div>
-              {/* Sub-items */}
+                {isCollapsed
+                  ? <ChevronRight className="w-3.5 h-3.5 text-slate-600" strokeWidth={2.5} />
+                  : <ChevronDown  className="w-3.5 h-3.5 text-slate-500" strokeWidth={2.5} />}
+              </button>
+              {/* Sub-items — escondidos quando colapsado */}
+              {!isCollapsed && (
               <div className="ml-4 border-l border-[#1e2d45] pl-2 mt-0.5 space-y-0.5">
                 {s.children.map((c) => {
                   const childActive = activeSection === c.key;
@@ -142,6 +167,7 @@ export default function SettingsLayout({
                   );
                 })}
               </div>
+              )}
             </div>
           );
         })}

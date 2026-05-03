@@ -78,10 +78,10 @@ export default async function ConfiguracoesPage({
     if (!userCompanyId) {
       content = <div className="p-6 text-slate-500 text-sm">Sua conta não está vinculada a nenhuma empresa.</div>;
     } else {
-      const [contactsRaw, allUsers] = await Promise.all([
+      const [contactsRaw, allUsers, leadsForPhones] = await Promise.all([
         prisma.companyContact.findMany({
           where: { companyId: userCompanyId },
-          include: { user: { select: { id: true, name: true, email: true } } },
+          include: { user: { select: { id: true, name: true, email: true, role: true } } },
           orderBy: [{ hasAccess: "desc" }, { name: "asc" }],
         }),
         // Users da empresa pra detectar "órfãos" — usuários sem CompanyContact.
@@ -90,14 +90,38 @@ export default async function ConfiguracoesPage({
         // tela e fica impossível de mesclar.
         prisma.user.findMany({
           where: { companyId: userCompanyId },
-          select: { id: true, name: true, email: true },
+          select: { id: true, name: true, email: true, role: true },
+        }),
+        // Pipeline lookup: pega Leads existentes pra esses telefones e mapeia
+        // pra "Prospect / Lead / Oportunidade". Default = "Cliente" (sem lead).
+        prisma.lead.findMany({
+          where: { companyId: userCompanyId },
+          select: { phone: true, pipeline: true, updatedAt: true },
+          orderBy: { updatedAt: "desc" },
         }),
       ]);
 
-      const contacts = contactsRaw.map((c) => ({
-        ...c,
-        createdAt: c.createdAt.toISOString(),
-      }));
+      // Indexa Leads por telefone normalizado (só dígitos). Pega o mais recente.
+      const PIPELINE_RANK: Record<string, number> = { OPORTUNIDADES: 3, LEADS: 2, PROSPECCAO: 1 };
+      const pipelineByPhone = new Map<string, string>();
+      for (const lead of leadsForPhones) {
+        const key = (lead.phone ?? "").replace(/\D/g, "");
+        if (!key || !lead.pipeline) continue;
+        const current = pipelineByPhone.get(key);
+        if (!current || (PIPELINE_RANK[lead.pipeline] ?? 0) > (PIPELINE_RANK[current] ?? 0)) {
+          pipelineByPhone.set(key, lead.pipeline);
+        }
+      }
+
+      const contacts = contactsRaw.map((c) => {
+        const key = c.phone.replace(/\D/g, "");
+        const pipeline = pipelineByPhone.get(key) ?? null;
+        return {
+          ...c,
+          createdAt: c.createdAt.toISOString(),
+          pipeline,
+        };
+      });
 
       // Sintetiza linhas virtuais pra cada User órfão (sem CompanyContact).
       // ID prefixado com "virtual:" pra UI esconder ações destrutivas.
@@ -113,7 +137,7 @@ export default async function ConfiguracoesPage({
         notes:     null,
         userId:    u.id,
         createdAt: new Date().toISOString(),
-        user:      { id: u.id, name: u.name, email: u.email },
+        user:      { id: u.id, name: u.name, email: u.email, role: u.role },
       }));
 
       const merged = [...contacts, ...virtualContacts];

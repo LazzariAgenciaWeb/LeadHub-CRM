@@ -41,7 +41,7 @@ export async function PATCH(
   }
 
   const body = await req.json();
-  const { name, role: contactRole, notes, hasAccess, userEmail, userName, resetPassword } = body;
+  const { name, role: contactRole, notes, hasAccess, userEmail, userName, resetPassword, userRole } = body;
 
   const contact = await prisma.companyContact.findFirst({
     where: { id: contactId, companyId: id },
@@ -89,6 +89,16 @@ export async function PATCH(
     generatedPassword = tempPassword;
   }
 
+  // Promover/rebaixar usuário entre ADMIN e CLIENT (atendente). SUPER_ADMIN
+  // só pode ser concedido por outro SUPER_ADMIN — ADMIN comum não escala.
+  if (userRole && contact.userId) {
+    const allowed: string[] = role === "SUPER_ADMIN" ? ["SUPER_ADMIN", "ADMIN", "CLIENT"] : ["ADMIN", "CLIENT"];
+    if (!allowed.includes(userRole)) {
+      return NextResponse.json({ error: "Você não pode atribuir esse papel" }, { status: 403 });
+    }
+    await prisma.user.update({ where: { id: contact.userId }, data: { role: userRole } });
+  }
+
   // Quando desativa acesso → desvincula User (mas não deleta)
   if (hasAccess === false) {
     userId = null;
@@ -103,7 +113,7 @@ export async function PATCH(
       ...(hasAccess !== undefined && { hasAccess }),
       ...(userId !== contact.userId && { userId }),
     },
-    include: { user: { select: { id: true, name: true, email: true } } },
+    include: { user: { select: { id: true, name: true, email: true, role: true } } },
   });
 
   return NextResponse.json({ ...updated, tempPassword: generatedPassword });
