@@ -11,12 +11,17 @@ export async function POST(req: NextRequest) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
-  const role          = (session.user as any).role as string;
-  const authorId      = (session.user as any).id as string;
-  const authorName    = (session.user as any).name as string | undefined;
-  const userCompanyId = (session.user as any).companyId as string | undefined;
+  const role            = (session.user as any).role as string;
+  const authorId        = (session.user as any).id as string;
+  const authorName      = (session.user as any).name as string | undefined;
+  const userCompanyId   = (session.user as any).companyId as string | undefined;
+  const canManageUsers  = !!(session.user as any).permissions?.canManageUsers;
 
-  if (role !== "SUPER_ADMIN" && role !== "ADMIN") {
+  // Permite SUPER_ADMIN, ADMIN da empresa, ou CLIENT com canManageUsers
+  // (gerentes/líderes que têm permissão pra penalizar a equipe).
+  const isAuthorized =
+    role === "SUPER_ADMIN" || role === "ADMIN" || canManageUsers;
+  if (!isAuthorized) {
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
 
@@ -46,8 +51,9 @@ export async function POST(req: NextRequest) {
   if (!target?.companyId) {
     return NextResponse.json({ error: "Usuário não encontrado" }, { status: 404 });
   }
-  if (role === "ADMIN" && target.companyId !== userCompanyId) {
-    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  // Não-super-admin só pode penalizar usuários da mesma empresa
+  if (role !== "SUPER_ADMIN" && target.companyId !== userCompanyId) {
+    return NextResponse.json({ error: "Sem permissão (empresa diferente)" }, { status: 403 });
   }
 
   await recordIncident({
