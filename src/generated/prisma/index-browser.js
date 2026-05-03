@@ -454,6 +454,8 @@ exports.Prisma.SetorClickupListScalarFieldEnum = {
   taskOverdue: 'taskOverdue',
   taskNoDueDate: 'taskNoDueDate',
   lastSyncedAt: 'lastSyncedAt',
+  clientExpectedAt: 'clientExpectedAt',
+  clientLastContactAt: 'clientLastContactAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -476,6 +478,9 @@ exports.Prisma.ProjectActivityScalarFieldEnum = {
   type: 'type',
   taskName: 'taskName',
   taskId: 'taskId',
+  description: 'description',
+  authorId: 'authorId',
+  authorName: 'authorName',
   createdAt: 'createdAt'
 };
 
@@ -953,7 +958,8 @@ exports.ScoreReason = exports.$Enums.ScoreReason = {
   TAREFA_SEM_PRAZO: 'TAREFA_SEM_PRAZO',
   TAREFA_CRIADA: 'TAREFA_CRIADA',
   TAREFA_ATUALIZADA: 'TAREFA_ATUALIZADA',
-  TAREFA_CONCLUIDA: 'TAREFA_CONCLUIDA'
+  TAREFA_CONCLUIDA: 'TAREFA_CONCLUIDA',
+  TAREFA_ATRASADA: 'TAREFA_ATRASADA'
 };
 
 exports.Prisma.ModelName = {

@@ -46,11 +46,29 @@ export default async function ProjectDetailPage({
     take:    30,
   });
 
+  // Empresas disponíveis pra vincular como cliente do projeto
+  const clientCompanies = role === "SUPER_ADMIN"
+    ? await prisma.company.findMany({
+        orderBy: { name: "asc" },
+        select:  { id: true, name: true },
+      })
+    : await prisma.company.findMany({
+        where: {
+          OR: [
+            { id: userCompanyId },
+            { parentCompanyId: userCompanyId },
+          ],
+        },
+        orderBy: { name: "asc" },
+        select:  { id: true, name: true },
+      });
+
   return (
     <ProjectDetail
       project={project as any}
       availableUsers={setorUsers.map((su) => su.user)}
       activities={activities}
+      clientCompanies={clientCompanies}
     />
   );
 }

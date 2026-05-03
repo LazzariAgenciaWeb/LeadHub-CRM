@@ -8,23 +8,25 @@ import { ProjectStatus } from "@/generated/prisma";
 import { formatBrazilDateTime, formatBrazilDate } from "@/lib/datetime";
 
 type Project = {
-  id:              string;
-  name:            string;
-  description:     string | null;
-  type:            string | null;
-  clickupListId:   string;
-  status:          ProjectStatus;
-  startDate:       Date | string | null;
-  dueDate:         Date | string | null;
-  deliveredAt:     Date | string | null;
-  taskCount:       number;
-  taskCompleted:   number;
-  taskOverdue:     number;
-  taskNoDueDate:   number;
-  lastSyncedAt:    Date | string | null;
-  setor:           { id: string; name: string };
-  clientCompany:   { id: string; name: string } | null;
-  members:         { user: { id: string; name: string; email: string } }[];
+  id:                  string;
+  name:                string;
+  description:         string | null;
+  type:                string | null;
+  clickupListId:       string;
+  status:              ProjectStatus;
+  startDate:           Date | string | null;
+  dueDate:             Date | string | null;
+  deliveredAt:         Date | string | null;
+  taskCount:           number;
+  taskCompleted:       number;
+  taskOverdue:         number;
+  taskNoDueDate:       number;
+  lastSyncedAt:        Date | string | null;
+  clientExpectedAt:    Date | string | null;
+  clientLastContactAt: Date | string | null;
+  setor:               { id: string; name: string };
+  clientCompany:       { id: string; name: string } | null;
+  members:             { user: { id: string; name: string; email: string } }[];
 };
 
 const STATUS_LABEL: Record<ProjectStatus, { label: string; color: string; activeColor: string; ringColor: string }> = {
@@ -37,9 +39,10 @@ const STATUS_LABEL: Record<ProjectStatus, { label: string; color: string; active
 };
 
 const ACTIVITY_META: Record<string, { icon: string; text: string; color: string }> = {
-  TASK_CREATED:   { icon: "✨", text: "Criada:",     color: "text-cyan-300"    },
-  TASK_UPDATED:   { icon: "📝", text: "Atualizada:", color: "text-amber-300"   },
-  TASK_COMPLETED: { icon: "✅", text: "Concluída:",  color: "text-emerald-300" },
+  TASK_CREATED:    { icon: "✨", text: "Criada:",            color: "text-cyan-300"    },
+  TASK_UPDATED:    { icon: "📝", text: "Atualizada:",        color: "text-amber-300"   },
+  TASK_COMPLETED:  { icon: "✅", text: "Concluída:",         color: "text-emerald-300" },
+  CLIENT_FOLLOWUP: { icon: "📨", text: "Cobrança ao cliente", color: "text-fuchsia-300" },
 };
 
 // Ordem sequencial pra navegação com setas
@@ -53,19 +56,22 @@ const STATUS_ORDER: ProjectStatus[] = [
 ];
 
 type Activity = {
-  id:        string;
-  type:      string;     // TASK_CREATED | TASK_UPDATED | TASK_COMPLETED
-  taskName:  string;
-  taskId:    string;
-  createdAt: Date | string;
+  id:          string;
+  type:        string;     // TASK_CREATED | TASK_UPDATED | TASK_COMPLETED | CLIENT_FOLLOWUP
+  taskName:    string;
+  taskId:      string;
+  description: string | null;
+  authorName:  string | null;
+  createdAt:   Date | string;
 };
 
 export default function ProjectDetail({
-  project, availableUsers, activities,
+  project, availableUsers, activities, clientCompanies,
 }: {
   project: Project;
   availableUsers: { id: string; name: string }[];
   activities: Activity[];
+  clientCompanies: { id: string; name: string }[];
 }) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
@@ -178,9 +184,7 @@ export default function ProjectDetail({
               </div>
             )}
             {project.status === "AGUARDANDO_CLIENTE" && (
-              <div className="mt-3 text-cyan-300 text-xs bg-cyan-500/10 border border-cyan-500/30 rounded px-2 py-1.5">
-                ⏸ Penalidades pausadas — projeto não atualiza pontuação enquanto depende do cliente.
-              </div>
+              <FollowupBlock project={project} />
             )}
           </div>
 
@@ -266,29 +270,36 @@ export default function ProjectDetail({
               <div className="divide-y divide-[#1e2d45] max-h-[420px] overflow-y-auto">
                 {activities.map((a) => {
                   const meta = ACTIVITY_META[a.type] ?? { icon: "📝", text: "Atualizada", color: "text-slate-400" };
+                  const isFollowup = a.type === "CLIENT_FOLLOWUP";
                   return (
-                    <div key={a.id} className="flex items-center justify-between px-5 py-2.5 hover:bg-[#080b12]/50">
-                      <div className="flex items-center gap-2 min-w-0 flex-1">
-                        <span className="text-base flex-shrink-0">{meta.icon}</span>
-                        <div className="min-w-0 flex-1">
-                          <div className="text-slate-300 text-xs">
-                            <span className={`font-medium ${meta.color}`}>{meta.text}</span>{" "}
-                            <span className="text-white truncate">{a.taskName}</span>
+                    <div key={a.id} className="flex items-start gap-2 px-5 py-2.5 hover:bg-[#080b12]/50">
+                      <span className="text-base flex-shrink-0 mt-0.5">{meta.icon}</span>
+                      <div className="min-w-0 flex-1">
+                        <div className="text-slate-300 text-xs">
+                          <span className={`font-medium ${meta.color}`}>{meta.text}</span>
+                          {!isFollowup && <> <span className="text-white truncate">{a.taskName}</span></>}
+                        </div>
+                        {isFollowup && a.description && (
+                          <div className="mt-1 text-slate-200 text-xs whitespace-pre-wrap bg-fuchsia-500/5 border border-fuchsia-500/20 rounded px-2 py-1.5">
+                            {a.description}
                           </div>
-                          <div className="text-slate-600 text-[10px] mt-0.5">
-                            {formatBrazilDateTime(a.createdAt)}
-                          </div>
+                        )}
+                        <div className="text-slate-600 text-[10px] mt-0.5">
+                          {a.authorName && <>{a.authorName} · </>}
+                          {formatBrazilDateTime(a.createdAt)}
                         </div>
                       </div>
-                      <a
-                        href={`https://app.clickup.com/t/${a.taskId}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-slate-600 hover:text-[#7B68EE] flex-shrink-0"
-                        title="Abrir tarefa no ClickUp"
-                      >
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
+                      {!isFollowup && a.taskId && (
+                        <a
+                          href={`https://app.clickup.com/t/${a.taskId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-slate-600 hover:text-[#7B68EE] flex-shrink-0 mt-0.5"
+                          title="Abrir tarefa no ClickUp"
+                        >
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      )}
                     </div>
                   );
                 })}
@@ -366,11 +377,18 @@ export default function ProjectDetail({
             </button>
           </div>
 
-          {/* Info ClickUp */}
-          <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5">
-            <span className="text-slate-500 text-xs uppercase tracking-wider block mb-2">List ID</span>
-            <code className="text-slate-400 text-xs font-mono break-all">{project.clickupListId}</code>
-          </div>
+          {/* Cliente vinculado (editável + criar novo) */}
+          <ClientSelector
+            projectId={project.id}
+            current={project.clientCompany}
+            companies={clientCompanies}
+          />
+
+          {/* List ID do ClickUp (editável) */}
+          <ClickupListIdEditor
+            projectId={project.id}
+            current={project.clickupListId}
+          />
         </div>
       </div>
     </div>
@@ -433,6 +451,302 @@ function StatusPipeline({
       >
         <ChevronRight className="w-4 h-4" />
       </button>
+    </div>
+  );
+}
+
+/**
+ * Bloco que aparece quando projeto está em AGUARDANDO_CLIENTE.
+ * Mostra última cobrança, próxima previsão de retorno, e form pra registrar
+ * uma nova cobrança (gera ProjectActivity tipo CLIENT_FOLLOWUP).
+ */
+function FollowupBlock({ project }: { project: Project }) {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [text, setText] = useState("");
+  const [expectedAt, setExpectedAt] = useState(
+    project.clientExpectedAt ? new Date(project.clientExpectedAt).toISOString().slice(0, 10) : ""
+  );
+  const [saving, setSaving] = useState(false);
+
+  async function submit() {
+    if (!text.trim()) return;
+    setSaving(true);
+    await fetch(`/api/projetos/${project.id}/followup`, {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ description: text, expectedAt: expectedAt || null }),
+    });
+    setSaving(false);
+    setText("");
+    setOpen(false);
+    router.refresh();
+  }
+
+  const lastContact   = project.clientLastContactAt ? new Date(project.clientLastContactAt) : null;
+  const expectedDate  = project.clientExpectedAt    ? new Date(project.clientExpectedAt)    : null;
+  const isExpectedOverdue = expectedDate && expectedDate < new Date();
+
+  return (
+    <div className="mt-3 bg-cyan-500/5 border border-cyan-500/30 rounded-lg p-3 space-y-2">
+      <div className="flex items-start gap-2">
+        <span className="text-base">⏸</span>
+        <div className="flex-1 text-cyan-200 text-xs leading-relaxed">
+          <strong>Aguardando retorno do cliente.</strong>{" "}
+          Tarefas atrasadas e sem prazo no ClickUp <strong>continuam penalizando</strong> —
+          atualize o status / cobre o cliente.
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
+        <div className="bg-[#080b12] border border-[#1e2d45] rounded px-2 py-1.5">
+          <span className="text-slate-500 block">Última cobrança</span>
+          <span className="text-white">
+            {lastContact ? formatBrazilDateTime(lastContact) : "— nenhuma ainda"}
+          </span>
+        </div>
+        <div className={`border rounded px-2 py-1.5 ${
+          isExpectedOverdue ? "bg-red-500/5 border-red-500/30" : "bg-[#080b12] border-[#1e2d45]"
+        }`}>
+          <span className="text-slate-500 block">Próxima previsão</span>
+          <span className={isExpectedOverdue ? "text-red-300 font-bold" : "text-white"}>
+            {expectedDate
+              ? `${formatBrazilDate(expectedDate)}${isExpectedOverdue ? " · vencida" : ""}`
+              : "— sem previsão"}
+          </span>
+        </div>
+      </div>
+
+      {!open ? (
+        <button
+          onClick={() => setOpen(true)}
+          className="w-full text-xs px-3 py-1.5 rounded bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-200 font-medium border border-cyan-500/30"
+        >
+          📨 Registrar cobrança
+        </button>
+      ) : (
+        <div className="space-y-2 bg-[#080b12] rounded p-2">
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            rows={3}
+            placeholder="Ex: Mandei mensagem cobrando aprovação do wireframe. Disse que retorna até sexta."
+            className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded px-2 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 resize-none"
+          />
+          <div className="flex items-center gap-2">
+            <label className="text-slate-500 text-[10px]">Próxima previsão:</label>
+            <input
+              type="date"
+              value={expectedAt}
+              onChange={(e) => setExpectedAt(e.target.value)}
+              className="bg-[#0a0f1a] border border-[#1e2d45] rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-cyan-500"
+            />
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={submit}
+              disabled={saving || !text.trim()}
+              className="flex-1 px-3 py-1.5 rounded bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-medium disabled:opacity-50"
+            >
+              {saving ? "Salvando..." : "Salvar"}
+            </button>
+            <button
+              onClick={() => { setOpen(false); setText(""); }}
+              className="px-3 py-1.5 rounded text-slate-400 hover:text-white text-xs"
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** Editor inline do List ID do ClickUp — útil pra corrigir colagens erradas. */
+function ClickupListIdEditor({ projectId, current }: { projectId: string; current: string }) {
+  const router = useRouter();
+  const [editing, setEditing] = useState(false);
+  const [value, setValue] = useState(current);
+  const [saving, setSaving] = useState(false);
+
+  async function save() {
+    if (!value.trim() || value.trim() === current) {
+      setEditing(false);
+      return;
+    }
+    setSaving(true);
+    const res = await fetch(`/api/projetos/${projectId}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ clickupListId: value.trim() }),
+    });
+    setSaving(false);
+    if (res.ok) {
+      setEditing(false);
+      router.refresh();
+    }
+  }
+
+  return (
+    <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5">
+      <div className="flex items-center justify-between mb-2">
+        <span className="text-slate-500 text-xs uppercase tracking-wider">List ID (ClickUp)</span>
+        {!editing && (
+          <button onClick={() => setEditing(true)} className="text-slate-500 hover:text-white text-[10px]">
+            Editar
+          </button>
+        )}
+      </div>
+      {editing ? (
+        <div className="space-y-2">
+          <input
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            placeholder="901234567890"
+            className="w-full bg-[#080b12] border border-[#1e2d45] rounded px-2 py-1.5 text-xs font-mono text-white focus:outline-none focus:border-indigo-500"
+          />
+          <p className="text-slate-600 text-[10px]">
+            Ao trocar, o histórico de tarefas é resetado pra refletir a nova lista.
+          </p>
+          <div className="flex gap-1">
+            <button
+              onClick={save}
+              disabled={saving}
+              className="flex-1 px-2 py-1.5 rounded bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium disabled:opacity-50"
+            >
+              {saving ? "Salvando..." : "Salvar"}
+            </button>
+            <button
+              onClick={() => { setEditing(false); setValue(current); }}
+              className="px-2 py-1.5 text-slate-500 hover:text-white text-xs"
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      ) : (
+        <code className="text-slate-400 text-xs font-mono break-all">{current}</code>
+      )}
+    </div>
+  );
+}
+
+/** Seletor de cliente vinculado — permite editar OU criar novo cliente inline. */
+function ClientSelector({
+  projectId, current, companies,
+}: {
+  projectId: string;
+  current: { id: string; name: string } | null;
+  companies: { id: string; name: string }[];
+}) {
+  const router = useRouter();
+  const [editing, setEditing] = useState(false);
+  const [creating, setCreating] = useState(false);
+  const [newName, setNewName] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  async function setClient(companyId: string | null) {
+    setSaving(true);
+    await fetch(`/api/projetos/${projectId}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ clientCompanyId: companyId }),
+    });
+    setSaving(false);
+    setEditing(false);
+    router.refresh();
+  }
+
+  async function createAndLink() {
+    if (!newName.trim()) return;
+    setSaving(true);
+    const res = await fetch("/api/companies", {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ name: newName.trim() }),
+    });
+    if (res.ok) {
+      const company = await res.json();
+      await setClient(company.id);
+      setNewName("");
+      setCreating(false);
+    } else {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5">
+      <div className="flex items-center justify-between mb-2">
+        <span className="text-slate-500 text-xs uppercase tracking-wider">Cliente</span>
+        {!editing && !creating && (
+          <button onClick={() => setEditing(true)} className="text-slate-500 hover:text-white text-[10px]">
+            Editar
+          </button>
+        )}
+      </div>
+
+      {!editing && !creating && (
+        <div className="text-sm text-white">
+          {current ? <>🏢 {current.name}</> : <span className="text-slate-600">— sem cliente</span>}
+        </div>
+      )}
+
+      {editing && (
+        <div className="space-y-2">
+          <select
+            value={current?.id ?? ""}
+            onChange={(e) => setClient(e.target.value || null)}
+            disabled={saving}
+            className="w-full bg-[#080b12] border border-[#1e2d45] rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500"
+          >
+            <option value="">— sem cliente —</option>
+            {companies.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+          </select>
+          <div className="flex gap-1">
+            <button
+              onClick={() => { setEditing(false); setCreating(true); }}
+              className="flex-1 px-2 py-1.5 rounded bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 text-xs font-medium"
+            >
+              + Criar novo
+            </button>
+            <button
+              onClick={() => setEditing(false)}
+              className="px-2 py-1.5 text-slate-500 hover:text-white text-xs"
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {creating && (
+        <div className="space-y-2">
+          <input
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+            placeholder="Nome do cliente"
+            autoFocus
+            className="w-full bg-[#080b12] border border-[#1e2d45] rounded px-2 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500"
+          />
+          <div className="flex gap-1">
+            <button
+              onClick={createAndLink}
+              disabled={saving || !newName.trim()}
+              className="flex-1 px-2 py-1.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium disabled:opacity-50"
+            >
+              {saving ? "Criando..." : "Criar e vincular"}
+            </button>
+            <button
+              onClick={() => { setCreating(false); setNewName(""); }}
+              className="px-2 py-1.5 text-slate-500 hover:text-white text-xs"
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

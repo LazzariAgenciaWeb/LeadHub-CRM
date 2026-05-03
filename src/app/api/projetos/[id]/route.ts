@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { ProjectStatus } from "@/generated/prisma";
-import { addScoreOnce, addScore } from "@/lib/gamification";
+import { addScoreOnce } from "@/lib/gamification";
 
 // GET /api/projetos/[id]
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -51,7 +51,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   }
 
   const body = await req.json();
-  const { name, description, type, status, startDate, dueDate, clientCompanyId, memberIds } = body;
+  const { name, description, type, status, startDate, dueDate, clientCompanyId, memberIds, clickupListId } = body;
 
   // Detecta transição pra ENTREGUE — gera pontos pros membros
   const movingToDelivered = status === "ProjectStatus" || status === "ENTREGUE";
@@ -66,10 +66,12 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (startDate   !== undefined) data.startDate = startDate ? new Date(startDate) : null;
   if (dueDate     !== undefined) data.dueDate = dueDate ? new Date(dueDate) : null;
   if (clientCompanyId !== undefined) data.clientCompanyId = clientCompanyId ?? null;
+  if (clickupListId !== undefined && typeof clickupListId === "string" && clickupListId.trim()) {
+    data.clickupListId = clickupListId.trim();
+    // Quando muda a lista, descarta snapshot antigo (tasks são de outra lista)
+    await prisma.projectTaskState.deleteMany({ where: { projectId: id } }).catch(() => {});
+  }
   if (becameDelivered) data.deliveredAt = new Date();
-
-  // Penalidade por empurrar dueDate vencido
-  const isPushingPastDue = dueDate !== undefined && existing.dueDate && existing.dueDate < new Date();
 
   const project = await prisma.setorClickupList.update({
     where: { id },
@@ -116,22 +118,10 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     }
   }
 
-  // Empurrou dueDate vencido — penaliza membros (cada empurrada),
-  // EXCETO quando o projeto está em AGUARDANDO_CLIENTE (a culpa não é da equipe).
-  const newStatus = (data.status ?? existing.status) as string;
-  const isWaitingClient = existing.status === "AGUARDANDO_CLIENTE" || newStatus === "AGUARDANDO_CLIENTE";
-  if (isPushingPastDue && existing.setor.companyId && !isWaitingClient) {
-    const members = await prisma.projectMember.findMany({
-      where:  { projectId: id },
-      select: { userId: true },
-    });
-    const recipients = members.length > 0
-      ? members.map((m) => m.userId)
-      : userId ? [userId] : [];
-    for (const uid of recipients) {
-      void addScore(uid, existing.setor.companyId, "PRAZO_PRORROGADO", id).catch(() => {});
-    }
-  }
+  // Nota: NÃO penalizamos mais por empurrar dueDate de projeto. As tarefas
+  // sem prazo / atrasadas no ClickUp já cobrem essa lógica via cron diário,
+  // de forma mais aderente à realidade (a equipe corrige preenchendo o
+  // ClickUp, não importa quantas vezes mexa no dueDate macro do projeto).
 
   return NextResponse.json(project);
 }

@@ -782,6 +782,10 @@ model SetorClickupList {
   taskNoDueDate   Int           @default(0)  // tarefas sem due_date
   lastSyncedAt    DateTime?
 
+  // Acompanhamento de cobrança ao cliente (quando AGUARDANDO_CLIENTE)
+  clientExpectedAt    DateTime?  // próxima vez que se espera retorno
+  clientLastContactAt DateTime?  // última cobrança registrada
+
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
 
@@ -814,15 +818,18 @@ model ProjectTaskState {
   @@index([projectId])
 }
 
-// Log de eventos sobre tarefas — alimenta o histórico no detail do projeto.
+// Log de eventos sobre tarefas e cobranças — alimenta o histórico no detail.
 model ProjectActivity {
-  id        String           @id @default(cuid())
-  projectId String
-  project   SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  type      String           // "TASK_CREATED" | "TASK_UPDATED" | "TASK_COMPLETED"
-  taskName  String
-  taskId    String
-  createdAt DateTime         @default(now())
+  id          String           @id @default(cuid())
+  projectId   String
+  project     SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  type        String           // "TASK_CREATED" | "TASK_UPDATED" | "TASK_COMPLETED" | "CLIENT_FOLLOWUP"
+  taskName    String           // nome da tarefa (ou "Cobrança ao cliente" pra followup)
+  taskId      String           // ID da task ou string vazia pra followup
+  description String?          @db.Text  // texto livre (mensagem da cobrança, ex)
+  authorId    String?
+  authorName  String?
+  createdAt   DateTime         @default(now())
 
   @@index([projectId, createdAt])
 }
@@ -1363,6 +1370,7 @@ enum ScoreReason {
   TAREFA_CRIADA           // tarefa criada no ClickUp (sync)
   TAREFA_ATUALIZADA       // tarefa atualizada no ClickUp (sync)
   TAREFA_CONCLUIDA        // tarefa concluída no ClickUp (sync)
+  TAREFA_ATRASADA         // tarefa overdue no ClickUp (cron diário)
 }
 
 // Trilha de auditoria de eventos de cobrança — útil pra suporte e debug.

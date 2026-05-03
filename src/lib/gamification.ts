@@ -37,6 +37,7 @@ export const SCORE_TABLE: Record<ScoreReason, number> = {
   PRAZO_PRORROGADO:        -5,   // empurrar prazo depois de vencido (cumulativo)
   PROJETO_ATRASADO:       -30,   // projeto entregue depois do dueDate
   TAREFA_SEM_PRAZO:        -3,   // tarefas no ClickUp sem due_date (cron diário)
+  TAREFA_ATRASADA:         -3,   // tarefas no ClickUp overdue (cron diário)
   TAREFA_CRIADA:            1,   // tarefa criada no ClickUp (sync)
   TAREFA_ATUALIZADA:        1,   // tarefa atualizada no ClickUp (sync)
   TAREFA_CONCLUIDA:         3,   // tarefa concluída no ClickUp (sync)
@@ -574,21 +575,28 @@ export async function syncProjectTasks(
 // ─── runProjectsDailyPenalties ────────────────────────────────────────────────
 
 /**
- * Penalidade diária por projeto que tem tarefas SEM due_date no ClickUp.
+ * Penalidades diárias relacionadas a projetos:
  *
- * Aplica -3 pts pra cada membro do projeto, idempotente por (projeto, dia).
- * Roda como parte do cron daily da gamificação. Para de aplicar quando o
- * pessoal preenche os prazos no ClickUp.
+ *  - TAREFA_SEM_PRAZO (-3): projeto tem tarefas sem due_date no ClickUp.
+ *    Aplica MESMO em AGUARDANDO_CLIENTE — campos vazios geram descuido.
+ *
+ *  - TAREFA_ATRASADA (-3): projeto tem tarefas com dueDate < agora ainda
+ *    abertas no ClickUp. Idem: aplica em AGUARDANDO_CLIENTE também (cliente
+ *    pode estar parado, mas o time precisa atualizar status / cobrar).
+ *
+ * Idempotente por (projeto, dia, razão). ENTREGUE / CANCELADO ficam de fora.
  */
 export async function runProjectsDailyPenalties(companyId: string): Promise<void> {
   const startOfDay = new Date(new Date().setHours(0, 0, 0, 0));
 
   const projects = await prisma.setorClickupList.findMany({
     where: {
-      taskNoDueDate: { gt: 0 },
-      // AGUARDANDO_CLIENTE pausa penalidades (depende do cliente, não da equipe)
-      status: { notIn: ["ENTREGUE", "CANCELADO", "AGUARDANDO_CLIENTE"] },
-      setor: { companyId },
+      status: { notIn: ["ENTREGUE", "CANCELADO"] },
+      setor:  { companyId },
+      OR: [
+        { taskNoDueDate: { gt: 0 } },
+        { taskOverdue:   { gt: 0 } },
+      ],
     },
     include: {
       members: { select: { userId: true } },
@@ -598,19 +606,24 @@ export async function runProjectsDailyPenalties(companyId: string): Promise<void
   for (const proj of projects) {
     if (proj.members.length === 0) continue; // sem ninguém pra penalizar
 
-    for (const m of proj.members) {
-      const alreadyToday = await prisma.scoreEvent.findFirst({
-        where: {
-          userId:      m.userId,
-          companyId,
-          reason:      ScoreReason.TAREFA_SEM_PRAZO,
-          referenceId: proj.id,
-          createdAt:   { gte: startOfDay },
-        },
-      });
-      if (alreadyToday) continue;
+    const reasons: ScoreReason[] = [];
+    if (proj.taskNoDueDate > 0) reasons.push(ScoreReason.TAREFA_SEM_PRAZO);
+    if (proj.taskOverdue > 0)   reasons.push(ScoreReason.TAREFA_ATRASADA);
 
-      await addScore(m.userId, companyId, ScoreReason.TAREFA_SEM_PRAZO, proj.id);
+    for (const m of proj.members) {
+      for (const reason of reasons) {
+        const alreadyToday = await prisma.scoreEvent.findFirst({
+          where: {
+            userId:      m.userId,
+            companyId,
+            reason,
+            referenceId: proj.id,
+            createdAt:   { gte: startOfDay },
+          },
+        });
+        if (alreadyToday) continue;
+        await addScore(m.userId, companyId, reason, proj.id);
+      }
     }
   }
 }

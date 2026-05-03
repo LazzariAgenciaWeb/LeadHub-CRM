@@ -365,6 +365,7 @@ export const REASON_LABEL: Record<ScoreReason, { text: string; positive: boolean
   PRAZO_PRORROGADO:       { text: "Prazo prorrogado depois de vencido", positive: false },
   PROJETO_ATRASADO:       { text: "Projeto entregue com atraso",      positive: false },
   TAREFA_SEM_PRAZO:       { text: "Tarefa do projeto sem data no ClickUp", positive: false },
+  TAREFA_ATRASADA:        { text: "Tarefa atrasada no ClickUp",       positive: false },
   TAREFA_CRIADA:          { text: "Tarefa criada no ClickUp",         positive: true  },
   TAREFA_ATUALIZADA:      { text: "Tarefa atualizada no ClickUp",     positive: true  },
   TAREFA_CONCLUIDA:       { text: "Tarefa concluída no ClickUp",      positive: true  },

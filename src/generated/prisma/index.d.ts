@@ -506,7 +506,8 @@ export const ScoreReason: {
   TAREFA_SEM_PRAZO: 'TAREFA_SEM_PRAZO',
   TAREFA_CRIADA: 'TAREFA_CRIADA',
   TAREFA_ATUALIZADA: 'TAREFA_ATUALIZADA',
-  TAREFA_CONCLUIDA: 'TAREFA_CONCLUIDA'
+  TAREFA_CONCLUIDA: 'TAREFA_CONCLUIDA',
+  TAREFA_ATRASADA: 'TAREFA_ATRASADA'
 };
 
 export type ScoreReason = (typeof ScoreReason)[keyof typeof ScoreReason]
@@ -30364,6 +30365,8 @@ export namespace Prisma {
     taskOverdue: number | null
     taskNoDueDate: number | null
     lastSyncedAt: Date | null
+    clientExpectedAt: Date | null
+    clientLastContactAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -30385,6 +30388,8 @@ export namespace Prisma {
     taskOverdue: number | null
     taskNoDueDate: number | null
     lastSyncedAt: Date | null
+    clientExpectedAt: Date | null
+    clientLastContactAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -30406,6 +30411,8 @@ export namespace Prisma {
     taskOverdue: number
     taskNoDueDate: number
     lastSyncedAt: number
+    clientExpectedAt: number
+    clientLastContactAt: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -30443,6 +30450,8 @@ export namespace Prisma {
     taskOverdue?: true
     taskNoDueDate?: true
     lastSyncedAt?: true
+    clientExpectedAt?: true
+    clientLastContactAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -30464,6 +30473,8 @@ export namespace Prisma {
     taskOverdue?: true
     taskNoDueDate?: true
     lastSyncedAt?: true
+    clientExpectedAt?: true
+    clientLastContactAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -30485,6 +30496,8 @@ export namespace Prisma {
     taskOverdue?: true
     taskNoDueDate?: true
     lastSyncedAt?: true
+    clientExpectedAt?: true
+    clientLastContactAt?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -30593,6 +30606,8 @@ export namespace Prisma {
     taskOverdue: number
     taskNoDueDate: number
     lastSyncedAt: Date | null
+    clientExpectedAt: Date | null
+    clientLastContactAt: Date | null
     createdAt: Date
     updatedAt: Date
     _count: SetorClickupListCountAggregateOutputType | null
@@ -30633,6 +30648,8 @@ export namespace Prisma {
     taskOverdue?: boolean
     taskNoDueDate?: boolean
     lastSyncedAt?: boolean
+    clientExpectedAt?: boolean
+    clientLastContactAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     setor?: boolean | SetorDefaultArgs<ExtArgs>
@@ -30660,6 +30677,8 @@ export namespace Prisma {
     taskOverdue?: boolean
     taskNoDueDate?: boolean
     lastSyncedAt?: boolean
+    clientExpectedAt?: boolean
+    clientLastContactAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     setor?: boolean | SetorDefaultArgs<ExtArgs>
@@ -30683,6 +30702,8 @@ export namespace Prisma {
     taskOverdue?: boolean
     taskNoDueDate?: boolean
     lastSyncedAt?: boolean
+    clientExpectedAt?: boolean
+    clientLastContactAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -30726,6 +30747,8 @@ export namespace Prisma {
       taskOverdue: number
       taskNoDueDate: number
       lastSyncedAt: Date | null
+      clientExpectedAt: Date | null
+      clientLastContactAt: Date | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["setorClickupList"]>
@@ -31142,6 +31165,8 @@ export namespace Prisma {
     readonly taskOverdue: FieldRef<"SetorClickupList", 'Int'>
     readonly taskNoDueDate: FieldRef<"SetorClickupList", 'Int'>
     readonly lastSyncedAt: FieldRef<"SetorClickupList", 'DateTime'>
+    readonly clientExpectedAt: FieldRef<"SetorClickupList", 'DateTime'>
+    readonly clientLastContactAt: FieldRef<"SetorClickupList", 'DateTime'>
     readonly createdAt: FieldRef<"SetorClickupList", 'DateTime'>
     readonly updatedAt: FieldRef<"SetorClickupList", 'DateTime'>
   }
@@ -32582,6 +32607,9 @@ export namespace Prisma {
     type: string | null
     taskName: string | null
     taskId: string | null
+    description: string | null
+    authorId: string | null
+    authorName: string | null
     createdAt: Date | null
   }
 
@@ -32591,6 +32619,9 @@ export namespace Prisma {
     type: string | null
     taskName: string | null
     taskId: string | null
+    description: string | null
+    authorId: string | null
+    authorName: string | null
     createdAt: Date | null
   }
 
@@ -32600,6 +32631,9 @@ export namespace Prisma {
     type: number
     taskName: number
     taskId: number
+    description: number
+    authorId: number
+    authorName: number
     createdAt: number
     _all: number
   }
@@ -32611,6 +32645,9 @@ export namespace Prisma {
     type?: true
     taskName?: true
     taskId?: true
+    description?: true
+    authorId?: true
+    authorName?: true
     createdAt?: true
   }
 
@@ -32620,6 +32657,9 @@ export namespace Prisma {
     type?: true
     taskName?: true
     taskId?: true
+    description?: true
+    authorId?: true
+    authorName?: true
     createdAt?: true
   }
 
@@ -32629,6 +32669,9 @@ export namespace Prisma {
     type?: true
     taskName?: true
     taskId?: true
+    description?: true
+    authorId?: true
+    authorName?: true
     createdAt?: true
     _all?: true
   }
@@ -32711,6 +32754,9 @@ export namespace Prisma {
     type: string
     taskName: string
     taskId: string
+    description: string | null
+    authorId: string | null
+    authorName: string | null
     createdAt: Date
     _count: ProjectActivityCountAggregateOutputType | null
     _min: ProjectActivityMinAggregateOutputType | null
@@ -32737,6 +32783,9 @@ export namespace Prisma {
     type?: boolean
     taskName?: boolean
     taskId?: boolean
+    description?: boolean
+    authorId?: boolean
+    authorName?: boolean
     createdAt?: boolean
     project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["projectActivity"]>
@@ -32747,6 +32796,9 @@ export namespace Prisma {
     type?: boolean
     taskName?: boolean
     taskId?: boolean
+    description?: boolean
+    authorId?: boolean
+    authorName?: boolean
     createdAt?: boolean
     project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["projectActivity"]>
@@ -32757,6 +32809,9 @@ export namespace Prisma {
     type?: boolean
     taskName?: boolean
     taskId?: boolean
+    description?: boolean
+    authorId?: boolean
+    authorName?: boolean
     createdAt?: boolean
   }
 
@@ -32778,6 +32833,9 @@ export namespace Prisma {
       type: string
       taskName: string
       taskId: string
+      description: string | null
+      authorId: string | null
+      authorName: string | null
       createdAt: Date
     }, ExtArgs["result"]["projectActivity"]>
     composites: {}
@@ -33178,6 +33236,9 @@ export namespace Prisma {
     readonly type: FieldRef<"ProjectActivity", 'String'>
     readonly taskName: FieldRef<"ProjectActivity", 'String'>
     readonly taskId: FieldRef<"ProjectActivity", 'String'>
+    readonly description: FieldRef<"ProjectActivity", 'String'>
+    readonly authorId: FieldRef<"ProjectActivity", 'String'>
+    readonly authorName: FieldRef<"ProjectActivity", 'String'>
     readonly createdAt: FieldRef<"ProjectActivity", 'DateTime'>
   }
     
@@ -54200,6 +54261,8 @@ export namespace Prisma {
     taskOverdue: 'taskOverdue',
     taskNoDueDate: 'taskNoDueDate',
     lastSyncedAt: 'lastSyncedAt',
+    clientExpectedAt: 'clientExpectedAt',
+    clientLastContactAt: 'clientLastContactAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -54228,6 +54291,9 @@ export namespace Prisma {
     type: 'type',
     taskName: 'taskName',
     taskId: 'taskId',
+    description: 'description',
+    authorId: 'authorId',
+    authorName: 'authorName',
     createdAt: 'createdAt'
   };
 
@@ -57178,6 +57244,8 @@ export namespace Prisma {
     taskOverdue?: IntFilter<"SetorClickupList"> | number
     taskNoDueDate?: IntFilter<"SetorClickupList"> | number
     lastSyncedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
+    clientExpectedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
+    clientLastContactAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     createdAt?: DateTimeFilter<"SetorClickupList"> | Date | string
     updatedAt?: DateTimeFilter<"SetorClickupList"> | Date | string
     setor?: XOR<SetorRelationFilter, SetorWhereInput>
@@ -57204,6 +57272,8 @@ export namespace Prisma {
     taskOverdue?: SortOrder
     taskNoDueDate?: SortOrder
     lastSyncedAt?: SortOrderInput | SortOrder
+    clientExpectedAt?: SortOrderInput | SortOrder
+    clientLastContactAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     setor?: SetorOrderByWithRelationInput
@@ -57234,6 +57304,8 @@ export namespace Prisma {
     taskOverdue?: IntFilter<"SetorClickupList"> | number
     taskNoDueDate?: IntFilter<"SetorClickupList"> | number
     lastSyncedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
+    clientExpectedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
+    clientLastContactAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     createdAt?: DateTimeFilter<"SetorClickupList"> | Date | string
     updatedAt?: DateTimeFilter<"SetorClickupList"> | Date | string
     setor?: XOR<SetorRelationFilter, SetorWhereInput>
@@ -57260,6 +57332,8 @@ export namespace Prisma {
     taskOverdue?: SortOrder
     taskNoDueDate?: SortOrder
     lastSyncedAt?: SortOrderInput | SortOrder
+    clientExpectedAt?: SortOrderInput | SortOrder
+    clientLastContactAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: SetorClickupListCountOrderByAggregateInput
@@ -57289,6 +57363,8 @@ export namespace Prisma {
     taskOverdue?: IntWithAggregatesFilter<"SetorClickupList"> | number
     taskNoDueDate?: IntWithAggregatesFilter<"SetorClickupList"> | number
     lastSyncedAt?: DateTimeNullableWithAggregatesFilter<"SetorClickupList"> | Date | string | null
+    clientExpectedAt?: DateTimeNullableWithAggregatesFilter<"SetorClickupList"> | Date | string | null
+    clientLastContactAt?: DateTimeNullableWithAggregatesFilter<"SetorClickupList"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"SetorClickupList"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"SetorClickupList"> | Date | string
   }
@@ -57380,6 +57456,9 @@ export namespace Prisma {
     type?: StringFilter<"ProjectActivity"> | string
     taskName?: StringFilter<"ProjectActivity"> | string
     taskId?: StringFilter<"ProjectActivity"> | string
+    description?: StringNullableFilter<"ProjectActivity"> | string | null
+    authorId?: StringNullableFilter<"ProjectActivity"> | string | null
+    authorName?: StringNullableFilter<"ProjectActivity"> | string | null
     createdAt?: DateTimeFilter<"ProjectActivity"> | Date | string
     project?: XOR<SetorClickupListRelationFilter, SetorClickupListWhereInput>
   }
@@ -57390,6 +57469,9 @@ export namespace Prisma {
     type?: SortOrder
     taskName?: SortOrder
     taskId?: SortOrder
+    description?: SortOrderInput | SortOrder
+    authorId?: SortOrderInput | SortOrder
+    authorName?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     project?: SetorClickupListOrderByWithRelationInput
   }
@@ -57403,6 +57485,9 @@ export namespace Prisma {
     type?: StringFilter<"ProjectActivity"> | string
     taskName?: StringFilter<"ProjectActivity"> | string
     taskId?: StringFilter<"ProjectActivity"> | string
+    description?: StringNullableFilter<"ProjectActivity"> | string | null
+    authorId?: StringNullableFilter<"ProjectActivity"> | string | null
+    authorName?: StringNullableFilter<"ProjectActivity"> | string | null
     createdAt?: DateTimeFilter<"ProjectActivity"> | Date | string
     project?: XOR<SetorClickupListRelationFilter, SetorClickupListWhereInput>
   }, "id">
@@ -57413,6 +57498,9 @@ export namespace Prisma {
     type?: SortOrder
     taskName?: SortOrder
     taskId?: SortOrder
+    description?: SortOrderInput | SortOrder
+    authorId?: SortOrderInput | SortOrder
+    authorName?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: ProjectActivityCountOrderByAggregateInput
     _max?: ProjectActivityMaxOrderByAggregateInput
@@ -57428,6 +57516,9 @@ export namespace Prisma {
     type?: StringWithAggregatesFilter<"ProjectActivity"> | string
     taskName?: StringWithAggregatesFilter<"ProjectActivity"> | string
     taskId?: StringWithAggregatesFilter<"ProjectActivity"> | string
+    description?: StringNullableWithAggregatesFilter<"ProjectActivity"> | string | null
+    authorId?: StringNullableWithAggregatesFilter<"ProjectActivity"> | string | null
+    authorName?: StringNullableWithAggregatesFilter<"ProjectActivity"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ProjectActivity"> | Date | string
   }
 
@@ -61481,6 +61572,8 @@ export namespace Prisma {
     taskOverdue?: number
     taskNoDueDate?: number
     lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutClickupListsInput
@@ -61507,6 +61600,8 @@ export namespace Prisma {
     taskOverdue?: number
     taskNoDueDate?: number
     lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
@@ -61529,6 +61624,8 @@ export namespace Prisma {
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
@@ -61555,6 +61652,8 @@ export namespace Prisma {
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
@@ -61579,6 +61678,8 @@ export namespace Prisma {
     taskOverdue?: number
     taskNoDueDate?: number
     lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -61598,6 +61699,8 @@ export namespace Prisma {
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -61619,6 +61722,8 @@ export namespace Prisma {
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -61711,6 +61816,9 @@ export namespace Prisma {
     type: string
     taskName: string
     taskId: string
+    description?: string | null
+    authorId?: string | null
+    authorName?: string | null
     createdAt?: Date | string
     project: SetorClickupListCreateNestedOneWithoutActivitiesInput
   }
@@ -61721,6 +61829,9 @@ export namespace Prisma {
     type: string
     taskName: string
     taskId: string
+    description?: string | null
+    authorId?: string | null
+    authorName?: string | null
     createdAt?: Date | string
   }
 
@@ -61729,6 +61840,9 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     taskName?: StringFieldUpdateOperationsInput | string
     taskId?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: SetorClickupListUpdateOneRequiredWithoutActivitiesNestedInput
   }
@@ -61739,6 +61853,9 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     taskName?: StringFieldUpdateOperationsInput | string
     taskId?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -61748,6 +61865,9 @@ export namespace Prisma {
     type: string
     taskName: string
     taskId: string
+    description?: string | null
+    authorId?: string | null
+    authorName?: string | null
     createdAt?: Date | string
   }
 
@@ -61756,6 +61876,9 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     taskName?: StringFieldUpdateOperationsInput | string
     taskId?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -61765,6 +61888,9 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     taskName?: StringFieldUpdateOperationsInput | string
     taskId?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -65558,6 +65684,8 @@ export namespace Prisma {
     taskOverdue?: SortOrder
     taskNoDueDate?: SortOrder
     lastSyncedAt?: SortOrder
+    clientExpectedAt?: SortOrder
+    clientLastContactAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -65586,6 +65714,8 @@ export namespace Prisma {
     taskOverdue?: SortOrder
     taskNoDueDate?: SortOrder
     lastSyncedAt?: SortOrder
+    clientExpectedAt?: SortOrder
+    clientLastContactAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -65607,6 +65737,8 @@ export namespace Prisma {
     taskOverdue?: SortOrder
     taskNoDueDate?: SortOrder
     lastSyncedAt?: SortOrder
+    clientExpectedAt?: SortOrder
+    clientLastContactAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -65715,6 +65847,9 @@ export namespace Prisma {
     type?: SortOrder
     taskName?: SortOrder
     taskId?: SortOrder
+    description?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -65724,6 +65859,9 @@ export namespace Prisma {
     type?: SortOrder
     taskName?: SortOrder
     taskId?: SortOrder
+    description?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -65733,6 +65871,9 @@ export namespace Prisma {
     type?: SortOrder
     taskName?: SortOrder
     taskId?: SortOrder
+    description?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -73535,6 +73676,8 @@ export namespace Prisma {
     taskOverdue?: number
     taskNoDueDate?: number
     lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutClickupListsInput
@@ -73559,6 +73702,8 @@ export namespace Prisma {
     taskOverdue?: number
     taskNoDueDate?: number
     lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
@@ -74893,6 +75038,8 @@ export namespace Prisma {
     taskOverdue?: IntFilter<"SetorClickupList"> | number
     taskNoDueDate?: IntFilter<"SetorClickupList"> | number
     lastSyncedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
+    clientExpectedAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
+    clientLastContactAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     createdAt?: DateTimeFilter<"SetorClickupList"> | Date | string
     updatedAt?: DateTimeFilter<"SetorClickupList"> | Date | string
   }
@@ -82009,6 +82156,8 @@ export namespace Prisma {
     taskOverdue?: number
     taskNoDueDate?: number
     lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     clientCompany?: CompanyCreateNestedOneWithoutSetorClickupListsAsClientInput
@@ -82033,6 +82182,8 @@ export namespace Prisma {
     taskOverdue?: number
     taskNoDueDate?: number
     lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
@@ -82468,6 +82619,9 @@ export namespace Prisma {
     type: string
     taskName: string
     taskId: string
+    description?: string | null
+    authorId?: string | null
+    authorName?: string | null
     createdAt?: Date | string
   }
 
@@ -82476,6 +82630,9 @@ export namespace Prisma {
     type: string
     taskName: string
     taskId: string
+    description?: string | null
+    authorId?: string | null
+    authorName?: string | null
     createdAt?: Date | string
   }
 
@@ -82735,6 +82892,9 @@ export namespace Prisma {
     type?: StringFilter<"ProjectActivity"> | string
     taskName?: StringFilter<"ProjectActivity"> | string
     taskId?: StringFilter<"ProjectActivity"> | string
+    description?: StringNullableFilter<"ProjectActivity"> | string | null
+    authorId?: StringNullableFilter<"ProjectActivity"> | string | null
+    authorName?: StringNullableFilter<"ProjectActivity"> | string | null
     createdAt?: DateTimeFilter<"ProjectActivity"> | Date | string
   }
 
@@ -82753,6 +82913,8 @@ export namespace Prisma {
     taskOverdue?: number
     taskNoDueDate?: number
     lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutClickupListsInput
@@ -82778,6 +82940,8 @@ export namespace Prisma {
     taskOverdue?: number
     taskNoDueDate?: number
     lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
@@ -82815,6 +82979,8 @@ export namespace Prisma {
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
@@ -82840,6 +83006,8 @@ export namespace Prisma {
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
@@ -82861,6 +83029,8 @@ export namespace Prisma {
     taskOverdue?: number
     taskNoDueDate?: number
     lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutClickupListsInput
@@ -82886,6 +83056,8 @@ export namespace Prisma {
     taskOverdue?: number
     taskNoDueDate?: number
     lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
@@ -82923,6 +83095,8 @@ export namespace Prisma {
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
@@ -82948,6 +83122,8 @@ export namespace Prisma {
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
@@ -82969,6 +83145,8 @@ export namespace Prisma {
     taskOverdue?: number
     taskNoDueDate?: number
     lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutClickupListsInput
@@ -82994,6 +83172,8 @@ export namespace Prisma {
     taskOverdue?: number
     taskNoDueDate?: number
     lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     taskStates?: ProjectTaskStateUncheckedCreateNestedManyWithoutProjectInput
@@ -83084,6 +83264,8 @@ export namespace Prisma {
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
@@ -83109,6 +83291,8 @@ export namespace Prisma {
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     taskStates?: ProjectTaskStateUncheckedUpdateManyWithoutProjectNestedInput
@@ -88370,6 +88554,8 @@ export namespace Prisma {
     taskOverdue?: number
     taskNoDueDate?: number
     lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -89029,6 +89215,8 @@ export namespace Prisma {
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
@@ -89053,6 +89241,8 @@ export namespace Prisma {
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
@@ -89076,6 +89266,8 @@ export namespace Prisma {
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -91294,6 +91486,8 @@ export namespace Prisma {
     taskOverdue?: number
     taskNoDueDate?: number
     lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -91472,6 +91666,8 @@ export namespace Prisma {
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientCompany?: CompanyUpdateOneWithoutSetorClickupListsAsClientNestedInput
@@ -91496,6 +91692,8 @@ export namespace Prisma {
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
@@ -91519,6 +91717,8 @@ export namespace Prisma {
     taskOverdue?: IntFieldUpdateOperationsInput | number
     taskNoDueDate?: IntFieldUpdateOperationsInput | number
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -91545,6 +91745,9 @@ export namespace Prisma {
     type: string
     taskName: string
     taskId: string
+    description?: string | null
+    authorId?: string | null
+    authorName?: string | null
     createdAt?: Date | string
   }
 
@@ -91604,6 +91807,9 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     taskName?: StringFieldUpdateOperationsInput | string
     taskId?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -91612,6 +91818,9 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     taskName?: StringFieldUpdateOperationsInput | string
     taskId?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -91620,6 +91829,9 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     taskName?: StringFieldUpdateOperationsInput | string
     taskId?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

@@ -26,6 +26,7 @@ const ALL_REASONS: ScoreReason[] = [
   "PRAZO_PRORROGADO",
   "PROJETO_ATRASADO",
   "TAREFA_SEM_PRAZO",
+  "TAREFA_ATRASADA",
 ];
 
 type RuleInput = {

@@ -385,7 +385,7 @@ export default async function ConfiguracoesPage({
       "PROJETO_ENTREGUE", "PROJETO_ENTREGUE_NO_PRAZO",
       "TAREFA_CRIADA", "TAREFA_ATUALIZADA", "TAREFA_CONCLUIDA",
       "SLA_VENCIDO", "CONVERSA_SEM_RESPOSTA", "PRAZO_PRORROGADO",
-      "PROJETO_ATRASADO", "TAREFA_SEM_PRAZO",
+      "PROJETO_ATRASADO", "TAREFA_SEM_PRAZO", "TAREFA_ATRASADA",
     ];
     const [configs, users] = cId ? await Promise.all([
       prisma.scoreRuleConfig.findMany({ where: { companyId: cId } }),
