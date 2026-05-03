@@ -209,6 +209,11 @@ export type UserBadge = $Result.DefaultSelection<Prisma.$UserBadgePayload>
  */
 export type ScoreEvent = $Result.DefaultSelection<Prisma.$ScoreEventPayload>
 /**
+ * Model ScoreRuleConfig
+ * 
+ */
+export type ScoreRuleConfig = $Result.DefaultSelection<Prisma.$ScoreRuleConfigPayload>
+/**
  * Model BillingEvent
  * 
  */
@@ -225,6 +230,14 @@ export namespace $Enums {
 };
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+
+
+export const RankingCategory: {
+  PRODUCAO: 'PRODUCAO',
+  GESTAO: 'GESTAO'
+};
+
+export type RankingCategory = (typeof RankingCategory)[keyof typeof RankingCategory]
 
 
 export const CompanyStatus: {
@@ -460,6 +473,10 @@ export type ScoreReason = (typeof ScoreReason)[keyof typeof ScoreReason]
 export type UserRole = $Enums.UserRole
 
 export const UserRole: typeof $Enums.UserRole
+
+export type RankingCategory = $Enums.RankingCategory
+
+export const RankingCategory: typeof $Enums.RankingCategory
 
 export type CompanyStatus = $Enums.CompanyStatus
 
@@ -1051,6 +1068,16 @@ export class PrismaClient<
   get scoreEvent(): Prisma.ScoreEventDelegate<ExtArgs>;
 
   /**
+   * `prisma.scoreRuleConfig`: Exposes CRUD operations for the **ScoreRuleConfig** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ScoreRuleConfigs
+    * const scoreRuleConfigs = await prisma.scoreRuleConfig.findMany()
+    * ```
+    */
+  get scoreRuleConfig(): Prisma.ScoreRuleConfigDelegate<ExtArgs>;
+
+  /**
    * `prisma.billingEvent`: Exposes CRUD operations for the **BillingEvent** model.
     * Example usage:
     * ```ts
@@ -1539,6 +1566,7 @@ export namespace Prisma {
     UserScore: 'UserScore',
     UserBadge: 'UserBadge',
     ScoreEvent: 'ScoreEvent',
+    ScoreRuleConfig: 'ScoreRuleConfig',
     BillingEvent: 'BillingEvent'
   };
 
@@ -1555,7 +1583,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "userScore" | "userBadge" | "scoreEvent" | "billingEvent"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "billingEvent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4289,6 +4317,76 @@ export namespace Prisma {
           }
         }
       }
+      ScoreRuleConfig: {
+        payload: Prisma.$ScoreRuleConfigPayload<ExtArgs>
+        fields: Prisma.ScoreRuleConfigFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ScoreRuleConfigFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScoreRuleConfigPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ScoreRuleConfigFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScoreRuleConfigPayload>
+          }
+          findFirst: {
+            args: Prisma.ScoreRuleConfigFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScoreRuleConfigPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ScoreRuleConfigFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScoreRuleConfigPayload>
+          }
+          findMany: {
+            args: Prisma.ScoreRuleConfigFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScoreRuleConfigPayload>[]
+          }
+          create: {
+            args: Prisma.ScoreRuleConfigCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScoreRuleConfigPayload>
+          }
+          createMany: {
+            args: Prisma.ScoreRuleConfigCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ScoreRuleConfigCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScoreRuleConfigPayload>[]
+          }
+          delete: {
+            args: Prisma.ScoreRuleConfigDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScoreRuleConfigPayload>
+          }
+          update: {
+            args: Prisma.ScoreRuleConfigUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScoreRuleConfigPayload>
+          }
+          deleteMany: {
+            args: Prisma.ScoreRuleConfigDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ScoreRuleConfigUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ScoreRuleConfigUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScoreRuleConfigPayload>
+          }
+          aggregate: {
+            args: Prisma.ScoreRuleConfigAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateScoreRuleConfig>
+          }
+          groupBy: {
+            args: Prisma.ScoreRuleConfigGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ScoreRuleConfigGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ScoreRuleConfigCountArgs<ExtArgs>
+            result: $Utils.Optional<ScoreRuleConfigCountAggregateOutputType> | number
+          }
+        }
+      }
       BillingEvent: {
         payload: Prisma.$BillingEventPayload<ExtArgs>
         fields: Prisma.BillingEventFieldRefs
@@ -4637,6 +4735,7 @@ export namespace Prisma {
     userScores: number
     userBadges: number
     scoreEvents: number
+    scoreRuleConfigs: number
     businessHours: number
     campaigns: number
     leads: number
@@ -4668,6 +4767,7 @@ export namespace Prisma {
     userScores?: boolean | CompanyCountOutputTypeCountUserScoresArgs
     userBadges?: boolean | CompanyCountOutputTypeCountUserBadgesArgs
     scoreEvents?: boolean | CompanyCountOutputTypeCountScoreEventsArgs
+    scoreRuleConfigs?: boolean | CompanyCountOutputTypeCountScoreRuleConfigsArgs
     businessHours?: boolean | CompanyCountOutputTypeCountBusinessHoursArgs
     campaigns?: boolean | CompanyCountOutputTypeCountCampaignsArgs
     leads?: boolean | CompanyCountOutputTypeCountLeadsArgs
@@ -4737,6 +4837,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountScoreEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ScoreEventWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountScoreRuleConfigsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScoreRuleConfigWhereInput
   }
 
   /**
@@ -5361,6 +5468,7 @@ export namespace Prisma {
     updatedAt: Date | null
     whatsappSignature: string | null
     companyId: string | null
+    rankingCategory: $Enums.RankingCategory | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -5373,6 +5481,7 @@ export namespace Prisma {
     updatedAt: Date | null
     whatsappSignature: string | null
     companyId: string | null
+    rankingCategory: $Enums.RankingCategory | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -5385,6 +5494,7 @@ export namespace Prisma {
     updatedAt: number
     whatsappSignature: number
     companyId: number
+    rankingCategory: number
     _all: number
   }
 
@@ -5399,6 +5509,7 @@ export namespace Prisma {
     updatedAt?: true
     whatsappSignature?: true
     companyId?: true
+    rankingCategory?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -5411,6 +5522,7 @@ export namespace Prisma {
     updatedAt?: true
     whatsappSignature?: true
     companyId?: true
+    rankingCategory?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -5423,6 +5535,7 @@ export namespace Prisma {
     updatedAt?: true
     whatsappSignature?: true
     companyId?: true
+    rankingCategory?: true
     _all?: true
   }
 
@@ -5508,6 +5621,7 @@ export namespace Prisma {
     updatedAt: Date
     whatsappSignature: string | null
     companyId: string | null
+    rankingCategory: $Enums.RankingCategory
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -5537,6 +5651,7 @@ export namespace Prisma {
     updatedAt?: boolean
     whatsappSignature?: boolean
     companyId?: boolean
+    rankingCategory?: boolean
     company?: boolean | User$companyArgs<ExtArgs>
     ticketsCreated?: boolean | User$ticketsCreatedArgs<ExtArgs>
     ticketsAssigned?: boolean | User$ticketsAssignedArgs<ExtArgs>
@@ -5562,6 +5677,7 @@ export namespace Prisma {
     updatedAt?: boolean
     whatsappSignature?: boolean
     companyId?: boolean
+    rankingCategory?: boolean
     company?: boolean | User$companyArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -5575,6 +5691,7 @@ export namespace Prisma {
     updatedAt?: boolean
     whatsappSignature?: boolean
     companyId?: boolean
+    rankingCategory?: boolean
   }
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5622,6 +5739,7 @@ export namespace Prisma {
       updatedAt: Date
       whatsappSignature: string | null
       companyId: string | null
+      rankingCategory: $Enums.RankingCategory
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -6036,6 +6154,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly whatsappSignature: FieldRef<"User", 'String'>
     readonly companyId: FieldRef<"User", 'String'>
+    readonly rankingCategory: FieldRef<"User", 'RankingCategory'>
   }
     
 
@@ -9849,6 +9968,7 @@ export namespace Prisma {
     userScores?: boolean | Company$userScoresArgs<ExtArgs>
     userBadges?: boolean | Company$userBadgesArgs<ExtArgs>
     scoreEvents?: boolean | Company$scoreEventsArgs<ExtArgs>
+    scoreRuleConfigs?: boolean | Company$scoreRuleConfigsArgs<ExtArgs>
     businessHours?: boolean | Company$businessHoursArgs<ExtArgs>
     campaigns?: boolean | Company$campaignsArgs<ExtArgs>
     leads?: boolean | Company$leadsArgs<ExtArgs>
@@ -9930,6 +10050,7 @@ export namespace Prisma {
     userScores?: boolean | Company$userScoresArgs<ExtArgs>
     userBadges?: boolean | Company$userBadgesArgs<ExtArgs>
     scoreEvents?: boolean | Company$scoreEventsArgs<ExtArgs>
+    scoreRuleConfigs?: boolean | Company$scoreRuleConfigsArgs<ExtArgs>
     businessHours?: boolean | Company$businessHoursArgs<ExtArgs>
     campaigns?: boolean | Company$campaignsArgs<ExtArgs>
     leads?: boolean | Company$leadsArgs<ExtArgs>
@@ -9969,6 +10090,7 @@ export namespace Prisma {
       userScores: Prisma.$UserScorePayload<ExtArgs>[]
       userBadges: Prisma.$UserBadgePayload<ExtArgs>[]
       scoreEvents: Prisma.$ScoreEventPayload<ExtArgs>[]
+      scoreRuleConfigs: Prisma.$ScoreRuleConfigPayload<ExtArgs>[]
       businessHours: Prisma.$BusinessHoursConfigPayload<ExtArgs>[]
       campaigns: Prisma.$CampaignPayload<ExtArgs>[]
       leads: Prisma.$LeadPayload<ExtArgs>[]
@@ -10385,6 +10507,7 @@ export namespace Prisma {
     userScores<T extends Company$userScoresArgs<ExtArgs> = {}>(args?: Subset<T, Company$userScoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "findMany"> | Null>
     userBadges<T extends Company$userBadgesArgs<ExtArgs> = {}>(args?: Subset<T, Company$userBadgesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserBadgePayload<ExtArgs>, T, "findMany"> | Null>
     scoreEvents<T extends Company$scoreEventsArgs<ExtArgs> = {}>(args?: Subset<T, Company$scoreEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScoreEventPayload<ExtArgs>, T, "findMany"> | Null>
+    scoreRuleConfigs<T extends Company$scoreRuleConfigsArgs<ExtArgs> = {}>(args?: Subset<T, Company$scoreRuleConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScoreRuleConfigPayload<ExtArgs>, T, "findMany"> | Null>
     businessHours<T extends Company$businessHoursArgs<ExtArgs> = {}>(args?: Subset<T, Company$businessHoursArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BusinessHoursConfigPayload<ExtArgs>, T, "findMany"> | Null>
     campaigns<T extends Company$campaignsArgs<ExtArgs> = {}>(args?: Subset<T, Company$campaignsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findMany"> | Null>
     leads<T extends Company$leadsArgs<ExtArgs> = {}>(args?: Subset<T, Company$leadsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findMany"> | Null>
@@ -10888,6 +11011,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ScoreEventScalarFieldEnum | ScoreEventScalarFieldEnum[]
+  }
+
+  /**
+   * Company.scoreRuleConfigs
+   */
+  export type Company$scoreRuleConfigsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreRuleConfig
+     */
+    select?: ScoreRuleConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreRuleConfigInclude<ExtArgs> | null
+    where?: ScoreRuleConfigWhereInput
+    orderBy?: ScoreRuleConfigOrderByWithRelationInput | ScoreRuleConfigOrderByWithRelationInput[]
+    cursor?: ScoreRuleConfigWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScoreRuleConfigScalarFieldEnum | ScoreRuleConfigScalarFieldEnum[]
   }
 
   /**
@@ -47020,6 +47163,997 @@ export namespace Prisma {
 
 
   /**
+   * Model ScoreRuleConfig
+   */
+
+  export type AggregateScoreRuleConfig = {
+    _count: ScoreRuleConfigCountAggregateOutputType | null
+    _avg: ScoreRuleConfigAvgAggregateOutputType | null
+    _sum: ScoreRuleConfigSumAggregateOutputType | null
+    _min: ScoreRuleConfigMinAggregateOutputType | null
+    _max: ScoreRuleConfigMaxAggregateOutputType | null
+  }
+
+  export type ScoreRuleConfigAvgAggregateOutputType = {
+    points: number | null
+  }
+
+  export type ScoreRuleConfigSumAggregateOutputType = {
+    points: number | null
+  }
+
+  export type ScoreRuleConfigMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    reason: $Enums.ScoreReason | null
+    enabled: boolean | null
+    points: number | null
+    affectsRanking: boolean | null
+    updatedAt: Date | null
+  }
+
+  export type ScoreRuleConfigMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    reason: $Enums.ScoreReason | null
+    enabled: boolean | null
+    points: number | null
+    affectsRanking: boolean | null
+    updatedAt: Date | null
+  }
+
+  export type ScoreRuleConfigCountAggregateOutputType = {
+    id: number
+    companyId: number
+    reason: number
+    enabled: number
+    points: number
+    affectsRanking: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ScoreRuleConfigAvgAggregateInputType = {
+    points?: true
+  }
+
+  export type ScoreRuleConfigSumAggregateInputType = {
+    points?: true
+  }
+
+  export type ScoreRuleConfigMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    reason?: true
+    enabled?: true
+    points?: true
+    affectsRanking?: true
+    updatedAt?: true
+  }
+
+  export type ScoreRuleConfigMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    reason?: true
+    enabled?: true
+    points?: true
+    affectsRanking?: true
+    updatedAt?: true
+  }
+
+  export type ScoreRuleConfigCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    reason?: true
+    enabled?: true
+    points?: true
+    affectsRanking?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ScoreRuleConfigAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScoreRuleConfig to aggregate.
+     */
+    where?: ScoreRuleConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScoreRuleConfigs to fetch.
+     */
+    orderBy?: ScoreRuleConfigOrderByWithRelationInput | ScoreRuleConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ScoreRuleConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScoreRuleConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScoreRuleConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ScoreRuleConfigs
+    **/
+    _count?: true | ScoreRuleConfigCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ScoreRuleConfigAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ScoreRuleConfigSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ScoreRuleConfigMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ScoreRuleConfigMaxAggregateInputType
+  }
+
+  export type GetScoreRuleConfigAggregateType<T extends ScoreRuleConfigAggregateArgs> = {
+        [P in keyof T & keyof AggregateScoreRuleConfig]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateScoreRuleConfig[P]>
+      : GetScalarType<T[P], AggregateScoreRuleConfig[P]>
+  }
+
+
+
+
+  export type ScoreRuleConfigGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScoreRuleConfigWhereInput
+    orderBy?: ScoreRuleConfigOrderByWithAggregationInput | ScoreRuleConfigOrderByWithAggregationInput[]
+    by: ScoreRuleConfigScalarFieldEnum[] | ScoreRuleConfigScalarFieldEnum
+    having?: ScoreRuleConfigScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ScoreRuleConfigCountAggregateInputType | true
+    _avg?: ScoreRuleConfigAvgAggregateInputType
+    _sum?: ScoreRuleConfigSumAggregateInputType
+    _min?: ScoreRuleConfigMinAggregateInputType
+    _max?: ScoreRuleConfigMaxAggregateInputType
+  }
+
+  export type ScoreRuleConfigGroupByOutputType = {
+    id: string
+    companyId: string
+    reason: $Enums.ScoreReason
+    enabled: boolean
+    points: number
+    affectsRanking: boolean
+    updatedAt: Date
+    _count: ScoreRuleConfigCountAggregateOutputType | null
+    _avg: ScoreRuleConfigAvgAggregateOutputType | null
+    _sum: ScoreRuleConfigSumAggregateOutputType | null
+    _min: ScoreRuleConfigMinAggregateOutputType | null
+    _max: ScoreRuleConfigMaxAggregateOutputType | null
+  }
+
+  type GetScoreRuleConfigGroupByPayload<T extends ScoreRuleConfigGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ScoreRuleConfigGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ScoreRuleConfigGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ScoreRuleConfigGroupByOutputType[P]>
+            : GetScalarType<T[P], ScoreRuleConfigGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ScoreRuleConfigSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    reason?: boolean
+    enabled?: boolean
+    points?: boolean
+    affectsRanking?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["scoreRuleConfig"]>
+
+  export type ScoreRuleConfigSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    reason?: boolean
+    enabled?: boolean
+    points?: boolean
+    affectsRanking?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["scoreRuleConfig"]>
+
+  export type ScoreRuleConfigSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    reason?: boolean
+    enabled?: boolean
+    points?: boolean
+    affectsRanking?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ScoreRuleConfigInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type ScoreRuleConfigIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $ScoreRuleConfigPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ScoreRuleConfig"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      reason: $Enums.ScoreReason
+      enabled: boolean
+      points: number
+      affectsRanking: boolean
+      updatedAt: Date
+    }, ExtArgs["result"]["scoreRuleConfig"]>
+    composites: {}
+  }
+
+  type ScoreRuleConfigGetPayload<S extends boolean | null | undefined | ScoreRuleConfigDefaultArgs> = $Result.GetResult<Prisma.$ScoreRuleConfigPayload, S>
+
+  type ScoreRuleConfigCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ScoreRuleConfigFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ScoreRuleConfigCountAggregateInputType | true
+    }
+
+  export interface ScoreRuleConfigDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ScoreRuleConfig'], meta: { name: 'ScoreRuleConfig' } }
+    /**
+     * Find zero or one ScoreRuleConfig that matches the filter.
+     * @param {ScoreRuleConfigFindUniqueArgs} args - Arguments to find a ScoreRuleConfig
+     * @example
+     * // Get one ScoreRuleConfig
+     * const scoreRuleConfig = await prisma.scoreRuleConfig.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ScoreRuleConfigFindUniqueArgs>(args: SelectSubset<T, ScoreRuleConfigFindUniqueArgs<ExtArgs>>): Prisma__ScoreRuleConfigClient<$Result.GetResult<Prisma.$ScoreRuleConfigPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ScoreRuleConfig that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ScoreRuleConfigFindUniqueOrThrowArgs} args - Arguments to find a ScoreRuleConfig
+     * @example
+     * // Get one ScoreRuleConfig
+     * const scoreRuleConfig = await prisma.scoreRuleConfig.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ScoreRuleConfigFindUniqueOrThrowArgs>(args: SelectSubset<T, ScoreRuleConfigFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ScoreRuleConfigClient<$Result.GetResult<Prisma.$ScoreRuleConfigPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ScoreRuleConfig that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreRuleConfigFindFirstArgs} args - Arguments to find a ScoreRuleConfig
+     * @example
+     * // Get one ScoreRuleConfig
+     * const scoreRuleConfig = await prisma.scoreRuleConfig.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ScoreRuleConfigFindFirstArgs>(args?: SelectSubset<T, ScoreRuleConfigFindFirstArgs<ExtArgs>>): Prisma__ScoreRuleConfigClient<$Result.GetResult<Prisma.$ScoreRuleConfigPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ScoreRuleConfig that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreRuleConfigFindFirstOrThrowArgs} args - Arguments to find a ScoreRuleConfig
+     * @example
+     * // Get one ScoreRuleConfig
+     * const scoreRuleConfig = await prisma.scoreRuleConfig.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ScoreRuleConfigFindFirstOrThrowArgs>(args?: SelectSubset<T, ScoreRuleConfigFindFirstOrThrowArgs<ExtArgs>>): Prisma__ScoreRuleConfigClient<$Result.GetResult<Prisma.$ScoreRuleConfigPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ScoreRuleConfigs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreRuleConfigFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ScoreRuleConfigs
+     * const scoreRuleConfigs = await prisma.scoreRuleConfig.findMany()
+     * 
+     * // Get first 10 ScoreRuleConfigs
+     * const scoreRuleConfigs = await prisma.scoreRuleConfig.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const scoreRuleConfigWithIdOnly = await prisma.scoreRuleConfig.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ScoreRuleConfigFindManyArgs>(args?: SelectSubset<T, ScoreRuleConfigFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScoreRuleConfigPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ScoreRuleConfig.
+     * @param {ScoreRuleConfigCreateArgs} args - Arguments to create a ScoreRuleConfig.
+     * @example
+     * // Create one ScoreRuleConfig
+     * const ScoreRuleConfig = await prisma.scoreRuleConfig.create({
+     *   data: {
+     *     // ... data to create a ScoreRuleConfig
+     *   }
+     * })
+     * 
+     */
+    create<T extends ScoreRuleConfigCreateArgs>(args: SelectSubset<T, ScoreRuleConfigCreateArgs<ExtArgs>>): Prisma__ScoreRuleConfigClient<$Result.GetResult<Prisma.$ScoreRuleConfigPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ScoreRuleConfigs.
+     * @param {ScoreRuleConfigCreateManyArgs} args - Arguments to create many ScoreRuleConfigs.
+     * @example
+     * // Create many ScoreRuleConfigs
+     * const scoreRuleConfig = await prisma.scoreRuleConfig.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ScoreRuleConfigCreateManyArgs>(args?: SelectSubset<T, ScoreRuleConfigCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ScoreRuleConfigs and returns the data saved in the database.
+     * @param {ScoreRuleConfigCreateManyAndReturnArgs} args - Arguments to create many ScoreRuleConfigs.
+     * @example
+     * // Create many ScoreRuleConfigs
+     * const scoreRuleConfig = await prisma.scoreRuleConfig.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ScoreRuleConfigs and only return the `id`
+     * const scoreRuleConfigWithIdOnly = await prisma.scoreRuleConfig.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ScoreRuleConfigCreateManyAndReturnArgs>(args?: SelectSubset<T, ScoreRuleConfigCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScoreRuleConfigPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ScoreRuleConfig.
+     * @param {ScoreRuleConfigDeleteArgs} args - Arguments to delete one ScoreRuleConfig.
+     * @example
+     * // Delete one ScoreRuleConfig
+     * const ScoreRuleConfig = await prisma.scoreRuleConfig.delete({
+     *   where: {
+     *     // ... filter to delete one ScoreRuleConfig
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ScoreRuleConfigDeleteArgs>(args: SelectSubset<T, ScoreRuleConfigDeleteArgs<ExtArgs>>): Prisma__ScoreRuleConfigClient<$Result.GetResult<Prisma.$ScoreRuleConfigPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ScoreRuleConfig.
+     * @param {ScoreRuleConfigUpdateArgs} args - Arguments to update one ScoreRuleConfig.
+     * @example
+     * // Update one ScoreRuleConfig
+     * const scoreRuleConfig = await prisma.scoreRuleConfig.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ScoreRuleConfigUpdateArgs>(args: SelectSubset<T, ScoreRuleConfigUpdateArgs<ExtArgs>>): Prisma__ScoreRuleConfigClient<$Result.GetResult<Prisma.$ScoreRuleConfigPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ScoreRuleConfigs.
+     * @param {ScoreRuleConfigDeleteManyArgs} args - Arguments to filter ScoreRuleConfigs to delete.
+     * @example
+     * // Delete a few ScoreRuleConfigs
+     * const { count } = await prisma.scoreRuleConfig.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ScoreRuleConfigDeleteManyArgs>(args?: SelectSubset<T, ScoreRuleConfigDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ScoreRuleConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreRuleConfigUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ScoreRuleConfigs
+     * const scoreRuleConfig = await prisma.scoreRuleConfig.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ScoreRuleConfigUpdateManyArgs>(args: SelectSubset<T, ScoreRuleConfigUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ScoreRuleConfig.
+     * @param {ScoreRuleConfigUpsertArgs} args - Arguments to update or create a ScoreRuleConfig.
+     * @example
+     * // Update or create a ScoreRuleConfig
+     * const scoreRuleConfig = await prisma.scoreRuleConfig.upsert({
+     *   create: {
+     *     // ... data to create a ScoreRuleConfig
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ScoreRuleConfig we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ScoreRuleConfigUpsertArgs>(args: SelectSubset<T, ScoreRuleConfigUpsertArgs<ExtArgs>>): Prisma__ScoreRuleConfigClient<$Result.GetResult<Prisma.$ScoreRuleConfigPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ScoreRuleConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreRuleConfigCountArgs} args - Arguments to filter ScoreRuleConfigs to count.
+     * @example
+     * // Count the number of ScoreRuleConfigs
+     * const count = await prisma.scoreRuleConfig.count({
+     *   where: {
+     *     // ... the filter for the ScoreRuleConfigs we want to count
+     *   }
+     * })
+    **/
+    count<T extends ScoreRuleConfigCountArgs>(
+      args?: Subset<T, ScoreRuleConfigCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ScoreRuleConfigCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ScoreRuleConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreRuleConfigAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ScoreRuleConfigAggregateArgs>(args: Subset<T, ScoreRuleConfigAggregateArgs>): Prisma.PrismaPromise<GetScoreRuleConfigAggregateType<T>>
+
+    /**
+     * Group by ScoreRuleConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreRuleConfigGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ScoreRuleConfigGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ScoreRuleConfigGroupByArgs['orderBy'] }
+        : { orderBy?: ScoreRuleConfigGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ScoreRuleConfigGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetScoreRuleConfigGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ScoreRuleConfig model
+   */
+  readonly fields: ScoreRuleConfigFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ScoreRuleConfig.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ScoreRuleConfigClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ScoreRuleConfig model
+   */ 
+  interface ScoreRuleConfigFieldRefs {
+    readonly id: FieldRef<"ScoreRuleConfig", 'String'>
+    readonly companyId: FieldRef<"ScoreRuleConfig", 'String'>
+    readonly reason: FieldRef<"ScoreRuleConfig", 'ScoreReason'>
+    readonly enabled: FieldRef<"ScoreRuleConfig", 'Boolean'>
+    readonly points: FieldRef<"ScoreRuleConfig", 'Int'>
+    readonly affectsRanking: FieldRef<"ScoreRuleConfig", 'Boolean'>
+    readonly updatedAt: FieldRef<"ScoreRuleConfig", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ScoreRuleConfig findUnique
+   */
+  export type ScoreRuleConfigFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreRuleConfig
+     */
+    select?: ScoreRuleConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreRuleConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which ScoreRuleConfig to fetch.
+     */
+    where: ScoreRuleConfigWhereUniqueInput
+  }
+
+  /**
+   * ScoreRuleConfig findUniqueOrThrow
+   */
+  export type ScoreRuleConfigFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreRuleConfig
+     */
+    select?: ScoreRuleConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreRuleConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which ScoreRuleConfig to fetch.
+     */
+    where: ScoreRuleConfigWhereUniqueInput
+  }
+
+  /**
+   * ScoreRuleConfig findFirst
+   */
+  export type ScoreRuleConfigFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreRuleConfig
+     */
+    select?: ScoreRuleConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreRuleConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which ScoreRuleConfig to fetch.
+     */
+    where?: ScoreRuleConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScoreRuleConfigs to fetch.
+     */
+    orderBy?: ScoreRuleConfigOrderByWithRelationInput | ScoreRuleConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScoreRuleConfigs.
+     */
+    cursor?: ScoreRuleConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScoreRuleConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScoreRuleConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScoreRuleConfigs.
+     */
+    distinct?: ScoreRuleConfigScalarFieldEnum | ScoreRuleConfigScalarFieldEnum[]
+  }
+
+  /**
+   * ScoreRuleConfig findFirstOrThrow
+   */
+  export type ScoreRuleConfigFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreRuleConfig
+     */
+    select?: ScoreRuleConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreRuleConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which ScoreRuleConfig to fetch.
+     */
+    where?: ScoreRuleConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScoreRuleConfigs to fetch.
+     */
+    orderBy?: ScoreRuleConfigOrderByWithRelationInput | ScoreRuleConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScoreRuleConfigs.
+     */
+    cursor?: ScoreRuleConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScoreRuleConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScoreRuleConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScoreRuleConfigs.
+     */
+    distinct?: ScoreRuleConfigScalarFieldEnum | ScoreRuleConfigScalarFieldEnum[]
+  }
+
+  /**
+   * ScoreRuleConfig findMany
+   */
+  export type ScoreRuleConfigFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreRuleConfig
+     */
+    select?: ScoreRuleConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreRuleConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which ScoreRuleConfigs to fetch.
+     */
+    where?: ScoreRuleConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScoreRuleConfigs to fetch.
+     */
+    orderBy?: ScoreRuleConfigOrderByWithRelationInput | ScoreRuleConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ScoreRuleConfigs.
+     */
+    cursor?: ScoreRuleConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScoreRuleConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScoreRuleConfigs.
+     */
+    skip?: number
+    distinct?: ScoreRuleConfigScalarFieldEnum | ScoreRuleConfigScalarFieldEnum[]
+  }
+
+  /**
+   * ScoreRuleConfig create
+   */
+  export type ScoreRuleConfigCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreRuleConfig
+     */
+    select?: ScoreRuleConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreRuleConfigInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ScoreRuleConfig.
+     */
+    data: XOR<ScoreRuleConfigCreateInput, ScoreRuleConfigUncheckedCreateInput>
+  }
+
+  /**
+   * ScoreRuleConfig createMany
+   */
+  export type ScoreRuleConfigCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ScoreRuleConfigs.
+     */
+    data: ScoreRuleConfigCreateManyInput | ScoreRuleConfigCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ScoreRuleConfig createManyAndReturn
+   */
+  export type ScoreRuleConfigCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreRuleConfig
+     */
+    select?: ScoreRuleConfigSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ScoreRuleConfigs.
+     */
+    data: ScoreRuleConfigCreateManyInput | ScoreRuleConfigCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreRuleConfigIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ScoreRuleConfig update
+   */
+  export type ScoreRuleConfigUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreRuleConfig
+     */
+    select?: ScoreRuleConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreRuleConfigInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ScoreRuleConfig.
+     */
+    data: XOR<ScoreRuleConfigUpdateInput, ScoreRuleConfigUncheckedUpdateInput>
+    /**
+     * Choose, which ScoreRuleConfig to update.
+     */
+    where: ScoreRuleConfigWhereUniqueInput
+  }
+
+  /**
+   * ScoreRuleConfig updateMany
+   */
+  export type ScoreRuleConfigUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ScoreRuleConfigs.
+     */
+    data: XOR<ScoreRuleConfigUpdateManyMutationInput, ScoreRuleConfigUncheckedUpdateManyInput>
+    /**
+     * Filter which ScoreRuleConfigs to update
+     */
+    where?: ScoreRuleConfigWhereInput
+  }
+
+  /**
+   * ScoreRuleConfig upsert
+   */
+  export type ScoreRuleConfigUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreRuleConfig
+     */
+    select?: ScoreRuleConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreRuleConfigInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ScoreRuleConfig to update in case it exists.
+     */
+    where: ScoreRuleConfigWhereUniqueInput
+    /**
+     * In case the ScoreRuleConfig found by the `where` argument doesn't exist, create a new ScoreRuleConfig with this data.
+     */
+    create: XOR<ScoreRuleConfigCreateInput, ScoreRuleConfigUncheckedCreateInput>
+    /**
+     * In case the ScoreRuleConfig was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ScoreRuleConfigUpdateInput, ScoreRuleConfigUncheckedUpdateInput>
+  }
+
+  /**
+   * ScoreRuleConfig delete
+   */
+  export type ScoreRuleConfigDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreRuleConfig
+     */
+    select?: ScoreRuleConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreRuleConfigInclude<ExtArgs> | null
+    /**
+     * Filter which ScoreRuleConfig to delete.
+     */
+    where: ScoreRuleConfigWhereUniqueInput
+  }
+
+  /**
+   * ScoreRuleConfig deleteMany
+   */
+  export type ScoreRuleConfigDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScoreRuleConfigs to delete
+     */
+    where?: ScoreRuleConfigWhereInput
+  }
+
+  /**
+   * ScoreRuleConfig without action
+   */
+  export type ScoreRuleConfigDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreRuleConfig
+     */
+    select?: ScoreRuleConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreRuleConfigInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model BillingEvent
    */
 
@@ -48041,7 +49175,8 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     whatsappSignature: 'whatsappSignature',
-    companyId: 'companyId'
+    companyId: 'companyId',
+    rankingCategory: 'rankingCategory'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -48684,6 +49819,19 @@ export namespace Prisma {
   export type ScoreEventScalarFieldEnum = (typeof ScoreEventScalarFieldEnum)[keyof typeof ScoreEventScalarFieldEnum]
 
 
+  export const ScoreRuleConfigScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    reason: 'reason',
+    enabled: 'enabled',
+    points: 'points',
+    affectsRanking: 'affectsRanking',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ScoreRuleConfigScalarFieldEnum = (typeof ScoreRuleConfigScalarFieldEnum)[keyof typeof ScoreRuleConfigScalarFieldEnum]
+
+
   export const BillingEventScalarFieldEnum: {
     id: 'id',
     companyId: 'companyId',
@@ -48783,6 +49931,20 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'RankingCategory'
+   */
+  export type EnumRankingCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RankingCategory'>
+    
+
+
+  /**
+   * Reference to a field of type 'RankingCategory[]'
+   */
+  export type ListEnumRankingCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RankingCategory[]'>
     
 
 
@@ -49110,6 +50272,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     whatsappSignature?: StringNullableFilter<"User"> | string | null
     companyId?: StringNullableFilter<"User"> | string | null
+    rankingCategory?: EnumRankingCategoryFilter<"User"> | $Enums.RankingCategory
     company?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     ticketsCreated?: TicketListRelationFilter
     ticketsAssigned?: TicketListRelationFilter
@@ -49134,6 +50297,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     whatsappSignature?: SortOrderInput | SortOrder
     companyId?: SortOrderInput | SortOrder
+    rankingCategory?: SortOrder
     company?: CompanyOrderByWithRelationInput
     ticketsCreated?: TicketOrderByRelationAggregateInput
     ticketsAssigned?: TicketOrderByRelationAggregateInput
@@ -49161,6 +50325,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     whatsappSignature?: StringNullableFilter<"User"> | string | null
     companyId?: StringNullableFilter<"User"> | string | null
+    rankingCategory?: EnumRankingCategoryFilter<"User"> | $Enums.RankingCategory
     company?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     ticketsCreated?: TicketListRelationFilter
     ticketsAssigned?: TicketListRelationFilter
@@ -49185,6 +50350,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     whatsappSignature?: SortOrderInput | SortOrder
     companyId?: SortOrderInput | SortOrder
+    rankingCategory?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -49203,6 +50369,7 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     whatsappSignature?: StringNullableWithAggregatesFilter<"User"> | string | null
     companyId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    rankingCategory?: EnumRankingCategoryWithAggregatesFilter<"User"> | $Enums.RankingCategory
   }
 
   export type VaultEmailChallengeWhereInput = {
@@ -49458,6 +50625,7 @@ export namespace Prisma {
     userScores?: UserScoreListRelationFilter
     userBadges?: UserBadgeListRelationFilter
     scoreEvents?: ScoreEventListRelationFilter
+    scoreRuleConfigs?: ScoreRuleConfigListRelationFilter
     businessHours?: BusinessHoursConfigListRelationFilter
     campaigns?: CampaignListRelationFilter
     leads?: LeadListRelationFilter
@@ -49511,6 +50679,7 @@ export namespace Prisma {
     userScores?: UserScoreOrderByRelationAggregateInput
     userBadges?: UserBadgeOrderByRelationAggregateInput
     scoreEvents?: ScoreEventOrderByRelationAggregateInput
+    scoreRuleConfigs?: ScoreRuleConfigOrderByRelationAggregateInput
     businessHours?: BusinessHoursConfigOrderByRelationAggregateInput
     campaigns?: CampaignOrderByRelationAggregateInput
     leads?: LeadOrderByRelationAggregateInput
@@ -49567,6 +50736,7 @@ export namespace Prisma {
     userScores?: UserScoreListRelationFilter
     userBadges?: UserBadgeListRelationFilter
     scoreEvents?: ScoreEventListRelationFilter
+    scoreRuleConfigs?: ScoreRuleConfigListRelationFilter
     businessHours?: BusinessHoursConfigListRelationFilter
     campaigns?: CampaignListRelationFilter
     leads?: LeadListRelationFilter
@@ -52670,6 +53840,74 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"ScoreEvent"> | Date | string
   }
 
+  export type ScoreRuleConfigWhereInput = {
+    AND?: ScoreRuleConfigWhereInput | ScoreRuleConfigWhereInput[]
+    OR?: ScoreRuleConfigWhereInput[]
+    NOT?: ScoreRuleConfigWhereInput | ScoreRuleConfigWhereInput[]
+    id?: StringFilter<"ScoreRuleConfig"> | string
+    companyId?: StringFilter<"ScoreRuleConfig"> | string
+    reason?: EnumScoreReasonFilter<"ScoreRuleConfig"> | $Enums.ScoreReason
+    enabled?: BoolFilter<"ScoreRuleConfig"> | boolean
+    points?: IntFilter<"ScoreRuleConfig"> | number
+    affectsRanking?: BoolFilter<"ScoreRuleConfig"> | boolean
+    updatedAt?: DateTimeFilter<"ScoreRuleConfig"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type ScoreRuleConfigOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    reason?: SortOrder
+    enabled?: SortOrder
+    points?: SortOrder
+    affectsRanking?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type ScoreRuleConfigWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_reason?: ScoreRuleConfigCompanyIdReasonCompoundUniqueInput
+    AND?: ScoreRuleConfigWhereInput | ScoreRuleConfigWhereInput[]
+    OR?: ScoreRuleConfigWhereInput[]
+    NOT?: ScoreRuleConfigWhereInput | ScoreRuleConfigWhereInput[]
+    companyId?: StringFilter<"ScoreRuleConfig"> | string
+    reason?: EnumScoreReasonFilter<"ScoreRuleConfig"> | $Enums.ScoreReason
+    enabled?: BoolFilter<"ScoreRuleConfig"> | boolean
+    points?: IntFilter<"ScoreRuleConfig"> | number
+    affectsRanking?: BoolFilter<"ScoreRuleConfig"> | boolean
+    updatedAt?: DateTimeFilter<"ScoreRuleConfig"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id" | "companyId_reason">
+
+  export type ScoreRuleConfigOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    reason?: SortOrder
+    enabled?: SortOrder
+    points?: SortOrder
+    affectsRanking?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ScoreRuleConfigCountOrderByAggregateInput
+    _avg?: ScoreRuleConfigAvgOrderByAggregateInput
+    _max?: ScoreRuleConfigMaxOrderByAggregateInput
+    _min?: ScoreRuleConfigMinOrderByAggregateInput
+    _sum?: ScoreRuleConfigSumOrderByAggregateInput
+  }
+
+  export type ScoreRuleConfigScalarWhereWithAggregatesInput = {
+    AND?: ScoreRuleConfigScalarWhereWithAggregatesInput | ScoreRuleConfigScalarWhereWithAggregatesInput[]
+    OR?: ScoreRuleConfigScalarWhereWithAggregatesInput[]
+    NOT?: ScoreRuleConfigScalarWhereWithAggregatesInput | ScoreRuleConfigScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ScoreRuleConfig"> | string
+    companyId?: StringWithAggregatesFilter<"ScoreRuleConfig"> | string
+    reason?: EnumScoreReasonWithAggregatesFilter<"ScoreRuleConfig"> | $Enums.ScoreReason
+    enabled?: BoolWithAggregatesFilter<"ScoreRuleConfig"> | boolean
+    points?: IntWithAggregatesFilter<"ScoreRuleConfig"> | number
+    affectsRanking?: BoolWithAggregatesFilter<"ScoreRuleConfig"> | boolean
+    updatedAt?: DateTimeWithAggregatesFilter<"ScoreRuleConfig"> | Date | string
+  }
+
   export type BillingEventWhereInput = {
     AND?: BillingEventWhereInput | BillingEventWhereInput[]
     OR?: BillingEventWhereInput[]
@@ -52751,6 +53989,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     whatsappSignature?: string | null
+    rankingCategory?: $Enums.RankingCategory
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -52775,6 +54014,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -52797,6 +54037,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -52821,6 +54062,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -52844,6 +54086,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
   }
 
   export type UserUpdateManyMutationInput = {
@@ -52855,6 +54098,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -52867,6 +54111,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
   }
 
   export type VaultEmailChallengeCreateInput = {
@@ -53137,6 +54382,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -53189,6 +54435,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -53241,6 +54488,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -53293,6 +54541,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -56682,6 +57931,75 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ScoreRuleConfigCreateInput = {
+    id?: string
+    reason: $Enums.ScoreReason
+    enabled?: boolean
+    points: number
+    affectsRanking?: boolean
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutScoreRuleConfigsInput
+  }
+
+  export type ScoreRuleConfigUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    reason: $Enums.ScoreReason
+    enabled?: boolean
+    points: number
+    affectsRanking?: boolean
+    updatedAt?: Date | string
+  }
+
+  export type ScoreRuleConfigUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    points?: IntFieldUpdateOperationsInput | number
+    affectsRanking?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutScoreRuleConfigsNestedInput
+  }
+
+  export type ScoreRuleConfigUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    points?: IntFieldUpdateOperationsInput | number
+    affectsRanking?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScoreRuleConfigCreateManyInput = {
+    id?: string
+    companyId: string
+    reason: $Enums.ScoreReason
+    enabled?: boolean
+    points: number
+    affectsRanking?: boolean
+    updatedAt?: Date | string
+  }
+
+  export type ScoreRuleConfigUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    points?: IntFieldUpdateOperationsInput | number
+    affectsRanking?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScoreRuleConfigUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    points?: IntFieldUpdateOperationsInput | number
+    affectsRanking?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BillingEventCreateInput = {
     id?: string
     type: string
@@ -56806,6 +58124,13 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type EnumRankingCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.RankingCategory | EnumRankingCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.RankingCategory[] | ListEnumRankingCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RankingCategory[] | ListEnumRankingCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumRankingCategoryFilter<$PrismaModel> | $Enums.RankingCategory
+  }
+
   export type CompanyNullableRelationFilter = {
     is?: CompanyWhereInput | null
     isNot?: CompanyWhereInput | null
@@ -56921,6 +58246,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     whatsappSignature?: SortOrder
     companyId?: SortOrder
+    rankingCategory?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -56933,6 +58259,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     whatsappSignature?: SortOrder
     companyId?: SortOrder
+    rankingCategory?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -56945,6 +58272,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     whatsappSignature?: SortOrder
     companyId?: SortOrder
+    rankingCategory?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -57005,6 +58333,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type EnumRankingCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RankingCategory | EnumRankingCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.RankingCategory[] | ListEnumRankingCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RankingCategory[] | ListEnumRankingCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumRankingCategoryWithAggregatesFilter<$PrismaModel> | $Enums.RankingCategory
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRankingCategoryFilter<$PrismaModel>
+    _max?: NestedEnumRankingCategoryFilter<$PrismaModel>
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -57220,6 +58558,12 @@ export namespace Prisma {
     none?: UserWhereInput
   }
 
+  export type ScoreRuleConfigListRelationFilter = {
+    every?: ScoreRuleConfigWhereInput
+    some?: ScoreRuleConfigWhereInput
+    none?: ScoreRuleConfigWhereInput
+  }
+
   export type BusinessHoursConfigListRelationFilter = {
     every?: BusinessHoursConfigWhereInput
     some?: BusinessHoursConfigWhereInput
@@ -57350,6 +58694,10 @@ export namespace Prisma {
   }
 
   export type UserOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ScoreRuleConfigOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -59774,6 +61122,49 @@ export namespace Prisma {
     _max?: NestedEnumScoreReasonFilter<$PrismaModel>
   }
 
+  export type ScoreRuleConfigCompanyIdReasonCompoundUniqueInput = {
+    companyId: string
+    reason: $Enums.ScoreReason
+  }
+
+  export type ScoreRuleConfigCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    reason?: SortOrder
+    enabled?: SortOrder
+    points?: SortOrder
+    affectsRanking?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ScoreRuleConfigAvgOrderByAggregateInput = {
+    points?: SortOrder
+  }
+
+  export type ScoreRuleConfigMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    reason?: SortOrder
+    enabled?: SortOrder
+    points?: SortOrder
+    affectsRanking?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ScoreRuleConfigMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    reason?: SortOrder
+    enabled?: SortOrder
+    points?: SortOrder
+    affectsRanking?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ScoreRuleConfigSumOrderByAggregateInput = {
+    points?: SortOrder
+  }
+
   export type BillingEventCountOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
@@ -59985,6 +61376,10 @@ export namespace Prisma {
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type EnumRankingCategoryFieldUpdateOperationsInput = {
+    set?: $Enums.RankingCategory
   }
 
   export type CompanyUpdateOneWithoutUsersNestedInput = {
@@ -60405,6 +61800,13 @@ export namespace Prisma {
     connect?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
   }
 
+  export type ScoreRuleConfigCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<ScoreRuleConfigCreateWithoutCompanyInput, ScoreRuleConfigUncheckedCreateWithoutCompanyInput> | ScoreRuleConfigCreateWithoutCompanyInput[] | ScoreRuleConfigUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ScoreRuleConfigCreateOrConnectWithoutCompanyInput | ScoreRuleConfigCreateOrConnectWithoutCompanyInput[]
+    createMany?: ScoreRuleConfigCreateManyCompanyInputEnvelope
+    connect?: ScoreRuleConfigWhereUniqueInput | ScoreRuleConfigWhereUniqueInput[]
+  }
+
   export type BusinessHoursConfigCreateNestedManyWithoutCompanyInput = {
     create?: XOR<BusinessHoursConfigCreateWithoutCompanyInput, BusinessHoursConfigUncheckedCreateWithoutCompanyInput> | BusinessHoursConfigCreateWithoutCompanyInput[] | BusinessHoursConfigUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: BusinessHoursConfigCreateOrConnectWithoutCompanyInput | BusinessHoursConfigCreateOrConnectWithoutCompanyInput[]
@@ -60605,6 +62007,13 @@ export namespace Prisma {
     connectOrCreate?: ScoreEventCreateOrConnectWithoutCompanyInput | ScoreEventCreateOrConnectWithoutCompanyInput[]
     createMany?: ScoreEventCreateManyCompanyInputEnvelope
     connect?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+  }
+
+  export type ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<ScoreRuleConfigCreateWithoutCompanyInput, ScoreRuleConfigUncheckedCreateWithoutCompanyInput> | ScoreRuleConfigCreateWithoutCompanyInput[] | ScoreRuleConfigUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ScoreRuleConfigCreateOrConnectWithoutCompanyInput | ScoreRuleConfigCreateOrConnectWithoutCompanyInput[]
+    createMany?: ScoreRuleConfigCreateManyCompanyInputEnvelope
+    connect?: ScoreRuleConfigWhereUniqueInput | ScoreRuleConfigWhereUniqueInput[]
   }
 
   export type BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -60856,6 +62265,20 @@ export namespace Prisma {
     update?: ScoreEventUpdateWithWhereUniqueWithoutCompanyInput | ScoreEventUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: ScoreEventUpdateManyWithWhereWithoutCompanyInput | ScoreEventUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: ScoreEventScalarWhereInput | ScoreEventScalarWhereInput[]
+  }
+
+  export type ScoreRuleConfigUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<ScoreRuleConfigCreateWithoutCompanyInput, ScoreRuleConfigUncheckedCreateWithoutCompanyInput> | ScoreRuleConfigCreateWithoutCompanyInput[] | ScoreRuleConfigUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ScoreRuleConfigCreateOrConnectWithoutCompanyInput | ScoreRuleConfigCreateOrConnectWithoutCompanyInput[]
+    upsert?: ScoreRuleConfigUpsertWithWhereUniqueWithoutCompanyInput | ScoreRuleConfigUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: ScoreRuleConfigCreateManyCompanyInputEnvelope
+    set?: ScoreRuleConfigWhereUniqueInput | ScoreRuleConfigWhereUniqueInput[]
+    disconnect?: ScoreRuleConfigWhereUniqueInput | ScoreRuleConfigWhereUniqueInput[]
+    delete?: ScoreRuleConfigWhereUniqueInput | ScoreRuleConfigWhereUniqueInput[]
+    connect?: ScoreRuleConfigWhereUniqueInput | ScoreRuleConfigWhereUniqueInput[]
+    update?: ScoreRuleConfigUpdateWithWhereUniqueWithoutCompanyInput | ScoreRuleConfigUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: ScoreRuleConfigUpdateManyWithWhereWithoutCompanyInput | ScoreRuleConfigUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: ScoreRuleConfigScalarWhereInput | ScoreRuleConfigScalarWhereInput[]
   }
 
   export type BusinessHoursConfigUpdateManyWithoutCompanyNestedInput = {
@@ -61258,6 +62681,20 @@ export namespace Prisma {
     update?: ScoreEventUpdateWithWhereUniqueWithoutCompanyInput | ScoreEventUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: ScoreEventUpdateManyWithWhereWithoutCompanyInput | ScoreEventUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: ScoreEventScalarWhereInput | ScoreEventScalarWhereInput[]
+  }
+
+  export type ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<ScoreRuleConfigCreateWithoutCompanyInput, ScoreRuleConfigUncheckedCreateWithoutCompanyInput> | ScoreRuleConfigCreateWithoutCompanyInput[] | ScoreRuleConfigUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ScoreRuleConfigCreateOrConnectWithoutCompanyInput | ScoreRuleConfigCreateOrConnectWithoutCompanyInput[]
+    upsert?: ScoreRuleConfigUpsertWithWhereUniqueWithoutCompanyInput | ScoreRuleConfigUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: ScoreRuleConfigCreateManyCompanyInputEnvelope
+    set?: ScoreRuleConfigWhereUniqueInput | ScoreRuleConfigWhereUniqueInput[]
+    disconnect?: ScoreRuleConfigWhereUniqueInput | ScoreRuleConfigWhereUniqueInput[]
+    delete?: ScoreRuleConfigWhereUniqueInput | ScoreRuleConfigWhereUniqueInput[]
+    connect?: ScoreRuleConfigWhereUniqueInput | ScoreRuleConfigWhereUniqueInput[]
+    update?: ScoreRuleConfigUpdateWithWhereUniqueWithoutCompanyInput | ScoreRuleConfigUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: ScoreRuleConfigUpdateManyWithWhereWithoutCompanyInput | ScoreRuleConfigUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: ScoreRuleConfigScalarWhereInput | ScoreRuleConfigScalarWhereInput[]
   }
 
   export type BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput = {
@@ -63576,6 +65013,20 @@ export namespace Prisma {
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutScoreEventsInput, CompanyUpdateWithoutScoreEventsInput>, CompanyUncheckedUpdateWithoutScoreEventsInput>
   }
 
+  export type CompanyCreateNestedOneWithoutScoreRuleConfigsInput = {
+    create?: XOR<CompanyCreateWithoutScoreRuleConfigsInput, CompanyUncheckedCreateWithoutScoreRuleConfigsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutScoreRuleConfigsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutScoreRuleConfigsNestedInput = {
+    create?: XOR<CompanyCreateWithoutScoreRuleConfigsInput, CompanyUncheckedCreateWithoutScoreRuleConfigsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutScoreRuleConfigsInput
+    upsert?: CompanyUpsertWithoutScoreRuleConfigsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutScoreRuleConfigsInput, CompanyUpdateWithoutScoreRuleConfigsInput>, CompanyUncheckedUpdateWithoutScoreRuleConfigsInput>
+  }
+
   export type CompanyCreateNestedOneWithoutBillingEventsInput = {
     create?: XOR<CompanyCreateWithoutBillingEventsInput, CompanyUncheckedCreateWithoutBillingEventsInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutBillingEventsInput
@@ -63634,6 +65085,13 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedEnumRankingCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.RankingCategory | EnumRankingCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.RankingCategory[] | ListEnumRankingCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RankingCategory[] | ListEnumRankingCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumRankingCategoryFilter<$PrismaModel> | $Enums.RankingCategory
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -63714,6 +65172,16 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumRankingCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RankingCategory | EnumRankingCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.RankingCategory[] | ListEnumRankingCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RankingCategory[] | ListEnumRankingCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumRankingCategoryWithAggregatesFilter<$PrismaModel> | $Enums.RankingCategory
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRankingCategoryFilter<$PrismaModel>
+    _max?: NestedEnumRankingCategoryFilter<$PrismaModel>
   }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
@@ -64244,6 +65712,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -64295,6 +65764,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -64759,6 +66229,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -64810,6 +66281,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -65181,6 +66653,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     whatsappSignature?: string | null
+    rankingCategory?: $Enums.RankingCategory
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -65204,6 +66677,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -65241,6 +66715,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -65264,6 +66739,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -65285,6 +66761,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     whatsappSignature?: string | null
+    rankingCategory?: $Enums.RankingCategory
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -65308,6 +66785,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -65345,6 +66823,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -65368,6 +66847,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -65389,6 +66869,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     whatsappSignature?: string | null
+    rankingCategory?: $Enums.RankingCategory
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -65412,6 +66893,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -65449,6 +66931,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -65472,6 +66955,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -65509,6 +66993,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -65560,6 +67045,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -65616,6 +67102,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -65667,6 +67154,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -65712,6 +67200,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     whatsappSignature?: string | null
+    rankingCategory?: $Enums.RankingCategory
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
@@ -65734,6 +67223,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     whatsappSignature?: string | null
+    rankingCategory?: $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -65840,6 +67330,34 @@ export namespace Prisma {
 
   export type ScoreEventCreateManyCompanyInputEnvelope = {
     data: ScoreEventCreateManyCompanyInput | ScoreEventCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ScoreRuleConfigCreateWithoutCompanyInput = {
+    id?: string
+    reason: $Enums.ScoreReason
+    enabled?: boolean
+    points: number
+    affectsRanking?: boolean
+    updatedAt?: Date | string
+  }
+
+  export type ScoreRuleConfigUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    reason: $Enums.ScoreReason
+    enabled?: boolean
+    points: number
+    affectsRanking?: boolean
+    updatedAt?: Date | string
+  }
+
+  export type ScoreRuleConfigCreateOrConnectWithoutCompanyInput = {
+    where: ScoreRuleConfigWhereUniqueInput
+    create: XOR<ScoreRuleConfigCreateWithoutCompanyInput, ScoreRuleConfigUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type ScoreRuleConfigCreateManyCompanyInputEnvelope = {
+    data: ScoreRuleConfigCreateManyCompanyInput | ScoreRuleConfigCreateManyCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -66890,6 +68408,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -66941,6 +68460,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -67038,6 +68558,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     whatsappSignature?: StringNullableFilter<"User"> | string | null
     companyId?: StringNullableFilter<"User"> | string | null
+    rankingCategory?: EnumRankingCategoryFilter<"User"> | $Enums.RankingCategory
   }
 
   export type UserScoreUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -67086,6 +68607,35 @@ export namespace Prisma {
   export type ScoreEventUpdateManyWithWhereWithoutCompanyInput = {
     where: ScoreEventScalarWhereInput
     data: XOR<ScoreEventUpdateManyMutationInput, ScoreEventUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type ScoreRuleConfigUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: ScoreRuleConfigWhereUniqueInput
+    update: XOR<ScoreRuleConfigUpdateWithoutCompanyInput, ScoreRuleConfigUncheckedUpdateWithoutCompanyInput>
+    create: XOR<ScoreRuleConfigCreateWithoutCompanyInput, ScoreRuleConfigUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type ScoreRuleConfigUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: ScoreRuleConfigWhereUniqueInput
+    data: XOR<ScoreRuleConfigUpdateWithoutCompanyInput, ScoreRuleConfigUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type ScoreRuleConfigUpdateManyWithWhereWithoutCompanyInput = {
+    where: ScoreRuleConfigScalarWhereInput
+    data: XOR<ScoreRuleConfigUpdateManyMutationInput, ScoreRuleConfigUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type ScoreRuleConfigScalarWhereInput = {
+    AND?: ScoreRuleConfigScalarWhereInput | ScoreRuleConfigScalarWhereInput[]
+    OR?: ScoreRuleConfigScalarWhereInput[]
+    NOT?: ScoreRuleConfigScalarWhereInput | ScoreRuleConfigScalarWhereInput[]
+    id?: StringFilter<"ScoreRuleConfig"> | string
+    companyId?: StringFilter<"ScoreRuleConfig"> | string
+    reason?: EnumScoreReasonFilter<"ScoreRuleConfig"> | $Enums.ScoreReason
+    enabled?: BoolFilter<"ScoreRuleConfig"> | boolean
+    points?: IntFilter<"ScoreRuleConfig"> | number
+    affectsRanking?: BoolFilter<"ScoreRuleConfig"> | boolean
+    updatedAt?: DateTimeFilter<"ScoreRuleConfig"> | Date | string
   }
 
   export type BusinessHoursConfigUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -67896,6 +69446,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -67947,6 +69498,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -68202,6 +69754,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -68253,6 +69806,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -68409,6 +69963,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -68460,6 +70015,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -68660,6 +70216,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -68711,6 +70268,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -68885,6 +70443,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -68936,6 +70495,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -69250,6 +70810,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -69301,6 +70862,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -69680,6 +71242,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -69731,6 +71294,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -69798,6 +71362,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -69849,6 +71414,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -69900,6 +71466,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -69951,6 +71518,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -69990,6 +71558,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     whatsappSignature?: string | null
+    rankingCategory?: $Enums.RankingCategory
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -70013,6 +71582,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
@@ -70067,6 +71637,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -70118,6 +71689,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -70163,6 +71735,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -70186,6 +71759,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
@@ -70224,6 +71798,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -70275,6 +71850,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -70416,6 +71992,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -70467,6 +72044,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -70558,6 +72136,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -70609,6 +72188,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -70858,6 +72438,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -70909,6 +72490,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -71166,6 +72748,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -71217,6 +72800,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -71325,6 +72909,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -71376,6 +72961,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -71457,6 +73043,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     whatsappSignature?: string | null
+    rankingCategory?: $Enums.RankingCategory
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -71480,6 +73067,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -71572,6 +73160,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -71623,6 +73212,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -71855,6 +73445,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -71878,6 +73469,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -71982,6 +73574,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -72033,6 +73626,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -72434,6 +74028,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -72485,6 +74080,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -72731,6 +74327,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -72782,6 +74379,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -72833,6 +74431,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -72884,6 +74483,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -72923,6 +74523,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     whatsappSignature?: string | null
+    rankingCategory?: $Enums.RankingCategory
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
@@ -72946,6 +74547,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
@@ -72989,6 +74591,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -73040,6 +74643,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -73079,6 +74683,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     whatsappSignature?: string | null
+    rankingCategory?: $Enums.RankingCategory
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactCreateNestedOneWithoutUserInput
@@ -73102,6 +74707,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
     setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
@@ -73277,6 +74883,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -73328,6 +74935,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -73373,6 +74981,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
@@ -73396,6 +75005,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
@@ -73445,6 +75055,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -73496,6 +75107,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -73541,6 +75153,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
@@ -73564,6 +75177,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
     setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
@@ -73814,6 +75428,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -73865,6 +75480,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -74082,6 +75698,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -74133,6 +75750,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -74280,6 +75898,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     whatsappSignature?: string | null
+    rankingCategory?: $Enums.RankingCategory
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -74303,6 +75922,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -74395,6 +76015,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -74418,6 +76039,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -74628,6 +76250,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -74679,6 +76302,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -74790,6 +76414,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -74841,6 +76466,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -75105,6 +76731,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -75156,6 +76783,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -75268,6 +76896,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -75319,6 +76948,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -75370,6 +77000,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -75421,6 +77052,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -75488,6 +77120,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -75539,6 +77172,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -75590,6 +77224,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -75641,6 +77276,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -75708,6 +77344,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -75759,6 +77396,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -75810,6 +77448,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -75861,6 +77500,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -75928,6 +77568,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -75979,6 +77620,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -76030,6 +77672,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -76081,6 +77724,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -76148,6 +77792,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -76199,6 +77844,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -76250,6 +77896,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -76301,6 +77948,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -76368,6 +78016,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -76419,6 +78068,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -76470,6 +78120,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -76521,6 +78172,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -76588,6 +78240,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -76639,6 +78292,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -76690,6 +78344,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -76741,6 +78396,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -76808,6 +78464,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -76859,6 +78516,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -76910,6 +78568,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
@@ -76961,6 +78620,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
@@ -77052,6 +78712,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
@@ -77103,6 +78764,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -77224,6 +78886,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     whatsappSignature?: string | null
+    rankingCategory?: $Enums.RankingCategory
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -77247,6 +78910,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -77289,6 +78953,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -77340,6 +79005,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -77391,6 +79057,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -77414,6 +79081,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -77462,6 +79130,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -77513,6 +79182,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -77548,6 +79218,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     whatsappSignature?: string | null
+    rankingCategory?: $Enums.RankingCategory
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -77571,6 +79242,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -77613,6 +79285,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -77664,6 +79337,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -77715,6 +79389,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -77738,6 +79413,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -77786,6 +79462,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -77837,6 +79514,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -77872,6 +79550,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     whatsappSignature?: string | null
+    rankingCategory?: $Enums.RankingCategory
     company?: CompanyCreateNestedOneWithoutUsersInput
     ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
@@ -77895,6 +79574,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     whatsappSignature?: string | null
     companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
     ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
     companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
@@ -77937,6 +79617,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -77988,6 +79669,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -78039,6 +79721,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     company?: CompanyUpdateOneWithoutUsersNestedInput
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
@@ -78062,6 +79745,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -78110,6 +79794,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -78161,6 +79846,231 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutScoreRuleConfigsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutScoreRuleConfigsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutScoreRuleConfigsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutScoreRuleConfigsInput, CompanyUncheckedCreateWithoutScoreRuleConfigsInput>
+  }
+
+  export type CompanyUpsertWithoutScoreRuleConfigsInput = {
+    update: XOR<CompanyUpdateWithoutScoreRuleConfigsInput, CompanyUncheckedUpdateWithoutScoreRuleConfigsInput>
+    create: XOR<CompanyCreateWithoutScoreRuleConfigsInput, CompanyUncheckedCreateWithoutScoreRuleConfigsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutScoreRuleConfigsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutScoreRuleConfigsInput, CompanyUncheckedUpdateWithoutScoreRuleConfigsInput>
+  }
+
+  export type CompanyUpdateWithoutScoreRuleConfigsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutScoreRuleConfigsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -78213,6 +80123,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
@@ -78264,6 +80175,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
@@ -78331,6 +80243,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -78382,6 +80295,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -78958,6 +80872,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     whatsappSignature?: string | null
+    rankingCategory?: $Enums.RankingCategory
   }
 
   export type UserScoreCreateManyCompanyInput = {
@@ -78986,6 +80901,15 @@ export namespace Prisma {
     reason: $Enums.ScoreReason
     referenceId?: string | null
     createdAt?: Date | string
+  }
+
+  export type ScoreRuleConfigCreateManyCompanyInput = {
+    id?: string
+    reason: $Enums.ScoreReason
+    enabled?: boolean
+    points: number
+    affectsRanking?: boolean
+    updatedAt?: Date | string
   }
 
   export type BusinessHoursConfigCreateManyCompanyInput = {
@@ -79354,6 +81278,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
@@ -79405,6 +81330,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
@@ -79462,6 +81388,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
@@ -79484,6 +81411,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
     ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
     companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
@@ -79506,6 +81434,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
   }
 
   export type UserScoreUpdateWithoutCompanyInput = {
@@ -79590,6 +81519,33 @@ export namespace Prisma {
     reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScoreRuleConfigUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    points?: IntFieldUpdateOperationsInput | number
+    affectsRanking?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScoreRuleConfigUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    points?: IntFieldUpdateOperationsInput | number
+    affectsRanking?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScoreRuleConfigUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reason?: EnumScoreReasonFieldUpdateOperationsInput | $Enums.ScoreReason
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    points?: IntFieldUpdateOperationsInput | number
+    affectsRanking?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BusinessHoursConfigUpdateWithoutCompanyInput = {
@@ -82298,6 +84254,10 @@ export namespace Prisma {
      * @deprecated Use ScoreEventDefaultArgs instead
      */
     export type ScoreEventArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ScoreEventDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ScoreRuleConfigDefaultArgs instead
+     */
+    export type ScoreRuleConfigArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ScoreRuleConfigDefaultArgs<ExtArgs>
     /**
      * @deprecated Use BillingEventDefaultArgs instead
      */

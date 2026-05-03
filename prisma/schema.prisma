@@ -38,6 +38,7 @@ model User {
   userScores          UserScore[]
   userBadges          UserBadge[]
   scoreEvents         ScoreEvent[]
+  rankingCategory     RankingCategory @default(PRODUCAO)
 
   @@index([companyId])
 }
@@ -112,6 +113,13 @@ enum UserRole {
   CLIENT  // agente/atendente — permissões controladas pelo setor
 }
 
+// Categoria do ranking — separa Produção (atendentes/operação) de Gestão
+// (gerentes/diretores). Cada categoria tem leaderboard próprio.
+enum RankingCategory {
+  PRODUCAO
+  GESTAO
+}
+
 // ─── Empresas ─────────────────────────────────────────────────────────────────
 
 model Company {
@@ -144,6 +152,7 @@ model Company {
   userScores        UserScore[]
   userBadges        UserBadge[]
   scoreEvents       ScoreEvent[]
+  scoreRuleConfigs  ScoreRuleConfig[]
   businessHours     BusinessHoursConfig[]
   campaigns         Campaign[]
   leads             Lead[]
@@ -1194,6 +1203,24 @@ model ScoreEvent {
 
   @@index([userId, createdAt])
   @@index([companyId, createdAt])
+}
+
+// Configuração de regras de pontuação por empresa.
+// Override do SCORE_TABLE em src/lib/gamification.ts.
+model ScoreRuleConfig {
+  id             String      @id @default(cuid())
+  companyId      String
+  company        Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  reason         ScoreReason
+  enabled        Boolean     @default(true)
+  points         Int
+  // Quando false, o ScoreEvent é criado (badge conta) mas o UserScore NÃO
+  // recebe os pontos — útil pra impedir que VENDAS dominem o ranking mensal.
+  affectsRanking Boolean     @default(true)
+  updatedAt      DateTime    @updatedAt
+
+  @@unique([companyId, reason])
+  @@index([companyId])
 }
 
 enum BadgeType {

@@ -1,5 +1,6 @@
 import { BadgeType, ScoreReason } from "@/generated/prisma";
-import { BADGE_META, BADGE_TIERS, TIER_STYLES, getBadgeProgress } from "./labels";
+import { BADGE_META, BADGE_TIERS, TIER_STYLES, REASON_LABEL, getBadgeProgress } from "./labels";
+import BadgeInfoButton from "./BadgeInfoButton";
 
 type Props = {
   // Contagem de eventos positivos por reason (vem da page server-side)
@@ -116,6 +117,14 @@ export default function BadgesGrid({ counts, reiDoMesCount, earnedBadges }: Prop
                         Bloqueado
                       </span>
                     )}
+                    <div className="ml-auto">
+                      <BadgeInfoButton
+                        badge={badge}
+                        count={count}
+                        currentTier={currentTier?.level ?? null}
+                        reasonText={BADGE_REASON[badge] ? REASON_LABEL[BADGE_REASON[badge]!].text : undefined}
+                      />
+                    </div>
                   </div>
 
                   {/* Progresso */}

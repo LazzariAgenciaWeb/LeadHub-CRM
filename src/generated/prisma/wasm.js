@@ -131,7 +131,8 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   whatsappSignature: 'whatsappSignature',
-  companyId: 'companyId'
+  companyId: 'companyId',
+  rankingCategory: 'rankingCategory'
 };
 
 exports.Prisma.VaultEmailChallengeScalarFieldEnum = {
@@ -657,6 +658,16 @@ exports.Prisma.ScoreEventScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ScoreRuleConfigScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  reason: 'reason',
+  enabled: 'enabled',
+  points: 'points',
+  affectsRanking: 'affectsRanking',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.BillingEventScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
@@ -697,6 +708,11 @@ exports.UserRole = exports.$Enums.UserRole = {
   SUPER_ADMIN: 'SUPER_ADMIN',
   ADMIN: 'ADMIN',
   CLIENT: 'CLIENT'
+};
+
+exports.RankingCategory = exports.$Enums.RankingCategory = {
+  PRODUCAO: 'PRODUCAO',
+  GESTAO: 'GESTAO'
 };
 
 exports.CompanyStatus = exports.$Enums.CompanyStatus = {
@@ -911,6 +927,7 @@ exports.Prisma.ModelName = {
   UserScore: 'UserScore',
   UserBadge: 'UserBadge',
   ScoreEvent: 'ScoreEvent',
+  ScoreRuleConfig: 'ScoreRuleConfig',
   BillingEvent: 'BillingEvent'
 };
 

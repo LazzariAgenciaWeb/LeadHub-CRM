@@ -9,6 +9,9 @@ import OpenAISettings from "./OpenAISettings";
 import SetoresSection from "./SetoresSection";
 import WebhookSettings from "./WebhookSettings";
 import AtendimentoSettings from "./AtendimentoSettings";
+import GamificacaoSettings from "./GamificacaoSettings";
+import { SCORE_TABLE } from "@/lib/gamification";
+import { ScoreReason } from "@/generated/prisma";
 import IntegracoesGoogleSection from "./IntegracoesGoogleSection";
 import EmailSettings from "./EmailSettings";
 import CompanyContacts from "../empresas/[id]/CompanyContacts";
@@ -348,6 +351,35 @@ export default async function ConfiguracoesPage({
         schedule={schedule}
       />
     );
+  } else if (secao === "gamificacao") {
+    const cId = userCompanyId ?? "";
+    const ALL_REASONS: ScoreReason[] = [
+      "RESPOSTA_RAPIDA_5MIN", "RESPOSTA_RAPIDA_30MIN",
+      "TICKET_RESOLVIDO", "LEAD_AVANCADO", "LEAD_CONVERTIDO",
+      "DIA_SEM_PENDENCIA", "DIA_SEM_ATRASO", "RETORNO_ANTECIPADO",
+      "ATENDIMENTO_MESMO_DIA", "NOTA_REGISTRADA", "PRIMEIRO_CONTATO",
+      "SLA_VENCIDO", "CONVERSA_SEM_RESPOSTA", "PRAZO_PRORROGADO",
+    ];
+    const [configs, users] = cId ? await Promise.all([
+      prisma.scoreRuleConfig.findMany({ where: { companyId: cId } }),
+      prisma.user.findMany({
+        where:  { companyId: cId },
+        select: { id: true, name: true, email: true, role: true, rankingCategory: true },
+        orderBy: [{ rankingCategory: "asc" }, { name: "asc" }],
+      }),
+    ]) : [[], []];
+    const byReason = new Map(configs.map((c) => [c.reason, c]));
+    const initialRules = ALL_REASONS.map((reason) => {
+      const cfg = byReason.get(reason);
+      return {
+        reason,
+        defaultPoints:  SCORE_TABLE[reason],
+        enabled:        cfg?.enabled        ?? true,
+        points:         cfg?.points         ?? SCORE_TABLE[reason],
+        affectsRanking: cfg?.affectsRanking ?? true,
+      };
+    });
+    content = <GamificacaoSettings initialRules={initialRules} users={users} />;
   } else {
     content = <div className="p-6 text-slate-500 text-sm">Seção não encontrada.</div>;
   }

@@ -95,7 +95,30 @@ const REI_DO_MES_THRESHOLDS = [1, 2, 3, 5, 10, 20];
 // ─── addScore ─────────────────────────────────────────────────────────────────
 
 /**
+ * Lê a regra configurada da empresa pra esta razão. Faz fallback pro SCORE_TABLE.
+ * Retorna null se a razão estiver desabilitada (ScoreRuleConfig.enabled = false).
+ */
+async function resolveRule(
+  companyId: string,
+  reason:    ScoreReason,
+): Promise<{ points: number; affectsRanking: boolean } | null> {
+  const cfg = await prisma.scoreRuleConfig.findUnique({
+    where: { companyId_reason: { companyId, reason } },
+  });
+  if (cfg) {
+    if (!cfg.enabled) return null;
+    return { points: cfg.points, affectsRanking: cfg.affectsRanking };
+  }
+  // Sem config explícita: usa default e considera no ranking
+  return { points: SCORE_TABLE[reason], affectsRanking: true };
+}
+
+/**
  * Registra um evento de pontuação e atualiza o placar do usuário.
+ * Respeita ScoreRuleConfig:
+ *  - Se enabled=false → nada acontece
+ *  - Se affectsRanking=false → cria ScoreEvent (badge conta) mas NÃO incrementa UserScore
+ *
  * Retorna os badges recém-conquistados (para notificação na UI).
  */
 export async function addScore(
@@ -104,18 +127,22 @@ export async function addScore(
   reason:      ScoreReason,
   referenceId?: string
 ): Promise<{ badge: BadgeType; tier: number }[]> {
-  const points = SCORE_TABLE[reason];
+  const rule = await resolveRule(companyId, reason);
+  if (!rule) return []; // razão desabilitada
+
+  const points = rule.points;
   const now = new Date();
   const month = now.getMonth() + 1;
   const year  = now.getFullYear();
 
-  await prisma.$transaction([
-    // 1. Persiste o evento
-    prisma.scoreEvent.create({
-      data: { userId, companyId, points, reason, referenceId },
-    }),
-    // 2. Upsert no placar mensal (cria se não existir, incrementa se já existir)
-    prisma.userScore.upsert({
+  // Sempre persiste o ScoreEvent (badge depende dele)
+  await prisma.scoreEvent.create({
+    data: { userId, companyId, points, reason, referenceId },
+  });
+
+  // Só atualiza o placar se a razão afeta ranking
+  if (rule.affectsRanking) {
+    await prisma.userScore.upsert({
       where: { userId_month_year: { userId, month, year } },
       create: {
         userId,
@@ -129,14 +156,14 @@ export async function addScore(
         monthPoints: { increment: points },
         totalPoints: { increment: points },
       },
-    }),
-  ]);
+    });
 
-  // Garante que monthPoints não fique negativo (Prisma não suporta MAX em update)
-  await prisma.userScore.updateMany({
-    where: { userId, month, year, monthPoints: { lt: 0 } },
-    data:  { monthPoints: 0 },
-  });
+    // Garante que monthPoints não fique negativo
+    await prisma.userScore.updateMany({
+      where: { userId, month, year, monthPoints: { lt: 0 } },
+      data:  { monthPoints: 0 },
+    });
+  }
 
   return checkBadges(userId, companyId);
 }
@@ -470,13 +497,14 @@ export async function runDiaSemAtraso(companyId: string): Promise<void> {
 // ─── getRanking ───────────────────────────────────────────────────────────────
 
 export type RankingEntry = {
-  userId:      string;
-  name:        string;
-  monthPoints: number;
-  totalPoints: number;
-  position:    number;
+  userId:          string;
+  name:            string;
+  rankingCategory: "PRODUCAO" | "GESTAO";
+  monthPoints:     number;
+  totalPoints:     number;
+  position:        number;
   // Maior tier conquistado por badge (não duplica entradas do mesmo badge)
-  badges:      { badge: BadgeType; tier: number }[];
+  badges:          { badge: BadgeType; tier: number }[];
 };
 
 export async function getRanking(
@@ -491,7 +519,7 @@ export async function getRanking(
   const scores = await prisma.userScore.findMany({
     where:   { companyId, month: m, year: y },
     orderBy: { monthPoints: "desc" },
-    include: { user: { select: { id: true, name: true } } },
+    include: { user: { select: { id: true, name: true, rankingCategory: true } } },
   });
 
   const userIds = scores.map((s) => s.userId);
@@ -517,12 +545,19 @@ export async function getRanking(
     badgesByUser[userId].push(v);
   }
 
-  return scores.map((s, i) => ({
-    userId:      s.userId,
-    name:        s.user.name,
-    monthPoints: s.monthPoints,
-    totalPoints: s.totalPoints,
-    position:    i + 1,
-    badges:      (badgesByUser[s.userId] ?? []).sort((a, b) => b.tier - a.tier),
-  }));
+  // Posições por categoria — cada categoria tem seu próprio 1º, 2º, 3º.
+  const posByCategory: Record<string, number> = { PRODUCAO: 0, GESTAO: 0 };
+  return scores.map((s) => {
+    const cat = s.user.rankingCategory;
+    posByCategory[cat]++;
+    return {
+      userId:          s.userId,
+      name:            s.user.name,
+      rankingCategory: cat,
+      monthPoints:     s.monthPoints,
+      totalPoints:     s.totalPoints,
+      position:        posByCategory[cat],
+      badges:          (badgesByUser[s.userId] ?? []).sort((a, b) => b.tier - a.tier),
+    };
+  });
 }

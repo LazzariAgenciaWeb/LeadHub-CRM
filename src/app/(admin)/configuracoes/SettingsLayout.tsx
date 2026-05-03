@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   MessageSquare, Building2, Plug, Zap, CheckSquare, Sparkles, Webhook,
-  Workflow, Tag, Clock, Globe, Mail, FileText, Users, KeyRound, Shield, CreditCard,
+  Workflow, Tag, Clock, Globe, Mail, FileText, Users, KeyRound, Shield, CreditCard, Trophy,
   ChevronDown, ChevronRight,
   type LucideIcon,
 } from "lucide-react";
@@ -35,6 +35,7 @@ const SECTIONS: SectionItem[] = [
       { key: "minha-empresa-acessos",   Icon: KeyRound,  grad: "empresa",       label: "Usuários",    desc: "Logins, acesso e mesclagem" },
       { key: "setores",                 Icon: Tag,       grad: "setores",       label: "Setores",     desc: "Times, acesso e permissões" },
       { key: "atendimento",             Icon: Clock,     grad: "atendimento",   label: "Atendimento", desc: "SLA, fila e regras de inbox" },
+      { key: "gamificacao",             Icon: Trophy,    grad: "gamificacao",   label: "Gamificação", desc: "Regras de pontos e ranking" },
       { key: "email",                   Icon: Mail,      grad: "email",         label: "E-mail (SMTP)", desc: "Servidor de e-mail" },
       { key: "minha-empresa-cofre",     Icon: Shield,    grad: "cofre",         label: "Cofre",       desc: "Senhas e credenciais" },
       { key: "minha-empresa-plano",     Icon: CreditCard,grad: "oportunidades", label: "Plano atual", desc: "Assinatura e mudança de plano" },
@@ -65,6 +66,7 @@ function isMinhaEmpresaSubKey(key: string) {
   return key.startsWith("minha-empresa-")
     || key === "setores"
     || key === "atendimento"
+    || key === "gamificacao"
     || key === "email";
 }
 
