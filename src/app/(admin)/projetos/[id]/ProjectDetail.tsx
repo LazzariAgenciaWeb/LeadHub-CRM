@@ -44,6 +44,7 @@ const ACTIVITY_META: Record<string, { icon: string; text: string; color: string 
   TASK_UPDATED:    { icon: "📝", text: "Atualizada:",        color: "text-amber-300"   },
   TASK_COMPLETED:  { icon: "✅", text: "Concluída:",         color: "text-emerald-300" },
   CLIENT_FOLLOWUP: { icon: "📨", text: "Cobrança ao cliente", color: "text-fuchsia-300" },
+  INCIDENT:        { icon: "⚠️", text: "Incidente:",          color: "text-red-400"     },
 };
 
 // Ordem sequencial pra navegação com setas
@@ -302,6 +303,7 @@ export default function ProjectDetail({
                 {activities.map((a) => {
                   const meta = ACTIVITY_META[a.type] ?? { icon: "📝", text: "Atualizada", color: "text-slate-400" };
                   const isFollowup = a.type === "CLIENT_FOLLOWUP";
+                  const isIncident = a.type === "INCIDENT";
                   return (
                     <div key={a.id} className="flex items-start gap-2 px-5 py-2.5 hover:bg-[#080b12]/50">
                       <span className="text-base flex-shrink-0 mt-0.5">{meta.icon}</span>
@@ -315,12 +317,17 @@ export default function ProjectDetail({
                             {a.description}
                           </div>
                         )}
+                        {isIncident && a.description && (
+                          <div className="mt-1 text-red-200 text-xs whitespace-pre-wrap bg-red-500/5 border border-red-500/30 rounded px-2 py-1.5">
+                            {a.description}
+                          </div>
+                        )}
                         <div className="text-slate-600 text-[10px] mt-0.5">
                           {a.authorName && <>{a.authorName} · </>}
                           {formatBrazilDateTime(a.createdAt)}
                         </div>
                       </div>
-                      {!isFollowup && a.taskId && (
+                      {!isFollowup && !isIncident && a.taskId && (
                         <a
                           href={`https://app.clickup.com/t/${a.taskId}`}
                           target="_blank"

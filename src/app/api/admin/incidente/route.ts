@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
 
   const target = await prisma.user.findUnique({
     where:  { id: userId },
-    select: { companyId: true },
+    select: { companyId: true, name: true },
   });
   if (!target?.companyId) {
     return NextResponse.json({ error: "Usuário não encontrado" }, { status: 404 });
@@ -65,6 +65,22 @@ export async function POST(req: NextRequest) {
     authorName,
     referenceId: projectId,
   });
+
+  // Se for incidente vinculado a projeto, registra também na timeline do projeto
+  // (Histórico de tarefas) pra ficar visível no contexto do projeto.
+  if (projectId) {
+    await prisma.projectActivity.create({
+      data: {
+        projectId,
+        type:        "INCIDENT",
+        taskName:    target.name ?? "Responsável",
+        taskId:      "",
+        description: `−${points} pts · ${description}`,
+        authorId,
+        authorName,
+      },
+    });
+  }
 
   return NextResponse.json({ ok: true });
 }
