@@ -4,6 +4,8 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getClickupSettings, syncTicketToClickup } from "@/lib/clickup";
 import { addScore } from "@/lib/gamification";
+import { ActivityType } from "@/generated/prisma";
+import { formatBrazilDateTime } from "@/lib/datetime";
 
 // GET /api/tickets/[id]
 export async function GET(
@@ -25,6 +27,7 @@ export async function GET(
       assignee:      { select: { id: true, name: true } },
       setor:         { select: { id: true, name: true } },
       messages:      { orderBy: { createdAt: "asc" } },
+      activities:    { orderBy: { createdAt: "asc" } },
     },
   });
 
@@ -52,13 +55,23 @@ export async function PATCH(
     dueDate, assigneeId, setorId, clientCompanyId,
   } = body;
 
-  const userId = (session.user as any).id as string | undefined;
+  const userId   = (session.user as any).id as string | undefined;
+  const userName = (session.user as any).name as string | undefined;
   const userCompanyId = (session.user as any).companyId as string | undefined;
 
-  // Fetch existing task ID before update (in case user didn't send it)
+  // Carrega TODOS os campos relevantes antes do update — usado pra detectar
+  // mudanças e logar activities de auditoria pra timeline.
   const existing = await prisma.ticket.findUnique({
     where: { id },
-    select: { clickupTaskId: true, type: true, status: true, assigneeId: true, companyId: true },
+    select: {
+      clickupTaskId: true, type: true, status: true,
+      priority: true, ticketStage: true, title: true,
+      assigneeId: true, setorId: true, clientCompanyId: true,
+      dueDate: true, companyId: true,
+      assignee:      { select: { id: true, name: true } },
+      setor:         { select: { id: true, name: true } },
+      clientCompany: { select: { id: true, name: true } },
+    },
   });
 
   const ticket = await prisma.ticket.update({
@@ -80,6 +93,109 @@ export async function PATCH(
       setor:         { select: { id: true, name: true } },
     },
   });
+
+  // ── Activity log: registra cada mudança como evento na timeline ──────────
+  // Patterns reusados de Conversation: STATUS_CHANGED, ASSIGNEE_CHANGED, etc.
+  // Cada Activity vira uma "linha de sistema" no chat do ticket.
+  if (existing) {
+    const activities: { type: ActivityType; body: string; meta?: any }[] = [];
+    const STATUS_LABEL: Record<string, string> = {
+      OPEN: "Aberto", IN_PROGRESS: "Em andamento", RESOLVED: "Resolvido", CLOSED: "Fechado",
+    };
+
+    if (status && status !== existing.status) {
+      activities.push({
+        type: ActivityType.STATUS_CHANGED,
+        body: `${userName ?? "Usuário"} alterou status: ${STATUS_LABEL[existing.status] ?? existing.status} → ${STATUS_LABEL[status] ?? status}`,
+        meta: { from: existing.status, to: status },
+      });
+    }
+    if (ticketStage !== undefined && ticketStage !== existing.ticketStage) {
+      activities.push({
+        type: ActivityType.STAGE_CHANGED,
+        body: `${userName ?? "Usuário"} mudou etapa: ${existing.ticketStage ?? "—"} → ${ticketStage ?? "—"}`,
+        meta: { from: existing.ticketStage, to: ticketStage },
+      });
+    }
+    if (priority && priority !== existing.priority) {
+      const PRIORITY_LABEL: Record<string, string> = {
+        LOW: "🟢 Baixa", MEDIUM: "🟡 Média", HIGH: "🟠 Alta", URGENT: "🔴 Urgente",
+      };
+      activities.push({
+        type: ActivityType.VALUE_CHANGED,
+        body: `${userName ?? "Usuário"} mudou prioridade: ${PRIORITY_LABEL[existing.priority] ?? existing.priority} → ${PRIORITY_LABEL[priority] ?? priority}`,
+        meta: { field: "priority", from: existing.priority, to: priority },
+      });
+    }
+    if (assigneeId !== undefined && assigneeId !== existing.assigneeId) {
+      const newAssignee = ticket.assignee?.name ?? "—";
+      const oldAssignee = existing.assignee?.name ?? "—";
+      activities.push({
+        type: ActivityType.ASSIGNEE_CHANGED,
+        body: assigneeId
+          ? `${userName ?? "Usuário"} atribuiu para ${newAssignee}` + (existing.assigneeId ? ` (antes: ${oldAssignee})` : "")
+          : `${userName ?? "Usuário"} removeu atribuição (antes: ${oldAssignee})`,
+        meta: { from: existing.assigneeId, to: assigneeId },
+      });
+    }
+    if (setorId !== undefined && setorId !== existing.setorId) {
+      const newSetor = ticket.setor?.name ?? "—";
+      const oldSetor = existing.setor?.name ?? "—";
+      activities.push({
+        type: ActivityType.SECTOR_CHANGED,
+        body: setorId
+          ? `${userName ?? "Usuário"} mudou setor: ${oldSetor} → ${newSetor}`
+          : `${userName ?? "Usuário"} removeu setor (antes: ${oldSetor})`,
+        meta: { from: existing.setorId, to: setorId },
+      });
+    }
+    if (clientCompanyId !== undefined && clientCompanyId !== existing.clientCompanyId) {
+      const newClient = ticket.clientCompany?.name ?? "—";
+      const oldClient = existing.clientCompany?.name ?? "—";
+      activities.push({
+        type: ActivityType.VALUE_CHANGED,
+        body: clientCompanyId
+          ? `${userName ?? "Usuário"} ${existing.clientCompanyId ? "mudou" : "vinculou"} cliente: ${oldClient !== "—" ? oldClient + " → " : ""}${newClient}`
+          : `${userName ?? "Usuário"} removeu cliente (antes: ${oldClient})`,
+        meta: { field: "clientCompanyId", from: existing.clientCompanyId, to: clientCompanyId },
+      });
+    }
+    if (dueDate !== undefined) {
+      const newDue = dueDate ? new Date(dueDate) : null;
+      const oldDue = existing.dueDate;
+      const changed = (newDue?.getTime() ?? null) !== (oldDue?.getTime() ?? null);
+      if (changed) {
+        activities.push({
+          type: ActivityType.VALUE_CHANGED,
+          body: newDue
+            ? `${userName ?? "Usuário"} ${oldDue ? "alterou" : "definiu"} prazo: ${oldDue ? formatBrazilDateTime(oldDue) + " → " : ""}${formatBrazilDateTime(newDue)}`
+            : `${userName ?? "Usuário"} removeu prazo (antes: ${oldDue ? formatBrazilDateTime(oldDue) : "—"})`,
+          meta: { field: "dueDate", from: oldDue?.toISOString() ?? null, to: newDue?.toISOString() ?? null },
+        });
+      }
+    }
+    if (title && title !== existing.title) {
+      activities.push({
+        type: ActivityType.VALUE_CHANGED,
+        body: `${userName ?? "Usuário"} renomeou: "${existing.title}" → "${title}"`,
+        meta: { field: "title", from: existing.title, to: title },
+      });
+    }
+
+    if (activities.length > 0) {
+      await prisma.activity.createMany({
+        data: activities.map((a) => ({
+          type: a.type,
+          body: a.body,
+          meta: a.meta ?? undefined,
+          authorId: userId ?? null,
+          authorName: userName ?? "Sistema",
+          ticketId: id,
+          companyId: existing.companyId,
+        })),
+      }).catch(() => { /* não crítico */ });
+    }
+  }
 
   // ── ClickUp auto-sync ──────────────────────────────────────────────────
   // Only sync status/priority/stage updates — not manual ID changes

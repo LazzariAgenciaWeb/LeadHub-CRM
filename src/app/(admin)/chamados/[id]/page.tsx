@@ -22,13 +22,37 @@ export default async function TicketPage({
   const ticket = await prisma.ticket.findUnique({
     where: { id },
     include: {
-      company: { select: { id: true, name: true } },
-      messages: { orderBy: { createdAt: "asc" } },
+      company:       { select: { id: true, name: true } },
+      clientCompany: { select: { id: true, name: true, phone: true, email: true } },
+      assignee:      { select: { id: true, name: true } },
+      setor:         { select: { id: true, name: true } },
+      messages:      { orderBy: { createdAt: "asc" } },
+      activities:    { orderBy: { createdAt: "asc" } },
     },
   });
 
   if (!ticket) notFound();
   if (!isSuperAdmin && ticket.companyId !== userCompanyId) notFound();
+
+  // Lookups para edição inline (cliente, atendente, setor)
+  const lookupCompanyId = ticket.companyId;
+  const [users, setores, clientCompanies] = await Promise.all([
+    prisma.user.findMany({
+      where: { companyId: lookupCompanyId, role: { in: ["ADMIN", "SUPER_ADMIN"] } },
+      select: { id: true, name: true, email: true },
+      orderBy: { name: "asc" },
+    }),
+    prisma.setor.findMany({
+      where: { companyId: lookupCompanyId },
+      select: { id: true, name: true },
+      orderBy: { name: "asc" },
+    }),
+    prisma.company.findMany({
+      where: { parentCompanyId: lookupCompanyId },
+      select: { id: true, name: true },
+      orderBy: { name: "asc" },
+    }),
+  ]);
 
   // Load CHAMADOS stages
   const stagesWhere = isSuperAdmin
@@ -65,6 +89,9 @@ export default async function TicketPage({
       canManage={canManage}
       currentUserName={session?.user?.name ?? "Usuário"}
       stages={stages as any}
+      users={users as any}
+      setores={setores as any}
+      clientCompanies={clientCompanies as any}
     />
   );
 }

@@ -59,6 +59,9 @@ export default function TicketDetail({
   canManage,
   currentUserName,
   stages,
+  users,
+  setores,
+  clientCompanies,
 }: {
   ticket: Ticket;
   isSuperAdmin: boolean;
@@ -68,7 +71,13 @@ export default function TicketDetail({
   canManage: boolean;
   currentUserName: string;
   stages: TicketStageOption[];
+  users?: { id: string; name: string | null; email: string | null }[];
+  setores?: { id: string; name: string }[];
+  clientCompanies?: { id: string; name: string }[];
 }) {
+  // Suprime warnings de unused enquanto a UI de edição inline ainda não
+  // consome essas listas — payload já chega do server.
+  void users; void setores; void clientCompanies;
   const router = useRouter();
   const [, startTransition] = useTransition();
   const [messages, setMessages] = useState<TicketMessage[]>(ticket.messages);
