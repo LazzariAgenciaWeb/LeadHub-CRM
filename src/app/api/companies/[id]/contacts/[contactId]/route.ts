@@ -52,9 +52,11 @@ export async function PATCH(
   let userId = contact.userId;
   let generatedPassword: string | null = null;
 
-  // Criação de usuário e gestão de acesso: apenas SUPER_ADMIN
-  if ((hasAccess !== undefined || userEmail || resetPassword) && role !== "SUPER_ADMIN") { // role = user role
-    return NextResponse.json({ error: "Apenas super admin pode gerenciar acesso ao sistema" }, { status: 403 });
+  // Gestão de acesso (criar user, conceder/revogar, resetar senha):
+  // SUPER_ADMIN sempre pode; ADMIN só pode gerir contatos da própria empresa.
+  // canAccessCompany já garantiu acesso à empresa-alvo acima.
+  if ((hasAccess !== undefined || userEmail || resetPassword) && role !== "SUPER_ADMIN" && role !== "ADMIN") {
+    return NextResponse.json({ error: "Sem permissão para gerenciar acesso" }, { status: 403 });
   }
 
   // Quando ativa acesso + fornece email → cria/vincula User

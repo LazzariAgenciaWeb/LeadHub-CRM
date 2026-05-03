@@ -23,15 +23,25 @@ async function requireSuperAdmin() {
   return session;
 }
 
+/** GET é menos restrito — ADMIN pode visualizar plano da própria empresa. */
+async function requireReadAccess(companyId: string) {
+  const session = await getServerSession(authOptions);
+  if (!session) return null;
+  const role = (session.user as any).role as string;
+  const userCompanyId = (session.user as any).companyId as string | undefined;
+  if (role === "SUPER_ADMIN") return session;
+  if (role === "ADMIN" && userCompanyId === companyId) return session;
+  return null;
+}
+
 // GET /api/admin/companies/[id]/subscription
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const session = await requireSuperAdmin();
-  if (!session) return NextResponse.json({ error: "Apenas super admin" }, { status: 403 });
-
   const { id: companyId } = await params;
+  const session = await requireReadAccess(companyId);
+  if (!session) return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
 
   const [sub, ctx] = await Promise.all([
     prisma.subscription.findUnique({

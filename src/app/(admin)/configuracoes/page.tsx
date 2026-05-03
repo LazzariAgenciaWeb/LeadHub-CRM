@@ -107,9 +107,11 @@ export default async function ConfiguracoesPage({
     if (!userCompanyId) {
       content = <div className="p-6 text-slate-500 text-sm">Sua conta não está vinculada a nenhuma empresa.</div>;
     } else {
+      // ADMIN visualiza, mas não edita — mudança passa por solicitação ao suporte.
+      // SUPER_ADMIN, mesmo nessa rota, fica em modo edição.
       content = (
-        <div className="p-6 max-w-3xl">
-          <CompanySubscription companyId={userCompanyId} />
+        <div className="p-2">
+          <CompanySubscription companyId={userCompanyId} readOnly={!isSuperAdmin} />
         </div>
       );
     }

@@ -85,7 +85,15 @@ const LIMIT_LABELS: Record<keyof PlanLimits, string> = {
   leadsPerMonth: "Leads / mês",
 };
 
-export default function CompanySubscription({ companyId }: { companyId: string }) {
+export default function CompanySubscription({
+  companyId,
+  readOnly = false,
+}: {
+  companyId: string;
+  // readOnly = ADMIN da própria empresa — vê plano atual + features, sem editar.
+  // Só SUPER_ADMIN edita plano/limites/features. Mudanças passam por solicitação.
+  readOnly?: boolean;
+}) {
   const [data, setData] = useState<SubscriptionData | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -188,6 +196,101 @@ export default function CompanySubscription({ companyId }: { companyId: string }
   if (!data) return null;
 
   const planDefault = data.plans[plan];
+
+  // ── Modo somente leitura: ADMIN vê o plano sem poder editar ─────────────
+  // Mudanças passam por solicitação ao suporte (CTA WhatsApp).
+  if (readOnly) {
+    const eff = data.effective;
+    const currentLabel = data.plans[eff.tier]?.label ?? eff.tier;
+    const requestPhone = "5544999015088";
+    const msg = encodeURIComponent(
+      `Olá! Gostaria de solicitar uma mudança no plano da empresa (atualmente: ${currentLabel}). Empresa ID: ${companyId}`
+    );
+    const requestUrl = `https://wa.me/${requestPhone}?text=${msg}`;
+
+    return (
+      <div className="p-5 space-y-5 max-w-3xl">
+        <div className="flex items-center gap-2.5">
+          <CreditCard className="w-5 h-5 text-amber-400" strokeWidth={2.25} />
+          <div>
+            <h2 className="text-white font-bold text-sm">Plano e Assinatura</h2>
+            <p className="text-slate-500 text-[11px]">
+              Plano atual da sua empresa. Para mudar, solicite ao nosso suporte.
+            </p>
+          </div>
+        </div>
+
+        {/* Plano atual */}
+        <div className="bg-gradient-to-br from-amber-500/10 to-orange-500/5 border border-amber-500/30 rounded-xl p-5">
+          <div className="flex items-center gap-2 mb-1">
+            <Sparkles className="w-4 h-4 text-amber-400" />
+            <p className="text-amber-300 text-[11px] font-bold uppercase tracking-wider">Plano ativo</p>
+          </div>
+          <p className="text-white font-bold text-2xl">{currentLabel}</p>
+          <p className="text-slate-400 text-xs mt-1">
+            Status: <span className="text-emerald-400 font-medium">{data.subscription?.status ?? "ATIVO"}</span>
+            {data.subscription?.trialEndsAt && (
+              <span className="text-slate-500 ml-3">
+                · Trial até {new Date(data.subscription.trialEndsAt).toLocaleDateString("pt-BR")}
+              </span>
+            )}
+          </p>
+        </div>
+
+        {/* Limites efetivos */}
+        <div className="bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
+          <h3 className="text-white text-sm font-semibold mb-3 flex items-center gap-2">
+            <Settings2 className="w-4 h-4 text-indigo-400" /> Limites do plano
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+            {(Object.keys(eff.limits) as (keyof PlanLimits)[]).map((k) => (
+              <div key={k} className="bg-[#070b14] border border-[#1e2d45] rounded px-3 py-2">
+                <p className="text-slate-500 text-[10px]">{LIMIT_LABELS[k]}</p>
+                <p className="text-white font-mono text-base">{eff.limits[k] === -1 ? "∞" : eff.limits[k]}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Features ativas */}
+        <div className="bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
+          <h3 className="text-white text-sm font-semibold mb-3 flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-emerald-400" /> Features incluídas
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
+            {(Object.keys(FEATURE_LABELS) as (keyof PlanFeatures)[]).map((key) => {
+              const on = eff.features[key];
+              return (
+                <div key={key} className="flex items-center gap-2 px-2 py-1 text-xs">
+                  <span className={on ? "text-emerald-400" : "text-slate-700"}>
+                    {on ? "✓" : "·"}
+                  </span>
+                  <span className={on ? "text-slate-200" : "text-slate-600"}>{FEATURE_LABELS[key]}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* CTA solicitar mudança */}
+        <div className="bg-indigo-500/5 border border-indigo-500/30 rounded-xl p-5 text-center">
+          <Info className="w-5 h-5 text-indigo-400 mx-auto mb-2" />
+          <h3 className="text-white text-sm font-semibold mb-1">Quer mudar de plano?</h3>
+          <p className="text-slate-400 text-xs mb-4 max-w-md mx-auto">
+            Entre em contato com nosso suporte que ajustamos o plano da sua empresa, com o limite e features que você precisa.
+          </p>
+          <a
+            href={requestUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-green-600 hover:bg-green-500 text-white text-sm font-semibold transition-colors"
+          >
+            💬 Solicitar mudança de plano
+          </a>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-5 space-y-5 max-w-4xl">

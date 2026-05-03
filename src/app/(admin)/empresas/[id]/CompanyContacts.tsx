@@ -248,6 +248,36 @@ export default function CompanyContacts({
     setSaving(false);
   }
 
+  // ── Mesclar usuários duplicados ───────────────────────────────────────
+  const [mergeModal, setMergeModal] = useState<{ source: Contact } | null>(null);
+  const [merging, setMerging] = useState(false);
+  const [mergeError, setMergeError] = useState<string | null>(null);
+
+  async function handleMerge(targetUserId: string) {
+    if (!mergeModal?.source.user) return;
+    if (!confirm(
+      `Mesclar ${mergeModal.source.user.email} dentro do usuário selecionado?\n\n` +
+      `Tudo (chamados, conversas, contatos, setores) vai pro alvo.\n` +
+      `O usuário origem será DELETADO permanentemente. Continuar?`
+    )) return;
+    setMerging(true);
+    setMergeError(null);
+    const res = await fetch(`/api/users/${mergeModal.source.user.id}/merge`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ targetUserId }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      setMergeError(err.error ?? "Erro ao mesclar");
+      setMerging(false);
+      return;
+    }
+    setMerging(false);
+    setMergeModal(null);
+    router.refresh();
+  }
+
   async function handleDelete(contactId: string) {
     if (!confirm("Remover este contato?")) return;
     await fetch(`/api/companies/${companyId}/contacts/${contactId}`, { method: "DELETE" });
@@ -556,6 +586,15 @@ export default function CompanyContacts({
                           🔑
                         </button>
                       )}
+                      {c.user && (
+                        <button
+                          onClick={() => { setMergeModal({ source: c }); setMergeError(null); }}
+                          className="w-7 h-7 rounded-lg hover:bg-purple-500/10 flex items-center justify-center text-slate-500 hover:text-purple-400 transition-colors text-xs"
+                          title="Mesclar com outro usuário"
+                        >
+                          🔀
+                        </button>
+                      )}
                       <button
                         onClick={() => { setEditingId(c.id); setEditForm({ name: c.name ?? "", role: c.role, notes: c.notes ?? "" }); }}
                         className="w-7 h-7 rounded-lg hover:bg-white/10 flex items-center justify-center text-slate-500 hover:text-slate-300 transition-colors text-xs"
@@ -728,6 +767,58 @@ export default function CompanyContacts({
                 className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white text-sm font-semibold disabled:opacity-50 transition-colors"
               >
                 {bulkProcessing ? "Excluindo..." : "Excluir"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de mesclar usuários — escolhe o ALVO entre os outros usuários */}
+      {mergeModal && mergeModal.source.user && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+          <div className="bg-[#0f1623] border border-purple-500/30 rounded-2xl max-w-md w-full overflow-hidden">
+            <div className="px-5 py-4 border-b border-[#1e2d45]">
+              <h3 className="text-white font-semibold text-base">🔀 Mesclar usuários</h3>
+              <p className="text-slate-500 text-xs mt-1">
+                Origem: <span className="text-purple-300">{mergeModal.source.user.email}</span>
+              </p>
+              <p className="text-slate-600 text-[11px] mt-0.5">
+                Selecione o usuário que vai absorver os dados. A origem será DELETADA.
+              </p>
+            </div>
+            <div className="p-4 max-h-80 overflow-y-auto">
+              {contacts.filter((c) => c.user && c.id !== mergeModal.source.id).length === 0 ? (
+                <p className="text-slate-500 text-sm text-center py-6">Nenhum outro usuário pra mesclar.</p>
+              ) : (
+                <div className="space-y-1">
+                  {contacts
+                    .filter((c) => c.user && c.id !== mergeModal.source.id)
+                    .map((c) => (
+                      <button
+                        key={c.id}
+                        onClick={() => handleMerge(c.user!.id)}
+                        disabled={merging}
+                        className="w-full text-left px-3 py-2.5 rounded-lg bg-[#161f30] hover:bg-purple-500/10 border border-[#1e2d45] hover:border-purple-500/30 text-sm text-slate-200 transition-colors disabled:opacity-50"
+                      >
+                        <div className="font-medium">{c.user!.name || c.name || c.user!.email}</div>
+                        <div className="text-slate-500 text-[11px]">{c.user!.email}</div>
+                      </button>
+                    ))}
+                </div>
+              )}
+              {mergeError && (
+                <div className="mt-3 p-2 rounded bg-red-500/10 border border-red-500/30 text-red-400 text-xs">
+                  {mergeError}
+                </div>
+              )}
+            </div>
+            <div className="px-5 py-3 border-t border-[#1e2d45] flex justify-end">
+              <button
+                onClick={() => { setMergeModal(null); setMergeError(null); }}
+                disabled={merging}
+                className="px-4 py-1.5 rounded-lg bg-white/5 text-slate-400 text-sm hover:text-white transition-colors disabled:opacity-50"
+              >
+                {merging ? "Mesclando..." : "Cancelar"}
               </button>
             </div>
           </div>
