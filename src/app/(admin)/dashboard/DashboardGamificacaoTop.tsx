@@ -35,34 +35,41 @@ export default async function DashboardGamificacaoTop() {
   const session = await getEffectiveSession();
   if (!session) return null;
 
-  const userId    = (session.user as any).id        as string;
-  const companyId = (session.user as any).companyId as string | undefined;
+  const sessionUserId = (session.user as any).id        as string;
+  const companyId     = (session.user as any).companyId as string | undefined;
   const isImpersonating = !!(session as any)._impersonating;
 
-  if (!companyId || isImpersonating) return null;
+  if (!companyId) return null;
 
   const now   = new Date();
   const month = now.getMonth() + 1;
   const year  = now.getFullYear();
 
+  const ranking = await getRanking(companyId, month, year);
+
+  // Quando impersonando, usa o top user da empresa pra ter dados pra mostrar.
+  // Senão usa o user logado normalmente.
+  const viewUserId = isImpersonating
+    ? (ranking[0]?.userId ?? sessionUserId)
+    : sessionUserId;
+
   // Carrega tudo em paralelo
-  const [myScore, myBadges, eventCounts, reiDoMesCount, ranking] = await Promise.all([
+  const [myScore, myBadges, eventCounts, reiDoMesCount] = await Promise.all([
     prisma.userScore.findUnique({
-      where: { userId_month_year: { userId, month, year } },
+      where: { userId_month_year: { userId: viewUserId, month, year } },
     }),
     prisma.userBadge.findMany({
-      where:  { userId, companyId },
+      where:  { userId: viewUserId, companyId },
       select: { badge: true, tier: true },
     }),
     prisma.scoreEvent.groupBy({
       by:     ["reason"],
-      where:  { userId, companyId, points: { gt: 0 } },
+      where:  { userId: viewUserId, companyId, points: { gt: 0 } },
       _count: true,
     }),
     prisma.userBadge.count({
-      where: { userId, companyId, badge: BadgeType.REI_DO_MES },
+      where: { userId: viewUserId, companyId, badge: BadgeType.REI_DO_MES },
     }),
-    getRanking(companyId, month, year),
   ]);
 
   const counts: Partial<Record<ScoreReason, number>> = {};
@@ -84,20 +91,25 @@ export default async function DashboardGamificacaoTop() {
     return Math.max(fromEvents, tierThreshold);
   }
 
-  // Determina a categoria do usuário e filtra ranking
-  const me = ranking.find((r) => r.userId === userId);
-  const myCategory = me?.rankingCategory ?? "PRODUCAO";
-  const sameCategory = ranking.filter((r) => r.rankingCategory === myCategory);
-  const top5 = sameCategory.slice(0, 5);
-  const myPosition = sameCategory.findIndex((r) => r.userId === userId) + 1;
+  // Ranking unificado (não filtra por categoria) — pra mostrar TODOS os
+  // competidores na home. O /gamificacao já segrega Produção × Gestão pra
+  // quem quiser visão detalhada.
+  // Reordena globalmente por pontos pra dar posição global correta.
+  const globalRanking = [...ranking]
+    .sort((a, b) => b.monthPoints - a.monthPoints)
+    .map((r, i) => ({ ...r, globalPosition: i + 1 }));
+
+  const me = globalRanking.find((r) => r.userId === viewUserId);
+  const top5 = globalRanking.slice(0, 5);
+  const myPosition = me?.globalPosition ?? 0;
 
   // Se o usuário não está no top 5, adiciona ele à lista
-  const showsMe = top5.some((r) => r.userId === userId);
+  const showsMe = top5.some((r) => r.userId === viewUserId);
 
   const monthPoints = myScore?.monthPoints ?? 0;
   const distinctEarned = new Set(myBadges.map((b) => b.badge)).size;
 
-  // Se o user não tem nenhum dado e não há ranking, esconde tudo
+  // Esconde só se realmente não tem nada pra mostrar
   if (monthPoints === 0 && distinctEarned === 0 && ranking.length === 0) return null;
 
   return (
@@ -107,10 +119,11 @@ export default async function DashboardGamificacaoTop() {
         <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="text-white font-semibold text-sm flex items-center gap-2">
-              🎖️ Suas conquistas
+              🎖️ {isImpersonating ? "Conquistas do top da empresa" : "Suas conquistas"}
             </h3>
             <p className="text-slate-500 text-xs mt-0.5">
               {distinctEarned} de {ALL_BADGES.length} desbloqueadas · {monthPoints} pts no mês
+              {isImpersonating && me && <span className="text-amber-400/80"> · {me.name}</span>}
             </p>
           </div>
           <Link
@@ -136,7 +149,7 @@ export default async function DashboardGamificacaoTop() {
               <Trophy className="w-4 h-4 text-yellow-400" /> Ranking
             </h3>
             <p className="text-slate-500 text-xs mt-0.5">
-              Top {myCategory === "GESTAO" ? "Gestão" : "Produção"} no mês
+              Top do mês — todos os competidores
             </p>
           </div>
           <Link
@@ -154,11 +167,12 @@ export default async function DashboardGamificacaoTop() {
         ) : (
           <div className="space-y-1.5">
             {top5.map((entry) => {
-              const isMe = entry.userId === userId;
-              const medal = entry.position === 1 ? "🥇"
-                          : entry.position === 2 ? "🥈"
-                          : entry.position === 3 ? "🥉"
+              const isMe = entry.userId === viewUserId;
+              const medal = entry.globalPosition === 1 ? "🥇"
+                          : entry.globalPosition === 2 ? "🥈"
+                          : entry.globalPosition === 3 ? "🥉"
                           : null;
+              const catLabel = entry.rankingCategory === "GESTAO" ? "👔" : "👷";
               return (
                 <div
                   key={entry.userId}
@@ -167,7 +181,13 @@ export default async function DashboardGamificacaoTop() {
                   }`}
                 >
                   <span className="w-6 text-center text-sm flex-shrink-0">
-                    {medal ?? <span className="text-slate-500 text-xs">#{entry.position}</span>}
+                    {medal ?? <span className="text-slate-500 text-xs">#{entry.globalPosition}</span>}
+                  </span>
+                  <span
+                    className="text-xs flex-shrink-0"
+                    title={entry.rankingCategory === "GESTAO" ? "Gestão" : "Produção"}
+                  >
+                    {catLabel}
                   </span>
                   <span className={`flex-1 truncate text-xs ${isMe ? "text-white font-medium" : "text-slate-300"}`}>
                     {entry.name}

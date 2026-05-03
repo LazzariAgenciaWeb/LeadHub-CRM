@@ -7,6 +7,11 @@ import AtendimentoStats from "./AtendimentoStats";
 import PerformanceTeaser from "./PerformanceTeaser";
 import DashboardGamificacaoTop from "./DashboardGamificacaoTop";
 
+// Sem cache — ranking, conquistas e progresso atualizam imediatamente
+// quando alguém pontua em outras páginas.
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function DashboardPage() {
   const session = await getEffectiveSession();
   const isSuperAdmin = (session?.user as any)?.role === "SUPER_ADMIN";
