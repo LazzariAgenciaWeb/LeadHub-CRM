@@ -3,7 +3,7 @@ import { Trophy, TrendingUp, Award, History, Gift } from "lucide-react";
 import { gradStroke } from "@/components/IconGradients";
 import { BadgeType, ScoreReason } from "@/generated/prisma";
 import BadgeMedallion from "./BadgeMedallion";
-import { shouldShowBadge, ALL_BADGES, BADGE_REASON } from "./labels";
+import { shouldShowBadge, ALL_BADGES, BADGE_REASON, BADGE_TIERS } from "./labels";
 
 type Props = {
   userName:    string;
@@ -39,7 +39,9 @@ export default function MyProfileCard({
     if (eb.tier > cur) maxTierByBadge.set(eb.badge, eb.tier);
   }
 
-  // Conta efetiva por badge (max entre eventos atuais e threshold do tier conquistado)
+  // Conta efetiva por badge (max entre eventos atuais e threshold do tier conquistado).
+  // O piso pelo tier é necessário pra refletir badges concedidos manualmente
+  // (admin via grant-badge) que não têm ScoreEvents acumulados.
   function effectiveCount(badge: BadgeType): number {
     const reason = BADGE_REASON[badge];
     const fromEvents = badge === "REI_DO_MES"
@@ -47,9 +49,8 @@ export default function MyProfileCard({
       : reason ? (counts[reason] ?? 0) : 0;
     const earnedTier = maxTierByBadge.get(badge) ?? 0;
     if (earnedTier === 0) return fromEvents;
-    // import dinâmico via labels é puxado direto pelo medalhão; aqui só
-    // priorizamos a contagem real. Threshold-piso fica a cargo do BadgeMedallion.
-    return fromEvents;
+    const tierThreshold = BADGE_TIERS[badge][earnedTier - 1].threshold;
+    return Math.max(fromEvents, tierThreshold);
   }
 
   const distinctEarned = new Set(earnedBadges.map((b) => b.badge)).size;
