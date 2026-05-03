@@ -44,12 +44,20 @@ function formatPhone(phone: string, isGroup: boolean) {
 export default function CompanyContacts({
   companyId,
   initialContacts,
+  mode = "all",
 }: {
   companyId: string;
   initialContacts: Contact[];
+  // "contacts" → só contatos sem acesso (pessoas/grupos que mensageiam)
+  // "access"   → só contatos com acesso (usuários do portal)
+  // "all"      → ambos (comportamento legacy em /empresas/[id])
+  mode?: "all" | "contacts" | "access";
 }) {
   const router = useRouter();
   const [contacts, setContacts] = useState<Contact[]>(initialContacts);
+  const visibleContacts = mode === "all" ? contacts
+    : mode === "access" ? contacts.filter((c) => c.hasAccess)
+    : contacts.filter((c) => !c.hasAccess);
   const [showAdd, setShowAdd] = useState(false);
   const [saving, setSaving] = useState(false);
 
@@ -86,7 +94,7 @@ export default function CompanyContacts({
     });
   }
   function toggleSelectAll() {
-    setSelectedIds((prev) => prev.size === contacts.length ? new Set() : new Set(contacts.map((c) => c.id)));
+    setSelectedIds((prev) => prev.size === visibleContacts.length ? new Set() : new Set(visibleContacts.map((c) => c.id)));
   }
   function clearSelection() {
     setSelectedIds(new Set());
@@ -280,17 +288,23 @@ export default function CompanyContacts({
       {/* Header */}
       <div className="px-5 py-4 border-b border-[#1e2d45] flex items-center justify-between">
         <div>
-          <h3 className="text-white font-semibold text-sm">📱 Contatos WhatsApp</h3>
+          <h3 className="text-white font-semibold text-sm">
+            {mode === "access" ? "👤 Quem tem acesso ao portal"
+              : mode === "contacts" ? "📱 Contatos WhatsApp"
+              : "📱 Contatos WhatsApp"}
+          </h3>
           <p className="text-slate-500 text-xs mt-0.5">
-            Telefones e grupos vinculados a esta empresa
+            {mode === "access" ? "Usuários com login no portal — gerencie acesso, papel e mesclagem"
+              : mode === "contacts" ? "Pessoas e grupos que mensageiam essa empresa (sem acesso ao portal)"
+              : "Telefones e grupos vinculados a esta empresa"}
           </p>
         </div>
         <div className="flex items-center gap-2">
-          {contacts.length > 0 && (
+          {visibleContacts.length > 0 && (
             <label className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#0a0e16] border border-[#1e2d45] text-slate-400 text-[11px] font-medium cursor-pointer hover:text-white transition-colors">
               <input
                 type="checkbox"
-                checked={selectedIds.size === contacts.length}
+                checked={selectedIds.size === visibleContacts.length}
                 onChange={toggleSelectAll}
                 className="w-3.5 h-3.5 rounded accent-indigo-500"
               />
@@ -414,15 +428,22 @@ export default function CompanyContacts({
       )}
 
       {/* Contact list */}
-      {contacts.length === 0 ? (
+      {visibleContacts.length === 0 ? (
         <div className="px-5 py-10 text-center">
-          <div className="text-3xl mb-2">📭</div>
-          <div className="text-slate-500 text-sm">Nenhum contato vinculado</div>
-          <div className="text-slate-600 text-xs mt-1">Adicione telefones ou grupos do WhatsApp desta empresa</div>
+          <div className="text-3xl mb-2">{mode === "access" ? "🔒" : "📭"}</div>
+          <div className="text-slate-500 text-sm">
+            {mode === "access" ? "Nenhum usuário com acesso"
+              : mode === "contacts" ? "Nenhum contato cadastrado"
+              : "Nenhum contato vinculado"}
+          </div>
+          <div className="text-slate-600 text-xs mt-1">
+            {mode === "access" ? "Conceda acesso ao portal pra alguém na aba de Contatos"
+              : "Adicione telefones ou grupos do WhatsApp desta empresa"}
+          </div>
         </div>
       ) : (
         <div className="divide-y divide-[#1e2d45]/60">
-          {contacts.map((c) => {
+          {visibleContacts.map((c) => {
             const rl = roleLabel(c.role);
             const isEditing = editingId === c.id;
             const isSelected = selectedIds.has(c.id);

@@ -11,6 +11,9 @@ import WebhookSettings from "./WebhookSettings";
 import AtendimentoSettings from "./AtendimentoSettings";
 import IntegracoesGoogleSection from "./IntegracoesGoogleSection";
 import EmailSettings from "./EmailSettings";
+import CompanyContacts from "../empresas/[id]/CompanyContacts";
+import CompanyVault from "../empresas/[id]/CompanyVault";
+import CompanySubscription from "../empresas/[id]/CompanySubscription";
 
 export default async function ConfiguracoesPage({
   searchParams,
@@ -55,7 +58,8 @@ export default async function ConfiguracoesPage({
         webhookBaseUrl={webhookBaseUrl}
       />
     );
-  } else if (secao === "empresa") {
+  } else if (secao === "empresa" || secao === "minha-empresa-dados") {
+    // "empresa" mantido como alias legacy → renderiza dados da minha empresa
     let company = null;
     if (userCompanyId) {
       company = await prisma.company.findUnique({
@@ -68,6 +72,47 @@ export default async function ConfiguracoesPage({
         <SettingsForm isSuperAdmin={false} settings={{}} company={company} onlyCompany />
       </div>
     );
+  } else if (secao === "minha-empresa-contatos" || secao === "minha-empresa-acessos") {
+    // Reutiliza CompanyContacts com filtro: contatos (sem acesso) vs acessos (com acesso)
+    const mode = secao === "minha-empresa-acessos" ? "access" : "contacts";
+    if (!userCompanyId) {
+      content = <div className="p-6 text-slate-500 text-sm">Sua conta não está vinculada a nenhuma empresa.</div>;
+    } else {
+      const contactsRaw = await prisma.companyContact.findMany({
+        where: { companyId: userCompanyId },
+        include: { user: { select: { id: true, name: true, email: true } } },
+        orderBy: [{ hasAccess: "desc" }, { name: "asc" }],
+      });
+      const contacts = contactsRaw.map((c) => ({
+        ...c,
+        createdAt: c.createdAt.toISOString(),
+      }));
+      content = (
+        <div className="p-6 max-w-4xl">
+          <CompanyContacts companyId={userCompanyId} initialContacts={contacts as any} mode={mode} />
+        </div>
+      );
+    }
+  } else if (secao === "minha-empresa-cofre") {
+    if (!userCompanyId) {
+      content = <div className="p-6 text-slate-500 text-sm">Sua conta não está vinculada a nenhuma empresa.</div>;
+    } else {
+      content = (
+        <div className="p-6 max-w-5xl">
+          <CompanyVault companyId={userCompanyId} />
+        </div>
+      );
+    }
+  } else if (secao === "minha-empresa-plano") {
+    if (!userCompanyId) {
+      content = <div className="p-6 text-slate-500 text-sm">Sua conta não está vinculada a nenhuma empresa.</div>;
+    } else {
+      content = (
+        <div className="p-6 max-w-3xl">
+          <CompanySubscription companyId={userCompanyId} />
+        </div>
+      );
+    }
   } else if (secao === "integracoes-evolution" || secao === "integracoes") {
     // Legacy "integracoes" redirects to Evolution sub-section
     const settingsRaw = await prisma.setting.findMany();

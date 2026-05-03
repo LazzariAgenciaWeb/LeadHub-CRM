@@ -3,7 +3,8 @@
 import { useRouter } from "next/navigation";
 import {
   MessageSquare, Building2, Plug, Zap, CheckSquare, Sparkles, Webhook,
-  Workflow, Tag, Clock, Globe, Mail, type LucideIcon,
+  Workflow, Tag, Clock, Globe, Mail, FileText, Users, KeyRound, Shield, CreditCard,
+  type LucideIcon,
 } from "lucide-react";
 import { gradStroke, type GradientKey } from "@/components/IconGradients";
 
@@ -20,7 +21,20 @@ type SectionItem =
 
 const SECTIONS: SectionItem[] = [
   { type: "item", key: "instancias", Icon: MessageSquare, grad: "instancias", label: "Instâncias WhatsApp", desc: "Números conectados" },
-  { type: "item", key: "empresa",    Icon: Building2,     grad: "empresa",    label: "Empresa",              desc: "Dados e perfil" },
+  {
+    type: "group",
+    key: "minha-empresa",
+    Icon: Building2,
+    grad: "empresa",
+    label: "Minha Empresa",
+    children: [
+      { key: "minha-empresa-dados",     Icon: FileText,  grad: "empresa",       label: "Dados",       desc: "Nome, logo e informações" },
+      { key: "minha-empresa-contatos",  Icon: Users,     grad: "whatsapp",      label: "Contatos",    desc: "Pessoas e grupos do WhatsApp" },
+      { key: "minha-empresa-acessos",   Icon: KeyRound,  grad: "empresa",       label: "Quem tem acesso", desc: "Usuários do portal" },
+      { key: "minha-empresa-cofre",     Icon: Shield,    grad: "cofre",         label: "Cofre",       desc: "Senhas e credenciais" },
+      { key: "minha-empresa-plano",     Icon: CreditCard,grad: "oportunidades", label: "Plano atual", desc: "Assinatura e mudança de plano" },
+    ],
+  },
   {
     type: "group",
     key: "integracoes",
@@ -43,6 +57,9 @@ const SECTIONS: SectionItem[] = [
 
 function isIntegSubKey(key: string) {
   return key.startsWith("integracoes-");
+}
+function isMinhaEmpresaSubKey(key: string) {
+  return key.startsWith("minha-empresa-");
 }
 
 export default function SettingsLayout({
@@ -88,7 +105,11 @@ export default function SettingsLayout({
           }
 
           // Group
-          const groupActive = isIntegSubKey(activeSection);
+          const groupActive = s.key === "integracoes"
+            ? isIntegSubKey(activeSection)
+            : s.key === "minha-empresa"
+            ? isMinhaEmpresaSubKey(activeSection)
+            : false;
           return (
             <div key={s.key} className="mb-0.5">
               {/* Group header — not clickable, just a label */}
