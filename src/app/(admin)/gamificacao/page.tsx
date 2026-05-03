@@ -119,6 +119,8 @@ export default async function GamificacaoPage({
             position={myPosition}
             totalUsers={ranking.length}
             earnedBadges={myBadges.map((b) => ({ badge: b.badge, tier: b.tier }))}
+            counts={counts}
+            reiDoMesCount={reiDoMesCount}
           />
 
           <Leaderboard ranking={ranking} currentUserId={viewUserId} />

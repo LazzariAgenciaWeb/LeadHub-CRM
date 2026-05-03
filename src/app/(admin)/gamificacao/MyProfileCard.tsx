@@ -1,7 +1,27 @@
 import { Trophy, TrendingUp, Award } from "lucide-react";
 import { gradStroke } from "@/components/IconGradients";
-import { BadgeType } from "@/generated/prisma";
-import { BADGE_META, BADGE_TIERS, TIER_STYLES } from "./labels";
+import { BadgeType, ScoreReason } from "@/generated/prisma";
+import BadgeMedallion from "./BadgeMedallion";
+
+const BADGE_REASON: Record<BadgeType, ScoreReason | null> = {
+  RAIO_VELOZ:      "RESPOSTA_RAPIDA_5MIN",
+  RESOLVEDOR:      "TICKET_RESOLVIDO",
+  CLOSER:          "LEAD_CONVERTIDO",
+  ANTECIPADOR:     "RETORNO_ANTECIPADO",
+  PRIMEIRO_DO_DIA: "ATENDIMENTO_MESMO_DIA",
+  ZERO_PENDENCIA:  "DIA_SEM_PENDENCIA",
+  FUNIL_COMPLETO:  "LEAD_AVANCADO",
+  PONTUAL:         "DIA_SEM_ATRASO",
+  ENTREGADOR:      "PROJETO_ENTREGUE_NO_PRAZO",
+  SPRINT_MASTER:   null,
+  REI_DO_MES:      null,
+};
+
+const ALL_BADGES: BadgeType[] = [
+  "RAIO_VELOZ", "RESOLVEDOR", "CLOSER", "ANTECIPADOR",
+  "PRIMEIRO_DO_DIA", "ZERO_PENDENCIA", "FUNIL_COMPLETO",
+  "PONTUAL", "ENTREGADOR", "SPRINT_MASTER", "REI_DO_MES",
+];
 
 type Props = {
   userName:    string;
@@ -9,12 +29,17 @@ type Props = {
   totalPoints: number;
   position:    number | null;
   totalUsers:  number;
-  // Maior tier conquistado por badge
+  // Tiers já conquistados em UserBadge — usado como piso de progresso
   earnedBadges: { badge: BadgeType; tier: number }[];
+  // Contagem de eventos positivos por reason — alimenta o progresso
+  counts:        Partial<Record<ScoreReason, number>>;
+  // REI_DO_MES (calculado por UserBadge.count)
+  reiDoMesCount: number;
 };
 
 export default function MyProfileCard({
-  userName, monthPoints, totalPoints, position, totalUsers, earnedBadges,
+  userName, monthPoints, totalPoints, position, totalUsers,
+  earnedBadges, counts, reiDoMesCount,
 }: Props) {
   const positionLabel = position
     ? position === 1 ? "🥇 1º"
@@ -23,15 +48,27 @@ export default function MyProfileCard({
       : `${position}º`
     : "—";
 
-  // Reduz pra um item por badge — mostra só o maior tier conquistado
-  const highestByType = new Map<BadgeType, number>();
-  for (const b of earnedBadges) {
-    const cur = highestByType.get(b.badge) ?? 0;
-    if (b.tier > cur) highestByType.set(b.badge, b.tier);
+  // Maior tier por badge a partir do que está em UserBadge
+  const maxTierByBadge = new Map<BadgeType, number>();
+  for (const eb of earnedBadges) {
+    const cur = maxTierByBadge.get(eb.badge) ?? 0;
+    if (eb.tier > cur) maxTierByBadge.set(eb.badge, eb.tier);
   }
-  const distinctBadges = Array.from(highestByType.entries())
-    .map(([badge, tier]) => ({ badge, tier }))
-    .sort((a, b) => b.tier - a.tier);
+
+  // Conta efetiva por badge (max entre eventos atuais e threshold do tier conquistado)
+  function effectiveCount(badge: BadgeType): number {
+    const reason = BADGE_REASON[badge];
+    const fromEvents = badge === "REI_DO_MES"
+      ? reiDoMesCount
+      : reason ? (counts[reason] ?? 0) : 0;
+    const earnedTier = maxTierByBadge.get(badge) ?? 0;
+    if (earnedTier === 0) return fromEvents;
+    // import dinâmico via labels é puxado direto pelo medalhão; aqui só
+    // priorizamos a contagem real. Threshold-piso fica a cargo do BadgeMedallion.
+    return fromEvents;
+  }
+
+  const distinctEarned = new Set(earnedBadges.map((b) => b.badge)).size;
 
   return (
     <div className="bg-gradient-to-br from-[#0a0f1a] to-[#0f1623] border border-[#1e2d45] rounded-2xl p-6">
@@ -47,7 +84,6 @@ export default function MyProfileCard({
       </div>
 
       <div className="grid grid-cols-3 gap-4">
-        {/* Pontos do mês */}
         <div className="bg-[#080b12] border border-[#1e2d45] rounded-xl p-4">
           <div className="flex items-center gap-1.5 mb-2">
             <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
@@ -56,8 +92,6 @@ export default function MyProfileCard({
           <p className="text-white font-bold text-2xl">{monthPoints}</p>
           <p className="text-slate-600 text-[11px] mt-0.5">pontos</p>
         </div>
-
-        {/* Posição */}
         <div className="bg-[#080b12] border border-[#1e2d45] rounded-xl p-4">
           <div className="flex items-center gap-1.5 mb-2">
             <Trophy className="w-3.5 h-3.5 text-yellow-400" />
@@ -66,50 +100,35 @@ export default function MyProfileCard({
           <p className="text-white font-bold text-2xl">{positionLabel}</p>
           <p className="text-slate-600 text-[11px] mt-0.5">de {totalUsers}</p>
         </div>
-
-        {/* Badges */}
         <div className="bg-[#080b12] border border-[#1e2d45] rounded-xl p-4">
           <div className="flex items-center gap-1.5 mb-2">
             <Award className="w-3.5 h-3.5 text-indigo-400" />
             <p className="text-slate-500 text-[10px] uppercase tracking-wider">Badges</p>
           </div>
-          <p className="text-white font-bold text-2xl">{distinctBadges.length}</p>
+          <p className="text-white font-bold text-2xl">{distinctEarned}</p>
           <p className="text-slate-600 text-[11px] mt-0.5">conquistadas</p>
         </div>
       </div>
 
-      {/* Lista de badges conquistadas */}
-      {distinctBadges.length > 0 && (
-        <div className="mt-4 pt-4 border-t border-[#1e2d45]">
-          <p className="text-slate-500 text-[10px] uppercase tracking-wider mb-2">Suas conquistas</p>
-          <div className="flex flex-wrap gap-1.5">
-            {distinctBadges.map(({ badge, tier }) => {
-              const meta  = BADGE_META[badge];
-              const tName = BADGE_TIERS[badge].find((t) => t.level === tier)?.name ?? "";
-              const style = TIER_STYLES[tier];
-              return (
-                <div
-                  key={badge}
-                  title={`${meta.name} · N${tier} ${tName}`}
-                  className={`flex items-center gap-1.5 px-2 py-1 rounded-lg ${style.bg} ring-1 ${style.ring}`}
-                >
-                  <span className="text-base leading-none">{meta.emoji}</span>
-                  <div className="flex flex-col leading-tight">
-                    <span className="text-white text-[11px] font-semibold">{meta.name}</span>
-                    <span className={`text-[9px] font-bold uppercase tracking-wider ${style.text}`}>
-                      N{tier} · {tName}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
       <div className="mt-4 pt-4 border-t border-[#1e2d45] flex items-center justify-between text-xs">
         <span className="text-slate-500">Acumulado total</span>
         <span className="text-white font-medium">{totalPoints} pts</span>
+      </div>
+
+      {/* Medalhões — barra termômetro circular por badge */}
+      <div className="mt-5 pt-5 border-t border-[#1e2d45]">
+        <p className="text-slate-500 text-[10px] uppercase tracking-wider mb-3">
+          Suas conquistas — termômetro de progresso
+        </p>
+        <div className="grid grid-cols-4 sm:grid-cols-6 gap-3">
+          {ALL_BADGES.map((badge) => (
+            <BadgeMedallion
+              key={badge}
+              badge={badge}
+              count={effectiveCount(badge)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

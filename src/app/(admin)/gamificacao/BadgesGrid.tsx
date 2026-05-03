@@ -2,6 +2,7 @@ import { BadgeType, ScoreReason } from "@/generated/prisma";
 import {
   BADGE_META, BADGE_TIERS, TIER_STYLES, REASON_LABEL,
   BADGE_CATEGORY, CATEGORY_META, CATEGORY_ORDER,
+  BAR_GRADIENT, ICON_GLOW,
   getBadgeProgress,
 } from "./labels";
 import BadgeInfoButton from "./BadgeInfoButton";
@@ -130,9 +131,11 @@ export default function BadgesGrid({ counts, reiDoMesCount, earnedBadges }: Prop
               )}
 
               <div className="p-3 flex items-center gap-3">
-                {/* Emoji */}
-                <div className={`text-3xl flex-shrink-0 ${earned ? "" : "grayscale"}`}>
-                  {meta.emoji}
+                {/* Emoji em círculo "termômetro" — bg + ring + glow esquentam por tier */}
+                <div className={`relative w-12 h-12 rounded-full flex items-center justify-center text-2xl flex-shrink-0 transition-all ${
+                  ICON_GLOW[currentTier?.level ?? 0]
+                } ${currentTier?.level === 6 ? "animate-pulse" : ""}`}>
+                  <span className={earned ? "" : "grayscale opacity-60"}>{meta.emoji}</span>
                 </div>
 
                 {/* Info */}
@@ -160,17 +163,13 @@ export default function BadgesGrid({ counts, reiDoMesCount, earnedBadges }: Prop
                     </div>
                   </div>
 
-                  {/* Progresso */}
+                  {/* Progresso — barra termômetro com gradiente do tier atual ao próximo */}
                   {!isMax ? (
                     <div className="mt-1.5">
-                      <div className="h-1.5 bg-[#080b12] rounded-full overflow-hidden">
+                      <div className="h-2 bg-[#080b12] rounded-full overflow-hidden border border-[#1e2d45]">
                         <div
-                          className={`h-full transition-all ${
-                            earned
-                              ? "bg-gradient-to-r from-fuchsia-500 to-purple-500"
-                              : "bg-gradient-to-r from-slate-600 to-slate-500"
-                          }`}
-                          style={{ width: `${progress * 100}%` }}
+                          className={`h-full transition-all duration-500 ${BAR_GRADIENT[currentTier?.level ?? 0]}`}
+                          style={{ width: `${Math.max(2, progress * 100)}%` }}
                         />
                       </div>
                       <div className="flex items-center justify-between mt-1">
@@ -184,7 +183,7 @@ export default function BadgesGrid({ counts, reiDoMesCount, earnedBadges }: Prop
                     </div>
                   ) : (
                     <div className="mt-1.5">
-                      <div className="h-1.5 bg-gradient-to-r from-fuchsia-500 via-purple-500 to-blue-500 rounded-full" />
+                      <div className="h-2 bg-gradient-to-r from-fuchsia-500 via-purple-500 to-pink-400 rounded-full animate-pulse" />
                       <div className="text-fuchsia-300 text-[10px] mt-1 font-semibold">
                         ✦ Nível máximo · {count} eventos
                       </div>

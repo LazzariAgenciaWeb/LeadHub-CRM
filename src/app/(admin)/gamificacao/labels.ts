@@ -170,6 +170,69 @@ export type TierStyle = {
   badgeText: string;
 };
 
+/**
+ * Gradiente da barra de progresso "termômetro": vai da cor do tier ATUAL
+ * até a cor do PRÓXIMO. Quando o usuário tá perto de subir, a barra mostra
+ * o aquecimento do nível-alvo. Tier 6 é o Highlander (rainbow legendary).
+ */
+export const BAR_GRADIENT: Record<number, string> = {
+  // 0 = ainda não desbloqueou nada (vai esquentar pro N1 emerald)
+  0: "bg-gradient-to-r from-slate-700 via-slate-600 to-emerald-500",
+  1: "bg-gradient-to-r from-emerald-500 to-cyan-500",
+  2: "bg-gradient-to-r from-cyan-500 to-indigo-500",
+  3: "bg-gradient-to-r from-indigo-500 to-yellow-500",
+  4: "bg-gradient-to-r from-yellow-500 to-orange-500",
+  5: "bg-gradient-to-r from-orange-500 to-fuchsia-500",
+  6: "bg-gradient-to-r from-fuchsia-500 via-purple-500 to-pink-400",
+};
+
+/**
+ * Cores em hex por tier — usadas em SVG (stroke do ring de progresso) e
+ * em props de Lucide icons (que aceitam cor via prop). Tailwind precisaria
+ * de classes statically detectable, então hex é mais flexível pra SVG.
+ */
+export const TIER_HEX: Record<number, string> = {
+  0: "#475569", // slate-600 — bloqueado
+  1: "#10b981", // emerald-500
+  2: "#06b6d4", // cyan-500
+  3: "#6366f1", // indigo-500
+  4: "#eab308", // yellow-500
+  5: "#f97316", // orange-500
+  6: "#d946ef", // fuchsia-500
+};
+
+/**
+ * Lucide icon names por badge — alternativa colorida ao emoji.
+ * Usa string pra evitar lazy import; importa por nome no componente.
+ */
+export const BADGE_LUCIDE: Record<BadgeType, string> = {
+  RAIO_VELOZ:      "Zap",
+  RESOLVEDOR:      "CircleCheck",
+  CLOSER:          "DollarSign",
+  ANTECIPADOR:     "Target",
+  PRIMEIRO_DO_DIA: "Sunrise",
+  ZERO_PENDENCIA:  "Sparkles",
+  FUNIL_COMPLETO:  "TrendingUp",
+  PONTUAL:         "Clock",
+  ENTREGADOR:      "Rocket",
+  SPRINT_MASTER:   "Activity",
+  REI_DO_MES:      "Crown",
+};
+
+/**
+ * Glow / ring ao redor do ícone do badge — fica mais "quente" conforme
+ * o tier sobe. Aplicado num <div> circular ao redor do emoji.
+ */
+export const ICON_GLOW: Record<number, string> = {
+  0: "bg-slate-800/40 ring-2 ring-slate-700/40",
+  1: "bg-emerald-500/15 ring-2 ring-emerald-500/40 shadow-[0_0_12px_rgba(16,185,129,0.25)]",
+  2: "bg-cyan-500/15 ring-2 ring-cyan-500/40 shadow-[0_0_14px_rgba(6,182,212,0.3)]",
+  3: "bg-indigo-500/15 ring-2 ring-indigo-500/50 shadow-[0_0_16px_rgba(99,102,241,0.35)]",
+  4: "bg-yellow-500/15 ring-2 ring-yellow-500/50 shadow-[0_0_18px_rgba(234,179,8,0.4)]",
+  5: "bg-orange-500/20 ring-2 ring-orange-500/60 shadow-[0_0_20px_rgba(249,115,22,0.45)]",
+  6: "bg-fuchsia-500/25 ring-2 ring-fuchsia-400/70 shadow-[0_0_28px_rgba(217,70,239,0.6)]",
+};
+
 export const TIER_STYLES: Record<number, TierStyle> = {
   1: {
     text:      "text-emerald-300",
