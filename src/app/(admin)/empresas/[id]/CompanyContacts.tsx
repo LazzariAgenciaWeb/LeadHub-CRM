@@ -58,6 +58,11 @@ export default function CompanyContacts({
   const visibleContacts = mode === "all" ? contacts
     : mode === "access" ? contacts.filter((c) => c.hasAccess)
     : contacts.filter((c) => !c.hasAccess);
+
+  // Linhas "virtuais" representam Users sem CompanyContact (órfãos). UI
+  // permite só ações que operam no User (mesclar, resetar senha) e esconde
+  // o resto (editar/deletar/toggle/bulk).
+  function isVirtual(c: Contact) { return c.id.startsWith("virtual:"); }
   const [showAdd, setShowAdd] = useState(false);
   const [saving, setSaving] = useState(false);
 
@@ -479,15 +484,19 @@ export default function CompanyContacts({
             const isSelected = selectedIds.has(c.id);
             return (
               <div key={c.id} className={`px-5 py-3.5 flex gap-3 ${isSelected ? "bg-indigo-500/5" : ""}`}>
-                {/* Checkbox de seleção em massa */}
-                <label className="flex items-start pt-1 cursor-pointer flex-shrink-0">
-                  <input
-                    type="checkbox"
-                    checked={isSelected}
-                    onChange={() => toggleSelected(c.id)}
-                    className="w-4 h-4 rounded accent-indigo-500"
-                  />
-                </label>
+                {/* Checkbox de seleção em massa — escondido em linha virtual */}
+                {isVirtual(c) ? (
+                  <div className="w-4 flex-shrink-0" title="Usuário órfão (sem registro de contato)" />
+                ) : (
+                  <label className="flex items-start pt-1 cursor-pointer flex-shrink-0">
+                    <input
+                      type="checkbox"
+                      checked={isSelected}
+                      onChange={() => toggleSelected(c.id)}
+                      className="w-4 h-4 rounded accent-indigo-500"
+                    />
+                  </label>
+                )}
                 <div className="flex-1 min-w-0">
                 {isEditing ? (
                   /* ── Modo edição ── */
@@ -556,27 +565,36 @@ export default function CompanyContacts({
                       )}
                     </div>
 
-                    {/* Acesso ao portal */}
-                    <div className="flex flex-col items-center gap-1 flex-shrink-0">
-                      <button
-                        onClick={() => handleToggleAccess(c)}
-                        title={c.hasAccess ? "Revogar acesso ao portal" : "Dar acesso ao portal"}
-                        className={`relative w-11 h-6 rounded-full transition-colors ${
-                          c.hasAccess ? "bg-green-600" : "bg-[#1e2d45]"
-                        }`}
-                      >
-                        <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all ${
-                          c.hasAccess ? "left-[22px]" : "left-0.5"
-                        }`} />
-                      </button>
-                      <span className="text-[9px] text-slate-600 font-medium">
-                        {c.hasAccess ? "Acesso" : "Sem acesso"}
-                      </span>
-                    </div>
+                    {/* Acesso ao portal — toggle só faz sentido em contato real */}
+                    {isVirtual(c) ? (
+                      <div className="flex flex-col items-center gap-1 flex-shrink-0">
+                        <span className="text-amber-400 text-[10px] font-bold bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">
+                          Órfão
+                        </span>
+                        <span className="text-[9px] text-slate-600">Sem contato</span>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center gap-1 flex-shrink-0">
+                        <button
+                          onClick={() => handleToggleAccess(c)}
+                          title={c.hasAccess ? "Revogar acesso ao portal" : "Dar acesso ao portal"}
+                          className={`relative w-11 h-6 rounded-full transition-colors ${
+                            c.hasAccess ? "bg-green-600" : "bg-[#1e2d45]"
+                          }`}
+                        >
+                          <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all ${
+                            c.hasAccess ? "left-[22px]" : "left-0.5"
+                          }`} />
+                        </button>
+                        <span className="text-[9px] text-slate-600 font-medium">
+                          {c.hasAccess ? "Acesso" : "Sem acesso"}
+                        </span>
+                      </div>
+                    )}
 
                     {/* Ações */}
                     <div className="flex items-center gap-1 flex-shrink-0">
-                      {c.user && (
+                      {c.user && !isVirtual(c) && (
                         <button
                           onClick={() => handleResetPassword(c)}
                           disabled={saving}
@@ -595,6 +613,7 @@ export default function CompanyContacts({
                           🔀
                         </button>
                       )}
+                      {!isVirtual(c) && (
                       <button
                         onClick={() => { setEditingId(c.id); setEditForm({ name: c.name ?? "", role: c.role, notes: c.notes ?? "" }); }}
                         className="w-7 h-7 rounded-lg hover:bg-white/10 flex items-center justify-center text-slate-500 hover:text-slate-300 transition-colors text-xs"
@@ -602,6 +621,8 @@ export default function CompanyContacts({
                       >
                         ✏️
                       </button>
+                      )}
+                      {!isVirtual(c) && (
                       <button
                         onClick={() => handleDelete(c.id)}
                         className="w-7 h-7 rounded-lg hover:bg-red-500/10 flex items-center justify-center text-slate-600 hover:text-red-400 transition-colors text-xs"
@@ -609,6 +630,7 @@ export default function CompanyContacts({
                       >
                         🗑️
                       </button>
+                      )}
                     </div>
                   </div>
                 )}

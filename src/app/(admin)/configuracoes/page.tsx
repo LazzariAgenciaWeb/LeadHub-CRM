@@ -78,18 +78,49 @@ export default async function ConfiguracoesPage({
     if (!userCompanyId) {
       content = <div className="p-6 text-slate-500 text-sm">Sua conta não está vinculada a nenhuma empresa.</div>;
     } else {
-      const contactsRaw = await prisma.companyContact.findMany({
-        where: { companyId: userCompanyId },
-        include: { user: { select: { id: true, name: true, email: true } } },
-        orderBy: [{ hasAccess: "desc" }, { name: "asc" }],
-      });
+      const [contactsRaw, allUsers] = await Promise.all([
+        prisma.companyContact.findMany({
+          where: { companyId: userCompanyId },
+          include: { user: { select: { id: true, name: true, email: true } } },
+          orderBy: [{ hasAccess: "desc" }, { name: "asc" }],
+        }),
+        // Users da empresa pra detectar "órfãos" — usuários sem CompanyContact.
+        // Um Cosmo duplicado pode existir como User mas não ter linha de contato
+        // (caso comum quando criado via convite direto). Sem isso ele some da
+        // tela e fica impossível de mesclar.
+        prisma.user.findMany({
+          where: { companyId: userCompanyId },
+          select: { id: true, name: true, email: true },
+        }),
+      ]);
+
       const contacts = contactsRaw.map((c) => ({
         ...c,
         createdAt: c.createdAt.toISOString(),
       }));
+
+      // Sintetiza linhas virtuais pra cada User órfão (sem CompanyContact).
+      // ID prefixado com "virtual:" pra UI esconder ações destrutivas.
+      const linkedUserIds = new Set(contacts.filter((c) => c.user).map((c) => c.user!.id));
+      const orphanUsers = allUsers.filter((u) => !linkedUserIds.has(u.id));
+      const virtualContacts = orphanUsers.map((u) => ({
+        id:        `virtual:${u.id}`,
+        name:      u.name,
+        phone:     u.email, // sem telefone disponível — usa email como fallback
+        isGroup:   false,
+        role:      "CONTACT",
+        hasAccess: true,    // tem login → entra na aba "Quem tem acesso"
+        notes:     null,
+        userId:    u.id,
+        createdAt: new Date().toISOString(),
+        user:      { id: u.id, name: u.name, email: u.email },
+      }));
+
+      const merged = [...contacts, ...virtualContacts];
+
       content = (
         <div className="p-6 max-w-4xl">
-          <CompanyContacts companyId={userCompanyId} initialContacts={contacts as any} mode={mode} />
+          <CompanyContacts companyId={userCompanyId} initialContacts={merged as any} mode={mode} />
         </div>
       );
     }
