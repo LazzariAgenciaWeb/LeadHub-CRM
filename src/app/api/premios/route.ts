@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { assertModule } from "@/lib/billing";
 
 // GET /api/premios — lista os prêmios da empresa do usuário
 export async function GET() {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  // fix A3 — gate de módulo (prêmios fazem parte de gamificação)
+  const gate = await assertModule(session, "gamificacao");
+  if (!gate.ok) return gate.response;
 
   const companyId = (session.user as any).companyId as string | undefined;
   if (!companyId) return NextResponse.json({ rewards: [] });
@@ -22,6 +27,9 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "gamificacao");
+  if (!gate.ok) return gate.response;
 
   const role = (session.user as any).role as string;
   const companyId = (session.user as any).companyId as string | undefined;

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { assertModule } from "@/lib/billing";
 
 // POST /api/projetos/[id]/followup
 // Registra uma cobrança ao cliente — usado quando projeto está em
@@ -14,6 +15,9 @@ export async function POST(
 ) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "projetos");
+  if (!gate.ok) return gate.response;
 
   const { id } = await params;
   const userId   = (session.user as any).id   as string | undefined;

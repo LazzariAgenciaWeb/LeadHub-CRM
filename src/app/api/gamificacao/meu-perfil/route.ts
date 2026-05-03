@@ -2,12 +2,17 @@ import { NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { getRanking } from "@/lib/gamification";
+import { assertModule } from "@/lib/billing";
 
 // GET /api/gamificacao/meu-perfil
 // Retorna pontuação, posição no ranking e badges do usuário logado.
 export async function GET() {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  // fix A3 — gate de módulo (antes só Sidebar checava)
+  const gate = await assertModule(session, "gamificacao");
+  if (!gate.ok) return gate.response;
 
   const userId    = (session.user as any).id as string;
   const companyId = (session.user as any).companyId as string | undefined;

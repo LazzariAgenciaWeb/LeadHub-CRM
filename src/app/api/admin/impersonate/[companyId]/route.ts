@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { IMPERSONATE_COOKIE } from "@/lib/effective-session";
+import { recordAdminAction, extractIp } from "@/lib/admin-audit";
+import { prisma } from "@/lib/prisma";
 
 // GET /api/admin/impersonate/[companyId] — inicia impersonação
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ companyId: string }> }
 ) {
   const session = await getServerSession(authOptions);
@@ -15,7 +17,24 @@ export async function GET(
 
   const { companyId } = await params;
 
-  const baseUrl = process.env.NEXTAUTH_URL ?? `https://${_req.headers.get("host")}`;
+  // fix A1 — auditoria de impersonation. Cliente precisa saber quando alguém
+  // da Lazzari logou como ele (B2B/LGPD).
+  const targetCompany = await prisma.company.findUnique({
+    where:  { id: companyId },
+    select: { name: true },
+  });
+  await recordAdminAction({
+    adminUserId:     (session.user as any).id,
+    adminUserName:   session.user?.name ?? null,
+    adminUserEmail:  session.user?.email ?? null,
+    action:          "IMPERSONATE_START",
+    targetCompanyId: companyId,
+    ip:              extractIp(req),
+    userAgent:       req.headers.get("user-agent"),
+    metadata:        { targetCompanyName: targetCompany?.name ?? null },
+  });
+
+  const baseUrl = process.env.NEXTAUTH_URL ?? `https://${req.headers.get("host")}`;
   const res = NextResponse.redirect(new URL("/dashboard", baseUrl));
   res.cookies.set(IMPERSONATE_COOKIE, companyId, {
     httpOnly: true,

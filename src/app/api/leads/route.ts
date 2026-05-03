@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getClickupSettings, syncOportunidadeToClickup } from "@/lib/clickup";
+import { getUserPermissions } from "@/lib/user-permissions";
 
 // GET /api/leads?companyId=&status=&campaignId=&pipeline=&search=&page=&limit=
 export async function GET(req: NextRequest) {
@@ -68,6 +69,18 @@ export async function POST(req: NextRequest) {
 
   const userRole = (session.user as any).role;
   const userCompanyId = (session.user as any).companyId;
+
+  // fix C2 — frontend esconde "Criar lead" sem canCreateLeads, mas a rota
+  // aceitava chamada direta (curl/Postman) e qualquer atendente conseguia
+  // criar lead ignorando a flag do setor.
+  const perms = await getUserPermissions(session);
+  if (!perms) {
+    return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+  }
+  if (!perms.isAdmin && !perms.canCreateLeads) {
+    return NextResponse.json({ error: "Sem permissão para criar leads" }, { status: 403 });
+  }
+
   const body = await req.json();
   const { name, phone, email, source, status, notes, value, companyId, campaignId, pipeline, pipelineStage, isInternal } = body;
 

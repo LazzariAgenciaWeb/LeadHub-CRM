@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getClickupSettings, syncTicketToClickup } from "@/lib/clickup";
 import { findOrCreateClientCompany } from "@/lib/client-company";
+import { getUserPermissions } from "@/lib/user-permissions";
 
 // GET /api/tickets?companyId=&status=&priority=&type=&assigneeId=&overdueOnly=&unassignedOnly=
 export async function GET(req: NextRequest) {
@@ -79,6 +80,14 @@ export async function POST(req: NextRequest) {
   const userRole = (session.user as any).role;
   const userCompanyId = (session.user as any).companyId;
   const userId = (session.user as any).id;
+
+  // fix C2 — UI esconde "Novo chamado" sem canCreateTickets, mas a rota
+  // aceitava POST direto via curl/script.
+  const perms = await getUserPermissions(session);
+  if (!perms) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+  if (!perms.isAdmin && !perms.canCreateTickets) {
+    return NextResponse.json({ error: "Sem permissão para criar chamados" }, { status: 403 });
+  }
 
   const body = await req.json();
   const {

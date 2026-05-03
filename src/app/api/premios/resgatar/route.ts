@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { assertModule } from "@/lib/billing";
 
 // POST /api/premios/resgatar
 // Body: { rewardId }
@@ -8,6 +9,9 @@ import { prisma } from "@/lib/prisma";
 export async function POST(req: NextRequest) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "gamificacao");
+  if (!gate.ok) return gate.response;
 
   const userId    = (session.user as any).id as string;
   const companyId = (session.user as any).companyId as string | undefined;

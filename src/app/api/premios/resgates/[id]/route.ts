@@ -2,12 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { RedemptionStatus } from "@/generated/prisma";
+import { assertModule } from "@/lib/billing";
 
 // PATCH /api/premios/resgates/[id] — admin aprova/rejeita/entrega
 // Body: { status: "APPROVED"|"REJECTED"|"DELIVERED", notes? }
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "gamificacao");
+  if (!gate.ok) return gate.response;
 
   const role = (session.user as any).role as string;
   const userCompanyId = (session.user as any).companyId as string | undefined;

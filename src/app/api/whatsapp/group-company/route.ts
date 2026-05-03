@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { assertModule } from "@/lib/billing";
 
 // PATCH /api/whatsapp/group-company
 // Body: { groupJid, targetCompanyId }
@@ -9,6 +10,9 @@ import { prisma } from "@/lib/prisma";
 export async function PATCH(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "whatsapp");
+  if (!gate.ok) return gate.response;
 
   const { groupJid, targetCompanyId } = await req.json();
   if (!groupJid || !groupJid.includes("@g.us")) {

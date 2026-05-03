@@ -42,16 +42,19 @@ const ALL_PERMISSIONS: UserPermissions = {
   canCreateCompanies: true,
 };
 
+// Deny-by-default: CLIENT sem setor não enxerga nada até receber atribuição
+// (fix C1). Antes do fix esse default liberava view de leads/tickets, criando
+// janela de privilégio em novo atendente sem setor.
 const DEFAULT_CLIENT_PERMISSIONS: UserPermissions = {
   canManageUsers: false,
-  canViewLeads: true,
+  canViewLeads: false,
   canCreateLeads: false,
-  canViewTickets: true,
-  canCreateTickets: true,
+  canViewTickets: false,
+  canCreateTickets: false,
   canViewConfig: false,
   canUseAI: false,
-  canViewInbox: true,
-  canSendMessages: true,
+  canViewInbox: false,
+  canSendMessages: false,
   canViewCompanies: false,
   canCreateCompanies: false,
 };

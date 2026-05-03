@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { getClickupSettings, syncOportunidadeToClickup } from "@/lib/clickup";
 import { formatBrazilDateTime, formatBrazilDateTimeShort } from "@/lib/datetime";
 import { addScore, addScoreOnce, revertScore } from "@/lib/gamification";
+import { getUserPermissions } from "@/lib/user-permissions";
 
 // GET /api/leads/[id]
 export async function GET(
@@ -53,6 +54,14 @@ export async function PATCH(
 
   if (userRole !== "SUPER_ADMIN" && existing.companyId !== userCompanyId) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
+  }
+
+  // fix C2 — atendente sem canViewLeads não pode editar lead via API
+  // (UI já bloqueia, mas a rota aceitava chamada direta).
+  const perms = await getUserPermissions(session);
+  if (!perms) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+  if (!perms.isAdmin && !perms.canViewLeads) {
+    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
 
   const userId = (session.user as any).id as string | undefined;
@@ -249,6 +258,14 @@ export async function DELETE(
 
   if (userRole !== "SUPER_ADMIN" && lead.companyId !== userCompanyId) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
+  }
+
+  // fix C2 — exclusão é destrutiva: só admin da empresa ou quem tem
+  // canManageUsers (gerente/líder com permissão administrativa).
+  const perms = await getUserPermissions(session);
+  if (!perms) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+  if (!perms.isAdmin && !perms.canManageUsers) {
+    return NextResponse.json({ error: "Sem permissão para excluir leads" }, { status: 403 });
   }
 
   // Desvincula as mensagens antes de deletar o lead

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { IMPERSONATE_COOKIE } from "@/lib/effective-session";
+import { recordAdminAction, extractIp } from "@/lib/admin-audit";
 
 // GET /api/admin/impersonate/exit — encerra impersonação
 // Accepts optional ?returnTo=/path query param to redirect somewhere specific
@@ -9,6 +10,21 @@ export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session || (session.user as any)?.role !== "SUPER_ADMIN") {
     return NextResponse.redirect(new URL("/dashboard", req.url));
+  }
+
+  // fix A1 — registra fim da sessão de impersonation pra fechar o ciclo
+  // (admin precisa conseguir provar "entrei e saí entre X e Y").
+  const cookieValue = req.cookies.get(IMPERSONATE_COOKIE)?.value;
+  if (cookieValue) {
+    await recordAdminAction({
+      adminUserId:     (session.user as any).id,
+      adminUserName:   session.user?.name ?? null,
+      adminUserEmail:  session.user?.email ?? null,
+      action:          "IMPERSONATE_END",
+      targetCompanyId: cookieValue,
+      ip:              extractIp(req),
+      userAgent:       req.headers.get("user-agent"),
+    });
   }
 
   const { searchParams } = new URL(req.url);

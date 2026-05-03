@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { evolutionGetGroupName } from "@/lib/evolution";
+import { assertModule } from "@/lib/billing";
 
 // POST /api/whatsapp/group-name
 // Body: { groupJid, companyId }
@@ -10,6 +11,9 @@ import { evolutionGetGroupName } from "@/lib/evolution";
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "whatsapp");
+  if (!gate.ok) return gate.response;
 
   const { groupJid, companyId } = await req.json();
   if (!groupJid || !groupJid.includes("@g.us")) {

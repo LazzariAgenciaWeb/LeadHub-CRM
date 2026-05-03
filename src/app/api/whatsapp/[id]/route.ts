@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { evolutionDeleteInstance } from "@/lib/evolution";
+import { assertModule } from "@/lib/billing";
 
 // PATCH /api/whatsapp/[id]
 export async function PATCH(
@@ -11,6 +12,9 @@ export async function PATCH(
 ) {
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "whatsapp");
+  if (!gate.ok) return gate.response;
 
   const { id } = await params;
   const userRole = (session.user as any).role;
@@ -47,6 +51,9 @@ export async function DELETE(
 ) {
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "whatsapp");
+  if (!gate.ok) return gate.response;
 
   const { id } = await params;
   const userRole = (session.user as any).role;

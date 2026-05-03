@@ -3,6 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { ActivityType } from "@/generated/prisma";
 import { addScore } from "@/lib/gamification";
+import { assertModule } from "@/lib/billing";
 
 // POST /api/conversations/[id]/notes
 // Body: { body: string }
@@ -13,6 +14,9 @@ export async function POST(
 ) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "whatsapp");
+  if (!gate.ok) return gate.response;
 
   const { id } = await params;
   const userId   = (session.user as any)?.id as string;

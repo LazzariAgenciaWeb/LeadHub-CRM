@@ -6,6 +6,7 @@ import { getClickupSettings, syncTicketToClickup } from "@/lib/clickup";
 import { addScore, addScoreOnce, revertScore } from "@/lib/gamification";
 import { ActivityType } from "@/generated/prisma";
 import { formatBrazilDateTime } from "@/lib/datetime";
+import { getUserPermissions } from "@/lib/user-permissions";
 
 // GET /api/tickets/[id]
 export async function GET(
@@ -73,6 +74,22 @@ export async function PATCH(
       clientCompany: { select: { id: true, name: true } },
     },
   });
+
+  if (!existing) {
+    return NextResponse.json({ error: "Chamado não encontrado" }, { status: 404 });
+  }
+
+  // fix C2 — isolamento + permissão. PATCH antes não validava nem que o
+  // ticket era da empresa do usuário, nem que ele tinha canViewTickets.
+  const userRole = (session.user as any).role as string | undefined;
+  if (userRole !== "SUPER_ADMIN" && existing.companyId !== userCompanyId) {
+    return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
+  }
+  const perms = await getUserPermissions(session);
+  if (!perms) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+  if (!perms.isAdmin && !perms.canViewTickets) {
+    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  }
 
   const ticket = await prisma.ticket.update({
     where: { id },

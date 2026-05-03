@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { evolutionGetStatus } from "@/lib/evolution";
+import { assertModule } from "@/lib/billing";
 
 // POST /api/whatsapp/[id]/sync
 // Fetches the connection state from Evolution API and updates the DB
@@ -12,6 +13,9 @@ export async function POST(
 ) {
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "whatsapp");
+  if (!gate.ok) return gate.response;
 
   const { id } = await params;
   const userRole = (session.user as any).role;

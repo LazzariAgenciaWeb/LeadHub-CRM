@@ -3,12 +3,16 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { getClickupSettings, fetchClickupTasks } from "@/lib/clickup";
 import { syncProjectTasks } from "@/lib/gamification";
+import { assertModule } from "@/lib/billing";
 
 // POST /api/projetos/[id]/sync — sync manual de UM projeto
 // Requer sessão (não usa CRON_SECRET, pra permitir o botão "Sync" no detail).
 export async function POST(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "projetos");
+  if (!gate.ok) return gate.response;
 
   const role          = (session.user as any).role as string;
   const userCompanyId = (session.user as any).companyId as string | undefined;

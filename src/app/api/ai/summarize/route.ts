@@ -3,18 +3,21 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getOpenAIConfig, chatCompletion } from "@/lib/openai";
+import { assertModule } from "@/lib/billing";
 
 // GET /api/ai/summarize?phone=&companyId=
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
-  // Verificar módulo IA e permissão canUseAI
+  // fix A3 — gate de módulo + feature do plano
+  const gate = await assertModule(session, "ai");
+  if (!gate.ok) return gate.response;
+
   const _aiRole = (session.user as any)?.role;
-  const _aiModules = (session.user as any)?.modules;
   const _aiPerms = (session.user as any)?.permissions;
-  const _hasAI = _aiRole === "SUPER_ADMIN" || _aiRole === "ADMIN" || (_aiModules?.ai && _aiPerms?.canUseAI);
-  if (!_hasAI) return NextResponse.json({ error: "Módulo IA não disponível" }, { status: 403 });
+  const _canUse = _aiRole === "SUPER_ADMIN" || _aiRole === "ADMIN" || _aiPerms?.canUseAI;
+  if (!_canUse) return NextResponse.json({ error: "Sem permissão para usar IA" }, { status: 403 });
 
   const { searchParams } = new URL(req.url);
   const phone     = searchParams.get("phone");

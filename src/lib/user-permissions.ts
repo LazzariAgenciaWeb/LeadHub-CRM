@@ -5,6 +5,10 @@
  * ADMIN (role CLIENT com acesso total) ou SUPER_ADMIN → sem restrições.
  * Usuários comuns → permissões herdadas da UNIÃO dos setores a que pertencem.
  *
+ * IMPORTANTE: CLIENT sem nenhum setor atribuído fica SEM permissões (deny by default).
+ * Antes do fix C1, esse caso virava admin da empresa — risco crítico de privilege
+ * escalation enquanto novo atendente ficava sem setor.
+ *
  * Uso:
  *   const perms = await getUserPermissions(session);
  *   if (!perms.canViewLeads) return 403;
@@ -15,10 +19,11 @@
 import { prisma } from "./prisma";
 
 export interface UserPermissions {
-  isAdmin: boolean;          // SUPER_ADMIN ou usuário sem restrição de setor
+  isAdmin: boolean;          // SUPER_ADMIN ou ADMIN explícito
   companyId: string;
-  setorIds: string[] | null; // null = sem restrição (admin); array = setores do usuário
+  setorIds: string[] | null; // null = sem restrição (admin); array = setores do usuário; [] = sem setor
   instanceIds: string[] | null; // null = sem restrição; array = instâncias permitidas
+  noSetor: boolean;          // true → CLIENT sem nenhum setor (todas flags false)
   canManageUsers: boolean;
   canViewLeads: boolean;
   canCreateLeads: boolean;
@@ -43,6 +48,7 @@ export async function getUserPermissions(session: any): Promise<UserPermissions 
       companyId,
       setorIds: null,
       instanceIds: null,
+      noSetor: false,
       canManageUsers: true,
       canViewLeads: true,
       canCreateLeads: true,
@@ -64,19 +70,23 @@ export async function getUserPermissions(session: any): Promise<UserPermissions 
     },
   });
 
-  // Usuário sem nenhum setor → trata como admin da empresa (acesso total)
+  // CLIENT sem setor → DENY BY DEFAULT.
+  // Antes do fix C1 isso virava admin da empresa; um novo atendente sem setor
+  // tinha acesso total (incluindo cofre, billing, exclusão de leads).
+  // Agora o usuário não vê nada até receber pelo menos um setor.
   if (setorUsers.length === 0) {
     return {
-      isAdmin: true,
+      isAdmin: false,
       companyId,
-      setorIds: null,
-      instanceIds: null,
-      canManageUsers: true,
-      canViewLeads: true,
-      canCreateLeads: true,
-      canViewTickets: true,
-      canCreateTickets: true,
-      canViewConfig: true,
+      setorIds: [],
+      instanceIds: [],
+      noSetor: true,
+      canManageUsers: false,
+      canViewLeads: false,
+      canCreateLeads: false,
+      canViewTickets: false,
+      canCreateTickets: false,
+      canViewConfig: false,
     };
   }
 
@@ -100,6 +110,7 @@ export async function getUserPermissions(session: any): Promise<UserPermissions 
     companyId,
     setorIds,
     instanceIds: instanceIds.length > 0 ? instanceIds : [],
+    noSetor: false,
     ...perms,
   };
 }

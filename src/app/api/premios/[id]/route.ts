@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { assertModule } from "@/lib/billing";
 
 // PATCH /api/premios/[id] — atualiza prêmio (admin)
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "gamificacao");
+  if (!gate.ok) return gate.response;
 
   const role = (session.user as any).role as string;
   const userCompanyId = (session.user as any).companyId as string | undefined;
@@ -37,6 +41,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "gamificacao");
+  if (!gate.ok) return gate.response;
 
   const role = (session.user as any).role as string;
   const userCompanyId = (session.user as any).companyId as string | undefined;

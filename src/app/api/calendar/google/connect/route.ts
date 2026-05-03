@@ -3,6 +3,7 @@ import { randomBytes } from "crypto";
 import { cookies } from "next/headers";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { buildAuthorizeUrl, googleConfig } from "@/lib/google-oauth";
+import { assertModule } from "@/lib/billing";
 
 // GET /api/calendar/google/connect
 //
@@ -11,6 +12,9 @@ import { buildAuthorizeUrl, googleConfig } from "@/lib/google-oauth";
 export async function GET(_req: NextRequest) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "calendario");
+  if (!gate.ok) return gate.response;
 
   const userId = (session.user as any)?.id as string;
   if (!userId) return NextResponse.json({ error: "Sessão inválida" }, { status: 401 });

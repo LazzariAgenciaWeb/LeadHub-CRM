@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { evolutionSetWebhookEvents } from "@/lib/evolution";
+import { buildWhatsappWebhookUrl } from "@/lib/webhook-auth";
 
 /**
  * POST /api/admin/update-webhooks
@@ -25,7 +26,7 @@ export async function POST(req: NextRequest) {
 
   // Usar NEXT_PUBLIC_BASE_URL para evitar endereço interno do Docker (0.0.0.0:3000)
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, "") ?? req.nextUrl.origin;
-  const webhookUrl = `${baseUrl}/api/webhook/whatsapp`;
+  const webhookUrl = buildWhatsappWebhookUrl(baseUrl);
 
   const instances = await prisma.whatsappInstance.findMany({
     select: { id: true, instanceName: true, instanceToken: true },

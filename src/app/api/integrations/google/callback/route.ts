@@ -50,8 +50,9 @@ export async function GET(req: NextRequest) {
   // Limpa o cookie de state
   cookieStore.delete("lh_oauth_state");
 
-  // Reconfere permissão (importante: o usuário pode ter perdido acesso entre connect e callback)
-  const auth = await authorizeVaultAccess(payload.c);
+  // Reconfere permissão (importante: o usuário pode ter perdido acesso entre connect e callback).
+  // Skip gate de cofre — o gate de marketing já foi feito em /connect.
+  const auth = await authorizeVaultAccess(payload.c, { checkCofreModule: false });
   if (!auth.ok || !auth.canWrite) {
     return redirectToCompany(payload.c, "?integration_error=forbidden");
   }

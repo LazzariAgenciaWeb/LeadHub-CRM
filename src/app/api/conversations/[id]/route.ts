@@ -5,6 +5,7 @@ import { ActivityType, ConversationStatus } from "@/generated/prisma";
 import { mapConvStatusToLegacy } from "@/lib/whatsapp";
 import { formatBrazilDateTime, formatBrazilDateTimeShort } from "@/lib/datetime";
 import { addScore, addScoreOnce } from "@/lib/gamification";
+import { assertModule } from "@/lib/billing";
 
 const VALID_STATUS: ConversationStatus[] = ["OPEN", "PENDING", "IN_PROGRESS", "WAITING_CUSTOMER", "SCHEDULED", "CLOSED"];
 
@@ -20,6 +21,10 @@ export async function PATCH(
 ) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  // fix A3 — gate de módulo whatsapp (Conversation faz parte da Inbox)
+  const gate = await assertModule(session, "whatsapp");
+  if (!gate.ok) return gate.response;
 
   const { id } = await params;
   const userId   = (session.user as any)?.id as string;

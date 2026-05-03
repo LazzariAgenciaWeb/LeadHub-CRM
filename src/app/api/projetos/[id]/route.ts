@@ -3,11 +3,15 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { ProjectStatus } from "@/generated/prisma";
 import { addScoreOnce } from "@/lib/gamification";
+import { assertModule } from "@/lib/billing";
 
 // GET /api/projetos/[id]
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "projetos");
+  if (!gate.ok) return gate.response;
 
   const { id } = await params;
   const role          = (session.user as any).role as string;
@@ -35,6 +39,9 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "projetos");
+  if (!gate.ok) return gate.response;
 
   const { id } = await params;
   const role          = (session.user as any).role as string;
@@ -130,6 +137,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "projetos");
+  if (!gate.ok) return gate.response;
 
   const { id } = await params;
   const role          = (session.user as any).role as string;

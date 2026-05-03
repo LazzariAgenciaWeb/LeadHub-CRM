@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { can } from "@/lib/permissions";
+import { sendMail } from "@/lib/email";
 
 /** Verifica acesso à empresa alvo (sub-empresa ou própria). */
 async function canAccessCompany(session: any, targetCompanyId: string): Promise<boolean> {
@@ -59,6 +60,17 @@ export async function PATCH(
     return NextResponse.json({ error: "Sem permissão para gerenciar acesso" }, { status: 403 });
   }
 
+  // fix A2 — antes era possível marcar hasAccess=true sem fornecer userEmail
+  // e o contato ficava como "tem acesso ao portal" mas sem User vinculado.
+  // Cliente pensava que liberou login e ninguém conseguia entrar.
+  // Agora exige email quando ativa acesso e ainda não há User vinculado.
+  if (hasAccess === true && !contact.userId && !userEmail) {
+    return NextResponse.json(
+      { error: "userEmail é obrigatório para liberar acesso ao portal" },
+      { status: 400 },
+    );
+  }
+
   // Quando ativa acesso + fornece email → cria/vincula User
   if (hasAccess && userEmail && !contact.userId) {
     const existingUser = await prisma.user.findUnique({ where: { email: userEmail } });
@@ -78,6 +90,29 @@ export async function PATCH(
       });
       userId = newUser.id;
       generatedPassword = tempPassword; // retorna só uma vez
+
+      // Email de boas-vindas com a senha temporária — se SMTP falhar,
+      // admin ainda recebe a senha no response pra repassar manualmente.
+      const portalUrl = process.env.NEXT_PUBLIC_BASE_URL ?? process.env.NEXTAUTH_URL ?? "";
+      const loginLink = portalUrl ? `${portalUrl.replace(/\/$/, "")}/login` : "/login";
+      const userDisplay = userName ?? contact.name ?? userEmail.split("@")[0];
+      void sendMail({
+        to: userEmail,
+        subject: "Seu acesso ao LeadHub está pronto",
+        html: `
+          <p>Olá ${userDisplay},</p>
+          <p>Seu acesso ao portal foi liberado. Use as credenciais abaixo para entrar:</p>
+          <ul>
+            <li><strong>Email:</strong> ${userEmail}</li>
+            <li><strong>Senha temporária:</strong> <code>${tempPassword}</code></li>
+          </ul>
+          <p><a href="${loginLink}">Entrar no LeadHub</a></p>
+          <p>Após o primeiro login, troque a senha em Configurações → Minha Empresa.</p>
+        `,
+        text: `Olá ${userDisplay}, seu acesso ao LeadHub está pronto.\nEmail: ${userEmail}\nSenha temporária: ${tempPassword}\nLogin: ${loginLink}`,
+      }).catch((err) => {
+        console.warn("[Contacts] Falha ao enviar email de boas-vindas:", err);
+      });
     }
   }
 

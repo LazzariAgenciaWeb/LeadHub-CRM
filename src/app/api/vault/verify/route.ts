@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { verifyChallenge } from "@/lib/vault-2fa";
+import { assertModule } from "@/lib/billing";
 
 // POST /api/vault/verify
 // Body: { challengeId: string, code: string }
@@ -10,6 +11,9 @@ import { verifyChallenge } from "@/lib/vault-2fa";
 export async function POST(req: NextRequest) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "cofre");
+  if (!gate.ok) return gate.response;
 
   const userId = (session.user as any)?.id as string;
   if (!userId) return NextResponse.json({ error: "Sessão inválida" }, { status: 401 });

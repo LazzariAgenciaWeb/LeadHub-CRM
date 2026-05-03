@@ -6,6 +6,8 @@ import { evolutionSendText } from "@/lib/evolution";
 import { upsertConversation } from "@/lib/whatsapp";
 import { addScore, addScoreOnce } from "@/lib/gamification";
 import { businessMinutesBetween } from "@/lib/business-hours";
+import { assertModule } from "@/lib/billing";
+import { enforceSendGuards, releaseQuota } from "@/lib/whatsapp-guard";
 
 // POST /api/whatsapp/[id]/send
 // Body: { phone: string, text: string }
@@ -15,6 +17,10 @@ export async function POST(
 ) {
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  // fix A3 — gate de módulo whatsapp
+  const gate = await assertModule(session, "whatsapp");
+  if (!gate.ok) return gate.response;
 
   const { id } = await params;
   const userRole = (session.user as any).role;
@@ -36,6 +42,18 @@ export async function POST(
   const quoted = quotedExternalId
     ? { externalId: quotedExternalId, body: quotedBody ?? "", fromMe: quotedFromMe ?? false }
     : null;
+
+  // fix 7a/7b/7c — defesas anti-banimento (throttle, limite diário, cold msg)
+  const guard = await enforceSendGuards({
+    instanceId:        id,
+    instanceCreatedAt: instance.createdAt,
+    companyId:         instance.companyId,
+    phone,
+    userRole,
+  });
+  if (!guard.ok) {
+    return NextResponse.json({ error: guard.error }, { status: guard.status });
+  }
 
   try {
     const instanceToken = (instance as any).instanceToken as string | null | undefined;
@@ -152,6 +170,10 @@ export async function POST(
 
     return NextResponse.json({ ok: true, message: saved });
   } catch (err: any) {
+    // fix 7b — devolve a quota consumida quando a Evolution falha; o limite
+    // diário só conta sucessos, evitando "queimar" envios pra cliente com
+    // problema de conectividade.
+    await releaseQuota(id);
     return NextResponse.json({ error: err.message }, { status: 502 });
   }
 }

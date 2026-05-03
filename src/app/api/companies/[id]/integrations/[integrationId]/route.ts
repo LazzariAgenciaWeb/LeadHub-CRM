@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { authorizeVaultAccess } from "@/lib/vault-auth";
+import { assertModule } from "@/lib/billing";
 
 // PATCH /api/companies/[id]/integrations/[integrationId]
 // Atualiza accountId/accountLabel (após o usuário escolher a propriedade GA4 / site SC).
@@ -9,7 +12,14 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string; integrationId: string }> }
 ) {
   const { id: companyId, integrationId } = await params;
-  const auth = await authorizeVaultAccess(companyId);
+
+  // fix A3 — gate de módulo marketing
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+  const gate = await assertModule(session, "marketing");
+  if (!gate.ok) return gate.response;
+
+  const auth = await authorizeVaultAccess(companyId, { checkCofreModule: false });
   if (!auth.ok) return NextResponse.json({ error: auth.error }, { status: auth.status });
   if (!auth.canWrite) return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
 
@@ -43,7 +53,13 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string; integrationId: string }> }
 ) {
   const { id: companyId, integrationId } = await params;
-  const auth = await authorizeVaultAccess(companyId);
+
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+  const gate = await assertModule(session, "marketing");
+  if (!gate.ok) return gate.response;
+
+  const auth = await authorizeVaultAccess(companyId, { checkCofreModule: false });
   if (!auth.ok) return NextResponse.json({ error: auth.error }, { status: auth.status });
   if (!auth.canWrite) return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
 

@@ -146,6 +146,8 @@ model Company {
   moduleTickets      Boolean @default(false)
   moduleAI           Boolean @default(false)
   moduleGamificacao  Boolean @default(false)
+  moduleProjetos     Boolean @default(false)
+  moduleCalendario   Boolean @default(false)
 
   // Hierarquia: empresa-pai gerencia sub-empresas (clientes da empresa)
   parentCompanyId String?
@@ -490,6 +492,22 @@ model KeywordRule {
 model Setting {
   key   String @id
   value String @db.Text
+}
+
+// Contador diário de mensagens enviadas por instância — protege contra
+// banimento por uso de bot detectado pelo WhatsApp. Reseta naturalmente
+// porque cada (instanceId, day) é uma linha nova.
+model WhatsappQuota {
+  id         String   @id @default(cuid())
+  instanceId String
+  day        String   // YYYY-MM-DD
+  count      Int      @default(0)
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([instanceId, day])
+  @@index([day])
 }
 
 // ─── Conversation (CRM-style inbox) ──────────────────────────────────────────
@@ -1463,4 +1481,34 @@ model BillingEvent {
   createdAt DateTime @default(now())
 
   @@index([companyId, createdAt])
+}
+
+// ─── Auditoria administrativa ─────────────────────────────────────────────────
+// Trilha de ações sensíveis executadas por SUPER_ADMIN/ADMIN (impersonation,
+// override de plano, alterações em outras empresas, etc.).
+// Exigência B2B/LGPD: cliente precisa saber quando alguém da Lazzari logou
+// como ele e o que foi feito.
+//
+// Estrutura propositalmente solta (sem FK para User/Company) pra não bloquear
+// retenção: queremos manter o log mesmo se o usuário/empresa for excluído.
+model AdminAuditLog {
+  id              String   @id @default(cuid())
+
+  adminUserId     String   // quem executou (SUPER_ADMIN ou ADMIN)
+  adminUserName   String?
+  adminUserEmail  String?
+
+  action          String   // "IMPERSONATE_START" | "IMPERSONATE_END" | "PLAN_OVERRIDE" | "MODULE_TOGGLE" | etc.
+  targetCompanyId String?  // empresa-alvo (null se ação não é em empresa específica)
+  targetUserId    String?  // usuário-alvo (ex.: reset de senha)
+
+  ip              String?
+  userAgent       String?  @db.Text
+  metadata        Json?    // payload extra: motivo, valores antes/depois, etc.
+
+  createdAt       DateTime @default(now())
+
+  @@index([adminUserId, createdAt])
+  @@index([targetCompanyId, createdAt])
+  @@index([action, createdAt])
 }

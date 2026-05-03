@@ -189,6 +189,8 @@ exports.Prisma.CompanyScalarFieldEnum = {
   moduleTickets: 'moduleTickets',
   moduleAI: 'moduleAI',
   moduleGamificacao: 'moduleGamificacao',
+  moduleProjetos: 'moduleProjetos',
+  moduleCalendario: 'moduleCalendario',
   parentCompanyId: 'parentCompanyId',
   triggerOnly: 'triggerOnly',
   webhookToken: 'webhookToken'
@@ -336,6 +338,15 @@ exports.Prisma.KeywordRuleScalarFieldEnum = {
 exports.Prisma.SettingScalarFieldEnum = {
   key: 'key',
   value: 'value'
+};
+
+exports.Prisma.WhatsappQuotaScalarFieldEnum = {
+  id: 'id',
+  instanceId: 'instanceId',
+  day: 'day',
+  count: 'count',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ConversationScalarFieldEnum = {
@@ -767,6 +778,20 @@ exports.Prisma.BillingEventScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.AdminAuditLogScalarFieldEnum = {
+  id: 'id',
+  adminUserId: 'adminUserId',
+  adminUserName: 'adminUserName',
+  adminUserEmail: 'adminUserEmail',
+  action: 'action',
+  targetCompanyId: 'targetCompanyId',
+  targetUserId: 'targetUserId',
+  ip: 'ip',
+  userAgent: 'userAgent',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1032,6 +1057,7 @@ exports.Prisma.ModelName = {
   Message: 'Message',
   KeywordRule: 'KeywordRule',
   Setting: 'Setting',
+  WhatsappQuota: 'WhatsappQuota',
   Conversation: 'Conversation',
   ConversationNote: 'ConversationNote',
   Activity: 'Activity',
@@ -1062,7 +1088,8 @@ exports.Prisma.ModelName = {
   UserBadge: 'UserBadge',
   ScoreEvent: 'ScoreEvent',
   ScoreRuleConfig: 'ScoreRuleConfig',
-  BillingEvent: 'BillingEvent'
+  BillingEvent: 'BillingEvent',
+  AdminAuditLog: 'AdminAuditLog'
 };
 
 /**

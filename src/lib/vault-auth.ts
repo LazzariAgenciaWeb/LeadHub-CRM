@@ -1,5 +1,6 @@
 import { getEffectiveSession } from "./effective-session";
 import { prisma } from "./prisma";
+import { assertModule } from "./billing";
 
 /**
  * Regras de acesso ao Cofre:
@@ -8,13 +9,21 @@ import { prisma } from "./prisma";
  *  - ADMIN da própria empresa: acesso ao cofre da empresa dele.
  *  - CLIENT (cliente final): acesso somente leitura ao cofre da própria empresa.
  *  - Demais: negado.
+ *
+ * fix A3 — quando `checkCofreModule=true` (default), valida que o plano da
+ * empresa-alvo inclui o módulo `cofre`. As rotas de integrações Google
+ * passam `false` porque já fazem gate de `marketing` separado.
  */
 
 export type VaultAccess =
   | { ok: true; companyId: string; userId: string; userName: string; userRole: string; canWrite: boolean }
   | { ok: false; status: number; error: string };
 
-export async function authorizeVaultAccess(targetCompanyId: string): Promise<VaultAccess> {
+export async function authorizeVaultAccess(
+  targetCompanyId: string,
+  opts: { checkCofreModule?: boolean } = {},
+): Promise<VaultAccess> {
+  const { checkCofreModule = true } = opts;
   const session = await getEffectiveSession();
   if (!session) return { ok: false, status: 401, error: "Não autenticado" };
 
@@ -24,6 +33,12 @@ export async function authorizeVaultAccess(targetCompanyId: string): Promise<Vau
   const userCompanyId = u?.companyId as string | undefined;
 
   if (!userId || !role) return { ok: false, status: 401, error: "Sessão inválida" };
+
+  // Gate de módulo/feature do plano (fix A3)
+  if (checkCofreModule && role !== "SUPER_ADMIN") {
+    const gate = await assertModule(session, "cofre");
+    if (!gate.ok) return { ok: false, status: 403, error: "Cofre não disponível no plano" };
+  }
 
   // SUPER_ADMIN passa direto
   if (role === "SUPER_ADMIN") {

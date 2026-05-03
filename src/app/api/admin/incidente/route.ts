@@ -56,6 +56,25 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Sem permissão (empresa diferente)" }, { status: 403 });
   }
 
+  // fix C3 — antes não validávamos que o projectId pertencia à empresa do
+  // autor: ADMIN da Empresa A podia plantar incidente em projeto da Empresa B
+  // (basta saber o ID).
+  if (projectId) {
+    const project = await prisma.setorClickupList.findFirst({
+      where: {
+        id: projectId,
+        setor: { companyId: target.companyId },
+      },
+      select: { id: true },
+    });
+    if (!project) {
+      return NextResponse.json(
+        { error: "Projeto não pertence à empresa do usuário penalizado" },
+        { status: 403 },
+      );
+    }
+  }
+
   await recordIncident({
     userId,
     companyId:   target.companyId,

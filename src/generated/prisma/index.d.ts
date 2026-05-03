@@ -94,6 +94,11 @@ export type KeywordRule = $Result.DefaultSelection<Prisma.$KeywordRulePayload>
  */
 export type Setting = $Result.DefaultSelection<Prisma.$SettingPayload>
 /**
+ * Model WhatsappQuota
+ * 
+ */
+export type WhatsappQuota = $Result.DefaultSelection<Prisma.$WhatsappQuotaPayload>
+/**
  * Model Conversation
  * 
  */
@@ -248,6 +253,11 @@ export type ScoreRuleConfig = $Result.DefaultSelection<Prisma.$ScoreRuleConfigPa
  * 
  */
 export type BillingEvent = $Result.DefaultSelection<Prisma.$BillingEventPayload>
+/**
+ * Model AdminAuditLog
+ * 
+ */
+export type AdminAuditLog = $Result.DefaultSelection<Prisma.$AdminAuditLogPayload>
 
 /**
  * Enums
@@ -922,6 +932,16 @@ export class PrismaClient<
   get setting(): Prisma.SettingDelegate<ExtArgs>;
 
   /**
+   * `prisma.whatsappQuota`: Exposes CRUD operations for the **WhatsappQuota** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WhatsappQuotas
+    * const whatsappQuotas = await prisma.whatsappQuota.findMany()
+    * ```
+    */
+  get whatsappQuota(): Prisma.WhatsappQuotaDelegate<ExtArgs>;
+
+  /**
    * `prisma.conversation`: Exposes CRUD operations for the **Conversation** model.
     * Example usage:
     * ```ts
@@ -1230,6 +1250,16 @@ export class PrismaClient<
     * ```
     */
   get billingEvent(): Prisma.BillingEventDelegate<ExtArgs>;
+
+  /**
+   * `prisma.adminAuditLog`: Exposes CRUD operations for the **AdminAuditLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AdminAuditLogs
+    * const adminAuditLogs = await prisma.adminAuditLog.findMany()
+    * ```
+    */
+  get adminAuditLog(): Prisma.AdminAuditLogDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -1687,6 +1717,7 @@ export namespace Prisma {
     Message: 'Message',
     KeywordRule: 'KeywordRule',
     Setting: 'Setting',
+    WhatsappQuota: 'WhatsappQuota',
     Conversation: 'Conversation',
     ConversationNote: 'ConversationNote',
     Activity: 'Activity',
@@ -1717,7 +1748,8 @@ export namespace Prisma {
     UserBadge: 'UserBadge',
     ScoreEvent: 'ScoreEvent',
     ScoreRuleConfig: 'ScoreRuleConfig',
-    BillingEvent: 'BillingEvent'
+    BillingEvent: 'BillingEvent',
+    AdminAuditLog: 'AdminAuditLog'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1733,7 +1765,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "billingEvent"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "billingEvent" | "adminAuditLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2854,6 +2886,76 @@ export namespace Prisma {
           count: {
             args: Prisma.SettingCountArgs<ExtArgs>
             result: $Utils.Optional<SettingCountAggregateOutputType> | number
+          }
+        }
+      }
+      WhatsappQuota: {
+        payload: Prisma.$WhatsappQuotaPayload<ExtArgs>
+        fields: Prisma.WhatsappQuotaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WhatsappQuotaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhatsappQuotaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WhatsappQuotaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhatsappQuotaPayload>
+          }
+          findFirst: {
+            args: Prisma.WhatsappQuotaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhatsappQuotaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WhatsappQuotaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhatsappQuotaPayload>
+          }
+          findMany: {
+            args: Prisma.WhatsappQuotaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhatsappQuotaPayload>[]
+          }
+          create: {
+            args: Prisma.WhatsappQuotaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhatsappQuotaPayload>
+          }
+          createMany: {
+            args: Prisma.WhatsappQuotaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WhatsappQuotaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhatsappQuotaPayload>[]
+          }
+          delete: {
+            args: Prisma.WhatsappQuotaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhatsappQuotaPayload>
+          }
+          update: {
+            args: Prisma.WhatsappQuotaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhatsappQuotaPayload>
+          }
+          deleteMany: {
+            args: Prisma.WhatsappQuotaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WhatsappQuotaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.WhatsappQuotaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhatsappQuotaPayload>
+          }
+          aggregate: {
+            args: Prisma.WhatsappQuotaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWhatsappQuota>
+          }
+          groupBy: {
+            args: Prisma.WhatsappQuotaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WhatsappQuotaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WhatsappQuotaCountArgs<ExtArgs>
+            result: $Utils.Optional<WhatsappQuotaCountAggregateOutputType> | number
           }
         }
       }
@@ -5024,6 +5126,76 @@ export namespace Prisma {
           count: {
             args: Prisma.BillingEventCountArgs<ExtArgs>
             result: $Utils.Optional<BillingEventCountAggregateOutputType> | number
+          }
+        }
+      }
+      AdminAuditLog: {
+        payload: Prisma.$AdminAuditLogPayload<ExtArgs>
+        fields: Prisma.AdminAuditLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AdminAuditLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminAuditLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AdminAuditLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminAuditLogPayload>
+          }
+          findFirst: {
+            args: Prisma.AdminAuditLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminAuditLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AdminAuditLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminAuditLogPayload>
+          }
+          findMany: {
+            args: Prisma.AdminAuditLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminAuditLogPayload>[]
+          }
+          create: {
+            args: Prisma.AdminAuditLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminAuditLogPayload>
+          }
+          createMany: {
+            args: Prisma.AdminAuditLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AdminAuditLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminAuditLogPayload>[]
+          }
+          delete: {
+            args: Prisma.AdminAuditLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminAuditLogPayload>
+          }
+          update: {
+            args: Prisma.AdminAuditLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminAuditLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.AdminAuditLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AdminAuditLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AdminAuditLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminAuditLogPayload>
+          }
+          aggregate: {
+            args: Prisma.AdminAuditLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAdminAuditLog>
+          }
+          groupBy: {
+            args: Prisma.AdminAuditLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AdminAuditLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AdminAuditLogCountArgs<ExtArgs>
+            result: $Utils.Optional<AdminAuditLogCountAggregateOutputType> | number
           }
         }
       }
@@ -10470,6 +10642,8 @@ export namespace Prisma {
     moduleTickets: boolean | null
     moduleAI: boolean | null
     moduleGamificacao: boolean | null
+    moduleProjetos: boolean | null
+    moduleCalendario: boolean | null
     parentCompanyId: string | null
     triggerOnly: boolean | null
     webhookToken: string | null
@@ -10493,6 +10667,8 @@ export namespace Prisma {
     moduleTickets: boolean | null
     moduleAI: boolean | null
     moduleGamificacao: boolean | null
+    moduleProjetos: boolean | null
+    moduleCalendario: boolean | null
     parentCompanyId: string | null
     triggerOnly: boolean | null
     webhookToken: string | null
@@ -10516,6 +10692,8 @@ export namespace Prisma {
     moduleTickets: number
     moduleAI: number
     moduleGamificacao: number
+    moduleProjetos: number
+    moduleCalendario: number
     parentCompanyId: number
     triggerOnly: number
     webhookToken: number
@@ -10541,6 +10719,8 @@ export namespace Prisma {
     moduleTickets?: true
     moduleAI?: true
     moduleGamificacao?: true
+    moduleProjetos?: true
+    moduleCalendario?: true
     parentCompanyId?: true
     triggerOnly?: true
     webhookToken?: true
@@ -10564,6 +10744,8 @@ export namespace Prisma {
     moduleTickets?: true
     moduleAI?: true
     moduleGamificacao?: true
+    moduleProjetos?: true
+    moduleCalendario?: true
     parentCompanyId?: true
     triggerOnly?: true
     webhookToken?: true
@@ -10587,6 +10769,8 @@ export namespace Prisma {
     moduleTickets?: true
     moduleAI?: true
     moduleGamificacao?: true
+    moduleProjetos?: true
+    moduleCalendario?: true
     parentCompanyId?: true
     triggerOnly?: true
     webhookToken?: true
@@ -10683,6 +10867,8 @@ export namespace Prisma {
     moduleTickets: boolean
     moduleAI: boolean
     moduleGamificacao: boolean
+    moduleProjetos: boolean
+    moduleCalendario: boolean
     parentCompanyId: string | null
     triggerOnly: boolean
     webhookToken: string | null
@@ -10723,6 +10909,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
     webhookToken?: boolean
@@ -10781,6 +10969,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
     webhookToken?: boolean
@@ -10805,6 +10995,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
     webhookToken?: boolean
@@ -10907,6 +11099,8 @@ export namespace Prisma {
       moduleTickets: boolean
       moduleAI: boolean
       moduleGamificacao: boolean
+      moduleProjetos: boolean
+      moduleCalendario: boolean
       parentCompanyId: string | null
       triggerOnly: boolean
       webhookToken: string | null
@@ -11354,6 +11548,8 @@ export namespace Prisma {
     readonly moduleTickets: FieldRef<"Company", 'Boolean'>
     readonly moduleAI: FieldRef<"Company", 'Boolean'>
     readonly moduleGamificacao: FieldRef<"Company", 'Boolean'>
+    readonly moduleProjetos: FieldRef<"Company", 'Boolean'>
+    readonly moduleCalendario: FieldRef<"Company", 'Boolean'>
     readonly parentCompanyId: FieldRef<"Company", 'String'>
     readonly triggerOnly: FieldRef<"Company", 'Boolean'>
     readonly webhookToken: FieldRef<"Company", 'String'>
@@ -23948,6 +24144,930 @@ export namespace Prisma {
      * Select specific fields to fetch from the Setting
      */
     select?: SettingSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WhatsappQuota
+   */
+
+  export type AggregateWhatsappQuota = {
+    _count: WhatsappQuotaCountAggregateOutputType | null
+    _avg: WhatsappQuotaAvgAggregateOutputType | null
+    _sum: WhatsappQuotaSumAggregateOutputType | null
+    _min: WhatsappQuotaMinAggregateOutputType | null
+    _max: WhatsappQuotaMaxAggregateOutputType | null
+  }
+
+  export type WhatsappQuotaAvgAggregateOutputType = {
+    count: number | null
+  }
+
+  export type WhatsappQuotaSumAggregateOutputType = {
+    count: number | null
+  }
+
+  export type WhatsappQuotaMinAggregateOutputType = {
+    id: string | null
+    instanceId: string | null
+    day: string | null
+    count: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WhatsappQuotaMaxAggregateOutputType = {
+    id: string | null
+    instanceId: string | null
+    day: string | null
+    count: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WhatsappQuotaCountAggregateOutputType = {
+    id: number
+    instanceId: number
+    day: number
+    count: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type WhatsappQuotaAvgAggregateInputType = {
+    count?: true
+  }
+
+  export type WhatsappQuotaSumAggregateInputType = {
+    count?: true
+  }
+
+  export type WhatsappQuotaMinAggregateInputType = {
+    id?: true
+    instanceId?: true
+    day?: true
+    count?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WhatsappQuotaMaxAggregateInputType = {
+    id?: true
+    instanceId?: true
+    day?: true
+    count?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WhatsappQuotaCountAggregateInputType = {
+    id?: true
+    instanceId?: true
+    day?: true
+    count?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type WhatsappQuotaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WhatsappQuota to aggregate.
+     */
+    where?: WhatsappQuotaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WhatsappQuotas to fetch.
+     */
+    orderBy?: WhatsappQuotaOrderByWithRelationInput | WhatsappQuotaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WhatsappQuotaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WhatsappQuotas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WhatsappQuotas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WhatsappQuotas
+    **/
+    _count?: true | WhatsappQuotaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WhatsappQuotaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WhatsappQuotaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WhatsappQuotaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WhatsappQuotaMaxAggregateInputType
+  }
+
+  export type GetWhatsappQuotaAggregateType<T extends WhatsappQuotaAggregateArgs> = {
+        [P in keyof T & keyof AggregateWhatsappQuota]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWhatsappQuota[P]>
+      : GetScalarType<T[P], AggregateWhatsappQuota[P]>
+  }
+
+
+
+
+  export type WhatsappQuotaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WhatsappQuotaWhereInput
+    orderBy?: WhatsappQuotaOrderByWithAggregationInput | WhatsappQuotaOrderByWithAggregationInput[]
+    by: WhatsappQuotaScalarFieldEnum[] | WhatsappQuotaScalarFieldEnum
+    having?: WhatsappQuotaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WhatsappQuotaCountAggregateInputType | true
+    _avg?: WhatsappQuotaAvgAggregateInputType
+    _sum?: WhatsappQuotaSumAggregateInputType
+    _min?: WhatsappQuotaMinAggregateInputType
+    _max?: WhatsappQuotaMaxAggregateInputType
+  }
+
+  export type WhatsappQuotaGroupByOutputType = {
+    id: string
+    instanceId: string
+    day: string
+    count: number
+    createdAt: Date
+    updatedAt: Date
+    _count: WhatsappQuotaCountAggregateOutputType | null
+    _avg: WhatsappQuotaAvgAggregateOutputType | null
+    _sum: WhatsappQuotaSumAggregateOutputType | null
+    _min: WhatsappQuotaMinAggregateOutputType | null
+    _max: WhatsappQuotaMaxAggregateOutputType | null
+  }
+
+  type GetWhatsappQuotaGroupByPayload<T extends WhatsappQuotaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WhatsappQuotaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WhatsappQuotaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WhatsappQuotaGroupByOutputType[P]>
+            : GetScalarType<T[P], WhatsappQuotaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WhatsappQuotaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    instanceId?: boolean
+    day?: boolean
+    count?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["whatsappQuota"]>
+
+  export type WhatsappQuotaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    instanceId?: boolean
+    day?: boolean
+    count?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["whatsappQuota"]>
+
+  export type WhatsappQuotaSelectScalar = {
+    id?: boolean
+    instanceId?: boolean
+    day?: boolean
+    count?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+
+  export type $WhatsappQuotaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WhatsappQuota"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      instanceId: string
+      day: string
+      count: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["whatsappQuota"]>
+    composites: {}
+  }
+
+  type WhatsappQuotaGetPayload<S extends boolean | null | undefined | WhatsappQuotaDefaultArgs> = $Result.GetResult<Prisma.$WhatsappQuotaPayload, S>
+
+  type WhatsappQuotaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<WhatsappQuotaFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: WhatsappQuotaCountAggregateInputType | true
+    }
+
+  export interface WhatsappQuotaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WhatsappQuota'], meta: { name: 'WhatsappQuota' } }
+    /**
+     * Find zero or one WhatsappQuota that matches the filter.
+     * @param {WhatsappQuotaFindUniqueArgs} args - Arguments to find a WhatsappQuota
+     * @example
+     * // Get one WhatsappQuota
+     * const whatsappQuota = await prisma.whatsappQuota.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WhatsappQuotaFindUniqueArgs>(args: SelectSubset<T, WhatsappQuotaFindUniqueArgs<ExtArgs>>): Prisma__WhatsappQuotaClient<$Result.GetResult<Prisma.$WhatsappQuotaPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one WhatsappQuota that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {WhatsappQuotaFindUniqueOrThrowArgs} args - Arguments to find a WhatsappQuota
+     * @example
+     * // Get one WhatsappQuota
+     * const whatsappQuota = await prisma.whatsappQuota.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WhatsappQuotaFindUniqueOrThrowArgs>(args: SelectSubset<T, WhatsappQuotaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WhatsappQuotaClient<$Result.GetResult<Prisma.$WhatsappQuotaPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first WhatsappQuota that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhatsappQuotaFindFirstArgs} args - Arguments to find a WhatsappQuota
+     * @example
+     * // Get one WhatsappQuota
+     * const whatsappQuota = await prisma.whatsappQuota.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WhatsappQuotaFindFirstArgs>(args?: SelectSubset<T, WhatsappQuotaFindFirstArgs<ExtArgs>>): Prisma__WhatsappQuotaClient<$Result.GetResult<Prisma.$WhatsappQuotaPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first WhatsappQuota that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhatsappQuotaFindFirstOrThrowArgs} args - Arguments to find a WhatsappQuota
+     * @example
+     * // Get one WhatsappQuota
+     * const whatsappQuota = await prisma.whatsappQuota.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WhatsappQuotaFindFirstOrThrowArgs>(args?: SelectSubset<T, WhatsappQuotaFindFirstOrThrowArgs<ExtArgs>>): Prisma__WhatsappQuotaClient<$Result.GetResult<Prisma.$WhatsappQuotaPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more WhatsappQuotas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhatsappQuotaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WhatsappQuotas
+     * const whatsappQuotas = await prisma.whatsappQuota.findMany()
+     * 
+     * // Get first 10 WhatsappQuotas
+     * const whatsappQuotas = await prisma.whatsappQuota.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const whatsappQuotaWithIdOnly = await prisma.whatsappQuota.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WhatsappQuotaFindManyArgs>(args?: SelectSubset<T, WhatsappQuotaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhatsappQuotaPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a WhatsappQuota.
+     * @param {WhatsappQuotaCreateArgs} args - Arguments to create a WhatsappQuota.
+     * @example
+     * // Create one WhatsappQuota
+     * const WhatsappQuota = await prisma.whatsappQuota.create({
+     *   data: {
+     *     // ... data to create a WhatsappQuota
+     *   }
+     * })
+     * 
+     */
+    create<T extends WhatsappQuotaCreateArgs>(args: SelectSubset<T, WhatsappQuotaCreateArgs<ExtArgs>>): Prisma__WhatsappQuotaClient<$Result.GetResult<Prisma.$WhatsappQuotaPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many WhatsappQuotas.
+     * @param {WhatsappQuotaCreateManyArgs} args - Arguments to create many WhatsappQuotas.
+     * @example
+     * // Create many WhatsappQuotas
+     * const whatsappQuota = await prisma.whatsappQuota.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WhatsappQuotaCreateManyArgs>(args?: SelectSubset<T, WhatsappQuotaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many WhatsappQuotas and returns the data saved in the database.
+     * @param {WhatsappQuotaCreateManyAndReturnArgs} args - Arguments to create many WhatsappQuotas.
+     * @example
+     * // Create many WhatsappQuotas
+     * const whatsappQuota = await prisma.whatsappQuota.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many WhatsappQuotas and only return the `id`
+     * const whatsappQuotaWithIdOnly = await prisma.whatsappQuota.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WhatsappQuotaCreateManyAndReturnArgs>(args?: SelectSubset<T, WhatsappQuotaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhatsappQuotaPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a WhatsappQuota.
+     * @param {WhatsappQuotaDeleteArgs} args - Arguments to delete one WhatsappQuota.
+     * @example
+     * // Delete one WhatsappQuota
+     * const WhatsappQuota = await prisma.whatsappQuota.delete({
+     *   where: {
+     *     // ... filter to delete one WhatsappQuota
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WhatsappQuotaDeleteArgs>(args: SelectSubset<T, WhatsappQuotaDeleteArgs<ExtArgs>>): Prisma__WhatsappQuotaClient<$Result.GetResult<Prisma.$WhatsappQuotaPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one WhatsappQuota.
+     * @param {WhatsappQuotaUpdateArgs} args - Arguments to update one WhatsappQuota.
+     * @example
+     * // Update one WhatsappQuota
+     * const whatsappQuota = await prisma.whatsappQuota.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WhatsappQuotaUpdateArgs>(args: SelectSubset<T, WhatsappQuotaUpdateArgs<ExtArgs>>): Prisma__WhatsappQuotaClient<$Result.GetResult<Prisma.$WhatsappQuotaPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more WhatsappQuotas.
+     * @param {WhatsappQuotaDeleteManyArgs} args - Arguments to filter WhatsappQuotas to delete.
+     * @example
+     * // Delete a few WhatsappQuotas
+     * const { count } = await prisma.whatsappQuota.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WhatsappQuotaDeleteManyArgs>(args?: SelectSubset<T, WhatsappQuotaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WhatsappQuotas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhatsappQuotaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WhatsappQuotas
+     * const whatsappQuota = await prisma.whatsappQuota.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WhatsappQuotaUpdateManyArgs>(args: SelectSubset<T, WhatsappQuotaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one WhatsappQuota.
+     * @param {WhatsappQuotaUpsertArgs} args - Arguments to update or create a WhatsappQuota.
+     * @example
+     * // Update or create a WhatsappQuota
+     * const whatsappQuota = await prisma.whatsappQuota.upsert({
+     *   create: {
+     *     // ... data to create a WhatsappQuota
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WhatsappQuota we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WhatsappQuotaUpsertArgs>(args: SelectSubset<T, WhatsappQuotaUpsertArgs<ExtArgs>>): Prisma__WhatsappQuotaClient<$Result.GetResult<Prisma.$WhatsappQuotaPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of WhatsappQuotas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhatsappQuotaCountArgs} args - Arguments to filter WhatsappQuotas to count.
+     * @example
+     * // Count the number of WhatsappQuotas
+     * const count = await prisma.whatsappQuota.count({
+     *   where: {
+     *     // ... the filter for the WhatsappQuotas we want to count
+     *   }
+     * })
+    **/
+    count<T extends WhatsappQuotaCountArgs>(
+      args?: Subset<T, WhatsappQuotaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WhatsappQuotaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WhatsappQuota.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhatsappQuotaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WhatsappQuotaAggregateArgs>(args: Subset<T, WhatsappQuotaAggregateArgs>): Prisma.PrismaPromise<GetWhatsappQuotaAggregateType<T>>
+
+    /**
+     * Group by WhatsappQuota.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhatsappQuotaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WhatsappQuotaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WhatsappQuotaGroupByArgs['orderBy'] }
+        : { orderBy?: WhatsappQuotaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WhatsappQuotaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWhatsappQuotaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WhatsappQuota model
+   */
+  readonly fields: WhatsappQuotaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WhatsappQuota.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WhatsappQuotaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WhatsappQuota model
+   */ 
+  interface WhatsappQuotaFieldRefs {
+    readonly id: FieldRef<"WhatsappQuota", 'String'>
+    readonly instanceId: FieldRef<"WhatsappQuota", 'String'>
+    readonly day: FieldRef<"WhatsappQuota", 'String'>
+    readonly count: FieldRef<"WhatsappQuota", 'Int'>
+    readonly createdAt: FieldRef<"WhatsappQuota", 'DateTime'>
+    readonly updatedAt: FieldRef<"WhatsappQuota", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WhatsappQuota findUnique
+   */
+  export type WhatsappQuotaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhatsappQuota
+     */
+    select?: WhatsappQuotaSelect<ExtArgs> | null
+    /**
+     * Filter, which WhatsappQuota to fetch.
+     */
+    where: WhatsappQuotaWhereUniqueInput
+  }
+
+  /**
+   * WhatsappQuota findUniqueOrThrow
+   */
+  export type WhatsappQuotaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhatsappQuota
+     */
+    select?: WhatsappQuotaSelect<ExtArgs> | null
+    /**
+     * Filter, which WhatsappQuota to fetch.
+     */
+    where: WhatsappQuotaWhereUniqueInput
+  }
+
+  /**
+   * WhatsappQuota findFirst
+   */
+  export type WhatsappQuotaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhatsappQuota
+     */
+    select?: WhatsappQuotaSelect<ExtArgs> | null
+    /**
+     * Filter, which WhatsappQuota to fetch.
+     */
+    where?: WhatsappQuotaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WhatsappQuotas to fetch.
+     */
+    orderBy?: WhatsappQuotaOrderByWithRelationInput | WhatsappQuotaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WhatsappQuotas.
+     */
+    cursor?: WhatsappQuotaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WhatsappQuotas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WhatsappQuotas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WhatsappQuotas.
+     */
+    distinct?: WhatsappQuotaScalarFieldEnum | WhatsappQuotaScalarFieldEnum[]
+  }
+
+  /**
+   * WhatsappQuota findFirstOrThrow
+   */
+  export type WhatsappQuotaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhatsappQuota
+     */
+    select?: WhatsappQuotaSelect<ExtArgs> | null
+    /**
+     * Filter, which WhatsappQuota to fetch.
+     */
+    where?: WhatsappQuotaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WhatsappQuotas to fetch.
+     */
+    orderBy?: WhatsappQuotaOrderByWithRelationInput | WhatsappQuotaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WhatsappQuotas.
+     */
+    cursor?: WhatsappQuotaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WhatsappQuotas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WhatsappQuotas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WhatsappQuotas.
+     */
+    distinct?: WhatsappQuotaScalarFieldEnum | WhatsappQuotaScalarFieldEnum[]
+  }
+
+  /**
+   * WhatsappQuota findMany
+   */
+  export type WhatsappQuotaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhatsappQuota
+     */
+    select?: WhatsappQuotaSelect<ExtArgs> | null
+    /**
+     * Filter, which WhatsappQuotas to fetch.
+     */
+    where?: WhatsappQuotaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WhatsappQuotas to fetch.
+     */
+    orderBy?: WhatsappQuotaOrderByWithRelationInput | WhatsappQuotaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WhatsappQuotas.
+     */
+    cursor?: WhatsappQuotaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WhatsappQuotas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WhatsappQuotas.
+     */
+    skip?: number
+    distinct?: WhatsappQuotaScalarFieldEnum | WhatsappQuotaScalarFieldEnum[]
+  }
+
+  /**
+   * WhatsappQuota create
+   */
+  export type WhatsappQuotaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhatsappQuota
+     */
+    select?: WhatsappQuotaSelect<ExtArgs> | null
+    /**
+     * The data needed to create a WhatsappQuota.
+     */
+    data: XOR<WhatsappQuotaCreateInput, WhatsappQuotaUncheckedCreateInput>
+  }
+
+  /**
+   * WhatsappQuota createMany
+   */
+  export type WhatsappQuotaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WhatsappQuotas.
+     */
+    data: WhatsappQuotaCreateManyInput | WhatsappQuotaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WhatsappQuota createManyAndReturn
+   */
+  export type WhatsappQuotaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhatsappQuota
+     */
+    select?: WhatsappQuotaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many WhatsappQuotas.
+     */
+    data: WhatsappQuotaCreateManyInput | WhatsappQuotaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WhatsappQuota update
+   */
+  export type WhatsappQuotaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhatsappQuota
+     */
+    select?: WhatsappQuotaSelect<ExtArgs> | null
+    /**
+     * The data needed to update a WhatsappQuota.
+     */
+    data: XOR<WhatsappQuotaUpdateInput, WhatsappQuotaUncheckedUpdateInput>
+    /**
+     * Choose, which WhatsappQuota to update.
+     */
+    where: WhatsappQuotaWhereUniqueInput
+  }
+
+  /**
+   * WhatsappQuota updateMany
+   */
+  export type WhatsappQuotaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WhatsappQuotas.
+     */
+    data: XOR<WhatsappQuotaUpdateManyMutationInput, WhatsappQuotaUncheckedUpdateManyInput>
+    /**
+     * Filter which WhatsappQuotas to update
+     */
+    where?: WhatsappQuotaWhereInput
+  }
+
+  /**
+   * WhatsappQuota upsert
+   */
+  export type WhatsappQuotaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhatsappQuota
+     */
+    select?: WhatsappQuotaSelect<ExtArgs> | null
+    /**
+     * The filter to search for the WhatsappQuota to update in case it exists.
+     */
+    where: WhatsappQuotaWhereUniqueInput
+    /**
+     * In case the WhatsappQuota found by the `where` argument doesn't exist, create a new WhatsappQuota with this data.
+     */
+    create: XOR<WhatsappQuotaCreateInput, WhatsappQuotaUncheckedCreateInput>
+    /**
+     * In case the WhatsappQuota was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WhatsappQuotaUpdateInput, WhatsappQuotaUncheckedUpdateInput>
+  }
+
+  /**
+   * WhatsappQuota delete
+   */
+  export type WhatsappQuotaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhatsappQuota
+     */
+    select?: WhatsappQuotaSelect<ExtArgs> | null
+    /**
+     * Filter which WhatsappQuota to delete.
+     */
+    where: WhatsappQuotaWhereUniqueInput
+  }
+
+  /**
+   * WhatsappQuota deleteMany
+   */
+  export type WhatsappQuotaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WhatsappQuotas to delete
+     */
+    where?: WhatsappQuotaWhereInput
+  }
+
+  /**
+   * WhatsappQuota without action
+   */
+  export type WhatsappQuotaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhatsappQuota
+     */
+    select?: WhatsappQuotaSelect<ExtArgs> | null
   }
 
 
@@ -56378,6 +57498,952 @@ export namespace Prisma {
 
 
   /**
+   * Model AdminAuditLog
+   */
+
+  export type AggregateAdminAuditLog = {
+    _count: AdminAuditLogCountAggregateOutputType | null
+    _min: AdminAuditLogMinAggregateOutputType | null
+    _max: AdminAuditLogMaxAggregateOutputType | null
+  }
+
+  export type AdminAuditLogMinAggregateOutputType = {
+    id: string | null
+    adminUserId: string | null
+    adminUserName: string | null
+    adminUserEmail: string | null
+    action: string | null
+    targetCompanyId: string | null
+    targetUserId: string | null
+    ip: string | null
+    userAgent: string | null
+    createdAt: Date | null
+  }
+
+  export type AdminAuditLogMaxAggregateOutputType = {
+    id: string | null
+    adminUserId: string | null
+    adminUserName: string | null
+    adminUserEmail: string | null
+    action: string | null
+    targetCompanyId: string | null
+    targetUserId: string | null
+    ip: string | null
+    userAgent: string | null
+    createdAt: Date | null
+  }
+
+  export type AdminAuditLogCountAggregateOutputType = {
+    id: number
+    adminUserId: number
+    adminUserName: number
+    adminUserEmail: number
+    action: number
+    targetCompanyId: number
+    targetUserId: number
+    ip: number
+    userAgent: number
+    metadata: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AdminAuditLogMinAggregateInputType = {
+    id?: true
+    adminUserId?: true
+    adminUserName?: true
+    adminUserEmail?: true
+    action?: true
+    targetCompanyId?: true
+    targetUserId?: true
+    ip?: true
+    userAgent?: true
+    createdAt?: true
+  }
+
+  export type AdminAuditLogMaxAggregateInputType = {
+    id?: true
+    adminUserId?: true
+    adminUserName?: true
+    adminUserEmail?: true
+    action?: true
+    targetCompanyId?: true
+    targetUserId?: true
+    ip?: true
+    userAgent?: true
+    createdAt?: true
+  }
+
+  export type AdminAuditLogCountAggregateInputType = {
+    id?: true
+    adminUserId?: true
+    adminUserName?: true
+    adminUserEmail?: true
+    action?: true
+    targetCompanyId?: true
+    targetUserId?: true
+    ip?: true
+    userAgent?: true
+    metadata?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AdminAuditLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AdminAuditLog to aggregate.
+     */
+    where?: AdminAuditLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AdminAuditLogs to fetch.
+     */
+    orderBy?: AdminAuditLogOrderByWithRelationInput | AdminAuditLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AdminAuditLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AdminAuditLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AdminAuditLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AdminAuditLogs
+    **/
+    _count?: true | AdminAuditLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AdminAuditLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AdminAuditLogMaxAggregateInputType
+  }
+
+  export type GetAdminAuditLogAggregateType<T extends AdminAuditLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateAdminAuditLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAdminAuditLog[P]>
+      : GetScalarType<T[P], AggregateAdminAuditLog[P]>
+  }
+
+
+
+
+  export type AdminAuditLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AdminAuditLogWhereInput
+    orderBy?: AdminAuditLogOrderByWithAggregationInput | AdminAuditLogOrderByWithAggregationInput[]
+    by: AdminAuditLogScalarFieldEnum[] | AdminAuditLogScalarFieldEnum
+    having?: AdminAuditLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AdminAuditLogCountAggregateInputType | true
+    _min?: AdminAuditLogMinAggregateInputType
+    _max?: AdminAuditLogMaxAggregateInputType
+  }
+
+  export type AdminAuditLogGroupByOutputType = {
+    id: string
+    adminUserId: string
+    adminUserName: string | null
+    adminUserEmail: string | null
+    action: string
+    targetCompanyId: string | null
+    targetUserId: string | null
+    ip: string | null
+    userAgent: string | null
+    metadata: JsonValue | null
+    createdAt: Date
+    _count: AdminAuditLogCountAggregateOutputType | null
+    _min: AdminAuditLogMinAggregateOutputType | null
+    _max: AdminAuditLogMaxAggregateOutputType | null
+  }
+
+  type GetAdminAuditLogGroupByPayload<T extends AdminAuditLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AdminAuditLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AdminAuditLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AdminAuditLogGroupByOutputType[P]>
+            : GetScalarType<T[P], AdminAuditLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AdminAuditLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    adminUserId?: boolean
+    adminUserName?: boolean
+    adminUserEmail?: boolean
+    action?: boolean
+    targetCompanyId?: boolean
+    targetUserId?: boolean
+    ip?: boolean
+    userAgent?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["adminAuditLog"]>
+
+  export type AdminAuditLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    adminUserId?: boolean
+    adminUserName?: boolean
+    adminUserEmail?: boolean
+    action?: boolean
+    targetCompanyId?: boolean
+    targetUserId?: boolean
+    ip?: boolean
+    userAgent?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["adminAuditLog"]>
+
+  export type AdminAuditLogSelectScalar = {
+    id?: boolean
+    adminUserId?: boolean
+    adminUserName?: boolean
+    adminUserEmail?: boolean
+    action?: boolean
+    targetCompanyId?: boolean
+    targetUserId?: boolean
+    ip?: boolean
+    userAgent?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+  }
+
+
+  export type $AdminAuditLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AdminAuditLog"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      adminUserId: string
+      adminUserName: string | null
+      adminUserEmail: string | null
+      action: string
+      targetCompanyId: string | null
+      targetUserId: string | null
+      ip: string | null
+      userAgent: string | null
+      metadata: Prisma.JsonValue | null
+      createdAt: Date
+    }, ExtArgs["result"]["adminAuditLog"]>
+    composites: {}
+  }
+
+  type AdminAuditLogGetPayload<S extends boolean | null | undefined | AdminAuditLogDefaultArgs> = $Result.GetResult<Prisma.$AdminAuditLogPayload, S>
+
+  type AdminAuditLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AdminAuditLogFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AdminAuditLogCountAggregateInputType | true
+    }
+
+  export interface AdminAuditLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AdminAuditLog'], meta: { name: 'AdminAuditLog' } }
+    /**
+     * Find zero or one AdminAuditLog that matches the filter.
+     * @param {AdminAuditLogFindUniqueArgs} args - Arguments to find a AdminAuditLog
+     * @example
+     * // Get one AdminAuditLog
+     * const adminAuditLog = await prisma.adminAuditLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AdminAuditLogFindUniqueArgs>(args: SelectSubset<T, AdminAuditLogFindUniqueArgs<ExtArgs>>): Prisma__AdminAuditLogClient<$Result.GetResult<Prisma.$AdminAuditLogPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one AdminAuditLog that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AdminAuditLogFindUniqueOrThrowArgs} args - Arguments to find a AdminAuditLog
+     * @example
+     * // Get one AdminAuditLog
+     * const adminAuditLog = await prisma.adminAuditLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AdminAuditLogFindUniqueOrThrowArgs>(args: SelectSubset<T, AdminAuditLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AdminAuditLogClient<$Result.GetResult<Prisma.$AdminAuditLogPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first AdminAuditLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminAuditLogFindFirstArgs} args - Arguments to find a AdminAuditLog
+     * @example
+     * // Get one AdminAuditLog
+     * const adminAuditLog = await prisma.adminAuditLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AdminAuditLogFindFirstArgs>(args?: SelectSubset<T, AdminAuditLogFindFirstArgs<ExtArgs>>): Prisma__AdminAuditLogClient<$Result.GetResult<Prisma.$AdminAuditLogPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first AdminAuditLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminAuditLogFindFirstOrThrowArgs} args - Arguments to find a AdminAuditLog
+     * @example
+     * // Get one AdminAuditLog
+     * const adminAuditLog = await prisma.adminAuditLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AdminAuditLogFindFirstOrThrowArgs>(args?: SelectSubset<T, AdminAuditLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__AdminAuditLogClient<$Result.GetResult<Prisma.$AdminAuditLogPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more AdminAuditLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminAuditLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AdminAuditLogs
+     * const adminAuditLogs = await prisma.adminAuditLog.findMany()
+     * 
+     * // Get first 10 AdminAuditLogs
+     * const adminAuditLogs = await prisma.adminAuditLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const adminAuditLogWithIdOnly = await prisma.adminAuditLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AdminAuditLogFindManyArgs>(args?: SelectSubset<T, AdminAuditLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdminAuditLogPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a AdminAuditLog.
+     * @param {AdminAuditLogCreateArgs} args - Arguments to create a AdminAuditLog.
+     * @example
+     * // Create one AdminAuditLog
+     * const AdminAuditLog = await prisma.adminAuditLog.create({
+     *   data: {
+     *     // ... data to create a AdminAuditLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends AdminAuditLogCreateArgs>(args: SelectSubset<T, AdminAuditLogCreateArgs<ExtArgs>>): Prisma__AdminAuditLogClient<$Result.GetResult<Prisma.$AdminAuditLogPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many AdminAuditLogs.
+     * @param {AdminAuditLogCreateManyArgs} args - Arguments to create many AdminAuditLogs.
+     * @example
+     * // Create many AdminAuditLogs
+     * const adminAuditLog = await prisma.adminAuditLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AdminAuditLogCreateManyArgs>(args?: SelectSubset<T, AdminAuditLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AdminAuditLogs and returns the data saved in the database.
+     * @param {AdminAuditLogCreateManyAndReturnArgs} args - Arguments to create many AdminAuditLogs.
+     * @example
+     * // Create many AdminAuditLogs
+     * const adminAuditLog = await prisma.adminAuditLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AdminAuditLogs and only return the `id`
+     * const adminAuditLogWithIdOnly = await prisma.adminAuditLog.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AdminAuditLogCreateManyAndReturnArgs>(args?: SelectSubset<T, AdminAuditLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdminAuditLogPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a AdminAuditLog.
+     * @param {AdminAuditLogDeleteArgs} args - Arguments to delete one AdminAuditLog.
+     * @example
+     * // Delete one AdminAuditLog
+     * const AdminAuditLog = await prisma.adminAuditLog.delete({
+     *   where: {
+     *     // ... filter to delete one AdminAuditLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AdminAuditLogDeleteArgs>(args: SelectSubset<T, AdminAuditLogDeleteArgs<ExtArgs>>): Prisma__AdminAuditLogClient<$Result.GetResult<Prisma.$AdminAuditLogPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one AdminAuditLog.
+     * @param {AdminAuditLogUpdateArgs} args - Arguments to update one AdminAuditLog.
+     * @example
+     * // Update one AdminAuditLog
+     * const adminAuditLog = await prisma.adminAuditLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AdminAuditLogUpdateArgs>(args: SelectSubset<T, AdminAuditLogUpdateArgs<ExtArgs>>): Prisma__AdminAuditLogClient<$Result.GetResult<Prisma.$AdminAuditLogPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more AdminAuditLogs.
+     * @param {AdminAuditLogDeleteManyArgs} args - Arguments to filter AdminAuditLogs to delete.
+     * @example
+     * // Delete a few AdminAuditLogs
+     * const { count } = await prisma.adminAuditLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AdminAuditLogDeleteManyArgs>(args?: SelectSubset<T, AdminAuditLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AdminAuditLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminAuditLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AdminAuditLogs
+     * const adminAuditLog = await prisma.adminAuditLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AdminAuditLogUpdateManyArgs>(args: SelectSubset<T, AdminAuditLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AdminAuditLog.
+     * @param {AdminAuditLogUpsertArgs} args - Arguments to update or create a AdminAuditLog.
+     * @example
+     * // Update or create a AdminAuditLog
+     * const adminAuditLog = await prisma.adminAuditLog.upsert({
+     *   create: {
+     *     // ... data to create a AdminAuditLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AdminAuditLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AdminAuditLogUpsertArgs>(args: SelectSubset<T, AdminAuditLogUpsertArgs<ExtArgs>>): Prisma__AdminAuditLogClient<$Result.GetResult<Prisma.$AdminAuditLogPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of AdminAuditLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminAuditLogCountArgs} args - Arguments to filter AdminAuditLogs to count.
+     * @example
+     * // Count the number of AdminAuditLogs
+     * const count = await prisma.adminAuditLog.count({
+     *   where: {
+     *     // ... the filter for the AdminAuditLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends AdminAuditLogCountArgs>(
+      args?: Subset<T, AdminAuditLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AdminAuditLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AdminAuditLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminAuditLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AdminAuditLogAggregateArgs>(args: Subset<T, AdminAuditLogAggregateArgs>): Prisma.PrismaPromise<GetAdminAuditLogAggregateType<T>>
+
+    /**
+     * Group by AdminAuditLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminAuditLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AdminAuditLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AdminAuditLogGroupByArgs['orderBy'] }
+        : { orderBy?: AdminAuditLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AdminAuditLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAdminAuditLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AdminAuditLog model
+   */
+  readonly fields: AdminAuditLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AdminAuditLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AdminAuditLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AdminAuditLog model
+   */ 
+  interface AdminAuditLogFieldRefs {
+    readonly id: FieldRef<"AdminAuditLog", 'String'>
+    readonly adminUserId: FieldRef<"AdminAuditLog", 'String'>
+    readonly adminUserName: FieldRef<"AdminAuditLog", 'String'>
+    readonly adminUserEmail: FieldRef<"AdminAuditLog", 'String'>
+    readonly action: FieldRef<"AdminAuditLog", 'String'>
+    readonly targetCompanyId: FieldRef<"AdminAuditLog", 'String'>
+    readonly targetUserId: FieldRef<"AdminAuditLog", 'String'>
+    readonly ip: FieldRef<"AdminAuditLog", 'String'>
+    readonly userAgent: FieldRef<"AdminAuditLog", 'String'>
+    readonly metadata: FieldRef<"AdminAuditLog", 'Json'>
+    readonly createdAt: FieldRef<"AdminAuditLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AdminAuditLog findUnique
+   */
+  export type AdminAuditLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelect<ExtArgs> | null
+    /**
+     * Filter, which AdminAuditLog to fetch.
+     */
+    where: AdminAuditLogWhereUniqueInput
+  }
+
+  /**
+   * AdminAuditLog findUniqueOrThrow
+   */
+  export type AdminAuditLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelect<ExtArgs> | null
+    /**
+     * Filter, which AdminAuditLog to fetch.
+     */
+    where: AdminAuditLogWhereUniqueInput
+  }
+
+  /**
+   * AdminAuditLog findFirst
+   */
+  export type AdminAuditLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelect<ExtArgs> | null
+    /**
+     * Filter, which AdminAuditLog to fetch.
+     */
+    where?: AdminAuditLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AdminAuditLogs to fetch.
+     */
+    orderBy?: AdminAuditLogOrderByWithRelationInput | AdminAuditLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AdminAuditLogs.
+     */
+    cursor?: AdminAuditLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AdminAuditLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AdminAuditLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AdminAuditLogs.
+     */
+    distinct?: AdminAuditLogScalarFieldEnum | AdminAuditLogScalarFieldEnum[]
+  }
+
+  /**
+   * AdminAuditLog findFirstOrThrow
+   */
+  export type AdminAuditLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelect<ExtArgs> | null
+    /**
+     * Filter, which AdminAuditLog to fetch.
+     */
+    where?: AdminAuditLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AdminAuditLogs to fetch.
+     */
+    orderBy?: AdminAuditLogOrderByWithRelationInput | AdminAuditLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AdminAuditLogs.
+     */
+    cursor?: AdminAuditLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AdminAuditLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AdminAuditLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AdminAuditLogs.
+     */
+    distinct?: AdminAuditLogScalarFieldEnum | AdminAuditLogScalarFieldEnum[]
+  }
+
+  /**
+   * AdminAuditLog findMany
+   */
+  export type AdminAuditLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelect<ExtArgs> | null
+    /**
+     * Filter, which AdminAuditLogs to fetch.
+     */
+    where?: AdminAuditLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AdminAuditLogs to fetch.
+     */
+    orderBy?: AdminAuditLogOrderByWithRelationInput | AdminAuditLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AdminAuditLogs.
+     */
+    cursor?: AdminAuditLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AdminAuditLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AdminAuditLogs.
+     */
+    skip?: number
+    distinct?: AdminAuditLogScalarFieldEnum | AdminAuditLogScalarFieldEnum[]
+  }
+
+  /**
+   * AdminAuditLog create
+   */
+  export type AdminAuditLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelect<ExtArgs> | null
+    /**
+     * The data needed to create a AdminAuditLog.
+     */
+    data: XOR<AdminAuditLogCreateInput, AdminAuditLogUncheckedCreateInput>
+  }
+
+  /**
+   * AdminAuditLog createMany
+   */
+  export type AdminAuditLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AdminAuditLogs.
+     */
+    data: AdminAuditLogCreateManyInput | AdminAuditLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AdminAuditLog createManyAndReturn
+   */
+  export type AdminAuditLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many AdminAuditLogs.
+     */
+    data: AdminAuditLogCreateManyInput | AdminAuditLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AdminAuditLog update
+   */
+  export type AdminAuditLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelect<ExtArgs> | null
+    /**
+     * The data needed to update a AdminAuditLog.
+     */
+    data: XOR<AdminAuditLogUpdateInput, AdminAuditLogUncheckedUpdateInput>
+    /**
+     * Choose, which AdminAuditLog to update.
+     */
+    where: AdminAuditLogWhereUniqueInput
+  }
+
+  /**
+   * AdminAuditLog updateMany
+   */
+  export type AdminAuditLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AdminAuditLogs.
+     */
+    data: XOR<AdminAuditLogUpdateManyMutationInput, AdminAuditLogUncheckedUpdateManyInput>
+    /**
+     * Filter which AdminAuditLogs to update
+     */
+    where?: AdminAuditLogWhereInput
+  }
+
+  /**
+   * AdminAuditLog upsert
+   */
+  export type AdminAuditLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelect<ExtArgs> | null
+    /**
+     * The filter to search for the AdminAuditLog to update in case it exists.
+     */
+    where: AdminAuditLogWhereUniqueInput
+    /**
+     * In case the AdminAuditLog found by the `where` argument doesn't exist, create a new AdminAuditLog with this data.
+     */
+    create: XOR<AdminAuditLogCreateInput, AdminAuditLogUncheckedCreateInput>
+    /**
+     * In case the AdminAuditLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AdminAuditLogUpdateInput, AdminAuditLogUncheckedUpdateInput>
+  }
+
+  /**
+   * AdminAuditLog delete
+   */
+  export type AdminAuditLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelect<ExtArgs> | null
+    /**
+     * Filter which AdminAuditLog to delete.
+     */
+    where: AdminAuditLogWhereUniqueInput
+  }
+
+  /**
+   * AdminAuditLog deleteMany
+   */
+  export type AdminAuditLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AdminAuditLogs to delete
+     */
+    where?: AdminAuditLogWhereInput
+  }
+
+  /**
+   * AdminAuditLog without action
+   */
+  export type AdminAuditLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelect<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -56470,6 +58536,8 @@ export namespace Prisma {
     moduleTickets: 'moduleTickets',
     moduleAI: 'moduleAI',
     moduleGamificacao: 'moduleGamificacao',
+    moduleProjetos: 'moduleProjetos',
+    moduleCalendario: 'moduleCalendario',
     parentCompanyId: 'parentCompanyId',
     triggerOnly: 'triggerOnly',
     webhookToken: 'webhookToken'
@@ -56653,6 +58721,18 @@ export namespace Prisma {
   };
 
   export type SettingScalarFieldEnum = (typeof SettingScalarFieldEnum)[keyof typeof SettingScalarFieldEnum]
+
+
+  export const WhatsappQuotaScalarFieldEnum: {
+    id: 'id',
+    instanceId: 'instanceId',
+    day: 'day',
+    count: 'count',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type WhatsappQuotaScalarFieldEnum = (typeof WhatsappQuotaScalarFieldEnum)[keyof typeof WhatsappQuotaScalarFieldEnum]
 
 
   export const ConversationScalarFieldEnum: {
@@ -57175,6 +59255,23 @@ export namespace Prisma {
   };
 
   export type BillingEventScalarFieldEnum = (typeof BillingEventScalarFieldEnum)[keyof typeof BillingEventScalarFieldEnum]
+
+
+  export const AdminAuditLogScalarFieldEnum: {
+    id: 'id',
+    adminUserId: 'adminUserId',
+    adminUserName: 'adminUserName',
+    adminUserEmail: 'adminUserEmail',
+    action: 'action',
+    targetCompanyId: 'targetCompanyId',
+    targetUserId: 'targetUserId',
+    ip: 'ip',
+    userAgent: 'userAgent',
+    metadata: 'metadata',
+    createdAt: 'createdAt'
+  };
+
+  export type AdminAuditLogScalarFieldEnum = (typeof AdminAuditLogScalarFieldEnum)[keyof typeof AdminAuditLogScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -58000,6 +60097,8 @@ export namespace Prisma {
     moduleTickets?: BoolFilter<"Company"> | boolean
     moduleAI?: BoolFilter<"Company"> | boolean
     moduleGamificacao?: BoolFilter<"Company"> | boolean
+    moduleProjetos?: BoolFilter<"Company"> | boolean
+    moduleCalendario?: BoolFilter<"Company"> | boolean
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
     webhookToken?: StringNullableFilter<"Company"> | string | null
@@ -58057,6 +60156,8 @@ export namespace Prisma {
     moduleTickets?: SortOrder
     moduleAI?: SortOrder
     moduleGamificacao?: SortOrder
+    moduleProjetos?: SortOrder
+    moduleCalendario?: SortOrder
     parentCompanyId?: SortOrderInput | SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrderInput | SortOrder
@@ -58118,6 +60219,8 @@ export namespace Prisma {
     moduleTickets?: BoolFilter<"Company"> | boolean
     moduleAI?: BoolFilter<"Company"> | boolean
     moduleGamificacao?: BoolFilter<"Company"> | boolean
+    moduleProjetos?: BoolFilter<"Company"> | boolean
+    moduleCalendario?: BoolFilter<"Company"> | boolean
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
     parentCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
@@ -58174,6 +60277,8 @@ export namespace Prisma {
     moduleTickets?: SortOrder
     moduleAI?: SortOrder
     moduleGamificacao?: SortOrder
+    moduleProjetos?: SortOrder
+    moduleCalendario?: SortOrder
     parentCompanyId?: SortOrderInput | SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrderInput | SortOrder
@@ -58203,6 +60308,8 @@ export namespace Prisma {
     moduleTickets?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleAI?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleGamificacao?: BoolWithAggregatesFilter<"Company"> | boolean
+    moduleProjetos?: BoolWithAggregatesFilter<"Company"> | boolean
+    moduleCalendario?: BoolWithAggregatesFilter<"Company"> | boolean
     parentCompanyId?: StringNullableWithAggregatesFilter<"Company"> | string | null
     triggerOnly?: BoolWithAggregatesFilter<"Company"> | boolean
     webhookToken?: StringNullableWithAggregatesFilter<"Company"> | string | null
@@ -59165,6 +61272,66 @@ export namespace Prisma {
     NOT?: SettingScalarWhereWithAggregatesInput | SettingScalarWhereWithAggregatesInput[]
     key?: StringWithAggregatesFilter<"Setting"> | string
     value?: StringWithAggregatesFilter<"Setting"> | string
+  }
+
+  export type WhatsappQuotaWhereInput = {
+    AND?: WhatsappQuotaWhereInput | WhatsappQuotaWhereInput[]
+    OR?: WhatsappQuotaWhereInput[]
+    NOT?: WhatsappQuotaWhereInput | WhatsappQuotaWhereInput[]
+    id?: StringFilter<"WhatsappQuota"> | string
+    instanceId?: StringFilter<"WhatsappQuota"> | string
+    day?: StringFilter<"WhatsappQuota"> | string
+    count?: IntFilter<"WhatsappQuota"> | number
+    createdAt?: DateTimeFilter<"WhatsappQuota"> | Date | string
+    updatedAt?: DateTimeFilter<"WhatsappQuota"> | Date | string
+  }
+
+  export type WhatsappQuotaOrderByWithRelationInput = {
+    id?: SortOrder
+    instanceId?: SortOrder
+    day?: SortOrder
+    count?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WhatsappQuotaWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    instanceId_day?: WhatsappQuotaInstanceIdDayCompoundUniqueInput
+    AND?: WhatsappQuotaWhereInput | WhatsappQuotaWhereInput[]
+    OR?: WhatsappQuotaWhereInput[]
+    NOT?: WhatsappQuotaWhereInput | WhatsappQuotaWhereInput[]
+    instanceId?: StringFilter<"WhatsappQuota"> | string
+    day?: StringFilter<"WhatsappQuota"> | string
+    count?: IntFilter<"WhatsappQuota"> | number
+    createdAt?: DateTimeFilter<"WhatsappQuota"> | Date | string
+    updatedAt?: DateTimeFilter<"WhatsappQuota"> | Date | string
+  }, "id" | "instanceId_day">
+
+  export type WhatsappQuotaOrderByWithAggregationInput = {
+    id?: SortOrder
+    instanceId?: SortOrder
+    day?: SortOrder
+    count?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: WhatsappQuotaCountOrderByAggregateInput
+    _avg?: WhatsappQuotaAvgOrderByAggregateInput
+    _max?: WhatsappQuotaMaxOrderByAggregateInput
+    _min?: WhatsappQuotaMinOrderByAggregateInput
+    _sum?: WhatsappQuotaSumOrderByAggregateInput
+  }
+
+  export type WhatsappQuotaScalarWhereWithAggregatesInput = {
+    AND?: WhatsappQuotaScalarWhereWithAggregatesInput | WhatsappQuotaScalarWhereWithAggregatesInput[]
+    OR?: WhatsappQuotaScalarWhereWithAggregatesInput[]
+    NOT?: WhatsappQuotaScalarWhereWithAggregatesInput | WhatsappQuotaScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"WhatsappQuota"> | string
+    instanceId?: StringWithAggregatesFilter<"WhatsappQuota"> | string
+    day?: StringWithAggregatesFilter<"WhatsappQuota"> | string
+    count?: IntWithAggregatesFilter<"WhatsappQuota"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"WhatsappQuota"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"WhatsappQuota"> | Date | string
   }
 
   export type ConversationWhereInput = {
@@ -61936,6 +64103,88 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"BillingEvent"> | Date | string
   }
 
+  export type AdminAuditLogWhereInput = {
+    AND?: AdminAuditLogWhereInput | AdminAuditLogWhereInput[]
+    OR?: AdminAuditLogWhereInput[]
+    NOT?: AdminAuditLogWhereInput | AdminAuditLogWhereInput[]
+    id?: StringFilter<"AdminAuditLog"> | string
+    adminUserId?: StringFilter<"AdminAuditLog"> | string
+    adminUserName?: StringNullableFilter<"AdminAuditLog"> | string | null
+    adminUserEmail?: StringNullableFilter<"AdminAuditLog"> | string | null
+    action?: StringFilter<"AdminAuditLog"> | string
+    targetCompanyId?: StringNullableFilter<"AdminAuditLog"> | string | null
+    targetUserId?: StringNullableFilter<"AdminAuditLog"> | string | null
+    ip?: StringNullableFilter<"AdminAuditLog"> | string | null
+    userAgent?: StringNullableFilter<"AdminAuditLog"> | string | null
+    metadata?: JsonNullableFilter<"AdminAuditLog">
+    createdAt?: DateTimeFilter<"AdminAuditLog"> | Date | string
+  }
+
+  export type AdminAuditLogOrderByWithRelationInput = {
+    id?: SortOrder
+    adminUserId?: SortOrder
+    adminUserName?: SortOrderInput | SortOrder
+    adminUserEmail?: SortOrderInput | SortOrder
+    action?: SortOrder
+    targetCompanyId?: SortOrderInput | SortOrder
+    targetUserId?: SortOrderInput | SortOrder
+    ip?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AdminAuditLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AdminAuditLogWhereInput | AdminAuditLogWhereInput[]
+    OR?: AdminAuditLogWhereInput[]
+    NOT?: AdminAuditLogWhereInput | AdminAuditLogWhereInput[]
+    adminUserId?: StringFilter<"AdminAuditLog"> | string
+    adminUserName?: StringNullableFilter<"AdminAuditLog"> | string | null
+    adminUserEmail?: StringNullableFilter<"AdminAuditLog"> | string | null
+    action?: StringFilter<"AdminAuditLog"> | string
+    targetCompanyId?: StringNullableFilter<"AdminAuditLog"> | string | null
+    targetUserId?: StringNullableFilter<"AdminAuditLog"> | string | null
+    ip?: StringNullableFilter<"AdminAuditLog"> | string | null
+    userAgent?: StringNullableFilter<"AdminAuditLog"> | string | null
+    metadata?: JsonNullableFilter<"AdminAuditLog">
+    createdAt?: DateTimeFilter<"AdminAuditLog"> | Date | string
+  }, "id">
+
+  export type AdminAuditLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    adminUserId?: SortOrder
+    adminUserName?: SortOrderInput | SortOrder
+    adminUserEmail?: SortOrderInput | SortOrder
+    action?: SortOrder
+    targetCompanyId?: SortOrderInput | SortOrder
+    targetUserId?: SortOrderInput | SortOrder
+    ip?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: AdminAuditLogCountOrderByAggregateInput
+    _max?: AdminAuditLogMaxOrderByAggregateInput
+    _min?: AdminAuditLogMinOrderByAggregateInput
+  }
+
+  export type AdminAuditLogScalarWhereWithAggregatesInput = {
+    AND?: AdminAuditLogScalarWhereWithAggregatesInput | AdminAuditLogScalarWhereWithAggregatesInput[]
+    OR?: AdminAuditLogScalarWhereWithAggregatesInput[]
+    NOT?: AdminAuditLogScalarWhereWithAggregatesInput | AdminAuditLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AdminAuditLog"> | string
+    adminUserId?: StringWithAggregatesFilter<"AdminAuditLog"> | string
+    adminUserName?: StringNullableWithAggregatesFilter<"AdminAuditLog"> | string | null
+    adminUserEmail?: StringNullableWithAggregatesFilter<"AdminAuditLog"> | string | null
+    action?: StringWithAggregatesFilter<"AdminAuditLog"> | string
+    targetCompanyId?: StringNullableWithAggregatesFilter<"AdminAuditLog"> | string | null
+    targetUserId?: StringNullableWithAggregatesFilter<"AdminAuditLog"> | string | null
+    ip?: StringNullableWithAggregatesFilter<"AdminAuditLog"> | string | null
+    userAgent?: StringNullableWithAggregatesFilter<"AdminAuditLog"> | string | null
+    metadata?: JsonNullableWithAggregatesFilter<"AdminAuditLog">
+    createdAt?: DateTimeWithAggregatesFilter<"AdminAuditLog"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -62345,6 +64594,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -62401,6 +64652,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -62457,6 +64710,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -62513,6 +64768,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -62569,6 +64826,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -62592,6 +64851,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -62614,6 +64875,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -63649,6 +65912,69 @@ export namespace Prisma {
   export type SettingUncheckedUpdateManyInput = {
     key?: StringFieldUpdateOperationsInput | string
     value?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type WhatsappQuotaCreateInput = {
+    id?: string
+    instanceId: string
+    day: string
+    count?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WhatsappQuotaUncheckedCreateInput = {
+    id?: string
+    instanceId: string
+    day: string
+    count?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WhatsappQuotaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    instanceId?: StringFieldUpdateOperationsInput | string
+    day?: StringFieldUpdateOperationsInput | string
+    count?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WhatsappQuotaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    instanceId?: StringFieldUpdateOperationsInput | string
+    day?: StringFieldUpdateOperationsInput | string
+    count?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WhatsappQuotaCreateManyInput = {
+    id?: string
+    instanceId: string
+    day: string
+    count?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WhatsappQuotaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    instanceId?: StringFieldUpdateOperationsInput | string
+    day?: StringFieldUpdateOperationsInput | string
+    count?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WhatsappQuotaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    instanceId?: StringFieldUpdateOperationsInput | string
+    day?: StringFieldUpdateOperationsInput | string
+    count?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ConversationCreateInput = {
@@ -66678,6 +69004,104 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AdminAuditLogCreateInput = {
+    id?: string
+    adminUserId: string
+    adminUserName?: string | null
+    adminUserEmail?: string | null
+    action: string
+    targetCompanyId?: string | null
+    targetUserId?: string | null
+    ip?: string | null
+    userAgent?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type AdminAuditLogUncheckedCreateInput = {
+    id?: string
+    adminUserId: string
+    adminUserName?: string | null
+    adminUserEmail?: string | null
+    action: string
+    targetCompanyId?: string | null
+    targetUserId?: string | null
+    ip?: string | null
+    userAgent?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type AdminAuditLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    adminUserId?: StringFieldUpdateOperationsInput | string
+    adminUserName?: NullableStringFieldUpdateOperationsInput | string | null
+    adminUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: StringFieldUpdateOperationsInput | string
+    targetCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdminAuditLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    adminUserId?: StringFieldUpdateOperationsInput | string
+    adminUserName?: NullableStringFieldUpdateOperationsInput | string | null
+    adminUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: StringFieldUpdateOperationsInput | string
+    targetCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdminAuditLogCreateManyInput = {
+    id?: string
+    adminUserId: string
+    adminUserName?: string | null
+    adminUserEmail?: string | null
+    action: string
+    targetCompanyId?: string | null
+    targetUserId?: string | null
+    ip?: string | null
+    userAgent?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type AdminAuditLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    adminUserId?: StringFieldUpdateOperationsInput | string
+    adminUserName?: NullableStringFieldUpdateOperationsInput | string | null
+    adminUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: StringFieldUpdateOperationsInput | string
+    targetCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdminAuditLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    adminUserId?: StringFieldUpdateOperationsInput | string
+    adminUserName?: NullableStringFieldUpdateOperationsInput | string | null
+    adminUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: StringFieldUpdateOperationsInput | string
+    targetCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -67444,6 +69868,8 @@ export namespace Prisma {
     moduleTickets?: SortOrder
     moduleAI?: SortOrder
     moduleGamificacao?: SortOrder
+    moduleProjetos?: SortOrder
+    moduleCalendario?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrder
@@ -67467,6 +69893,8 @@ export namespace Prisma {
     moduleTickets?: SortOrder
     moduleAI?: SortOrder
     moduleGamificacao?: SortOrder
+    moduleProjetos?: SortOrder
+    moduleCalendario?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrder
@@ -67490,6 +69918,8 @@ export namespace Prisma {
     moduleTickets?: SortOrder
     moduleAI?: SortOrder
     moduleGamificacao?: SortOrder
+    moduleProjetos?: SortOrder
+    moduleCalendario?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrder
@@ -68269,6 +70699,46 @@ export namespace Prisma {
   export type SettingMinOrderByAggregateInput = {
     key?: SortOrder
     value?: SortOrder
+  }
+
+  export type WhatsappQuotaInstanceIdDayCompoundUniqueInput = {
+    instanceId: string
+    day: string
+  }
+
+  export type WhatsappQuotaCountOrderByAggregateInput = {
+    id?: SortOrder
+    instanceId?: SortOrder
+    day?: SortOrder
+    count?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WhatsappQuotaAvgOrderByAggregateInput = {
+    count?: SortOrder
+  }
+
+  export type WhatsappQuotaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    instanceId?: SortOrder
+    day?: SortOrder
+    count?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WhatsappQuotaMinOrderByAggregateInput = {
+    id?: SortOrder
+    instanceId?: SortOrder
+    day?: SortOrder
+    count?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WhatsappQuotaSumOrderByAggregateInput = {
+    count?: SortOrder
   }
 
   export type EnumConversationStatusFilter<$PrismaModel = never> = {
@@ -70258,6 +72728,46 @@ export namespace Prisma {
 
   export type BillingEventSumOrderByAggregateInput = {
     amount?: SortOrder
+  }
+
+  export type AdminAuditLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    adminUserId?: SortOrder
+    adminUserName?: SortOrder
+    adminUserEmail?: SortOrder
+    action?: SortOrder
+    targetCompanyId?: SortOrder
+    targetUserId?: SortOrder
+    ip?: SortOrder
+    userAgent?: SortOrder
+    metadata?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AdminAuditLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    adminUserId?: SortOrder
+    adminUserName?: SortOrder
+    adminUserEmail?: SortOrder
+    action?: SortOrder
+    targetCompanyId?: SortOrder
+    targetUserId?: SortOrder
+    ip?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AdminAuditLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    adminUserId?: SortOrder
+    adminUserName?: SortOrder
+    adminUserEmail?: SortOrder
+    action?: SortOrder
+    targetCompanyId?: SortOrder
+    targetUserId?: SortOrder
+    ip?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type CompanyCreateNestedOneWithoutUsersInput = {
@@ -75400,6 +77910,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -75455,6 +77967,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -75989,6 +78503,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -76044,6 +78560,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -76858,6 +79376,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -76913,6 +79433,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -76973,6 +79495,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
@@ -77028,6 +79552,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -78435,6 +80961,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -78490,6 +81018,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -78564,6 +81094,8 @@ export namespace Prisma {
     moduleTickets?: BoolFilter<"Company"> | boolean
     moduleAI?: BoolFilter<"Company"> | boolean
     moduleGamificacao?: BoolFilter<"Company"> | boolean
+    moduleProjetos?: BoolFilter<"Company"> | boolean
+    moduleCalendario?: BoolFilter<"Company"> | boolean
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
     webhookToken?: StringNullableFilter<"Company"> | string | null
@@ -79570,6 +82102,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -79625,6 +82159,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -79884,6 +82420,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -79939,6 +82477,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -80099,6 +82639,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -80154,6 +82696,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -80358,6 +82902,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -80413,6 +82959,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -80591,6 +83139,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -80646,6 +83196,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -80964,6 +83516,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -81019,6 +83573,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -81402,6 +83958,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -81457,6 +84015,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -81528,6 +84088,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -81583,6 +84145,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -81638,6 +84202,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -81693,6 +84259,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -81821,6 +84389,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -81876,6 +84446,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -81994,6 +84566,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -82049,6 +84623,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -82194,6 +84770,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -82249,6 +84827,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -82344,6 +84924,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -82399,6 +84981,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -82652,6 +85236,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -82707,6 +85293,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -82968,6 +85556,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -83023,6 +85613,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -83135,6 +85727,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -83190,6 +85784,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -83400,6 +85996,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -83455,6 +86053,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -83828,6 +86428,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -83883,6 +86485,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -84288,6 +86892,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -84343,6 +86949,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -84593,6 +87201,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -84648,6 +87258,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -84703,6 +87315,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -84758,6 +87372,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -84875,6 +87491,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -84930,6 +87548,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -85181,6 +87801,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -85236,6 +87858,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -85365,6 +87989,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -85420,6 +88046,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -85752,6 +88380,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -85807,6 +88437,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -86090,6 +88722,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -86145,6 +88779,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86331,6 +88967,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -86386,6 +89024,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -86602,6 +89242,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -86657,6 +89299,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -87675,6 +90319,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -87730,6 +90376,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -87845,6 +90493,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -87900,6 +90550,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88168,6 +90820,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -88223,6 +90877,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -88339,6 +90995,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -88394,6 +91052,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88449,6 +91109,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -88504,6 +91166,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -88575,6 +91239,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -88630,6 +91296,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88685,6 +91353,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -88740,6 +91410,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -88811,6 +91483,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -88866,6 +91540,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88921,6 +91597,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -88976,6 +91654,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -89047,6 +91727,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -89102,6 +91784,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -89157,6 +91841,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -89212,6 +91898,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -89283,6 +91971,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -89338,6 +92028,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -89393,6 +92085,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -89448,6 +92142,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -89519,6 +92215,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -89574,6 +92272,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -89629,6 +92329,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -89684,6 +92386,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -89755,6 +92459,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -89810,6 +92516,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -89865,6 +92573,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -89920,6 +92630,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -89991,6 +92703,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -90046,6 +92760,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -90101,6 +92817,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -90156,6 +92874,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -90251,6 +92971,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -90306,6 +93028,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -90448,6 +93172,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -90503,6 +93229,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -90610,6 +93338,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -90665,6 +93395,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -90793,6 +93525,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -90848,6 +93582,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -91013,6 +93749,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -91068,6 +93806,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -91217,6 +93957,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -91272,6 +94014,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -91406,6 +94150,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -91461,6 +94207,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -91573,6 +94321,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -91628,6 +94378,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -91762,6 +94514,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -91817,6 +94571,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -91929,6 +94685,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -91984,6 +94742,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -92118,6 +94878,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -92173,6 +94935,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -92228,6 +94992,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -92283,6 +95049,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -92354,6 +95122,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -92409,6 +95179,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -92464,6 +95236,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -92519,6 +95293,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -92590,6 +95366,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -92645,6 +95423,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -93312,6 +96092,8 @@ export namespace Prisma {
     moduleTickets?: boolean
     moduleAI?: boolean
     moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
   }
@@ -93777,6 +96559,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
@@ -93832,6 +96616,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -93887,6 +96673,8 @@ export namespace Prisma {
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
     moduleAI?: BoolFieldUpdateOperationsInput | boolean
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -97122,6 +99910,10 @@ export namespace Prisma {
      */
     export type SettingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SettingDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use WhatsappQuotaDefaultArgs instead
+     */
+    export type WhatsappQuotaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = WhatsappQuotaDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use ConversationDefaultArgs instead
      */
     export type ConversationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ConversationDefaultArgs<ExtArgs>
@@ -97245,6 +100037,10 @@ export namespace Prisma {
      * @deprecated Use BillingEventDefaultArgs instead
      */
     export type BillingEventArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BillingEventDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AdminAuditLogDefaultArgs instead
+     */
+    export type AdminAuditLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AdminAuditLogDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

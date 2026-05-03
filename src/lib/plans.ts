@@ -45,6 +45,8 @@ export interface PlanFeatures {
   assistenteIA: boolean;
   multiUnidade: boolean;
   bannerLgpd: boolean;
+  projetos: boolean;
+  calendario: boolean;
   // Avançado
   apiAccess: boolean;
   whiteLabel: boolean;
@@ -98,6 +100,8 @@ function feat(overrides: Partial<PlanFeatures>): PlanFeatures {
     assistenteIA: false,
     multiUnidade: false,
     bannerLgpd: false,
+    projetos: false,
+    calendario: false,
     apiAccess: false,
     whiteLabel: false,
     customDomain: false,
@@ -163,6 +167,8 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       magicLink: true,
       tickets: true,
       bannerLgpd: true,
+      projetos: true,
+      calendario: true,
     }),
     highlights: [
       "14 dias completos sem cartão",
@@ -190,6 +196,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
     features: feat({
       crmBasico: true,
       inboxAvancado: true,
+      calendario: true,
     }),
     highlights: [
       "1 WhatsApp · 2 atendentes",
@@ -227,6 +234,8 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       cofreCredenciais: true,
       magicLink: true,
       tickets: true,
+      projetos: true,
+      calendario: true,
     }),
     highlights: [
       "2 WhatsApp · 5 atendentes",
@@ -268,6 +277,8 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       assistenteIA: true,
       multiUnidade: true,
       bannerLgpd: true,
+      projetos: true,
+      calendario: true,
       suportePrioritario: true,
     }),
     highlights: [
@@ -312,6 +323,8 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       assistenteIA: true,
       multiUnidade: true,
       bannerLgpd: true,
+      projetos: true,
+      calendario: true,
       apiAccess: true,
       customDomain: true,
       suportePrioritario: true,
@@ -357,6 +370,8 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       assistenteIA: true,
       multiUnidade: true,
       bannerLgpd: true,
+      projetos: true,
+      calendario: true,
       apiAccess: true,
       whiteLabel: true,
       customDomain: true,

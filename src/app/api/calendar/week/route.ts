@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { listPrimaryEvents } from "@/lib/google-calendar";
+import { assertModule } from "@/lib/billing";
 
 // GET /api/calendar/week?from=ISO&to=ISO
 //
@@ -13,6 +14,9 @@ import { listPrimaryEvents } from "@/lib/google-calendar";
 export async function GET(req: NextRequest) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "calendario");
+  if (!gate.ok) return gate.response;
 
   const userId    = (session.user as any)?.id as string;
   const userRole  = (session.user as any)?.role as string;

@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomBytes } from "crypto";
 import { cookies } from "next/headers";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { authorizeVaultAccess } from "@/lib/vault-auth";
 import { buildAuthorizeUrl, type GoogleService } from "@/lib/google-oauth";
+import { assertModule } from "@/lib/billing";
 
 // GET /api/integrations/google/connect?companyId=X&services=ga4,sc[,gbp]
 //
@@ -17,8 +20,15 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "companyId obrigatório" }, { status: 400 });
   }
 
-  // Reusa a permissão do cofre (mesmas regras: SUPER_ADMIN, ADMIN da pai, ADMIN da empresa)
-  const auth = await authorizeVaultAccess(companyId);
+  // fix A3 — gate de módulo marketing antes de iniciar o fluxo OAuth
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+  const gate = await assertModule(session, "marketing");
+  if (!gate.ok) return gate.response;
+
+  // Reusa a permissão do cofre (mesmas regras: SUPER_ADMIN, ADMIN da pai, ADMIN da empresa).
+  // Skip gate de cofre — já gateamos `marketing` acima.
+  const auth = await authorizeVaultAccess(companyId, { checkCofreModule: false });
   if (!auth.ok) return NextResponse.json({ error: auth.error }, { status: auth.status });
   if (!auth.canWrite) return NextResponse.json({ error: "Sem permissão para conectar integrações" }, { status: 403 });
 

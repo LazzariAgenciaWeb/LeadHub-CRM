@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { assertModule } from "@/lib/billing";
 
 // GET /api/gamificacao/recent-badges
 // Retorna badges conquistados desde o último User.lastBadgeSeenAt e
@@ -10,6 +11,11 @@ import { prisma } from "@/lib/prisma";
 export async function GET() {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ badges: [] });
+
+  // fix A3 — silently devolve [] em vez de 403 pra não quebrar polling
+  // de empresas que não têm gamificação habilitada.
+  const gate = await assertModule(session, "gamificacao");
+  if (!gate.ok) return NextResponse.json({ badges: [] });
 
   const userId = (session.user as any).id as string | undefined;
   if (!userId) return NextResponse.json({ badges: [] });

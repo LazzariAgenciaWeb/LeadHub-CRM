@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { evolutionCreateInstance, evolutionGetQR } from "@/lib/evolution";
+import { assertModule } from "@/lib/billing";
+import { buildWhatsappWebhookUrl } from "@/lib/webhook-auth";
 
 // GET /api/whatsapp/[id]/qr
 // Creates the Evolution instance if needed, then returns the QR code base64
@@ -12,6 +14,9 @@ export async function GET(
 ) {
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "whatsapp");
+  if (!gate.ok) return gate.response;
 
   const { id } = await params;
   const userRole = (session.user as any).role;
@@ -25,7 +30,7 @@ export async function GET(
   }
 
   const origin = req.headers.get("origin") ?? req.nextUrl.origin;
-  const webhookUrl = `${origin}/api/webhook/whatsapp`;
+  const webhookUrl = buildWhatsappWebhookUrl(origin);
 
   try {
     // Tenta criar a instância na Evolution (idempotente — ignora 400/409 se já existe)

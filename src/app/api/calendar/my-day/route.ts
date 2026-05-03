@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { assertModule } from "@/lib/billing";
 
 // GET /api/calendar/my-day
 // Retorna todos os itens relevantes para a vista "Meu Dia" do calendário.
@@ -9,6 +10,9 @@ import { prisma } from "@/lib/prisma";
 export async function GET(req: NextRequest) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "calendario");
+  if (!gate.ok) return gate.response;
 
   const userId      = (session.user as any)?.id as string;
   const userRole    = (session.user as any)?.role as string;

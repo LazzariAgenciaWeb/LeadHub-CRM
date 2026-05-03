@@ -1,12 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { processInboundMessage, upsertConversation } from "@/lib/whatsapp";
+import { guardWebhook } from "@/lib/webhook-auth";
 
 /**
  * POST /api/webhook/whatsapp
  *
  * Recebe eventos da Evolution API.
  * Configure este endpoint na sua instância da Evolution API.
- * URL: https://seu-dominio.com/api/webhook/whatsapp
+ * URL: https://seu-dominio.com/api/webhook/whatsapp?token=$WHATSAPP_WEBHOOK_SECRET
+ *
+ * Hardening (fix 7d):
+ *  - Exige token (env WHATSAPP_WEBHOOK_SECRET) na query/header. Em dev sem
+ *    a env aceita warn-only.
+ *  - Rate limit 200 req/min por IP (Evolution costuma mandar burst em
+ *    reconexão).
  *
  * Eventos suportados:
  *   - messages.upsert (mensagem recebida)
@@ -16,8 +23,21 @@ const recentPayloads: { ts: string; event: string; instance: string; skipped?: s
 const recentAckPayloads: { ts: string; instance: string; debug: any }[] = [];
 
 export async function POST(request: NextRequest) {
+  // fix 7d — token + rate limit antes de qualquer processamento
+  const guarded = guardWebhook(request, {
+    secretEnv: "WHATSAPP_WEBHOOK_SECRET",
+    rateLimit: 200,
+  });
+  if (!guarded.ok) return guarded.response;
+
   try {
     const body = await request.json();
+
+    // Schema básico — payload da Evolution sempre tem event/instance/data.
+    // Negar payload mal-formado evita criar Activity/Message lixo.
+    if (!body || typeof body !== "object") {
+      return NextResponse.json({ ok: false, error: "Payload inválido" }, { status: 400 });
+    }
 
     // Estrutura padrão da Evolution API
     const event = body?.event;
@@ -75,9 +95,10 @@ export async function POST(request: NextRequest) {
         // Configurar webhook automaticamente para garantir que eventos sejam enviados
         // (cobre casos de nova instância ou reconexão após troca de servidor)
         try {
+          const { buildWhatsappWebhookUrl } = await import("@/lib/webhook-auth");
           const baseUrl = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, "") ?? "";
           if (baseUrl) {
-            const webhookUrl = `${baseUrl}/api/webhook/whatsapp`;
+            const webhookUrl = buildWhatsappWebhookUrl(baseUrl);
             // Buscar token da instância no banco
             const inst = await prisma.whatsappInstance.findFirst({
               where: { instanceName: instance },

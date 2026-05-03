@@ -1,12 +1,18 @@
 import { NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { getActiveTrustedSession } from "@/lib/vault-2fa";
+import { assertModule } from "@/lib/billing";
 
 // GET /api/vault/status
 // Retorna se o usuário tem trusted session ativa pra evitar challenge na UI.
 export async function GET() {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  // fix A3 — gate cofre. Sem ele a UI tentava renderizar status mesmo
+  // pra empresa em plano sem cofre.
+  const gate = await assertModule(session, "cofre");
+  if (!gate.ok) return gate.response;
 
   const userId = (session.user as any)?.id as string;
   if (!userId) return NextResponse.json({ error: "Sessão inválida" }, { status: 401 });
