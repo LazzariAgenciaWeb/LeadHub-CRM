@@ -76,7 +76,24 @@ export async function PATCH(
     const existingUser = await prisma.user.findUnique({ where: { email: userEmail } });
     if (existingUser) {
       userId = existingUser.id;
+      // Aplica userRole também a usuário existente recém-vinculado, se passado
+      if (userRole) {
+        const allowed: string[] = role === "SUPER_ADMIN" ? ["SUPER_ADMIN", "ADMIN", "CLIENT"] : ["ADMIN", "CLIENT"];
+        if (!allowed.includes(userRole)) {
+          return NextResponse.json({ error: "Você não pode atribuir esse papel" }, { status: 403 });
+        }
+        await prisma.user.update({ where: { id: existingUser.id }, data: { role: userRole } });
+      }
     } else {
+      // Define o role do novo usuário a partir de userRole (ADMIN/CLIENT). Default CLIENT.
+      let createRole: "SUPER_ADMIN" | "ADMIN" | "CLIENT" = "CLIENT";
+      if (userRole) {
+        const allowed: string[] = role === "SUPER_ADMIN" ? ["SUPER_ADMIN", "ADMIN", "CLIENT"] : ["ADMIN", "CLIENT"];
+        if (!allowed.includes(userRole)) {
+          return NextResponse.json({ error: "Você não pode atribuir esse papel" }, { status: 403 });
+        }
+        createRole = userRole;
+      }
       const tempPassword = Math.random().toString(36).slice(-8) + "A1!";
       const hash = await bcrypt.hash(tempPassword, 10);
       const newUser = await prisma.user.create({
@@ -84,7 +101,7 @@ export async function PATCH(
           name: userName ?? contact.name ?? userEmail.split("@")[0],
           email: userEmail,
           password: hash,
-          role: "CLIENT",
+          role: createRole,
           companyId: id,
         },
       });

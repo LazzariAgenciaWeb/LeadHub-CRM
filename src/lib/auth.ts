@@ -3,6 +3,56 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "./prisma";
 
+// Quando o usuário está em múltiplos setores, fazemos UNIÃO (OR) das
+// permissões — basta um setor liberar para o usuário ter a permissão.
+// Antes pegávamos só o primeiro setor (take: 1) e o usuário ficava com
+// menos acesso do que deveria quando o "primeiro" do Prisma era o setor
+// mais restrito.
+type SetorPerms = {
+  canManageUsers:     boolean;
+  canViewLeads:       boolean;
+  canCreateLeads:     boolean;
+  canViewTickets:     boolean;
+  canCreateTickets:   boolean;
+  canViewConfig:      boolean;
+  canUseAI:           boolean;
+  canViewInbox:       boolean;
+  canSendMessages:    boolean;
+  canViewCompanies:   boolean;
+  canCreateCompanies: boolean;
+};
+
+function mergeSetorPermissions(setores: any[]): SetorPerms | null {
+  if (!setores.length) return null;
+  const merged: SetorPerms = {
+    canManageUsers:     false,
+    canViewLeads:       false,
+    canCreateLeads:     false,
+    canViewTickets:     false,
+    canCreateTickets:   false,
+    canViewConfig:      false,
+    canUseAI:           false,
+    canViewInbox:       false,
+    canSendMessages:    false,
+    canViewCompanies:   false,
+    canCreateCompanies: false,
+  };
+  for (const s of setores) {
+    merged.canManageUsers     ||= !!s.canManageUsers;
+    merged.canViewLeads       ||= !!s.canViewLeads;
+    merged.canCreateLeads     ||= !!s.canCreateLeads;
+    merged.canViewTickets     ||= !!s.canViewTickets;
+    merged.canCreateTickets   ||= !!s.canCreateTickets;
+    merged.canViewConfig      ||= !!s.canViewConfig;
+    merged.canUseAI           ||= !!s.canUseAI;
+    merged.canViewInbox       ||= !!(s.canViewInbox ?? true);
+    merged.canSendMessages    ||= !!(s.canSendMessages ?? true);
+    merged.canViewCompanies   ||= !!s.canViewCompanies;
+    merged.canCreateCompanies ||= !!s.canCreateCompanies;
+  }
+  return merged;
+}
+
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -27,7 +77,6 @@ export const authOptions: NextAuthOptions = {
             },
             setores: {
               include: { setor: true },
-              take: 1,
             },
           },
         });
@@ -41,7 +90,8 @@ export const authOptions: NextAuthOptions = {
 
         if (!passwordMatch) return null;
 
-        const primarySetor = user.setores[0]?.setor ?? null;
+        const allSetores = user.setores.map((s) => s.setor);
+        const mergedPerms = mergeSetorPermissions(allSetores);
 
         return {
           id: user.id,
@@ -49,20 +99,8 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           role: user.role,
           companyId: user.companyId ?? undefined,
-          setorId: primarySetor?.id ?? undefined,
-          permissions: primarySetor ? {
-            canManageUsers:     primarySetor.canManageUsers,
-            canViewLeads:       primarySetor.canViewLeads,
-            canCreateLeads:     primarySetor.canCreateLeads,
-            canViewTickets:     primarySetor.canViewTickets,
-            canCreateTickets:   primarySetor.canCreateTickets,
-            canViewConfig:      primarySetor.canViewConfig,
-            canUseAI:           (primarySetor as any).canUseAI ?? false,
-            canViewInbox:       (primarySetor as any).canViewInbox ?? true,
-            canSendMessages:    (primarySetor as any).canSendMessages ?? true,
-            canViewCompanies:   (primarySetor as any).canViewCompanies ?? false,
-            canCreateCompanies: (primarySetor as any).canCreateCompanies ?? false,
-          } : null,
+          setorId: allSetores[0]?.id ?? undefined,
+          permissions: mergedPerms,
           modules: {
             ai:       (user.company as any)?.moduleAI ?? false,
             crm:      user.company?.moduleCrm ?? true,
@@ -113,26 +151,13 @@ export const authOptions: NextAuthOptions = {
                 },
                 setores: {
                   include: { setor: true },
-                  take: 1,
                 },
               },
             });
             if (dbUser) {
-              const setor = dbUser.setores[0]?.setor;
+              const allSetores = dbUser.setores.map((s) => s.setor);
               (session.user as any).companyId = dbUser.companyId ?? (token.companyId as string | undefined);
-              (session.user as any).permissions = setor ? {
-                canManageUsers:     setor.canManageUsers,
-                canViewLeads:       setor.canViewLeads,
-                canCreateLeads:     setor.canCreateLeads,
-                canViewTickets:     setor.canViewTickets,
-                canCreateTickets:   setor.canCreateTickets,
-                canViewConfig:      setor.canViewConfig,
-                canUseAI:           (setor as any).canUseAI           ?? false,
-                canViewInbox:       (setor as any).canViewInbox        ?? true,
-                canSendMessages:    (setor as any).canSendMessages     ?? true,
-                canViewCompanies:   (setor as any).canViewCompanies    ?? false,
-                canCreateCompanies: (setor as any).canCreateCompanies  ?? false,
-              } : null;
+              (session.user as any).permissions = mergeSetorPermissions(allSetores);
               (session.user as any).modules = {
                 ai:       (dbUser.company as any)?.moduleAI       ?? false,
                 crm:      dbUser.company?.moduleCrm   ?? true,
