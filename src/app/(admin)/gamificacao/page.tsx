@@ -102,6 +102,126 @@ export default async function GamificacaoPage({
   const counts: Partial<Record<ScoreReason, number>> = {};
   for (const row of eventCounts) counts[row.reason] = row._count;
 
+  // ── Enriquecimento dos eventos com contexto (auditoria) ──────────────────
+  // Cada ScoreEvent guarda só (reason, referenceId). Pra mostrar onde a
+  // pessoa pontuou, batch-fetch os referenceIds agrupados por tipo provável.
+  const CONV_REASONS = new Set<ScoreReason>([
+    "RESPOSTA_RAPIDA_5MIN", "RESPOSTA_RAPIDA_30MIN",
+    "ATENDIMENTO_MESMO_DIA", "RETORNO_ANTECIPADO",
+    "NOTA_REGISTRADA", "PRIMEIRO_CONTATO",
+    "BONUS_NOITE", "BONUS_MADRUGADA",
+    "CONVERSA_SEM_RESPOSTA", "PRAZO_PRORROGADO",
+    "AJUDA_EXERCITO", "ENCAMINHAMENTO", "PRIMEIRA_RESPOSTA",
+  ]);
+  const TICKET_REASONS = new Set<ScoreReason>(["TICKET_RESOLVIDO", "SLA_VENCIDO"]);
+  const LEAD_REASONS   = new Set<ScoreReason>([
+    "LEAD_AVANCADO", "LEAD_CONVERTIDO",
+    "BONUS_VENDA_RAPIDA", "BONUS_RECUPERACAO",
+  ]);
+  const PROJECT_REASONS = new Set<ScoreReason>([
+    "PROJETO_ENTREGUE", "PROJETO_ENTREGUE_NO_PRAZO", "PROJETO_ATRASADO",
+    "TAREFA_SEM_PRAZO", "TAREFA_ATRASADA", "TAREFA_SEM_RESPONSAVEL",
+    "TAREFA_CRIADA", "TAREFA_ATUALIZADA", "TAREFA_CONCLUIDA",
+  ]);
+
+  // Eventos de colaboração usam referenceId composto (`${convId}:${userId}:${day}:${tag}`).
+  // Extraímos só o convId (prefixo até o primeiro `:`).
+  function extractConvId(refId: string | null): string | null {
+    if (!refId) return null;
+    return refId.includes(":") ? refId.split(":")[0]! : refId;
+  }
+
+  const convIds:    string[] = [];
+  const ticketIds:  string[] = [];
+  const leadIds:    string[] = [];
+  const projectIds: string[] = [];
+
+  for (const ev of myEvents) {
+    if (!ev.referenceId) continue;
+    if (CONV_REASONS.has(ev.reason)) {
+      const id = extractConvId(ev.referenceId);
+      if (id) convIds.push(id);
+    } else if (TICKET_REASONS.has(ev.reason)) {
+      ticketIds.push(ev.referenceId);
+    } else if (LEAD_REASONS.has(ev.reason)) {
+      leadIds.push(ev.referenceId);
+    } else if (PROJECT_REASONS.has(ev.reason) || ev.reason === "INCIDENTE") {
+      projectIds.push(ev.referenceId);
+    }
+  }
+
+  const [convCtx, ticketCtx, leadCtx, projectCtx] = await Promise.all([
+    convIds.length > 0
+      ? prisma.conversation.findMany({
+          where: { id: { in: Array.from(new Set(convIds)) } },
+          select: { id: true, phone: true, leads: { take: 1, orderBy: { createdAt: "desc" }, select: { name: true } } },
+        })
+      : Promise.resolve([]),
+    ticketIds.length > 0
+      ? prisma.ticket.findMany({
+          where: { id: { in: Array.from(new Set(ticketIds)) } },
+          select: { id: true, title: true },
+        })
+      : Promise.resolve([]),
+    leadIds.length > 0
+      ? prisma.lead.findMany({
+          where: { id: { in: Array.from(new Set(leadIds)) } },
+          select: { id: true, name: true, phone: true },
+        })
+      : Promise.resolve([]),
+    projectIds.length > 0
+      ? prisma.setorClickupList.findMany({
+          where: { id: { in: Array.from(new Set(projectIds)) } },
+          select: { id: true, name: true },
+        })
+      : Promise.resolve([]),
+  ]);
+
+  const convMap    = new Map(convCtx.map((c) => [c.id, c]));
+  const ticketMap  = new Map(ticketCtx.map((t) => [t.id, t]));
+  const leadMap    = new Map(leadCtx.map((l) => [l.id, l]));
+  const projectMap = new Map(projectCtx.map((p) => [p.id, p]));
+
+  type EnrichedEvent = (typeof myEvents)[number] & {
+    contextLabel: string | null;
+    contextHref:  string | null;
+  };
+
+  const enrichedEvents: EnrichedEvent[] = myEvents.map((ev) => {
+    let contextLabel: string | null = null;
+    let contextHref:  string | null = null;
+    if (ev.referenceId) {
+      if (CONV_REASONS.has(ev.reason)) {
+        const cId = extractConvId(ev.referenceId);
+        const c = cId ? convMap.get(cId) : null;
+        if (c) {
+          const leadName = c.leads[0]?.name;
+          contextLabel = leadName ? `${leadName} · ${c.phone}` : c.phone;
+          contextHref  = `/whatsapp?conv=${c.id}`;
+        }
+      } else if (TICKET_REASONS.has(ev.reason)) {
+        const t = ticketMap.get(ev.referenceId);
+        if (t) {
+          contextLabel = t.title;
+          contextHref  = `/chamados/${t.id}`;
+        }
+      } else if (LEAD_REASONS.has(ev.reason)) {
+        const l = leadMap.get(ev.referenceId);
+        if (l) {
+          contextLabel = l.name ? `${l.name} · ${l.phone}` : l.phone;
+          contextHref  = `/crm/leads/${l.id}`;
+        }
+      } else if (PROJECT_REASONS.has(ev.reason) || ev.reason === "INCIDENTE") {
+        const p = projectMap.get(ev.referenceId);
+        if (p) {
+          contextLabel = p.name;
+          contextHref  = `/projetos/${p.id}`;
+        }
+      }
+    }
+    return { ...ev, contextLabel, contextHref };
+  });
+
   const myPosition  = ranking.findIndex((r) => r.userId === viewUserId) + 1 || null;
   const monthName   = now.toLocaleString("pt-BR", { month: "long", year: "numeric" });
 
@@ -139,7 +259,7 @@ export default async function GamificacaoPage({
 
           <Leaderboard ranking={ranking} currentUserId={viewUserId} />
 
-          <RecentEvents events={myEvents} />
+          <RecentEvents events={enrichedEvents} />
         </div>
 
         {/* Coluna lateral */}

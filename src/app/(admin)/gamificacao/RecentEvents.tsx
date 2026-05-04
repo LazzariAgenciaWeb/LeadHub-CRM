@@ -1,14 +1,18 @@
+import Link from "next/link";
+import { ExternalLink } from "lucide-react";
 import { ScoreReason } from "@/generated/prisma";
 import { REASON_LABEL } from "./labels";
 import { formatBrazilDateTime } from "@/lib/datetime";
 
 type Event = {
-  id:          string;
-  points:      number;
-  reason:      ScoreReason;
-  description: string | null;
-  authorName:  string | null;
-  createdAt:   Date;
+  id:           string;
+  points:       number;
+  reason:       ScoreReason;
+  description:  string | null;
+  authorName:   string | null;
+  contextLabel?: string | null;
+  contextHref?:  string | null;
+  createdAt:    Date;
 };
 
 type Props = {
@@ -20,7 +24,9 @@ export default function RecentEvents({ events }: Props) {
     <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-2xl overflow-hidden">
       <div className="px-5 py-4 border-b border-[#1e2d45]">
         <h3 className="text-white font-semibold text-sm">📋 Histórico</h3>
-        <p className="text-slate-500 text-xs mt-0.5">Últimos eventos de pontuação</p>
+        <p className="text-slate-500 text-xs mt-0.5">
+          Últimos eventos de pontuação · clique no contexto pra abrir a origem
+        </p>
       </div>
 
       {events.length === 0 ? (
@@ -42,6 +48,19 @@ export default function RecentEvents({ events }: Props) {
                     <p className="text-slate-400 text-xs mt-1 leading-relaxed">
                       “{ev.description}”
                     </p>
+                  )}
+                  {ev.contextLabel && (
+                    ev.contextHref ? (
+                      <Link
+                        href={ev.contextHref}
+                        className="inline-flex items-center gap-1 mt-1 text-[11px] text-indigo-300 hover:text-indigo-200 hover:underline truncate max-w-full"
+                      >
+                        <span className="truncate">{ev.contextLabel}</span>
+                        <ExternalLink className="w-3 h-3 flex-shrink-0" />
+                      </Link>
+                    ) : (
+                      <p className="mt-1 text-[11px] text-slate-500 truncate">{ev.contextLabel}</p>
+                    )
                   )}
                   <p className="text-slate-600 text-[11px] mt-0.5">
                     {formatBrazilDateTime(ev.createdAt)}
