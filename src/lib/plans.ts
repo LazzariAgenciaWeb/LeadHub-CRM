@@ -132,6 +132,10 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
     features: feat({
       crmBasico: true,
       inboxAvancado: true,
+      // Módulos de produtividade — baseline para qualquer cliente FREE poder
+      // organizar projetos/calendário/gamificação interna sem upgrade.
+      projetos: true,
+      calendario: true,
     }),
     highlights: [
       "Convite manual do super admin",

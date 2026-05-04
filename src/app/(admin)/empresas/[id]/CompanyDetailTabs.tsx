@@ -7,6 +7,7 @@ import CompanyVault from "./CompanyVault";
 import CompanyIntegrations from "./CompanyIntegrations";
 import CompanyMarketing from "./CompanyMarketing";
 import CompanySubscription from "./CompanySubscription";
+import CompanyAchievements from "./CompanyAchievements";
 
 interface Campaign {
   id: string;
@@ -76,7 +77,7 @@ const SOURCE_ICON: Record<string, string> = {
   GOOGLE: "🔍", LINK: "🔗", OTHER: "📌",
 };
 
-type TabId = "campanhas" | "leads" | "oportunidades" | "chamados" | "contatos" | "cofre" | "integracoes" | "marketing" | "plano";
+type TabId = "campanhas" | "leads" | "oportunidades" | "chamados" | "contatos" | "cofre" | "integracoes" | "marketing" | "plano" | "conquistas";
 
 const TABS: { id: TabId; label: string; icon: string; superAdminOnly?: boolean }[] = [
   { id: "marketing",    label: "Marketing",    icon: "📊" },
@@ -85,6 +86,7 @@ const TABS: { id: TabId; label: string; icon: string; superAdminOnly?: boolean }
   { id: "oportunidades",label: "Oportunidades",icon: "💰" },
   { id: "chamados",     label: "Chamados",     icon: "🎫" },
   { id: "contatos",     label: "Contatos WA",  icon: "📱" },
+  { id: "conquistas",   label: "Conquistas",   icon: "🏆", superAdminOnly: true },
   { id: "cofre",        label: "Cofre",        icon: "🔐" },
   { id: "integracoes",  label: "Integrações",  icon: "🔌" },
   { id: "plano",        label: "Plano",        icon: "💳", superAdminOnly: true },
@@ -115,6 +117,7 @@ export default function CompanyDetailTabs({
     integracoes:   0, // count carregado dinamicamente dentro do componente
     marketing:     0, // count carregado dinamicamente dentro do componente
     plano:         0, // sem contagem
+    conquistas:    0, // count carregado dinamicamente dentro do componente
   };
 
   // Filtra abas restritas (super admin only)
@@ -379,6 +382,11 @@ export default function CompanyDetailTabs({
         {/* ── Plano (super admin) ── */}
         {activeTab === "plano" && isSuperAdmin && (
           <CompanySubscription companyId={companyId} />
+        )}
+
+        {/* ── Conquistas (super admin) ── */}
+        {activeTab === "conquistas" && isSuperAdmin && (
+          <CompanyAchievements companyId={companyId} />
         )}
       </div>
     </div>

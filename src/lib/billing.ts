@@ -80,6 +80,12 @@ export async function assertModule(
   const role = session?.user?.role as string | undefined;
   if (role === "SUPER_ADMIN") return { ok: true };
 
+  // SUPER_ADMIN em modo impersonação tem role="ADMIN" no effective session,
+  // mas mantém o flag _impersonating. Liberamos o gate aqui para que o super
+  // admin possa configurar/testar tudo dentro do contexto da empresa cliente
+  // sem ser bloqueado por flag de módulo ou feature do plano.
+  if ((session as any)?._impersonating) return { ok: true };
+
   const companyId = session?.user?.companyId as string | undefined;
   if (!companyId) return denied("sem companyId na sessão");
 
@@ -117,16 +123,28 @@ export async function assertModule(
     cofre:       null,
   };
   const flag = flagMap[module];
-  if (flag === false) return denied("módulo desabilitado para a empresa");
 
   // 2) Feature do plano (com override custom)
   const featureKey = FEATURE_BY_MODULE[module];
+  let planEnabled: boolean | null = null;
   if (featureKey) {
     const plan: PlanTier = (company.subscription?.plan as PlanTier) ?? "FREE";
     const customFeatures = (company.subscription?.customFeatures as Partial<PlanFeatures> | null) ?? null;
     const planFeatures = PLANS[plan]?.features ?? PLANS.FREE.features;
-    const enabled = customFeatures?.[featureKey] ?? planFeatures[featureKey];
-    if (!enabled) return denied(`feature ${featureKey} não incluída no plano ${plan}`);
+    planEnabled = !!(customFeatures?.[featureKey] ?? planFeatures[featureKey]);
+  }
+
+  // Decisão: a flag explícita em Company.module* tem precedência quando ON
+  // (super admin ligou manualmente, mesmo cliente em plano sem feature).
+  // Quando flag=false (default do schema), só nega se o plano também não
+  // inclui a feature — assim flag=false não bloqueia indevidamente quando o
+  // plano já garante o módulo.
+  if (flag === true) {
+    // override do super admin → libera
+  } else if (flag === false) {
+    if (planEnabled !== true) return denied("módulo desabilitado para a empresa");
+  } else if (featureKey && planEnabled === false) {
+    return denied(`feature ${featureKey} não incluída no plano`);
   }
 
   // 3) Bloqueia se assinatura está cancelada/inadimplente

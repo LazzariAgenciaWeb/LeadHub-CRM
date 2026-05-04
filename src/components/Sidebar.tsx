@@ -147,13 +147,18 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
     { href: "/crm/oportunidades", Icon: Lightbulb, label: "Oportunidades", grad: "oportunidades" },
   ];
 
+  // Configurações é visível para ADMIN/SUPER_ADMIN ou para CLIENT cujo setor
+  // tem canViewConfig OU canManageUsers (sector admin que precisa gerenciar
+  // usuários/setores também precisa abrir a tela de configurações).
+  const showConfig = _isAdmin || can(session, "canViewConfig") || can(session, "canManageUsers");
+
   const bottomLinks: SidebarLink[] = ([
     { href: "/campanhas",     Icon: Megaphone,    label: "Campanhas",     grad: "campanhas",     show: _isAdmin },
     { href: "/chamados",      Icon: LifeBuoy,     label: "Chamados",      grad: "chamados",      show: _isAdmin || (hasModule(session, "tickets") && can(session, "canViewTickets")) },
     { href: "/projetos",      Icon: FolderKanban, label: "Projetos",      grad: "pipeline",      show: true },
     { href: "/gamificacao",   Icon: Trophy,       label: "Ranking",       grad: "gamificacao",   show: true },
     { href: "/links",         Icon: Link2,        label: "Links",         grad: "links",         show: _isAdmin },
-    { href: "/configuracoes", Icon: Settings,     label: "Configurações", grad: "configuracoes", show: _isAdmin || can(session, "canViewConfig") },
+    { href: "/configuracoes", Icon: Settings,     label: "Configurações", grad: "configuracoes", show: showConfig },
   ] satisfies SidebarLink[]).filter((l) => l.show);
 
   return (
@@ -363,6 +368,18 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
                 </a>
                 <div className="border-t border-[#1e2d45]" />
               </>
+            )}
+
+            {/* Configurações — visível para admin/super_admin/sector admin */}
+            {showConfig && (
+              <Link
+                href="/configuracoes"
+                onClick={() => setDropdownOpen(false)}
+                className="w-full flex items-center gap-2 px-3 py-2.5 text-xs text-slate-300 hover:bg-indigo-500/10 hover:text-white transition-colors"
+              >
+                <Settings className="w-3.5 h-3.5" strokeWidth={2.25} stroke={gradStroke("configuracoes")} />
+                <span>Configurações</span>
+              </Link>
             )}
 
             {/* Sair — sempre visível */}

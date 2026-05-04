@@ -86,45 +86,50 @@ export default function ProjetosBoard({ projects }: { projects: Project[] }) {
   }));
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
-      {grouped.map((col) => {
-        const isHover = hoverColumn === col.status;
-        return (
-          <div
-            key={col.status}
-            onDragOver={(e) => onDragOver(e, col.status)}
-            onDragLeave={() => setHoverColumn((h) => h === col.status ? null : h)}
-            onDrop={(e) => onDrop(e, col.status)}
-            className={`rounded-xl border ${col.color} flex flex-col transition-all ${
-              isHover ? "ring-2 ring-fuchsia-500/50 scale-[1.01]" : ""
-            }`}
-          >
-            <div className="px-3 py-2.5 border-b border-[#1e2d45] flex items-center justify-between">
-              <span className="text-white text-xs font-semibold">{col.label}</span>
-              <span className="text-slate-500 text-[10px]">{col.items.length}</span>
+    // Scroll horizontal em qualquer viewport: evita esmagar as 6 colunas em
+    // telas pequenas/médias. Cada coluna mantém largura mínima legível e
+    // espaçamento confortável entre cards.
+    <div className="-mx-6 px-6 overflow-x-auto pb-2">
+      <div className="flex gap-4 min-w-max">
+        {grouped.map((col) => {
+          const isHover = hoverColumn === col.status;
+          return (
+            <div
+              key={col.status}
+              onDragOver={(e) => onDragOver(e, col.status)}
+              onDragLeave={() => setHoverColumn((h) => h === col.status ? null : h)}
+              onDrop={(e) => onDrop(e, col.status)}
+              className={`rounded-xl border ${col.color} flex flex-col transition-all w-[280px] flex-shrink-0 ${
+                isHover ? "ring-2 ring-fuchsia-500/50 scale-[1.01]" : ""
+              }`}
+            >
+              <div className="px-3 py-2.5 border-b border-[#1e2d45] flex items-center justify-between">
+                <span className="text-white text-xs font-semibold">{col.label}</span>
+                <span className="text-slate-500 text-[10px]">{col.items.length}</span>
+              </div>
+              <div className="p-3 space-y-3 min-h-[120px]">
+                {col.items.length === 0 ? (
+                  <div className="text-slate-700 text-[11px] text-center py-6 italic">
+                    {isHover ? "↓ solte aqui" : "vazio"}
+                  </div>
+                ) : col.items.map((p) => (
+                  <div
+                    key={p.id}
+                    draggable
+                    onDragStart={(e) => onDragStart(e, p.id)}
+                    onDragEnd={onDragEnd}
+                    className={`cursor-grab active:cursor-grabbing transition-opacity ${
+                      draggingId === p.id ? "opacity-40" : ""
+                    }`}
+                  >
+                    <ProjectCard project={p} />
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="p-2 space-y-2 min-h-[100px]">
-              {col.items.length === 0 ? (
-                <div className="text-slate-700 text-[11px] text-center py-6 italic">
-                  {isHover ? "↓ solte aqui" : "vazio"}
-                </div>
-              ) : col.items.map((p) => (
-                <div
-                  key={p.id}
-                  draggable
-                  onDragStart={(e) => onDragStart(e, p.id)}
-                  onDragEnd={onDragEnd}
-                  className={`cursor-grab active:cursor-grabbing transition-opacity ${
-                    draggingId === p.id ? "opacity-40" : ""
-                  }`}
-                >
-                  <ProjectCard project={p} />
-                </div>
-              ))}
-            </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }
