@@ -24,10 +24,11 @@ export default async function NovoProjetoPage() {
   const [setoresWithUsers, clientCompanies] = await Promise.all([
     prisma.setor.findMany({
       where,
-      orderBy: { name: "asc" },
+      orderBy: [{ company: { name: "asc" } }, { name: "asc" }],
       select: {
         id:    true,
         name:  true,
+        company: { select: { id: true, name: true } },
         users: {
           include: { user: { select: { id: true, name: true } } },
         },
@@ -42,10 +43,13 @@ export default async function NovoProjetoPage() {
         }),
   ]);
 
-  // Lista de setor com usuários flatten — pra mostrar no multi-select
+  // Lista de setor com usuários flatten — pra mostrar no multi-select.
+  // Para SUPER_ADMIN, prefixa o nome da empresa para diferenciar setores
+  // homônimos (ex.: dois "Marketing" de empresas diferentes).
+  const isSuperAdmin = role === "SUPER_ADMIN";
   const setores = setoresWithUsers.map((s) => ({
     id:    s.id,
-    name:  s.name,
+    name:  isSuperAdmin ? `${s.company.name} · ${s.name}` : s.name,
     users: s.users.map((su) => ({ id: su.user.id, name: su.user.name })),
   }));
 
