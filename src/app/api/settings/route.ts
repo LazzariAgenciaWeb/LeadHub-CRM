@@ -31,6 +31,7 @@ export async function PUT(req: NextRequest) {
     "clickup_api_token",
     "clickup_oportunidades_list_id",   // legacy global — fallback
     "clickup_tickets_list_id",         // legacy global — fallback
+    "clickup_webhook_secret",          // assina os webhooks vindos do ClickUp
     "openai_api_key",
     "openai_model",
   ];

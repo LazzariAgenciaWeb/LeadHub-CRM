@@ -190,6 +190,7 @@ export default async function ConfiguracoesPage({
       "clickup_api_token",
       "clickup_oportunidades_list_id",
       "clickup_tickets_list_id",
+      "clickup_webhook_secret",
     ];
     if (cId) {
       keys.push(
@@ -212,6 +213,7 @@ export default async function ConfiguracoesPage({
         isSuperAdmin={isSuperAdmin}
         companyId={cId}
         apiToken={map["clickup_api_token"] ?? ""}
+        webhookSecret={map["clickup_webhook_secret"] ?? ""}
         opListId={isSuperAdmin ? (map["clickup_oportunidades_list_id"] ?? "") : opEffective}
         ticketListId={isSuperAdmin ? (map["clickup_tickets_list_id"] ?? "") : ticketEffective}
         isPerCompanyOp={!!opPerCompany}

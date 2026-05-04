@@ -8,6 +8,8 @@ interface Props {
   companyId:    string;          // empresa do usuário (ADMIN) ou vazio
   // Token (só relevante pro SUPER_ADMIN)
   apiToken:     string;
+  // Secret HMAC do webhook do ClickUp (só super admin edita; global)
+  webhookSecret: string;
   // List IDs efetivos pra esta empresa (per-company OU fallback global)
   opListId:     string;
   ticketListId: string;
@@ -19,6 +21,7 @@ interface Props {
 export default function ClickupSettings({
   isSuperAdmin, companyId,
   apiToken: initialToken,
+  webhookSecret: initialSecret,
   opListId: initialOp,
   ticketListId: initialTk,
   isPerCompanyOp,
@@ -27,12 +30,20 @@ export default function ClickupSettings({
   const router = useRouter();
 
   const [apiToken, setApiToken] = useState(initialToken);
+  const [webhookSecret, setWebhookSecret] = useState(initialSecret);
   const [opListId, setOpListId] = useState(initialOp);
   const [ticketListId, setTicketListId] = useState(initialTk);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [testing, setTesting] = useState(false);
   const [testResult, setTestResult] = useState<{ ok: boolean; user?: string; error?: string } | null>(null);
+  const [copiedUrl, setCopiedUrl] = useState(false);
+
+  // URL pra colar no ClickUp ao criar o webhook. Lida no client porque depende
+  // da origem (dev/prod) — em SSR não dá pra confiar no host.
+  const webhookUrl = typeof window !== "undefined"
+    ? `${window.location.origin}/api/webhook/clickup`
+    : "";
 
   // Chaves de Setting que serão salvas:
   // - SUPER_ADMIN: token (global) + list IDs globais (legacy)
@@ -46,7 +57,10 @@ export default function ClickupSettings({
     setTestResult(null);
 
     const items: { key: string; value: string }[] = [];
-    if (isSuperAdmin) items.push({ key: "clickup_api_token", value: apiToken });
+    if (isSuperAdmin) {
+      items.push({ key: "clickup_api_token",      value: apiToken });
+      items.push({ key: "clickup_webhook_secret", value: webhookSecret });
+    }
     items.push({ key: opKey,     value: opListId });
     items.push({ key: ticketKey, value: ticketListId });
 
@@ -132,6 +146,75 @@ export default function ClickupSettings({
                 {testResult.ok ? `✅ Conectado como @${testResult.user}` : `❌ ${testResult.error}`}
               </div>
             )}
+          </div>
+        </section>
+      )}
+
+      {/* Webhook bidirecional — só super admin (chave global) */}
+      {isSuperAdmin && (
+        <section className="bg-[#0f1623] border border-[#1e2d45] rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-[#1e2d45]">
+            <h2 className="text-white font-bold text-sm">🔄 Webhook (ClickUp → LeadHub)</h2>
+            <p className="text-slate-500 text-xs mt-0.5">
+              Sincroniza comentários adicionados no ClickUp de volta para o chamado correspondente no LeadHub.
+            </p>
+          </div>
+          <div className="p-5 space-y-4">
+            {/* URL pra copiar no ClickUp */}
+            <div>
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                URL do webhook (cole no ClickUp)
+              </label>
+              <div className="flex gap-2">
+                <input
+                  readOnly
+                  value={webhookUrl}
+                  onClick={(e) => (e.target as HTMLInputElement).select()}
+                  className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-slate-300 focus:outline-none focus:border-indigo-500 font-mono"
+                />
+                <button
+                  type="button"
+                  onClick={async () => {
+                    try {
+                      await navigator.clipboard.writeText(webhookUrl);
+                      setCopiedUrl(true);
+                      setTimeout(() => setCopiedUrl(false), 2000);
+                    } catch { /* clipboard bloqueado — usuário copia manual */ }
+                  }}
+                  className="px-4 py-2.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-300 text-sm font-medium hover:bg-[#1e2d45] transition-colors whitespace-nowrap"
+                >
+                  {copiedUrl ? "✓ Copiado" : "Copiar"}
+                </button>
+              </div>
+              <p className="text-slate-600 text-[10px] mt-1">
+                No ClickUp: Settings → Integrations → Webhooks → Create Webhook → cola essa URL.
+              </p>
+            </div>
+
+            {/* Webhook secret */}
+            <div>
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                Webhook Secret (vem do ClickUp ao criar)
+              </label>
+              <input
+                type="password"
+                value={webhookSecret}
+                onChange={(e) => setWebhookSecret(e.target.value)}
+                placeholder="••••••••••••••••••••••••••••••"
+                className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
+              />
+              <p className="text-slate-600 text-[10px] mt-1">
+                Após criar o webhook no ClickUp, copie o "Secret" exibido e cole aqui. Sem ele os eventos são rejeitados (assinatura inválida).
+              </p>
+            </div>
+
+            {/* Eventos sugeridos */}
+            <div className="bg-indigo-500/5 border border-indigo-500/20 rounded-lg px-3 py-2.5">
+              <p className="text-indigo-300 text-[11px] font-semibold mb-1">Eventos a marcar no ClickUp:</p>
+              <ul className="text-slate-400 text-[11px] leading-relaxed list-disc list-inside">
+                <li><code className="text-slate-300">taskCommentPosted</code> — comentário no ClickUp vira mensagem no chamado</li>
+              </ul>
+            </div>
           </div>
         </section>
       )}

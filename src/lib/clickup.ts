@@ -156,7 +156,9 @@ export async function updateClickupTask({
   }
 }
 
-/** Add a comment to a ClickUp task. */
+/** Add a comment to a ClickUp task. Returns the new comment ID (string) or null on failure.
+ *  O ID é guardado em TicketMessage.externalId pra dedup quando o webhook do
+ *  ClickUp devolver o mesmo comentário. */
 export async function addCommentToClickupTask({
   apiToken,
   taskId,
@@ -165,8 +167,8 @@ export async function addCommentToClickupTask({
   apiToken: string;
   taskId: string;
   comment: string;
-}): Promise<boolean> {
-  if (!taskId) return false;
+}): Promise<string | null> {
+  if (!taskId) return null;
   try {
     const res = await fetch(`${BASE}/task/${taskId}/comment`, {
       method: "POST",
@@ -175,12 +177,14 @@ export async function addCommentToClickupTask({
     });
     if (!res.ok) {
       console.error("[ClickUp] addComment failed", res.status, await res.text());
-      return false;
+      return null;
     }
-    return true;
+    const data = await res.json().catch(() => null);
+    const id = data?.id ?? data?.hist_id ?? null;
+    return id ? String(id) : null;
   } catch (err) {
     console.error("[ClickUp] addComment error", err);
-    return false;
+    return null;
   }
 }
 

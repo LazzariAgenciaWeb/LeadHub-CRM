@@ -58,7 +58,9 @@ export async function POST(
   ]);
 
   // ── ClickUp comment sync ───────────────────────────────────────────────
-  // Não sincroniza notas internas para o ClickUp
+  // Não sincroniza notas internas para o ClickUp.
+  // Guarda o ID do comentário criado em externalId — usado pra dedup quando o
+  // webhook do ClickUp devolver o mesmo comentário (evita loop infinito).
   const isInternalMsg = isInternal && (userRole === "SUPER_ADMIN" || userRole === "ADMIN");
   if (!isInternalMsg && ticket.clickupTaskId) {
     const clickupSettings = await getClickupSettings(ticket.companyId);
@@ -66,11 +68,17 @@ export async function POST(
       const authorLabel = userRole === "SUPER_ADMIN"
         ? `💬 Suporte — ${session.user?.name ?? "Atendente"}`
         : `👤 Cliente — ${session.user?.name ?? "Usuário"}`;
-      await addCommentToClickupTask({
+      const clickupCommentId = await addCommentToClickupTask({
         apiToken: clickupSettings.apiToken,
         taskId: ticket.clickupTaskId,
-        comment: `${authorLabel}\n\n${messageBody.trim()}`,
+        comment: `${authorLabel}\n\n${(messageBody ?? "").trim()}`,
       });
+      if (clickupCommentId) {
+        await prisma.ticketMessage.update({
+          where: { id: message.id },
+          data: { externalId: clickupCommentId },
+        }).catch(() => { /* dedup só funciona se conseguir gravar; não crítico */ });
+      }
     }
   }
 
