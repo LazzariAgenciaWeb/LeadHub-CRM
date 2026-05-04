@@ -980,8 +980,8 @@ export default function TicketDetail({
             </div>
           )}
 
-          {/* ClickUp */}
-          {isSuperAdmin && (
+          {/* ClickUp — admin da agência também precisa ver/sincronizar (não só super admin) */}
+          {canManage && (
             <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
               <div className="flex items-center justify-between mb-2">
                 <div className="text-[10px] text-slate-500 uppercase tracking-wide">✅ ClickUp</div>
