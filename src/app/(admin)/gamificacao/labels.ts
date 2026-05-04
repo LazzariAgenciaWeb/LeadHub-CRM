@@ -18,6 +18,7 @@ export const ALL_BADGES: BadgeType[] = [
   "RAIO_VELOZ", "RESOLVEDOR", "ANTECIPADOR", "CLOSER",
   "PRIMEIRO_DO_DIA", "ZERO_PENDENCIA", "FUNIL_COMPLETO",
   "PONTUAL", "ENTREGADOR", "CONSTRUTOR", "ENGAJADO", "GERADOR",
+  "EXERCITO", "LIDER", "GUARDIAO",
   "SPRINT_MASTER", "REI_DO_MES",
   "CORUJA", "MADRUGADOR", "SORTUDO", "FENIX",
 ];
@@ -43,6 +44,9 @@ export const BADGE_REASON: Record<BadgeType, ScoreReason | null> = {
   MADRUGADOR:      "BONUS_MADRUGADA",
   SORTUDO:         "BONUS_VENDA_RAPIDA",
   FENIX:           "BONUS_RECUPERACAO",
+  EXERCITO:        "AJUDA_EXERCITO",
+  LIDER:           "ENCAMINHAMENTO",
+  GUARDIAO:        "PRIMEIRA_RESPOSTA",
 };
 
 // Categorias visuais — agrupam badges no painel pra dar contexto
@@ -51,6 +55,7 @@ export type BadgeCategory =
   | "CHAMADOS"
   | "VENDAS"
   | "PROJETOS"
+  | "COLABORACAO"
   | "DISCIPLINA"
   | "ESPECIAIS";
 
@@ -59,6 +64,7 @@ export const CATEGORY_META: Record<BadgeCategory, { label: string; emoji: string
   CHAMADOS:    { emoji: "🎫", label: "Chamados",    description: "Tickets de suporte resolvidos" },
   VENDAS:      { emoji: "💰", label: "Vendas",      description: "Conversões e movimentação no funil" },
   PROJETOS:    { emoji: "🚀", label: "Projetos",    description: "Entregas no prazo" },
+  COLABORACAO: { emoji: "🤝", label: "Colaboração", description: "Quem ajuda os colegas a não deixar cliente esperando" },
   DISCIPLINA:  { emoji: "⏱️", label: "Disciplina",  description: "Pontualidade e consistência" },
   ESPECIAIS:   { emoji: "👑", label: "Especiais",    description: "Conquistas raras de destaque" },
 };
@@ -75,6 +81,9 @@ export const BADGE_CATEGORY: Record<BadgeType, BadgeCategory> = {
   CONSTRUTOR:      "PROJETOS",
   ENGAJADO:        "PROJETOS",
   GERADOR:         "PROJETOS",
+  EXERCITO:        "COLABORACAO",
+  LIDER:           "COLABORACAO",
+  GUARDIAO:        "COLABORACAO",
   PONTUAL:         "DISCIPLINA",
   SPRINT_MASTER:   "DISCIPLINA",
   REI_DO_MES:      "ESPECIAIS",
@@ -85,7 +94,7 @@ export const BADGE_CATEGORY: Record<BadgeType, BadgeCategory> = {
 };
 
 export const CATEGORY_ORDER: BadgeCategory[] = [
-  "ATENDIMENTO", "CHAMADOS", "VENDAS", "PROJETOS", "DISCIPLINA", "ESPECIAIS",
+  "ATENDIMENTO", "CHAMADOS", "VENDAS", "PROJETOS", "COLABORACAO", "DISCIPLINA", "ESPECIAIS",
 ];
 
 export const BADGE_META: Record<BadgeType, BadgeMeta> = {
@@ -103,6 +112,9 @@ export const BADGE_META: Record<BadgeType, BadgeMeta> = {
   CONSTRUTOR:      { emoji: "🔨", name: "Construção",       description: "Tarefas de projetos concluídas no ClickUp" },
   ENGAJADO:        { emoji: "🌀", name: "Engajamento",      description: "Tarefas de projetos atualizadas no ClickUp" },
   GERADOR:         { emoji: "🌱", name: "Geração",          description: "Tarefas criadas em projetos no ClickUp" },
+  EXERCITO:        { emoji: "🪖", name: "Exército",          description: "Respondeu cliente em conversa de outro responsável (parceiro de batalha)" },
+  LIDER:           { emoji: "🎖️", name: "Líder",             description: "Encaminhou conversa pra colega adequado" },
+  GUARDIAO:        { emoji: "🛡️", name: "Guardião",          description: "Primeiro a responder em conversa nova sem responsável" },
   // Easter eggs — só admins veem antes de conquistar
   CORUJA:          { emoji: "🦉", name: "Coruja",           description: "Respostas dadas após as 22h",                isHidden: true },
   MADRUGADOR:      { emoji: "🌙", name: "Madrugador",       description: "Respostas antes das 7h da manhã",            isHidden: true },
@@ -233,6 +245,31 @@ export const BADGE_TIERS: Record<BadgeType, Tier[]> = {
     { level: 5, name: "Visionário",    threshold: 400  },
     { level: 6, name: "Highlander",    threshold: 1000 },
   ],
+  // Colaboração — quando o time se ajuda, todo mundo cresce
+  EXERCITO: [
+    { level: 1, name: "Recruta",       threshold: 5   },
+    { level: 2, name: "Soldado",       threshold: 15  },
+    { level: 3, name: "Cabo",          threshold: 30  },
+    { level: 4, name: "Sargento",      threshold: 60  },
+    { level: 5, name: "Tenente",       threshold: 120 },
+    { level: 6, name: "General",       threshold: 300 },
+  ],
+  LIDER: [
+    { level: 1, name: "Voluntário",    threshold: 5   },
+    { level: 2, name: "Mentor",        threshold: 15  },
+    { level: 3, name: "Coordenador",   threshold: 30  },
+    { level: 4, name: "Capitão",       threshold: 60  },
+    { level: 5, name: "Comandante",    threshold: 120 },
+    { level: 6, name: "Lenda",         threshold: 300 },
+  ],
+  GUARDIAO: [
+    { level: 1, name: "Recruta",          threshold: 5   },
+    { level: 2, name: "Sentinela",        threshold: 15  },
+    { level: 3, name: "Vigilante",        threshold: 30  },
+    { level: 4, name: "Defensor",         threshold: 60  },
+    { level: 5, name: "Protetor",         threshold: 120 },
+    { level: 6, name: "Guardião Eterno",  threshold: 300 },
+  ],
   // Easter eggs — limiares menores e mais raros
   CORUJA: [
     { level: 1, name: "Insônia",       threshold: 3   },
@@ -333,6 +370,9 @@ export const BADGE_LUCIDE: Record<BadgeType, string> = {
   MADRUGADOR:      "Sunrise",
   SORTUDO:         "Clover",
   FENIX:           "Flame",
+  EXERCITO:        "Swords",
+  LIDER:           "Award",
+  GUARDIAO:        "Shield",
 };
 
 /**
@@ -475,4 +515,7 @@ export const REASON_LABEL: Record<ScoreReason, { text: string; positive: boolean
   BONUS_RECUPERACAO:      { text: "Lead perdido recuperado",            positive: true  },
   BONUS_SUPEROU_MES:      { text: "Superou pontuação do mês anterior",  positive: true  },
   INCIDENTE:              { text: "Incidente registrado",                positive: false },
+  AJUDA_EXERCITO:         { text: "Ajudou colega no atendimento (Exército)", positive: true },
+  ENCAMINHAMENTO:         { text: "Encaminhou conversa pra colega (Líder)",  positive: true },
+  PRIMEIRA_RESPOSTA:      { text: "Primeira resposta numa conversa nova (Guardião)", positive: true },
 };

@@ -513,7 +513,10 @@ export const BadgeType: {
   CORUJA: 'CORUJA',
   MADRUGADOR: 'MADRUGADOR',
   SORTUDO: 'SORTUDO',
-  FENIX: 'FENIX'
+  FENIX: 'FENIX',
+  EXERCITO: 'EXERCITO',
+  LIDER: 'LIDER',
+  GUARDIAO: 'GUARDIAO'
 };
 
 export type BadgeType = (typeof BadgeType)[keyof typeof BadgeType]
@@ -549,7 +552,10 @@ export const ScoreReason: {
   BONUS_VENDA_RAPIDA: 'BONUS_VENDA_RAPIDA',
   BONUS_RECUPERACAO: 'BONUS_RECUPERACAO',
   BONUS_SUPEROU_MES: 'BONUS_SUPEROU_MES',
-  INCIDENTE: 'INCIDENTE'
+  INCIDENTE: 'INCIDENTE',
+  AJUDA_EXERCITO: 'AJUDA_EXERCITO',
+  ENCAMINHAMENTO: 'ENCAMINHAMENTO',
+  PRIMEIRA_RESPOSTA: 'PRIMEIRA_RESPOSTA'
 };
 
 export type ScoreReason = (typeof ScoreReason)[keyof typeof ScoreReason]

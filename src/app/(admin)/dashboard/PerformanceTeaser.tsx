@@ -20,9 +20,17 @@ export default async function PerformanceTeaser() {
   const userId    = (session.user as any).id        as string;
   const companyId = (session.user as any).companyId as string | undefined;
   const isImpersonating = !!(session as any)._impersonating;
+  const modules     = (session.user as any).modules     ?? {};
+  const permissions = (session.user as any).permissions ?? {};
 
   // Esconde durante impersonação — ali não faz sentido falar de "sua" performance
   if (!companyId || isImpersonating) return null;
+
+  // Cada módulo só aparece se o setor do usuário tem acesso E ele pode ver o módulo.
+  // Evita misturar info comercial pra atendente de suporte e vice-versa.
+  const showWhatsapp = !!modules.whatsapp && permissions.canViewInbox  !== false;
+  const showTickets  = !!modules.tickets  && permissions.canViewTickets !== false;
+  const showCrm      = !!modules.crm      && permissions.canViewLeads   !== false;
 
   const now   = new Date();
   const month = now.getMonth() + 1;
@@ -38,18 +46,24 @@ export default async function PerformanceTeaser() {
       _count: true,
     }),
     getRanking(companyId, month, year),
-    // Conversas em aberto atribuídas ao usuário (OPEN ou PENDING ainda esperam resposta)
-    prisma.conversation.count({
-      where: { companyId, assigneeId: userId, status: { in: ["OPEN", "PENDING", "IN_PROGRESS"] } },
-    }),
-    // Tickets atribuídos a mim, ainda não resolvidos
-    prisma.ticket.count({
-      where: { companyId, assigneeId: userId, status: { in: ["OPEN", "IN_PROGRESS"] } },
-    }),
-    // Oportunidades não fechadas (potenciais conversões)
-    prisma.lead.count({
-      where: { companyId, pipeline: "OPORTUNIDADES", status: { notIn: ["CLOSED", "LOST"] } },
-    }),
+    // Conversas em aberto atribuídas ao usuário — só conta se tem inbox/whatsapp
+    showWhatsapp
+      ? prisma.conversation.count({
+          where: { companyId, assigneeId: userId, status: { in: ["OPEN", "PENDING", "IN_PROGRESS"] } },
+        })
+      : Promise.resolve(0),
+    // Tickets atribuídos a mim — só conta se tem módulo tickets
+    showTickets
+      ? prisma.ticket.count({
+          where: { companyId, assigneeId: userId, status: { in: ["OPEN", "IN_PROGRESS"] } },
+        })
+      : Promise.resolve(0),
+    // Oportunidades — só conta se tem CRM
+    showCrm
+      ? prisma.lead.count({
+          where: { companyId, pipeline: "OPORTUNIDADES", status: { notIn: ["CLOSED", "LOST"] } },
+        })
+      : Promise.resolve(0),
   ]);
 
   const counts: Partial<Record<ScoreReason, number>> = {};

@@ -1431,6 +1431,10 @@ enum BadgeType {
   MADRUGADOR        // respostas antes das 7h
   SORTUDO           // lead criado e fechado no mesmo dia
   FENIX             // lead que estava LOST e voltou pra CLOSED
+  // Colaboração / ajuda mútua entre atendentes
+  EXERCITO          // responde conversa de outro responsável quando cliente espera
+  LIDER             // encaminha conversa pra colega adequado (muda assignee/setor)
+  GUARDIAO          // primeiro a responder em conversa nova sem responsável
 }
 
 enum ScoreReason {
@@ -1464,6 +1468,9 @@ enum ScoreReason {
   BONUS_RECUPERACAO       // lead LOST → CLOSED (Fênix)
   BONUS_SUPEROU_MES       // mês corrente > mês anterior em pontos
   INCIDENTE               // penalidade manual registrada por admin (ex: descuido com cliente)
+  AJUDA_EXERCITO          // respondeu cliente em conversa de outro responsável (Exército)
+  ENCAMINHAMENTO          // encaminhou conversa pra colega adequado (Líder)
+  PRIMEIRA_RESPOSTA       // primeiro a responder em conversa sem responsável (Guardião)
 }
 
 // Trilha de auditoria de eventos de cobrança — útil pra suporte e debug.

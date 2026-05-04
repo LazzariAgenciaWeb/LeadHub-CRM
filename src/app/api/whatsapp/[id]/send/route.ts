@@ -86,11 +86,14 @@ export async function POST(
     });
     const phoneForStorage = existingCount > 0 ? phone : canonicalPhone;
 
-    // Snapshot da conversa ANTES do upsert — para detectar se esta é a primeira resposta
+    // Snapshot da conversa ANTES do upsert — pra detectar primeira resposta + colaboração
     const convBefore = !phone.includes("@g.us") && !phone.includes("@lid")
       ? await prisma.conversation.findUnique({
           where: { companyId_phone: { companyId: instance.companyId, phone: phoneForStorage } },
-          select: { firstResponseAt: true, createdAt: true, assigneeId: true },
+          select: {
+            firstResponseAt: true, createdAt: true, assigneeId: true,
+            lastMessageAt: true, lastMessageDirection: true,
+          },
         }).catch(() => null)
       : null;
 
@@ -125,8 +128,11 @@ export async function POST(
 
     // Gamificação:
     //  1. Resposta rápida (1ª resposta da conversa, dentro de 5/30 min úteis)
-    //  2. Primeiro contato em conversa de outro — quando não sou o assignee,
-    //     ganho um bônus pequeno por triar/encaminhar (idempotente por conversa).
+    //  2. Colaboração / ajuda mútua — dependendo do contexto da conversa:
+    //       - sem assignee + cliente esperando            → GUARDIÃO  (PRIMEIRA_RESPOSTA)
+    //       - assignee é outro user + cliente esperando    → EXÉRCITO  (AJUDA_EXERCITO)
+    //     Idempotência: por (conv.id, userId, dayKey) pra não bombar de pontos
+    //     se o atendente mandar várias mensagens na mesma conversa.
     //  3. Easter eggs: Coruja (resposta após 22h) e Madrugador (antes 7h)
     if (userId && convBefore) {
       // 1. Resposta rápida (uma vez por conversa, controlado por firstResponseAt)
@@ -137,10 +143,25 @@ export async function POST(
           void addScore(userId, instance.companyId, reason, conv.id).catch(() => {});
         }
       }
-      // 2. Primeiro contato em conversa que não é minha (idempotente por conversa)
-      const isNotMine = !convBefore.assigneeId || convBefore.assigneeId !== userId;
-      if (isNotMine) {
-        void addScoreOnce(userId, instance.companyId, "PRIMEIRO_CONTATO", conv.id).catch(() => {});
+      // 2. Colaboração — só faz sentido se a última mensagem foi do cliente
+      //    (INBOUND). Se eu já tinha respondido e ainda não veio cliente, não
+      //    é "ajuda" nem "primeira resposta".
+      const customerWaiting = convBefore.lastMessageDirection === "INBOUND";
+      if (customerWaiting) {
+        const dayKey = new Date().toISOString().slice(0, 10);
+        if (!convBefore.assigneeId) {
+          // Conversa sem responsável — GUARDIÃO
+          void addScoreOnce(
+            userId, instance.companyId, "PRIMEIRA_RESPOSTA",
+            `${conv.id}:${userId}:${dayKey}:guardiao`,
+          ).catch(() => {});
+        } else if (convBefore.assigneeId !== userId) {
+          // Conversa atribuída a outro — EXÉRCITO
+          void addScoreOnce(
+            userId, instance.companyId, "AJUDA_EXERCITO",
+            `${conv.id}:${userId}:${dayKey}:exercito`,
+          ).catch(() => {});
+        }
       }
       // 3. Easter eggs por horário — idempotente por (user, dia)
       const now = new Date();

@@ -138,6 +138,8 @@ export default async function GamificacaoPage({
           />
 
           <Leaderboard ranking={ranking} currentUserId={viewUserId} />
+
+          <RecentEvents events={myEvents} />
         </div>
 
         {/* Coluna lateral */}
@@ -148,7 +150,6 @@ export default async function GamificacaoPage({
             earnedBadges={myBadges.map((b) => ({ badge: b.badge, tier: b.tier }))}
             isAdmin={isAdmin}
           />
-          <RecentEvents events={myEvents} />
         </div>
       </div>
 

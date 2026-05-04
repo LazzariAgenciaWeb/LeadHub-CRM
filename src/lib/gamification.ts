@@ -52,6 +52,10 @@ export const SCORE_TABLE: Record<ScoreReason, number> = {
   BONUS_SUPEROU_MES:       30,
   // Incidente manual — pontos definidos no momento do registro pelo admin
   INCIDENTE:                0,  // override pelo admin no momento do registro
+  // Colaboração / ajuda mútua entre atendentes
+  AJUDA_EXERCITO:           5, // respondeu cliente em conversa de outro responsável
+  ENCAMINHAMENTO:           3, // encaminhou conversa pra colega adequado
+  PRIMEIRA_RESPOSTA:        5, // primeiro a responder em conversa sem responsável
 };
 
 // ─── Regras de badges (6 tiers cada) ──────────────────────────────────────────
@@ -150,6 +154,22 @@ const BADGE_RULES: BadgeRule[] = [
     badge: BadgeType.FENIX,
     reasons: [ScoreReason.BONUS_RECUPERACAO],
     thresholds: [1, 3, 8, 20, 50, 120],
+  },
+  // Colaboração — todas com a mesma escala (5 / 15 / 30 / 60 / 120 / 300)
+  {
+    badge: BadgeType.EXERCITO,
+    reasons: [ScoreReason.AJUDA_EXERCITO],
+    thresholds: [5, 15, 30, 60, 120, 300],
+  },
+  {
+    badge: BadgeType.LIDER,
+    reasons: [ScoreReason.ENCAMINHAMENTO],
+    thresholds: [5, 15, 30, 60, 120, 300],
+  },
+  {
+    badge: BadgeType.GUARDIAO,
+    reasons: [ScoreReason.PRIMEIRA_RESPOSTA],
+    thresholds: [5, 15, 30, 60, 120, 300],
   },
 ];
 

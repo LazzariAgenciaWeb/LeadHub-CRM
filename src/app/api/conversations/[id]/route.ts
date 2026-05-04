@@ -134,6 +134,16 @@ export async function PATCH(
     if (conv.scheduledReturnAt && conv.scheduledReturnAt > new Date()) {
       void addScoreOnce(scorer, conv.companyId, "RETORNO_ANTECIPADO", conv.id).catch(() => {});
     }
+    // Bônus de colaboração: se quem fechou NÃO é o responsável da conversa,
+    // ganha pontos de EXÉRCITO (ajudou a finalizar atendimento de colega).
+    // Idempotente por (conv, userId, dia) — alinhado com a regra do envio.
+    if (updated.assigneeId && updated.assigneeId !== userId) {
+      const dayKey = new Date().toISOString().slice(0, 10);
+      void addScoreOnce(
+        userId, conv.companyId, "AJUDA_EXERCITO",
+        `${conv.id}:${userId}:${dayKey}:exercito`,
+      ).catch(() => {});
+    }
   }
 
   // Penalidade: empurrar scheduledReturnAt depois de já estar vencido.
@@ -143,6 +153,22 @@ export async function PATCH(
   ) {
     const scorer = updated.assigneeId ?? userId;
     void addScore(scorer, conv.companyId, "PRAZO_PRORROGADO", conv.id).catch(() => {});
+  }
+
+  // LÍDER — encaminhamento de conversa (assignee/setor) por usuário diferente
+  // do destinatário. Idempotente por (conv.id, dayKey) pra evitar farming via
+  // toggling: só uma pontuação por conversa por dia, não importa quantas
+  // mudanças. Conta só quando o usuário está ativamente passando pra outro
+  // (não quando é "take" pra si próprio).
+  const assigneeChanged = data.assigneeId !== undefined && data.assigneeId !== conv.assigneeId;
+  const setorChanged    = data.setorId    !== undefined && data.setorId    !== conv.setorId;
+  const isHandoff = (assigneeChanged && data.assigneeId && data.assigneeId !== userId) || setorChanged;
+  if (isHandoff && conv.status !== "CLOSED") {
+    const dayKey = new Date().toISOString().slice(0, 10);
+    void addScoreOnce(
+      userId, conv.companyId, "ENCAMINHAMENTO",
+      `${conv.id}:${userId}:${dayKey}:lider`,
+    ).catch(() => {});
   }
 
   if (activities.length > 0) {

@@ -3,6 +3,7 @@ import {
   TrendingUp, Clock, Rocket, Activity, Crown,
   Hammer, Repeat, Sprout,
   Moon, Clover, Flame,
+  Swords, Award, Shield,
   type LucideIcon,
 } from "lucide-react";
 import { BadgeType } from "@/generated/prisma";
@@ -16,6 +17,7 @@ const ICONS: Record<string, LucideIcon> = {
   TrendingUp, Clock, Rocket, Activity, Crown,
   Hammer, Repeat, Sprout,
   Moon, Clover, Flame,
+  Swords, Award, Shield,
 };
 
 type Props = {

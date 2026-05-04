@@ -24,12 +24,16 @@ export default async function CalendarioPage() {
 
   const [scheduledConvs, waitingConvs, myOpenConvs, urgentTickets, leadsFollowUp] =
     await Promise.all([
-      // Retornos agendados (vencidos + hoje + próximos 7 dias)
+      // Retornos agendados (vencidos + hoje + próximos 7 dias).
+      // Filtra por scheduledReturnAt (não pelo status) — se o cliente responder
+      // depois do agendamento, o status muda pra OPEN/IN_PROGRESS mas o
+      // compromisso de retorno ainda existe e deve aparecer no calendário.
+      // Não-super-admin só vê os agendamentos onde é o responsável (assignee).
       prisma.conversation.findMany({
         where: {
           ...cf,
-          status: "SCHEDULED",
-          scheduledReturnAt: { lte: nextWeek },
+          scheduledReturnAt: { not: null, lte: nextWeek },
+          ...(isSuperAdmin ? {} : { assigneeId: userId }),
         },
         select: {
           id: true, phone: true, companyId: true, scheduledReturnAt: true, returnNote: true,
@@ -92,12 +96,15 @@ export default async function CalendarioPage() {
         take: 30,
       }),
 
-      // Follow-ups de leads com data de hoje ou vencida
+      // Follow-ups de leads com data de hoje ou vencida.
+      // Lead não tem assigneeId próprio — herda da Conversation vinculada.
+      // Não-super-admin só vê os leads cuja conversa está atribuída a ele.
       prisma.lead.findMany({
         where: {
           ...cf,
           expectedReturnAt: { lte: todayEnd },
           status: { notIn: ["CLOSED", "LOST"] },
+          ...(isSuperAdmin ? {} : { conversation: { assigneeId: userId } }),
         },
         select: {
           id: true, name: true, phone: true,
