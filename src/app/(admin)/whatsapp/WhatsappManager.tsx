@@ -304,6 +304,7 @@ export default function WhatsappManager({
   const [ticketForm, setTicketForm] = useState({ title: "", description: "" });
   const [convertingTicket, setConvertingTicket] = useState(false);
   const [ticketCreated, setTicketCreated] = useState(false);
+  const [ticketError, setTicketError] = useState<string | null>(null);
 
   // Convert to oportunidade
   const [showOportunidadeForm, setShowOportunidadeForm] = useState(false);
@@ -1435,6 +1436,11 @@ export default function WhatsappManager({
     e.preventDefault();
     if (!selectedConv) return;
     setConvertingTicket(true);
+    setTicketError(null);
+    // dueDate default: amanhã 17h (igual ao /chamados/novo)
+    const due = new Date();
+    due.setDate(due.getDate() + 1);
+    due.setHours(17, 0, 0, 0);
     const res = await fetch("/api/tickets", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -1444,6 +1450,7 @@ export default function WhatsappManager({
         companyId: selectedConv.companyId,
         priority: "MEDIUM",
         phone: selectedConv.phone,
+        dueDate: due.toISOString(),
       }),
     });
     setConvertingTicket(false);
@@ -1453,6 +1460,9 @@ export default function WhatsappManager({
       setTicketCreated(true);
       setShowTicketForm(false);
       router.refresh();
+    } else {
+      const data = await res.json().catch(() => ({}));
+      setTicketError(data?.error ?? "Não foi possível criar o chamado");
     }
   }
 
@@ -3251,6 +3261,9 @@ export default function WhatsappManager({
               {showTicketForm && (
                 <div className="px-5 py-3.5 border-b border-[#1e2d45] bg-orange-500/5 flex-shrink-0">
                   <p className="text-orange-400 text-xs font-semibold mb-3">🎫 Abrir Chamado de Suporte</p>
+                  {ticketError && (
+                    <p className="text-red-400 text-xs mb-2">{ticketError}</p>
+                  )}
                   <form onSubmit={handleCreateTicket} className="flex flex-wrap gap-3 items-end">
                     <div className="flex-1 min-w-[200px]">
                       <label className="block text-slate-400 text-[10px] uppercase tracking-wide mb-1">Assunto</label>
