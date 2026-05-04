@@ -187,7 +187,7 @@ function ProjectCard({ project }: { project: Project }) {
             <div className="text-red-400 text-[10px] mt-1">⚠ {project.taskOverdue} atrasadas</div>
           )}
           {project.taskNoDueDate > 0 && !waitingClient && (
-            <div className="text-amber-400 text-[10px] mt-1" title="Equipe perde -3 pts/dia até preencher datas no ClickUp">
+            <div className="text-amber-400 text-[10px] mt-1" title="-3 pts/dia por membro do projeto até preencher datas no ClickUp">
               ⚠ {project.taskNoDueDate} sem prazo
             </div>
           )}

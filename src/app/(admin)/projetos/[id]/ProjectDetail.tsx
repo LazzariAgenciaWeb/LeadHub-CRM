@@ -256,7 +256,7 @@ export default function ProjectDetail({
                 )}
                 {project.taskNoDueDate > 0 && (
                   <div className="text-amber-400 text-xs mt-1">
-                    ⚠ {project.taskNoDueDate} tarefas sem prazo no ClickUp · equipe perde -3 pts/dia
+                    ⚠ {project.taskNoDueDate} tarefas sem prazo no ClickUp · -3 pts/dia por membro do projeto
                   </div>
                 )}
               </>
