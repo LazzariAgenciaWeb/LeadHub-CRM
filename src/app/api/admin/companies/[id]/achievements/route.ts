@@ -28,7 +28,9 @@ export async function GET(
 
   const [users, allBadges] = await Promise.all([
     prisma.user.findMany({
-      where:  { companyId },
+      // Exclui SUPER_ADMIN: ações de super admin impersonando o cliente nao
+      // devem aparecer como conquistas da empresa.
+      where:  { companyId, role: { not: "SUPER_ADMIN" } },
       select: {
         id:   true,
         name: true,
@@ -41,7 +43,10 @@ export async function GET(
       orderBy: { name: "asc" },
     }),
     prisma.userBadge.findMany({
-      where:  { companyId },
+      where:  {
+        companyId,
+        user: { role: { not: "SUPER_ADMIN" } },
+      },
       select: { userId: true, badge: true, tier: true, earnedAt: true },
     }),
   ]);

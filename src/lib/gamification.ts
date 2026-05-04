@@ -192,6 +192,13 @@ export async function addScore(
   reason:      ScoreReason,
   referenceId?: string
 ): Promise<{ badge: BadgeType; tier: number }[]> {
+  // SUPER_ADMIN não pontua: quando ele impersona um cliente e executa uma
+  // ação, não queremos que o ranking/feed da empresa registre essa atividade
+  // como "do SUPER_ADMIN". Verifica o role do usuário antes de qualquer
+  // escrita em ScoreEvent / UserScore.
+  const author = await prisma.user.findUnique({ where: { id: userId }, select: { role: true } });
+  if (author?.role === "SUPER_ADMIN") return [];
+
   const rule = await resolveRule(companyId, reason);
   if (!rule) return []; // razão desabilitada
 
@@ -897,8 +904,15 @@ export async function getRanking(
   const m = month ?? now.getMonth() + 1;
   const y = year  ?? now.getFullYear();
 
+  // Exclui SUPER_ADMIN do ranking da empresa: quando o super admin impersona
+  // um cliente e executa uma ação que pontua, o UserScore acaba sendo criado
+  // com companyId do cliente mas userId do super admin (que não é membro da
+  // empresa). Filtramos aqui para não poluir o leaderboard.
   const scores = await prisma.userScore.findMany({
-    where:   { companyId, month: m, year: y },
+    where:   {
+      companyId, month: m, year: y,
+      user: { role: { not: "SUPER_ADMIN" } },
+    },
     orderBy: { monthPoints: "desc" },
     include: { user: { select: { id: true, name: true, rankingCategory: true } } },
   });
