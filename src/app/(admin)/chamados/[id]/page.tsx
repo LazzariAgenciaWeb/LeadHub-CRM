@@ -42,14 +42,13 @@ export default async function TicketPage({
   // Lookups para edição inline (cliente, atendente, setor)
   const lookupCompanyId = ticket.companyId;
   const [users, setores, clientCompanies] = await Promise.all([
-    // Atendentes: qualquer usuário da empresa-agência (ADMIN, SUPER_ADMIN
-    // ou CLIENT-agente) + SUPER_ADMINs sem company vinculada (escopo global).
+    // Atendentes: usuários da empresa-agência (ADMIN ou CLIENT-atendente).
+    // SUPER_ADMIN é dono da plataforma (Lazzari) — não deve aparecer como
+    // atendente da agência. Mesmo padrão do fix de gamificação (b6bef12).
     prisma.user.findMany({
       where: {
-        OR: [
-          { companyId: lookupCompanyId },
-          { role: "SUPER_ADMIN" },
-        ],
+        companyId: lookupCompanyId,
+        role: { not: "SUPER_ADMIN" },
       },
       select: { id: true, name: true, email: true, role: true },
       orderBy: { name: "asc" },
