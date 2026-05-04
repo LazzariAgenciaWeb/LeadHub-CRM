@@ -122,7 +122,7 @@ export default function BadgeMedallion({ badge, count, size = 72 }: Props) {
       <div className="text-center">
         <div className={`text-[10px] font-bold uppercase tracking-wider leading-tight`}
              style={{ color: earned ? tierColor : "#475569" }}>
-          {labelLevel}
+          {earned ? `${labelLevel} · ${tierName}` : labelLevel}
         </div>
         <div className={`text-[10px] leading-tight ${earned ? "text-white" : "text-slate-600"}`}>
           {meta.name}
