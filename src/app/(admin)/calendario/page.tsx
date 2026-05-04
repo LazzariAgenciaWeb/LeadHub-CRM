@@ -12,6 +12,10 @@ export default async function CalendarioPage() {
   const userRole  = (session.user as any)?.role as string;
   const companyId = (session.user as any)?.companyId as string | undefined;
   const isSuperAdmin = userRole === "SUPER_ADMIN";
+  // ADMIN da agência tem visão de gestor — vê todas as conversas/leads/chamados
+  // da empresa, não apenas os atribuídos a si. Antes só SUPER_ADMIN tinha
+  // essa visão e o "Meu Dia" do ADMIN ficava praticamente vazio.
+  const isManager = isSuperAdmin || userRole === "ADMIN";
 
   const now      = new Date();
   const today    = new Date(now); today.setHours(0, 0, 0, 0);
@@ -33,7 +37,7 @@ export default async function CalendarioPage() {
         where: {
           ...cf,
           scheduledReturnAt: { not: null, lte: nextWeek },
-          ...(isSuperAdmin ? {} : { assigneeId: userId }),
+          ...(isManager ? {} : { assigneeId: userId }),
         },
         select: {
           id: true, phone: true, companyId: true, scheduledReturnAt: true, returnNote: true,
@@ -48,7 +52,7 @@ export default async function CalendarioPage() {
         where: {
           ...cf,
           status: "WAITING_CUSTOMER",
-          ...(isSuperAdmin ? {} : { assigneeId: userId }),
+          ...(isManager ? {} : { assigneeId: userId }),
           statusUpdatedAt: { lte: oneHourAgo },
         },
         select: {
@@ -60,12 +64,12 @@ export default async function CalendarioPage() {
         take: 20,
       }),
 
-      // Conversas abertas atribuídas a mim
+      // Conversas abertas atribuídas a mim — ADMIN/SUPER_ADMIN vê todas da empresa
       prisma.conversation.findMany({
         where: {
           ...cf,
           status: { in: ["OPEN", "IN_PROGRESS"] },
-          assigneeId: userId,
+          ...(isManager ? {} : { assigneeId: userId }),
         },
         select: {
           id: true, phone: true, companyId: true, status: true,
@@ -76,14 +80,17 @@ export default async function CalendarioPage() {
         take: 20,
       }),
 
-      // Chamados/tarefas com prazo em até 3 dias OU vencidos.
-      // Ordena por dueDate ASC: mais urgentes (passados/hoje) primeiro.
+      // Chamados/tarefas: prazo em até 7 dias OU criados hoje (mesmo sem prazo).
+      // Ordena por dueDate ASC; tickets sem dueDate caem no final.
       prisma.ticket.findMany({
         where: {
           ...cf,
           status: { in: ["OPEN", "IN_PROGRESS"] },
           isInternal: false,
-          dueDate: { lte: nextWeek },
+          OR: [
+            { dueDate: { lte: nextWeek } },
+            { createdAt: { gte: today, lte: todayEnd } },
+          ],
         },
         select: {
           id: true, title: true, priority: true, status: true, type: true,
@@ -104,7 +111,7 @@ export default async function CalendarioPage() {
           ...cf,
           expectedReturnAt: { lte: todayEnd },
           status: { notIn: ["CLOSED", "LOST"] },
-          ...(isSuperAdmin ? {} : { conversation: { assigneeId: userId } }),
+          ...(isManager ? {} : { conversation: { assigneeId: userId } }),
         },
         select: {
           id: true, name: true, phone: true,
