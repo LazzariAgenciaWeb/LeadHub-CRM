@@ -1,4 +1,5 @@
 import { getEffectiveSession } from "@/lib/effective-session";
+import { getUserPermissions } from "@/lib/user-permissions";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import TicketDetail from "./TicketDetail";
@@ -11,10 +12,14 @@ export default async function TicketPage({
   const session = await getEffectiveSession();
   const role = (session?.user as any)?.role as string;
   const isSuperAdmin = role === "SUPER_ADMIN";
-  // Atendentes da agência (ADMIN ou SUPER_ADMIN) gerenciam o chamado por inteiro:
-  // mudam etapa, prioridade, atendente, prazo, anexam, etc. CLIENT (cliente final)
-  // só responde mensagens e fecha o ticket.
-  const canManage = role === "SUPER_ADMIN" || role === "ADMIN";
+  // canManage = quem pode editar campos do chamado (etapa, prioridade,
+  // atendente, prazo, cliente, sincronizar ClickUp). Inclui:
+  //   - SUPER_ADMIN / ADMIN da agência (sempre)
+  //   - CLIENT-atendente com permissão canViewTickets (definida via setor)
+  // Cliente final sem setor de tickets continua só conseguindo responder/fechar.
+  const perms = await getUserPermissions(session);
+  const canManage =
+    role === "SUPER_ADMIN" || role === "ADMIN" || !!(perms?.canViewTickets);
   const userCompanyId = (session?.user as any)?.companyId as string | undefined;
 
   const { id } = await params;
