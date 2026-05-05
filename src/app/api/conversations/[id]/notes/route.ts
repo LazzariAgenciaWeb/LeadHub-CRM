@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { ActivityType } from "@/generated/prisma";
 import { addScore } from "@/lib/gamification";
 import { assertModule } from "@/lib/billing";
+import { formatBrazilDateTimeShort } from "@/lib/datetime";
 
 // POST /api/conversations/[id]/notes
 // Body: { body: string }
@@ -57,6 +58,25 @@ export async function POST(
       companyId: conv.companyId,
     },
   }).catch(() => { /* não crítico */ });
+
+  // Appenda no Lead.notes (campo legado) — a timeline do chat ainda parseia
+  // dele pra renderizar bolhas amarelas na ordem cronológica. Sem isso,
+  // a nota fica no banco mas não aparece pra quem abre a conversa.
+  // Formato: "[DD/MM/AA HH:MM] {nota} — {autor}" (igual ao parser espera).
+  const lead = await prisma.lead.findFirst({
+    where: { conversationId: conv.id },
+    select: { id: true, notes: true },
+  }).catch(() => null);
+  if (lead) {
+    const stamp = formatBrazilDateTimeShort(new Date());
+    const author = userName ?? "Usuário";
+    const entry = `[${stamp}] ${note.body} — ${author}`;
+    const newNotes = lead.notes ? `${entry}\n\n${lead.notes}` : entry;
+    await prisma.lead.update({
+      where: { id: lead.id },
+      data: { notes: newNotes },
+    }).catch(() => { /* não crítico */ });
+  }
 
   void addScore(userId, conv.companyId, "NOTA_REGISTRADA", conv.id).catch(() => {});
 

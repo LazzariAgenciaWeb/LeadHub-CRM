@@ -1016,11 +1016,24 @@ export default function WhatsappManager({
       if (res.ok) {
         const data = await res.json();
         if (transferNote.trim()) {
+          // Cria nota interna. Backend appenda no Lead.notes (legacy) pra
+          // bolha aparecer na timeline; aqui replicamos local pra evitar
+          // reload — pad de 0 nos minutos pra bater com formatBrazilDateTimeShort.
           await fetch(`/api/conversations/${selectedConv.conversation.id}/notes`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ body: transferNote.trim() }),
           }).catch(() => { /* não crítico */ });
+
+          const now = new Date();
+          const dd = String(now.getDate()).padStart(2, "0");
+          const mm = String(now.getMonth() + 1).padStart(2, "0");
+          const yy = String(now.getFullYear() % 100).padStart(2, "0");
+          const hh = String(now.getHours()).padStart(2, "0");
+          const mi = String(now.getMinutes()).padStart(2, "0");
+          const author = userName || "Usuário";
+          const newEntry = `[${dd}/${mm}/${yy} ${hh}:${mi}] ${transferNote.trim()} — ${author}`;
+          setLeadNotes((prev) => prev ? `${newEntry}\n\n${prev}` : newEntry);
         }
 
         setSelectedConv({
