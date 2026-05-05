@@ -22,7 +22,8 @@ interface LeadFollowUp {
 }
 interface TicketItem {
   id: string; title: string; priority: string; status: string;
-  createdAt: string; company: { id: string; name: string } | null;
+  createdAt: string; dueDate: string | null;
+  company: { id: string; name: string } | null;
 }
 interface GEvent {
   id: string; summary: string; description?: string;
@@ -176,7 +177,9 @@ export default function DayView() {
       });
     }
     for (const t of data.tickets) {
-      const start = new Date(t.createdAt);
+      // Posiciona pelo prazo (quando definido) — é a data que importa pro
+      // atendente. Cai pra createdAt só em tickets antigos sem dueDate.
+      const start = new Date(t.dueDate ?? t.createdAt);
       if (!sameDay(start, day)) continue;
       const end = new Date(start.getTime() + 30 * 60000);
       out.push({

@@ -9,7 +9,7 @@ import { assertModule } from "@/lib/billing";
 // Retorna todos os itens com data dentro do intervalo, agrupados por tipo:
 //   - retornos agendados (conversations.scheduledReturnAt)
 //   - follow-ups de leads (lead.expectedReturnAt)
-//   - chamados criados (tickets.createdAt — usado como deadline aproximado)
+//   - chamados pelo prazo (tickets.dueDate, fallback createdAt quando sem prazo)
 //   - eventos do Google Calendar (se conectado)
 export async function GET(req: NextRequest) {
   const session = await getEffectiveSession();
@@ -67,14 +67,21 @@ export async function GET(req: NextRequest) {
     prisma.ticket.findMany({
       where: {
         ...cf,
-        createdAt: { gte: from, lte: to },
         isInternal: false,
+        // Posiciona pelo prazo quando existe; usa createdAt só como fallback
+        // pra tickets antigos sem dueDate. Antes usava só createdAt — chamado
+        // criado hoje com prazo amanhã não aparecia no calendário de amanhã.
+        OR: [
+          { dueDate: { gte: from, lte: to } },
+          { dueDate: null, createdAt: { gte: from, lte: to } },
+        ],
       },
       select: {
-        id: true, title: true, priority: true, status: true, createdAt: true,
+        id: true, title: true, priority: true, status: true,
+        createdAt: true, dueDate: true,
         company: { select: { id: true, name: true } },
       },
-      orderBy: { createdAt: "asc" },
+      orderBy: { dueDate: "asc" },
       take: 200,
     }),
   ]);

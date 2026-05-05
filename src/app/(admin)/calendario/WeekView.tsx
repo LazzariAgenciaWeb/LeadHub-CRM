@@ -22,7 +22,8 @@ interface LeadFollowUp {
 }
 interface TicketItem {
   id: string; title: string; priority: string; status: string;
-  createdAt: string; company: { id: string; name: string } | null;
+  createdAt: string; dueDate: string | null;
+  company: { id: string; name: string } | null;
 }
 interface GEvent {
   id: string; summary: string;
@@ -193,7 +194,9 @@ export default function WeekView() {
       });
     }
     for (const t of data.tickets) {
-      const start = new Date(t.createdAt);
+      // Posiciona pelo prazo (dueDate). createdAt só como fallback pra
+      // tickets antigos sem prazo.
+      const start = new Date(t.dueDate ?? t.createdAt);
       const end = new Date(start.getTime() + 30 * 60000);
       push({
         id: `t-${t.id}`,
