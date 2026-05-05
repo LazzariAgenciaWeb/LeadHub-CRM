@@ -14,6 +14,9 @@ import { syncProjectTasks } from "@/lib/gamification";
  *
  * Apenas projetos com status diferente de ENTREGUE/CANCELADO são tocados.
  *
+ * Schedule esperado: 07:00 nos dias úteis (segunda a sexta).
+ * Crontab: `0 7 * * 1-5` apontando pra esta URL com Bearer CRON_SECRET.
+ *
  * Segurança: header `Authorization: Bearer <CRON_SECRET>`.
  */
 async function handle(req: NextRequest) {

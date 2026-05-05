@@ -34,7 +34,7 @@ export async function PATCH(
 
   const conv = await prisma.conversation.findUnique({
     where: { id },
-    select: { id: true, companyId: true, status: true, assigneeId: true, setorId: true, scheduledReturnAt: true, returnNote: true, createdAt: true },
+    select: { id: true, companyId: true, status: true, assigneeId: true, setorId: true, scheduledReturnAt: true, returnNote: true, createdAt: true, excludeFromGamification: true },
   });
   if (!conv) return NextResponse.json({ error: "Conversa não encontrada" }, { status: 404 });
   if (userRole !== "SUPER_ADMIN" && conv.companyId !== userCompanyId) {
@@ -106,6 +106,19 @@ export async function PATCH(
     if ("returnNote" in body) {
       data.returnNote = body.returnNote ?? null;
     }
+    // Excluir/incluir conversa da gamificação — admin only.
+    // Use case: grupos internos do time não devem gerar pontos.
+    if ("excludeFromGamification" in body) {
+      const canManageUsers = !!(session.user as any).permissions?.canManageUsers;
+      const isAdmin = userRole === "SUPER_ADMIN" || userRole === "ADMIN" || canManageUsers;
+      if (!isAdmin) {
+        return NextResponse.json(
+          { error: "Apenas admin pode alterar gamificação da conversa" },
+          { status: 403 },
+        );
+      }
+      data.excludeFromGamification = !!body.excludeFromGamification;
+    }
   }
 
   if (Object.keys(data).length === 0) {
@@ -125,7 +138,10 @@ export async function PATCH(
 
   // Gamificação — fire-and-forget, nunca bloqueia a resposta. addScoreOnce
   // é idempotente: reabrir e fechar a conversa novamente NÃO duplica pontos.
-  if (updated.status === "CLOSED" && conv.status !== "CLOSED") {
+  // Conversas marcadas como excludeFromGamification (grupos internos) não
+  // pontuam — admin liga isso na UI.
+  const skipGamification = conv.excludeFromGamification;
+  if (!skipGamification && updated.status === "CLOSED" && conv.status !== "CLOSED") {
     const scorer = updated.assigneeId ?? userId;
     const sameDay = conv.createdAt.toDateString() === new Date().toDateString();
     if (sameDay) {
@@ -148,6 +164,7 @@ export async function PATCH(
 
   // Penalidade: empurrar scheduledReturnAt depois de já estar vencido.
   if (
+    !skipGamification &&
     "scheduledReturnAt" in body &&
     conv.scheduledReturnAt && conv.scheduledReturnAt < new Date()
   ) {
@@ -163,7 +180,7 @@ export async function PATCH(
   const assigneeChanged = data.assigneeId !== undefined && data.assigneeId !== conv.assigneeId;
   const setorChanged    = data.setorId    !== undefined && data.setorId    !== conv.setorId;
   const isHandoff = (assigneeChanged && data.assigneeId && data.assigneeId !== userId) || setorChanged;
-  if (isHandoff && conv.status !== "CLOSED") {
+  if (!skipGamification && isHandoff && conv.status !== "CLOSED") {
     const dayKey = new Date().toISOString().slice(0, 10);
     void addScoreOnce(
       userId, conv.companyId, "ENCAMINHAMENTO",

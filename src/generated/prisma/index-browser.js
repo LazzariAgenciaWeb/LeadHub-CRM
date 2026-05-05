@@ -364,6 +364,7 @@ exports.Prisma.ConversationScalarFieldEnum = {
   unreadCount: 'unreadCount',
   scheduledReturnAt: 'scheduledReturnAt',
   returnNote: 'returnNote',
+  excludeFromGamification: 'excludeFromGamification',
   firstResponseAt: 'firstResponseAt',
   closedAt: 'closedAt',
   companyId: 'companyId',
@@ -1011,7 +1012,10 @@ exports.BadgeType = exports.$Enums.BadgeType = {
   GUARDIAO: 'GUARDIAO',
   ALQUIMISTA: 'ALQUIMISTA',
   SNIPER: 'SNIPER',
-  TROVAO: 'TROVAO'
+  TROVAO: 'TROVAO',
+  DIPLOMATA: 'DIPLOMATA',
+  PRECISO: 'PRECISO',
+  NETWORK: 'NETWORK'
 };
 
 exports.ScoreReason = exports.$Enums.ScoreReason = {
@@ -1050,7 +1054,10 @@ exports.ScoreReason = exports.$Enums.ScoreReason = {
   PRIMEIRA_RESPOSTA: 'PRIMEIRA_RESPOSTA',
   TICKET_ATUALIZADO: 'TICKET_ATUALIZADO',
   TICKET_NO_PRAZO: 'TICKET_NO_PRAZO',
-  TICKET_RESOLVIDO_MESMO_DIA: 'TICKET_RESOLVIDO_MESMO_DIA'
+  TICKET_RESOLVIDO_MESMO_DIA: 'TICKET_RESOLVIDO_MESMO_DIA',
+  ATENDIMENTO_GRUPO_NOVO: 'ATENDIMENTO_GRUPO_NOVO',
+  RESPOSTA_RAPIDA_GRUPO: 'RESPOSTA_RAPIDA_GRUPO',
+  DIA_NETWORK: 'DIA_NETWORK'
 };
 
 exports.Prisma.ModelName = {

@@ -20,6 +20,7 @@ export const ALL_BADGES: BadgeType[] = [
   "PONTUAL", "ENTREGADOR", "CONSTRUTOR", "ENGAJADO", "GERADOR",
   "ALQUIMISTA", "SNIPER", "TROVAO",
   "EXERCITO", "LIDER", "GUARDIAO",
+  "DIPLOMATA", "PRECISO", "NETWORK",
   "SPRINT_MASTER", "REI_DO_MES",
   "CORUJA", "MADRUGADOR", "SORTUDO", "FENIX",
 ];
@@ -51,12 +52,16 @@ export const BADGE_REASON: Record<BadgeType, ScoreReason | null> = {
   ALQUIMISTA:      "TICKET_ATUALIZADO",
   SNIPER:          "TICKET_NO_PRAZO",
   TROVAO:          "TICKET_RESOLVIDO_MESMO_DIA",
+  DIPLOMATA:       "ATENDIMENTO_GRUPO_NOVO",
+  PRECISO:         "RESPOSTA_RAPIDA_GRUPO",
+  NETWORK:         "DIA_NETWORK",
 };
 
 // Categorias visuais — agrupam badges no painel pra dar contexto
 export type BadgeCategory =
   | "ATENDIMENTO"
   | "CHAMADOS"
+  | "GRUPOS"
   | "VENDAS"
   | "PROJETOS"
   | "COLABORACAO"
@@ -66,6 +71,7 @@ export type BadgeCategory =
 export const CATEGORY_META: Record<BadgeCategory, { label: string; emoji: string; description: string }> = {
   ATENDIMENTO: { emoji: "💬", label: "Atendimento", description: "Conversas e respostas no WhatsApp" },
   CHAMADOS:    { emoji: "🎫", label: "Chamados",    description: "Tickets de suporte resolvidos" },
+  GRUPOS:      { emoji: "👥", label: "Grupos",      description: "Atendimento em grupos do WhatsApp com clientes" },
   VENDAS:      { emoji: "💰", label: "Vendas",      description: "Conversões e movimentação no funil" },
   PROJETOS:    { emoji: "🚀", label: "Projetos",    description: "Entregas no prazo" },
   COLABORACAO: { emoji: "🤝", label: "Colaboração", description: "Quem ajuda os colegas a não deixar cliente esperando" },
@@ -91,6 +97,9 @@ export const BADGE_CATEGORY: Record<BadgeType, BadgeCategory> = {
   EXERCITO:        "COLABORACAO",
   LIDER:           "COLABORACAO",
   GUARDIAO:        "COLABORACAO",
+  DIPLOMATA:       "GRUPOS",
+  PRECISO:         "GRUPOS",
+  NETWORK:         "GRUPOS",
   PONTUAL:         "DISCIPLINA",
   SPRINT_MASTER:   "DISCIPLINA",
   REI_DO_MES:      "ESPECIAIS",
@@ -101,7 +110,7 @@ export const BADGE_CATEGORY: Record<BadgeType, BadgeCategory> = {
 };
 
 export const CATEGORY_ORDER: BadgeCategory[] = [
-  "ATENDIMENTO", "CHAMADOS", "VENDAS", "PROJETOS", "COLABORACAO", "DISCIPLINA", "ESPECIAIS",
+  "ATENDIMENTO", "CHAMADOS", "GRUPOS", "VENDAS", "PROJETOS", "COLABORACAO", "DISCIPLINA", "ESPECIAIS",
 ];
 
 export const BADGE_META: Record<BadgeType, BadgeMeta> = {
@@ -125,6 +134,9 @@ export const BADGE_META: Record<BadgeType, BadgeMeta> = {
   ALQUIMISTA:      { emoji: "🧙", name: "Alquimista",        description: "Cuida do próprio chamado: cada update transforma o problema em solução" },
   SNIPER:          { emoji: "🎯", name: "Sniper",            description: "Resolveu o chamado antes do prazo — alvo travado, mira certa" },
   TROVAO:          { emoji: "⚡", name: "Trovão",            description: "Chamado criado e resolvido no mesmo dia — antes do cliente piscar, você já entregou" },
+  DIPLOMATA:       { emoji: "🎩", name: "Diplomata",        description: "Quantos grupos diferentes de clientes você já atendeu" },
+  PRECISO:         { emoji: "🎯", name: "Preciso",          description: "Resposta rápida em grupo (≤5min úteis após cliente mandar)" },
+  NETWORK:         { emoji: "🌐", name: "Network",          description: "Semanas sem deixar nenhum grupo responsável sem resposta" },
   // Easter eggs — só admins veem antes de conquistar
   CORUJA:          { emoji: "🦉", name: "Coruja",           description: "Respostas dadas após as 22h",                isHidden: true },
   MADRUGADOR:      { emoji: "🌙", name: "Madrugador",       description: "Respostas antes das 7h da manhã",            isHidden: true },
@@ -305,6 +317,31 @@ export const BADGE_TIERS: Record<BadgeType, Tier[]> = {
     { level: 5, name: "Tempestade",       threshold: 100 },
     { level: 6, name: "Zeus",             threshold: 250 },
   ],
+  // Grupos — atendimento em grupos do WhatsApp com clientes
+  DIPLOMATA: [
+    { level: 1, name: "Iniciante",        threshold: 5   },
+    { level: 2, name: "Embaixador",       threshold: 15  },
+    { level: 3, name: "Cônsul",           threshold: 30  },
+    { level: 4, name: "Diplomata",        threshold: 60  },
+    { level: 5, name: "Chanceler",        threshold: 120 },
+    { level: 6, name: "Eminência",        threshold: 300 },
+  ],
+  PRECISO: [
+    { level: 1, name: "Pontual",          threshold: 5    },
+    { level: 2, name: "Rápido",           threshold: 25   },
+    { level: 3, name: "Veloz",            threshold: 75   },
+    { level: 4, name: "Letal",            threshold: 200  },
+    { level: 5, name: "Cirúrgico",        threshold: 500  },
+    { level: 6, name: "Bisturi de Ouro",  threshold: 1500 },
+  ],
+  NETWORK: [
+    { level: 1, name: "Conectado",        threshold: 1   },  // 1 semana
+    { level: 2, name: "Articulador",      threshold: 4   },  // 1 mês
+    { level: 3, name: "Multiplicador",    threshold: 12  },  // 1 trimestre
+    { level: 4, name: "Influenciador",    threshold: 26  },  // 1 semestre
+    { level: 5, name: "Hub",              threshold: 52  },  // 1 ano
+    { level: 6, name: "Lenda da Rede",    threshold: 104 },  // 2 anos
+  ],
   // Easter eggs — limiares menores e mais raros
   CORUJA: [
     { level: 1, name: "Insônia",       threshold: 3   },
@@ -411,6 +448,9 @@ export const BADGE_LUCIDE: Record<BadgeType, string> = {
   ALQUIMISTA:      "FlaskConical",
   SNIPER:          "Crosshair",
   TROVAO:          "Zap",
+  DIPLOMATA:       "Briefcase",
+  PRECISO:         "Crosshair",
+  NETWORK:         "Globe",
 };
 
 /**
@@ -559,4 +599,7 @@ export const REASON_LABEL: Record<ScoreReason, { text: string; positive: boolean
   TICKET_ATUALIZADO:      { text: "Atualizou chamado próprio (Alquimista)",            positive: true },
   TICKET_NO_PRAZO:        { text: "Resolveu chamado antes do prazo (Sniper)",         positive: true },
   TICKET_RESOLVIDO_MESMO_DIA: { text: "Chamado criado e resolvido no mesmo dia (Trovão)", positive: true },
+  ATENDIMENTO_GRUPO_NOVO: { text: "Atendeu grupo novo (Diplomata)",                 positive: true },
+  RESPOSTA_RAPIDA_GRUPO:  { text: "Resposta rápida em grupo (Preciso)",             positive: true },
+  DIA_NETWORK:            { text: "Semana com todos grupos respondidos (Network)",  positive: true },
 };

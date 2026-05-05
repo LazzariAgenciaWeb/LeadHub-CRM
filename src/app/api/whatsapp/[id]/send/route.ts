@@ -86,16 +86,17 @@ export async function POST(
     });
     const phoneForStorage = existingCount > 0 ? phone : canonicalPhone;
 
-    // Snapshot da conversa ANTES do upsert — pra detectar primeira resposta + colaboração
-    const convBefore = !phone.includes("@g.us") && !phone.includes("@lid")
-      ? await prisma.conversation.findUnique({
-          where: { companyId_phone: { companyId: instance.companyId, phone: phoneForStorage } },
-          select: {
-            firstResponseAt: true, createdAt: true, assigneeId: true,
-            lastMessageAt: true, lastMessageDirection: true,
-          },
-        }).catch(() => null)
-      : null;
+    // Snapshot da conversa ANTES do upsert — pra detectar primeira resposta + colaboração.
+    // Aplica pra grupos também: o admin pode marcar grupos internos como
+    // excludeFromGamification pra eles não pontuarem.
+    const convBefore = await prisma.conversation.findUnique({
+      where: { companyId_phone: { companyId: instance.companyId, phone: phoneForStorage } },
+      select: {
+        firstResponseAt: true, createdAt: true, assigneeId: true,
+        lastMessageAt: true, lastMessageDirection: true,
+        excludeFromGamification: true,
+      },
+    }).catch(() => null);
 
     // Upsert da Conversation — fonte da verdade do status de atendimento
     const conv = await upsertConversation({
@@ -127,26 +128,35 @@ export async function POST(
     });
 
     // Gamificação:
-    //  1. Resposta rápida (1ª resposta da conversa, dentro de 5/30 min úteis)
-    //  2. Colaboração / ajuda mútua — dependendo do contexto da conversa:
+    //  1. Resposta rápida — toda vez que o cliente manda algo e a equipe
+    //     responde rápido. Métrica: minutos úteis desde a última INBOUND
+    //     até agora. Idempotência por (conv, lastInboundAt) — cada batch de
+    //     mensagens do cliente vira no máximo 1 evento de fast response.
+    //     Funciona pra grupos e diretas, antigas e novas.
+    //  2. Colaboração / ajuda mútua:
     //       - sem assignee + cliente esperando            → GUARDIÃO  (PRIMEIRA_RESPOSTA)
     //       - assignee é outro user + cliente esperando    → EXÉRCITO  (AJUDA_EXERCITO)
-    //     Idempotência: por (conv.id, userId, dayKey) pra não bombar de pontos
-    //     se o atendente mandar várias mensagens na mesma conversa.
     //  3. Easter eggs: Coruja (resposta após 22h) e Madrugador (antes 7h)
-    if (userId && convBefore) {
-      // 1. Resposta rápida (uma vez por conversa, controlado por firstResponseAt)
-      if (!convBefore.firstResponseAt) {
-        const mins = businessMinutesBetween(convBefore.createdAt, new Date());
+    //
+    // Conversas marcadas com excludeFromGamification (grupos internos) NÃO
+    // pontuam — o admin liga isso na UI.
+    if (userId && convBefore && !convBefore.excludeFromGamification) {
+      const customerWaiting = convBefore.lastMessageDirection === "INBOUND";
+
+      // 1. Resposta rápida — só conta se cliente acabou de mandar algo
+      if (customerWaiting && convBefore.lastMessageAt) {
+        const mins = businessMinutesBetween(convBefore.lastMessageAt, new Date());
         const reason = mins <= 5 ? "RESPOSTA_RAPIDA_5MIN" : mins <= 30 ? "RESPOSTA_RAPIDA_30MIN" : null;
         if (reason) {
-          void addScore(userId, instance.companyId, reason, conv.id).catch(() => {});
+          // Idempotente por (conv, timestamp da última inbound) — assim cada
+          // batch de cliente gera no máximo 1 evento, mesmo que a equipe
+          // mande várias respostas seguidas.
+          const refKey = `${conv.id}:${convBefore.lastMessageAt.toISOString()}:${reason}`;
+          void addScoreOnce(userId, instance.companyId, reason, refKey).catch(() => {});
         }
       }
+
       // 2. Colaboração — só faz sentido se a última mensagem foi do cliente
-      //    (INBOUND). Se eu já tinha respondido e ainda não veio cliente, não
-      //    é "ajuda" nem "primeira resposta".
-      const customerWaiting = convBefore.lastMessageDirection === "INBOUND";
       if (customerWaiting) {
         const dayKey = new Date().toISOString().slice(0, 10);
         if (!convBefore.assigneeId) {
@@ -160,6 +170,62 @@ export async function POST(
           void addScoreOnce(
             userId, instance.companyId, "AJUDA_EXERCITO",
             `${conv.id}:${userId}:${dayKey}:exercito`,
+          ).catch(() => {});
+        }
+      }
+
+      // ── Badges de grupo ──────────────────────────────────────────────
+      // Só rodam se a conversa é grupo (@g.us no phone)
+      const isGroup = phoneForStorage.includes("@g.us");
+      if (isGroup) {
+        const dayKey = new Date().toISOString().slice(0, 10);
+
+        // DIPLOMATA: primeira vez que esse user responde NESTE grupo.
+        // Idempotente por (conv, user) — só fira uma vez ever.
+        void addScoreOnce(
+          userId, instance.companyId, "ATENDIMENTO_GRUPO_NOVO",
+          `${conv.id}:${userId}:diplomata`,
+        ).catch(() => {});
+
+        // PRECISO: resposta rápida em grupo (≤5min úteis após cliente)
+        if (customerWaiting && convBefore.lastMessageAt) {
+          const mins = businessMinutesBetween(convBefore.lastMessageAt, new Date());
+          if (mins <= 5) {
+            void addScoreOnce(
+              userId, instance.companyId, "RESPOSTA_RAPIDA_GRUPO",
+              `${conv.id}:${convBefore.lastMessageAt.toISOString()}:preciso`,
+            ).catch(() => {});
+          }
+        }
+
+        // NETWORK: a cada vez que o user responde num grupo, verifica se
+        // ele tem ZERO grupos onde é assignee com mensagem do cliente
+        // sem resposta há mais de 24h. Se ZERO → ganhou a semana.
+        // Idempotente por (user, weekStart) — uma vez por semana max.
+        const weekStart = (() => {
+          const d = new Date();
+          d.setHours(0, 0, 0, 0);
+          // Segunda-feira como início (getDay: 0=Dom, 1=Seg, ..., 6=Sáb)
+          const diff = d.getDay() === 0 ? 6 : d.getDay() - 1;
+          d.setDate(d.getDate() - diff);
+          return d;
+        })();
+        const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+        const abandonados = await prisma.conversation.count({
+          where: {
+            companyId:            instance.companyId,
+            assigneeId:           userId,
+            phone:                { contains: "@g.us" },
+            excludeFromGamification: false,
+            lastMessageDirection: "INBOUND",
+            lastMessageAt:        { lte: oneDayAgo },
+            status:               { notIn: ["CLOSED"] },
+          },
+        });
+        if (abandonados === 0) {
+          void addScoreOnce(
+            userId, instance.companyId, "DIA_NETWORK",
+            `${userId}:${weekStart.toISOString().slice(0, 10)}:network`,
           ).catch(() => {});
         }
       }

@@ -68,6 +68,7 @@ export default async function WhatsappPage({
       assignee: { select: { id: true, name: true } },
       setorId: true,
       setor: { select: { id: true, name: true } },
+      excludeFromGamification: true,
     },
   });
 
@@ -207,6 +208,7 @@ export default async function WhatsappPage({
       userSignature={dbUser?.whatsappSignature ?? ""}
       userName={dbUser?.name ?? currentUser?.name ?? ""}
       currentUserId={userId ?? ""}
+      canManageGamification={isSuperAdmin || !!perms?.isAdmin || !!(session?.user as any)?.permissions?.canManageUsers}
       availableSetores={setores}
       availableAtendentes={atendentes}
     />

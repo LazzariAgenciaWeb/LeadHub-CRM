@@ -519,7 +519,10 @@ export const BadgeType: {
   GUARDIAO: 'GUARDIAO',
   ALQUIMISTA: 'ALQUIMISTA',
   SNIPER: 'SNIPER',
-  TROVAO: 'TROVAO'
+  TROVAO: 'TROVAO',
+  DIPLOMATA: 'DIPLOMATA',
+  PRECISO: 'PRECISO',
+  NETWORK: 'NETWORK'
 };
 
 export type BadgeType = (typeof BadgeType)[keyof typeof BadgeType]
@@ -561,7 +564,10 @@ export const ScoreReason: {
   PRIMEIRA_RESPOSTA: 'PRIMEIRA_RESPOSTA',
   TICKET_ATUALIZADO: 'TICKET_ATUALIZADO',
   TICKET_NO_PRAZO: 'TICKET_NO_PRAZO',
-  TICKET_RESOLVIDO_MESMO_DIA: 'TICKET_RESOLVIDO_MESMO_DIA'
+  TICKET_RESOLVIDO_MESMO_DIA: 'TICKET_RESOLVIDO_MESMO_DIA',
+  ATENDIMENTO_GRUPO_NOVO: 'ATENDIMENTO_GRUPO_NOVO',
+  RESPOSTA_RAPIDA_GRUPO: 'RESPOSTA_RAPIDA_GRUPO',
+  DIA_NETWORK: 'DIA_NETWORK'
 };
 
 export type ScoreReason = (typeof ScoreReason)[keyof typeof ScoreReason]
@@ -25129,6 +25135,7 @@ export namespace Prisma {
     unreadCount: number | null
     scheduledReturnAt: Date | null
     returnNote: string | null
+    excludeFromGamification: boolean | null
     firstResponseAt: Date | null
     closedAt: Date | null
     companyId: string | null
@@ -25150,6 +25157,7 @@ export namespace Prisma {
     unreadCount: number | null
     scheduledReturnAt: Date | null
     returnNote: string | null
+    excludeFromGamification: boolean | null
     firstResponseAt: Date | null
     closedAt: Date | null
     companyId: string | null
@@ -25171,6 +25179,7 @@ export namespace Prisma {
     unreadCount: number
     scheduledReturnAt: number
     returnNote: number
+    excludeFromGamification: number
     firstResponseAt: number
     closedAt: number
     companyId: number
@@ -25202,6 +25211,7 @@ export namespace Prisma {
     unreadCount?: true
     scheduledReturnAt?: true
     returnNote?: true
+    excludeFromGamification?: true
     firstResponseAt?: true
     closedAt?: true
     companyId?: true
@@ -25223,6 +25233,7 @@ export namespace Prisma {
     unreadCount?: true
     scheduledReturnAt?: true
     returnNote?: true
+    excludeFromGamification?: true
     firstResponseAt?: true
     closedAt?: true
     companyId?: true
@@ -25244,6 +25255,7 @@ export namespace Prisma {
     unreadCount?: true
     scheduledReturnAt?: true
     returnNote?: true
+    excludeFromGamification?: true
     firstResponseAt?: true
     closedAt?: true
     companyId?: true
@@ -25352,6 +25364,7 @@ export namespace Prisma {
     unreadCount: number
     scheduledReturnAt: Date | null
     returnNote: string | null
+    excludeFromGamification: boolean
     firstResponseAt: Date | null
     closedAt: Date | null
     companyId: string
@@ -25392,6 +25405,7 @@ export namespace Prisma {
     unreadCount?: boolean
     scheduledReturnAt?: boolean
     returnNote?: boolean
+    excludeFromGamification?: boolean
     firstResponseAt?: boolean
     closedAt?: boolean
     companyId?: boolean
@@ -25421,6 +25435,7 @@ export namespace Prisma {
     unreadCount?: boolean
     scheduledReturnAt?: boolean
     returnNote?: boolean
+    excludeFromGamification?: boolean
     firstResponseAt?: boolean
     closedAt?: boolean
     companyId?: boolean
@@ -25445,6 +25460,7 @@ export namespace Prisma {
     unreadCount?: boolean
     scheduledReturnAt?: boolean
     returnNote?: boolean
+    excludeFromGamification?: boolean
     firstResponseAt?: boolean
     closedAt?: boolean
     companyId?: boolean
@@ -25493,6 +25509,7 @@ export namespace Prisma {
       unreadCount: number
       scheduledReturnAt: Date | null
       returnNote: string | null
+      excludeFromGamification: boolean
       firstResponseAt: Date | null
       closedAt: Date | null
       companyId: string
@@ -25911,6 +25928,7 @@ export namespace Prisma {
     readonly unreadCount: FieldRef<"Conversation", 'Int'>
     readonly scheduledReturnAt: FieldRef<"Conversation", 'DateTime'>
     readonly returnNote: FieldRef<"Conversation", 'String'>
+    readonly excludeFromGamification: FieldRef<"Conversation", 'Boolean'>
     readonly firstResponseAt: FieldRef<"Conversation", 'DateTime'>
     readonly closedAt: FieldRef<"Conversation", 'DateTime'>
     readonly companyId: FieldRef<"Conversation", 'String'>
@@ -58774,6 +58792,7 @@ export namespace Prisma {
     unreadCount: 'unreadCount',
     scheduledReturnAt: 'scheduledReturnAt',
     returnNote: 'returnNote',
+    excludeFromGamification: 'excludeFromGamification',
     firstResponseAt: 'firstResponseAt',
     closedAt: 'closedAt',
     companyId: 'companyId',
@@ -61381,6 +61400,7 @@ export namespace Prisma {
     unreadCount?: IntFilter<"Conversation"> | number
     scheduledReturnAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     returnNote?: StringNullableFilter<"Conversation"> | string | null
+    excludeFromGamification?: BoolFilter<"Conversation"> | boolean
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     companyId?: StringFilter<"Conversation"> | string
@@ -61409,6 +61429,7 @@ export namespace Prisma {
     unreadCount?: SortOrder
     scheduledReturnAt?: SortOrderInput | SortOrder
     returnNote?: SortOrderInput | SortOrder
+    excludeFromGamification?: SortOrder
     firstResponseAt?: SortOrderInput | SortOrder
     closedAt?: SortOrderInput | SortOrder
     companyId?: SortOrder
@@ -61441,6 +61462,7 @@ export namespace Prisma {
     unreadCount?: IntFilter<"Conversation"> | number
     scheduledReturnAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     returnNote?: StringNullableFilter<"Conversation"> | string | null
+    excludeFromGamification?: BoolFilter<"Conversation"> | boolean
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     companyId?: StringFilter<"Conversation"> | string
@@ -61469,6 +61491,7 @@ export namespace Prisma {
     unreadCount?: SortOrder
     scheduledReturnAt?: SortOrderInput | SortOrder
     returnNote?: SortOrderInput | SortOrder
+    excludeFromGamification?: SortOrder
     firstResponseAt?: SortOrderInput | SortOrder
     closedAt?: SortOrderInput | SortOrder
     companyId?: SortOrder
@@ -61498,6 +61521,7 @@ export namespace Prisma {
     unreadCount?: IntWithAggregatesFilter<"Conversation"> | number
     scheduledReturnAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     returnNote?: StringNullableWithAggregatesFilter<"Conversation"> | string | null
+    excludeFromGamification?: BoolWithAggregatesFilter<"Conversation"> | boolean
     firstResponseAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     companyId?: StringWithAggregatesFilter<"Conversation"> | string
@@ -66026,6 +66050,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    excludeFromGamification?: boolean
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -66053,6 +66078,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    excludeFromGamification?: boolean
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -66076,6 +66102,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66103,6 +66130,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -66128,6 +66156,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    excludeFromGamification?: boolean
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -66147,6 +66176,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66167,6 +66197,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -70829,6 +70860,7 @@ export namespace Prisma {
     unreadCount?: SortOrder
     scheduledReturnAt?: SortOrder
     returnNote?: SortOrder
+    excludeFromGamification?: SortOrder
     firstResponseAt?: SortOrder
     closedAt?: SortOrder
     companyId?: SortOrder
@@ -70854,6 +70886,7 @@ export namespace Prisma {
     unreadCount?: SortOrder
     scheduledReturnAt?: SortOrder
     returnNote?: SortOrder
+    excludeFromGamification?: SortOrder
     firstResponseAt?: SortOrder
     closedAt?: SortOrder
     companyId?: SortOrder
@@ -70875,6 +70908,7 @@ export namespace Prisma {
     unreadCount?: SortOrder
     scheduledReturnAt?: SortOrder
     returnNote?: SortOrder
+    excludeFromGamification?: SortOrder
     firstResponseAt?: SortOrder
     closedAt?: SortOrder
     companyId?: SortOrder
@@ -78224,6 +78258,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    excludeFromGamification?: boolean
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -78249,6 +78284,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    excludeFromGamification?: boolean
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -78792,6 +78828,7 @@ export namespace Prisma {
     unreadCount?: IntFilter<"Conversation"> | number
     scheduledReturnAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     returnNote?: StringNullableFilter<"Conversation"> | string | null
+    excludeFromGamification?: BoolFilter<"Conversation"> | boolean
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     companyId?: StringFilter<"Conversation"> | string
@@ -80511,6 +80548,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    excludeFromGamification?: boolean
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -80537,6 +80575,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    excludeFromGamification?: boolean
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -83391,6 +83430,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    excludeFromGamification?: boolean
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -83417,6 +83457,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    excludeFromGamification?: boolean
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -83788,6 +83829,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -83814,6 +83856,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -85243,6 +85286,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    excludeFromGamification?: boolean
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -85269,6 +85313,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    excludeFromGamification?: boolean
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -85581,6 +85626,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -85607,6 +85653,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -86700,6 +86747,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    excludeFromGamification?: boolean
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -86726,6 +86774,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    excludeFromGamification?: boolean
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -86764,6 +86813,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -86790,6 +86840,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -86812,6 +86863,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    excludeFromGamification?: boolean
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -86838,6 +86890,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    excludeFromGamification?: boolean
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -87105,6 +87158,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -87131,6 +87185,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -88686,6 +88741,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    excludeFromGamification?: boolean
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -88711,6 +88767,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    excludeFromGamification?: boolean
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -95696,6 +95753,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    excludeFromGamification?: boolean
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -95944,6 +96002,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -95969,6 +96028,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -95993,6 +96053,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -96575,6 +96636,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    excludeFromGamification?: boolean
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -97807,6 +97869,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -97833,6 +97896,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -97857,6 +97921,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -99389,6 +99454,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    excludeFromGamification?: boolean
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -99522,6 +99588,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -99547,6 +99614,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -99571,6 +99639,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string

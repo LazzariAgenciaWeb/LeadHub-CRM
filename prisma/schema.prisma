@@ -546,6 +546,10 @@ model Conversation {
   scheduledReturnAt DateTime? // data/hora do retorno agendado (usado quando status=SCHEDULED)
   returnNote        String?   // nota/motivo do agendamento
 
+  // Gamificação — admin pode desligar pontos pra conversas internas (grupos
+  // do time, testes etc). Default false = pontua normal.
+  excludeFromGamification Boolean @default(false)
+
   // SLA
   firstResponseAt DateTime? // primeira resposta do atendente (calcula tempo de resposta)
   closedAt        DateTime?
@@ -1443,6 +1447,10 @@ enum BadgeType {
   ALQUIMISTA        // atualiza/comenta no próprio chamado (constância)
   SNIPER            // resolveu chamado antes do dueDate (precisão)
   TROVAO            // chamado criado e resolvido no mesmo dia (velocidade)
+  // Atendimento em grupos — clientes que conversam em grupo do WhatsApp
+  DIPLOMATA         // primeira resposta em grupo novo (variedade de relacionamentos)
+  PRECISO           // resposta rápida em grupo (≤5min úteis após cliente)
+  NETWORK           // dia em que respondeu em 3+ grupos diferentes
 }
 
 enum ScoreReason {
@@ -1482,6 +1490,9 @@ enum ScoreReason {
   TICKET_ATUALIZADO       // atualização/comentário no próprio chamado (Alquimista)
   TICKET_NO_PRAZO         // chamado resolvido antes do dueDate (Sniper)
   TICKET_RESOLVIDO_MESMO_DIA // chamado criado e resolvido no mesmo dia (Trovão)
+  ATENDIMENTO_GRUPO_NOVO  // primeira resposta num grupo novo (Diplomata)
+  RESPOSTA_RAPIDA_GRUPO   // resposta em grupo em ≤5min úteis (Preciso)
+  DIA_NETWORK             // dia em que respondeu em 3+ grupos diferentes (Network)
 }
 
 // Trilha de auditoria de eventos de cobrança — útil pra suporte e debug.

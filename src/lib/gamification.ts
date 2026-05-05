@@ -61,6 +61,10 @@ export const SCORE_TABLE: Record<ScoreReason, number> = {
   TICKET_ATUALIZADO:        1, // update/comentário no próprio chamado (Alquimista)
   TICKET_NO_PRAZO:         10, // resolveu antes do dueDate (Sniper) — bônus em cima de TICKET_RESOLVIDO
   TICKET_RESOLVIDO_MESMO_DIA: 8, // criado e resolvido no mesmo dia (Trovão) — bônus
+  // Grupos do WhatsApp
+  ATENDIMENTO_GRUPO_NOVO:   5, // primeira resposta em grupo novo (Diplomata)
+  RESPOSTA_RAPIDA_GRUPO:    8, // resposta em grupo ≤5min úteis (Preciso)
+  DIA_NETWORK:             15, // semana sem deixar grupo responsável sem resposta (Network)
 };
 
 // ─── Regras de badges (6 tiers cada) ──────────────────────────────────────────
@@ -191,6 +195,22 @@ const BADGE_RULES: BadgeRule[] = [
     badge: BadgeType.TROVAO,
     reasons: [ScoreReason.TICKET_RESOLVIDO_MESMO_DIA],
     thresholds: [1, 5, 15, 40, 100, 250],
+  },
+  // Grupos
+  {
+    badge: BadgeType.DIPLOMATA,
+    reasons: [ScoreReason.ATENDIMENTO_GRUPO_NOVO],
+    thresholds: [5, 15, 30, 60, 120, 300],
+  },
+  {
+    badge: BadgeType.PRECISO,
+    reasons: [ScoreReason.RESPOSTA_RAPIDA_GRUPO],
+    thresholds: [5, 25, 75, 200, 500, 1500],
+  },
+  {
+    badge: BadgeType.NETWORK,
+    reasons: [ScoreReason.DIA_NETWORK],
+    thresholds: [1, 4, 12, 26, 52, 104],  // semanas (1, 1mês, 1Q, 1H, 1ano, 2anos)
   },
 ];
 

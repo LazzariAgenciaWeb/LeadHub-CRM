@@ -8,7 +8,7 @@ import {
   MessageCircle, MessageSquare, Hourglass, Calendar,
   Sparkles, Users, Star, Inbox, CheckCircle2, ChevronUp,
   Send, StickyNote, Target, DollarSign, Search, Bot, Building2, Link2,
-  ArrowRightLeft, Ticket, User,
+  ArrowRightLeft, Ticket, User, Trophy, Ban,
   type LucideIcon,
 } from "lucide-react";
 
@@ -134,6 +134,7 @@ interface Conversation {
     assignee: { id: string; name: string } | null;
     setorId: string | null;
     setor: { id: string; name: string } | null;
+    excludeFromGamification?: boolean;
   } | null;
 }
 
@@ -253,6 +254,7 @@ export default function WhatsappManager({
   userSignature = "",
   userName = "",
   currentUserId = "",
+  canManageGamification = false,
   availableSetores = [],
   availableAtendentes = [],
 }: {
@@ -265,6 +267,7 @@ export default function WhatsappManager({
   userSignature?: string;
   userName?: string;
   currentUserId?: string;
+  canManageGamification?: boolean;
   availableSetores?: { id: string; name: string; companyId?: string }[];
   availableAtendentes?: { id: string; name: string; email: string; role: string; companyId?: string | null }[];
 }) {
@@ -985,6 +988,29 @@ export default function WhatsappManager({
             },
           });
         }
+        router.refresh();
+      }
+    } finally {
+      setConvActionLoading(false);
+    }
+  }
+
+  // Liga/desliga gamificação da conversa (admin only — grupos internos não pontuam).
+  async function toggleGamification() {
+    const conv = selectedConv?.conversation;
+    if (!conv) return;
+    const next = !conv.excludeFromGamification;
+    setConvActionLoading(true);
+    try {
+      const res = await fetch(`/api/conversations/${conv.id}`, {
+        method:  "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ excludeFromGamification: next }),
+      });
+      if (res.ok) {
+        setSelectedConv((prev) => prev?.conversation
+          ? { ...prev, conversation: { ...prev.conversation, excludeFromGamification: next } }
+          : prev);
         router.refresh();
       }
     } finally {
@@ -2915,6 +2941,30 @@ export default function WhatsappManager({
                           className="px-2.5 py-1.5 rounded-lg border border-violet-500/30 bg-violet-500/10 text-violet-300 text-xs font-medium hover:bg-violet-500/20 transition-colors disabled:opacity-50 flex items-center gap-1"
                         >
                           ↗
+                        </button>
+                      )}
+
+                      {/* Toggle de gamificação — admin marca grupos internos
+                          pra não gerar pontos. Visível apenas pra admin. */}
+                      {canManageGamification && (
+                        <button
+                          onClick={toggleGamification}
+                          disabled={convActionLoading}
+                          title={
+                            conv.excludeFromGamification
+                              ? "Conversa NÃO gera pontos — clique pra reativar gamificação"
+                              : "Conversa gera pontos — clique pra desligar (use em grupos internos)"
+                          }
+                          className={`px-2 py-1.5 rounded-lg border text-xs font-medium transition-colors disabled:opacity-50 flex items-center gap-1 ${
+                            conv.excludeFromGamification
+                              ? "border-slate-600 bg-slate-700/30 text-slate-400 hover:bg-slate-700/50"
+                              : "border-yellow-500/30 bg-yellow-500/10 text-yellow-300 hover:bg-yellow-500/20"
+                          }`}
+                        >
+                          {conv.excludeFromGamification
+                            ? <Ban className="w-3.5 h-3.5" strokeWidth={2.5} />
+                            : <Trophy className="w-3.5 h-3.5" strokeWidth={2.5} />
+                          }
                         </button>
                       )}
                     </div>
