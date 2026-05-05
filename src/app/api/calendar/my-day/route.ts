@@ -38,18 +38,26 @@ export async function GET(req: NextRequest) {
 
   const companyFilter = filterCompanyId ? { companyId: filterCompanyId } : {};
 
+  // Default da agenda: cada usuário vê o que é DELE + o que está SEM
+  // responsável (pra poder assumir/direcionar). Vale pra qualquer role.
+  // Antes mostrava agenda de todos os usuários da empresa pra qualquer um.
+  void userRole; void isSuperAdmin;
+  const userScope = { OR: [{ assigneeId: userId }, { assigneeId: null }] };
+
   // ── 1. Retornos Agendados ──────────────────────────────────────────────────
   // Conversas com status SCHEDULED que têm scheduledReturnAt definido.
   // Divididas em: vencidas (passadas), hoje, e em breve (próximos 7 dias).
   const scheduledConvs = await prisma.conversation.findMany({
     where: {
       ...companyFilter,
+      ...userScope,
       status: "SCHEDULED",
       scheduledReturnAt: { lte: nextWeek }, // não mostrar retornos muito distantes
     },
     select: {
       id: true,
       phone: true,
+      isGroup: true,
       scheduledReturnAt: true,
       returnNote: true,
       assigneeId: true,
@@ -70,8 +78,8 @@ export async function GET(req: NextRequest) {
   const waitingConvs = await prisma.conversation.findMany({
     where: {
       ...companyFilter,
+      ...userScope,
       status: "WAITING_CUSTOMER",
-      ...(isSuperAdmin ? {} : { assigneeId: userId }),
       statusUpdatedAt: { lte: oneHourAgo },
     },
     select: {
@@ -122,6 +130,7 @@ export async function GET(req: NextRequest) {
   const urgentTickets = await prisma.ticket.findMany({
     where: {
       ...companyFilter,
+      ...userScope,
       status: { in: ["OPEN", "IN_PROGRESS"] },
       priority: { in: ["URGENT", "HIGH"] },
       isInternal: false,
@@ -140,10 +149,16 @@ export async function GET(req: NextRequest) {
   });
 
   // ── 5. Follow-ups de Leads/Oportunidades ──────────────────────────────────
-  // Leads com expectedReturnAt vencido ou até fim do dia de hoje.
+  // Lead não tem assigneeId direto — usa Conversation associada. Inclui
+  // leads sem conversa (sem responsável) pra poder assumir.
   const leadsFollowUp = await prisma.lead.findMany({
     where: {
       ...companyFilter,
+      OR: [
+        { conversation: { is: null } },
+        { conversation: { is: { assigneeId: null } } },
+        { conversation: { is: { assigneeId: userId } } },
+      ],
       expectedReturnAt: { lte: todayEnd },
       status: { notIn: ["CLOSED", "LOST"] },
     },
@@ -160,8 +175,25 @@ export async function GET(req: NextRequest) {
     take: 20,
   });
 
+  // Resolve nome do grupo (Conversation só guarda o JID @g.us no phone).
+  const groupPhones = scheduledConvs
+    .filter((c) => c.isGroup || c.phone.includes("@g.us"))
+    .map((c) => c.phone);
+  const phoneToName: Record<string, string> = {};
+  if (groupPhones.length > 0 && filterCompanyId) {
+    const contacts = await prisma.companyContact.findMany({
+      where: { companyId: filterCompanyId, phone: { in: groupPhones }, isGroup: true },
+      select: { phone: true, name: true },
+    });
+    for (const c of contacts) if (c.name) phoneToName[c.phone] = c.name;
+  }
+  const scheduledConvsWithName = scheduledConvs.map((c) => ({
+    ...c,
+    contactName: phoneToName[c.phone] ?? null,
+  }));
+
   return NextResponse.json({
-    scheduledConvs,
+    scheduledConvs: scheduledConvsWithName,
     waitingConvs,
     myOpenConvs,
     urgentTickets,

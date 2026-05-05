@@ -14,6 +14,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { BadgeType, ScoreReason } from "@/generated/prisma";
+import { isOverdueByDay } from "@/lib/datetime";
 
 // ─── Tabela de pontos por razão ───────────────────────────────────────────────
 
@@ -571,16 +572,22 @@ export async function runDailyPenalties(companyId: string): Promise<void> {
     await addScore(conv.assigneeId, companyId, ScoreReason.CONVERSA_SEM_RESPOSTA, conv.id);
   }
 
-  // Tickets com dueDate vencido e status aberto
-  const overdueTickets = await prisma.ticket.findMany({
+  // Tickets em aberto com prazo. Filtra "atrasado" depois em JS pra usar
+  // a regra de dia-calendário (prazo HOJE não conta como atrasado, só vira
+  // atrasado quando passa pra amanhã).
+  const candidateTickets = await prisma.ticket.findMany({
     where: {
       companyId,
       status:    { in: ["OPEN", "IN_PROGRESS"] },
-      dueDate:   { lt: new Date() },
+      dueDate:   { not: null },
       assigneeId: { not: null },
     },
-    select: { id: true, assigneeId: true },
+    select: { id: true, assigneeId: true, dueDate: true },
   });
+  const _nowForOverdue = new Date();
+  const overdueTickets = candidateTickets.filter(
+    (t) => t.dueDate && isOverdueByDay(t.dueDate, _nowForOverdue),
+  );
 
   for (const ticket of overdueTickets) {
     if (!ticket.assigneeId) continue;
@@ -640,14 +647,15 @@ export async function syncProjectTasks(
   const isFirstSync = stored.length === 0;
   const storedById = new Map(stored.map((s) => [s.taskId, s]));
 
-  // Atualiza agregados
-  const now = Date.now();
+  // Atualiza agregados.
+  // Atrasada = prazo passou o dia-calendário (vence no fim do dia, não na hora).
+  const nowDate = new Date();
   let taskCount = 0, taskCompleted = 0, taskOverdue = 0, taskNoDueDate = 0, taskNoAssignee = 0;
   for (const t of tasks) {
     taskCount++;
     if (t.isCompleted) taskCompleted++;
     else {
-      if (t.dueDate && t.dueDate < now) taskOverdue++;
+      if (t.dueDate && isOverdueByDay(new Date(t.dueDate), nowDate)) taskOverdue++;
       else if (!t.dueDate) taskNoDueDate++;
       if (t.hasNoAssignee) taskNoAssignee++;
     }
@@ -843,33 +851,40 @@ export async function runDiaSemAtraso(companyId: string): Promise<void> {
     });
     if (alreadyToday) continue;
 
-    // Conta itens vencidos do usuário
-    const [overdueTickets, overdueConvs, overdueLeads] = await Promise.all([
-      prisma.ticket.count({
+    // Conta itens "vencidos" do usuário — vencido = passou o DIA do prazo,
+    // não a hora. Item com prazo hoje em qualquer hora ainda não conta. Pega
+    // todos com prazo no banco e filtra em JS via isOverdueByDay.
+    const [tCands, cCands, lCands] = await Promise.all([
+      prisma.ticket.findMany({
         where: {
           companyId, assigneeId: userId,
           status: { in: ["OPEN", "IN_PROGRESS"] },
-          dueDate: { lt: now },
+          dueDate: { not: null },
         },
+        select: { dueDate: true },
       }),
-      prisma.conversation.count({
+      prisma.conversation.findMany({
         where: {
           companyId, assigneeId: userId,
           status: { not: "CLOSED" },
-          scheduledReturnAt: { lt: now },
+          scheduledReturnAt: { not: null },
         },
+        select: { scheduledReturnAt: true },
       }),
-      prisma.lead.count({
+      prisma.lead.findMany({
         where: {
           companyId,
           status: { notIn: ["CLOSED", "LOST"] },
-          expectedReturnAt: { lt: now },
-          // O Lead model não tem assigneeId — usamos a Conversation associada.
-          // Um lead "do usuário" é o que está vinculado a uma conversa atribuída a ele.
+          expectedReturnAt: { not: null },
+          // Lead não tem assigneeId direto — usa Conversation associada.
           conversation: { assigneeId: userId },
         },
+        select: { expectedReturnAt: true },
       }),
     ]);
+    const overdueTickets = tCands.filter((t) => t.dueDate && isOverdueByDay(t.dueDate, now)).length;
+    const overdueConvs   = cCands.filter((c) => c.scheduledReturnAt && isOverdueByDay(c.scheduledReturnAt, now)).length;
+    const overdueLeads   = lCands.filter((l) => l.expectedReturnAt && isOverdueByDay(l.expectedReturnAt, now)).length;
 
     if (overdueTickets + overdueConvs + overdueLeads > 0) continue;
 

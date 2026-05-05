@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { isOverdueByDay } from "@/lib/datetime";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -392,7 +393,7 @@ export async function fetchClickupListStats(
     const data = await res.json();
     const tasks: any[] = data.tasks ?? [];
 
-    const now = Date.now();
+    const now = new Date();
     let taskCount      = 0;
     let taskCompleted  = 0;
     let taskOverdue    = 0;
@@ -406,9 +407,11 @@ export async function fetchClickupListStats(
       if (isDone) {
         taskCompleted++;
       } else {
-        const due = t.due_date ? Number(t.due_date) : null;
-        if (!due) taskNoDueDate++;
-        else if (due < now) taskOverdue++;
+        const dueMs = t.due_date ? Number(t.due_date) : null;
+        if (!dueMs) taskNoDueDate++;
+        // Atrasada = passou o dia inteiro do prazo. Tarefa com prazo HOJE
+        // não é atrasada — vence só quando vira amanhã.
+        else if (isOverdueByDay(new Date(dueMs), now)) taskOverdue++;
         if (noAssignee) taskNoAssignee++;
       }
     }

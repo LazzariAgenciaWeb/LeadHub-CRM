@@ -13,6 +13,7 @@ import { layoutOverlappingEvents } from "./event-layout";
 interface ScheduledConv {
   id: string; phone: string; scheduledReturnAt: string | null;
   returnNote: string | null; status: string;
+  contactName?: string | null; // nome do grupo via CompanyContact
   leads: { id: string; name: string | null }[];
 }
 interface LeadFollowUp {
@@ -170,7 +171,7 @@ export default function WeekView() {
       if (!c.scheduledReturnAt) continue;
       const start = new Date(c.scheduledReturnAt);
       const end = new Date(start.getTime() + 30 * 60000); // 30min default
-      const name = c.leads[0]?.name ?? formatPhone(c.phone);
+      const name = c.contactName ?? c.leads[0]?.name ?? formatPhone(c.phone);
       push({
         id: `s-${c.id}`,
         kind: "scheduled",

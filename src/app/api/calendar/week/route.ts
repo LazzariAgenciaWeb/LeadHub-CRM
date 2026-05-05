@@ -37,14 +37,33 @@ export async function GET(req: NextRequest) {
 
   const cf = companyId ? { companyId } : {};
 
+  // Default da agenda: cada usuário vê o que é DELE (assigneeId === userId)
+  // mais o que está SEM responsável (assigneeId === null) — assim ele pode
+  // assumir ou direcionar. Vale pra qualquer role; admin que quiser visão
+  // de equipe abre /chamados, /crm, etc. (filtros lá já permitem).
+  // Antes mostrava tudo da empresa pra todo mundo, vazando agendas.
+  void userRole;
+  const userScope = { OR: [{ assigneeId: userId }, { assigneeId: null }] };
+  // Lead não tem assigneeId — vai pelo Conversation associado. Inclui também
+  // leads sem conversa (sem responsável definido).
+  const leadScope = {
+    OR: [
+      { conversation: { is: null } },
+      { conversation: { is: { assigneeId: null } } },
+      { conversation: { is: { assigneeId: userId } } },
+    ],
+  };
+
   const [scheduledConvs, leadsFollowUp, tickets] = await Promise.all([
     prisma.conversation.findMany({
       where: {
         ...cf,
+        ...userScope,
         scheduledReturnAt: { gte: from, lte: to },
       },
       select: {
-        id: true, phone: true, scheduledReturnAt: true, returnNote: true, status: true,
+        id: true, phone: true, isGroup: true,
+        scheduledReturnAt: true, returnNote: true, status: true,
         leads: { take: 1, orderBy: { createdAt: "desc" }, select: { id: true, name: true } },
       },
       orderBy: { scheduledReturnAt: "asc" },
@@ -53,6 +72,7 @@ export async function GET(req: NextRequest) {
     prisma.lead.findMany({
       where: {
         ...cf,
+        ...leadScope,
         expectedReturnAt: { gte: from, lte: to },
         status: { notIn: ["CLOSED", "LOST"] },
       },
@@ -68,12 +88,17 @@ export async function GET(req: NextRequest) {
       where: {
         ...cf,
         isInternal: false,
-        // Posiciona pelo prazo quando existe; usa createdAt só como fallback
-        // pra tickets antigos sem dueDate. Antes usava só createdAt — chamado
-        // criado hoje com prazo amanhã não aparecia no calendário de amanhã.
-        OR: [
-          { dueDate: { gte: from, lte: to } },
-          { dueDate: null, createdAt: { gte: from, lte: to } },
+        // AND combina dois ORs: escopo do usuário + janela de data.
+        // Posiciona pelo prazo quando existe; createdAt só como fallback
+        // pra tickets antigos sem dueDate.
+        AND: [
+          { OR: [{ assigneeId: userId }, { assigneeId: null }] },
+          {
+            OR: [
+              { dueDate: { gte: from, lte: to } },
+              { dueDate: null, createdAt: { gte: from, lte: to } },
+            ],
+          },
         ],
       },
       select: {
@@ -85,6 +110,27 @@ export async function GET(req: NextRequest) {
       take: 200,
     }),
   ]);
+
+  // Resolve nome do grupo: Conversation só tem `phone` (JID @g.us). O nome
+  // legível mora em CompanyContact (sincronizado via /api/whatsapp/group-name).
+  // Faz lookup por phone das conversas que vieram, mapeia phone → name.
+  const groupPhones = scheduledConvs
+    .filter((c) => c.isGroup || c.phone.includes("@g.us"))
+    .map((c) => c.phone);
+  let phoneToContactName: Record<string, string> = {};
+  if (groupPhones.length > 0 && companyId) {
+    const contacts = await prisma.companyContact.findMany({
+      where: { companyId, phone: { in: groupPhones }, isGroup: true },
+      select: { phone: true, name: true },
+    });
+    for (const c of contacts) {
+      if (c.name) phoneToContactName[c.phone] = c.name;
+    }
+  }
+  const scheduledConvsWithName = scheduledConvs.map((c) => ({
+    ...c,
+    contactName: phoneToContactName[c.phone] ?? null,
+  }));
 
   // Eventos do Google Calendar — se houver conexão ativa
   let googleEvents: any[] = [];
@@ -102,7 +148,7 @@ export async function GET(req: NextRequest) {
   }
 
   return NextResponse.json({
-    scheduledConvs,
+    scheduledConvs: scheduledConvsWithName,
     leadsFollowUp,
     tickets,
     googleEvents,

@@ -15,7 +15,7 @@ export default async function CalendarioPage() {
   // ADMIN da agência tem visão de gestor — vê todas as conversas/leads/chamados
   // da empresa, não apenas os atribuídos a si. Antes só SUPER_ADMIN tinha
   // essa visão e o "Meu Dia" do ADMIN ficava praticamente vazio.
-  const isManager = isSuperAdmin || userRole === "ADMIN";
+  // _isManager removido — agenda agora é sempre per-user (minhas + sem responsável).
 
   const now      = new Date();
   const today    = new Date(now); today.setHours(0, 0, 0, 0);
@@ -37,7 +37,7 @@ export default async function CalendarioPage() {
         where: {
           ...cf,
           scheduledReturnAt: { not: null, lte: nextWeek },
-          ...(isManager ? {} : { assigneeId: userId }),
+          OR: [{ assigneeId: userId }, { assigneeId: null }],
         },
         select: {
           id: true, phone: true, companyId: true, scheduledReturnAt: true, returnNote: true,
@@ -52,7 +52,7 @@ export default async function CalendarioPage() {
         where: {
           ...cf,
           status: "WAITING_CUSTOMER",
-          ...(isManager ? {} : { assigneeId: userId }),
+          OR: [{ assigneeId: userId }, { assigneeId: null }],
           statusUpdatedAt: { lte: oneHourAgo },
         },
         select: {
@@ -69,7 +69,7 @@ export default async function CalendarioPage() {
         where: {
           ...cf,
           status: { in: ["OPEN", "IN_PROGRESS"] },
-          ...(isManager ? {} : { assigneeId: userId }),
+          OR: [{ assigneeId: userId }, { assigneeId: null }],
         },
         select: {
           id: true, phone: true, companyId: true, status: true,
@@ -111,7 +111,11 @@ export default async function CalendarioPage() {
           ...cf,
           expectedReturnAt: { lte: todayEnd },
           status: { notIn: ["CLOSED", "LOST"] },
-          ...(isManager ? {} : { conversation: { assigneeId: userId } }),
+          OR: [
+            { conversation: { is: null } },
+            { conversation: { is: { assigneeId: null } } },
+            { conversation: { is: { assigneeId: userId } } },
+          ],
         },
         select: {
           id: true, name: true, phone: true,

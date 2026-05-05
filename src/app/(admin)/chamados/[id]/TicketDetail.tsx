@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { diffCalendarDays } from "@/lib/datetime";
 
 interface TicketMessage {
   id: string;
@@ -802,10 +803,14 @@ export default function TicketDetail({
           {/* Prazo de encerramento — editável inline */}
           {(() => {
             const due = dueDate ? new Date(dueDate) : null;
-            const ms = due ? due.getTime() - Date.now() : 0;
-            const days = ms / 86_400_000;
-            const overdue = !!due && days < 0;
-            const today = !!due && days >= 0 && days < 1;
+            const now = new Date();
+            // Usa dia-calendário, não diff de horas. Prazo "06/05 às 09h" não
+            // fica "atrasado" só porque agora são 14h do dia 06 — vence só
+            // no fim do dia. Mesma lógica pro rótulo "Hoje".
+            const dayDiff = due ? diffCalendarDays(now, due) : 0; // > 0 = futuro
+            const overdue = !!due && dayDiff < 0;
+            const today   = !!due && dayDiff === 0;
+            const days    = dayDiff; // pra label "Em N dias" (futuro positivo)
             const color = !due ? "border-[#1e2d45] bg-[#0f1623]"
               : overdue ? "border-red-500/40 bg-red-500/10"
               : today ? "border-orange-500/40 bg-orange-500/10"
@@ -846,8 +851,11 @@ export default function TicketDetail({
                     </p>
                     {overdue && <p className="text-red-400 text-[10px] mt-0.5 font-semibold animate-pulse">Atrasado</p>}
                     {today && <p className="text-orange-400 text-[10px] mt-0.5 font-semibold">Hoje</p>}
-                    {!overdue && !today && days < 3 && (
-                      <p className="text-amber-400 text-[10px] mt-0.5">Em {Math.ceil(days)} dia{Math.ceil(days) !== 1 ? "s" : ""}</p>
+                    {!overdue && !today && days === 1 && (
+                      <p className="text-amber-400 text-[10px] mt-0.5">Amanhã</p>
+                    )}
+                    {!overdue && !today && days >= 2 && days < 7 && (
+                      <p className="text-amber-400 text-[10px] mt-0.5">Em {days} dias</p>
                     )}
                   </>
                 ) : (
