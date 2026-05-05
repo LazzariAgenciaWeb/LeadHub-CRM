@@ -1887,6 +1887,19 @@ export default function WhatsappManager({
       body: JSON.stringify(body),
     });
 
+    if (!patchRes.ok) {
+      // Reverte o otimista — sem isso, UI mostra status novo mas backend
+      // rejeitou (ex: 403 sem canViewLeads). Antes o usuário "agendava" e
+      // nada persistia, sem feedback nenhum.
+      let errMsg = "Erro ao salvar agendamento";
+      try { const err = await patchRes.json(); errMsg = err.error ?? errMsg; } catch { /* ignore */ }
+      alert(errMsg);
+      setAttendanceStatus(selectedConv.lead.attendanceStatus ?? null);
+      setLocalAttendanceOverrides(prev => { const next = new Map(prev); next.delete(selectedConv.phone); return next; });
+      setSavingAttendance(false);
+      return;
+    }
+
     // Quando agenda retorno, o backend appenda uma nota visual ao Lead.notes.
     // Atualizamos leadNotes local pra a bolha roxa aparecer no chat sem
     // precisar recarregar a página inteira.

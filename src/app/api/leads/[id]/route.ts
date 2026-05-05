@@ -56,18 +56,28 @@ export async function PATCH(
     return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
   }
 
-  // fix C2 — atendente sem canViewLeads não pode editar lead via API
-  // (UI já bloqueia, mas a rota aceitava chamada direta).
   const perms = await getUserPermissions(session);
   if (!perms) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
-  if (!perms.isAdmin && !perms.canViewLeads) {
-    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
-  }
 
   const userId = (session.user as any).id as string | undefined;
 
   const body = await req.json();
   const { name, phone, email, source, status, notes, value, campaignId, pipeline, pipelineStage, attendanceStatus, expectedReturnAt, clickupTaskId, trackingLinkId } = body;
+
+  // Atendente (CLIENT) sem canViewLeads PODE atualizar campos de atendimento
+  // — agendar retorno, mudar attendanceStatus, anotar — desde que pertença
+  // a algum setor (atende a conversa). O bloqueio de canViewLeads se aplica
+  // só a alterações comerciais (pipeline, value, etc.). Antes o usuário
+  // agendava no UI mas o backend devolvia 403 silencioso e nada persistia.
+  const onlyAttendanceFields = (() => {
+    const touchedKeys = Object.keys(body);
+    const ATTENDANCE_KEYS = new Set(["attendanceStatus", "expectedReturnAt", "notes"]);
+    return touchedKeys.length > 0 && touchedKeys.every((k) => ATTENDANCE_KEYS.has(k));
+  })();
+  const canAttend = !perms.noSetor; // tem ao menos um setor = pode atender
+  if (!perms.isAdmin && !perms.canViewLeads && !(onlyAttendanceFields && canAttend)) {
+    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  }
 
   const lead = await prisma.lead.update({
     where: { id },

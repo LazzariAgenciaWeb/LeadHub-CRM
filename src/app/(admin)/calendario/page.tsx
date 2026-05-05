@@ -12,10 +12,27 @@ export default async function CalendarioPage() {
   const userRole  = (session.user as any)?.role as string;
   const companyId = (session.user as any)?.companyId as string | undefined;
   const isSuperAdmin = userRole === "SUPER_ADMIN";
-  // ADMIN da agência tem visão de gestor — vê todas as conversas/leads/chamados
-  // da empresa, não apenas os atribuídos a si. Antes só SUPER_ADMIN tinha
-  // essa visão e o "Meu Dia" do ADMIN ficava praticamente vazio.
-  // _isManager removido — agenda agora é sempre per-user (minhas + sem responsável).
+  const isManager   = isSuperAdmin || userRole === "ADMIN";
+  // CLIENT (atendente de setor) só pode ver conversas dos setores dos quais
+  // participa — senão Cosmo, que é só comercial, vê retornos do financeiro
+  // (números/grupos de outras instâncias). ADMIN/SUPER veem tudo da empresa.
+  const userSetorIds = isManager ? null : (await prisma.setorUser.findMany({
+    where: { userId },
+    select: { setorId: true },
+  })).map((s) => s.setorId);
+  // Filtro reaproveitável pra Conversations:
+  //   - SUPER_ADMIN/ADMIN → sem filtro extra (visão de gestor)
+  //   - CLIENT → conversas atribuídas a si OU sem responsável NOS SEUS SETORES
+  const convScopeFilter = isManager
+    ? {}
+    : {
+        OR: [
+          { assigneeId: userId },
+          ...(userSetorIds && userSetorIds.length > 0
+            ? [{ AND: [{ assigneeId: null }, { setorId: { in: userSetorIds } }] }]
+            : []),
+        ],
+      };
 
   const now      = new Date();
   const today    = new Date(now); today.setHours(0, 0, 0, 0);
@@ -37,7 +54,7 @@ export default async function CalendarioPage() {
         where: {
           ...cf,
           scheduledReturnAt: { not: null, lte: nextWeek },
-          OR: [{ assigneeId: userId }, { assigneeId: null }],
+          ...convScopeFilter,
         },
         select: {
           id: true, phone: true, companyId: true, scheduledReturnAt: true, returnNote: true,
@@ -52,7 +69,7 @@ export default async function CalendarioPage() {
         where: {
           ...cf,
           status: "WAITING_CUSTOMER",
-          OR: [{ assigneeId: userId }, { assigneeId: null }],
+          ...convScopeFilter,
           statusUpdatedAt: { lte: oneHourAgo },
         },
         select: {
@@ -69,7 +86,7 @@ export default async function CalendarioPage() {
         where: {
           ...cf,
           status: { in: ["OPEN", "IN_PROGRESS"] },
-          OR: [{ assigneeId: userId }, { assigneeId: null }],
+          ...convScopeFilter,
         },
         select: {
           id: true, phone: true, companyId: true, status: true,
@@ -105,17 +122,27 @@ export default async function CalendarioPage() {
 
       // Follow-ups de leads com data de hoje ou vencida.
       // Lead não tem assigneeId próprio — herda da Conversation vinculada.
-      // Não-super-admin só vê os leads cuja conversa está atribuída a ele.
+      // Manager (ADMIN/SUPER): vê todos. CLIENT: só leads cuja conversa está
+      // atribuída a si OU sem responsável dentro dos setores que ele participa.
       prisma.lead.findMany({
         where: {
           ...cf,
           expectedReturnAt: { lte: todayEnd },
           status: { notIn: ["CLOSED", "LOST"] },
-          OR: [
-            { conversation: { is: null } },
-            { conversation: { is: { assigneeId: null } } },
-            { conversation: { is: { assigneeId: userId } } },
-          ],
+          ...(isManager
+            ? {}
+            : {
+                OR: [
+                  { conversation: { is: { assigneeId: userId } } },
+                  ...(userSetorIds && userSetorIds.length > 0
+                    ? [{
+                        conversation: {
+                          is: { assigneeId: null, setorId: { in: userSetorIds } },
+                        },
+                      }]
+                    : []),
+                ],
+              }),
         },
         select: {
           id: true, name: true, phone: true,
