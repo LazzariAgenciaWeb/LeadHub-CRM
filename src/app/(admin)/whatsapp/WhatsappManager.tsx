@@ -1321,7 +1321,15 @@ export default function WhatsappManager({
     router.refresh();
   }
 
+  // Guarda da última chamada de loadConversation. Cliques rápidos entre A e B
+  // disparam fetches paralelos; se a resposta de A chega depois de B, ela
+  // sobrescrevia as mensagens de B (timeline da pessoa errada). Cada chamada
+  // recebe um token incrementado e só aplica os resultados se ainda for o
+  // último (loadTokenRef.current === myToken).
+  const loadTokenRef = useRef(0);
+
   async function loadConversation(conv: Conversation) {
+    const myToken = ++loadTokenRef.current;
     setSelectedConv(conv);
     setShowConvertForm(false);
     setShowTicketForm(false);
@@ -1376,10 +1384,15 @@ export default function WhatsappManager({
       fetch(`/api/tickets?${ticketParams}`),
     ]);
 
+    // Se o usuário já clicou em outra conversa enquanto esses fetches rodavam,
+    // descarta tudo — não aplica em estado que pertence a outra conversa.
+    if (loadTokenRef.current !== myToken) return;
+
     const msgsData = await msgsRes.json();
     // Resposta paginada = { messages, hasMore }; resposta legacy = array puro.
     const msgs: WaMessage[] = Array.isArray(msgsData) ? msgsData : (msgsData.messages ?? []);
     const more = Array.isArray(msgsData) ? false : Boolean(msgsData.hasMore);
+    if (loadTokenRef.current !== myToken) return;
     setHasMoreMessages(more);
     // Set forceScroll BEFORE updating convMessages so the useEffect sees it as true
     forceScrollRef.current = true;
@@ -1399,13 +1412,13 @@ export default function WhatsappManager({
 
     if (campaignsRes.ok) {
       const data = await campaignsRes.json();
-      setCampaigns(data.campaigns ?? data);
+      if (loadTokenRef.current === myToken) setCampaigns(data.campaigns ?? data);
     }
     if (ticketsRes.ok) {
       const tickets = await ticketsRes.json();
-      setOpenTicket(tickets[0] ?? null);
+      if (loadTokenRef.current === myToken) setOpenTicket(tickets[0] ?? null);
     }
-    setLoadingMsgs(false);
+    if (loadTokenRef.current === myToken) setLoadingMsgs(false);
   }
 
   async function handleConvertLead(e: React.FormEvent) {
