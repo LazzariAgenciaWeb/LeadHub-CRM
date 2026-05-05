@@ -18,6 +18,7 @@ export const ALL_BADGES: BadgeType[] = [
   "RAIO_VELOZ", "RESOLVEDOR", "ANTECIPADOR", "CLOSER",
   "PRIMEIRO_DO_DIA", "ZERO_PENDENCIA", "FUNIL_COMPLETO",
   "PONTUAL", "ENTREGADOR", "CONSTRUTOR", "ENGAJADO", "GERADOR",
+  "ALQUIMISTA", "SNIPER", "TROVAO",
   "EXERCITO", "LIDER", "GUARDIAO",
   "SPRINT_MASTER", "REI_DO_MES",
   "CORUJA", "MADRUGADOR", "SORTUDO", "FENIX",
@@ -47,6 +48,9 @@ export const BADGE_REASON: Record<BadgeType, ScoreReason | null> = {
   EXERCITO:        "AJUDA_EXERCITO",
   LIDER:           "ENCAMINHAMENTO",
   GUARDIAO:        "PRIMEIRA_RESPOSTA",
+  ALQUIMISTA:      "TICKET_ATUALIZADO",
+  SNIPER:          "TICKET_NO_PRAZO",
+  TROVAO:          "TICKET_RESOLVIDO_MESMO_DIA",
 };
 
 // Categorias visuais — agrupam badges no painel pra dar contexto
@@ -74,6 +78,9 @@ export const BADGE_CATEGORY: Record<BadgeType, BadgeCategory> = {
   PRIMEIRO_DO_DIA: "ATENDIMENTO",
   ZERO_PENDENCIA:  "ATENDIMENTO",
   RESOLVEDOR:      "CHAMADOS",
+  ALQUIMISTA:      "CHAMADOS",
+  SNIPER:          "CHAMADOS",
+  TROVAO:          "CHAMADOS",
   CLOSER:          "VENDAS",
   FUNIL_COMPLETO:  "VENDAS",
   ANTECIPADOR:     "VENDAS",
@@ -115,6 +122,9 @@ export const BADGE_META: Record<BadgeType, BadgeMeta> = {
   EXERCITO:        { emoji: "🪖", name: "Exército",          description: "Respondeu cliente em conversa de outro responsável (parceiro de batalha)" },
   LIDER:           { emoji: "🎖️", name: "Líder",             description: "Encaminhou conversa pra colega adequado" },
   GUARDIAO:        { emoji: "🛡️", name: "Guardião",          description: "Primeiro a responder em conversa nova sem responsável" },
+  ALQUIMISTA:      { emoji: "🧙", name: "Alquimista",        description: "Cuida do próprio chamado: cada update transforma o problema em solução" },
+  SNIPER:          { emoji: "🎯", name: "Sniper",            description: "Resolveu o chamado antes do prazo — alvo travado, mira certa" },
+  TROVAO:          { emoji: "⚡", name: "Trovão",            description: "Chamado criado e resolvido no mesmo dia — antes do cliente piscar, você já entregou" },
   // Easter eggs — só admins veem antes de conquistar
   CORUJA:          { emoji: "🦉", name: "Coruja",           description: "Respostas dadas após as 22h",                isHidden: true },
   MADRUGADOR:      { emoji: "🌙", name: "Madrugador",       description: "Respostas antes das 7h da manhã",            isHidden: true },
@@ -270,6 +280,31 @@ export const BADGE_TIERS: Record<BadgeType, Tier[]> = {
     { level: 5, name: "Protetor",         threshold: 120 },
     { level: 6, name: "Guardião Eterno",  threshold: 300 },
   ],
+  // Mestres do Ofício — chamados próprios, nomes épicos pra dar peso
+  ALQUIMISTA: [
+    { level: 1, name: "Aprendiz",         threshold: 10   },
+    { level: 2, name: "Boticário",        threshold: 50   },
+    { level: 3, name: "Adepto",           threshold: 150  },
+    { level: 4, name: "Sábio",            threshold: 500  },
+    { level: 5, name: "Arcano",           threshold: 1500 },
+    { level: 6, name: "Pedra Filosofal",  threshold: 5000 },
+  ],
+  SNIPER: [
+    { level: 1, name: "Recruta",          threshold: 1   },
+    { level: 2, name: "Atirador",         threshold: 5   },
+    { level: 3, name: "Marksman",         threshold: 15  },
+    { level: 4, name: "Elite",            threshold: 40  },
+    { level: 5, name: "Ace",              threshold: 100 },
+    { level: 6, name: "Olho de Águia",    threshold: 250 },
+  ],
+  TROVAO: [
+    { level: 1, name: "Faísca",           threshold: 1   },
+    { level: 2, name: "Centelha",         threshold: 5   },
+    { level: 3, name: "Raio",             threshold: 15  },
+    { level: 4, name: "Trovão",           threshold: 40  },
+    { level: 5, name: "Tempestade",       threshold: 100 },
+    { level: 6, name: "Zeus",             threshold: 250 },
+  ],
   // Easter eggs — limiares menores e mais raros
   CORUJA: [
     { level: 1, name: "Insônia",       threshold: 3   },
@@ -373,6 +408,9 @@ export const BADGE_LUCIDE: Record<BadgeType, string> = {
   EXERCITO:        "Swords",
   LIDER:           "Award",
   GUARDIAO:        "Shield",
+  ALQUIMISTA:      "FlaskConical",
+  SNIPER:          "Crosshair",
+  TROVAO:          "Zap",
 };
 
 /**
@@ -518,4 +556,7 @@ export const REASON_LABEL: Record<ScoreReason, { text: string; positive: boolean
   AJUDA_EXERCITO:         { text: "Ajudou colega no atendimento (Exército)", positive: true },
   ENCAMINHAMENTO:         { text: "Encaminhou conversa pra colega (Líder)",  positive: true },
   PRIMEIRA_RESPOSTA:      { text: "Primeira resposta numa conversa nova (Guardião)", positive: true },
+  TICKET_ATUALIZADO:      { text: "Atualizou chamado próprio (Alquimista)",            positive: true },
+  TICKET_NO_PRAZO:        { text: "Resolveu chamado antes do prazo (Sniper)",         positive: true },
+  TICKET_RESOLVIDO_MESMO_DIA: { text: "Chamado criado e resolvido no mesmo dia (Trovão)", positive: true },
 };

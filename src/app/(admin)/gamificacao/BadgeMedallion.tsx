@@ -4,6 +4,7 @@ import {
   Hammer, Repeat, Sprout,
   Moon, Clover, Flame,
   Swords, Award, Shield,
+  FlaskConical, Crosshair,
   type LucideIcon,
 } from "lucide-react";
 import { BadgeType } from "@/generated/prisma";
@@ -18,6 +19,7 @@ const ICONS: Record<string, LucideIcon> = {
   Hammer, Repeat, Sprout,
   Moon, Clover, Flame,
   Swords, Award, Shield,
+  FlaskConical, Crosshair,
 };
 
 type Props = {

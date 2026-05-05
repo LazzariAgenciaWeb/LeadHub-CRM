@@ -1439,6 +1439,10 @@ enum BadgeType {
   EXERCITO // responde conversa de outro responsável quando cliente espera
   LIDER // encaminha conversa pra colega adequado (muda assignee/setor)
   GUARDIAO // primeiro a responder em conversa nova sem responsável
+  // Mestres do Ofício — chamados próprios (gamificação de tickets)
+  ALQUIMISTA // atualiza/comenta no próprio chamado (constância)
+  SNIPER // resolveu chamado antes do dueDate (precisão)
+  TROVAO // chamado criado e resolvido no mesmo dia (velocidade)
 }
 
 enum ScoreReason {
@@ -1475,6 +1479,9 @@ enum ScoreReason {
   AJUDA_EXERCITO // respondeu cliente em conversa de outro responsável (Exército)
   ENCAMINHAMENTO // encaminhou conversa pra colega adequado (Líder)
   PRIMEIRA_RESPOSTA // primeiro a responder em conversa sem responsável (Guardião)
+  TICKET_ATUALIZADO // atualização/comentário no próprio chamado (Alquimista)
+  TICKET_NO_PRAZO // chamado resolvido antes do dueDate (Sniper)
+  TICKET_RESOLVIDO_MESMO_DIA // chamado criado e resolvido no mesmo dia (Trovão)
 }
 
 // Trilha de auditoria de eventos de cobrança — útil pra suporte e debug.

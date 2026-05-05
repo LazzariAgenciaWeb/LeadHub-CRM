@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getClickupSettings, addCommentToClickupTask } from "@/lib/clickup";
+import { addScoreOnce } from "@/lib/gamification";
 
 // POST /api/tickets/[id]/messages
 export async function POST(
@@ -79,6 +80,35 @@ export async function POST(
           data: { externalId: clickupCommentId },
         }).catch(() => { /* dedup só funciona se conseguir gravar; não crítico */ });
       }
+    }
+  }
+
+  // ── Gamificação ────────────────────────────────────────────────────────
+  // Notas internas não pontuam (são pra equipe interna, não atendimento).
+  // Mensagens de SUPER_ADMIN também não pontuam (dono da plataforma, não
+  // é atendente da empresa-cliente).
+  const userId = (session.user as any)?.id as string | undefined;
+  if (!isInternalMsg && userId && userRole !== "SUPER_ADMIN") {
+    const dayKey = new Date().toISOString().slice(0, 10);
+
+    if (!ticket.assigneeId) {
+      // GUARDIÃO: primeiro a comentar em chamado sem responsável
+      void addScoreOnce(
+        userId, ticket.companyId, "PRIMEIRA_RESPOSTA",
+        `ticket:${ticketId}:${userId}:${dayKey}:guardiao`,
+      ).catch(() => {});
+    } else if (ticket.assigneeId === userId) {
+      // ALQUIMISTA: comentou no próprio chamado
+      void addScoreOnce(
+        userId, ticket.companyId, "TICKET_ATUALIZADO",
+        `ticket:${ticketId}:${userId}:${dayKey}:alquimista`,
+      ).catch(() => {});
+    } else {
+      // EXÉRCITO: comentou em chamado de outro responsável
+      void addScoreOnce(
+        userId, ticket.companyId, "AJUDA_EXERCITO",
+        `ticket:${ticketId}:${userId}:${dayKey}:exercito`,
+      ).catch(() => {});
     }
   }
 

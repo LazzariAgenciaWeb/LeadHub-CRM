@@ -57,6 +57,10 @@ export const SCORE_TABLE: Record<ScoreReason, number> = {
   AJUDA_EXERCITO:           5, // respondeu cliente em conversa de outro responsável
   ENCAMINHAMENTO:           3, // encaminhou conversa pra colega adequado
   PRIMEIRA_RESPOSTA:        5, // primeiro a responder em conversa sem responsável
+  // Mestres do Ofício — chamados próprios
+  TICKET_ATUALIZADO:        1, // update/comentário no próprio chamado (Alquimista)
+  TICKET_NO_PRAZO:         10, // resolveu antes do dueDate (Sniper) — bônus em cima de TICKET_RESOLVIDO
+  TICKET_RESOLVIDO_MESMO_DIA: 8, // criado e resolvido no mesmo dia (Trovão) — bônus
 };
 
 // ─── Regras de badges (6 tiers cada) ──────────────────────────────────────────
@@ -171,6 +175,22 @@ const BADGE_RULES: BadgeRule[] = [
     badge: BadgeType.GUARDIAO,
     reasons: [ScoreReason.PRIMEIRA_RESPOSTA],
     thresholds: [5, 15, 30, 60, 120, 300],
+  },
+  // Mestres do Ofício — chamados próprios
+  {
+    badge: BadgeType.ALQUIMISTA,
+    reasons: [ScoreReason.TICKET_ATUALIZADO],
+    thresholds: [10, 50, 150, 500, 1500, 5000],
+  },
+  {
+    badge: BadgeType.SNIPER,
+    reasons: [ScoreReason.TICKET_NO_PRAZO],
+    thresholds: [1, 5, 15, 40, 100, 250],
+  },
+  {
+    badge: BadgeType.TROVAO,
+    reasons: [ScoreReason.TICKET_RESOLVIDO_MESMO_DIA],
+    thresholds: [1, 5, 15, 40, 100, 250],
   },
 ];
 

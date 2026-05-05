@@ -68,7 +68,7 @@ export async function PATCH(
       clickupTaskId: true, type: true, status: true,
       priority: true, ticketStage: true, title: true,
       assigneeId: true, setorId: true, clientCompanyId: true,
-      dueDate: true, companyId: true,
+      dueDate: true, companyId: true, createdAt: true,
       assignee:      { select: { id: true, name: true } },
       setor:         { select: { id: true, name: true } },
       clientCompany: { select: { id: true, name: true } },
@@ -237,8 +237,69 @@ export async function PATCH(
   if (status === "RESOLVED" && existing?.status !== "RESOLVED" && existing?.companyId) {
     const scorer = ticket.assigneeId ?? assigneeId ?? userId;
     if (scorer) {
+      const now = new Date();
       void addScoreOnce(scorer, existing.companyId, "TICKET_RESOLVIDO", id).catch(() => {});
+
+      // SNIPER: resolveu antes do dueDate
+      if (existing.dueDate && now <= existing.dueDate) {
+        void addScoreOnce(scorer, existing.companyId, "TICKET_NO_PRAZO", id).catch(() => {});
+      }
+
+      // TROVÃO: chamado criado e resolvido no MESMO dia (calendário)
+      if (existing.createdAt && existing.createdAt.toDateString() === now.toDateString()) {
+        void addScoreOnce(scorer, existing.companyId, "TICKET_RESOLVIDO_MESMO_DIA", id).catch(() => {});
+      }
+
+      // EXÉRCITO: quem resolveu não é o assignee atual (ajudou colega)
+      if (existing.assigneeId && existing.assigneeId !== userId && userId) {
+        const dayKey = now.toISOString().slice(0, 10);
+        void addScoreOnce(
+          userId, existing.companyId, "AJUDA_EXERCITO",
+          `ticket:${id}:${userId}:${dayKey}:exercito`,
+        ).catch(() => {});
+      }
     }
+  }
+
+  // ALQUIMISTA: cada update no próprio chamado conta. Idempotente por
+  // (ticket, user, dia) pra não inflar quando edita várias coisas seguidas.
+  // Considera "update" qualquer mudança de status/assignee/setor/prioridade/
+  // dueDate/título/etapa/cliente. Só conta se o updater É o assignee atual
+  // (chamado próprio).
+  const hasUpdate =
+    status !== undefined || priority !== undefined || title !== undefined ||
+    ticketStage !== undefined || dueDate !== undefined ||
+    assigneeId !== undefined || setorId !== undefined || clientCompanyId !== undefined;
+  if (hasUpdate && existing && userId && existing.assigneeId === userId) {
+    const dayKey = new Date().toISOString().slice(0, 10);
+    void addScoreOnce(
+      userId, existing.companyId, "TICKET_ATUALIZADO",
+      `ticket:${id}:${userId}:${dayKey}:alquimista`,
+    ).catch(() => {});
+  }
+
+  // LÍDER: encaminhou chamado pra colega (mudou assignee/setor pra outro)
+  const assigneeChanged = assigneeId !== undefined && assigneeId !== existing?.assigneeId;
+  const setorChanged    = setorId    !== undefined && setorId    !== existing?.setorId;
+  const isHandoff = (assigneeChanged && assigneeId && assigneeId !== userId) || setorChanged;
+  if (isHandoff && existing && existing.status !== "RESOLVED" && existing.status !== "CLOSED" && userId) {
+    const dayKey = new Date().toISOString().slice(0, 10);
+    void addScoreOnce(
+      userId, existing.companyId, "ENCAMINHAMENTO",
+      `ticket:${id}:${userId}:${dayKey}:lider`,
+    ).catch(() => {});
+  }
+
+  // GUARDIÃO: assumiu chamado que estava sem assignee (assignee era null)
+  if (
+    assigneeChanged && assigneeId &&
+    !existing?.assigneeId && existing && userId
+  ) {
+    const dayKey = new Date().toISOString().slice(0, 10);
+    void addScoreOnce(
+      assigneeId, existing.companyId, "PRIMEIRA_RESPOSTA",
+      `ticket:${id}:${assigneeId}:${dayKey}:guardiao`,
+    ).catch(() => {});
   }
 
   // Penalidade: empurrar dueDate depois de já estar vencido (cumulativa).
