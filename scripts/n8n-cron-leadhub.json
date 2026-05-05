@@ -6,8 +6,11 @@
         "rule": {
           "interval": [
             {
-              "field": "cronExpression",
-              "expression": "0 7 * * 1-5"
+              "field": "weeks",
+              "weeksInterval": 1,
+              "triggerAtDay": [1, 2, 3, 4, 5],
+              "triggerAtHour": 7,
+              "triggerAtMinute": 0
             }
           ]
         }
