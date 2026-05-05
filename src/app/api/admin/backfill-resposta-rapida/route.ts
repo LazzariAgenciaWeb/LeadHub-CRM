@@ -48,10 +48,24 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json().catch(() => ({}));
-  const companyId = body.companyId as string | undefined;
-  const apply     = !!body.apply;
+  let companyId = body.companyId as string | undefined;
+  const apply   = !!body.apply;
+
+  // Sem companyId: detecta a AZZ via diego@azzagencia.com.br (mesmo
+  // approach do script CLI). Útil pra rodar via curl sem precisar
+  // descobrir o id antes.
   if (!companyId) {
-    return NextResponse.json({ error: "companyId obrigatório" }, { status: 400 });
+    const adm = await prisma.user.findUnique({
+      where:  { email: "diego@azzagencia.com.br" },
+      select: { companyId: true },
+    });
+    if (!adm?.companyId) {
+      return NextResponse.json(
+        { error: "companyId não fornecido e AZZ não encontrada via diego@azzagencia.com.br" },
+        { status: 400 },
+      );
+    }
+    companyId = adm.companyId;
   }
 
   const company = await prisma.company.findUnique({ where: { id: companyId } });
@@ -137,6 +151,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       ok: true,
       dryRun: true,
+      company: { id: company.id, name: company.name },
       scanned,
       hits: hits.length,
       breakdown: {
@@ -190,6 +205,7 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({
     ok: true,
     applied: true,
+    company: { id: company.id, name: company.name },
     scanned,
     created,
     breakdown: {
