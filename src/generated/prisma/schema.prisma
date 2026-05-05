@@ -148,6 +148,10 @@ model Company {
   moduleGamificacao Boolean @default(false)
   moduleProjetos    Boolean @default(false)
   moduleCalendario  Boolean @default(false)
+  // Habilita a integração com ClickUp pra esta empresa. Quando false, a UI
+  // de configuração e a sincronização (push + webhook) ficam desligadas.
+  // Cada empresa-cliente liga o módulo e configura a própria conta ClickUp.
+  moduleClickup     Boolean @default(false)
 
   // Hierarquia: empresa-pai gerencia sub-empresas (clientes da empresa)
   parentCompanyId String?

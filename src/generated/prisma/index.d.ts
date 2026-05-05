@@ -10650,6 +10650,7 @@ export namespace Prisma {
     moduleGamificacao: boolean | null
     moduleProjetos: boolean | null
     moduleCalendario: boolean | null
+    moduleClickup: boolean | null
     parentCompanyId: string | null
     triggerOnly: boolean | null
     webhookToken: string | null
@@ -10675,6 +10676,7 @@ export namespace Prisma {
     moduleGamificacao: boolean | null
     moduleProjetos: boolean | null
     moduleCalendario: boolean | null
+    moduleClickup: boolean | null
     parentCompanyId: string | null
     triggerOnly: boolean | null
     webhookToken: string | null
@@ -10700,6 +10702,7 @@ export namespace Prisma {
     moduleGamificacao: number
     moduleProjetos: number
     moduleCalendario: number
+    moduleClickup: number
     parentCompanyId: number
     triggerOnly: number
     webhookToken: number
@@ -10727,6 +10730,7 @@ export namespace Prisma {
     moduleGamificacao?: true
     moduleProjetos?: true
     moduleCalendario?: true
+    moduleClickup?: true
     parentCompanyId?: true
     triggerOnly?: true
     webhookToken?: true
@@ -10752,6 +10756,7 @@ export namespace Prisma {
     moduleGamificacao?: true
     moduleProjetos?: true
     moduleCalendario?: true
+    moduleClickup?: true
     parentCompanyId?: true
     triggerOnly?: true
     webhookToken?: true
@@ -10777,6 +10782,7 @@ export namespace Prisma {
     moduleGamificacao?: true
     moduleProjetos?: true
     moduleCalendario?: true
+    moduleClickup?: true
     parentCompanyId?: true
     triggerOnly?: true
     webhookToken?: true
@@ -10875,6 +10881,7 @@ export namespace Prisma {
     moduleGamificacao: boolean
     moduleProjetos: boolean
     moduleCalendario: boolean
+    moduleClickup: boolean
     parentCompanyId: string | null
     triggerOnly: boolean
     webhookToken: string | null
@@ -10917,6 +10924,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
     webhookToken?: boolean
@@ -10977,6 +10985,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
     webhookToken?: boolean
@@ -11003,6 +11012,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
     webhookToken?: boolean
@@ -11107,6 +11117,7 @@ export namespace Prisma {
       moduleGamificacao: boolean
       moduleProjetos: boolean
       moduleCalendario: boolean
+      moduleClickup: boolean
       parentCompanyId: string | null
       triggerOnly: boolean
       webhookToken: string | null
@@ -11556,6 +11567,7 @@ export namespace Prisma {
     readonly moduleGamificacao: FieldRef<"Company", 'Boolean'>
     readonly moduleProjetos: FieldRef<"Company", 'Boolean'>
     readonly moduleCalendario: FieldRef<"Company", 'Boolean'>
+    readonly moduleClickup: FieldRef<"Company", 'Boolean'>
     readonly parentCompanyId: FieldRef<"Company", 'String'>
     readonly triggerOnly: FieldRef<"Company", 'Boolean'>
     readonly webhookToken: FieldRef<"Company", 'String'>
@@ -58544,6 +58556,7 @@ export namespace Prisma {
     moduleGamificacao: 'moduleGamificacao',
     moduleProjetos: 'moduleProjetos',
     moduleCalendario: 'moduleCalendario',
+    moduleClickup: 'moduleClickup',
     parentCompanyId: 'parentCompanyId',
     triggerOnly: 'triggerOnly',
     webhookToken: 'webhookToken'
@@ -60105,6 +60118,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFilter<"Company"> | boolean
     moduleProjetos?: BoolFilter<"Company"> | boolean
     moduleCalendario?: BoolFilter<"Company"> | boolean
+    moduleClickup?: BoolFilter<"Company"> | boolean
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
     webhookToken?: StringNullableFilter<"Company"> | string | null
@@ -60164,6 +60178,7 @@ export namespace Prisma {
     moduleGamificacao?: SortOrder
     moduleProjetos?: SortOrder
     moduleCalendario?: SortOrder
+    moduleClickup?: SortOrder
     parentCompanyId?: SortOrderInput | SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrderInput | SortOrder
@@ -60227,6 +60242,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFilter<"Company"> | boolean
     moduleProjetos?: BoolFilter<"Company"> | boolean
     moduleCalendario?: BoolFilter<"Company"> | boolean
+    moduleClickup?: BoolFilter<"Company"> | boolean
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
     parentCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
@@ -60285,6 +60301,7 @@ export namespace Prisma {
     moduleGamificacao?: SortOrder
     moduleProjetos?: SortOrder
     moduleCalendario?: SortOrder
+    moduleClickup?: SortOrder
     parentCompanyId?: SortOrderInput | SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrderInput | SortOrder
@@ -60316,6 +60333,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleProjetos?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleCalendario?: BoolWithAggregatesFilter<"Company"> | boolean
+    moduleClickup?: BoolWithAggregatesFilter<"Company"> | boolean
     parentCompanyId?: StringNullableWithAggregatesFilter<"Company"> | string | null
     triggerOnly?: BoolWithAggregatesFilter<"Company"> | boolean
     webhookToken?: StringNullableWithAggregatesFilter<"Company"> | string | null
@@ -64602,6 +64620,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -64660,6 +64679,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -64718,6 +64738,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -64776,6 +64797,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -64834,6 +64856,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -64859,6 +64882,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -64883,6 +64907,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -69876,6 +69901,7 @@ export namespace Prisma {
     moduleGamificacao?: SortOrder
     moduleProjetos?: SortOrder
     moduleCalendario?: SortOrder
+    moduleClickup?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrder
@@ -69901,6 +69927,7 @@ export namespace Prisma {
     moduleGamificacao?: SortOrder
     moduleProjetos?: SortOrder
     moduleCalendario?: SortOrder
+    moduleClickup?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrder
@@ -69926,6 +69953,7 @@ export namespace Prisma {
     moduleGamificacao?: SortOrder
     moduleProjetos?: SortOrder
     moduleCalendario?: SortOrder
+    moduleClickup?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrder
@@ -77918,6 +77946,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -77975,6 +78004,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -78511,6 +78541,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -78568,6 +78599,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -79384,6 +79416,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -79441,6 +79474,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -79503,6 +79537,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
@@ -79560,6 +79595,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -80969,6 +81005,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -81026,6 +81063,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -81102,6 +81140,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFilter<"Company"> | boolean
     moduleProjetos?: BoolFilter<"Company"> | boolean
     moduleCalendario?: BoolFilter<"Company"> | boolean
+    moduleClickup?: BoolFilter<"Company"> | boolean
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
     webhookToken?: StringNullableFilter<"Company"> | string | null
@@ -82110,6 +82149,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -82167,6 +82207,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -82428,6 +82469,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -82485,6 +82527,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -82647,6 +82690,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -82704,6 +82748,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -82910,6 +82955,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -82967,6 +83013,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -83147,6 +83194,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -83204,6 +83252,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -83524,6 +83573,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -83581,6 +83631,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -83966,6 +84017,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -84023,6 +84075,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -84096,6 +84149,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -84153,6 +84207,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -84210,6 +84265,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -84267,6 +84323,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -84397,6 +84454,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -84454,6 +84512,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -84574,6 +84633,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -84631,6 +84691,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -84778,6 +84839,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -84835,6 +84897,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -84932,6 +84995,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -84989,6 +85053,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -85244,6 +85309,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -85301,6 +85367,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -85564,6 +85631,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -85621,6 +85689,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -85735,6 +85804,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -85792,6 +85862,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86004,6 +86075,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -86061,6 +86133,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -86436,6 +86509,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -86493,6 +86567,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86900,6 +86975,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -86957,6 +87033,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -87209,6 +87286,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -87266,6 +87344,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -87323,6 +87402,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -87380,6 +87460,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -87499,6 +87580,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -87556,6 +87638,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -87809,6 +87892,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -87866,6 +87950,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -87997,6 +88082,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -88054,6 +88140,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88388,6 +88475,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -88445,6 +88533,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -88730,6 +88819,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -88787,6 +88877,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88975,6 +89066,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -89032,6 +89124,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -89250,6 +89343,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -89307,6 +89401,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -90327,6 +90422,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -90384,6 +90480,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -90501,6 +90598,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -90558,6 +90656,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -90828,6 +90927,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -90885,6 +90985,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -91003,6 +91104,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -91060,6 +91162,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -91117,6 +91220,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -91174,6 +91278,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -91247,6 +91352,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -91304,6 +91410,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -91361,6 +91468,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -91418,6 +91526,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -91491,6 +91600,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -91548,6 +91658,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -91605,6 +91716,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -91662,6 +91774,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -91735,6 +91848,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -91792,6 +91906,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -91849,6 +91964,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -91906,6 +92022,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -91979,6 +92096,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -92036,6 +92154,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -92093,6 +92212,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -92150,6 +92270,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -92223,6 +92344,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -92280,6 +92402,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -92337,6 +92460,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -92394,6 +92518,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -92467,6 +92592,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -92524,6 +92650,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -92581,6 +92708,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -92638,6 +92766,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -92711,6 +92840,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -92768,6 +92898,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -92825,6 +92956,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -92882,6 +93014,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -92979,6 +93112,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -93036,6 +93170,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -93180,6 +93315,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -93237,6 +93373,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -93346,6 +93483,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -93403,6 +93541,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -93533,6 +93672,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -93590,6 +93730,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -93757,6 +93898,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -93814,6 +93956,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -93965,6 +94108,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -94022,6 +94166,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -94158,6 +94303,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -94215,6 +94361,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -94329,6 +94476,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -94386,6 +94534,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -94522,6 +94671,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -94579,6 +94729,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -94693,6 +94844,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -94750,6 +94902,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -94886,6 +95039,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -94943,6 +95097,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -95000,6 +95155,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -95057,6 +95213,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -95130,6 +95287,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -95187,6 +95345,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -95244,6 +95403,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -95301,6 +95461,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -95374,6 +95535,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -95431,6 +95593,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -96100,6 +96263,7 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
   }
@@ -96567,6 +96731,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
@@ -96624,6 +96789,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -96681,6 +96847,7 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
   }

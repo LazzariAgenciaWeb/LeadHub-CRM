@@ -3,29 +3,22 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+// Página pai (configuracoes/page.tsx) só renderiza este componente quando
+// existe companyId E moduleClickup=true. Aqui já podemos assumir per-empresa.
 interface Props {
-  isSuperAdmin: boolean;
-  companyId:    string;          // empresa do usuário (ADMIN) ou vazio
-  // Token (só relevante pro SUPER_ADMIN)
-  apiToken:     string;
-  // Secret HMAC do webhook do ClickUp (só super admin edita; global)
+  companyId:     string;
+  apiToken:      string;
   webhookSecret: string;
-  // List IDs efetivos pra esta empresa (per-company OU fallback global)
-  opListId:     string;
-  ticketListId: string;
-  // Indica se o ID veio do per-company (true) ou ainda é o legacy global (false)
-  isPerCompanyOp:     boolean;
-  isPerCompanyTicket: boolean;
+  opListId:      string;
+  ticketListId:  string;
 }
 
 export default function ClickupSettings({
-  isSuperAdmin, companyId,
+  companyId,
   apiToken: initialToken,
   webhookSecret: initialSecret,
   opListId: initialOp,
   ticketListId: initialTk,
-  isPerCompanyOp,
-  isPerCompanyTicket,
 }: Props) {
   const router = useRouter();
 
@@ -39,30 +32,28 @@ export default function ClickupSettings({
   const [testResult, setTestResult] = useState<{ ok: boolean; user?: string; error?: string } | null>(null);
   const [copiedUrl, setCopiedUrl] = useState(false);
 
-  // URL pra colar no ClickUp ao criar o webhook. Lida no client porque depende
-  // da origem (dev/prod) — em SSR não dá pra confiar no host.
+  // Cada empresa tem URL de webhook única (companyId no path) — o handler
+  // valida o HMAC com o secret daquela empresa.
   const webhookUrl = typeof window !== "undefined"
-    ? `${window.location.origin}/api/webhook/clickup`
+    ? `${window.location.origin}/api/webhook/clickup/${companyId}`
     : "";
 
-  // Chaves de Setting que serão salvas:
-  // - SUPER_ADMIN: token (global) + list IDs globais (legacy)
-  // - ADMIN: list IDs per-empresa (clickup_X_list_id:companyId)
-  const opKey     = isSuperAdmin ? "clickup_oportunidades_list_id" : `clickup_oportunidades_list_id:${companyId}`;
-  const ticketKey = isSuperAdmin ? "clickup_tickets_list_id"        : `clickup_tickets_list_id:${companyId}`;
+  const tokenKey  = `clickup_api_token:${companyId}`;
+  const secretKey = `clickup_webhook_secret:${companyId}`;
+  const opKey     = `clickup_oportunidades_list_id:${companyId}`;
+  const ticketKey = `clickup_tickets_list_id:${companyId}`;
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
     setTestResult(null);
 
-    const items: { key: string; value: string }[] = [];
-    if (isSuperAdmin) {
-      items.push({ key: "clickup_api_token",      value: apiToken });
-      items.push({ key: "clickup_webhook_secret", value: webhookSecret });
-    }
-    items.push({ key: opKey,     value: opListId });
-    items.push({ key: ticketKey, value: ticketListId });
+    const items: { key: string; value: string }[] = [
+      { key: tokenKey,  value: apiToken },
+      { key: secretKey, value: webhookSecret },
+      { key: opKey,     value: opListId },
+      { key: ticketKey, value: ticketListId },
+    ];
 
     await fetch("/api/settings", {
       method:  "PUT",
@@ -102,142 +93,128 @@ export default function ClickupSettings({
         <div>
           <h1 className="text-white font-bold text-base">ClickUp</h1>
           <p className="text-slate-500 text-xs mt-0.5">
-            Conecte suas Oportunidades e Chamados ao ClickUp para acompanhar tarefas em tempo real.
+            Conecte a conta ClickUp desta empresa para sincronizar Oportunidades e Chamados.
           </p>
         </div>
       </div>
 
-      {/* API Token — só super_admin (global pra agência inteira) */}
-      {isSuperAdmin && (
-        <section className="bg-[#0f1623] border border-[#1e2d45] rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-[#1e2d45]">
-            <h2 className="text-white font-bold text-sm">🔑 API Token (global)</h2>
-            <p className="text-slate-500 text-xs mt-0.5">
-              Configurado pelo super admin. Encontre em: ClickUp → Configurações → Apps → API Token.
-            </p>
+      {/* API Token da empresa */}
+      <section className="bg-[#0f1623] border border-[#1e2d45] rounded-xl overflow-hidden">
+        <div className="px-5 py-4 border-b border-[#1e2d45]">
+          <h2 className="text-white font-bold text-sm">🔑 API Token</h2>
+          <p className="text-slate-500 text-xs mt-0.5">
+            Encontre em: ClickUp → Configurações → Apps → API Token. Cada empresa-cliente usa o token da própria conta.
+          </p>
+        </div>
+        <div className="p-5">
+          <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+            Personal API Token
+          </label>
+          <div className="flex gap-2">
+            <input
+              type="password"
+              value={apiToken}
+              onChange={(e) => { setApiToken(e.target.value); setTestResult(null); }}
+              placeholder="pk_••••••••••••••••••••••••••••••"
+              className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
+            />
+            <button
+              type="button"
+              onClick={handleTest}
+              disabled={testing || !apiToken.trim()}
+              className="px-4 py-2.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-300 text-sm font-medium hover:bg-[#1e2d45] disabled:opacity-40 transition-colors whitespace-nowrap"
+            >
+              {testing ? "Testando..." : "Testar"}
+            </button>
           </div>
-          <div className="p-5">
+          {testResult && (
+            <div className={`mt-2 flex items-center gap-2 text-xs px-3 py-2 rounded-lg border ${
+              testResult.ok
+                ? "text-green-400 bg-green-500/10 border-green-500/20"
+                : "text-red-400 bg-red-500/10 border-red-500/20"
+            }`}>
+              {testResult.ok ? `✅ Conectado como @${testResult.user}` : `❌ ${testResult.error}`}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Webhook bidirecional */}
+      <section className="bg-[#0f1623] border border-[#1e2d45] rounded-xl overflow-hidden">
+        <div className="px-5 py-4 border-b border-[#1e2d45]">
+          <h2 className="text-white font-bold text-sm">🔄 Webhook (ClickUp → LeadHub)</h2>
+          <p className="text-slate-500 text-xs mt-0.5">
+            Sincroniza comentários adicionados no ClickUp de volta para o chamado correspondente.
+          </p>
+        </div>
+        <div className="p-5 space-y-4">
+          <div>
             <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
-              Personal API Token
+              URL do webhook (cole no ClickUp)
             </label>
             <div className="flex gap-2">
               <input
-                type="password"
-                value={apiToken}
-                onChange={(e) => { setApiToken(e.target.value); setTestResult(null); }}
-                placeholder="pk_••••••••••••••••••••••••••••••"
-                className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
+                readOnly
+                value={webhookUrl}
+                onClick={(e) => (e.target as HTMLInputElement).select()}
+                className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-slate-300 focus:outline-none focus:border-indigo-500 font-mono"
               />
               <button
                 type="button"
-                onClick={handleTest}
-                disabled={testing || !apiToken.trim()}
-                className="px-4 py-2.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-300 text-sm font-medium hover:bg-[#1e2d45] disabled:opacity-40 transition-colors whitespace-nowrap"
+                onClick={async () => {
+                  try {
+                    await navigator.clipboard.writeText(webhookUrl);
+                    setCopiedUrl(true);
+                    setTimeout(() => setCopiedUrl(false), 2000);
+                  } catch { /* clipboard bloqueado — copia manual */ }
+                }}
+                className="px-4 py-2.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-300 text-sm font-medium hover:bg-[#1e2d45] transition-colors whitespace-nowrap"
               >
-                {testing ? "Testando..." : "Testar"}
+                {copiedUrl ? "✓ Copiado" : "Copiar"}
               </button>
             </div>
-            {testResult && (
-              <div className={`mt-2 flex items-center gap-2 text-xs px-3 py-2 rounded-lg border ${
-                testResult.ok
-                  ? "text-green-400 bg-green-500/10 border-green-500/20"
-                  : "text-red-400 bg-red-500/10 border-red-500/20"
-              }`}>
-                {testResult.ok ? `✅ Conectado como @${testResult.user}` : `❌ ${testResult.error}`}
-              </div>
-            )}
-          </div>
-        </section>
-      )}
-
-      {/* Webhook bidirecional — só super admin (chave global) */}
-      {isSuperAdmin && (
-        <section className="bg-[#0f1623] border border-[#1e2d45] rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-[#1e2d45]">
-            <h2 className="text-white font-bold text-sm">🔄 Webhook (ClickUp → LeadHub)</h2>
-            <p className="text-slate-500 text-xs mt-0.5">
-              Sincroniza comentários adicionados no ClickUp de volta para o chamado correspondente no LeadHub.
+            <p className="text-slate-600 text-[10px] mt-1">
+              No ClickUp: Settings → Integrations → Webhooks → Create Webhook → cola essa URL.
             </p>
           </div>
-          <div className="p-5 space-y-4">
-            {/* URL pra copiar no ClickUp */}
-            <div>
-              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
-                URL do webhook (cole no ClickUp)
-              </label>
-              <div className="flex gap-2">
-                <input
-                  readOnly
-                  value={webhookUrl}
-                  onClick={(e) => (e.target as HTMLInputElement).select()}
-                  className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-slate-300 focus:outline-none focus:border-indigo-500 font-mono"
-                />
-                <button
-                  type="button"
-                  onClick={async () => {
-                    try {
-                      await navigator.clipboard.writeText(webhookUrl);
-                      setCopiedUrl(true);
-                      setTimeout(() => setCopiedUrl(false), 2000);
-                    } catch { /* clipboard bloqueado — usuário copia manual */ }
-                  }}
-                  className="px-4 py-2.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-300 text-sm font-medium hover:bg-[#1e2d45] transition-colors whitespace-nowrap"
-                >
-                  {copiedUrl ? "✓ Copiado" : "Copiar"}
-                </button>
-              </div>
-              <p className="text-slate-600 text-[10px] mt-1">
-                No ClickUp: Settings → Integrations → Webhooks → Create Webhook → cola essa URL.
-              </p>
-            </div>
 
-            {/* Webhook secret */}
-            <div>
-              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
-                Webhook Secret (vem do ClickUp ao criar)
-              </label>
-              <input
-                type="password"
-                value={webhookSecret}
-                onChange={(e) => setWebhookSecret(e.target.value)}
-                placeholder="••••••••••••••••••••••••••••••"
-                className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
-              />
-              <p className="text-slate-600 text-[10px] mt-1">
-                Após criar o webhook no ClickUp, copie o "Secret" exibido e cole aqui. Sem ele os eventos são rejeitados (assinatura inválida).
-              </p>
-            </div>
-
-            {/* Eventos sugeridos */}
-            <div className="bg-indigo-500/5 border border-indigo-500/20 rounded-lg px-3 py-2.5">
-              <p className="text-indigo-300 text-[11px] font-semibold mb-1">Eventos a marcar no ClickUp:</p>
-              <ul className="text-slate-400 text-[11px] leading-relaxed list-disc list-inside">
-                <li><code className="text-slate-300">taskCommentPosted</code> — comentário no ClickUp vira mensagem no chamado</li>
-              </ul>
-            </div>
+          <div>
+            <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+              Webhook Secret (vem do ClickUp ao criar)
+            </label>
+            <input
+              type="password"
+              value={webhookSecret}
+              onChange={(e) => setWebhookSecret(e.target.value)}
+              placeholder="••••••••••••••••••••••••••••••"
+              className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
+            />
+            <p className="text-slate-600 text-[10px] mt-1">
+              Após criar o webhook no ClickUp, copie o "Secret" exibido e cole aqui. Sem ele os eventos são rejeitados (assinatura inválida).
+            </p>
           </div>
-        </section>
-      )}
 
-      {/* List IDs — per-empresa (admin) ou global (super_admin) */}
+          <div className="bg-indigo-500/5 border border-indigo-500/20 rounded-lg px-3 py-2.5">
+            <p className="text-indigo-300 text-[11px] font-semibold mb-1">Eventos a marcar no ClickUp:</p>
+            <ul className="text-slate-400 text-[11px] leading-relaxed list-disc list-inside">
+              <li><code className="text-slate-300">taskCommentPosted</code> — comentário no ClickUp vira mensagem no chamado</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* List IDs */}
       <section className="bg-[#0f1623] border border-[#1e2d45] rounded-xl overflow-hidden">
         <div className="px-5 py-4 border-b border-[#1e2d45]">
           <h2 className="text-white font-bold text-sm">📋 Listas do ClickUp</h2>
           <p className="text-slate-500 text-xs mt-0.5">
-            {isSuperAdmin
-              ? "Listas globais (fallback). Cada empresa pode sobrescrever com as próprias."
-              : "Configurações da sua empresa. Substituem as listas globais."}
+            Listas onde Oportunidades e Chamados desta empresa viram tarefas.
           </p>
         </div>
         <form onSubmit={handleSave} className="p-5 space-y-5">
           <div>
-            <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide flex items-center gap-2 mb-1.5">
+            <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
               List ID — Oportunidades
-              {!isSuperAdmin && !isPerCompanyOp && opListId && (
-                <span className="text-amber-400 text-[10px] normal-case font-normal">
-                  ⓘ herdado da config global
-                </span>
-              )}
             </label>
             <input
               type="text"
@@ -252,13 +229,8 @@ export default function ClickupSettings({
           </div>
 
           <div>
-            <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide flex items-center gap-2 mb-1.5">
+            <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
               List ID — Chamados
-              {!isSuperAdmin && !isPerCompanyTicket && ticketListId && (
-                <span className="text-amber-400 text-[10px] normal-case font-normal">
-                  ⓘ herdado da config global
-                </span>
-              )}
             </label>
             <input
               type="text"

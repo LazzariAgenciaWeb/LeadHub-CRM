@@ -191,6 +191,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   moduleGamificacao: 'moduleGamificacao',
   moduleProjetos: 'moduleProjetos',
   moduleCalendario: 'moduleCalendario',
+  moduleClickup: 'moduleClickup',
   parentCompanyId: 'parentCompanyId',
   triggerOnly: 'triggerOnly',
   webhookToken: 'webhookToken'

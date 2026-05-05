@@ -31,6 +31,7 @@ export async function getEffectiveSession() {
       moduleCrm: true,
       moduleTickets: true,
       moduleAI: true,
+      moduleClickup: true,
     },
   });
   if (!company) return session;
@@ -50,6 +51,7 @@ export async function getEffectiveSession() {
         crm:      company.moduleCrm,
         tickets:  company.moduleTickets,
         ai:       company.moduleAI,
+        clickup:  (company as any).moduleClickup ?? false,
       },
       // Admin has all permissions
       permissions: {

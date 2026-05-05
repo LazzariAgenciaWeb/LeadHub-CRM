@@ -79,7 +79,7 @@ export async function PATCH(
   const {
     name, segment, phone, email, website, logoUrl, status, triggerOnly,
     // SUPER_ADMIN only
-    hasSystemAccess, moduleWhatsapp, moduleCrm, moduleTickets, moduleAI, parentCompanyId,
+    hasSystemAccess, moduleWhatsapp, moduleCrm, moduleTickets, moduleAI, moduleClickup, parentCompanyId,
   } = body;
 
   // Campos que apenas SUPER_ADMIN pode alterar
@@ -92,6 +92,7 @@ export async function PATCH(
         ...(moduleCrm !== undefined && { moduleCrm }),
         ...(moduleTickets !== undefined && { moduleTickets }),
         ...(moduleAI !== undefined && { moduleAI }),
+        ...(moduleClickup !== undefined && { moduleClickup }),
         ...(parentCompanyId !== undefined && { parentCompanyId: parentCompanyId || null }),
       }
     : {};

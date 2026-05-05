@@ -19,6 +19,7 @@ interface Company {
   moduleCrm: boolean;
   moduleTickets: boolean;
   moduleAI: boolean;
+  moduleClickup: boolean;
 }
 
 interface Props {
@@ -44,6 +45,7 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
     moduleCrm: company.moduleCrm,
     moduleTickets: company.moduleTickets,
     moduleAI: company.moduleAI,
+    moduleClickup: company.moduleClickup,
   });
 
   function set(field: string, value: string | boolean) {
@@ -70,6 +72,7 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
         payload.moduleCrm = form.moduleCrm;
         payload.moduleTickets = form.moduleTickets;
         payload.moduleAI = form.moduleAI;
+        payload.moduleClickup = form.moduleClickup;
       }
 
       const res = await fetch(`/api/companies/${company.id}`, {
@@ -210,6 +213,7 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
                             { key: "moduleCrm", label: "CRM" },
                             { key: "moduleTickets", label: "Chamados" },
                             { key: "moduleAI", label: "Assistente IA" },
+                            { key: "moduleClickup", label: "ClickUp (integração)" },
                           ].map(({ key, label }) => (
                             <label key={key} className="flex items-center gap-3 cursor-pointer py-1 px-2 rounded-lg hover:bg-white/5 transition-colors">
                               <input type="checkbox" checked={(form as any)[key]} onChange={(e) => set(key, e.target.checked)} className="w-4 h-4 accent-indigo-500" />

@@ -37,7 +37,8 @@ export type ModuleName =
   | "marketing"
   | "cofre"
   | "calendario"
-  | "projetos";
+  | "projetos"
+  | "clickup";
 
 export type ModuleGateResult =
   | { ok: true }
@@ -53,6 +54,7 @@ const FEATURE_BY_MODULE: Record<ModuleName, keyof PlanFeatures | null> = {
   cofre:       "cofreCredenciais",
   calendario:  "calendario",
   projetos:    "projetos",
+  clickup:     null,                // integração — habilitada manualmente, sem feature de plano
 };
 
 function denied(reason: string): ModuleGateResult {
@@ -99,6 +101,7 @@ export async function assertModule(
       moduleGamificacao: true,
       moduleProjetos: true,
       moduleCalendario: true,
+      moduleClickup: true,
       subscription: {
         select: {
           plan: true,
@@ -119,6 +122,7 @@ export async function assertModule(
     gamificacao: company.moduleGamificacao,
     projetos:    company.moduleProjetos,
     calendario:  company.moduleCalendario,
+    clickup:     (company as any).moduleClickup ?? false,
     marketing:   null,
     cofre:       null,
   };

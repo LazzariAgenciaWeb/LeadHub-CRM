@@ -31,46 +31,61 @@ const TICKET_STATUS_MAP: Record<string, string> = {
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 /**
- * Carrega as configurações do ClickUp.
+ * Carrega as configurações ClickUp da empresa. **Sempre per-empresa** —
+ * cada empresa-cliente conecta a própria conta ClickUp. Não tem fallback
+ * global (chaves `clickup_api_token`, `clickup_*_list_id` sem sufixo são
+ * legacy e ignoradas). Também checa `Company.moduleClickup` — se o módulo
+ * estiver desligado, retorna null (sync desativado pra essa empresa).
  *
- * - **Token**: sempre global (a agência tem 1 conta no ClickUp).
- * - **List IDs**: per-empresa (`clickup_X_list_id:<companyId>`); cai pro
- *   global se a empresa não tiver configurado o seu.
- *
- * Retorna null se não houver token configurado.
+ * Retorna null se:
+ *   - companyId não informado
+ *   - empresa não existe ou moduleClickup=false
+ *   - token não configurado
  */
 export async function getClickupSettings(companyId?: string): Promise<ClickupSettings | null> {
-  const keys = [
-    "clickup_api_token",
-    "clickup_oportunidades_list_id",
-    "clickup_tickets_list_id",
-  ];
-  if (companyId) {
-    keys.push(
-      `clickup_oportunidades_list_id:${companyId}`,
-      `clickup_tickets_list_id:${companyId}`,
-    );
-  }
+  if (!companyId) return null;
 
+  const company = await prisma.company.findUnique({
+    where: { id: companyId },
+    select: { moduleClickup: true } as any,
+  });
+  if (!company || !(company as any).moduleClickup) return null;
+
+  const keys = [
+    `clickup_api_token:${companyId}`,
+    `clickup_oportunidades_list_id:${companyId}`,
+    `clickup_tickets_list_id:${companyId}`,
+  ];
   const rows = await prisma.setting.findMany({ where: { key: { in: keys } } });
   const map: Record<string, string> = {};
   for (const r of rows) map[r.key] = r.value;
 
-  const apiToken = map["clickup_api_token"]?.trim() ?? "";
-  // Per-empresa primeiro, fallback pro global
-  const oportunidadesListId = (
-    (companyId && map[`clickup_oportunidades_list_id:${companyId}`]?.trim()) ||
-    map["clickup_oportunidades_list_id"]?.trim() ||
-    ""
-  );
-  const ticketsListId = (
-    (companyId && map[`clickup_tickets_list_id:${companyId}`]?.trim()) ||
-    map["clickup_tickets_list_id"]?.trim() ||
-    ""
-  );
+  const apiToken            = map[`clickup_api_token:${companyId}`]?.trim()            ?? "";
+  const oportunidadesListId = map[`clickup_oportunidades_list_id:${companyId}`]?.trim() ?? "";
+  const ticketsListId       = map[`clickup_tickets_list_id:${companyId}`]?.trim()      ?? "";
 
   if (!apiToken) return null;
   return { apiToken, oportunidadesListId, ticketsListId };
+}
+
+/**
+ * Lê o webhook secret HMAC per-empresa.
+ * Retorna null se a empresa não tiver módulo ClickUp ativo ou secret salvo.
+ * Usado pelo handler `/api/webhook/clickup/[companyId]`.
+ */
+export async function getClickupWebhookSecret(companyId?: string): Promise<string | null> {
+  if (!companyId) return null;
+
+  const company = await prisma.company.findUnique({
+    where: { id: companyId },
+    select: { moduleClickup: true } as any,
+  });
+  if (!company || !(company as any).moduleClickup) return null;
+
+  const row = await prisma.setting.findUnique({
+    where: { key: `clickup_webhook_secret:${companyId}` },
+  });
+  return row?.value?.trim() || null;
 }
 
 /** Create a ClickUp task in a given list. Returns the new task ID or null on failure. */

@@ -73,6 +73,7 @@ export const authOptions: NextAuthOptions = {
                 moduleCrm: true,
                 moduleWhatsapp: true,
                 moduleTickets: true,
+                moduleClickup: true,
               },
             },
             setores: {
@@ -106,6 +107,7 @@ export const authOptions: NextAuthOptions = {
             crm:      user.company?.moduleCrm ?? true,
             whatsapp: user.company?.moduleWhatsapp ?? false,
             tickets:  user.company?.moduleTickets ?? false,
+            clickup:  (user.company as any)?.moduleClickup ?? false,
           },
         };
       },
@@ -147,6 +149,7 @@ export const authOptions: NextAuthOptions = {
                     moduleCrm: true,
                     moduleWhatsapp: true,
                     moduleTickets: true,
+                    moduleClickup: true,
                   },
                 },
                 setores: {
@@ -163,6 +166,7 @@ export const authOptions: NextAuthOptions = {
                 crm:      dbUser.company?.moduleCrm   ?? true,
                 whatsapp: dbUser.company?.moduleWhatsapp ?? false,
                 tickets:  dbUser.company?.moduleTickets  ?? false,
+                clickup:  (dbUser.company as any)?.moduleClickup  ?? false,
               };
             }
           } catch (err) {

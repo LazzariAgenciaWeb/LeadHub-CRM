@@ -186,40 +186,56 @@ export default async function ConfiguracoesPage({
     );
   } else if (secao === "integracoes-clickup") {
     const cId = userCompanyId ?? "";
-    const keys = [
-      "clickup_api_token",
-      "clickup_oportunidades_list_id",
-      "clickup_tickets_list_id",
-      "clickup_webhook_secret",
-    ];
+
+    // ClickUp é per-empresa: precisa de companyId E do módulo ativo na empresa.
+    // SUPER_ADMIN sem empresa vinculada vê uma mensagem orientando a abrir
+    // a config dentro de uma empresa específica.
+    let moduleEnabled = false;
     if (cId) {
-      keys.push(
+      const company = await prisma.company.findUnique({
+        where: { id: cId },
+        select: { moduleClickup: true } as any,
+      });
+      moduleEnabled = !!(company && (company as any).moduleClickup);
+    }
+
+    if (!cId) {
+      content = (
+        <div className="p-6 max-w-2xl">
+          <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4 text-amber-300 text-sm">
+            ⚠️ ClickUp é configurado por empresa. Acesse este painel impersonando uma empresa-cliente, ou abra <strong>Empresas → [empresa] → Editar</strong> e ative o módulo "ClickUp (integração)" antes de configurar.
+          </div>
+        </div>
+      );
+    } else if (!moduleEnabled) {
+      content = (
+        <div className="p-6 max-w-2xl">
+          <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4 text-amber-300 text-sm">
+            ⚠️ Módulo ClickUp desativado para esta empresa. Peça ao super admin para habilitar em <strong>Empresas → editar empresa → módulos</strong>.
+          </div>
+        </div>
+      );
+    } else {
+      const keys = [
+        `clickup_api_token:${cId}`,
+        `clickup_webhook_secret:${cId}`,
         `clickup_oportunidades_list_id:${cId}`,
         `clickup_tickets_list_id:${cId}`,
+      ];
+      const settingsRaw = await prisma.setting.findMany({ where: { key: { in: keys } } });
+      const map: Record<string, string> = {};
+      for (const s of settingsRaw) map[s.key] = s.value;
+
+      content = (
+        <ClickupSettings
+          companyId={cId}
+          apiToken={map[`clickup_api_token:${cId}`] ?? ""}
+          webhookSecret={map[`clickup_webhook_secret:${cId}`] ?? ""}
+          opListId={map[`clickup_oportunidades_list_id:${cId}`] ?? ""}
+          ticketListId={map[`clickup_tickets_list_id:${cId}`] ?? ""}
+        />
       );
     }
-    const settingsRaw = await prisma.setting.findMany({ where: { key: { in: keys } } });
-    const map: Record<string, string> = {};
-    for (const s of settingsRaw) map[s.key] = s.value;
-
-    // Resolve listas efetivas: per-empresa primeiro, fallback global
-    const opPerCompany     = cId ? map[`clickup_oportunidades_list_id:${cId}`] : "";
-    const ticketPerCompany = cId ? map[`clickup_tickets_list_id:${cId}`] : "";
-    const opEffective      = opPerCompany || map["clickup_oportunidades_list_id"] || "";
-    const ticketEffective  = ticketPerCompany || map["clickup_tickets_list_id"] || "";
-
-    content = (
-      <ClickupSettings
-        isSuperAdmin={isSuperAdmin}
-        companyId={cId}
-        apiToken={map["clickup_api_token"] ?? ""}
-        webhookSecret={map["clickup_webhook_secret"] ?? ""}
-        opListId={isSuperAdmin ? (map["clickup_oportunidades_list_id"] ?? "") : opEffective}
-        ticketListId={isSuperAdmin ? (map["clickup_tickets_list_id"] ?? "") : ticketEffective}
-        isPerCompanyOp={!!opPerCompany}
-        isPerCompanyTicket={!!ticketPerCompany}
-      />
-    );
   } else if (secao === "integracoes-webhook") {
     const companyId = userCompanyId ?? "";
     let webhookToken: string | null = null;
