@@ -3,165 +3,127 @@
   "nodes": [
     {
       "parameters": {
-        "rule": {
-          "interval": [
-            {
-              "field": "weeks",
-              "weeksInterval": 1,
-              "triggerAtDay": [1, 2, 3, 4, 5],
-              "triggerAtHour": 7,
-              "triggerAtMinute": 0
-            }
+        "triggerTimes": {
+          "item": [
+            { "mode": "everyWeek", "hour": 7, "minute": 0, "weekday": "1" },
+            { "mode": "everyWeek", "hour": 7, "minute": 0, "weekday": "2" },
+            { "mode": "everyWeek", "hour": 7, "minute": 0, "weekday": "3" },
+            { "mode": "everyWeek", "hour": 7, "minute": 0, "weekday": "4" },
+            { "mode": "everyWeek", "hour": 7, "minute": 0, "weekday": "5" }
           ]
         }
       },
       "id": "trigger-cron",
       "name": "Cron 07:00 seg-sex",
-      "type": "n8n-nodes-base.scheduleTrigger",
-      "typeVersion": 1.1,
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
       "position": [240, 300]
     },
     {
       "parameters": {
-        "method": "GET",
         "url": "https://app.azzagencia.com.br/api/cron/projetos-sync",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{ $env.LEADHUB_CRON_SECRET }}"
-            }
-          ]
-        },
+        "method": "GET",
         "options": {
           "timeout": 120000
+        },
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Authorization",
+              "value": "Bearer SUBSTITUIR_PELO_CRON_SECRET"
+            }
+          ]
         }
       },
       "id": "http-projetos",
       "name": "Sync projetos",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
+      "typeVersion": 3,
       "position": [460, 300],
       "continueOnFail": true
     },
     {
       "parameters": {
-        "method": "GET",
         "url": "https://app.azzagencia.com.br/api/cron/gamificacao",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{ $env.LEADHUB_CRON_SECRET }}"
-            }
-          ]
-        },
+        "method": "GET",
         "options": {
           "timeout": 120000
+        },
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Authorization",
+              "value": "Bearer SUBSTITUIR_PELO_CRON_SECRET"
+            }
+          ]
         }
       },
       "id": "http-gamificacao",
       "name": "Sync gamificação",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
+      "typeVersion": 3,
       "position": [680, 300],
       "continueOnFail": true
     },
     {
       "parameters": {
-        "method": "GET",
         "url": "https://app.azzagencia.com.br/api/cron/sla",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{ $env.LEADHUB_CRON_SECRET }}"
-            }
-          ]
-        },
+        "method": "GET",
         "options": {
           "timeout": 60000
+        },
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Authorization",
+              "value": "Bearer SUBSTITUIR_PELO_CRON_SECRET"
+            }
+          ]
         }
       },
       "id": "http-sla",
       "name": "Check SLA",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
+      "typeVersion": 3,
       "position": [900, 300],
       "continueOnFail": true
     },
     {
       "parameters": {
-        "method": "GET",
         "url": "https://app.azzagencia.com.br/api/cron/marketing-sync",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{ $env.LEADHUB_CRON_SECRET }}"
-            }
-          ]
-        },
+        "method": "GET",
         "options": {
           "timeout": 180000
+        },
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Authorization",
+              "value": "Bearer SUBSTITUIR_PELO_CRON_SECRET"
+            }
+          ]
         }
       },
       "id": "http-marketing",
       "name": "Sync marketing",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
+      "typeVersion": 3,
       "position": [1120, 300],
       "continueOnFail": true
     }
   ],
   "connections": {
     "Cron 07:00 seg-sex": {
-      "main": [
-        [
-          {
-            "node": "Sync projetos",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+      "main": [[{ "node": "Sync projetos", "type": "main", "index": 0 }]]
     },
     "Sync projetos": {
-      "main": [
-        [
-          {
-            "node": "Sync gamificação",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+      "main": [[{ "node": "Sync gamificação", "type": "main", "index": 0 }]]
     },
     "Sync gamificação": {
-      "main": [
-        [
-          {
-            "node": "Check SLA",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+      "main": [[{ "node": "Check SLA", "type": "main", "index": 0 }]]
     },
     "Check SLA": {
-      "main": [
-        [
-          {
-            "node": "Sync marketing",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+      "main": [[{ "node": "Sync marketing", "type": "main", "index": 0 }]]
     }
   },
   "active": false,
