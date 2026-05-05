@@ -33,10 +33,18 @@ import { SCORE_TABLE } from "@/lib/gamification";
  * Acesso: SUPER_ADMIN apenas.
  */
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  const role = (session?.user as any)?.role;
-  if (!session || role !== "SUPER_ADMIN") {
-    return NextResponse.json({ error: "Apenas SUPER_ADMIN" }, { status: 403 });
+  // Aceita 2 modos de autenticação:
+  //  1. Bearer ${CRON_SECRET} no header — pra rodar de fora (curl em prod)
+  //  2. Sessão SUPER_ADMIN logada                  — pra UI / admin no browser
+  const secret = process.env.CRON_SECRET ?? process.env.BACKFILL_SECRET;
+  const auth   = req.headers.get("authorization");
+  const viaSecret = secret && auth === `Bearer ${secret}`;
+  if (!viaSecret) {
+    const session = await getServerSession(authOptions);
+    const role = (session?.user as any)?.role;
+    if (!session || role !== "SUPER_ADMIN") {
+      return NextResponse.json({ error: "Apenas SUPER_ADMIN" }, { status: 403 });
+    }
   }
 
   const body = await req.json().catch(() => ({}));
