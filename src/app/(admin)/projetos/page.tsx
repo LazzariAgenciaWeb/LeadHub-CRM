@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import ProjetosBoard from "./ProjetosBoard";
+import SyncAllButton from "./SyncAllButton";
 
 export const dynamic = "force-dynamic";
 
@@ -36,12 +37,15 @@ export default async function ProjetosPage() {
             Tarefas vivem no ClickUp; o LeadHub controla prazo, equipe e entrega.
           </p>
         </div>
-        <Link
-          href="/projetos/novo"
-          className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium flex items-center gap-2 transition-colors"
-        >
-          <Plus className="w-4 h-4" /> Novo projeto
-        </Link>
+        <div className="flex items-center gap-3">
+          <SyncAllButton />
+          <Link
+            href="/projetos/novo"
+            className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium flex items-center gap-2 transition-colors"
+          >
+            <Plus className="w-4 h-4" /> Novo projeto
+          </Link>
+        </div>
       </div>
 
       <ProjetosBoard projects={projects as any} />

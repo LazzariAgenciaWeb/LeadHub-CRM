@@ -1,0 +1,173 @@
+{
+  "name": "LeadHub - Cron Diário",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7 * * 1-5"
+            }
+          ]
+        }
+      },
+      "id": "trigger-cron",
+      "name": "Cron 07:00 seg-sex",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://app.azzagencia.com.br/api/cron/projetos-sync",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.LEADHUB_CRON_SECRET }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "http-projetos",
+      "name": "Sync projetos",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://app.azzagencia.com.br/api/cron/gamificacao",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.LEADHUB_CRON_SECRET }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "http-gamificacao",
+      "name": "Sync gamificação",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 300],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://app.azzagencia.com.br/api/cron/sla",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.LEADHUB_CRON_SECRET }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "http-sla",
+      "name": "Check SLA",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [900, 300],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://app.azzagencia.com.br/api/cron/marketing-sync",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.LEADHUB_CRON_SECRET }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 180000
+        }
+      },
+      "id": "http-marketing",
+      "name": "Sync marketing",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1120, 300],
+      "continueOnFail": true
+    }
+  ],
+  "connections": {
+    "Cron 07:00 seg-sex": {
+      "main": [
+        [
+          {
+            "node": "Sync projetos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sync projetos": {
+      "main": [
+        [
+          {
+            "node": "Sync gamificação",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sync gamificação": {
+      "main": [
+        [
+          {
+            "node": "Check SLA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check SLA": {
+      "main": [
+        [
+          {
+            "node": "Sync marketing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "timezone": "America/Sao_Paulo",
+    "executionOrder": "v1"
+  },
+  "tags": [
+    { "name": "leadhub" },
+    { "name": "cron" }
+  ]
+}
