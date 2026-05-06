@@ -79,10 +79,31 @@ export async function PATCH(
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
 
+  // Auto-sync de lead.status ao mover pro Kanban: arrastar pra etapa "Fechado"
+  // ou similar marca status=CLOSED; "Perdido" marca status=LOST. Sem isso o
+  // gatilho de gamificação (LEAD_CONVERTIDO) nunca dispara — Kanban só envia
+  // pipelineStage. Detecta por nome (ou config isFinal) ainda dá robustez.
+  let derivedStatus: "CLOSED" | "LOST" | undefined;
+  if (
+    pipelineStage !== undefined &&
+    pipelineStage !== existing.pipelineStage &&
+    pipelineStage
+  ) {
+    const s = pipelineStage.toLowerCase();
+    if (s.includes("fechado") || s.includes("ganho") || s.includes("vendi") || s.includes("vendid")) {
+      if (existing.status !== "CLOSED") derivedStatus = "CLOSED";
+    } else if (s.includes("perdido") || s.includes("perdeu") || s.includes("perda")) {
+      if (existing.status !== "LOST") derivedStatus = "LOST";
+    }
+  }
+  const effectiveStatus = status ?? derivedStatus;
+
   const lead = await prisma.lead.update({
     where: { id },
     data: {
-      name, phone, email, source, status, notes, value,
+      name, phone, email, source,
+      ...(effectiveStatus !== undefined && { status: effectiveStatus }),
+      notes, value,
       campaignId: campaignId ?? undefined,
       ...(pipeline !== undefined && { pipeline }),
       ...(pipelineStage !== undefined && { pipelineStage }),
@@ -214,12 +235,11 @@ export async function PATCH(
     // Oportunidade convertida em venda — idempotente. Só conta se o lead
     // estava no pipeline OPORTUNIDADES (lead "frio" virando venda não conta;
     // lead vira reuniao, oportunidade vira venda).
-    // Considera o pipeline ANTES da mudança (existing) — se o user fechou a
-    // venda direto sem passar pelo pipeline OPORTUNIDADES, body.pipeline
-    // pode estar marcando a transição.
+    // effectiveStatus pega tanto o status explicito do body quanto o
+    // derivado da etapa (Kanban arrasta pra "Fechado" → status CLOSED).
     const wasOpportunity =
       existing.pipeline === "OPORTUNIDADES" || pipeline === "OPORTUNIDADES";
-    if (status === "CLOSED" && existing.status !== "CLOSED" && wasOpportunity) {
+    if (effectiveStatus === "CLOSED" && existing.status !== "CLOSED" && wasOpportunity) {
       void addScoreOnce(userId, existing.companyId, "LEAD_CONVERTIDO", id).catch(() => {});
 
       // Easter eggs ligados a conversão:
