@@ -39,8 +39,23 @@ export async function upsertConversation(args: {
   // Busca conversa existente
   const existing = await prisma.conversation.findUnique({
     where: { companyId_phone: { companyId, phone } },
-    select: { id: true, status: true, firstResponseAt: true, setorId: true },
+    select: {
+      id: true, status: true, firstResponseAt: true, setorId: true,
+      // scheduledReturnAt / assigneeId pra encerrar agendamento quando cliente
+      // responde antes do prazo (pontuar RETORNO_ANTECIPADO + remover do calendário)
+      scheduledReturnAt: true, assigneeId: true,
+    },
   });
+
+  // Cliente respondeu enquanto havia agendamento ativo? Encerra o agendamento
+  // (scheduledReturnAt = null) pra não ficar "atrasado" no calendário, e
+  // pontua RETORNO_ANTECIPADO se foi antes do prazo. A lógica de pontos no
+  // CLOSE da conversation continua, mas perderia a referência se a gente só
+  // limpasse silencioso — então pontuamos aqui mesmo.
+  const closingScheduled =
+    direction === "INBOUND" &&
+    existing?.status === "SCHEDULED" &&
+    !!existing.scheduledReturnAt;
 
   // Regra:
   // - INBOUND  → OPEN (precisa resposta)
@@ -101,6 +116,9 @@ export async function upsertConversation(args: {
       ...(direction === "OUTBOUND" && existing && !existing.firstResponseAt
         ? { firstResponseAt: now }
         : {}),
+      // Cliente retornou antes ou no prazo — encerra agendamento pra sair do
+      // calendário automaticamente.
+      ...(closingScheduled ? { scheduledReturnAt: null, returnNote: null } : {}),
     },
     select: { id: true },
   });
@@ -117,6 +135,30 @@ export async function upsertConversation(args: {
     }).catch(() => {/* não crítico */});
   }
 
+  // Cliente retornou antes do prazo? Loga + pontua RETORNO_ANTECIPADO pro
+  // assignee se a resposta veio antes da data agendada. Se já passou da data,
+  // só limpa silenciosamente (saiu do calendário) sem dar ponto.
+  if (closingScheduled && existing) {
+    const onTime = existing.scheduledReturnAt && existing.scheduledReturnAt > now;
+    await prisma.activity.create({
+      data: {
+        // Sem enum dedicado pra "agendamento concluído" — usa STATUS_CHANGED
+        // (o status saiu de SCHEDULED → OPEN). Body explica o motivo.
+        type: ActivityType.STATUS_CHANGED,
+        body: onTime
+          ? "Cliente retornou antes do prazo agendado — agendamento encerrado"
+          : "Cliente retornou após o prazo agendado — agendamento encerrado",
+        conversationId: conversation.id,
+        companyId,
+      },
+    }).catch(() => {/* não crítico */});
+    if (onTime && existing.assigneeId) {
+      // import dinâmico pra evitar ciclo (gamification importa de prisma)
+      const { addScoreOnce } = await import("./gamification");
+      void addScoreOnce(existing.assigneeId, companyId, "RETORNO_ANTECIPADO", conversation.id).catch(() => {});
+    }
+  }
+
   // Sincroniza Lead.attendanceStatus (legacy) com Conversation.status
   // Mantém telas antigas (Dashboard, AI, filtros) consistentes com a nova fonte da verdade.
   // Mapping:
@@ -128,6 +170,14 @@ export async function upsertConversation(args: {
     await prisma.lead.updateMany({
       where: { conversationId: conversation.id, attendanceStatus: { not: legacy } },
       data:  { attendanceStatus: legacy },
+    }).catch(() => {/* não crítico */});
+  }
+  // Espelha o "agendamento encerrado" no Lead.expectedReturnAt — algumas
+  // views (Meu Dia leadsFollowUp) ainda filtram por expectedReturnAt.
+  if (closingScheduled) {
+    await prisma.lead.updateMany({
+      where: { conversationId: conversation.id, expectedReturnAt: { not: null } },
+      data:  { expectedReturnAt: null },
     }).catch(() => {/* não crítico */});
   }
 
