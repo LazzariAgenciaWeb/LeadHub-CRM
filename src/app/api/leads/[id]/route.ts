@@ -198,15 +198,22 @@ export async function PATCH(
       // antigo, pode revisar se virar abuso).
       void addScore(userId, existing.companyId, "LEAD_AVANCADO", id).catch(() => {});
     }
-    // Lead convertido — idempotente, marcar como CLOSED múltiplas vezes só pontua uma
-    if (status === "CLOSED" && existing.status !== "CLOSED") {
+    // Oportunidade convertida em venda — idempotente. Só conta se o lead
+    // estava no pipeline OPORTUNIDADES (lead "frio" virando venda não conta;
+    // lead vira reuniao, oportunidade vira venda).
+    // Considera o pipeline ANTES da mudança (existing) — se o user fechou a
+    // venda direto sem passar pelo pipeline OPORTUNIDADES, body.pipeline
+    // pode estar marcando a transição.
+    const wasOpportunity =
+      existing.pipeline === "OPORTUNIDADES" || pipeline === "OPORTUNIDADES";
+    if (status === "CLOSED" && existing.status !== "CLOSED" && wasOpportunity) {
       void addScoreOnce(userId, existing.companyId, "LEAD_CONVERTIDO", id).catch(() => {});
 
       // Easter eggs ligados a conversão:
       const today = new Date().toDateString();
       const createdToday = existing.createdAt.toDateString() === today;
 
-      // 🍀 Sortudo: lead criado e fechado no mesmo dia
+      // 🍀 Sortudo: oportunidade criada e fechada no mesmo dia
       if (createdToday) {
         void addScoreOnce(userId, existing.companyId, "BONUS_VENDA_RAPIDA", id).catch(() => {});
       }
