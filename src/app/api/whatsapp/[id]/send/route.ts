@@ -127,46 +127,48 @@ export async function POST(
       include: { instance: { select: { instanceName: true } }, campaign: { select: { id: true, name: true } } },
     });
 
-    // Gamificação:
-    //  1. Resposta rápida — toda vez que o cliente manda algo e a equipe
-    //     responde rápido. Métrica: minutos úteis desde a última INBOUND
-    //     até agora. Idempotência por (conv, lastInboundAt) — cada batch de
-    //     mensagens do cliente vira no máximo 1 evento de fast response.
-    //     Funciona pra grupos e diretas, antigas e novas.
-    //  2. Colaboração / ajuda mútua:
-    //       - sem assignee + cliente esperando            → GUARDIÃO  (PRIMEIRA_RESPOSTA)
-    //       - assignee é outro user + cliente esperando    → EXÉRCITO  (AJUDA_EXERCITO)
-    //  3. Easter eggs: Coruja (resposta após 22h) e Madrugador (antes 7h)
+    // Gamificação — TODAS as métricas usam idempotência POR DIA pra evitar
+    // sobrecarregar com cada mensagem. Atendimento, mesmo com várias
+    // mensagens trocadas, gera no máximo 1 evento de cada tipo por
+    // (conv, user, dia). O peso da pontuação fica concentrado no
+    // primeiro turno do dia, o resto é ruído.
+    //
+    //  1. Resposta rápida — minutos úteis desde a última INBOUND. Idempotente
+    //     por (conv, user, dia) — só conta a primeira do dia.
+    //  2. Colaboração / ajuda mútua: GUARDIÃO (sem assignee) ou EXÉRCITO
+    //     (assignee é outro). Idempotente por (conv, user, dia).
+    //  3. Grupos: DIPLOMATA (1ª vez ever no grupo), PRECISO (≤5min, idempotente
+    //     por dia), NETWORK (semanal, com early-skip pra evitar query pesada).
+    //  4. Easter eggs: Coruja (após 22h) e Madrugador (antes 7h)
     //
     // Conversas marcadas com excludeFromGamification (grupos internos) NÃO
     // pontuam — o admin liga isso na UI.
     if (userId && convBefore && !convBefore.excludeFromGamification) {
       const customerWaiting = convBefore.lastMessageDirection === "INBOUND";
+      const dayKey = new Date().toISOString().slice(0, 10);
 
-      // 1. Resposta rápida — só conta se cliente acabou de mandar algo
+      // 1. Resposta rápida — só conta se cliente acabou de mandar algo.
+      //    Idempotente por (conv, user, dia, faixa) — uma vez por dia por
+      //    conversa por user. Evita gerar evento a cada nova mensagem.
       if (customerWaiting && convBefore.lastMessageAt) {
         const mins = businessMinutesBetween(convBefore.lastMessageAt, new Date());
         const reason = mins <= 5 ? "RESPOSTA_RAPIDA_5MIN" : mins <= 30 ? "RESPOSTA_RAPIDA_30MIN" : null;
         if (reason) {
-          // Idempotente por (conv, timestamp da última inbound) — assim cada
-          // batch de cliente gera no máximo 1 evento, mesmo que a equipe
-          // mande várias respostas seguidas.
-          const refKey = `${conv.id}:${convBefore.lastMessageAt.toISOString()}:${reason}`;
-          void addScoreOnce(userId, instance.companyId, reason, refKey).catch(() => {});
+          void addScoreOnce(
+            userId, instance.companyId, reason,
+            `${conv.id}:${userId}:${dayKey}:${reason}`,
+          ).catch(() => {});
         }
       }
 
       // 2. Colaboração — só faz sentido se a última mensagem foi do cliente
       if (customerWaiting) {
-        const dayKey = new Date().toISOString().slice(0, 10);
         if (!convBefore.assigneeId) {
-          // Conversa sem responsável — GUARDIÃO
           void addScoreOnce(
             userId, instance.companyId, "PRIMEIRA_RESPOSTA",
             `${conv.id}:${userId}:${dayKey}:guardiao`,
           ).catch(() => {});
         } else if (convBefore.assigneeId !== userId) {
-          // Conversa atribuída a outro — EXÉRCITO
           void addScoreOnce(
             userId, instance.companyId, "AJUDA_EXERCITO",
             `${conv.id}:${userId}:${dayKey}:exercito`,
@@ -175,64 +177,62 @@ export async function POST(
       }
 
       // ── Badges de grupo ──────────────────────────────────────────────
-      // Só rodam se a conversa é grupo (@g.us no phone)
       const isGroup = phoneForStorage.includes("@g.us");
       if (isGroup) {
-        const dayKey = new Date().toISOString().slice(0, 10);
-
-        // DIPLOMATA: primeira vez que esse user responde NESTE grupo.
-        // Idempotente por (conv, user) — só fira uma vez ever.
+        // DIPLOMATA: primeira vez que esse user responde NESTE grupo
         void addScoreOnce(
           userId, instance.companyId, "ATENDIMENTO_GRUPO_NOVO",
           `${conv.id}:${userId}:diplomata`,
         ).catch(() => {});
 
-        // PRECISO: resposta rápida em grupo (≤5min úteis após cliente)
+        // PRECISO: resposta rápida em grupo. Idempotente por (conv, user, dia)
+        // — só conta a primeira do dia, mesmo que cliente mande várias mensagens.
         if (customerWaiting && convBefore.lastMessageAt) {
           const mins = businessMinutesBetween(convBefore.lastMessageAt, new Date());
           if (mins <= 5) {
             void addScoreOnce(
               userId, instance.companyId, "RESPOSTA_RAPIDA_GRUPO",
-              `${conv.id}:${convBefore.lastMessageAt.toISOString()}:preciso`,
+              `${conv.id}:${userId}:${dayKey}:preciso`,
             ).catch(() => {});
           }
         }
 
-        // NETWORK: a cada vez que o user responde num grupo, verifica se
-        // ele tem ZERO grupos onde é assignee com mensagem do cliente
-        // sem resposta há mais de 24h. Se ZERO → ganhou a semana.
-        // Idempotente por (user, weekStart) — uma vez por semana max.
+        // NETWORK: semanal. Antes de rodar a query pesada de "abandonados",
+        // checa se já ganhou a semana. Se sim, pula tudo — evita query a cada
+        // mensagem em grupo.
         const weekStart = (() => {
           const d = new Date();
           d.setHours(0, 0, 0, 0);
-          // Segunda-feira como início (getDay: 0=Dom, 1=Seg, ..., 6=Sáb)
           const diff = d.getDay() === 0 ? 6 : d.getDay() - 1;
           d.setDate(d.getDate() - diff);
           return d;
         })();
-        const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
-        const abandonados = await prisma.conversation.count({
-          where: {
-            companyId:            instance.companyId,
-            assigneeId:           userId,
-            phone:                { contains: "@g.us" },
-            excludeFromGamification: false,
-            lastMessageDirection: "INBOUND",
-            lastMessageAt:        { lte: oneDayAgo },
-            status:               { notIn: ["CLOSED"] },
-          },
+        const networkRefKey = `${userId}:${weekStart.toISOString().slice(0, 10)}:network`;
+        const networkExists = await prisma.scoreEvent.findFirst({
+          where: { userId, reason: "DIA_NETWORK", referenceId: networkRefKey },
+          select: { id: true },
         });
-        if (abandonados === 0) {
-          void addScoreOnce(
-            userId, instance.companyId, "DIA_NETWORK",
-            `${userId}:${weekStart.toISOString().slice(0, 10)}:network`,
-          ).catch(() => {});
+        if (!networkExists) {
+          const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+          const abandonados = await prisma.conversation.count({
+            where: {
+              companyId:            instance.companyId,
+              assigneeId:           userId,
+              phone:                { contains: "@g.us" },
+              excludeFromGamification: false,
+              lastMessageDirection: "INBOUND",
+              lastMessageAt:        { lte: oneDayAgo },
+              status:               { notIn: ["CLOSED"] },
+            },
+          });
+          if (abandonados === 0) {
+            void addScoreOnce(userId, instance.companyId, "DIA_NETWORK", networkRefKey).catch(() => {});
+          }
         }
       }
-      // 3. Easter eggs por horário — idempotente por (user, dia)
-      const now = new Date();
-      const hour = now.getHours();
-      const dayKey = now.toISOString().slice(0, 10); // YYYY-MM-DD
+
+      // 4. Easter eggs por horário — idempotente por (user, dia)
+      const hour = new Date().getHours();
       if (hour >= 22 || hour < 5) {
         void addScoreOnce(userId, instance.companyId, "BONUS_NOITE", `${userId}:${dayKey}:noite`).catch(() => {});
       } else if (hour < 7) {
