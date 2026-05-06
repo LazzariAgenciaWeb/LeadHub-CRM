@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { ScoreReason } from "@/generated/prisma";
-import { SCORE_TABLE } from "@/lib/gamification";
+import { SCORE_TABLE, invalidateGamificationCaches } from "@/lib/gamification";
 
 const ALL_REASONS: ScoreReason[] = [
   "RESPOSTA_RAPIDA_5MIN",
@@ -101,6 +101,9 @@ export async function PUT(req: NextRequest) {
       })
     )
   );
+
+  // Invalida cache em memória pra novos pontos refletirem na hora
+  invalidateGamificationCaches(companyId);
 
   return NextResponse.json({ ok: true });
 }

@@ -218,25 +218,75 @@ const BADGE_RULES: BadgeRule[] = [
 // Tiers: 1, 2, 3, 5, 10, 20 vezes campeão do mês.
 const REI_DO_MES_THRESHOLDS = [1, 2, 3, 5, 10, 20];
 
+// ─── Caches em memória (per-process) ──────────────────────────────────────────
+// Em prod o servidor é Node + standalone, single process — esses caches vivem
+// no processo. TTL curto pra refletir mudanças sem fazer PUT explícito.
+//
+// Invalidação manual via invalidateGamificationCaches() — chamado no endpoint
+// que edita ScoreRuleConfig. Pra role do user, basta esperar o TTL (10min).
+
+type RuleCacheEntry = {
+  rule:     { points: number; affectsRanking: boolean } | null; // null = desabilitada
+  expiresAt: number;
+};
+const ruleCache = new Map<string, RuleCacheEntry>(); // key: `${companyId}:${reason}`
+const RULE_TTL_MS = 5 * 60_000; // 5 min
+
+type RoleCacheEntry = { role: string | null; expiresAt: number };
+const roleCache = new Map<string, RoleCacheEntry>(); // key: userId
+const ROLE_TTL_MS = 10 * 60_000; // 10 min
+
+export function invalidateGamificationCaches(companyId?: string): void {
+  if (companyId) {
+    for (const k of ruleCache.keys()) {
+      if (k.startsWith(`${companyId}:`)) ruleCache.delete(k);
+    }
+  } else {
+    ruleCache.clear();
+  }
+}
+
+async function getUserRole(userId: string): Promise<string | null> {
+  const now = Date.now();
+  const cached = roleCache.get(userId);
+  if (cached && cached.expiresAt > now) return cached.role;
+  const author = await prisma.user.findUnique({
+    where: { id: userId }, select: { role: true },
+  });
+  const role = author?.role ?? null;
+  roleCache.set(userId, { role, expiresAt: now + ROLE_TTL_MS });
+  return role;
+}
+
 // ─── addScore ─────────────────────────────────────────────────────────────────
 
 /**
  * Lê a regra configurada da empresa pra esta razão. Faz fallback pro SCORE_TABLE.
  * Retorna null se a razão estiver desabilitada (ScoreRuleConfig.enabled = false).
+ *
+ * Cacheado em memória por 5min — invalidar via invalidateGamificationCaches()
+ * quando admin editar regras em /configuracoes.
  */
 async function resolveRule(
   companyId: string,
   reason:    ScoreReason,
 ): Promise<{ points: number; affectsRanking: boolean } | null> {
+  const key = `${companyId}:${reason}`;
+  const now = Date.now();
+  const cached = ruleCache.get(key);
+  if (cached && cached.expiresAt > now) return cached.rule;
+
   const cfg = await prisma.scoreRuleConfig.findUnique({
     where: { companyId_reason: { companyId, reason } },
   });
+  let rule: { points: number; affectsRanking: boolean } | null;
   if (cfg) {
-    if (!cfg.enabled) return null;
-    return { points: cfg.points, affectsRanking: cfg.affectsRanking };
+    rule = cfg.enabled ? { points: cfg.points, affectsRanking: cfg.affectsRanking } : null;
+  } else {
+    rule = { points: SCORE_TABLE[reason], affectsRanking: true };
   }
-  // Sem config explícita: usa default e considera no ranking
-  return { points: SCORE_TABLE[reason], affectsRanking: true };
+  ruleCache.set(key, { rule, expiresAt: now + RULE_TTL_MS });
+  return rule;
 }
 
 /**
@@ -256,9 +306,9 @@ export async function addScore(
   // SUPER_ADMIN não pontua: quando ele impersona um cliente e executa uma
   // ação, não queremos que o ranking/feed da empresa registre essa atividade
   // como "do SUPER_ADMIN". Verifica o role do usuário antes de qualquer
-  // escrita em ScoreEvent / UserScore.
-  const author = await prisma.user.findUnique({ where: { id: userId }, select: { role: true } });
-  if (author?.role === "SUPER_ADMIN") return [];
+  // escrita em ScoreEvent / UserScore. Cacheado por 10min.
+  const role = await getUserRole(userId);
+  if (role === "SUPER_ADMIN") return [];
 
   const rule = await resolveRule(companyId, reason);
   if (!rule) return []; // razão desabilitada
@@ -441,37 +491,52 @@ export async function revertScore(
 /**
  * Verifica se o usuário desbloqueou novos tiers de badges com base no
  * histórico total de ScoreEvents. Retorna array com badge+tier conquistados.
+ *
+ * Otimizado: 1 query agregada (groupBy) pra contar todos os reasons de uma
+ * vez + 1 query pra pegar todos os UserBadge existentes do usuário.
+ * Antes fazia 1 count + 1 findUnique por badge × 24 = 48+ queries por
+ * checkBadges. Agora faz no máximo 2 queries + 1 createMany.
  */
 export async function checkBadges(
   userId: string,
   companyId: string
 ): Promise<{ badge: BadgeType; tier: number }[]> {
+  // 1 query: contagem agregada por reason (todas as positivas)
+  const grouped = await prisma.scoreEvent.groupBy({
+    by:     ["reason"],
+    where:  { userId, companyId, points: { gt: 0 } },
+    _count: true,
+  });
+  const countByReason = new Map<string, number>();
+  for (const row of grouped) countByReason.set(row.reason, row._count as number);
+
+  // 1 query: tiers já conquistados (pra não recriar)
+  const earned = await prisma.userBadge.findMany({
+    where:  { userId, companyId },
+    select: { badge: true, tier: true },
+  });
+  const earnedSet = new Set(earned.map((e) => `${e.badge}:${e.tier}`));
+
+  // Em memória: percorre BADGE_RULES e descobre o que falta
+  const toCreate: { userId: string; companyId: string; badge: BadgeType; tier: number }[] = [];
   const newBadges: { badge: BadgeType; tier: number }[] = [];
 
   for (const rule of BADGE_RULES) {
-    const count = await prisma.scoreEvent.count({
-      where: {
-        userId,
-        companyId,
-        reason: { in: rule.reasons },
-        points: { gt: 0 },
-      },
-    });
+    let total = 0;
+    for (const r of rule.reasons) total += countByReason.get(r) ?? 0;
 
     for (let i = 0; i < rule.thresholds.length; i++) {
       const tier = i + 1;
-      if (count < rule.thresholds[i]) break;
-
-      const already = await prisma.userBadge.findUnique({
-        where: { userId_badge_tier: { userId, badge: rule.badge, tier } },
-      });
-      if (already) continue;
-
-      await prisma.userBadge.create({
-        data: { userId, companyId, badge: rule.badge, tier },
-      });
+      if (total < rule.thresholds[i]) break;
+      if (earnedSet.has(`${rule.badge}:${tier}`)) continue;
+      toCreate.push({ userId, companyId, badge: rule.badge, tier });
       newBadges.push({ badge: rule.badge, tier });
     }
+  }
+
+  // 1 query (no máximo): cria todos os novos tiers de uma vez
+  if (toCreate.length > 0) {
+    await prisma.userBadge.createMany({ data: toCreate, skipDuplicates: true });
   }
 
   return newBadges;
