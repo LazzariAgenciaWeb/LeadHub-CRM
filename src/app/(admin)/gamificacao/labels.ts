@@ -602,4 +602,5 @@ export const REASON_LABEL: Record<ScoreReason, { text: string; positive: boolean
   ATENDIMENTO_GRUPO_NOVO: { text: "Atendeu grupo novo (Diplomata)",                 positive: true },
   RESPOSTA_RAPIDA_GRUPO:  { text: "Resposta rápida em grupo (Preciso)",             positive: true },
   DIA_NETWORK:            { text: "Semana com todos grupos respondidos (Network)",  positive: true },
+  LEAD_VIROU_OPORTUNIDADE: { text: "Lead virou oportunidade (cliente pediu orçamento)", positive: true },
 };

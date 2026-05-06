@@ -65,6 +65,8 @@ export const SCORE_TABLE: Record<ScoreReason, number> = {
   ATENDIMENTO_GRUPO_NOVO:   5, // primeira resposta em grupo novo (Diplomata)
   RESPOSTA_RAPIDA_GRUPO:    8, // resposta em grupo ≤5min úteis (Preciso)
   DIA_NETWORK:             15, // semana sem deixar grupo responsável sem resposta (Network)
+  // Comercial — promoção do lead pra oportunidade (cliente pediu orçamento)
+  LEAD_VIROU_OPORTUNIDADE: 20, // lead virou oportunidade (entre lead simples e venda fechada)
 };
 
 // ─── Regras de badges (6 tiers cada) ──────────────────────────────────────────

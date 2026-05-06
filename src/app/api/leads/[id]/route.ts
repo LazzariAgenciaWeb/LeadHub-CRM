@@ -198,6 +198,19 @@ export async function PATCH(
       // antigo, pode revisar se virar abuso).
       void addScore(userId, existing.companyId, "LEAD_AVANCADO", id).catch(() => {});
     }
+
+    // Lead promovido pra Oportunidade — bônus distinto de LEAD_AVANCADO.
+    // Cliente pediu orçamento → atendente arrasta pro pipeline OPORTUNIDADES.
+    // Idempotente por leadId — não duplica se voltar e promover de novo.
+    if (
+      pipeline !== undefined &&
+      pipeline === "OPORTUNIDADES" &&
+      existing.pipeline !== "OPORTUNIDADES"
+    ) {
+      void addScoreOnce(
+        userId, existing.companyId, "LEAD_VIROU_OPORTUNIDADE", id,
+      ).catch(() => {});
+    }
     // Oportunidade convertida em venda — idempotente. Só conta se o lead
     // estava no pipeline OPORTUNIDADES (lead "frio" virando venda não conta;
     // lead vira reuniao, oportunidade vira venda).

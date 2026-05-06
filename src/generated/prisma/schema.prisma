@@ -1493,6 +1493,7 @@ enum ScoreReason {
   ATENDIMENTO_GRUPO_NOVO // primeira resposta num grupo novo (Diplomata)
   RESPOSTA_RAPIDA_GRUPO // resposta em grupo em ≤5min úteis (Preciso)
   DIA_NETWORK // dia em que respondeu em 3+ grupos diferentes (Network)
+  LEAD_VIROU_OPORTUNIDADE // lead promovido pra oportunidade (cliente pediu orcamento)
 }
 
 // Trilha de auditoria de eventos de cobrança — útil pra suporte e debug.
