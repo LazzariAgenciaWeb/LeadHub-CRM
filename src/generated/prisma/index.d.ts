@@ -5391,6 +5391,7 @@ export namespace Prisma {
     scoreEvents: number
     projectMemberships: number
     rewardRedemptions: number
+    messagesSent: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5406,6 +5407,7 @@ export namespace Prisma {
     scoreEvents?: boolean | UserCountOutputTypeCountScoreEventsArgs
     projectMemberships?: boolean | UserCountOutputTypeCountProjectMembershipsArgs
     rewardRedemptions?: boolean | UserCountOutputTypeCountRewardRedemptionsArgs
+    messagesSent?: boolean | UserCountOutputTypeCountMessagesSentArgs
   }
 
   // Custom InputTypes
@@ -5501,6 +5503,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountRewardRedemptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RewardRedemptionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountMessagesSentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MessageWhereInput
   }
 
 
@@ -6569,6 +6578,7 @@ export namespace Prisma {
     scoreEvents?: boolean | User$scoreEventsArgs<ExtArgs>
     projectMemberships?: boolean | User$projectMembershipsArgs<ExtArgs>
     rewardRedemptions?: boolean | User$rewardRedemptionsArgs<ExtArgs>
+    messagesSent?: boolean | User$messagesSentArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -6616,6 +6626,7 @@ export namespace Prisma {
     scoreEvents?: boolean | User$scoreEventsArgs<ExtArgs>
     projectMemberships?: boolean | User$projectMembershipsArgs<ExtArgs>
     rewardRedemptions?: boolean | User$rewardRedemptionsArgs<ExtArgs>
+    messagesSent?: boolean | User$messagesSentArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6639,6 +6650,7 @@ export namespace Prisma {
       scoreEvents: Prisma.$ScoreEventPayload<ExtArgs>[]
       projectMemberships: Prisma.$ProjectMemberPayload<ExtArgs>[]
       rewardRedemptions: Prisma.$RewardRedemptionPayload<ExtArgs>[]
+      messagesSent: Prisma.$MessagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7030,6 +7042,7 @@ export namespace Prisma {
     scoreEvents<T extends User$scoreEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$scoreEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScoreEventPayload<ExtArgs>, T, "findMany"> | Null>
     projectMemberships<T extends User$projectMembershipsArgs<ExtArgs> = {}>(args?: Subset<T, User$projectMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMemberPayload<ExtArgs>, T, "findMany"> | Null>
     rewardRedemptions<T extends User$rewardRedemptionsArgs<ExtArgs> = {}>(args?: Subset<T, User$rewardRedemptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RewardRedemptionPayload<ExtArgs>, T, "findMany"> | Null>
+    messagesSent<T extends User$messagesSentArgs<ExtArgs> = {}>(args?: Subset<T, User$messagesSentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7655,6 +7668,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RewardRedemptionScalarFieldEnum | RewardRedemptionScalarFieldEnum[]
+  }
+
+  /**
+   * User.messagesSent
+   */
+  export type User$messagesSentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Message
+     */
+    select?: MessageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageInclude<ExtArgs> | null
+    where?: MessageWhereInput
+    orderBy?: MessageOrderByWithRelationInput | MessageOrderByWithRelationInput[]
+    cursor?: MessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MessageScalarFieldEnum | MessageScalarFieldEnum[]
   }
 
   /**
@@ -21135,6 +21168,7 @@ export namespace Prisma {
     campaignId: string | null
     leadId: string | null
     conversationId: string | null
+    sentByUserId: string | null
   }
 
   export type MessageMaxAggregateOutputType = {
@@ -21158,6 +21192,7 @@ export namespace Prisma {
     campaignId: string | null
     leadId: string | null
     conversationId: string | null
+    sentByUserId: string | null
   }
 
   export type MessageCountAggregateOutputType = {
@@ -21182,6 +21217,7 @@ export namespace Prisma {
     campaignId: number
     leadId: number
     conversationId: number
+    sentByUserId: number
     _all: number
   }
 
@@ -21215,6 +21251,7 @@ export namespace Prisma {
     campaignId?: true
     leadId?: true
     conversationId?: true
+    sentByUserId?: true
   }
 
   export type MessageMaxAggregateInputType = {
@@ -21238,6 +21275,7 @@ export namespace Prisma {
     campaignId?: true
     leadId?: true
     conversationId?: true
+    sentByUserId?: true
   }
 
   export type MessageCountAggregateInputType = {
@@ -21262,6 +21300,7 @@ export namespace Prisma {
     campaignId?: true
     leadId?: true
     conversationId?: true
+    sentByUserId?: true
     _all?: true
   }
 
@@ -21373,6 +21412,7 @@ export namespace Prisma {
     campaignId: string | null
     leadId: string | null
     conversationId: string | null
+    sentByUserId: string | null
     _count: MessageCountAggregateOutputType | null
     _avg: MessageAvgAggregateOutputType | null
     _sum: MessageSumAggregateOutputType | null
@@ -21416,11 +21456,13 @@ export namespace Prisma {
     campaignId?: boolean
     leadId?: boolean
     conversationId?: boolean
+    sentByUserId?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     instance?: boolean | Message$instanceArgs<ExtArgs>
     campaign?: boolean | Message$campaignArgs<ExtArgs>
     lead?: boolean | Message$leadArgs<ExtArgs>
     conversation?: boolean | Message$conversationArgs<ExtArgs>
+    sentBy?: boolean | Message$sentByArgs<ExtArgs>
   }, ExtArgs["result"]["message"]>
 
   export type MessageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -21445,11 +21487,13 @@ export namespace Prisma {
     campaignId?: boolean
     leadId?: boolean
     conversationId?: boolean
+    sentByUserId?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     instance?: boolean | Message$instanceArgs<ExtArgs>
     campaign?: boolean | Message$campaignArgs<ExtArgs>
     lead?: boolean | Message$leadArgs<ExtArgs>
     conversation?: boolean | Message$conversationArgs<ExtArgs>
+    sentBy?: boolean | Message$sentByArgs<ExtArgs>
   }, ExtArgs["result"]["message"]>
 
   export type MessageSelectScalar = {
@@ -21474,6 +21518,7 @@ export namespace Prisma {
     campaignId?: boolean
     leadId?: boolean
     conversationId?: boolean
+    sentByUserId?: boolean
   }
 
   export type MessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -21482,6 +21527,7 @@ export namespace Prisma {
     campaign?: boolean | Message$campaignArgs<ExtArgs>
     lead?: boolean | Message$leadArgs<ExtArgs>
     conversation?: boolean | Message$conversationArgs<ExtArgs>
+    sentBy?: boolean | Message$sentByArgs<ExtArgs>
   }
   export type MessageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -21489,6 +21535,7 @@ export namespace Prisma {
     campaign?: boolean | Message$campaignArgs<ExtArgs>
     lead?: boolean | Message$leadArgs<ExtArgs>
     conversation?: boolean | Message$conversationArgs<ExtArgs>
+    sentBy?: boolean | Message$sentByArgs<ExtArgs>
   }
 
   export type $MessagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -21499,6 +21546,7 @@ export namespace Prisma {
       campaign: Prisma.$CampaignPayload<ExtArgs> | null
       lead: Prisma.$LeadPayload<ExtArgs> | null
       conversation: Prisma.$ConversationPayload<ExtArgs> | null
+      sentBy: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -21522,6 +21570,7 @@ export namespace Prisma {
       campaignId: string | null
       leadId: string | null
       conversationId: string | null
+      sentByUserId: string | null
     }, ExtArgs["result"]["message"]>
     composites: {}
   }
@@ -21891,6 +21940,7 @@ export namespace Prisma {
     campaign<T extends Message$campaignArgs<ExtArgs> = {}>(args?: Subset<T, Message$campaignArgs<ExtArgs>>): Prisma__CampaignClient<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     lead<T extends Message$leadArgs<ExtArgs> = {}>(args?: Subset<T, Message$leadArgs<ExtArgs>>): Prisma__LeadClient<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     conversation<T extends Message$conversationArgs<ExtArgs> = {}>(args?: Subset<T, Message$conversationArgs<ExtArgs>>): Prisma__ConversationClient<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    sentBy<T extends Message$sentByArgs<ExtArgs> = {}>(args?: Subset<T, Message$sentByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -21941,6 +21991,7 @@ export namespace Prisma {
     readonly campaignId: FieldRef<"Message", 'String'>
     readonly leadId: FieldRef<"Message", 'String'>
     readonly conversationId: FieldRef<"Message", 'String'>
+    readonly sentByUserId: FieldRef<"Message", 'String'>
   }
     
 
@@ -22316,6 +22367,21 @@ export namespace Prisma {
      */
     include?: ConversationInclude<ExtArgs> | null
     where?: ConversationWhereInput
+  }
+
+  /**
+   * Message.sentBy
+   */
+  export type Message$sentByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
   }
 
   /**
@@ -58766,7 +58832,8 @@ export namespace Prisma {
     instanceId: 'instanceId',
     campaignId: 'campaignId',
     leadId: 'leadId',
-    conversationId: 'conversationId'
+    conversationId: 'conversationId',
+    sentByUserId: 'sentByUserId'
   };
 
   export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
@@ -59829,6 +59896,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventListRelationFilter
     projectMemberships?: ProjectMemberListRelationFilter
     rewardRedemptions?: RewardRedemptionListRelationFilter
+    messagesSent?: MessageListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -59857,6 +59925,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventOrderByRelationAggregateInput
     projectMemberships?: ProjectMemberOrderByRelationAggregateInput
     rewardRedemptions?: RewardRedemptionOrderByRelationAggregateInput
+    messagesSent?: MessageOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -59888,6 +59957,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventListRelationFilter
     projectMemberships?: ProjectMemberListRelationFilter
     rewardRedemptions?: RewardRedemptionListRelationFilter
+    messagesSent?: MessageListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -61129,11 +61199,13 @@ export namespace Prisma {
     campaignId?: StringNullableFilter<"Message"> | string | null
     leadId?: StringNullableFilter<"Message"> | string | null
     conversationId?: StringNullableFilter<"Message"> | string | null
+    sentByUserId?: StringNullableFilter<"Message"> | string | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
     lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
     conversation?: XOR<ConversationNullableRelationFilter, ConversationWhereInput> | null
+    sentBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
   }
 
   export type MessageOrderByWithRelationInput = {
@@ -61158,11 +61230,13 @@ export namespace Prisma {
     campaignId?: SortOrderInput | SortOrder
     leadId?: SortOrderInput | SortOrder
     conversationId?: SortOrderInput | SortOrder
+    sentByUserId?: SortOrderInput | SortOrder
     company?: CompanyOrderByWithRelationInput
     instance?: WhatsappInstanceOrderByWithRelationInput
     campaign?: CampaignOrderByWithRelationInput
     lead?: LeadOrderByWithRelationInput
     conversation?: ConversationOrderByWithRelationInput
+    sentBy?: UserOrderByWithRelationInput
   }
 
   export type MessageWhereUniqueInput = Prisma.AtLeast<{
@@ -61190,11 +61264,13 @@ export namespace Prisma {
     campaignId?: StringNullableFilter<"Message"> | string | null
     leadId?: StringNullableFilter<"Message"> | string | null
     conversationId?: StringNullableFilter<"Message"> | string | null
+    sentByUserId?: StringNullableFilter<"Message"> | string | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
     lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
     conversation?: XOR<ConversationNullableRelationFilter, ConversationWhereInput> | null
+    sentBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
   }, "id" | "externalId">
 
   export type MessageOrderByWithAggregationInput = {
@@ -61219,6 +61295,7 @@ export namespace Prisma {
     campaignId?: SortOrderInput | SortOrder
     leadId?: SortOrderInput | SortOrder
     conversationId?: SortOrderInput | SortOrder
+    sentByUserId?: SortOrderInput | SortOrder
     _count?: MessageCountOrderByAggregateInput
     _avg?: MessageAvgOrderByAggregateInput
     _max?: MessageMaxOrderByAggregateInput
@@ -61251,6 +61328,7 @@ export namespace Prisma {
     campaignId?: StringNullableWithAggregatesFilter<"Message"> | string | null
     leadId?: StringNullableWithAggregatesFilter<"Message"> | string | null
     conversationId?: StringNullableWithAggregatesFilter<"Message"> | string | null
+    sentByUserId?: StringNullableWithAggregatesFilter<"Message"> | string | null
   }
 
   export type KeywordRuleWhereInput = {
@@ -64301,6 +64379,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -64328,6 +64407,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
   }
 
   export type UserUpdateInput = {
@@ -64355,6 +64435,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -64382,6 +64463,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -65782,6 +65864,7 @@ export namespace Prisma {
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
     conversation?: ConversationCreateNestedOneWithoutMessagesInput
+    sentBy?: UserCreateNestedOneWithoutMessagesSentInput
   }
 
   export type MessageUncheckedCreateInput = {
@@ -65806,6 +65889,7 @@ export namespace Prisma {
     campaignId?: string | null
     leadId?: string | null
     conversationId?: string | null
+    sentByUserId?: string | null
   }
 
   export type MessageUpdateInput = {
@@ -65830,6 +65914,7 @@ export namespace Prisma {
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
     conversation?: ConversationUpdateOneWithoutMessagesNestedInput
+    sentBy?: UserUpdateOneWithoutMessagesSentNestedInput
   }
 
   export type MessageUncheckedUpdateInput = {
@@ -65854,6 +65939,7 @@ export namespace Prisma {
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageCreateManyInput = {
@@ -65878,6 +65964,7 @@ export namespace Prisma {
     campaignId?: string | null
     leadId?: string | null
     conversationId?: string | null
+    sentByUserId?: string | null
   }
 
   export type MessageUpdateManyMutationInput = {
@@ -65921,6 +66008,7 @@ export namespace Prisma {
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type KeywordRuleCreateInput = {
@@ -69363,6 +69451,12 @@ export namespace Prisma {
     none?: RewardRedemptionWhereInput
   }
 
+  export type MessageListRelationFilter = {
+    every?: MessageWhereInput
+    some?: MessageWhereInput
+    none?: MessageWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -69409,6 +69503,10 @@ export namespace Prisma {
   }
 
   export type RewardRedemptionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MessageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -69768,12 +69866,6 @@ export namespace Prisma {
     none?: WhatsappInstanceWhereInput
   }
 
-  export type MessageListRelationFilter = {
-    every?: MessageWhereInput
-    some?: MessageWhereInput
-    none?: MessageWhereInput
-  }
-
   export type KeywordRuleListRelationFilter = {
     every?: KeywordRuleWhereInput
     some?: KeywordRuleWhereInput
@@ -69902,10 +69994,6 @@ export namespace Prisma {
   }
 
   export type WhatsappInstanceOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type MessageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -70659,6 +70747,7 @@ export namespace Prisma {
     campaignId?: SortOrder
     leadId?: SortOrder
     conversationId?: SortOrder
+    sentByUserId?: SortOrder
   }
 
   export type MessageAvgOrderByAggregateInput = {
@@ -70686,6 +70775,7 @@ export namespace Prisma {
     campaignId?: SortOrder
     leadId?: SortOrder
     conversationId?: SortOrder
+    sentByUserId?: SortOrder
   }
 
   export type MessageMinOrderByAggregateInput = {
@@ -70709,6 +70799,7 @@ export namespace Prisma {
     campaignId?: SortOrder
     leadId?: SortOrder
     conversationId?: SortOrder
+    sentByUserId?: SortOrder
   }
 
   export type MessageSumOrderByAggregateInput = {
@@ -72997,6 +73088,13 @@ export namespace Prisma {
     connect?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
   }
 
+  export type MessageCreateNestedManyWithoutSentByInput = {
+    create?: XOR<MessageCreateWithoutSentByInput, MessageUncheckedCreateWithoutSentByInput> | MessageCreateWithoutSentByInput[] | MessageUncheckedCreateWithoutSentByInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutSentByInput | MessageCreateOrConnectWithoutSentByInput[]
+    createMany?: MessageCreateManySentByInputEnvelope
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
   export type TicketUncheckedCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -73085,6 +73183,13 @@ export namespace Prisma {
     connectOrCreate?: RewardRedemptionCreateOrConnectWithoutUserInput | RewardRedemptionCreateOrConnectWithoutUserInput[]
     createMany?: RewardRedemptionCreateManyUserInputEnvelope
     connect?: RewardRedemptionWhereUniqueInput | RewardRedemptionWhereUniqueInput[]
+  }
+
+  export type MessageUncheckedCreateNestedManyWithoutSentByInput = {
+    create?: XOR<MessageCreateWithoutSentByInput, MessageUncheckedCreateWithoutSentByInput> | MessageCreateWithoutSentByInput[] | MessageUncheckedCreateWithoutSentByInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutSentByInput | MessageCreateOrConnectWithoutSentByInput[]
+    createMany?: MessageCreateManySentByInputEnvelope
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -73299,6 +73404,20 @@ export namespace Prisma {
     deleteMany?: RewardRedemptionScalarWhereInput | RewardRedemptionScalarWhereInput[]
   }
 
+  export type MessageUpdateManyWithoutSentByNestedInput = {
+    create?: XOR<MessageCreateWithoutSentByInput, MessageUncheckedCreateWithoutSentByInput> | MessageCreateWithoutSentByInput[] | MessageUncheckedCreateWithoutSentByInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutSentByInput | MessageCreateOrConnectWithoutSentByInput[]
+    upsert?: MessageUpsertWithWhereUniqueWithoutSentByInput | MessageUpsertWithWhereUniqueWithoutSentByInput[]
+    createMany?: MessageCreateManySentByInputEnvelope
+    set?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    disconnect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    delete?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    update?: MessageUpdateWithWhereUniqueWithoutSentByInput | MessageUpdateWithWhereUniqueWithoutSentByInput[]
+    updateMany?: MessageUpdateManyWithWhereWithoutSentByInput | MessageUpdateManyWithWhereWithoutSentByInput[]
+    deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
   export type TicketUncheckedUpdateManyWithoutCreatedByNestedInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -73475,6 +73594,20 @@ export namespace Prisma {
     update?: RewardRedemptionUpdateWithWhereUniqueWithoutUserInput | RewardRedemptionUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: RewardRedemptionUpdateManyWithWhereWithoutUserInput | RewardRedemptionUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: RewardRedemptionScalarWhereInput | RewardRedemptionScalarWhereInput[]
+  }
+
+  export type MessageUncheckedUpdateManyWithoutSentByNestedInput = {
+    create?: XOR<MessageCreateWithoutSentByInput, MessageUncheckedCreateWithoutSentByInput> | MessageCreateWithoutSentByInput[] | MessageUncheckedCreateWithoutSentByInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutSentByInput | MessageCreateOrConnectWithoutSentByInput[]
+    upsert?: MessageUpsertWithWhereUniqueWithoutSentByInput | MessageUpsertWithWhereUniqueWithoutSentByInput[]
+    createMany?: MessageCreateManySentByInputEnvelope
+    set?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    disconnect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    delete?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    update?: MessageUpdateWithWhereUniqueWithoutSentByInput | MessageUpdateWithWhereUniqueWithoutSentByInput[]
+    updateMany?: MessageUpdateManyWithWhereWithoutSentByInput | MessageUpdateManyWithWhereWithoutSentByInput[]
+    deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutVaultChallengesInput = {
@@ -75646,6 +75779,12 @@ export namespace Prisma {
     connect?: ConversationWhereUniqueInput
   }
 
+  export type UserCreateNestedOneWithoutMessagesSentInput = {
+    create?: XOR<UserCreateWithoutMessagesSentInput, UserUncheckedCreateWithoutMessagesSentInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMessagesSentInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type EnumMessageDirFieldUpdateOperationsInput = {
     set?: $Enums.MessageDir
   }
@@ -75708,6 +75847,16 @@ export namespace Prisma {
     delete?: ConversationWhereInput | boolean
     connect?: ConversationWhereUniqueInput
     update?: XOR<XOR<ConversationUpdateToOneWithWhereWithoutMessagesInput, ConversationUpdateWithoutMessagesInput>, ConversationUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type UserUpdateOneWithoutMessagesSentNestedInput = {
+    create?: XOR<UserCreateWithoutMessagesSentInput, UserUncheckedCreateWithoutMessagesSentInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMessagesSentInput
+    upsert?: UserUpsertWithoutMessagesSentInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMessagesSentInput, UserUpdateWithoutMessagesSentInput>, UserUncheckedUpdateWithoutMessagesSentInput>
   }
 
   export type CompanyCreateNestedOneWithoutKeywordRulesInput = {
@@ -78609,6 +78758,64 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MessageCreateWithoutSentByInput = {
+    id?: string
+    externalId?: string | null
+    phone: string
+    participantPhone?: string | null
+    participantName?: string | null
+    body: string
+    direction?: $Enums.MessageDir
+    identifiedAs?: $Enums.LeadStatus | null
+    processed?: boolean
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
+    company: CompanyCreateNestedOneWithoutMessagesInput
+    instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
+    campaign?: CampaignCreateNestedOneWithoutMessagesInput
+    lead?: LeadCreateNestedOneWithoutMessagesInput
+    conversation?: ConversationCreateNestedOneWithoutMessagesInput
+  }
+
+  export type MessageUncheckedCreateWithoutSentByInput = {
+    id?: string
+    externalId?: string | null
+    phone: string
+    participantPhone?: string | null
+    participantName?: string | null
+    body: string
+    direction?: $Enums.MessageDir
+    identifiedAs?: $Enums.LeadStatus | null
+    processed?: boolean
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
+    companyId: string
+    instanceId?: string | null
+    campaignId?: string | null
+    leadId?: string | null
+    conversationId?: string | null
+  }
+
+  export type MessageCreateOrConnectWithoutSentByInput = {
+    where: MessageWhereUniqueInput
+    create: XOR<MessageCreateWithoutSentByInput, MessageUncheckedCreateWithoutSentByInput>
+  }
+
+  export type MessageCreateManySentByInputEnvelope = {
+    data: MessageCreateManySentByInput | MessageCreateManySentByInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutUsersInput = {
     update: XOR<CompanyUpdateWithoutUsersInput, CompanyUncheckedUpdateWithoutUsersInput>
     create: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
@@ -79136,6 +79343,50 @@ export namespace Prisma {
     resolvedAt?: DateTimeNullableFilter<"RewardRedemption"> | Date | string | null
   }
 
+  export type MessageUpsertWithWhereUniqueWithoutSentByInput = {
+    where: MessageWhereUniqueInput
+    update: XOR<MessageUpdateWithoutSentByInput, MessageUncheckedUpdateWithoutSentByInput>
+    create: XOR<MessageCreateWithoutSentByInput, MessageUncheckedCreateWithoutSentByInput>
+  }
+
+  export type MessageUpdateWithWhereUniqueWithoutSentByInput = {
+    where: MessageWhereUniqueInput
+    data: XOR<MessageUpdateWithoutSentByInput, MessageUncheckedUpdateWithoutSentByInput>
+  }
+
+  export type MessageUpdateManyWithWhereWithoutSentByInput = {
+    where: MessageScalarWhereInput
+    data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutSentByInput>
+  }
+
+  export type MessageScalarWhereInput = {
+    AND?: MessageScalarWhereInput | MessageScalarWhereInput[]
+    OR?: MessageScalarWhereInput[]
+    NOT?: MessageScalarWhereInput | MessageScalarWhereInput[]
+    id?: StringFilter<"Message"> | string
+    externalId?: StringNullableFilter<"Message"> | string | null
+    phone?: StringFilter<"Message"> | string
+    participantPhone?: StringNullableFilter<"Message"> | string | null
+    participantName?: StringNullableFilter<"Message"> | string | null
+    body?: StringFilter<"Message"> | string
+    direction?: EnumMessageDirFilter<"Message"> | $Enums.MessageDir
+    identifiedAs?: EnumLeadStatusNullableFilter<"Message"> | $Enums.LeadStatus | null
+    processed?: BoolFilter<"Message"> | boolean
+    rawPayload?: JsonNullableFilter<"Message">
+    receivedAt?: DateTimeFilter<"Message"> | Date | string
+    ack?: IntNullableFilter<"Message"> | number | null
+    quotedId?: StringNullableFilter<"Message"> | string | null
+    quotedBody?: StringNullableFilter<"Message"> | string | null
+    mediaBase64?: StringNullableFilter<"Message"> | string | null
+    mediaType?: StringNullableFilter<"Message"> | string | null
+    companyId?: StringFilter<"Message"> | string
+    instanceId?: StringNullableFilter<"Message"> | string | null
+    campaignId?: StringNullableFilter<"Message"> | string | null
+    leadId?: StringNullableFilter<"Message"> | string | null
+    conversationId?: StringNullableFilter<"Message"> | string | null
+    sentByUserId?: StringNullableFilter<"Message"> | string | null
+  }
+
   export type UserCreateWithoutVaultChallengesInput = {
     id?: string
     name: string
@@ -79160,6 +79411,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
   }
 
   export type UserUncheckedCreateWithoutVaultChallengesInput = {
@@ -79186,6 +79438,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
   }
 
   export type UserCreateOrConnectWithoutVaultChallengesInput = {
@@ -79228,6 +79481,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultChallengesInput = {
@@ -79254,6 +79508,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
   }
 
   export type UserCreateWithoutVaultTrustedSessionsInput = {
@@ -79280,6 +79535,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
   }
 
   export type UserUncheckedCreateWithoutVaultTrustedSessionsInput = {
@@ -79306,6 +79562,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
   }
 
   export type UserCreateOrConnectWithoutVaultTrustedSessionsInput = {
@@ -79348,6 +79605,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultTrustedSessionsInput = {
@@ -79374,6 +79632,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
   }
 
   export type UserCreateWithoutGoogleConnectionsInput = {
@@ -79400,6 +79659,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
   }
 
   export type UserUncheckedCreateWithoutGoogleConnectionsInput = {
@@ -79426,6 +79686,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
   }
 
   export type UserCreateOrConnectWithoutGoogleConnectionsInput = {
@@ -79468,6 +79729,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGoogleConnectionsInput = {
@@ -79494,6 +79756,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
   }
 
   export type CompanyCreateWithoutSubCompaniesInput = {
@@ -79767,6 +80030,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
   }
 
   export type UserUncheckedCreateWithoutCompanyInput = {
@@ -79793,6 +80057,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
   }
 
   export type UserCreateOrConnectWithoutCompanyInput = {
@@ -80258,6 +80523,7 @@ export namespace Prisma {
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
     conversation?: ConversationCreateNestedOneWithoutMessagesInput
+    sentBy?: UserCreateNestedOneWithoutMessagesSentInput
   }
 
   export type MessageUncheckedCreateWithoutCompanyInput = {
@@ -80281,6 +80547,7 @@ export namespace Prisma {
     campaignId?: string | null
     leadId?: string | null
     conversationId?: string | null
+    sentByUserId?: string | null
   }
 
   export type MessageCreateOrConnectWithoutCompanyInput = {
@@ -81603,33 +81870,6 @@ export namespace Prisma {
     data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutCompanyInput>
   }
 
-  export type MessageScalarWhereInput = {
-    AND?: MessageScalarWhereInput | MessageScalarWhereInput[]
-    OR?: MessageScalarWhereInput[]
-    NOT?: MessageScalarWhereInput | MessageScalarWhereInput[]
-    id?: StringFilter<"Message"> | string
-    externalId?: StringNullableFilter<"Message"> | string | null
-    phone?: StringFilter<"Message"> | string
-    participantPhone?: StringNullableFilter<"Message"> | string | null
-    participantName?: StringNullableFilter<"Message"> | string | null
-    body?: StringFilter<"Message"> | string
-    direction?: EnumMessageDirFilter<"Message"> | $Enums.MessageDir
-    identifiedAs?: EnumLeadStatusNullableFilter<"Message"> | $Enums.LeadStatus | null
-    processed?: BoolFilter<"Message"> | boolean
-    rawPayload?: JsonNullableFilter<"Message">
-    receivedAt?: DateTimeFilter<"Message"> | Date | string
-    ack?: IntNullableFilter<"Message"> | number | null
-    quotedId?: StringNullableFilter<"Message"> | string | null
-    quotedBody?: StringNullableFilter<"Message"> | string | null
-    mediaBase64?: StringNullableFilter<"Message"> | string | null
-    mediaType?: StringNullableFilter<"Message"> | string | null
-    companyId?: StringFilter<"Message"> | string
-    instanceId?: StringNullableFilter<"Message"> | string | null
-    campaignId?: StringNullableFilter<"Message"> | string | null
-    leadId?: StringNullableFilter<"Message"> | string | null
-    conversationId?: StringNullableFilter<"Message"> | string | null
-  }
-
   export type KeywordRuleUpsertWithWhereUniqueWithoutCompanyInput = {
     where: KeywordRuleWhereUniqueInput
     update: XOR<KeywordRuleUpdateWithoutCompanyInput, KeywordRuleUncheckedUpdateWithoutCompanyInput>
@@ -82435,6 +82675,7 @@ export namespace Prisma {
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
     conversation?: ConversationCreateNestedOneWithoutMessagesInput
+    sentBy?: UserCreateNestedOneWithoutMessagesSentInput
   }
 
   export type MessageUncheckedCreateWithoutCampaignInput = {
@@ -82458,6 +82699,7 @@ export namespace Prisma {
     instanceId?: string | null
     leadId?: string | null
     conversationId?: string | null
+    sentByUserId?: string | null
   }
 
   export type MessageCreateOrConnectWithoutCampaignInput = {
@@ -83551,6 +83793,7 @@ export namespace Prisma {
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
     conversation?: ConversationCreateNestedOneWithoutMessagesInput
+    sentBy?: UserCreateNestedOneWithoutMessagesSentInput
   }
 
   export type MessageUncheckedCreateWithoutLeadInput = {
@@ -83574,6 +83817,7 @@ export namespace Prisma {
     instanceId?: string | null
     campaignId?: string | null
     conversationId?: string | null
+    sentByUserId?: string | null
   }
 
   export type MessageCreateOrConnectWithoutLeadInput = {
@@ -84502,6 +84746,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
   }
 
   export type UserUncheckedCreateWithoutCompanyContactInput = {
@@ -84528,6 +84773,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
   }
 
   export type UserCreateOrConnectWithoutCompanyContactInput = {
@@ -84697,6 +84943,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyContactInput = {
@@ -84723,6 +84970,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
   }
 
   export type CompanyCreateWithoutWhatsappInstancesInput = {
@@ -84867,6 +85115,7 @@ export namespace Prisma {
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
     conversation?: ConversationCreateNestedOneWithoutMessagesInput
+    sentBy?: UserCreateNestedOneWithoutMessagesSentInput
   }
 
   export type MessageUncheckedCreateWithoutInstanceInput = {
@@ -84890,6 +85139,7 @@ export namespace Prisma {
     campaignId?: string | null
     leadId?: string | null
     conversationId?: string | null
+    sentByUserId?: string | null
   }
 
   export type MessageCreateOrConnectWithoutInstanceInput = {
@@ -85392,6 +85642,65 @@ export namespace Prisma {
     create: XOR<ConversationCreateWithoutMessagesInput, ConversationUncheckedCreateWithoutMessagesInput>
   }
 
+  export type UserCreateWithoutMessagesSentInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutMessagesSentInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutMessagesSentInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMessagesSentInput, UserUncheckedCreateWithoutMessagesSentInput>
+  }
+
   export type CompanyUpsertWithoutMessagesInput = {
     update: XOR<CompanyUpdateWithoutMessagesInput, CompanyUncheckedUpdateWithoutMessagesInput>
     create: XOR<CompanyCreateWithoutMessagesInput, CompanyUncheckedCreateWithoutMessagesInput>
@@ -85725,6 +86034,71 @@ export namespace Prisma {
     notes?: ConversationNoteUncheckedUpdateManyWithoutConversationNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutConversationNestedInput
     leads?: LeadUncheckedUpdateManyWithoutConversationNestedInput
+  }
+
+  export type UserUpsertWithoutMessagesSentInput = {
+    update: XOR<UserUpdateWithoutMessagesSentInput, UserUncheckedUpdateWithoutMessagesSentInput>
+    create: XOR<UserCreateWithoutMessagesSentInput, UserUncheckedCreateWithoutMessagesSentInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutMessagesSentInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutMessagesSentInput, UserUncheckedUpdateWithoutMessagesSentInput>
+  }
+
+  export type UserUpdateWithoutMessagesSentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutMessagesSentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutKeywordRulesInput = {
@@ -86087,6 +86461,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
   }
 
   export type UserUncheckedCreateWithoutConversationsAssignedInput = {
@@ -86113,6 +86488,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
   }
 
   export type UserCreateOrConnectWithoutConversationsAssignedInput = {
@@ -86313,6 +86689,7 @@ export namespace Prisma {
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
+    sentBy?: UserCreateNestedOneWithoutMessagesSentInput
   }
 
   export type MessageUncheckedCreateWithoutConversationInput = {
@@ -86336,6 +86713,7 @@ export namespace Prisma {
     instanceId?: string | null
     campaignId?: string | null
     leadId?: string | null
+    sentByUserId?: string | null
   }
 
   export type MessageCreateOrConnectWithoutConversationInput = {
@@ -86509,6 +86887,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversationsAssignedInput = {
@@ -86535,6 +86914,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
   }
 
   export type SetorUpsertWithoutConversationsInput = {
@@ -87651,6 +88031,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
   }
 
   export type UserUncheckedCreateWithoutTicketsAssignedInput = {
@@ -87677,6 +88058,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
   }
 
   export type UserCreateOrConnectWithoutTicketsAssignedInput = {
@@ -87829,6 +88211,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
   }
 
   export type UserUncheckedCreateWithoutTicketsCreatedInput = {
@@ -87855,6 +88238,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
   }
 
   export type UserCreateOrConnectWithoutTicketsCreatedInput = {
@@ -88147,6 +88531,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsAssignedInput = {
@@ -88173,6 +88558,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
   }
 
   export type CompanyUpsertWithoutTicketsInput = {
@@ -88337,6 +88723,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsCreatedInput = {
@@ -88363,6 +88750,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
   }
 
   export type SetorUpsertWithoutTicketsInput = {
@@ -89965,6 +90353,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
   }
 
   export type UserUncheckedCreateWithoutProjectMembershipsInput = {
@@ -89991,6 +90380,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
   }
 
   export type UserCreateOrConnectWithoutProjectMembershipsInput = {
@@ -90096,6 +90486,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
@@ -90122,6 +90513,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
   }
 
   export type SetorCreateWithoutUsersInput = {
@@ -90199,6 +90591,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
   }
 
   export type UserUncheckedCreateWithoutSetoresInput = {
@@ -90225,6 +90618,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
   }
 
   export type UserCreateOrConnectWithoutSetoresInput = {
@@ -90324,6 +90718,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSetoresInput = {
@@ -90350,6 +90745,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
   }
 
   export type SetorCreateWithoutInstancesInput = {
@@ -93745,6 +94141,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
   }
 
   export type UserUncheckedCreateWithoutRewardRedemptionsInput = {
@@ -93771,6 +94168,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
   }
 
   export type UserCreateOrConnectWithoutRewardRedemptionsInput = {
@@ -93965,6 +94363,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRewardRedemptionsInput = {
@@ -93991,6 +94390,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
   }
 
   export type CompanyUpsertWithoutRewardRedemptionsInput = {
@@ -94181,6 +94581,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
   }
 
   export type UserUncheckedCreateWithoutUserScoresInput = {
@@ -94207,6 +94608,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
   }
 
   export type UserCreateOrConnectWithoutUserScoresInput = {
@@ -94370,6 +94772,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserScoresInput = {
@@ -94396,6 +94799,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
   }
 
   export type CompanyUpsertWithoutUserScoresInput = {
@@ -94549,6 +94953,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
   }
 
   export type UserUncheckedCreateWithoutUserBadgesInput = {
@@ -94575,6 +94980,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
   }
 
   export type UserCreateOrConnectWithoutUserBadgesInput = {
@@ -94738,6 +95144,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserBadgesInput = {
@@ -94764,6 +95171,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
   }
 
   export type CompanyUpsertWithoutUserBadgesInput = {
@@ -94917,6 +95325,7 @@ export namespace Prisma {
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
   }
 
   export type UserUncheckedCreateWithoutScoreEventsInput = {
@@ -94943,6 +95352,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
   }
 
   export type UserCreateOrConnectWithoutScoreEventsInput = {
@@ -95106,6 +95516,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutScoreEventsInput = {
@@ -95132,6 +95543,7 @@ export namespace Prisma {
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
   }
 
   export type CompanyUpsertWithoutScoreEventsInput = {
@@ -95907,6 +96319,30 @@ export namespace Prisma {
     resolvedAt?: Date | string | null
   }
 
+  export type MessageCreateManySentByInput = {
+    id?: string
+    externalId?: string | null
+    phone: string
+    participantPhone?: string | null
+    participantName?: string | null
+    body: string
+    direction?: $Enums.MessageDir
+    identifiedAs?: $Enums.LeadStatus | null
+    processed?: boolean
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    receivedAt?: Date | string
+    ack?: number | null
+    quotedId?: string | null
+    quotedBody?: string | null
+    mediaBase64?: string | null
+    mediaType?: string | null
+    companyId: string
+    instanceId?: string | null
+    campaignId?: string | null
+    leadId?: string | null
+    conversationId?: string | null
+  }
+
   export type TicketUpdateWithoutCreatedByInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -96373,6 +96809,78 @@ export namespace Prisma {
     resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type MessageUpdateWithoutSentByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
+    identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
+    processed?: BoolFieldUpdateOperationsInput | boolean
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
+    instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
+    campaign?: CampaignUpdateOneWithoutMessagesNestedInput
+    lead?: LeadUpdateOneWithoutMessagesNestedInput
+    conversation?: ConversationUpdateOneWithoutMessagesNestedInput
+  }
+
+  export type MessageUncheckedUpdateWithoutSentByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
+    identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
+    processed?: BoolFieldUpdateOperationsInput | boolean
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MessageUncheckedUpdateManyWithoutSentByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    participantPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    participantName?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    direction?: EnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir
+    identifiedAs?: NullableEnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus | null
+    processed?: BoolFieldUpdateOperationsInput | boolean
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ack?: NullableIntFieldUpdateOperationsInput | number | null
+    quotedId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type CompanyCreateManyParentCompanyInput = {
     id?: string
     name: string
@@ -96579,6 +97087,7 @@ export namespace Prisma {
     campaignId?: string | null
     leadId?: string | null
     conversationId?: string | null
+    sentByUserId?: string | null
   }
 
   export type KeywordRuleCreateManyCompanyInput = {
@@ -97007,6 +97516,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyInput = {
@@ -97033,6 +97543,7 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCompanyInput = {
@@ -97538,6 +98049,7 @@ export namespace Prisma {
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
     conversation?: ConversationUpdateOneWithoutMessagesNestedInput
+    sentBy?: UserUpdateOneWithoutMessagesSentNestedInput
   }
 
   export type MessageUncheckedUpdateWithoutCompanyInput = {
@@ -97561,6 +98073,7 @@ export namespace Prisma {
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageUncheckedUpdateManyWithoutCompanyInput = {
@@ -97584,6 +98097,7 @@ export namespace Prisma {
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type KeywordRuleUpdateWithoutCompanyInput = {
@@ -98445,6 +98959,7 @@ export namespace Prisma {
     instanceId?: string | null
     leadId?: string | null
     conversationId?: string | null
+    sentByUserId?: string | null
   }
 
   export type TrackingLinkCreateManyCampaignInput = {
@@ -98566,6 +99081,7 @@ export namespace Prisma {
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
     conversation?: ConversationUpdateOneWithoutMessagesNestedInput
+    sentBy?: UserUpdateOneWithoutMessagesSentNestedInput
   }
 
   export type MessageUncheckedUpdateWithoutCampaignInput = {
@@ -98589,6 +99105,7 @@ export namespace Prisma {
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageUncheckedUpdateManyWithoutCampaignInput = {
@@ -98612,6 +99129,7 @@ export namespace Prisma {
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TrackingLinkUpdateWithoutCampaignInput = {
@@ -98834,6 +99352,7 @@ export namespace Prisma {
     instanceId?: string | null
     campaignId?: string | null
     conversationId?: string | null
+    sentByUserId?: string | null
   }
 
   export type LeadCommentCreateManyLeadInput = {
@@ -98879,6 +99398,7 @@ export namespace Prisma {
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
     conversation?: ConversationUpdateOneWithoutMessagesNestedInput
+    sentBy?: UserUpdateOneWithoutMessagesSentNestedInput
   }
 
   export type MessageUncheckedUpdateWithoutLeadInput = {
@@ -98902,6 +99422,7 @@ export namespace Prisma {
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageUncheckedUpdateManyWithoutLeadInput = {
@@ -98925,6 +99446,7 @@ export namespace Prisma {
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LeadCommentUpdateWithoutLeadInput = {
@@ -99014,6 +99536,7 @@ export namespace Prisma {
     campaignId?: string | null
     leadId?: string | null
     conversationId?: string | null
+    sentByUserId?: string | null
   }
 
   export type SetorInstanceCreateManyInstanceInput = {
@@ -99041,6 +99564,7 @@ export namespace Prisma {
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
     conversation?: ConversationUpdateOneWithoutMessagesNestedInput
+    sentBy?: UserUpdateOneWithoutMessagesSentNestedInput
   }
 
   export type MessageUncheckedUpdateWithoutInstanceInput = {
@@ -99064,6 +99588,7 @@ export namespace Prisma {
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageUncheckedUpdateManyWithoutInstanceInput = {
@@ -99087,6 +99612,7 @@ export namespace Prisma {
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SetorInstanceUpdateWithoutInstanceInput = {
@@ -99122,6 +99648,7 @@ export namespace Prisma {
     instanceId?: string | null
     campaignId?: string | null
     leadId?: string | null
+    sentByUserId?: string | null
   }
 
   export type ConversationNoteCreateManyConversationInput = {
@@ -99190,6 +99717,7 @@ export namespace Prisma {
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
+    sentBy?: UserUpdateOneWithoutMessagesSentNestedInput
   }
 
   export type MessageUncheckedUpdateWithoutConversationInput = {
@@ -99213,6 +99741,7 @@ export namespace Prisma {
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageUncheckedUpdateManyWithoutConversationInput = {
@@ -99236,6 +99765,7 @@ export namespace Prisma {
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ConversationNoteUpdateWithoutConversationInput = {

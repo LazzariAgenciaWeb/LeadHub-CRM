@@ -122,6 +122,7 @@ export async function POST(
         companyId: instance.companyId,
         conversationId: conv.id,
         ack: 1,
+        sentByUserId: userId ?? null,
         ...(quoted ? { quotedId: quotedExternalId, quotedBody: quotedBody ?? null } : {}),
       },
       include: { instance: { select: { instanceName: true } }, campaign: { select: { id: true, name: true } } },

@@ -43,6 +43,7 @@ model User {
   // Timestamp da última vez que o user "viu" os badges — pra toast de novidades
   lastBadgeSeenAt     DateTime?
   rewardRedemptions   RewardRedemption[]
+  messagesSent        Message[]            @relation("MessageSentBy")
 
   @@index([companyId])
 }
@@ -467,6 +468,12 @@ model Message {
   conversation   Conversation? @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   conversationId String?
 
+  // User que enviou a mensagem OUTBOUND (atendente). Visível só na UI interna
+  // do LeadHub — auditoria e identificação de quem operou. Nullable para
+  // mensagens antigas e mensagens automáticas (campanha, sistema).
+  sentBy       User?   @relation("MessageSentBy", fields: [sentByUserId], references: [id])
+  sentByUserId String?
+
   @@index([companyId])
   // Cobre `WHERE phone = X AND companyId = Y ORDER BY receivedAt DESC LIMIT N`
   // (rota /api/whatsapp/messages — abrir conversa). Substituiu o antigo
@@ -476,6 +483,7 @@ model Message {
   @@index([phone, companyId, receivedAt])
   @@index([processed])
   @@index([conversationId, receivedAt])
+  @@index([sentByUserId])
 }
 
 enum MessageDir {

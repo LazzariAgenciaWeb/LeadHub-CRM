@@ -148,6 +148,9 @@ interface WaMessage {
   participantName: string | null;
   instance: { instanceName: string } | null;
   campaign: { id: string; name: string } | null;
+  // User do LeadHub que enviou a mensagem (visível só na UI interna).
+  // Mensagens antigas e mensagens vindas do webhook ficam null.
+  sentBy?: { id: string; name: string } | null;
   ack?: number | null;
   quotedId?: string | null;
   quotedBody?: string | null;
@@ -3656,10 +3659,16 @@ export default function WhatsappManager({
                               </div>
                             )}
 
-                            {/* Individual enviado / outbound direto: via instância */}
+                            {/* Individual enviado / outbound direto: via instância
+                                + nome do user que enviou (interno, ajuda a
+                                identificar quem operou — mensagens antigas/
+                                vindas do webhook ficam só com a instância). */}
                             {isOut && msg.instance && (
                               <div className={`text-[10px] font-semibold mb-1 truncate ${getInstanceBadgeColor(msg.instance.instanceName).split(" ").filter(c => c.startsWith("text-")).join(" ")}`}>
                                 Via {msg.instance.instanceName}
+                                {msg.sentBy?.name && (
+                                  <span className="text-slate-400 font-normal"> · {msg.sentBy.name.split(" ")[0]}</span>
+                                )}
                               </div>
                             )}
 

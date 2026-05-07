@@ -47,6 +47,7 @@ export async function GET(req: NextRequest) {
       include: {
         instance: { select: { instanceName: true } },
         campaign: { select: { id: true, name: true } },
+        sentBy:   { select: { id: true, name: true } },
       },
     });
     return NextResponse.json(messages);

@@ -325,7 +325,8 @@ exports.Prisma.MessageScalarFieldEnum = {
   instanceId: 'instanceId',
   campaignId: 'campaignId',
   leadId: 'leadId',
-  conversationId: 'conversationId'
+  conversationId: 'conversationId',
+  sentByUserId: 'sentByUserId'
 };
 
 exports.Prisma.KeywordRuleScalarFieldEnum = {
