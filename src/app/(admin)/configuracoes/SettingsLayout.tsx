@@ -5,6 +5,7 @@ import { useState } from "react";
 import {
   MessageSquare, Building2, Plug, Zap, CheckSquare, Sparkles, Webhook,
   Workflow, Tag, Clock, Globe, Mail, FileText, Users, KeyRound, Shield, CreditCard, Trophy,
+  UserCircle,
   ChevronDown, ChevronRight,
   type LucideIcon,
 } from "lucide-react";
@@ -22,6 +23,7 @@ type SectionItem =
     };
 
 const SECTIONS: SectionItem[] = [
+  { type: "item", key: "meu-perfil", Icon: UserCircle, grad: "dashboard", label: "Meu Perfil", desc: "Seus dados e assinatura" },
   { type: "item", key: "instancias", Icon: MessageSquare, grad: "instancias", label: "Instâncias WhatsApp", desc: "Números conectados" },
   {
     type: "group",

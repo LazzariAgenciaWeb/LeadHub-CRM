@@ -14,6 +14,7 @@ import { SCORE_TABLE } from "@/lib/gamification";
 import { ScoreReason } from "@/generated/prisma";
 import IntegracoesGoogleSection from "./IntegracoesGoogleSection";
 import EmailSettings from "./EmailSettings";
+import MeuPerfilSettings from "./MeuPerfilSettings";
 import CompanyContacts from "../empresas/[id]/CompanyContacts";
 import CompanyVault from "../empresas/[id]/CompanyVault";
 import CompanySubscription from "../empresas/[id]/CompanySubscription";
@@ -35,7 +36,24 @@ export default async function ConfiguracoesPage({
 
   let content: React.ReactNode;
 
-  if (secao === "instancias") {
+  if (secao === "meu-perfil") {
+    // Sempre o user logado real — `session.user.id` se mantém mesmo durante
+    // impersonation (`getEffectiveSession` só altera role/companyId).
+    const userId = (session?.user as any)?.id as string | undefined;
+    if (!userId) {
+      content = <div className="p-6 text-slate-500 text-sm">Sessão inválida.</div>;
+    } else {
+      const me = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { id: true, name: true, email: true, role: true, whatsappSignature: true },
+      });
+      if (!me) {
+        content = <div className="p-6 text-slate-500 text-sm">Usuário não encontrado.</div>;
+      } else {
+        content = <MeuPerfilSettings initialUser={me} />;
+      }
+    }
+  } else if (secao === "instancias") {
     const instanceWhere = isSuperAdmin ? {} : { companyId: userCompanyId ?? "" };
 
     const [instances, companies] = await Promise.all([
