@@ -125,12 +125,23 @@ export default function MeuPerfilSettings({
             </div>
           </div>
 
-          {/* Preview */}
+          {/* Preview — simula o WhatsApp: nome em itálico via _underscores_ */}
           <div>
-            <div className="text-slate-400 text-[10px] font-semibold uppercase tracking-wide mb-1.5">Pré-visualização</div>
+            <div className="text-slate-400 text-[10px] font-semibold uppercase tracking-wide mb-1.5">Pré-visualização (como aparece no WhatsApp)</div>
             <div className="bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-slate-300 whitespace-pre-wrap font-mono">
-              {`Olá! Vou te ajudar com isso.${trimmed ? `\n\n-- ${trimmed}` : ""}`}
+              Olá! Vou te ajudar com isso.
+              {trimmed && (
+                <>
+                  {"\n\n-- "}
+                  <span className="italic">{trimmed}</span>
+                </>
+              )}
             </div>
+            {trimmed && (
+              <p className="text-slate-600 text-[10px] mt-1">
+                Enviado como: <code className="text-slate-500">-- _{trimmed}_</code>
+              </p>
+            )}
           </div>
 
           {error && (

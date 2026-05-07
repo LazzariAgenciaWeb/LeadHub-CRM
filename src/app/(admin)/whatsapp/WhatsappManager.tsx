@@ -1598,9 +1598,10 @@ export default function WhatsappManager({
     setSendingReply(true);
     setReplyError(null);
 
-    // Se o usuário ativou a assinatura, anexa "-- {nome}" ao final da mensagem
+    // Se o usuário ativou a assinatura, anexa "-- _{nome}_" ao final da mensagem.
+    // Underscores rendem itálico no WhatsApp.
     const finalText = (includeSignature && userSignature)
-      ? `${replyText.trim()}\n\n-- ${userSignature}`
+      ? `${replyText.trim()}\n\n-- _${userSignature}_`
       : replyText.trim();
 
     const payload: Record<string, unknown> = { phone: selectedConv.phone, text: finalText };
@@ -4309,7 +4310,7 @@ export default function WhatsappManager({
                 <div className="flex items-center justify-between mt-1 gap-3">
                   <p className="text-slate-700 text-[10px]">Enter envia · Ctrl+Enter quebra linha</p>
                   {userSignature && (
-                    <label className="flex items-center gap-1.5 cursor-pointer select-none group" title={`Anexa "-- ${userSignature}" no fim`}>
+                    <label className="flex items-center gap-1.5 cursor-pointer select-none group" title={`Anexa "-- _${userSignature}_" (itálico) no fim`}>
                       <input
                         type="checkbox"
                         checked={includeSignature}
