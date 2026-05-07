@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import {
   runDailyPenalties, runDiaSemAtraso, runProjectsDailyPenalties,
   grantReiDoMes, resetMonthlyScores,
+  runDailyMessageScoring, runWeeklyNetworkScoring,
 } from "@/lib/gamification";
 
 /**
@@ -11,7 +12,13 @@ import {
  * Modos via `?mode=`:
  *
  *   daily   (default) — manhã ao abrir o expediente.
+ *     - Processa em batch a pontuação de mensagens do dia anterior
+ *       (runDailyMessageScoring): RESPOSTA_RAPIDA, PRIMEIRA_RESPOSTA,
+ *       AJUDA_EXERCITO, badges de grupo (DIPLOMATA, PRECISO), easter eggs
+ *       NOITE/MADRUGADA — 1× por (user, dia) cada.
  *     - Aplica penalidades: conversas sem resposta > 24h, tickets com SLA vencido.
+ *     - Segunda-feira: também concede DIA_NETWORK (semanal — quem fechou a
+ *       semana sem grupo abandonado).
  *     - Dia 1 do mês: concede REI_DO_MES e reseta monthPoints.
  *
  *   evening — fim do expediente (recomendado às 19h ou closeTime do horário).
@@ -33,6 +40,7 @@ async function handle(req: NextRequest) {
   const mode = req.nextUrl.searchParams.get("mode") ?? "daily";
   const now  = new Date();
   const isFirstOfMonth = now.getDate() === 1;
+  const isMonday       = now.getDay() === 1;
 
   const companies = await prisma.company.findMany({
     where:  { moduleGamificacao: true },
@@ -50,14 +58,27 @@ async function handle(req: NextRequest) {
       if (mode === "monthly" || (mode === "daily" && isFirstOfMonth)) {
         await grantReiDoMes(company.id);
         await resetMonthlyScores(company.id);
+        // No dia 1 também processa as mensagens de ontem (evita perder o último dia
+        // do mês anterior). NETWORK e penalidades também — manhã de novo mês é dia
+        // útil normal pra esses jobs.
+        await runDailyMessageScoring(company.id);
+        await runDailyPenalties(company.id);
+        await runProjectsDailyPenalties(company.id);
+        if (isMonday) await runWeeklyNetworkScoring(company.id);
         results[company.id] = "reset_mensal";
       } else if (mode === "evening") {
         await runDiaSemAtraso(company.id);
         results[company.id] = "dia_sem_atraso_aplicado";
       } else {
+        // mode === "daily" — manhã.
+        // Ordem: scoring de mensagens de ontem ANTES das penalidades (não há
+        // dependência, mas mantém o positivo antes do negativo). Network roda
+        // só na segunda, processando a semana fechada.
+        await runDailyMessageScoring(company.id);
         await runDailyPenalties(company.id);
         await runProjectsDailyPenalties(company.id);
-        results[company.id] = "penalidades_aplicadas";
+        if (isMonday) await runWeeklyNetworkScoring(company.id);
+        results[company.id] = isMonday ? "scoring_diario_e_semanal" : "scoring_diario";
       }
     } catch (err: any) {
       results[company.id] = `erro: ${err?.message ?? "desconhecido"}`;
@@ -69,6 +90,7 @@ async function handle(req: NextRequest) {
     mode,
     companies: companies.length,
     isFirstOfMonth,
+    isMonday,
     results,
     timestamp: now.toISOString(),
   });

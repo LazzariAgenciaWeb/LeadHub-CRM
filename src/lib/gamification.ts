@@ -15,6 +15,7 @@
 import { prisma } from "@/lib/prisma";
 import { BadgeType, ScoreReason } from "@/generated/prisma";
 import { isOverdueByDay } from "@/lib/datetime";
+import { businessMinutesBetweenWithConfig, loadCompanyHours } from "@/lib/business-hours";
 
 // ─── Tabela de pontos por razão ───────────────────────────────────────────────
 
@@ -1020,6 +1021,255 @@ export async function runDiaSemAtraso(companyId: string): Promise<void> {
     });
     if (yesterdayEvent) {
       await addScore(userId, companyId, ScoreReason.STREAK_DIA);
+    }
+  }
+}
+
+// ─── runDailyMessageScoring ───────────────────────────────────────────────────
+
+/**
+ * Processa em batch as pontuações ligadas a mensagens do WhatsApp para o dia
+ * informado (default: ontem). Concede no máximo 1 evento por (user, dia) por
+ * tipo — o peso fica concentrado no melhor turno do dia, eliminando duplicação
+ * por mensagem trocada.
+ *
+ * Substitui o scoring real-time que rodava em /api/whatsapp/[id]/send a cada
+ * envio. Ganhos:
+ *   - Hot path do envio fica sem cascata de queries (resolve 502 em volume).
+ *   - Cada usuário ganha no máximo 1× RESPOSTA_RAPIDA, 1× PRIMEIRA_RESPOSTA,
+ *     1× AJUDA_EXERCITO, 1× RESPOSTA_RAPIDA_GRUPO, 1× BONUS_NOITE/MADRUGADA
+ *     no dia inteiro — independente de quantas mensagens trocou.
+ *   - DIPLOMATA continua sendo 1× por (user, grupo) ever.
+ *
+ * Conversas com excludeFromGamification = true são ignoradas (grupos internos).
+ *
+ * Idempotente: rodar duas vezes no mesmo dia não duplica eventos (addScoreOnce).
+ */
+export async function runDailyMessageScoring(
+  companyId: string,
+  opts?: { dayStart?: Date; dayEnd?: Date },
+): Promise<void> {
+  const now = new Date();
+  const todayStart = new Date(now);
+  todayStart.setHours(0, 0, 0, 0);
+  const dayStart = opts?.dayStart ?? new Date(todayStart.getTime() - 24 * 60 * 60 * 1000);
+  const dayEnd   = opts?.dayEnd   ?? new Date(todayStart.getTime() - 1);
+  const dayKey   = dayStart.toISOString().slice(0, 10);
+
+  // Horário comercial da empresa — carregado uma vez pra calcular minutos úteis
+  const hoursConfig = await loadCompanyHours(companyId);
+
+  // Pega todas as OUTBOUND do dia com sentByUserId, junto da conversa.
+  // Filtra excludeFromGamification em SQL pra não trazer ruído.
+  const outbound = await prisma.message.findMany({
+    where: {
+      companyId,
+      direction: "OUTBOUND",
+      sentByUserId: { not: null },
+      receivedAt: { gte: dayStart, lte: dayEnd },
+      conversation: { excludeFromGamification: false },
+    },
+    orderBy: { receivedAt: "asc" },
+    select: {
+      receivedAt: true,
+      sentByUserId: true,
+      conversationId: true,
+      conversation: {
+        select: {
+          id: true,
+          phone: true,
+          assigneeId: true,
+        },
+      },
+    },
+  });
+
+  if (outbound.length === 0) return;
+
+  // 1ª OUTBOUND do dia por (user, conv) — ignora os turnos seguintes
+  type Pair = {
+    userId: string;
+    conv:   { id: string; phone: string; assigneeId: string | null };
+    firstAt: Date;
+  };
+  const firstByPair = new Map<string, Pair>();
+  // Horas de envio por usuário — alimenta NOITE / MADRUGADA
+  const userHoursSeen = new Map<string, number[]>();
+
+  for (const m of outbound) {
+    if (!m.sentByUserId || !m.conversation) continue;
+
+    const arr = userHoursSeen.get(m.sentByUserId) ?? [];
+    arr.push(m.receivedAt.getHours());
+    userHoursSeen.set(m.sentByUserId, arr);
+
+    const key = `${m.sentByUserId}:${m.conversationId}`;
+    if (!firstByPair.has(key)) {
+      firstByPair.set(key, {
+        userId: m.sentByUserId,
+        conv:   m.conversation,
+        firstAt: m.receivedAt,
+      });
+    }
+  }
+
+  // Acumula achievements por usuário (1× cada por dia)
+  type UserAgg = {
+    bestSpeedMin:           number | null; // melhor (menor) tempo do dia
+    hadFirstResponse:       boolean;       // alguma conv sem assignee
+    hadHelp:                boolean;       // alguma conv com assignee diferente
+    groupQuickResponse:     boolean;       // alguma resposta em grupo ≤5min
+    groupConvIds:           Set<string>;   // grupos onde respondeu (DIPLOMATA)
+  };
+  const aggByUser = new Map<string, UserAgg>();
+  const ensureAgg = (u: string): UserAgg => {
+    let a = aggByUser.get(u);
+    if (!a) {
+      a = {
+        bestSpeedMin:       null,
+        hadFirstResponse:   false,
+        hadHelp:            false,
+        groupQuickResponse: false,
+        groupConvIds:       new Set(),
+      };
+      aggByUser.set(u, a);
+    }
+    return a;
+  };
+
+  // Pra cada (user, conv) — busca a última INBOUND antes do firstAt.
+  // N pequenas queries (1 por par único do dia), bem mais barato do que
+  // rodar no hot path de cada mensagem.
+  for (const pair of firstByPair.values()) {
+    const isGroup = pair.conv.phone.includes("@g.us");
+
+    const prevInbound = await prisma.message.findFirst({
+      where: {
+        conversationId: pair.conv.id,
+        direction:      "INBOUND",
+        receivedAt:     { lt: pair.firstAt },
+      },
+      orderBy: { receivedAt: "desc" },
+      select:  { receivedAt: true },
+    });
+
+    const agg = ensureAgg(pair.userId);
+
+    // Grupo: sempre marca o conv pra DIPLOMATA (idempotente em addScoreOnce)
+    if (isGroup) agg.groupConvIds.add(pair.conv.id);
+
+    // Sem INBOUND anterior → o user só mandou outbound (mensagem ativa,
+    // não responde a nada). Não computa resposta rápida nem colaboração.
+    if (!prevInbound) continue;
+
+    const mins = businessMinutesBetweenWithConfig(prevInbound.receivedAt, pair.firstAt, hoursConfig);
+    if (agg.bestSpeedMin === null || mins < agg.bestSpeedMin) {
+      agg.bestSpeedMin = mins;
+    }
+
+    // Colaboração — usa assigneeId atual (aproximação; mudanças de assignee
+    // mid-day são raras e o batch tolera essa imperfeição).
+    if (!pair.conv.assigneeId) {
+      agg.hadFirstResponse = true;
+    } else if (pair.conv.assigneeId !== pair.userId) {
+      agg.hadHelp = true;
+    }
+
+    if (isGroup && mins <= 5) agg.groupQuickResponse = true;
+  }
+
+  // Concede pontos — 1× por achievement por (user, dia).
+  // referenceId NÃO inclui a faixa do RESPOSTA_RAPIDA: 5MIN e 30MIN
+  // compartilham a chave, garantindo que só uma das duas pontue no dia.
+  for (const [userId, agg] of aggByUser) {
+    if (agg.bestSpeedMin !== null) {
+      const reason: ScoreReason | null =
+        agg.bestSpeedMin <= 5  ? ScoreReason.RESPOSTA_RAPIDA_5MIN  :
+        agg.bestSpeedMin <= 30 ? ScoreReason.RESPOSTA_RAPIDA_30MIN : null;
+      if (reason) {
+        await addScoreOnce(userId, companyId, reason, `${userId}:${dayKey}:resposta_rapida`).catch(() => {});
+      }
+    }
+    if (agg.hadFirstResponse) {
+      await addScoreOnce(userId, companyId, ScoreReason.PRIMEIRA_RESPOSTA, `${userId}:${dayKey}:guardiao`).catch(() => {});
+    }
+    if (agg.hadHelp) {
+      await addScoreOnce(userId, companyId, ScoreReason.AJUDA_EXERCITO, `${userId}:${dayKey}:exercito`).catch(() => {});
+    }
+    if (agg.groupQuickResponse) {
+      await addScoreOnce(userId, companyId, ScoreReason.RESPOSTA_RAPIDA_GRUPO, `${userId}:${dayKey}:preciso`).catch(() => {});
+    }
+    for (const convId of agg.groupConvIds) {
+      // DIPLOMATA: 1× por (user, grupo) ever — referenceId só (conv, user)
+      await addScoreOnce(userId, companyId, ScoreReason.ATENDIMENTO_GRUPO_NOVO, `${convId}:${userId}:diplomata`).catch(() => {});
+    }
+
+    // Easter eggs por horário do dia processado:
+    //   22-04 → NOITE   |   05-06 → MADRUGADA
+    const hs = userHoursSeen.get(userId) ?? [];
+    if (hs.some((h) => h >= 22 || h < 5)) {
+      await addScoreOnce(userId, companyId, ScoreReason.BONUS_NOITE, `${userId}:${dayKey}:noite`).catch(() => {});
+    }
+    if (hs.some((h) => h >= 5 && h < 7)) {
+      await addScoreOnce(userId, companyId, ScoreReason.BONUS_MADRUGADA, `${userId}:${dayKey}:madrugada`).catch(() => {});
+    }
+  }
+}
+
+// ─── runWeeklyNetworkScoring ──────────────────────────────────────────────────
+
+/**
+ * Concede DIA_NETWORK aos atendentes que terminaram a semana sem nenhum grupo
+ * abandonado. Roda 1× por semana (recomendado: segunda de manhã, após o batch
+ * diário). Antes a checagem rodava a cada mensagem em grupo no send route, o
+ * que era a query mais cara da feature.
+ *
+ * "Abandonado" = grupo onde o user é assignee, lastMessageDirection=INBOUND,
+ * lastMessageAt > 24h, não fechado, não excluído da gamificação. Mesma regra do
+ * código antigo, só que agora avaliada uma vez no fim da semana.
+ *
+ * referenceId inclui a chave da semana anterior pra não pontuar duas vezes
+ * caso o cron rode mais de uma vez na segunda.
+ */
+export async function runWeeklyNetworkScoring(companyId: string): Promise<void> {
+  // Chave da semana que acabou de fechar (segunda anterior).
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const dow = today.getDay() === 0 ? 7 : today.getDay();
+  const thisMonday = new Date(today);
+  thisMonday.setDate(today.getDate() - (dow - 1));
+  const lastMonday = new Date(thisMonday.getTime() - 7 * 24 * 60 * 60 * 1000);
+  const weekKey = lastMonday.toISOString().slice(0, 10);
+
+  // Lista usuários que são assignee de pelo menos 1 grupo da empresa
+  const groupAssignees = await prisma.conversation.findMany({
+    where: {
+      companyId,
+      phone:                   { contains: "@g.us" },
+      excludeFromGamification: false,
+      assigneeId:              { not: null },
+    },
+    select:   { assigneeId: true },
+    distinct: ["assigneeId"],
+  });
+
+  const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+  for (const ga of groupAssignees) {
+    const userId = ga.assigneeId!;
+    const abandoned = await prisma.conversation.count({
+      where: {
+        companyId,
+        assigneeId:              userId,
+        phone:                   { contains: "@g.us" },
+        excludeFromGamification: false,
+        lastMessageDirection:    "INBOUND",
+        lastMessageAt:           { lte: oneDayAgo },
+        status:                  { notIn: ["CLOSED"] },
+      },
+    });
+    if (abandoned === 0) {
+      await addScoreOnce(userId, companyId, ScoreReason.DIA_NETWORK, `${userId}:${weekKey}:network`).catch(() => {});
     }
   }
 }

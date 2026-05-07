@@ -6,6 +6,7 @@ import { Session } from "next-auth";
 import Sidebar from "./Sidebar";
 import MobileBottomNav from "./MobileBottomNav";
 import BadgeToastNotifier from "./BadgeToastNotifier";
+import DailyCronAutoTick from "./DailyCronAutoTick";
 
 interface LayoutShellProps {
   children: React.ReactNode;
@@ -95,6 +96,9 @@ export default function LayoutShell({ children, session, banner }: LayoutShellPr
 
       {/* Toast global de novos badges (polling silencioso) */}
       <BadgeToastNotifier />
+
+      {/* Auto-trigger do batch diário de gamificação no 1º acesso do dia */}
+      <DailyCronAutoTick />
     </div>
   );
 }
