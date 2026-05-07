@@ -4,15 +4,50 @@ import { redirect } from "next/navigation";
 import { listPrimaryEvents, type GoogleCalendarEvent } from "@/lib/google-calendar";
 import CalendarioBoard from "./CalendarioBoard";
 
-export default async function CalendarioPage() {
+export default async function CalendarioPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ as?: string }>;
+}) {
   const session = await getEffectiveSession();
   if (!session) redirect("/login");
 
-  const userId    = (session.user as any)?.id as string;
-  const userRole  = (session.user as any)?.role as string;
-  const companyId = (session.user as any)?.companyId as string | undefined;
+  const realUserId = (session.user as any)?.id as string;
+  const userRole   = (session.user as any)?.role as string;
+  const companyId  = (session.user as any)?.companyId as string | undefined;
   const isSuperAdmin = userRole === "SUPER_ADMIN";
   const isManager   = isSuperAdmin || userRole === "ADMIN";
+
+  // Visão de time: ADMIN/SUPER pode ver o "Meu Dia" de outro usuário via ?as=ID.
+  // Quem NÃO é manager ignora silenciosamente o param (sem privilege escalation).
+  const sp = await searchParams;
+  let viewingAs: { id: string; name: string | null; email: string | null } | null = null;
+  let userId = realUserId;
+  if (isManager && sp.as && sp.as !== realUserId) {
+    const target = await prisma.user.findFirst({
+      where: { id: sp.as, ...(isSuperAdmin ? {} : { companyId: companyId ?? "" }) },
+      select: { id: true, name: true, email: true },
+    });
+    if (target) {
+      viewingAs = target;
+      userId = target.id;
+    }
+  }
+
+  // Lista de membros do time pra o picker — só pra manager.
+  // Exclui SUPER_ADMIN (Lazzari) e o próprio user (já é o default).
+  const teamMembers = isManager
+    ? await prisma.user.findMany({
+        where: {
+          companyId: companyId ?? "",
+          role: { not: "SUPER_ADMIN" },
+          id: { not: realUserId },
+        },
+        select: { id: true, name: true, email: true },
+        orderBy: { name: "asc" },
+      })
+    : [];
+
   // Meu Dia é SEMPRE per-user. ADMIN tem visão de gestor em outros lugares
   // (relatórios, dashboards), mas no Calendário queremos: minhas tarefas +
   // o que está sem responsável (pra eu poder pegar). Itens já atribuídos
@@ -225,6 +260,9 @@ export default async function CalendarioPage() {
       googleEvents={googleEvents as any}
       googleError={googleError}
       contactNames={contactNames}
+      isManager={isManager}
+      viewingAs={viewingAs}
+      teamMembers={teamMembers as any}
     />
   );
 }

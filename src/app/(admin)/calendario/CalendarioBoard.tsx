@@ -97,6 +97,10 @@ interface Props {
   googleEvents:   GoogleEvent[];
   googleError:    string | null;
   contactNames:   Record<string, string>; // chave: "companyId|phone"
+  // Manager pode ver o "Meu Dia" de outro membro do time via picker.
+  isManager?: boolean;
+  viewingAs?: { id: string; name: string | null; email: string | null } | null;
+  teamMembers?: { id: string; name: string | null; email: string | null }[];
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -588,6 +592,9 @@ export default function CalendarioBoard({
   googleEvents,
   googleError,
   contactNames,
+  isManager = false,
+  viewingAs = null,
+  teamMembers = [],
 }: Props) {
 
   // Resolve nome de exibição de uma conversa, priorizando:
@@ -658,14 +665,47 @@ export default function CalendarioBoard({
       {/* Header */}
       <div className="flex items-start justify-between mb-4 gap-4">
         <div>
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-1 flex-wrap">
             <Calendar className="w-5 h-5 text-indigo-400" strokeWidth={2} />
             <h1 className="text-white font-bold text-lg">
               {view === "agenda" ? "Meu Dia" : view === "day" ? "Dia" : "Semana"}
             </h1>
+            {/* Banner quando manager está olhando agenda de outro */}
+            {viewingAs && (
+              <span className="text-[11px] px-2 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 font-semibold">
+                Vendo agenda de {viewingAs.name ?? viewingAs.email}
+              </span>
+            )}
           </div>
           {view === "agenda" && (
             <p className="text-slate-500 text-[13px] capitalize">{dateLabel}</p>
+          )}
+          {/* Picker do time — só visível pra ADMIN/SUPER_ADMIN */}
+          {isManager && teamMembers.length > 0 && (
+            <div className="flex items-center gap-2 mt-2">
+              <span className="text-slate-500 text-[11px] uppercase tracking-wider">Time:</span>
+              <select
+                value={viewingAs?.id ?? ""}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  router.push(v ? `/calendario?as=${v}` : "/calendario");
+                }}
+                className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1 text-[12px] text-slate-200 focus:outline-none focus:border-indigo-500"
+              >
+                <option value="">— Eu —</option>
+                {teamMembers.map((m) => (
+                  <option key={m.id} value={m.id}>{m.name ?? m.email ?? m.id}</option>
+                ))}
+              </select>
+              {viewingAs && (
+                <button
+                  onClick={() => router.push("/calendario")}
+                  className="text-[11px] text-slate-500 hover:text-white transition-colors"
+                >
+                  ← Voltar pra mim
+                </button>
+              )}
+            </div>
           )}
         </div>
         <div className="flex items-center gap-2">
