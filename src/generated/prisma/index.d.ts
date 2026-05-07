@@ -17116,6 +17116,8 @@ export namespace Prisma {
     body: string | null
     authorName: string | null
     createdAt: Date | null
+    source: string | null
+    externalId: string | null
     leadId: string | null
   }
 
@@ -17124,6 +17126,8 @@ export namespace Prisma {
     body: string | null
     authorName: string | null
     createdAt: Date | null
+    source: string | null
+    externalId: string | null
     leadId: string | null
   }
 
@@ -17132,6 +17136,8 @@ export namespace Prisma {
     body: number
     authorName: number
     createdAt: number
+    source: number
+    externalId: number
     leadId: number
     _all: number
   }
@@ -17142,6 +17148,8 @@ export namespace Prisma {
     body?: true
     authorName?: true
     createdAt?: true
+    source?: true
+    externalId?: true
     leadId?: true
   }
 
@@ -17150,6 +17158,8 @@ export namespace Prisma {
     body?: true
     authorName?: true
     createdAt?: true
+    source?: true
+    externalId?: true
     leadId?: true
   }
 
@@ -17158,6 +17168,8 @@ export namespace Prisma {
     body?: true
     authorName?: true
     createdAt?: true
+    source?: true
+    externalId?: true
     leadId?: true
     _all?: true
   }
@@ -17239,6 +17251,8 @@ export namespace Prisma {
     body: string
     authorName: string
     createdAt: Date
+    source: string
+    externalId: string | null
     leadId: string
     _count: LeadCommentCountAggregateOutputType | null
     _min: LeadCommentMinAggregateOutputType | null
@@ -17264,6 +17278,8 @@ export namespace Prisma {
     body?: boolean
     authorName?: boolean
     createdAt?: boolean
+    source?: boolean
+    externalId?: boolean
     leadId?: boolean
     lead?: boolean | LeadDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["leadComment"]>
@@ -17273,6 +17289,8 @@ export namespace Prisma {
     body?: boolean
     authorName?: boolean
     createdAt?: boolean
+    source?: boolean
+    externalId?: boolean
     leadId?: boolean
     lead?: boolean | LeadDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["leadComment"]>
@@ -17282,6 +17300,8 @@ export namespace Prisma {
     body?: boolean
     authorName?: boolean
     createdAt?: boolean
+    source?: boolean
+    externalId?: boolean
     leadId?: boolean
   }
 
@@ -17302,6 +17322,8 @@ export namespace Prisma {
       body: string
       authorName: string
       createdAt: Date
+      source: string
+      externalId: string | null
       leadId: string
     }, ExtArgs["result"]["leadComment"]>
     composites: {}
@@ -17701,6 +17723,8 @@ export namespace Prisma {
     readonly body: FieldRef<"LeadComment", 'String'>
     readonly authorName: FieldRef<"LeadComment", 'String'>
     readonly createdAt: FieldRef<"LeadComment", 'DateTime'>
+    readonly source: FieldRef<"LeadComment", 'String'>
+    readonly externalId: FieldRef<"LeadComment", 'String'>
     readonly leadId: FieldRef<"LeadComment", 'String'>
   }
     
@@ -58669,6 +58693,8 @@ export namespace Prisma {
     body: 'body',
     authorName: 'authorName',
     createdAt: 'createdAt',
+    source: 'source',
+    externalId: 'externalId',
     leadId: 'leadId'
   };
 
@@ -60789,6 +60815,8 @@ export namespace Prisma {
     body?: StringFilter<"LeadComment"> | string
     authorName?: StringFilter<"LeadComment"> | string
     createdAt?: DateTimeFilter<"LeadComment"> | Date | string
+    source?: StringFilter<"LeadComment"> | string
+    externalId?: StringNullableFilter<"LeadComment"> | string | null
     leadId?: StringFilter<"LeadComment"> | string
     lead?: XOR<LeadRelationFilter, LeadWhereInput>
   }
@@ -60798,6 +60826,8 @@ export namespace Prisma {
     body?: SortOrder
     authorName?: SortOrder
     createdAt?: SortOrder
+    source?: SortOrder
+    externalId?: SortOrderInput | SortOrder
     leadId?: SortOrder
     lead?: LeadOrderByWithRelationInput
   }
@@ -60810,6 +60840,8 @@ export namespace Prisma {
     body?: StringFilter<"LeadComment"> | string
     authorName?: StringFilter<"LeadComment"> | string
     createdAt?: DateTimeFilter<"LeadComment"> | Date | string
+    source?: StringFilter<"LeadComment"> | string
+    externalId?: StringNullableFilter<"LeadComment"> | string | null
     leadId?: StringFilter<"LeadComment"> | string
     lead?: XOR<LeadRelationFilter, LeadWhereInput>
   }, "id">
@@ -60819,6 +60851,8 @@ export namespace Prisma {
     body?: SortOrder
     authorName?: SortOrder
     createdAt?: SortOrder
+    source?: SortOrder
+    externalId?: SortOrderInput | SortOrder
     leadId?: SortOrder
     _count?: LeadCommentCountOrderByAggregateInput
     _max?: LeadCommentMaxOrderByAggregateInput
@@ -60833,6 +60867,8 @@ export namespace Prisma {
     body?: StringWithAggregatesFilter<"LeadComment"> | string
     authorName?: StringWithAggregatesFilter<"LeadComment"> | string
     createdAt?: DateTimeWithAggregatesFilter<"LeadComment"> | Date | string
+    source?: StringWithAggregatesFilter<"LeadComment"> | string
+    externalId?: StringNullableWithAggregatesFilter<"LeadComment"> | string | null
     leadId?: StringWithAggregatesFilter<"LeadComment"> | string
   }
 
@@ -65411,6 +65447,8 @@ export namespace Prisma {
     body: string
     authorName?: string
     createdAt?: Date | string
+    source?: string
+    externalId?: string | null
     lead: LeadCreateNestedOneWithoutCommentsInput
   }
 
@@ -65419,6 +65457,8 @@ export namespace Prisma {
     body: string
     authorName?: string
     createdAt?: Date | string
+    source?: string
+    externalId?: string | null
     leadId: string
   }
 
@@ -65427,6 +65467,8 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     authorName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     lead?: LeadUpdateOneRequiredWithoutCommentsNestedInput
   }
 
@@ -65435,6 +65477,8 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     authorName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -65443,6 +65487,8 @@ export namespace Prisma {
     body: string
     authorName?: string
     createdAt?: Date | string
+    source?: string
+    externalId?: string | null
     leadId: string
   }
 
@@ -65451,6 +65497,8 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     authorName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LeadCommentUncheckedUpdateManyInput = {
@@ -65458,6 +65506,8 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     authorName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -70355,6 +70405,8 @@ export namespace Prisma {
     body?: SortOrder
     authorName?: SortOrder
     createdAt?: SortOrder
+    source?: SortOrder
+    externalId?: SortOrder
     leadId?: SortOrder
   }
 
@@ -70363,6 +70415,8 @@ export namespace Prisma {
     body?: SortOrder
     authorName?: SortOrder
     createdAt?: SortOrder
+    source?: SortOrder
+    externalId?: SortOrder
     leadId?: SortOrder
   }
 
@@ -70371,6 +70425,8 @@ export namespace Prisma {
     body?: SortOrder
     authorName?: SortOrder
     createdAt?: SortOrder
+    source?: SortOrder
+    externalId?: SortOrder
     leadId?: SortOrder
   }
 
@@ -83535,6 +83591,8 @@ export namespace Prisma {
     body: string
     authorName?: string
     createdAt?: Date | string
+    source?: string
+    externalId?: string | null
   }
 
   export type LeadCommentUncheckedCreateWithoutLeadInput = {
@@ -83542,6 +83600,8 @@ export namespace Prisma {
     body: string
     authorName?: string
     createdAt?: Date | string
+    source?: string
+    externalId?: string | null
   }
 
   export type LeadCommentCreateOrConnectWithoutLeadInput = {
@@ -83908,6 +83968,8 @@ export namespace Prisma {
     body?: StringFilter<"LeadComment"> | string
     authorName?: StringFilter<"LeadComment"> | string
     createdAt?: DateTimeFilter<"LeadComment"> | Date | string
+    source?: StringFilter<"LeadComment"> | string
+    externalId?: StringNullableFilter<"LeadComment"> | string | null
     leadId?: StringFilter<"LeadComment"> | string
   }
 
@@ -98779,6 +98841,8 @@ export namespace Prisma {
     body: string
     authorName?: string
     createdAt?: Date | string
+    source?: string
+    externalId?: string | null
   }
 
   export type ActivityCreateManyLeadInput = {
@@ -98868,6 +98932,8 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     authorName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LeadCommentUncheckedUpdateWithoutLeadInput = {
@@ -98875,6 +98941,8 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     authorName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LeadCommentUncheckedUpdateManyWithoutLeadInput = {
@@ -98882,6 +98950,8 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     authorName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ActivityUpdateWithoutLeadInput = {

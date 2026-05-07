@@ -5,8 +5,14 @@
  * habilita `moduleClickup` configura o próprio webhook no workspace ClickUp
  * dela apontando pra essa URL com o seu companyId no path.
  *
- * Hoje trata só `taskCommentPosted` (comentário no card vira `TicketMessage`
- * no chamado correspondente).
+ * Eventos tratados:
+ *   - `taskCommentPosted` → cria `TicketMessage` (chamado) ou `LeadComment`
+ *     (oportunidade), conforme onde o `clickupTaskId` bate.
+ *   - `taskStatusUpdated` (lead apenas) → atualiza `lead.pipelineStage`
+ *     casando o nome do status do ClickUp contra `PipelineStageConfig.name`
+ *     (case-insensitive) dentro da empresa. Sem match → ignora.
+ *   - `taskUpdated` (lead apenas, mudança de due_date) → atualiza
+ *     `lead.expectedReturnAt` com o novo timestamp.
  *
  * Configuração:
  *   1. /configuracoes → Integrações → ClickUp (com a empresa selecionada)
@@ -78,15 +84,32 @@ export async function POST(
   const event = payload?.event as string | undefined;
   const taskId = payload?.task_id as string | undefined;
 
-  if (event === "taskCommentPosted" && taskId) {
-    // Restringe ao companyId do path — não cria mensagem em ticket de outra
-    // empresa mesmo se a task aparecer linkada lá por algum motivo.
-    const ticket = await prisma.ticket.findFirst({
+  if (!event || !taskId) {
+    return NextResponse.json({ ok: true, skipped: "missing-event-or-task" });
+  }
+
+  // Descobre se a task corresponde a um Ticket OU a um Lead desta empresa.
+  // Lookup paralelo — ClickUp lists são distintas (chamados vs oportunidades),
+  // então no normal só um dos dois bate.
+  const [ticket, lead] = await Promise.all([
+    prisma.ticket.findFirst({
       where: { clickupTaskId: taskId, companyId },
       select: { id: true, companyId: true },
-    });
-    if (!ticket) {
-      return NextResponse.json({ ok: true, skipped: "ticket-not-found" });
+    }),
+    prisma.lead.findFirst({
+      where: { clickupTaskId: taskId, companyId },
+      select: { id: true, companyId: true, pipeline: true },
+    }),
+  ]);
+
+  if (!ticket && !lead) {
+    return NextResponse.json({ ok: true, skipped: "task-not-found" });
+  }
+
+  // ─── TICKET (chamados) ──────────────────────────────────────────────────────
+  if (ticket) {
+    if (event !== "taskCommentPosted") {
+      return NextResponse.json({ ok: true, skipped: `ticket-event-${event}` });
     }
 
     const items = Array.isArray(payload?.history_items) ? payload.history_items : [];
@@ -128,5 +151,123 @@ export async function POST(
     return NextResponse.json({ ok: true, created });
   }
 
-  return NextResponse.json({ ok: true, skipped: event ?? "unknown-event" });
+  // ─── LEAD (oportunidades) ───────────────────────────────────────────────────
+  // (lead garantido != null aqui — caso contrário caímos no early-return acima)
+  if (event === "taskCommentPosted") {
+    const items = Array.isArray(payload?.history_items) ? payload.history_items : [];
+    let created = 0;
+
+    for (const item of items) {
+      const c = item?.comment;
+      if (!c) continue;
+      const commentId = c.id != null ? String(c.id) : "";
+      if (!commentId) continue;
+
+      const dup = await prisma.leadComment.findFirst({
+        where: { externalId: commentId },
+        select: { id: true },
+      });
+      if (dup) continue;
+
+      const blocks = Array.isArray(c.comment) ? c.comment : [];
+      const fromBlocks = blocks.map((b: any) => b?.text ?? "").join("");
+      const text = (c.text_content ?? c.comment_text ?? fromBlocks ?? "").trim();
+      if (!text) continue;
+
+      const author = item?.user?.username ?? item?.user?.email ?? "ClickUp";
+
+      await prisma.leadComment.create({
+        data: {
+          body: text,
+          authorName: author,
+          source: "CLICKUP",
+          externalId: commentId,
+          leadId: lead!.id,
+        },
+      });
+      created++;
+    }
+
+    return NextResponse.json({ ok: true, created });
+  }
+
+  if (event === "taskStatusUpdated") {
+    // Pega o nome do novo status no payload — pode vir em formatos diferentes.
+    // Forma comum: history_items[].after.status (string com o nome).
+    const items = Array.isArray(payload?.history_items) ? payload.history_items : [];
+    let newStatusName: string | null = null;
+    for (const item of items) {
+      const after = item?.after;
+      if (typeof after === "string" && after.trim()) { newStatusName = after.trim(); break; }
+      if (after && typeof after === "object") {
+        const s = after.status ?? after.status_type ?? null;
+        if (typeof s === "string" && s.trim()) { newStatusName = s.trim(); break; }
+      }
+    }
+    // Fallback: payload.history_items[].data?.status_after?.status
+    if (!newStatusName) {
+      for (const item of items) {
+        const s = item?.data?.status_after?.status ?? item?.data?.status?.after ?? null;
+        if (typeof s === "string" && s.trim()) { newStatusName = s.trim(); break; }
+      }
+    }
+    if (!newStatusName) {
+      return NextResponse.json({ ok: true, skipped: "no-status-in-payload" });
+    }
+
+    // Casa contra PipelineStageConfig pelo nome (case-insensitive), restrito à
+    // empresa. Se o lead tem `pipeline` setado, prioriza match dentro do
+    // mesmo pipeline; caso contrário aceita qualquer pipeline.
+    const stage = await prisma.pipelineStageConfig.findFirst({
+      where: {
+        companyId: lead!.companyId,
+        ...(lead!.pipeline ? { pipeline: lead!.pipeline } : {}),
+        name: { equals: newStatusName, mode: "insensitive" },
+      },
+      select: { name: true },
+    });
+
+    if (!stage) {
+      return NextResponse.json({ ok: true, skipped: "stage-not-mapped", clickupStatus: newStatusName });
+    }
+
+    await prisma.lead.update({
+      where: { id: lead!.id },
+      data: { pipelineStage: stage.name },
+    });
+
+    return NextResponse.json({ ok: true, updatedPipelineStage: stage.name });
+  }
+
+  if (event === "taskUpdated") {
+    // Procura mudança de due_date nos history_items.
+    const items = Array.isArray(payload?.history_items) ? payload.history_items : [];
+    let newDueRaw: unknown = undefined; // null → limpar; string/number → setar; undefined → não veio
+    for (const item of items) {
+      const field = (item?.field ?? "").toString();
+      if (field === "due_date") {
+        newDueRaw = item?.after ?? null; // ClickUp manda null pra "removido"
+        break;
+      }
+    }
+
+    if (newDueRaw === undefined) {
+      return NextResponse.json({ ok: true, skipped: "no-due-date-change" });
+    }
+
+    let newDue: Date | null = null;
+    if (newDueRaw !== null && newDueRaw !== "") {
+      const ms = typeof newDueRaw === "number" ? newDueRaw : parseInt(String(newDueRaw), 10);
+      if (Number.isFinite(ms)) newDue = new Date(ms);
+    }
+
+    await prisma.lead.update({
+      where: { id: lead!.id },
+      data: { expectedReturnAt: newDue },
+    });
+
+    return NextResponse.json({ ok: true, updatedExpectedReturnAt: newDue });
+  }
+
+  return NextResponse.json({ ok: true, skipped: `lead-event-${event}` });
 }

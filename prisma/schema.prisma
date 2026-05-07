@@ -353,10 +353,16 @@ model LeadComment {
   authorName String   @default("Usuário")
   createdAt  DateTime @default(now())
 
+  // Origem do comentário (pra dedup quando vem do ClickUp via webhook).
+  // "LEADHUB" (default) | "CLICKUP"
+  source     String   @default("LEADHUB")
+  externalId String?  // ID do comentário no ClickUp (evita criar duplicado em sync)
+
   lead   Lead   @relation(fields: [leadId], references: [id], onDelete: Cascade)
   leadId String
 
   @@index([leadId])
+  @@index([externalId])
 }
 
 // ─── Etapas de Pipeline Configuráveis ────────────────────────────────────────

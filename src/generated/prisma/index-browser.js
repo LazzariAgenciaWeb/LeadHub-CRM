@@ -264,6 +264,8 @@ exports.Prisma.LeadCommentScalarFieldEnum = {
   body: 'body',
   authorName: 'authorName',
   createdAt: 'createdAt',
+  source: 'source',
+  externalId: 'externalId',
   leadId: 'leadId'
 };
 
