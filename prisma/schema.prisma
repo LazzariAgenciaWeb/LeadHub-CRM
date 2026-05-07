@@ -23,6 +23,10 @@ model User {
 
   // Assinatura exibida no início das mensagens WhatsApp enviadas pelo usuário
   whatsappSignature String?
+  // Se true (default), o checkbox "Assinar como X" no compositor de mensagem
+  // do WhatsApp começa marcado. Usuário pode desligar pra ter de marcar manual
+  // a cada envio.
+  whatsappSignatureDefault Boolean @default(true)
 
   company   Company? @relation(fields: [companyId], references: [id])
   companyId String?

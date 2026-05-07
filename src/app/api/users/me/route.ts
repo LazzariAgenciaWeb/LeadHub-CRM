@@ -22,6 +22,7 @@ export async function GET() {
       email: true,
       role: true,
       whatsappSignature: true,
+      whatsappSignatureDefault: true,
     },
   });
   if (!user) return NextResponse.json({ error: "Usuário não encontrado" }, { status: 404 });
@@ -43,7 +44,7 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: "JSON inválido" }, { status: 400 });
   }
 
-  const data: { name?: string; whatsappSignature?: string | null } = {};
+  const data: { name?: string; whatsappSignature?: string | null; whatsappSignatureDefault?: boolean } = {};
 
   if (body.name !== undefined) {
     if (typeof body.name !== "string") {
@@ -54,6 +55,13 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ error: "Nome deve ter entre 2 e 80 caracteres" }, { status: 400 });
     }
     data.name = trimmed;
+  }
+
+  if (body.whatsappSignatureDefault !== undefined) {
+    if (typeof body.whatsappSignatureDefault !== "boolean") {
+      return NextResponse.json({ error: "whatsappSignatureDefault inválido" }, { status: 400 });
+    }
+    data.whatsappSignatureDefault = body.whatsappSignatureDefault;
   }
 
   if (body.whatsappSignature !== undefined) {
@@ -83,6 +91,7 @@ export async function PATCH(req: NextRequest) {
       email: true,
       role: true,
       whatsappSignature: true,
+      whatsappSignatureDefault: true,
     },
   });
 

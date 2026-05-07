@@ -1,6 +1,7 @@
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { getUserPermissions } from "@/lib/user-permissions";
+import { hasModule } from "@/lib/permissions";
 import WhatsappManager from "./WhatsappManager";
 
 export default async function WhatsappPage({
@@ -194,7 +195,7 @@ export default async function WhatsappPage({
   const dbUser = userId
     ? await prisma.user.findUnique({
         where: { id: userId },
-        select: { name: true, whatsappSignature: true },
+        select: { name: true, whatsappSignature: true, whatsappSignatureDefault: true },
       })
     : null;
 
@@ -207,7 +208,10 @@ export default async function WhatsappPage({
       defaultPhone={defaultPhone}
       finalStageNames={finalStageNames}
       userSignature={dbUser?.whatsappSignature ?? ""}
+      userSignatureDefault={dbUser?.whatsappSignatureDefault ?? true}
       userName={dbUser?.name ?? currentUser?.name ?? ""}
+      hasCrmModule={hasModule(session, "crm")}
+      hasTicketsModule={hasModule(session, "tickets")}
       currentUserId={userId ?? ""}
       canManageGamification={isSuperAdmin || !!perms?.isAdmin || !!(session?.user as any)?.permissions?.canManageUsers}
       availableSetores={setores}

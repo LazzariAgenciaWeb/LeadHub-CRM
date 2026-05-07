@@ -255,11 +255,14 @@ export default function WhatsappManager({
   defaultPhone,
   finalStageNames = [],
   userSignature = "",
+  userSignatureDefault = true,
   userName = "",
   currentUserId = "",
   canManageGamification = false,
   availableSetores = [],
   availableAtendentes = [],
+  hasCrmModule = true,
+  hasTicketsModule = true,
 }: {
   instances: Instance[];
   isSuperAdmin: boolean;
@@ -268,14 +271,19 @@ export default function WhatsappManager({
   defaultPhone?: string;
   finalStageNames?: string[];
   userSignature?: string;
+  userSignatureDefault?: boolean;
   userName?: string;
   currentUserId?: string;
   canManageGamification?: boolean;
   availableSetores?: { id: string; name: string; companyId?: string }[];
   availableAtendentes?: { id: string; name: string; email: string; role: string; companyId?: string | null }[];
+  hasCrmModule?: boolean;
+  hasTicketsModule?: boolean;
 }) {
-  // Toggle de assinatura por mensagem (Sprint 3)
-  const [includeSignature, setIncludeSignature] = useState<boolean>(!!userSignature);
+  // Toggle de assinatura por mensagem. Default vem da preferência do user
+  // (Configurações → Meu Perfil): se ele desligou o default, começa desmarcado
+  // mesmo tendo assinatura cadastrada.
+  const [includeSignature, setIncludeSignature] = useState<boolean>(!!userSignature && userSignatureDefault);
   // Estado local de status da conversa (atualização otimista após Pegar/Finalizar)
   const [convStatusOverride, setConvStatusOverride] = useState<Map<string, ConvStatus>>(new Map());
   const [convAssigneeOverride, setConvAssigneeOverride] = useState<Map<string, { id: string; name: string } | null>>(new Map());
@@ -4130,8 +4138,9 @@ export default function WhatsappManager({
                                 <div className="px-3 py-1.5">
                                   <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2">Classificar</p>
                                   <div className="space-y-0.5">
-                                    {/* Já é Lead ATIVO ou Oportunidade ATIVA → atalho pro CRM */}
-                                    {(isActiveLead || isActiveOportunidade) && (
+                                    {/* CRM: Lead/Oportunidade — escondido se módulo CRM desabilitado.
+                                        "Vincular Prospect" também depende do CRM. */}
+                                    {hasCrmModule && (isActiveLead || isActiveOportunidade) && (
                                       <Link
                                         href={`/crm/${isActiveOportunidade ? "oportunidades" : "leads"}?lead=${selectedConv.lead!.id}`}
                                         onClick={() => setShowActionsMenu(false)}
@@ -4143,8 +4152,7 @@ export default function WhatsappManager({
                                         Já é {isActiveOportunidade ? "Oportunidade" : "Lead"} · ver no CRM
                                       </Link>
                                     )}
-                                    {/* Criar Lead — só se não for lead/oportunidade ativos */}
-                                    {!isActiveLead && !isActiveOportunidade && (
+                                    {hasCrmModule && !isActiveLead && !isActiveOportunidade && (
                                       <button
                                         type="button"
                                         onClick={() => { setShowConvertForm(true); setShowTicketForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowAddCompany(false); setShowActionsMenu(false); }}
@@ -4154,8 +4162,7 @@ export default function WhatsappManager({
                                         Criar Lead
                                       </button>
                                     )}
-                                    {/* Criar Oportunidade — só se não for oportunidade ativa */}
-                                    {!isActiveOportunidade && (
+                                    {hasCrmModule && !isActiveOportunidade && (
                                       <button
                                         type="button"
                                         onClick={() => { setShowOportunidadeForm(true); setShowConvertForm(false); setShowTicketForm(false); setShowLinkProspect(false); setShowAddCompany(false); setShowActionsMenu(false); }}
@@ -4165,8 +4172,8 @@ export default function WhatsappManager({
                                         Criar Oportunidade
                                       </button>
                                     )}
-                                {/* Já tem chamado aberto → atalho para visualizar */}
-                                {openTicket && !isTicketFinal && (
+                                {/* Tickets — escondido se módulo desabilitado */}
+                                {hasTicketsModule && openTicket && !isTicketFinal && (
                                   <Link
                                     href={`/chamados/${openTicket.id}`}
                                     onClick={() => setShowActionsMenu(false)}
@@ -4179,7 +4186,7 @@ export default function WhatsappManager({
                                     </span>
                                   </Link>
                                 )}
-                                {(!openTicket || isTicketFinal) && (
+                                {hasTicketsModule && (!openTicket || isTicketFinal) && (
                                   <button
                                     type="button"
                                     onClick={() => { setShowTicketForm(true); setShowConvertForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowAddCompany(false); setShowActionsMenu(false); }}
@@ -4200,14 +4207,16 @@ export default function WhatsappManager({
                                       : <><Star      className="w-4 h-4 text-amber-400 fill-amber-400/30" strokeWidth={2.25} /> É Cliente</>}
                                   </button>
                                 )}
-                                <button
-                                  type="button"
-                                  onClick={() => { setShowLinkProspect(true); setShowConvertForm(false); setShowTicketForm(false); setShowOportunidadeForm(false); setShowAddCompany(false); setShowActionsMenu(false); }}
-                                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
-                                >
-                                  <Search className="w-4 h-4 text-cyan-400" strokeWidth={2.25} />
-                                  Vincular Prospect
-                                </button>
+                                {hasCrmModule && (
+                                  <button
+                                    type="button"
+                                    onClick={() => { setShowLinkProspect(true); setShowConvertForm(false); setShowTicketForm(false); setShowOportunidadeForm(false); setShowAddCompany(false); setShowActionsMenu(false); }}
+                                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
+                                  >
+                                    <Search className="w-4 h-4 text-cyan-400" strokeWidth={2.25} />
+                                    Vincular Prospect
+                                  </button>
+                                )}
                               </div>
                             </div>
                               );

@@ -45,7 +45,7 @@ export default async function ConfiguracoesPage({
     } else {
       const me = await prisma.user.findUnique({
         where: { id: userId },
-        select: { id: true, name: true, email: true, role: true, whatsappSignature: true },
+        select: { id: true, name: true, email: true, role: true, whatsappSignature: true, whatsappSignatureDefault: true },
       });
       if (!me) {
         content = <div className="p-6 text-slate-500 text-sm">Usuário não encontrado.</div>;

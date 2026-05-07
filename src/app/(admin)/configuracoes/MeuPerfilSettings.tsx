@@ -19,16 +19,20 @@ export default function MeuPerfilSettings({
     email: string;
     role: string;
     whatsappSignature: string | null;
+    whatsappSignatureDefault: boolean;
   };
 }) {
-  const [signature, setSignature] = useState(initialUser.whatsappSignature ?? "");
-  const [saving, setSaving]       = useState(false);
-  const [saved, setSaved]         = useState(false);
-  const [error, setError]         = useState<string | null>(null);
+  const [signature, setSignature]   = useState(initialUser.whatsappSignature ?? "");
+  const [defaultOn, setDefaultOn]   = useState(initialUser.whatsappSignatureDefault);
+  const [saving, setSaving]         = useState(false);
+  const [saved, setSaved]           = useState(false);
+  const [error, setError]           = useState<string | null>(null);
 
   const trimmed = signature.trim();
   const tooLong = trimmed.length > MAX_SIGNATURE;
-  const dirty   = trimmed !== (initialUser.whatsappSignature ?? "").trim();
+  const sigDirty     = trimmed !== (initialUser.whatsappSignature ?? "").trim();
+  const defaultDirty = defaultOn !== initialUser.whatsappSignatureDefault;
+  const dirty        = sigDirty || defaultDirty;
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
@@ -39,7 +43,10 @@ export default function MeuPerfilSettings({
       const res = await fetch("/api/users/me", {
         method:  "PATCH",
         headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({ whatsappSignature: trimmed }),
+        body:    JSON.stringify({
+          whatsappSignature:        trimmed,
+          whatsappSignatureDefault: defaultOn,
+        }),
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
@@ -144,6 +151,27 @@ export default function MeuPerfilSettings({
             )}
           </div>
 
+          {/* Default — começar com checkbox marcado no compositor */}
+          <label className={`flex items-start gap-2.5 px-3 py-2.5 rounded-lg border cursor-pointer transition-colors ${
+            !trimmed ? "opacity-50 cursor-not-allowed border-[#1e2d45] bg-[#161f30]" :
+            defaultOn ? "border-indigo-500/40 bg-indigo-500/10" : "border-[#1e2d45] bg-[#161f30] hover:border-[#2d4060]"
+          }`}>
+            <input
+              type="checkbox"
+              checked={defaultOn}
+              onChange={(e) => setDefaultOn(e.target.checked)}
+              disabled={!trimmed}
+              className="w-4 h-4 mt-0.5 rounded accent-indigo-500"
+            />
+            <div className="flex-1">
+              <div className="text-slate-200 text-xs font-semibold">Marcar assinatura automaticamente nas conversas</div>
+              <div className="text-slate-500 text-[10px] mt-0.5">
+                Se ligado, o checkbox <em>Assinar como {initialUser.name.split(" ")[0]}</em> já vem marcado em cada nova conversa.
+                Você ainda pode desmarcar pontualmente antes de enviar.
+              </div>
+            </div>
+          </label>
+
           {error && (
             <div className="text-xs px-3 py-2 rounded-lg border text-red-400 bg-red-500/10 border-red-500/20">
               ❌ {error}
@@ -155,7 +183,7 @@ export default function MeuPerfilSettings({
             disabled={saving || !dirty || tooLong}
             className="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-500 disabled:opacity-40 transition-colors"
           >
-            {saved ? "✓ Salvo!" : saving ? "Salvando..." : "Salvar assinatura"}
+            {saved ? "✓ Salvo!" : saving ? "Salvando..." : "Salvar"}
           </button>
         </form>
       </section>

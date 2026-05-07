@@ -10,7 +10,7 @@ import {
   Zap, X, Home, MessageSquare, Sparkles, Building2, Briefcase,
   Search, Target, Lightbulb, Megaphone, LifeBuoy, Link2,
   Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, CalendarDays,
-  BarChart3, Trophy, FolderKanban, type LucideIcon,
+  BarChart3, Trophy, FolderKanban, UserCircle, type LucideIcon,
 } from "lucide-react";
 import VersionBadge from "./VersionBadge";
 import { gradStroke, type GradientKey } from "./IconGradients";
@@ -369,6 +369,16 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
                 <div className="border-t border-[#1e2d45]" />
               </>
             )}
+
+            {/* Meu Perfil — sempre visível, qualquer user edita o próprio perfil */}
+            <Link
+              href="/configuracoes?secao=meu-perfil"
+              onClick={() => setDropdownOpen(false)}
+              className="w-full flex items-center gap-2 px-3 py-2.5 text-xs text-slate-300 hover:bg-indigo-500/10 hover:text-white transition-colors"
+            >
+              <UserCircle className="w-3.5 h-3.5" strokeWidth={2.25} stroke={gradStroke("dashboard")} />
+              <span>Meu Perfil</span>
+            </Link>
 
             {/* Configurações — visível para admin/super_admin/sector admin */}
             {showConfig && (
