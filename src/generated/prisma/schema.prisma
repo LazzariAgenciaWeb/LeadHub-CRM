@@ -468,7 +468,12 @@ model Message {
   conversationId String?
 
   @@index([companyId])
-  @@index([phone, companyId])
+  // Cobre `WHERE phone = X AND companyId = Y ORDER BY receivedAt DESC LIMIT N`
+  // (rota /api/whatsapp/messages — abrir conversa). Substituiu o antigo
+  // (phone, companyId) — Postgres usa prefixo, então queries que filtram só
+  // pelos 2 primeiros continuam cobertas, e adicionou ordering pra evitar
+  // sort em memória de 5k+ mensagens em grupos grandes.
+  @@index([phone, companyId, receivedAt])
   @@index([processed])
   @@index([conversationId, receivedAt])
 }
