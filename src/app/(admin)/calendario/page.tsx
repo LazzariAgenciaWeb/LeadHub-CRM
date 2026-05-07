@@ -145,7 +145,7 @@ export default async function CalendarioPage() {
               }),
         },
         select: {
-          id: true, name: true, phone: true,
+          id: true, name: true, phone: true, companyId: true,
           pipeline: true, pipelineStage: true,
           expectedReturnAt: true, status: true,
         },
@@ -155,14 +155,21 @@ export default async function CalendarioPage() {
     ]);
 
   // ── Resolução de nomes (especialmente grupos do WhatsApp) ────────────────
-  // Coleta todos os pares (companyId, phone) das conversas pra buscar
-  // CompanyContact em batch — assim mostramos o nome do grupo em vez de "Grupo".
-  const allConvs = [...scheduledConvs, ...waitingConvs, ...myOpenConvs];
-  const contactKeys = Array.from(new Set(allConvs.map((c) => `${c.companyId}|${c.phone}`)));
+  // Coleta todos os pares (companyId, phone) das conversas E dos leads pra
+  // buscar CompanyContact em batch — assim mostramos o nome do grupo em
+  // vez de "Grupo" no Follow-up de Leads também.
+  type Keyed = { companyId: string; phone: string };
+  const allKeyed: Keyed[] = [
+    ...scheduledConvs.map((c) => ({ companyId: c.companyId, phone: c.phone })),
+    ...waitingConvs.map((c)   => ({ companyId: c.companyId, phone: c.phone })),
+    ...myOpenConvs.map((c)    => ({ companyId: c.companyId, phone: c.phone })),
+    ...leadsFollowUp.map((l)  => ({ companyId: l.companyId, phone: l.phone })),
+  ];
+  const contactKeys = Array.from(new Set(allKeyed.map((k) => `${k.companyId}|${k.phone}`)));
   const contactNames: Record<string, string> = {};
   if (contactKeys.length > 0) {
-    const phones = Array.from(new Set(allConvs.map((c) => c.phone)));
-    const companyIds = Array.from(new Set(allConvs.map((c) => c.companyId)));
+    const phones = Array.from(new Set(allKeyed.map((k) => k.phone)));
+    const companyIds = Array.from(new Set(allKeyed.map((k) => k.companyId)));
     const contacts = await prisma.companyContact.findMany({
       where: {
         companyId: { in: companyIds },

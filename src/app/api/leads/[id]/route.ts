@@ -98,6 +98,19 @@ export async function PATCH(
   }
   const effectiveStatus = status ?? derivedStatus;
 
+  // Quando o lead sai do pipeline (volta pra caixa de entrada) ou é
+  // fechado/perdido, o follow-up agendado perde sentido. Limpa
+  // expectedReturnAt pra ele sumir do "Follow-ups de Leads" no Meu Dia.
+  // Só aplica se o caller não está mexendo explicitamente em
+  // expectedReturnAt no mesmo PATCH.
+  const clearReturn =
+    expectedReturnAt === undefined &&
+    !!existing.expectedReturnAt &&
+    (
+      (pipeline === null) ||
+      (effectiveStatus === "CLOSED" || effectiveStatus === "LOST")
+    );
+
   const lead = await prisma.lead.update({
     where: { id },
     data: {
@@ -109,6 +122,7 @@ export async function PATCH(
       ...(pipelineStage !== undefined && { pipelineStage }),
       ...(attendanceStatus !== undefined && { attendanceStatus: attendanceStatus ?? null }),
       ...(expectedReturnAt !== undefined && { expectedReturnAt: expectedReturnAt ? new Date(expectedReturnAt) : null }),
+      ...(clearReturn && { expectedReturnAt: null }),
       ...(clickupTaskId !== undefined && { clickupTaskId: clickupTaskId ?? null }),
       ...(trackingLinkId !== undefined && { trackingLinkId: trackingLinkId ?? null }),
     },

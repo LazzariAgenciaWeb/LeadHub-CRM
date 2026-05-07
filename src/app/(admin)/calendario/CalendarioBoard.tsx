@@ -65,6 +65,8 @@ interface LeadFollowUp {
   id: string;
   name: string | null;
   phone: string;
+  // companyId pra resolução de nome de grupo via contactNames
+  companyId: string;
   pipeline: string | null;
   pipelineStage: string | null;
   expectedReturnAt: string | null;
@@ -619,6 +621,18 @@ export default function CalendarioBoard({
     startTransition(() => router.refresh());
   }
 
+  // Resolve um follow-up de Lead: limpa expectedReturnAt do lead pra sumir
+  // do "Follow-ups de Leads" no Meu Dia. Não muda status — atendente
+  // pode marcar como CLOSED/LOST manualmente no kanban depois.
+  async function resolveLeadFollowUp(leadId: string) {
+    await fetch(`/api/leads/${leadId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ expectedReturnAt: null }),
+    });
+    refresh();
+  }
+
   // Resolve um retorno agendado: limpa scheduledReturnAt + nota e devolve a
   // conversa para IN_PROGRESS (atendido). Usado nos atrasados para sair da lista.
   async function resolveScheduledReturn(convId: string) {
@@ -1068,17 +1082,26 @@ export default function CalendarioBoard({
         {leadsFollowUp.map((l) => {
           const pipelineLabel = l.pipeline ? PIPELINE_LABEL[l.pipeline] ?? l.pipeline : null;
           const overdue = isOverdue(l.expectedReturnAt);
+          // Resolve nome via mesma cascata das conversas: lead.name → CompanyContact → formatPhone
+          const display =
+            l.name?.trim() ||
+            contactNames[`${l.companyId}|${l.phone}`] ||
+            formatPhone(l.phone);
+          // Link contextual: WhatsApp pra grupos/sem pipeline; CRM se está no funil.
+          const href = l.pipeline
+            ? `/crm/${l.pipeline.toLowerCase()}`
+            : `/whatsapp?abrir=${encodeURIComponent(l.phone)}`;
           return (
             <div key={l.id} className="flex items-center gap-3 bg-[#0f1623] border border-[#1e2d45] rounded-xl px-4 py-3 hover:border-emerald-500/30 transition-colors">
               <div className="w-7 h-7 rounded-full bg-emerald-500/15 flex items-center justify-center flex-shrink-0">
                 <span className="text-emerald-400 text-[10px] font-bold">
-                  {((l.name ?? l.phone) ?? "?").charAt(0).toUpperCase()}
+                  {(display ?? "?").charAt(0).toUpperCase()}
                 </span>
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
                   <span className="text-white text-[13px] font-medium truncate">
-                    {l.name ?? formatPhone(l.phone)}
+                    {display}
                   </span>
                   {pipelineLabel && (
                     <span className="flex-shrink-0 text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-medium">
@@ -1096,8 +1119,15 @@ export default function CalendarioBoard({
                   )}
                 </div>
               </div>
+              <button
+                onClick={() => resolveLeadFollowUp(l.id)}
+                className="flex-shrink-0 text-[11px] font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
+                title="Marcar follow-up como resolvido (limpa o prazo)"
+              >
+                ✓ Resolver
+              </button>
               <Link
-                href={`/crm/${(l.pipeline ?? "leads").toLowerCase()}`}
+                href={href}
                 className="flex-shrink-0 text-[11px] font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
               >
                 Abrir
