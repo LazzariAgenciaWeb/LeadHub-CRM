@@ -151,6 +151,7 @@ export default async function WhatsappPage({
           assignee: conv.assignee,
           setorId: conv.setorId,
           setor: conv.setor,
+          excludeFromGamification: conv.excludeFromGamification,
         },
       };
     })
