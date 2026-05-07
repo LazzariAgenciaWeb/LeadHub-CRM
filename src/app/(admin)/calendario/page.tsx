@@ -13,26 +13,28 @@ export default async function CalendarioPage() {
   const companyId = (session.user as any)?.companyId as string | undefined;
   const isSuperAdmin = userRole === "SUPER_ADMIN";
   const isManager   = isSuperAdmin || userRole === "ADMIN";
-  // CLIENT (atendente de setor) só pode ver conversas dos setores dos quais
-  // participa — senão Cosmo, que é só comercial, vê retornos do financeiro
-  // (números/grupos de outras instâncias). ADMIN/SUPER veem tudo da empresa.
-  const userSetorIds = isManager ? null : (await prisma.setorUser.findMany({
+  // Meu Dia é SEMPRE per-user. ADMIN tem visão de gestor em outros lugares
+  // (relatórios, dashboards), mas no Calendário queremos: minhas tarefas +
+  // o que está sem responsável (pra eu poder pegar). Itens já atribuídos
+  // a outros saem da MINHA lista e aparecem na lista DELES.
+  // CLIENT ainda fica preso aos setores dele pra não ver coisa fora do escopo.
+  const userSetorIds = (await prisma.setorUser.findMany({
     where: { userId },
     select: { setorId: true },
   })).map((s) => s.setorId);
   // Filtro reaproveitável pra Conversations:
-  //   - SUPER_ADMIN/ADMIN → sem filtro extra (visão de gestor)
-  //   - CLIENT → conversas atribuídas a si OU sem responsável NOS SEUS SETORES
-  const convScopeFilter = isManager
-    ? {}
-    : {
-        OR: [
-          { assigneeId: userId },
-          ...(userSetorIds && userSetorIds.length > 0
-            ? [{ AND: [{ assigneeId: null }, { setorId: { in: userSetorIds } }] }]
-            : []),
-        ],
-      };
+  //   - Manager (ADMIN/SUPER): suas + sem responsável (qualquer setor)
+  //   - CLIENT: suas + sem responsável NOS SEUS SETORES
+  const convScopeFilter = {
+    OR: [
+      { assigneeId: userId },
+      isManager
+        ? { assigneeId: null }
+        : (userSetorIds.length > 0
+            ? { AND: [{ assigneeId: null }, { setorId: { in: userSetorIds } }] }
+            : { id: "__never__" }), // CLIENT sem setor → nada de não-atribuído
+    ],
+  };
 
   const now      = new Date();
   const today    = new Date(now); today.setHours(0, 0, 0, 0);
@@ -99,14 +101,30 @@ export default async function CalendarioPage() {
 
       // Chamados/tarefas: prazo em até 7 dias OU criados hoje (mesmo sem prazo).
       // Ordena por dueDate ASC; tickets sem dueDate caem no final.
+      // Mesmo critério de Meu Dia: meus + sem responsável (pra pegar).
+      // Tickets de outras pessoas aparecem no Meu Dia delas, não no meu.
       prisma.ticket.findMany({
         where: {
           ...cf,
           status: { in: ["OPEN", "IN_PROGRESS"] },
           isInternal: false,
-          OR: [
-            { dueDate: { lte: nextWeek } },
-            { createdAt: { gte: today, lte: todayEnd } },
+          AND: [
+            {
+              OR: [
+                { dueDate: { lte: nextWeek } },
+                { createdAt: { gte: today, lte: todayEnd } },
+              ],
+            },
+            {
+              OR: [
+                { assigneeId: userId },
+                isManager
+                  ? { assigneeId: null }
+                  : (userSetorIds.length > 0
+                      ? { AND: [{ assigneeId: null }, { setorId: { in: userSetorIds } }] }
+                      : { id: "__never__" }),
+              ],
+            },
           ],
         },
         select: {
@@ -122,27 +140,21 @@ export default async function CalendarioPage() {
 
       // Follow-ups de leads com data de hoje ou vencida.
       // Lead não tem assigneeId próprio — herda da Conversation vinculada.
-      // Manager (ADMIN/SUPER): vê todos. CLIENT: só leads cuja conversa está
-      // atribuída a si OU sem responsável dentro dos setores que ele participa.
+      // Mesmo critério: meus (conversa atribuída a mim) + sem responsável
+      // (no meu setor pra CLIENT, qualquer setor pra ADMIN/SUPER).
       prisma.lead.findMany({
         where: {
           ...cf,
           expectedReturnAt: { lte: todayEnd },
           status: { notIn: ["CLOSED", "LOST"] },
-          ...(isManager
-            ? {}
-            : {
-                OR: [
-                  { conversation: { is: { assigneeId: userId } } },
-                  ...(userSetorIds && userSetorIds.length > 0
-                    ? [{
-                        conversation: {
-                          is: { assigneeId: null, setorId: { in: userSetorIds } },
-                        },
-                      }]
-                    : []),
-                ],
-              }),
+          OR: [
+            { conversation: { is: { assigneeId: userId } } },
+            isManager
+              ? { conversation: { is: { assigneeId: null } } }
+              : (userSetorIds.length > 0
+                  ? { conversation: { is: { assigneeId: null, setorId: { in: userSetorIds } } } }
+                  : { id: "__never__" }),
+          ],
         },
         select: {
           id: true, name: true, phone: true, companyId: true,
