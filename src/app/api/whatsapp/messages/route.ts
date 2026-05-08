@@ -67,6 +67,7 @@ export async function GET(req: NextRequest) {
     sentByUserId:      true,
     instance: { select: { instanceName: true } },
     campaign: { select: { id: true, name: true } },
+    sentBy:   { select: { id: true, name: true } },
   } as const;
 
   // Modo legacy: nenhum parâmetro de paginação → retorna tudo, ordenado asc
@@ -74,7 +75,7 @@ export async function GET(req: NextRequest) {
     const rows = await prisma.message.findMany({
       where,
       orderBy: { receivedAt: "asc" },
-      select: { ...messageSelect, sentBy: { select: { id: true, name: true } }, mediaBase64: true },
+      select: { ...messageSelect, mediaBase64: true },
     });
     const messages = rows.map(({ mediaBase64, ...rest }) => ({
       ...rest,
