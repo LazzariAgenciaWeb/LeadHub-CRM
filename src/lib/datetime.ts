@@ -107,3 +107,33 @@ export function diffCalendarDays(a: Date | string, b: Date | string): number {
 export function isOverdueByDay(due: Date | string, now: Date = new Date()): boolean {
   return diffCalendarDays(due, now) > 0;
 }
+
+// ── Janelas de tempo TZ-aware ───────────────────────────────────────────────
+// Por que existe: o servidor roda em UTC. `new Date(); setHours(0,0,0,0)` dá
+// "00:00 UTC", que no Brasil é "21:00 do dia anterior". Queries que filtram
+// por "hoje" passam a incluir parte do dia anterior — eventos do Google
+// Calendar de ontem 20h aparecem como se fossem de hoje.
+
+/** Calcula o offset ISO do TZ agora (ex: "-03:00"). DST-aware via Intl. */
+function tzOffsetISO(tz: string, ref: Date = new Date()): string {
+  const dtf = new Intl.DateTimeFormat("en-US", { timeZone: tz, timeZoneName: "longOffset" });
+  const part = dtf.formatToParts(ref).find((p) => p.type === "timeZoneName")?.value ?? "GMT+00:00";
+  // "GMT-03:00" → "-03:00"; "GMT" sozinho → "+00:00"
+  return part === "GMT" ? "+00:00" : part.slice(3);
+}
+
+/** Início do dia (00:00:00.000) no TZ do sistema. Retorna um instante UTC. */
+export function startOfTodayInSystemTZ(now: Date = new Date()): Date {
+  const dateStr = new Intl.DateTimeFormat("en-CA", {
+    timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit",
+  }).format(now);
+  return new Date(`${dateStr}T00:00:00${tzOffsetISO(TZ, now)}`);
+}
+
+/** Fim do dia (23:59:59.999) no TZ do sistema. */
+export function endOfTodayInSystemTZ(now: Date = new Date()): Date {
+  const dateStr = new Intl.DateTimeFormat("en-CA", {
+    timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit",
+  }).format(now);
+  return new Date(`${dateStr}T23:59:59.999${tzOffsetISO(TZ, now)}`);
+}

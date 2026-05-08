@@ -3,6 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { listPrimaryEvents } from "@/lib/google-calendar";
 import { assertModule } from "@/lib/billing";
+import { startOfTodayInSystemTZ, endOfTodayInSystemTZ } from "@/lib/datetime";
 
 // GET /api/calendar/google/events?from=ISO&to=ISO
 //
@@ -30,9 +31,11 @@ export async function GET(req: NextRequest) {
   const fromParam = url.searchParams.get("from");
   const toParam   = url.searchParams.get("to");
 
+  // Janela default ancorada no TZ do sistema (BRT). Servidor em UTC dava
+  // "00:00 UTC" = "21:00 BRT do dia anterior" e puxava eventos de ontem à noite.
   const now = new Date();
-  const todayStart = new Date(now); todayStart.setHours(0, 0, 0, 0);
-  const todayEnd   = new Date(now); todayEnd.setHours(23, 59, 59, 999);
+  const todayStart = startOfTodayInSystemTZ(now);
+  const todayEnd   = endOfTodayInSystemTZ(now);
 
   const timeMin = fromParam ? new Date(fromParam) : todayStart;
   const timeMax = toParam   ? new Date(toParam)   : todayEnd;

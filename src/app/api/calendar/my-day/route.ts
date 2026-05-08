@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
+import { startOfTodayInSystemTZ, endOfTodayInSystemTZ } from "@/lib/datetime";
 
 // GET /api/calendar/my-day
 // Retorna todos os itens relevantes para a vista "Meu Dia" do calendário.
@@ -26,11 +27,11 @@ export async function GET(req: NextRequest) {
     ? (searchParams.get("companyId") ?? companyId)
     : companyId;
 
-  const now   = new Date();
-  const today = new Date(now);
-  today.setHours(0, 0, 0, 0);
-  const todayEnd = new Date(today);
-  todayEnd.setHours(23, 59, 59, 999);
+  // Janela de "hoje" ancorada no TZ do sistema (BRT). Servidor em UTC dava
+  // "21:00 BRT do dia anterior" e contaminava a lista com itens de ontem.
+  const now      = new Date();
+  const today    = startOfTodayInSystemTZ(now);
+  const todayEnd = endOfTodayInSystemTZ(now);
 
   // Janela de "futuro próximo" — retornos dos próximos 7 dias aparecem em "Em Breve"
   const nextWeek = new Date(now);

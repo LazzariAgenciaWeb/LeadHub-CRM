@@ -2,6 +2,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { listPrimaryEvents, type GoogleCalendarEvent } from "@/lib/google-calendar";
+import { startOfTodayInSystemTZ, endOfTodayInSystemTZ } from "@/lib/datetime";
 import CalendarioBoard from "./CalendarioBoard";
 
 export default async function CalendarioPage({
@@ -71,9 +72,13 @@ export default async function CalendarioPage({
     ],
   };
 
+  // Janela de "hoje" ANCORADA no TZ do sistema (BRT por default).
+  // Antes usava `setHours(0,0,0,0)` que dá meia-noite UTC no servidor —
+  // 21:00 BRT do dia anterior. Eventos do dia anterior à noite (ex:
+  // Reunião Rotary 20h-22h) caíam dentro da consulta de "hoje".
   const now      = new Date();
-  const today    = new Date(now); today.setHours(0, 0, 0, 0);
-  const todayEnd = new Date(today); todayEnd.setHours(23, 59, 59, 999);
+  const today    = startOfTodayInSystemTZ(now);
+  const todayEnd = endOfTodayInSystemTZ(now);
   const nextWeek = new Date(now); nextWeek.setDate(nextWeek.getDate() + 7);
   const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
   const oneDayAgo  = new Date(now.getTime() - 24 * 60 * 60 * 1000);
