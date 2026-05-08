@@ -20125,6 +20125,7 @@ export namespace Prisma {
     status: $Enums.InstanceStatus | null
     webhookUrl: string | null
     instanceToken: string | null
+    acceptGroups: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
     companyId: string | null
@@ -20137,6 +20138,7 @@ export namespace Prisma {
     status: $Enums.InstanceStatus | null
     webhookUrl: string | null
     instanceToken: string | null
+    acceptGroups: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
     companyId: string | null
@@ -20149,6 +20151,7 @@ export namespace Prisma {
     status: number
     webhookUrl: number
     instanceToken: number
+    acceptGroups: number
     createdAt: number
     updatedAt: number
     companyId: number
@@ -20163,6 +20166,7 @@ export namespace Prisma {
     status?: true
     webhookUrl?: true
     instanceToken?: true
+    acceptGroups?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -20175,6 +20179,7 @@ export namespace Prisma {
     status?: true
     webhookUrl?: true
     instanceToken?: true
+    acceptGroups?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -20187,6 +20192,7 @@ export namespace Prisma {
     status?: true
     webhookUrl?: true
     instanceToken?: true
+    acceptGroups?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -20272,6 +20278,7 @@ export namespace Prisma {
     status: $Enums.InstanceStatus
     webhookUrl: string | null
     instanceToken: string | null
+    acceptGroups: boolean
     createdAt: Date
     updatedAt: Date
     companyId: string
@@ -20301,6 +20308,7 @@ export namespace Prisma {
     status?: boolean
     webhookUrl?: boolean
     instanceToken?: boolean
+    acceptGroups?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
@@ -20317,6 +20325,7 @@ export namespace Prisma {
     status?: boolean
     webhookUrl?: boolean
     instanceToken?: boolean
+    acceptGroups?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
@@ -20330,6 +20339,7 @@ export namespace Prisma {
     status?: boolean
     webhookUrl?: boolean
     instanceToken?: boolean
+    acceptGroups?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
@@ -20359,6 +20369,7 @@ export namespace Prisma {
       status: $Enums.InstanceStatus
       webhookUrl: string | null
       instanceToken: string | null
+      acceptGroups: boolean
       createdAt: Date
       updatedAt: Date
       companyId: string
@@ -20764,6 +20775,7 @@ export namespace Prisma {
     readonly status: FieldRef<"WhatsappInstance", 'InstanceStatus'>
     readonly webhookUrl: FieldRef<"WhatsappInstance", 'String'>
     readonly instanceToken: FieldRef<"WhatsappInstance", 'String'>
+    readonly acceptGroups: FieldRef<"WhatsappInstance", 'Boolean'>
     readonly createdAt: FieldRef<"WhatsappInstance", 'DateTime'>
     readonly updatedAt: FieldRef<"WhatsappInstance", 'DateTime'>
     readonly companyId: FieldRef<"WhatsappInstance", 'String'>
@@ -58816,6 +58828,7 @@ export namespace Prisma {
     status: 'status',
     webhookUrl: 'webhookUrl',
     instanceToken: 'instanceToken',
+    acceptGroups: 'acceptGroups',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     companyId: 'companyId'
@@ -61121,6 +61134,7 @@ export namespace Prisma {
     status?: EnumInstanceStatusFilter<"WhatsappInstance"> | $Enums.InstanceStatus
     webhookUrl?: StringNullableFilter<"WhatsappInstance"> | string | null
     instanceToken?: StringNullableFilter<"WhatsappInstance"> | string | null
+    acceptGroups?: BoolFilter<"WhatsappInstance"> | boolean
     createdAt?: DateTimeFilter<"WhatsappInstance"> | Date | string
     updatedAt?: DateTimeFilter<"WhatsappInstance"> | Date | string
     companyId?: StringFilter<"WhatsappInstance"> | string
@@ -61136,6 +61150,7 @@ export namespace Prisma {
     status?: SortOrder
     webhookUrl?: SortOrderInput | SortOrder
     instanceToken?: SortOrderInput | SortOrder
+    acceptGroups?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -61154,6 +61169,7 @@ export namespace Prisma {
     status?: EnumInstanceStatusFilter<"WhatsappInstance"> | $Enums.InstanceStatus
     webhookUrl?: StringNullableFilter<"WhatsappInstance"> | string | null
     instanceToken?: StringNullableFilter<"WhatsappInstance"> | string | null
+    acceptGroups?: BoolFilter<"WhatsappInstance"> | boolean
     createdAt?: DateTimeFilter<"WhatsappInstance"> | Date | string
     updatedAt?: DateTimeFilter<"WhatsappInstance"> | Date | string
     companyId?: StringFilter<"WhatsappInstance"> | string
@@ -61169,6 +61185,7 @@ export namespace Prisma {
     status?: SortOrder
     webhookUrl?: SortOrderInput | SortOrder
     instanceToken?: SortOrderInput | SortOrder
+    acceptGroups?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -61187,6 +61204,7 @@ export namespace Prisma {
     status?: EnumInstanceStatusWithAggregatesFilter<"WhatsappInstance"> | $Enums.InstanceStatus
     webhookUrl?: StringNullableWithAggregatesFilter<"WhatsappInstance"> | string | null
     instanceToken?: StringNullableWithAggregatesFilter<"WhatsappInstance"> | string | null
+    acceptGroups?: BoolWithAggregatesFilter<"WhatsappInstance"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"WhatsappInstance"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"WhatsappInstance"> | Date | string
     companyId?: StringWithAggregatesFilter<"WhatsappInstance"> | string
@@ -65783,6 +65801,7 @@ export namespace Prisma {
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
     instanceToken?: string | null
+    acceptGroups?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
@@ -65797,6 +65816,7 @@ export namespace Prisma {
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
     instanceToken?: string | null
+    acceptGroups?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -65811,6 +65831,7 @@ export namespace Prisma {
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptGroups?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
@@ -65825,6 +65846,7 @@ export namespace Prisma {
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptGroups?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -65839,6 +65861,7 @@ export namespace Prisma {
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
     instanceToken?: string | null
+    acceptGroups?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -65851,6 +65874,7 @@ export namespace Prisma {
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptGroups?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -65862,6 +65886,7 @@ export namespace Prisma {
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptGroups?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -70657,6 +70682,7 @@ export namespace Prisma {
     status?: SortOrder
     webhookUrl?: SortOrder
     instanceToken?: SortOrder
+    acceptGroups?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -70669,6 +70695,7 @@ export namespace Prisma {
     status?: SortOrder
     webhookUrl?: SortOrder
     instanceToken?: SortOrder
+    acceptGroups?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -70681,6 +70708,7 @@ export namespace Prisma {
     status?: SortOrder
     webhookUrl?: SortOrder
     instanceToken?: SortOrder
+    acceptGroups?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -80515,6 +80543,7 @@ export namespace Prisma {
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
     instanceToken?: string | null
+    acceptGroups?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     messages?: MessageCreateNestedManyWithoutInstanceInput
@@ -80528,6 +80557,7 @@ export namespace Prisma {
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
     instanceToken?: string | null
+    acceptGroups?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
@@ -81892,6 +81922,7 @@ export namespace Prisma {
     status?: EnumInstanceStatusFilter<"WhatsappInstance"> | $Enums.InstanceStatus
     webhookUrl?: StringNullableFilter<"WhatsappInstance"> | string | null
     instanceToken?: StringNullableFilter<"WhatsappInstance"> | string | null
+    acceptGroups?: BoolFilter<"WhatsappInstance"> | boolean
     createdAt?: DateTimeFilter<"WhatsappInstance"> | Date | string
     updatedAt?: DateTimeFilter<"WhatsappInstance"> | Date | string
     companyId?: StringFilter<"WhatsappInstance"> | string
@@ -85512,6 +85543,7 @@ export namespace Prisma {
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
     instanceToken?: string | null
+    acceptGroups?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
@@ -85525,6 +85557,7 @@ export namespace Prisma {
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
     instanceToken?: string | null
+    acceptGroups?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -85895,6 +85928,7 @@ export namespace Prisma {
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptGroups?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
@@ -85908,6 +85942,7 @@ export namespace Prisma {
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptGroups?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -90877,6 +90912,7 @@ export namespace Prisma {
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
     instanceToken?: string | null
+    acceptGroups?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
@@ -90890,6 +90926,7 @@ export namespace Prisma {
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
     instanceToken?: string | null
+    acceptGroups?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -90976,6 +91013,7 @@ export namespace Prisma {
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptGroups?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
@@ -90989,6 +91027,7 @@ export namespace Prisma {
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptGroups?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -97150,6 +97189,7 @@ export namespace Prisma {
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
     instanceToken?: string | null
+    acceptGroups?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -98089,6 +98129,7 @@ export namespace Prisma {
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptGroups?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUpdateManyWithoutInstanceNestedInput
@@ -98102,6 +98143,7 @@ export namespace Prisma {
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptGroups?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
@@ -98115,6 +98157,7 @@ export namespace Prisma {
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptGroups?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

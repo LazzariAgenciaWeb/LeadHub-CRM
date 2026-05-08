@@ -300,6 +300,7 @@ exports.Prisma.WhatsappInstanceScalarFieldEnum = {
   status: 'status',
   webhookUrl: 'webhookUrl',
   instanceToken: 'instanceToken',
+  acceptGroups: 'acceptGroups',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   companyId: 'companyId'

@@ -124,6 +124,44 @@ export async function evolutionGetStatus(instanceName: string, instanceToken?: s
   return null;
 }
 
+/**
+ * Atualiza configurações de comportamento da instância na Evolution
+ * (POST /settings/set/{instance}). Equivale ao painel "Configurations →
+ * Settings" no Manager — `groupsIgnore`, `rejectCall`, `alwaysOnline`, etc.
+ *
+ * Os toggles são todos opt-in: se você não passa um campo, ele NÃO é alterado
+ * (a Evolution preserva o valor anterior). Aceita boolean direto.
+ *
+ * Uso típico no LeadHub: marcar `groupsIgnore: true` em instâncias secundárias
+ * pra eliminar webhooks duplicados em grupos com várias instâncias.
+ */
+export async function evolutionSetSettings(
+  instanceName: string,
+  settings: {
+    rejectCall?:      boolean;
+    msgCall?:         string;
+    groupsIgnore?:    boolean;
+    alwaysOnline?:    boolean;
+    readMessages?:    boolean;
+    readStatus?:      boolean;
+    syncFullHistory?: boolean;
+  },
+  instanceToken?: string | null,
+) {
+  const { baseUrl, apiKey } = await getConfig();
+  const token = instanceToken ?? await evolutionGetInstanceToken(instanceName) ?? apiKey;
+  const res = await fetch(`${baseUrl}/settings/set/${instanceName}`, {
+    method:  "POST",
+    headers: headers(token),
+    body:    JSON.stringify(settings),
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Evolution set settings: ${res.status} ${err}`);
+  }
+  return res.json();
+}
+
 /** Atualiza os eventos do webhook de uma instância existente */
 export async function evolutionSetWebhookEvents(instanceName: string, webhookUrl: string, instanceToken?: string | null) {
   const { baseUrl, apiKey } = await getConfig();

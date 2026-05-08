@@ -10,6 +10,10 @@ interface Instance {
   status: "CONNECTED" | "DISCONNECTED" | "CONNECTING";
   webhookUrl: string | null;
   instanceToken: string | null;
+  // Default true. Quando false, sincroniza com Evolution `groupsIgnore=true` —
+  // a instância continua nos grupos e ainda envia, mas para de receber webhook
+  // de grupo. Útil quando várias instâncias estão nos mesmos grupos.
+  acceptGroups: boolean;
   createdAt: string;
   company: { id: string; name: string } | null;
   _count: { messages: number };
@@ -47,6 +51,10 @@ export default function InstancesSection({
   const [editingPhone, setEditingPhone] = useState<string | null>(null); // instanceId
   const [phoneInput, setPhoneInput] = useState("");
   const [savingPhone, setSavingPhone] = useState(false);
+
+  // Toggle "aceita grupos" — id da instância em transição (UI desabilitada)
+  const [togglingGroups, setTogglingGroups] = useState<string | null>(null);
+  const [groupsToggleResult, setGroupsToggleResult] = useState<string | null>(null);
   const [form, setForm] = useState({ instanceName: "", phone: "", companyId: defaultCompanyId });
 
   // QR Modal
@@ -167,6 +175,35 @@ export default function InstancesSection({
     setEditingPhone(null);
     setPhoneInput("");
     router.refresh();
+  }
+
+  async function handleToggleAcceptGroups(inst: Instance) {
+    setTogglingGroups(inst.id);
+    setGroupsToggleResult(null);
+    try {
+      const r = await fetch(`/api/whatsapp/${inst.id}`, {
+        method:  "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ acceptGroups: !inst.acceptGroups }),
+      });
+      const d = await r.json();
+      if (!r.ok) {
+        setGroupsToggleResult(`❌ ${d.error ?? "Erro ao salvar"}`);
+      } else if (d.warning) {
+        setGroupsToggleResult(`⚠️ ${d.warning}`);
+      } else {
+        setGroupsToggleResult(
+          inst.acceptGroups
+            ? `✅ "${inst.instanceName}" passou a IGNORAR mensagens de grupos`
+            : `✅ "${inst.instanceName}" voltou a RECEBER mensagens de grupos`,
+        );
+      }
+      router.refresh();
+    } catch {
+      setGroupsToggleResult("❌ Erro de conexão");
+    } finally {
+      setTogglingGroups(null);
+    }
   }
 
   async function openQR(inst: Instance) {
@@ -330,6 +367,9 @@ export default function InstancesSection({
               </button>
               {webhookResult && (
                 <span className="text-[10px] text-slate-400">{webhookResult}</span>
+              )}
+              {groupsToggleResult && (
+                <span className="text-[10px] text-slate-400 max-w-md">{groupsToggleResult}</span>
               )}
             </div>
           )}
@@ -508,6 +548,24 @@ export default function InstancesSection({
                       className={`px-3 py-1.5 rounded-lg border text-xs transition-colors ${inst.phone ? "bg-blue-500/10 border-blue-500/30 text-blue-400 hover:bg-blue-500/20" : "bg-[#161f30] border-[#1e2d45] text-slate-500 hover:text-slate-300"}`}
                     >
                       📱 {inst.phone ? "Número ✓" : "Número"}
+                    </button>
+
+                    {/* Aceita grupos — sincroniza com groupsIgnore na Evolution.
+                        Verde: recebe grupos. Cinza: ignora grupos (continua dentro
+                        e ainda envia, só não recebe webhook). */}
+                    <button
+                      onClick={() => handleToggleAcceptGroups(inst)}
+                      disabled={togglingGroups === inst.id}
+                      title={inst.acceptGroups
+                        ? "Recebendo mensagens de grupos. Clique pra IGNORAR (continua enviando, mas não recebe webhook)."
+                        : "Ignorando mensagens de grupos. Clique pra voltar a receber."}
+                      className={`px-3 py-1.5 rounded-lg border text-xs transition-colors disabled:opacity-50 ${
+                        inst.acceptGroups
+                          ? "bg-purple-500/10 border-purple-500/30 text-purple-300 hover:bg-purple-500/20"
+                          : "bg-[#161f30] border-[#1e2d45] text-slate-500 hover:text-slate-300"
+                      }`}
+                    >
+                      {togglingGroups === inst.id ? "..." : `👥 Grupos ${inst.acceptGroups ? "ON" : "OFF"}`}
                     </button>
 
                     {/* Delete */}

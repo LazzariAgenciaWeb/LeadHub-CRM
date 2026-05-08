@@ -418,6 +418,12 @@ model WhatsappInstance {
   status        InstanceStatus @default(DISCONNECTED)
   webhookUrl    String?
   instanceToken String? // token da instância na Evolution API (para auth em endpoints específicos)
+  // Aceita receber webhooks de mensagens de grupo. Default true (compat).
+  // Quando false, sincroniza com Evolution `groupsIgnore=true` — a instância
+  // permanece dentro dos grupos no WhatsApp e ainda pode enviar, mas para de
+  // disparar webhook a cada mensagem. Útil em empresa com várias instâncias
+  // nos mesmos grupos: deixa só 1 receptora, evita duplicação de processamento.
+  acceptGroups  Boolean        @default(true)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { evolutionDeleteInstance } from "@/lib/evolution";
+import { evolutionDeleteInstance, evolutionSetSettings } from "@/lib/evolution";
 import { assertModule } from "@/lib/billing";
 
 // PATCH /api/whatsapp/[id]
@@ -28,18 +28,40 @@ export async function PATCH(
   }
 
   const body = await req.json();
-  const { instanceName, phone, status, webhookUrl, instanceToken } = body;
+  const { instanceName, phone, status, webhookUrl, instanceToken, acceptGroups } = body;
 
   const instance = await (prisma.whatsappInstance.update as any)({
     where: { id },
     data: {
-      ...(instanceName !== undefined && { instanceName }),
-      ...(phone !== undefined && { phone }),
-      ...(status !== undefined && { status }),
-      ...(webhookUrl !== undefined && { webhookUrl }),
+      ...(instanceName !== undefined  && { instanceName }),
+      ...(phone !== undefined         && { phone }),
+      ...(status !== undefined        && { status }),
+      ...(webhookUrl !== undefined    && { webhookUrl }),
       ...(instanceToken !== undefined && { instanceToken: instanceToken || null }),
+      ...(acceptGroups !== undefined  && { acceptGroups: !!acceptGroups }),
     },
   });
+
+  // Se o toggle "aceita grupos" foi alterado, propaga pra Evolution
+  // (groupsIgnore = !acceptGroups). A flag só afeta recebimento — a instância
+  // continua dentro dos grupos no WhatsApp e ainda pode enviar.
+  // Se a Evolution falhar, o LeadHub fica fora de sincronia até o próximo
+  // "Reconfigurar webhooks" — devolvemos um warning na resposta.
+  if (acceptGroups !== undefined && !!acceptGroups !== (existing as any).acceptGroups) {
+    try {
+      await evolutionSetSettings(
+        existing.instanceName,
+        { groupsIgnore: !acceptGroups },
+        (existing as any).instanceToken ?? null,
+      );
+    } catch (err: any) {
+      console.warn(`[WA PATCH] Falha ao sincronizar groupsIgnore na Evolution para ${existing.instanceName}:`, err?.message ?? err);
+      return NextResponse.json({
+        ...instance,
+        warning: `Atualizado no LeadHub, mas a Evolution não confirmou (${err?.message ?? "erro"}). Use "Reconfigurar webhooks" pra sincronizar.`,
+      });
+    }
+  }
 
   return NextResponse.json(instance);
 }
