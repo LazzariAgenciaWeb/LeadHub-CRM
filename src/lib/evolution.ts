@@ -129,15 +129,17 @@ export async function evolutionGetStatus(instanceName: string, instanceToken?: s
  * (POST /settings/set/{instance}). Equivale ao painel "Configurations →
  * Settings" no Manager — `groupsIgnore`, `rejectCall`, `alwaysOnline`, etc.
  *
- * Os toggles são todos opt-in: se você não passa um campo, ele NÃO é alterado
- * (a Evolution preserva o valor anterior). Aceita boolean direto.
+ * IMPORTANTE: Evolution v2 NÃO aceita atualização parcial — o POST exige
+ * todos os campos. Fazemos GET /settings/find/{instance} primeiro pra pegar
+ * o estado atual e fazer merge com o override; assim trocar `groupsIgnore`
+ * sozinho não zera os outros toggles que o admin configurou direto no Manager.
  *
- * Uso típico no LeadHub: marcar `groupsIgnore: true` em instâncias secundárias
- * pra eliminar webhooks duplicados em grupos com várias instâncias.
+ * Se a Evolution não conseguir devolver os settings atuais (instância nova
+ * sem config), assumimos defaults seguros (todos false, msgCall vazio).
  */
 export async function evolutionSetSettings(
   instanceName: string,
-  settings: {
+  override: {
     rejectCall?:      boolean;
     msgCall?:         string;
     groupsIgnore?:    boolean;
@@ -150,10 +152,38 @@ export async function evolutionSetSettings(
 ) {
   const { baseUrl, apiKey } = await getConfig();
   const token = instanceToken ?? await evolutionGetInstanceToken(instanceName) ?? apiKey;
+
+  // 1. Pega config atual pra preservar campos não-tocados.
+  let current: Record<string, unknown> = {};
+  try {
+    const findRes = await fetch(`${baseUrl}/settings/find/${instanceName}`, {
+      headers: headers(token),
+    });
+    if (findRes.ok) {
+      current = (await findRes.json()) ?? {};
+    }
+  } catch {
+    // Sem config existente — segue com defaults
+  }
+
+  // 2. Merge: defaults seguros < estado atual < override do caller.
+  const fullSettings = {
+    rejectCall:      false,
+    msgCall:         "",
+    groupsIgnore:    false,
+    alwaysOnline:    false,
+    readMessages:    false,
+    readStatus:      false,
+    syncFullHistory: false,
+    ...current,
+    ...override,
+  };
+
+  // 3. POST com payload completo.
   const res = await fetch(`${baseUrl}/settings/set/${instanceName}`, {
     method:  "POST",
     headers: headers(token),
-    body:    JSON.stringify(settings),
+    body:    JSON.stringify(fullSettings),
   });
   if (!res.ok) {
     const err = await res.text();
