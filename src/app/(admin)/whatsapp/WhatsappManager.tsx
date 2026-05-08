@@ -630,35 +630,44 @@ export default function WhatsappManager({
     selectedConvRef.current = selectedConv;
   }, [selectedConv]);
 
-  // Alimenta o leadNotes (string que o parser monta as bolhas amarelas) a partir
-  // de DUAS fontes:
-  //   1) selectedConv.lead.notes (legado — formato "[DD/MM/AA HH:MM] body — autor")
-  //   2) ConversationNote do banco (fonte nova — funciona em grupos sem Lead)
+  // Alimenta o leadNotes (string que o parser monta as bolhas amarelas).
   //
-  // Sem #2, notas em conversas de grupo (que não têm Lead associado) salvavam
-  // no banco mas sumiam da UI no próximo refresh — só apareciam por causa do
-  // setLeadNotes otimista do submit. Agora puxamos de /api/conversations/:id/notes
-  // sempre que troca de conversa.
+  // Fontes:
+  //   - ConversationNote (canon) — fetch de /api/conversations/:id/notes.
+  //     Funciona em grupos sem Lead. É onde notas novas vão.
+  //   - Lead.notes (legado) — usado apenas pra entradas que NÃO existem em
+  //     ConversationNote. Em particular: 📅 agendamentos (que o backend
+  //     do schedule grava só no Lead) e notas antigas pré-deploy.
+  //
+  // Cuidado importante:
+  //   - O endpoint POST /api/conversations/:id/notes escreve nas DUAS tabelas
+  //     quando há Lead. Dedupe por body evita o card aparecer em duplicado.
+  //   - leadNotes persiste no estado entre trocas de conversa — sem o reset
+  //     imediato, o card de uma conv vazava pra outra até o fetch terminar.
   useEffect(() => {
     const convId = selectedConv?.conversation?.id;
-    const legacyNotes = selectedConv?.lead?.notes ?? "";
+    const legacyRaw = selectedConv?.lead?.notes ?? "";
     if (!convId) {
-      if (legacyNotes !== leadNotes) setLeadNotes(legacyNotes);
+      setLeadNotes(legacyRaw);
       return;
     }
+    // Reset imediato — evita que notas da conv anterior continuem visíveis
+    // enquanto o fetch novo está em voo.
+    setLeadNotes(legacyRaw);
+
     let cancelled = false;
     (async () => {
       try {
         const res = await fetch(`/api/conversations/${convId}/notes`);
-        if (!res.ok) {
-          if (!cancelled && legacyNotes !== leadNotes) setLeadNotes(legacyNotes);
-          return;
-        }
+        if (!res.ok) return;
         const rows: { body: string; authorName: string | null; createdAt: string }[] = await res.json();
-        // Formata cada ConversationNote no mesmo formato do parser:
-        // "[DD/MM/AA HH:MM] body — autor". Notas mais recentes primeiro (já vem
-        // ordenado desc do server).
-        const formatted = rows.map((n) => {
+
+        // Set de bodies (trim) já presentes em ConversationNote — usado pra
+        // descartar duplicatas no Lead.notes legado.
+        const cnBodies = new Set(rows.map((n) => n.body.trim()));
+
+        // Formata ConversationNote como string legado (parser não muda).
+        const cnFormatted = rows.map((n) => {
           const d = new Date(n.createdAt);
           const dd = String(d.getDate()).padStart(2, "0");
           const mm = String(d.getMonth() + 1).padStart(2, "0");
@@ -667,15 +676,30 @@ export default function WhatsappManager({
           const mi = String(d.getMinutes()).padStart(2, "0");
           const author = n.authorName ?? "Usuário";
           return `[${dd}/${mm}/${yy} ${hh}:${mi}] ${n.body} — ${author}`;
-        }).join("\n\n");
-        // Se há notas no banco, elas são canon. Mantém legacyNotes só como
-        // fallback pra entradas antigas (📅 agendamentos) que estavam só no Lead.
-        const merged = formatted
-          ? (legacyNotes ? `${formatted}\n\n${legacyNotes}` : formatted)
-          : legacyNotes;
-        if (!cancelled && merged !== leadNotes) setLeadNotes(merged);
+        });
+
+        // Filtra Lead.notes: mantém só entries que NÃO estão em ConversationNote.
+        // Cobre dois casos:
+        //   1) Notas antigas pré-deploy (existem só no Lead.notes).
+        //   2) Agendamentos 📅: o backend escreve nas duas tabelas, então
+        //      manter os dois geraria card duplicado — aqui descartamos a
+        //      versão Lead.notes (sem autor) e mostramos só a do
+        //      ConversationNote (com autor).
+        const legacyEntries = legacyRaw
+          ? legacyRaw.split(/\n\n+/).filter((entry) => {
+              if (!entry.trim()) return false;
+              // Extrai o body removendo "[data]" do início e " — autor" do fim.
+              const m = entry.match(/^\[.+?\]\s*([\s\S]*)$/);
+              const afterDate = m ? m[1] : entry;
+              const bodyOnly = afterDate.replace(/\s+—\s+[^—]+$/, "").trim();
+              return !cnBodies.has(bodyOnly);
+            })
+          : [];
+
+        const merged = [...cnFormatted, ...legacyEntries].join("\n\n");
+        if (!cancelled) setLeadNotes(merged);
       } catch {
-        if (!cancelled && legacyNotes !== leadNotes) setLeadNotes(legacyNotes);
+        /* mantém o reset com legacyRaw que já fizemos antes do await */
       }
     })();
     return () => { cancelled = true; };
