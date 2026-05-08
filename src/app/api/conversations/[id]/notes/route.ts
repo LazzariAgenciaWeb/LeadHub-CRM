@@ -6,6 +6,42 @@ import { addScore } from "@/lib/gamification";
 import { assertModule } from "@/lib/billing";
 import { formatBrazilDateTimeShort } from "@/lib/datetime";
 
+// GET /api/conversations/[id]/notes
+// Lista todas as notas internas da conversa, mais recentes primeiro.
+// A UI usa pra renderizar bolhas amarelas na timeline mesmo quando a conversa
+// não tem Lead associado (típico de grupos).
+export async function GET(
+  _req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const session = await getEffectiveSession();
+  if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+  const gate = await assertModule(session, "whatsapp");
+  if (!gate.ok) return gate.response;
+
+  const { id } = await params;
+  const userRole = (session.user as any)?.role;
+  const userCompanyId = (session.user as any)?.companyId;
+
+  const conv = await prisma.conversation.findUnique({
+    where: { id },
+    select: { companyId: true },
+  });
+  if (!conv) return NextResponse.json({ error: "Conversa não encontrada" }, { status: 404 });
+  if (userRole !== "SUPER_ADMIN" && conv.companyId !== userCompanyId) {
+    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  }
+
+  const notes = await prisma.conversationNote.findMany({
+    where:   { conversationId: id },
+    orderBy: { createdAt: "desc" },
+    select:  { id: true, body: true, authorId: true, authorName: true, createdAt: true },
+  });
+
+  return NextResponse.json(notes);
+}
+
 // POST /api/conversations/[id]/notes
 // Body: { body: string }
 // Cria nota interna na conversa + Activity NOTE_ADDED para a timeline.

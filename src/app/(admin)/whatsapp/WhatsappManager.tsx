@@ -630,15 +630,57 @@ export default function WhatsappManager({
     selectedConvRef.current = selectedConv;
   }, [selectedConv]);
 
-  // Mantém o leadNotes (state local que o parser de notas usa) sincronizado
-  // com selectedConv.lead.notes (fonte de verdade do server). O auto-refresh
-  // de 5s atualiza o lead em selectedConv mas não tocava o leadNotes — isso
-  // fazia bolhas novas (ex: 📅 agendamento) só aparecerem ao reabrir a conversa.
+  // Alimenta o leadNotes (string que o parser monta as bolhas amarelas) a partir
+  // de DUAS fontes:
+  //   1) selectedConv.lead.notes (legado — formato "[DD/MM/AA HH:MM] body — autor")
+  //   2) ConversationNote do banco (fonte nova — funciona em grupos sem Lead)
+  //
+  // Sem #2, notas em conversas de grupo (que não têm Lead associado) salvavam
+  // no banco mas sumiam da UI no próximo refresh — só apareciam por causa do
+  // setLeadNotes otimista do submit. Agora puxamos de /api/conversations/:id/notes
+  // sempre que troca de conversa.
   useEffect(() => {
-    const fresh = selectedConv?.lead?.notes ?? "";
-    if (fresh !== leadNotes) setLeadNotes(fresh);
+    const convId = selectedConv?.conversation?.id;
+    const legacyNotes = selectedConv?.lead?.notes ?? "";
+    if (!convId) {
+      if (legacyNotes !== leadNotes) setLeadNotes(legacyNotes);
+      return;
+    }
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(`/api/conversations/${convId}/notes`);
+        if (!res.ok) {
+          if (!cancelled && legacyNotes !== leadNotes) setLeadNotes(legacyNotes);
+          return;
+        }
+        const rows: { body: string; authorName: string | null; createdAt: string }[] = await res.json();
+        // Formata cada ConversationNote no mesmo formato do parser:
+        // "[DD/MM/AA HH:MM] body — autor". Notas mais recentes primeiro (já vem
+        // ordenado desc do server).
+        const formatted = rows.map((n) => {
+          const d = new Date(n.createdAt);
+          const dd = String(d.getDate()).padStart(2, "0");
+          const mm = String(d.getMonth() + 1).padStart(2, "0");
+          const yy = String(d.getFullYear() % 100).padStart(2, "0");
+          const hh = String(d.getHours()).padStart(2, "0");
+          const mi = String(d.getMinutes()).padStart(2, "0");
+          const author = n.authorName ?? "Usuário";
+          return `[${dd}/${mm}/${yy} ${hh}:${mi}] ${n.body} — ${author}`;
+        }).join("\n\n");
+        // Se há notas no banco, elas são canon. Mantém legacyNotes só como
+        // fallback pra entradas antigas (📅 agendamentos) que estavam só no Lead.
+        const merged = formatted
+          ? (legacyNotes ? `${formatted}\n\n${legacyNotes}` : formatted)
+          : legacyNotes;
+        if (!cancelled && merged !== leadNotes) setLeadNotes(merged);
+      } catch {
+        if (!cancelled && legacyNotes !== leadNotes) setLeadNotes(legacyNotes);
+      }
+    })();
+    return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedConv?.lead?.notes]);
+  }, [selectedConv?.conversation?.id, selectedConv?.lead?.notes]);
 
   // Quando uma conversa é selecionada (especialmente via /whatsapp?abrir=PHONE),
   // garante que o card dela na lista esquerda fica visível. Sem isso, abrir uma
@@ -1560,21 +1602,27 @@ export default function WhatsappManager({
 
   async function handleAddNote(e: React.FormEvent) {
     e.preventDefault();
-    if (!selectedConv?.lead || !newNote.trim()) return;
+    if (!newNote.trim()) return;
+    const convId = selectedConv?.conversation?.id;
+    if (!convId) return;
     setSavingNote(true);
     const now = new Date();
     const dateStr =
       now.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" }) +
       " " +
       now.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
-    const entry = `[${dateStr}] ${newNote.trim()}`;
+    const author = userName || "Usuário";
+    const entry = `[${dateStr}] ${newNote.trim()} — ${author}`;
     const combined = leadNotes ? `${entry}\n\n${leadNotes}` : entry;
 
-    await fetch(`/api/leads/${selectedConv.lead.id}`, {
-      method: "PATCH",
+    // Salva via /api/conversations/:id/notes — funciona pra grupos sem Lead
+    // (escreve em ConversationNote) e também appenda em Lead.notes no backend
+    // quando há lead, mantendo compatibilidade com a timeline antiga.
+    await fetch(`/api/conversations/${convId}/notes`, {
+      method:  "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ notes: combined }),
-    });
+      body:    JSON.stringify({ body: newNote.trim() }),
+    }).catch(() => { /* não crítico — UI já tem update otimista */ });
 
     setLeadNotes(combined);
     setNewNote("");
@@ -3878,8 +3926,10 @@ export default function WhatsappManager({
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Painel de notas — só aparece quando aberto via menu '+ Ações → Nota interna' */}
-              {selectedConv.lead && showNotesPanel && (
+              {/* Painel de notas — abre via menu '+ Ações → Nota interna'.
+                  Funciona com ou sem Lead associado: notas vão pra
+                  ConversationNote (sempre) e Lead.notes (quando há lead). */}
+              {showNotesPanel && (
                 <div className="flex-shrink-0 border-t border-[#1e2d45]">
                   <div className="flex items-center justify-between px-4 pt-2.5">
                     <div className="flex items-center gap-2">
@@ -3973,6 +4023,25 @@ export default function WhatsappManager({
                         {e}
                       </button>
                     ))}
+                  </div>
+                )}
+
+                {/* Preview da citação (fora do flex row do form pra não competir
+                    espaço com a textarea — antes ficava ao lado do botão Ações
+                    e empurrava o campo de digitar pra fora da tela). */}
+                {replyingTo && (
+                  <div className="mb-2 flex items-start gap-2 bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2">
+                    <div className="flex-1 min-w-0 border-l-2 border-indigo-400 pl-2">
+                      <p className="text-[10px] text-indigo-400 font-semibold mb-0.5">
+                        {replyingTo.direction === "OUTBOUND" ? "Você" : (selectedConv?.companyContact?.name ?? selectedConv?.lead?.name ?? selectedConv?.phone)}
+                      </p>
+                      <p className="text-[11px] text-slate-400 truncate">{replyingTo.body}</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setReplyingTo(null)}
+                      className="text-slate-600 hover:text-white text-sm flex-shrink-0 mt-0.5"
+                    >✕</button>
                   </div>
                 )}
 
@@ -4262,22 +4331,6 @@ export default function WhatsappManager({
                       </div>
                     );
                   })()}
-
-                  {/* Preview da citação (ao clicar Responder) */}
-                  {replyingTo && (
-                    <div className="mx-1 mb-1 flex items-start gap-2 bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2">
-                      <div className="flex-1 min-w-0 border-l-2 border-indigo-400 pl-2">
-                        <p className="text-[10px] text-indigo-400 font-semibold mb-0.5">
-                          {replyingTo.direction === "OUTBOUND" ? "Você" : (selectedConv?.companyContact?.name ?? selectedConv?.lead?.name ?? selectedConv?.phone)}
-                        </p>
-                        <p className="text-[11px] text-slate-400 truncate">{replyingTo.body}</p>
-                      </div>
-                      <button
-                        onClick={() => setReplyingTo(null)}
-                        className="text-slate-600 hover:text-white text-sm flex-shrink-0 mt-0.5"
-                      >✕</button>
-                    </div>
-                  )}
 
                   <div className="flex-1 relative">
                     <textarea
