@@ -154,7 +154,10 @@ interface WaMessage {
   ack?: number | null;
   quotedId?: string | null;
   quotedBody?: string | null;
-  mediaBase64?: string | null;
+  // mediaBase64 NÃO é mais retornado pela API de listagem (peso de ~400KB
+  // por imagem em grupos = 20MB+ por conversa). UI usa `hasMedia` pra saber
+  // se tem mídia e busca via /api/whatsapp/messages/[id]/media (browser cacheia).
+  hasMedia?: boolean;
   mediaType?: string | null;
 }
 
@@ -727,7 +730,7 @@ export default function WhatsappManager({
         setConvMessages((prev) => {
           const byId = new Map<string, WaMessage>();
           for (const m of prev)  byId.set(m.id, m);
-          for (const m of fresh) byId.set(m.id, m); // sobrescreve (atualiza ack, mediaBase64 etc.)
+          for (const m of fresh) byId.set(m.id, m); // sobrescreve (atualiza ack, hasMedia, etc.)
           return Array.from(byId.values()).sort(
             (a, b) => new Date(a.receivedAt).getTime() - new Date(b.receivedAt).getTime()
           );
@@ -3689,24 +3692,21 @@ export default function WhatsappManager({
                               </div>
                             )}
 
-                            {/* Imagem inline */}
-                            {msg.mediaBase64 && msg.mediaType?.startsWith("image/") ? (
+                            {/* Imagem inline — src aponta pra endpoint que serve binário com cache */}
+                            {msg.hasMedia && msg.mediaType?.startsWith("image/") ? (
                               <img
-                                src={`data:${msg.mediaType};base64,${msg.mediaBase64}`}
+                                src={`/api/whatsapp/messages/${msg.id}/media`}
                                 alt="Imagem"
+                                loading="lazy"
                                 className="max-w-full rounded-lg max-h-64 object-contain cursor-pointer"
                                 onClick={() => {
-                                  // data: URLs são bloqueadas por window.open — usar Blob URL
-                                  const bytes = Uint8Array.from(atob(msg.mediaBase64!), c => c.charCodeAt(0));
-                                  const blob = new Blob([bytes], { type: msg.mediaType ?? "image/jpeg" });
-                                  const url = URL.createObjectURL(blob);
-                                  window.open(url, "_blank");
+                                  window.open(`/api/whatsapp/messages/${msg.id}/media`, "_blank");
                                 }}
                               />
-                            ) : msg.mediaBase64 && msg.mediaType?.startsWith("audio/") ? (
-                              /* Player de áudio */
-                              <audio controls className="w-full mt-1" style={{ minWidth: 200, maxWidth: 280 }}>
-                                <source src={`data:${msg.mediaType};base64,${msg.mediaBase64}`} />
+                            ) : msg.hasMedia && msg.mediaType?.startsWith("audio/") ? (
+                              /* Player de áudio — preload metadata só (não baixa o áudio inteiro até dar play) */
+                              <audio controls preload="metadata" className="w-full mt-1" style={{ minWidth: 200, maxWidth: 280 }}>
+                                <source src={`/api/whatsapp/messages/${msg.id}/media`} type={msg.mediaType ?? undefined} />
                               </audio>
                             ) : (
                               <p className={`text-sm whitespace-pre-wrap break-words ${isMedia ? (isOut || isOursInGroup ? "italic text-indigo-200" : "italic text-slate-400") : ""}`}>{msg.body}</p>

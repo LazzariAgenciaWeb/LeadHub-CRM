@@ -24,20 +24,45 @@ export default async function TicketPage({
 
   const { id } = await params;
 
-  const ticket = await prisma.ticket.findUnique({
+  const ticketRaw = await prisma.ticket.findUnique({
     where: { id },
     include: {
       company:       { select: { id: true, name: true } },
       clientCompany: { select: { id: true, name: true, phone: true, email: true } },
       assignee:      { select: { id: true, name: true } },
       setor:         { select: { id: true, name: true } },
-      messages:      { orderBy: { createdAt: "asc" } },
-      activities:    { orderBy: { createdAt: "asc" } },
+      // ATENÇÃO: NUNCA incluir mediaBase64 aqui. Em chamados com 10+ imagens
+      // anexadas isso vira MB de base64 no SSR. UI consome `hasMedia` e busca
+      // via /api/tickets/messages/[id]/media (browser cacheia).
+      messages: {
+        orderBy: { createdAt: "asc" },
+        select: {
+          id:           true,
+          body:         true,
+          isInternal:   true,
+          authorName:   true,
+          authorRole:   true,
+          mediaType:    true,
+          source:       true,
+          createdAt:    true,
+          mediaBase64:  true, // só pra derivar hasMedia, removido abaixo
+        },
+      },
+      activities: { orderBy: { createdAt: "asc" } },
     },
   });
 
-  if (!ticket) notFound();
-  if (!isSuperAdmin && ticket.companyId !== userCompanyId) notFound();
+  if (!ticketRaw) notFound();
+  if (!isSuperAdmin && ticketRaw.companyId !== userCompanyId) notFound();
+
+  // Mapeia messages: remove o base64 e expõe só o flag.
+  const ticket = {
+    ...ticketRaw,
+    messages: ticketRaw.messages.map(({ mediaBase64, ...rest }) => ({
+      ...rest,
+      hasMedia: !!mediaBase64,
+    })),
+  };
 
   // Lookups para edição inline (cliente, atendente, setor)
   const lookupCompanyId = ticket.companyId;

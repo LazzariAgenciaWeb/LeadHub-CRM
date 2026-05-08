@@ -11,7 +11,9 @@ interface TicketMessage {
   isInternal: boolean;
   authorName: string;
   authorRole: string;
-  mediaBase64?: string | null;
+  // mediaBase64 NÃO vem mais inline — UI usa /api/tickets/messages/[id]/media
+  // (browser cacheia). `hasMedia` indica que a mensagem tem anexo.
+  hasMedia?: boolean;
   mediaType?: string | null;
   source?: string;
   createdAt: string;
@@ -588,14 +590,14 @@ export default function TicketDetail({
                             </span>
                           </div>
                           <div className={`rounded-xl px-4 py-2.5 text-sm whitespace-pre-wrap max-w-[85%] ${isAdmin ? "bg-indigo-600 text-white" : "bg-[#0f1623] border border-[#1e2d45] text-slate-200"}`}>
-                            {msg.mediaBase64 && msg.mediaType?.startsWith("image/") && (
+                            {msg.hasMedia && msg.mediaType?.startsWith("image/") && (
                               <img
-                                src={`data:${msg.mediaType};base64,${msg.mediaBase64}`}
+                                src={`/api/tickets/messages/${msg.id}/media`}
                                 alt="anexo"
+                                loading="lazy"
                                 className="rounded-lg max-h-80 mb-2 cursor-pointer hover:opacity-90 transition"
-                                onClick={(e) => {
-                                  const w = window.open();
-                                  if (w) w.document.write(`<img src="${(e.target as HTMLImageElement).src}" style="max-width:100%">`);
+                                onClick={() => {
+                                  window.open(`/api/tickets/messages/${msg.id}/media`, "_blank");
                                 }}
                               />
                             )}

@@ -112,5 +112,8 @@ export async function POST(
     }
   }
 
-  return NextResponse.json(message, { status: 201 });
+  // Resposta sem inline base64 — UI consome `hasMedia` e busca o binário
+  // sob demanda em /api/tickets/messages/[id]/media (mesmo padrão da listagem).
+  const { mediaBase64: _drop, ...messageRest } = message;
+  return NextResponse.json({ ...messageRest, hasMedia: !!_drop }, { status: 201 });
 }

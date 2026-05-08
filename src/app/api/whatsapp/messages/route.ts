@@ -39,17 +39,47 @@ export async function GET(req: NextRequest) {
   const where: any = { phone };
   if (effectiveCompanyId) where.companyId = effectiveCompanyId;
 
+  // ATENÇÃO: NUNCA incluir `mediaBase64` nem `rawPayload` nesta listagem.
+  // Em conversas com 50+ imagens isso vira 20MB+ de JSON por request — derruba
+  // memória do Node e torra largura de banda. A UI consome `hasMedia` aqui pra
+  // saber se renderiza placeholder, e busca o binário sob demanda em
+  // /api/whatsapp/messages/[id]/media (com cache de browser).
+  const messageSelect = {
+    id:                true,
+    externalId:        true,
+    phone:             true,
+    participantPhone:  true,
+    participantName:   true,
+    body:              true,
+    direction:         true,
+    identifiedAs:      true,
+    processed:         true,
+    receivedAt:        true,
+    ack:               true,
+    quotedId:          true,
+    quotedBody:        true,
+    mediaType:         true, // tipo MIME — UI usa pra decidir entre img/audio/etc.
+    companyId:         true,
+    instanceId:        true,
+    campaignId:        true,
+    leadId:            true,
+    conversationId:    true,
+    sentByUserId:      true,
+    instance: { select: { instanceName: true } },
+    campaign: { select: { id: true, name: true } },
+  } as const;
+
   // Modo legacy: nenhum parâmetro de paginação → retorna tudo, ordenado asc
   if (!paginated) {
-    const messages = await prisma.message.findMany({
+    const rows = await prisma.message.findMany({
       where,
       orderBy: { receivedAt: "asc" },
-      include: {
-        instance: { select: { instanceName: true } },
-        campaign: { select: { id: true, name: true } },
-        sentBy:   { select: { id: true, name: true } },
-      },
+      select: { ...messageSelect, sentBy: { select: { id: true, name: true } }, mediaBase64: true },
     });
+    const messages = rows.map(({ mediaBase64, ...rest }) => ({
+      ...rest,
+      hasMedia: !!mediaBase64,
+    }));
     return NextResponse.json(messages);
   }
 
@@ -68,14 +98,15 @@ export async function GET(req: NextRequest) {
     where,
     orderBy: { receivedAt: "desc" },
     take: limit + 1,
-    include: {
-      instance: { select: { instanceName: true } },
-      campaign: { select: { id: true, name: true } },
-    },
+    select: { ...messageSelect, mediaBase64: true },
   });
 
   const hasMore = rows.length > limit;
-  const messages = (hasMore ? rows.slice(0, limit) : rows).reverse();
+  const trimmed = (hasMore ? rows.slice(0, limit) : rows).reverse();
+  const messages = trimmed.map(({ mediaBase64, ...rest }) => ({
+    ...rest,
+    hasMedia: !!mediaBase64,
+  }));
 
   return NextResponse.json({ messages, hasMore });
 }
