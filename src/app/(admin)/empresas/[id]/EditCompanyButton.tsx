@@ -20,6 +20,9 @@ interface Company {
   moduleTickets: boolean;
   moduleAI: boolean;
   moduleClickup: boolean;
+  moduleGamificacao: boolean;
+  moduleProjetos: boolean;
+  moduleCalendario: boolean;
 }
 
 interface Props {
@@ -46,6 +49,9 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
     moduleTickets: company.moduleTickets,
     moduleAI: company.moduleAI,
     moduleClickup: company.moduleClickup,
+    moduleGamificacao: company.moduleGamificacao,
+    moduleProjetos: company.moduleProjetos,
+    moduleCalendario: company.moduleCalendario,
   });
 
   function set(field: string, value: string | boolean) {
@@ -73,6 +79,9 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
         payload.moduleTickets = form.moduleTickets;
         payload.moduleAI = form.moduleAI;
         payload.moduleClickup = form.moduleClickup;
+        payload.moduleGamificacao = form.moduleGamificacao;
+        payload.moduleProjetos = form.moduleProjetos;
+        payload.moduleCalendario = form.moduleCalendario;
       }
 
       const res = await fetch(`/api/companies/${company.id}`, {
@@ -214,6 +223,9 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
                             { key: "moduleTickets", label: "Chamados" },
                             { key: "moduleAI", label: "Assistente IA" },
                             { key: "moduleClickup", label: "ClickUp (integração)" },
+                            { key: "moduleGamificacao", label: "Gamificação (ranking + badges + cron)" },
+                            { key: "moduleProjetos", label: "Projetos" },
+                            { key: "moduleCalendario", label: "Calendário" },
                           ].map(({ key, label }) => (
                             <label key={key} className="flex items-center gap-3 cursor-pointer py-1 px-2 rounded-lg hover:bg-white/5 transition-colors">
                               <input type="checkbox" checked={(form as any)[key]} onChange={(e) => set(key, e.target.checked)} className="w-4 h-4 accent-indigo-500" />
