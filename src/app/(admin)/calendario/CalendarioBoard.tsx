@@ -6,7 +6,7 @@ import Link from "next/link";
 import {
   Calendar, Clock, MessageSquare, LifeBuoy, Target,
   ChevronRight, RefreshCw, AlertTriangle, CheckCircle2,
-  User, X, AlarmClock, Video, MapPin, ExternalLink,
+  User, X, AlarmClock, Video, MapPin, ExternalLink, Hourglass,
   CalendarDays, List,
 } from "lucide-react";
 import WeekView from "./WeekView";
@@ -81,6 +81,20 @@ interface LeadFollowUp {
   status: string;
 }
 
+// Lead esfriando — sem prazo + sem interação há 5+ dias.
+// lastMessageAt vem da Conversation vinculada (se houver); fallback: updatedAt.
+interface StaleLead {
+  id: string;
+  name: string | null;
+  phone: string;
+  companyId: string;
+  pipeline: string | null;
+  pipelineStage: string | null;
+  status: string;
+  updatedAt: string;
+  conversation: { lastMessageAt: string | null } | null;
+}
+
 interface GoogleEvent {
   id: string;
   summary: string;
@@ -100,6 +114,7 @@ interface Props {
   myTickets:         UrgentTicket[];
   unassignedTickets: UrgentTicket[]; // só populado se isManager (ou CLIENT com setor)
   leadsFollowUp:     LeadFollowUp[];
+  staleLeads:        StaleLead[];
   currentUserId:     string;
   isSuperAdmin:      boolean;
   googleConn:     { email: string | null; status: string } | null;
@@ -333,6 +348,87 @@ function ScheduleModal({
             onClick={save}
             disabled={!date || saving}
             className="flex-1 px-4 py-2 rounded-lg text-[13px] font-semibold text-white bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          >
+            {saving ? "Salvando..." : "Agendar"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Modal de Definir Prazo de Lead ────────────────────────────────────────────
+
+function LeadScheduleModal({
+  leadId,
+  leadName,
+  onClose,
+  onSaved,
+}: {
+  leadId: string;
+  leadName: string;
+  onClose: () => void;
+  onSaved: () => void;
+}) {
+  const [date, setDate] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  async function save() {
+    if (!date) return;
+    setSaving(true);
+    try {
+      await fetch(`/api/leads/${leadId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ expectedReturnAt: new Date(date).toISOString() }),
+      });
+      onSaved();
+      onClose();
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div className="bg-[#0f1623] border border-[#1e2d45] rounded-2xl w-full max-w-sm p-5 shadow-2xl">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Target className="w-4 h-4 text-emerald-400" strokeWidth={2} />
+            <span className="text-white font-semibold text-[13px]">Agendar Follow-up</span>
+          </div>
+          <button onClick={onClose} className="text-slate-500 hover:text-white transition-colors">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        <p className="text-slate-400 text-[12px] mb-4 truncate">
+          Lead <span className="text-white">{leadName}</span>
+        </p>
+
+        <div>
+          <label className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-1">
+            Data de retorno
+          </label>
+          <input
+            type="datetime-local"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/25"
+          />
+        </div>
+
+        <div className="flex gap-2 mt-4">
+          <button
+            onClick={onClose}
+            className="flex-1 px-4 py-2 rounded-lg text-[13px] font-medium text-slate-400 bg-[#161f30] hover:bg-[#1e2d45] transition-colors"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={save}
+            disabled={!date || saving}
+            className="flex-1 px-4 py-2 rounded-lg text-[13px] font-semibold text-white bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
             {saving ? "Salvando..." : "Agendar"}
           </button>
@@ -596,6 +692,7 @@ export default function CalendarioBoard({
   myTickets,
   unassignedTickets,
   leadsFollowUp,
+  staleLeads,
   currentUserId,
   isSuperAdmin,
   googleConn,
@@ -621,6 +718,8 @@ export default function CalendarioBoard({
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [scheduleTarget, setScheduleTarget] = useState<{ id: string; name: string } | null>(null);
+  // Modal pra definir prazo de followup em lead esfriando (Sem Retorno há Tempo).
+  const [leadScheduleTarget, setLeadScheduleTarget] = useState<{ id: string; name: string } | null>(null);
   const [view, setView] = useState<"agenda" | "day" | "week">("agenda");
 
   const totalToday =
@@ -629,7 +728,8 @@ export default function CalendarioBoard({
     inProgressConvs.length +
     myTickets.length +
     unassignedTickets.length +
-    leadsFollowUp.length;
+    leadsFollowUp.length +
+    staleLeads.length;
 
   const overdueScheduled = scheduledConvs.filter((c) => isOverdue(c.scheduledReturnAt));
   const todayScheduled   = scheduledConvs.filter((c) => isToday(c.scheduledReturnAt) && !isOverdue(c.scheduledReturnAt));
@@ -1294,6 +1394,82 @@ export default function CalendarioBoard({
           );
         })}
       </Section>
+
+      {/* ── Sem Retorno há Tempo (leads esfriando, sem prazo) ──────────────── */}
+      {/* Antecipação de followup. Mostra leads/oportunidades ativos sem
+          expectedReturnAt onde a última interação foi há 5+ dias. Cor varia
+          pela urgência. Botão "Agendar" formaliza o followup; ao salvar, o
+          item sai daqui e aparece em "Follow-ups de Leads". */}
+      <Section
+        icon={Hourglass}
+        iconColor="text-amber-400"
+        accent="bg-amber-500/15"
+        title="Sem Retorno há Tempo"
+        count={staleLeads.length}
+        defaultOpen={false}
+      >
+        {staleLeads.map((l) => {
+          const pipelineLabel = l.pipeline ? PIPELINE_LABEL[l.pipeline] ?? l.pipeline : null;
+          const display =
+            l.name?.trim() ||
+            contactNames[`${l.companyId}|${l.phone}`] ||
+            formatPhone(l.phone);
+          // Tempo desde a última interação real (mensagem > update do registro)
+          const lastInteraction = l.conversation?.lastMessageAt ?? l.updatedAt;
+          const urgency = urgencyByAge(lastInteraction);
+          const style = URGENCY_STYLE[urgency];
+          const href = l.pipeline
+            ? `/crm/${l.pipeline.toLowerCase()}`
+            : `/whatsapp?abrir=${encodeURIComponent(l.phone)}`;
+          return (
+            <div
+              key={l.id}
+              className={`flex items-center gap-3 bg-[#0f1623] border border-[#1e2d45] border-l-4 ${style.border} rounded-xl px-4 py-3 hover:border-amber-500/30 transition-colors`}
+            >
+              <div className="w-7 h-7 rounded-full bg-amber-500/15 flex items-center justify-center flex-shrink-0">
+                <Hourglass className="w-3.5 h-3.5 text-amber-400" strokeWidth={2} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-white text-[13px] font-medium truncate">{display}</span>
+                  {pipelineLabel && (
+                    <span className="flex-shrink-0 text-[10px] px-1.5 py-0.5 rounded-full bg-amber-500/10 text-amber-300 font-medium">
+                      {pipelineLabel}
+                    </span>
+                  )}
+                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0 ${style.pill} ${style.pulse ? "animate-pulse" : ""}`}>
+                    Sem retorno há {timeAgo(lastInteraction).replace(" atrás", "")}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 mt-0.5">
+                  <span className="text-slate-500 text-[11px]">
+                    Sem prazo definido
+                  </span>
+                  {l.pipelineStage && (
+                    <span className="text-slate-600 text-[11px] truncate">· {l.pipelineStage}</span>
+                  )}
+                </div>
+              </div>
+              <div className="flex items-center gap-1.5 flex-shrink-0">
+                <button
+                  onClick={() => setLeadScheduleTarget({ id: l.id, name: display })}
+                  className="text-[11px] font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
+                  title="Definir prazo — vira followup formal"
+                >
+                  Agendar
+                </button>
+                <span className="text-slate-700">·</span>
+                <Link
+                  href={href}
+                  className="text-[11px] font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
+                >
+                  Abrir
+                </Link>
+              </div>
+            </div>
+          );
+        })}
+      </Section>
       </>
       )}
 
@@ -1303,6 +1479,14 @@ export default function CalendarioBoard({
           convId={scheduleTarget.id}
           convName={scheduleTarget.name}
           onClose={() => setScheduleTarget(null)}
+          onSaved={refresh}
+        />
+      )}
+      {leadScheduleTarget && (
+        <LeadScheduleModal
+          leadId={leadScheduleTarget.id}
+          leadName={leadScheduleTarget.name}
+          onClose={() => setLeadScheduleTarget(null)}
           onSaved={refresh}
         />
       )}

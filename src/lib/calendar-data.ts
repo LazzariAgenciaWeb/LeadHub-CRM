@@ -40,6 +40,11 @@ export async function getCalendarData(input: CalendarDataInput) {
   const today    = startOfTodayInSystemTZ(now);
   const todayEnd = endOfTodayInSystemTZ(now);
   const nextWeek = new Date(now); nextWeek.setDate(nextWeek.getDate() + 7);
+  // Cutoff pra "lead esfriando": sem prazo definido + sem interação há 5 dias.
+  // Constante porque ainda não tem UI de configurar — fácil ajustar depois.
+  const STALE_AFTER_DAYS = 5;
+  const staleCutoff = new Date(now);
+  staleCutoff.setDate(staleCutoff.getDate() - STALE_AFTER_DAYS);
 
   const cf = companyId ? { companyId } : {};
 
@@ -62,6 +67,7 @@ export async function getCalendarData(input: CalendarDataInput) {
     myTickets,
     unassignedTickets,
     leadsFollowUp,
+    staleLeads,
   ] = await Promise.all([
     // ── 1. Retornos agendados ─────────────────────────────────────────────────
     // Filtra por scheduledReturnAt (não pelo status) — se o cliente responder
@@ -224,6 +230,53 @@ export async function getCalendarData(input: CalendarDataInput) {
       orderBy: { expectedReturnAt: "asc" },
       take: 20,
     }),
+
+    // ── 7. Leads sem prazo, esfriando ────────────────────────────────────────
+    // Antecipa followup quando o lead/oportunidade está sem prazo definido E
+    // sem interação há mais de N dias. "Última interação" = lastMessageAt da
+    // conversa vinculada; se não tem conversa, usa Lead.updatedAt como fallback.
+    // Sai automaticamente da lista quando o lead recebe um expectedReturnAt
+    // (vira followup formal no bucket 6) ou quando alguém manda mensagem
+    // (lastMessageAt sobe acima do cutoff).
+    prisma.lead.findMany({
+      where: {
+        ...cf,
+        expectedReturnAt: null,
+        status: { notIn: ["CLOSED", "LOST"] },
+        AND: [
+          // Scope: meus + sem responsável (com filtro de setor pra CLIENT)
+          {
+            OR: [
+              { conversation: { is: { assigneeId: userId } } },
+              isManager
+                ? { conversation: { is: { assigneeId: null } } }
+                : (userSetorIds.length > 0
+                    ? { conversation: { is: { assigneeId: null, setorId: { in: userSetorIds } } } }
+                    : { id: "__never__" }),
+              // Lead sem conversa (manager pega; CLIENT precisa de setor —
+              // mas como não tem como derivar setor do lead, fica de fora
+              // pra CLIENT na MVP. Manager vê.).
+              ...(isManager ? [{ conversation: { is: null } }] : []),
+            ],
+          },
+          // "Esfriando": ou conversa parada ou (sem conversa E updatedAt antigo)
+          {
+            OR: [
+              { conversation: { is: { lastMessageAt: { lt: staleCutoff } } } },
+              { AND: [{ conversation: { is: null } }, { updatedAt: { lt: staleCutoff } }] },
+            ],
+          },
+        ],
+      },
+      select: {
+        id: true, name: true, phone: true, companyId: true,
+        pipeline: true, pipelineStage: true,
+        status: true, updatedAt: true,
+        conversation: { select: { lastMessageAt: true } },
+      },
+      orderBy: { updatedAt: "asc" }, // mais antigos primeiro = mais frios
+      take: 15,
+    }),
   ]);
 
   return {
@@ -233,6 +286,7 @@ export async function getCalendarData(input: CalendarDataInput) {
     myTickets,
     unassignedTickets,
     leadsFollowUp,
+    staleLeads,
     generatedAt: now.toISOString(),
   };
 }

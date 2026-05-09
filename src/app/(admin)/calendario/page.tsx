@@ -71,6 +71,7 @@ export default async function CalendarioPage({
     ...data.unansweredConvs.map((c)  => ({ companyId: c.companyId, phone: c.phone })),
     ...data.inProgressConvs.map((c)  => ({ companyId: c.companyId, phone: c.phone })),
     ...data.leadsFollowUp.map((l)    => ({ companyId: l.companyId, phone: l.phone })),
+    ...data.staleLeads.map((l)       => ({ companyId: l.companyId, phone: l.phone })),
   ]);
 
   // ── Conexão Google Calendar do usuário (per-user) ─────────────────────────
@@ -99,6 +100,7 @@ export default async function CalendarioPage({
       myTickets={data.myTickets as any}
       unassignedTickets={data.unassignedTickets as any}
       leadsFollowUp={data.leadsFollowUp as any}
+      staleLeads={data.staleLeads as any}
       currentUserId={userId}
       isSuperAdmin={isSuperAdmin}
       googleConn={googleConn ? { email: googleConn.googleEmail, status: googleConn.status } : null}
