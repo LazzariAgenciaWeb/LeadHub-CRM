@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { listPrimaryEvents, type GoogleCalendarEvent } from "@/lib/google-calendar";
 import { startOfTodayInSystemTZ, endOfTodayInSystemTZ } from "@/lib/datetime";
+import { getCalendarData, resolveContactNames } from "@/lib/calendar-data";
 import CalendarioBoard from "./CalendarioBoard";
 
 export default async function CalendarioPage({
@@ -49,190 +50,28 @@ export default async function CalendarioPage({
       })
     : [];
 
-  // Meu Dia é SEMPRE per-user. ADMIN tem visão de gestor em outros lugares
-  // (relatórios, dashboards), mas no Calendário queremos: minhas tarefas +
-  // o que está sem responsável (pra eu poder pegar). Itens já atribuídos
-  // a outros saem da MINHA lista e aparecem na lista DELES.
-  // CLIENT ainda fica preso aos setores dele pra não ver coisa fora do escopo.
+  // Setores do usuário-alvo (não do real). Quando manager olha agenda de
+  // outro CLIENT, queremos ver os setores DELE (nesse caso, o filtro de
+  // setor cai pra zero, porque manager não tem userSetorIds — mas como
+  // isManager=true, o filtro de setor nem é aplicado). O caso que importa
+  // é CLIENT olhando própria agenda → seus setores filtram corretamente.
   const userSetorIds = (await prisma.setorUser.findMany({
     where: { userId },
     select: { setorId: true },
   })).map((s) => s.setorId);
-  // Filtro reaproveitável pra Conversations:
-  //   - Manager (ADMIN/SUPER): suas + sem responsável (qualquer setor)
-  //   - CLIENT: suas + sem responsável NOS SEUS SETORES
-  const convScopeFilter = {
-    OR: [
-      { assigneeId: userId },
-      isManager
-        ? { assigneeId: null }
-        : (userSetorIds.length > 0
-            ? { AND: [{ assigneeId: null }, { setorId: { in: userSetorIds } }] }
-            : { id: "__never__" }), // CLIENT sem setor → nada de não-atribuído
-    ],
-  };
 
-  // Janela de "hoje" ANCORADA no TZ do sistema (BRT por default).
-  // Antes usava `setHours(0,0,0,0)` que dá meia-noite UTC no servidor —
-  // 21:00 BRT do dia anterior. Eventos do dia anterior à noite (ex:
-  // Reunião Rotary 20h-22h) caíam dentro da consulta de "hoje".
-  const now      = new Date();
-  const today    = startOfTodayInSystemTZ(now);
-  const todayEnd = endOfTodayInSystemTZ(now);
-  const nextWeek = new Date(now); nextWeek.setDate(nextWeek.getDate() + 7);
-  const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
-  const oneDayAgo  = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  const data = await getCalendarData({ companyId, userId, isManager, userSetorIds });
 
-  const cf = companyId ? { companyId } : {};
-
-  const [scheduledConvs, waitingConvs, myOpenConvs, urgentTickets, leadsFollowUp] =
-    await Promise.all([
-      // Retornos agendados (vencidos + hoje + próximos 7 dias).
-      // Filtra por scheduledReturnAt (não pelo status) — se o cliente responder
-      // depois do agendamento, o status muda pra OPEN/IN_PROGRESS mas o
-      // compromisso de retorno ainda existe e deve aparecer no calendário.
-      // Não-super-admin só vê os agendamentos onde é o responsável (assignee).
-      prisma.conversation.findMany({
-        where: {
-          ...cf,
-          scheduledReturnAt: { not: null, lte: nextWeek },
-          ...convScopeFilter,
-        },
-        select: {
-          id: true, phone: true, companyId: true, scheduledReturnAt: true, returnNote: true,
-          assigneeId: true, assignee: { select: { id: true, name: true } },
-          leads: { take: 1, orderBy: { createdAt: "desc" }, select: { id: true, name: true } },
-        },
-        orderBy: { scheduledReturnAt: "asc" },
-      }),
-
-      // Aguardando cliente — atribuídas ao usuário (ou todas para admin)
-      prisma.conversation.findMany({
-        where: {
-          ...cf,
-          status: "WAITING_CUSTOMER",
-          ...convScopeFilter,
-          statusUpdatedAt: { lte: oneHourAgo },
-        },
-        select: {
-          id: true, phone: true, companyId: true, statusUpdatedAt: true,
-          assigneeId: true, assignee: { select: { id: true, name: true } },
-          leads: { take: 1, orderBy: { createdAt: "desc" }, select: { id: true, name: true } },
-        },
-        orderBy: { statusUpdatedAt: "asc" },
-        take: 20,
-      }),
-
-      // Conversas abertas atribuídas a mim — ADMIN/SUPER_ADMIN vê todas da empresa
-      prisma.conversation.findMany({
-        where: {
-          ...cf,
-          status: { in: ["OPEN", "IN_PROGRESS"] },
-          ...convScopeFilter,
-        },
-        select: {
-          id: true, phone: true, companyId: true, status: true,
-          lastMessageAt: true, lastMessageBody: true, unreadCount: true,
-          leads: { take: 1, orderBy: { createdAt: "desc" }, select: { id: true, name: true } },
-        },
-        orderBy: { lastMessageAt: "desc" },
-        take: 20,
-      }),
-
-      // Chamados/tarefas: prazo em até 7 dias OU criados hoje (mesmo sem prazo).
-      // Ordena por dueDate ASC; tickets sem dueDate caem no final.
-      // Mesmo critério de Meu Dia: meus + sem responsável (pra pegar).
-      // Tickets de outras pessoas aparecem no Meu Dia delas, não no meu.
-      prisma.ticket.findMany({
-        where: {
-          ...cf,
-          status: { in: ["OPEN", "IN_PROGRESS"] },
-          isInternal: false,
-          AND: [
-            {
-              OR: [
-                { dueDate: { lte: nextWeek } },
-                { createdAt: { gte: today, lte: todayEnd } },
-              ],
-            },
-            {
-              OR: [
-                { assigneeId: userId },
-                isManager
-                  ? { assigneeId: null }
-                  : (userSetorIds.length > 0
-                      ? { AND: [{ assigneeId: null }, { setorId: { in: userSetorIds } }] }
-                      : { id: "__never__" }),
-              ],
-            },
-          ],
-        },
-        select: {
-          id: true, title: true, priority: true, status: true, type: true,
-          dueDate: true, createdAt: true,
-          company:       { select: { id: true, name: true } },
-          clientCompany: { select: { id: true, name: true } },
-          assignee:      { select: { id: true, name: true } },
-        },
-        orderBy: [{ dueDate: "asc" }, { priority: "desc" }],
-        take: 30,
-      }),
-
-      // Follow-ups de leads com data de hoje ou vencida.
-      // Lead não tem assigneeId próprio — herda da Conversation vinculada.
-      // Mesmo critério: meus (conversa atribuída a mim) + sem responsável
-      // (no meu setor pra CLIENT, qualquer setor pra ADMIN/SUPER).
-      prisma.lead.findMany({
-        where: {
-          ...cf,
-          expectedReturnAt: { lte: todayEnd },
-          status: { notIn: ["CLOSED", "LOST"] },
-          OR: [
-            { conversation: { is: { assigneeId: userId } } },
-            isManager
-              ? { conversation: { is: { assigneeId: null } } }
-              : (userSetorIds.length > 0
-                  ? { conversation: { is: { assigneeId: null, setorId: { in: userSetorIds } } } }
-                  : { id: "__never__" }),
-          ],
-        },
-        select: {
-          id: true, name: true, phone: true, companyId: true,
-          pipeline: true, pipelineStage: true,
-          expectedReturnAt: true, status: true,
-        },
-        orderBy: { expectedReturnAt: "asc" },
-        take: 20,
-      }),
-    ]);
+  const today    = startOfTodayInSystemTZ(new Date());
+  const todayEnd = endOfTodayInSystemTZ(new Date());
 
   // ── Resolução de nomes (especialmente grupos do WhatsApp) ────────────────
-  // Coleta todos os pares (companyId, phone) das conversas E dos leads pra
-  // buscar CompanyContact em batch — assim mostramos o nome do grupo em
-  // vez de "Grupo" no Follow-up de Leads também.
-  type Keyed = { companyId: string; phone: string };
-  const allKeyed: Keyed[] = [
-    ...scheduledConvs.map((c) => ({ companyId: c.companyId, phone: c.phone })),
-    ...waitingConvs.map((c)   => ({ companyId: c.companyId, phone: c.phone })),
-    ...myOpenConvs.map((c)    => ({ companyId: c.companyId, phone: c.phone })),
-    ...leadsFollowUp.map((l)  => ({ companyId: l.companyId, phone: l.phone })),
-  ];
-  const contactKeys = Array.from(new Set(allKeyed.map((k) => `${k.companyId}|${k.phone}`)));
-  const contactNames: Record<string, string> = {};
-  if (contactKeys.length > 0) {
-    const phones = Array.from(new Set(allKeyed.map((k) => k.phone)));
-    const companyIds = Array.from(new Set(allKeyed.map((k) => k.companyId)));
-    const contacts = await prisma.companyContact.findMany({
-      where: {
-        companyId: { in: companyIds },
-        phone: { in: phones },
-      },
-      select: { companyId: true, phone: true, name: true },
-    });
-    for (const c of contacts) {
-      if (c.name) contactNames[`${c.companyId}|${c.phone}`] = c.name;
-    }
-  }
+  const contactNames = await resolveContactNames([
+    ...data.scheduledConvs.map((c)   => ({ companyId: c.companyId, phone: c.phone })),
+    ...data.unansweredConvs.map((c)  => ({ companyId: c.companyId, phone: c.phone })),
+    ...data.inProgressConvs.map((c)  => ({ companyId: c.companyId, phone: c.phone })),
+    ...data.leadsFollowUp.map((l)    => ({ companyId: l.companyId, phone: l.phone })),
+  ]);
 
   // ── Conexão Google Calendar do usuário (per-user) ─────────────────────────
   const googleConn = await prisma.userGoogleConnection.findUnique({
@@ -254,11 +93,12 @@ export default async function CalendarioPage({
 
   return (
     <CalendarioBoard
-      scheduledConvs={scheduledConvs as any}
-      waitingConvs={waitingConvs as any}
-      myOpenConvs={myOpenConvs as any}
-      urgentTickets={urgentTickets as any}
-      leadsFollowUp={leadsFollowUp as any}
+      scheduledConvs={data.scheduledConvs as any}
+      unansweredConvs={data.unansweredConvs as any}
+      inProgressConvs={data.inProgressConvs as any}
+      myTickets={data.myTickets as any}
+      unassignedTickets={data.unassignedTickets as any}
+      leadsFollowUp={data.leadsFollowUp as any}
       currentUserId={userId}
       isSuperAdmin={isSuperAdmin}
       googleConn={googleConn ? { email: googleConn.googleEmail, status: googleConn.status } : null}

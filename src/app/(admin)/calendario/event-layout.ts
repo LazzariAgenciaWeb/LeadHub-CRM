@@ -39,7 +39,13 @@ export function layoutOverlappingEvents<T extends PositionableEvent>(events: T[]
   // Identifica clusters de eventos que se sobrepõem (transitivamente).
   // Dois eventos se sobrepõem se [a.start, a.end) ∩ [b.start, b.end) ≠ ∅.
   // O cluster cresce por transitividade — se A sobrepõe B e B sobrepõe C,
-  // mesmo que A não toque C, todos compartilham largura.
+  // todos ficam no mesmo cluster mesmo que A não toque C diretamente.
+  //
+  // IMPORTANTE: laneCount = concorrência máxima dentro do cluster, NÃO o
+  // tamanho do cluster. Se A acabou às 10:30 e C só começa às 11:00,
+  // C reaproveita a lane de A (algoritmo guloso abaixo) e o cluster
+  // {A, B, C} usa só 2 lanes — porque em qualquer instante há no máximo
+  // 2 eventos simultâneos (A+B ou B+C, nunca os 3).
   const clusters: Result[][] = [];
   let currentCluster: Result[] = [];
   let clusterMaxEnd = -Infinity;

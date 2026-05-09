@@ -6,7 +6,7 @@ import Link from "next/link";
 import {
   Calendar, Clock, MessageSquare, LifeBuoy, Target,
   ChevronRight, RefreshCw, AlertTriangle, CheckCircle2,
-  User, Hourglass, X, AlarmClock, Video, MapPin, ExternalLink,
+  User, X, AlarmClock, Video, MapPin, ExternalLink,
   CalendarDays, List,
 } from "lucide-react";
 import WeekView from "./WeekView";
@@ -27,17 +27,25 @@ interface ScheduledConv {
   leads: Lead[];
 }
 
-interface WaitingConv {
+// "Não atendida" = cliente esperando minha resposta (lastMessageDirection=INBOUND).
+// Tem todos os campos de OpenConv + statusUpdatedAt (pra mostrar "esperando há X").
+interface UnansweredConv {
   id: string;
   phone: string;
   companyId: string;
+  status: string;
   statusUpdatedAt: string;
+  lastMessageAt: string | null;
+  lastMessageBody: string | null;
+  unreadCount: number;
   assigneeId: string | null;
   assignee: { id: string; name: string } | null;
   leads: Lead[];
 }
 
-interface OpenConv {
+// "Em andamento" = atendendo agora (status=IN_PROGRESS, lastMessageDirection=OUTBOUND).
+// Já respondi e estou trabalhando — não é urgente como "não atendida", mas é minha.
+interface InProgressConv {
   id: string;
   phone: string;
   companyId: string;
@@ -86,13 +94,14 @@ interface GoogleEvent {
 }
 
 interface Props {
-  scheduledConvs: ScheduledConv[];
-  waitingConvs:   WaitingConv[];
-  myOpenConvs:    OpenConv[];
-  urgentTickets:  UrgentTicket[];
-  leadsFollowUp:  LeadFollowUp[];
-  currentUserId:  string;
-  isSuperAdmin:   boolean;
+  scheduledConvs:    ScheduledConv[];
+  unansweredConvs:   UnansweredConv[];
+  inProgressConvs:   InProgressConv[];
+  myTickets:         UrgentTicket[];
+  unassignedTickets: UrgentTicket[]; // só populado se isManager (ou CLIENT com setor)
+  leadsFollowUp:     LeadFollowUp[];
+  currentUserId:     string;
+  isSuperAdmin:      boolean;
   googleConn:     { email: string | null; status: string } | null;
   googleEvents:   GoogleEvent[];
   googleError:    string | null;
@@ -582,9 +591,10 @@ function GoogleEventRow({ ev }: { ev: GoogleEvent }) {
 
 export default function CalendarioBoard({
   scheduledConvs,
-  waitingConvs,
-  myOpenConvs,
-  urgentTickets,
+  unansweredConvs,
+  inProgressConvs,
+  myTickets,
+  unassignedTickets,
   leadsFollowUp,
   currentUserId,
   isSuperAdmin,
@@ -615,9 +625,10 @@ export default function CalendarioBoard({
 
   const totalToday =
     scheduledConvs.filter((c) => isToday(c.scheduledReturnAt) || isOverdue(c.scheduledReturnAt)).length +
-    waitingConvs.length +
-    myOpenConvs.length +
-    urgentTickets.length +
+    unansweredConvs.length +
+    inProgressConvs.length +
+    myTickets.length +
+    unassignedTickets.length +
     leadsFollowUp.length;
 
   const overdueScheduled = scheduledConvs.filter((c) => isOverdue(c.scheduledReturnAt));
@@ -915,49 +926,56 @@ export default function CalendarioBoard({
         </Section>
       )}
 
-      {/* ── Aguardando Cliente ───────────────────────────────────────────── */}
+      {/* ── Não Atendidas ────────────────────────────────────────────────── */}
+      {/* Cliente mandou mensagem (lastMessageDirection=INBOUND) e ninguém
+          respondeu. É a fila mais urgente — vai pro topo abaixo dos retornos. */}
       <Section
-        icon={Hourglass}
-        iconColor="text-blue-400"
-        accent="bg-blue-500/15"
-        title="Aguardando Cliente"
-        count={waitingConvs.length}
+        icon={AlertTriangle}
+        iconColor="text-red-400"
+        accent="bg-red-500/15"
+        title="Não Atendidas"
+        count={unansweredConvs.length}
       >
-        {waitingConvs.map((c) => {
+        {unansweredConvs.map((c) => {
           const name = resolveName(c);
-          const urgency = urgencyByAge(c.statusUpdatedAt);
+          // Urgência baseada em quando a mensagem do cliente chegou —
+          // tempo de espera real, não tempo desde a última mudança de status.
+          const ageRef = c.lastMessageAt ?? c.statusUpdatedAt;
+          const urgency = urgencyByAge(ageRef);
           const style = URGENCY_STYLE[urgency];
-          // Data exata do início da espera (DD/MM HH:mm) — útil quando passou de 1 dia
-          const since = new Date(c.statusUpdatedAt).toLocaleDateString("pt-BR", {
-            day: "2-digit", month: "2-digit",
-          }) + " " + new Date(c.statusUpdatedAt).toLocaleTimeString("pt-BR", {
-            hour: "2-digit", minute: "2-digit",
-          });
           return (
             <div
               key={c.id}
-              className={`flex items-center gap-3 bg-[#0f1623] border border-[#1e2d45] border-l-4 ${style.border} rounded-xl px-4 py-3 hover:border-blue-500/30 transition-colors`}
+              className={`flex items-center gap-3 bg-[#0f1623] border border-[#1e2d45] border-l-4 ${style.border} rounded-xl px-4 py-3 hover:border-red-500/30 transition-colors`}
             >
-              <div className="w-7 h-7 rounded-full bg-blue-500/15 flex items-center justify-center flex-shrink-0">
-                <span className="text-blue-400 text-[10px] font-bold">
+              <div className="w-7 h-7 rounded-full bg-red-500/15 flex items-center justify-center flex-shrink-0">
+                <span className="text-red-400 text-[10px] font-bold">
                   {(name ?? "?").charAt(0).toUpperCase()}
                 </span>
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-white text-[13px] font-medium truncate">{name}</span>
-                  {/* Badge de urgência: recente / atenção / importante / urgente */}
+                  {c.unreadCount > 0 && (
+                    <span className="flex-shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-indigo-500 text-white">
+                      {c.unreadCount}
+                    </span>
+                  )}
                   <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0 ${style.pill} ${style.pulse ? "animate-pulse" : ""}`}>
-                    {timeAgo(c.statusUpdatedAt)}
+                    Esperando há {timeAgo(ageRef).replace(" atrás", "")}
                   </span>
                 </div>
                 <div className="flex items-center gap-1.5 mt-0.5">
-                  <Clock className="w-3 h-3 text-slate-500 flex-shrink-0" strokeWidth={2} />
-                  <span className="text-slate-500 text-[11px]">
-                    Sem resposta desde {since}
-                  </span>
-                  {c.assignee && (
-                    <span className="text-slate-600 text-[11px]">· {c.assignee.name}</span>
+                  <MessageSquare className="w-3 h-3 text-red-400/70 flex-shrink-0" strokeWidth={2} />
+                  {c.lastMessageBody ? (
+                    <span className="text-slate-400 text-[11px] truncate">
+                      {c.lastMessageBody.slice(0, 60)}
+                    </span>
+                  ) : (
+                    <span className="text-slate-500 text-[11px]">Mensagem do cliente</span>
+                  )}
+                  {!c.assigneeId && (
+                    <span className="text-amber-400 text-[11px] font-semibold flex-shrink-0">· Sem responsável</span>
                   )}
                 </div>
               </div>
@@ -971,7 +989,7 @@ export default function CalendarioBoard({
                 </button>
                 <span className="text-slate-700">·</span>
                 <Link href={`/whatsapp?abrir=${encodeURIComponent(c.phone)}`} className="text-[11px] font-semibold text-indigo-400 hover:text-indigo-300 transition-colors">
-                  Abrir
+                  Responder
                 </Link>
               </div>
             </div>
@@ -979,15 +997,18 @@ export default function CalendarioBoard({
         })}
       </Section>
 
-      {/* ── Minhas Conversas Abertas ──────────────────────────────────────── */}
+      {/* ── Em Andamento ─────────────────────────────────────────────────── */}
+      {/* Conversas IN_PROGRESS minhas onde a última msg foi minha (OUTBOUND).
+          Já estou trabalhando — não é urgente, mas precisa acompanhar. */}
       <Section
         icon={MessageSquare}
         iconColor="text-cyan-400"
         accent="bg-cyan-500/15"
-        title="Minhas Conversas Abertas"
-        count={myOpenConvs.length}
+        title="Em Andamento"
+        count={inProgressConvs.length}
+        defaultOpen={false}
       >
-        {myOpenConvs.map((c) => {
+        {inProgressConvs.map((c) => {
           const name = resolveName(c);
           const statusLabel = c.status === "IN_PROGRESS" ? "Em atendimento" : "Aberta";
           const statusColor = c.status === "IN_PROGRESS" ? "text-yellow-400" : "text-cyan-400";
@@ -1039,15 +1060,15 @@ export default function CalendarioBoard({
         })}
       </Section>
 
-      {/* ── Chamados / Tarefas com Prazo ──────────────────────────────────── */}
+      {/* ── Meus Chamados ─────────────────────────────────────────────────── */}
       <Section
         icon={LifeBuoy}
         iconColor="text-orange-400"
         accent="bg-orange-500/15"
-        title="Chamados &amp; Tarefas com Prazo"
-        count={urgentTickets.length}
+        title="Meus Chamados"
+        count={myTickets.length}
       >
-        {urgentTickets.map((t) => {
+        {myTickets.map((t) => {
           const meta = PRIORITY_META[t.priority] ?? PRIORITY_META.MEDIUM;
           const isInternal = t.type === "INTERNAL";
           // Cor de urgência pelo prazo
@@ -1098,6 +1119,79 @@ export default function CalendarioBoard({
                   {t.assignee && (
                     <span className="text-slate-500 text-[11px]">· {t.assignee.name.split(" ")[0]}</span>
                   )}
+                </div>
+              </div>
+              <Link
+                href={`/chamados/${t.id}`}
+                className="flex-shrink-0 text-[11px] font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
+              >
+                Abrir
+              </Link>
+            </div>
+          );
+        })}
+      </Section>
+
+      {/* ── Sem Responsável ──────────────────────────────────────────────── */}
+      {/* Tickets pendentes que precisam ser atribuídos. Visível pra ADMIN/SUPER
+          (lista global) e pra CLIENT com setor (limitado ao setor dele).
+          Cor amarela = "alguém precisa pegar isso" — diferente do laranja de
+          "Meus Chamados" pra deixar claro a ação esperada. */}
+      <Section
+        icon={LifeBuoy}
+        iconColor="text-yellow-400"
+        accent="bg-yellow-500/15"
+        title="Sem Responsável"
+        count={unassignedTickets.length}
+      >
+        {unassignedTickets.map((t) => {
+          const meta = PRIORITY_META[t.priority] ?? PRIORITY_META.MEDIUM;
+          const isInternal = t.type === "INTERNAL";
+          const dueMs = t.dueDate ? new Date(t.dueDate).getTime() - Date.now() : null;
+          const dueDays = dueMs !== null ? dueMs / 86_400_000 : null;
+          const overdue = dueDays !== null && dueDays < 0;
+          const today   = dueDays !== null && dueDays >= 0 && dueDays < 1;
+          const dueColor =
+            overdue ? "text-red-300 bg-red-500/15 border-red-500/30 animate-pulse" :
+            today   ? "text-orange-300 bg-orange-500/15 border-orange-500/30" :
+            (dueDays !== null && dueDays < 3) ? "text-amber-300 bg-amber-500/15 border-amber-500/30" :
+                      "text-slate-400 bg-slate-500/10 border-slate-500/20";
+          const dueLabel = !t.dueDate ? "sem prazo" :
+            overdue ? `Atrasado · ${formatDateTime(t.dueDate)}` :
+            today   ? `Hoje ${new Date(t.dueDate).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}` :
+                      formatDateTime(t.dueDate);
+          return (
+            <div
+              key={t.id}
+              className="flex items-center gap-3 bg-[#0f1623] border border-[#1e2d45] border-l-4 border-l-yellow-500/60 rounded-xl px-4 py-3 hover:border-yellow-500/30 transition-colors"
+            >
+              <div className="w-7 h-7 rounded-full bg-yellow-500/15 flex items-center justify-center flex-shrink-0">
+                <LifeBuoy className="w-3.5 h-3.5 text-yellow-400" strokeWidth={2} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-white text-[13px] font-medium truncate">{t.title}</span>
+                  <span className={`flex-shrink-0 text-[10px] font-semibold px-1.5 py-0.5 rounded-full border ${meta.chip}`}>
+                    {meta.label}
+                  </span>
+                  {isInternal && (
+                    <span className="flex-shrink-0 text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/25">
+                      Tarefa
+                    </span>
+                  )}
+                  <span className="flex-shrink-0 text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-yellow-500/15 text-yellow-300 border border-yellow-500/25">
+                    Sem responsável
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                  {t.clientCompany ? (
+                    <span className="text-slate-400 text-[11px]">{t.clientCompany.name}</span>
+                  ) : t.company && (
+                    <span className="text-slate-500 text-[11px]">{t.company.name}</span>
+                  )}
+                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full border ${dueColor}`}>
+                    <Clock className="w-2.5 h-2.5 inline -mt-0.5 mr-0.5" strokeWidth={2.5} /> {dueLabel}
+                  </span>
                 </div>
               </div>
               <Link
