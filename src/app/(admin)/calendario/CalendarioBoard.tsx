@@ -651,6 +651,22 @@ export default function CalendarioBoard({
     refresh();
   }
 
+  // Finaliza uma conversa direto da fila — usado em "Não Atendidas" e
+  // "Em Andamento" pra fechar sem precisar abrir o WhatsApp. Útil quando
+  // o item ficou travado (instância desativada, conversa antiga sem como
+  // responder, resolvido por outro canal etc).
+  async function closeConversation(convId: string) {
+    if (!confirm("Finalizar essa conversa? Ela some da lista e vira CLOSED.")) return;
+    // Usa action="close" em vez de status="CLOSED" pra registrar Activity
+    // de auditoria ("usuário finalizou a conversa") + setar closedAt.
+    await fetch(`/api/conversations/${convId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "close" }),
+    });
+    refresh();
+  }
+
   // Resolve um retorno agendado: limpa scheduledReturnAt + nota e devolve a
   // conversa para IN_PROGRESS (atendido). Usado nos atrasados para sair da lista.
   async function resolveScheduledReturn(convId: string) {
@@ -980,6 +996,14 @@ export default function CalendarioBoard({
                 </div>
               </div>
               <div className="flex items-center gap-1.5 flex-shrink-0">
+                <button
+                  onClick={() => closeConversation(c.id)}
+                  className="text-[11px] font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
+                  title="Finalizar — fecha a conversa (CLOSED) e tira da lista"
+                >
+                  ✓ Finalizar
+                </button>
+                <span className="text-slate-700">·</span>
                 <button
                   onClick={() => setScheduleTarget({ id: c.id, name })}
                   className="text-[11px] font-semibold text-purple-400 hover:text-purple-300 transition-colors"
