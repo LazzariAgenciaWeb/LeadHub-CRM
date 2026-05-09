@@ -3,9 +3,10 @@ import { prisma } from "@/lib/prisma";
 import { getRanking } from "@/lib/gamification";
 import { ScoreReason, BadgeType } from "@/generated/prisma";
 import Link from "next/link";
-import { Trophy, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import BadgeMedallion from "../gamificacao/BadgeMedallion";
 import { BADGE_TIERS, ALL_BADGES, BADGE_REASON, shouldShowBadge } from "../gamificacao/labels";
+import LiveRankingMini from "./LiveRankingMini";
 
 export default async function DashboardGamificacaoTop() {
   const session = await getEffectiveSession();
@@ -75,20 +76,9 @@ export default async function DashboardGamificacaoTop() {
     return Math.max(fromEvents, tierThreshold);
   }
 
-  // Ranking unificado (não filtra por categoria) — pra mostrar TODOS os
-  // competidores na home. O /gamificacao já segrega Produção × Gestão pra
-  // quem quiser visão detalhada.
-  // Reordena globalmente por pontos pra dar posição global correta.
-  const globalRanking = [...ranking]
-    .sort((a, b) => b.monthPoints - a.monthPoints)
-    .map((r, i) => ({ ...r, globalPosition: i + 1 }));
-
-  const me = globalRanking.find((r) => r.userId === viewUserId);
-  const top5 = globalRanking.slice(0, 5);
-  const myPosition = me?.globalPosition ?? 0;
-
-  // Se o usuário não está no top 5, adiciona ele à lista
-  const showsMe = top5.some((r) => r.userId === viewUserId);
+  // Apenas pra label "Conquistas do top da empresa · {nome}" no banner de
+  // impersonação — ranking real fica no LiveRankingMini (auto-refresh 30s).
+  const me = ranking.find((r) => r.userId === viewUserId);
 
   const monthPoints = myScore?.monthPoints ?? 0;
   const distinctEarned = new Set(myBadges.map((b) => b.badge)).size;
@@ -111,12 +101,21 @@ export default async function DashboardGamificacaoTop() {
               {isImpersonating && me && <span className="text-amber-400/80"> · {me.name}</span>}
             </p>
           </div>
-          <Link
-            href="/gamificacao"
-            className="text-xs text-yellow-300/70 hover:text-yellow-300 flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-yellow-500/10 transition-colors"
-          >
-            Ver painel <ArrowRight className="w-3 h-3" />
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/gamificacao/regras"
+              className="text-[10px] text-slate-400 hover:text-white px-2 py-1 rounded-lg hover:bg-white/5 transition-colors"
+              title="Tabela de pontos: como cada ação vira ponto"
+            >
+              📖 Tabela
+            </Link>
+            <Link
+              href="/gamificacao"
+              className="text-xs text-yellow-300/70 hover:text-yellow-300 flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-yellow-500/10 transition-colors"
+            >
+              Ver painel <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
         </div>
 
         <div className="grid grid-cols-5 sm:grid-cols-7 gap-2">
@@ -126,83 +125,16 @@ export default async function DashboardGamificacaoTop() {
         </div>
       </div>
 
-      {/* Mini Ranking — coluna lateral */}
-      <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-2xl p-5">
-        <div className="flex items-center justify-between mb-3">
-          <div>
-            <h3 className="text-white font-semibold text-sm flex items-center gap-2">
-              <Trophy className="w-4 h-4 text-yellow-400" /> Ranking
-            </h3>
-            <p className="text-slate-500 text-xs mt-0.5">
-              Top do mês — todos os competidores
-            </p>
-          </div>
-          <Link
-            href="/gamificacao"
-            className="text-[10px] text-slate-500 hover:text-white"
-          >
-            ver todos
-          </Link>
-        </div>
-
-        {ranking.length === 0 ? (
-          <p className="text-slate-600 text-xs text-center py-6">
-            Ninguém pontuou ainda.
-          </p>
-        ) : (
-          <div className="space-y-1.5">
-            {top5.map((entry) => {
-              const isMe = entry.userId === viewUserId;
-              const medal = entry.globalPosition === 1 ? "🥇"
-                          : entry.globalPosition === 2 ? "🥈"
-                          : entry.globalPosition === 3 ? "🥉"
-                          : null;
-              const catLabel = entry.rankingCategory === "GESTAO" ? "👔" : "👷";
-              return (
-                <div
-                  key={entry.userId}
-                  className={`flex items-center gap-2 px-2 py-1.5 rounded-lg ${
-                    isMe ? "bg-indigo-500/10 ring-1 ring-indigo-500/30" : ""
-                  }`}
-                >
-                  <span className="w-6 text-center text-sm flex-shrink-0">
-                    {medal ?? <span className="text-slate-500 text-xs">#{entry.globalPosition}</span>}
-                  </span>
-                  <span
-                    className="text-xs flex-shrink-0"
-                    title={entry.rankingCategory === "GESTAO" ? "Gestão" : "Produção"}
-                  >
-                    {catLabel}
-                  </span>
-                  <span className={`flex-1 truncate text-xs ${isMe ? "text-white font-medium" : "text-slate-300"}`}>
-                    {entry.name}
-                    {isMe && <span className="ml-1 text-[9px] uppercase tracking-wider text-indigo-300">você</span>}
-                  </span>
-                  <span className={`text-xs font-bold ${isMe ? "text-white" : "text-slate-400"}`}>
-                    {entry.monthPoints}
-                  </span>
-                </div>
-              );
-            })}
-
-            {!showsMe && me && myPosition > 0 && (
-              <>
-                <div className="text-center text-slate-700 text-[10px] py-0.5">···</div>
-                <div className="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-indigo-500/10 ring-1 ring-indigo-500/30">
-                  <span className="w-6 text-center">
-                    <span className="text-slate-500 text-xs">#{myPosition}</span>
-                  </span>
-                  <span className="flex-1 truncate text-xs text-white font-medium">
-                    {me.name}
-                    <span className="ml-1 text-[9px] uppercase tracking-wider text-indigo-300">você</span>
-                  </span>
-                  <span className="text-xs font-bold text-white">{me.monthPoints}</span>
-                </div>
-              </>
-            )}
-          </div>
-        )}
-      </div>
+      {/* Mini Ranking — coluna lateral (auto-refresh 30s) */}
+      <LiveRankingMini
+        initialRanking={ranking.map((r) => ({
+          userId:          r.userId,
+          name:            r.name,
+          rankingCategory: r.rankingCategory,
+          monthPoints:     r.monthPoints,
+        }))}
+        viewUserId={viewUserId}
+      />
     </div>
   );
 }

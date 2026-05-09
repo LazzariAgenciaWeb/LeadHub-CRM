@@ -1,0 +1,82 @@
+{
+  "name": "LeadHub - Cron Evening (DIA_SEM_ATRASO)",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            { "mode": "everyWeek", "hour": 19, "minute": 0, "weekday": "1" },
+            { "mode": "everyWeek", "hour": 19, "minute": 0, "weekday": "2" },
+            { "mode": "everyWeek", "hour": 19, "minute": 0, "weekday": "3" },
+            { "mode": "everyWeek", "hour": 19, "minute": 0, "weekday": "4" },
+            { "mode": "everyWeek", "hour": 19, "minute": 0, "weekday": "5" }
+          ]
+        }
+      },
+      "id": "trigger-cron-evening",
+      "name": "Cron 19:00 seg-sex",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "cronSecret",
+              "value": "SUBSTITUIR_PELO_CRON_SECRET"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-secret-evening",
+      "name": "🔑 Secret",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [400, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://app.azzagencia.com.br/api/cron/gamificacao?mode=evening",
+        "method": "GET",
+        "options": {
+          "timeout": 120000
+        },
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('🔑 Secret').item.json.cronSecret }}"
+            }
+          ]
+        }
+      },
+      "id": "http-gamificacao-evening",
+      "name": "Gamificação evening (DIA_SEM_ATRASO)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [620, 300],
+      "continueOnFail": true
+    }
+  ],
+  "connections": {
+    "Cron 19:00 seg-sex": {
+      "main": [[{ "node": "🔑 Secret", "type": "main", "index": 0 }]]
+    },
+    "🔑 Secret": {
+      "main": [[{ "node": "Gamificação evening (DIA_SEM_ATRASO)", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "timezone": "America/Sao_Paulo",
+    "executionOrder": "v1"
+  },
+  "tags": [
+    { "name": "leadhub" },
+    { "name": "cron" },
+    { "name": "evening" }
+  ]
+}

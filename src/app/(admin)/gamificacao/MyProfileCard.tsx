@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Trophy, TrendingUp, Award, History, Gift } from "lucide-react";
+import { Trophy, TrendingUp, Award, History, Gift, BookOpen } from "lucide-react";
 import { gradStroke } from "@/components/IconGradients";
 import { BadgeType, ScoreReason } from "@/generated/prisma";
 import BadgeMedallion from "./BadgeMedallion";
@@ -99,12 +99,18 @@ export default function MyProfileCard({
         </div>
       </div>
 
-      <div className="mt-4 pt-4 border-t border-[#1e2d45] flex items-center justify-between text-xs gap-2">
+      <div className="mt-4 pt-4 border-t border-[#1e2d45] flex items-center justify-between text-xs gap-2 flex-wrap">
         <Link
           href="/gamificacao/historico"
           className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors"
         >
           <History className="w-3 h-3" /> {totalPoints} pts no histórico
+        </Link>
+        <Link
+          href="/gamificacao/regras"
+          className="flex items-center gap-1 px-2 py-1 rounded bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 transition-colors"
+        >
+          <BookOpen className="w-3 h-3" /> Tabela de pontos
         </Link>
         <Link
           href="/gamificacao/premios"

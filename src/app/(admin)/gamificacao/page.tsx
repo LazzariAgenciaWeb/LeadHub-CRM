@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getRanking } from "@/lib/gamification";
 import { ScoreReason, BadgeType } from "@/generated/prisma";
 import MyProfileCard from "./MyProfileCard";
-import Leaderboard from "./Leaderboard";
+import LiveLeaderboard from "./LiveLeaderboard";
 import BadgesGrid from "./BadgesGrid";
 import RecentEvents from "./RecentEvents";
 import ImpersonationViewSwitcher from "./ImpersonationViewSwitcher";
@@ -228,9 +228,18 @@ export default async function GamificacaoPage({
   return (
     <div className="p-6 max-w-[1400px] mx-auto">
       {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-white font-bold text-2xl">Painel de Performance</h1>
-        <p className="text-slate-500 text-sm mt-1 capitalize">{monthName}</p>
+      <div className="mb-6 flex items-center justify-between gap-4">
+        <div>
+          <h1 className="text-white font-bold text-2xl">Painel de Performance</h1>
+          <p className="text-slate-500 text-sm mt-1 capitalize">{monthName}</p>
+        </div>
+        <a
+          href="/gamificacao/regras"
+          className="text-xs text-indigo-300 hover:text-indigo-200 bg-indigo-500/10 hover:bg-indigo-500/20 px-3 py-2 rounded-lg font-medium transition-colors flex items-center gap-1.5"
+          title="Como cada ação vira ponto"
+        >
+          📖 Tabela de pontos
+        </a>
       </div>
 
       {/* Banner de impersonação */}
@@ -257,7 +266,7 @@ export default async function GamificacaoPage({
             isAdmin={isAdmin}
           />
 
-          <Leaderboard ranking={ranking} currentUserId={viewUserId} />
+          <LiveLeaderboard initialRanking={ranking} currentUserId={viewUserId} />
 
           <RecentEvents events={enrichedEvents} />
         </div>
