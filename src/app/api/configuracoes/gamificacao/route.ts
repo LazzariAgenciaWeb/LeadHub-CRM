@@ -3,32 +3,9 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { ScoreReason } from "@/generated/prisma";
 import { SCORE_TABLE, invalidateGamificationCaches } from "@/lib/gamification";
+import { EDITABLE_REASONS } from "@/app/(admin)/gamificacao/scoring-meta";
 
-const ALL_REASONS: ScoreReason[] = [
-  "RESPOSTA_RAPIDA_5MIN",
-  "RESPOSTA_RAPIDA_30MIN",
-  "TICKET_RESOLVIDO",
-  "LEAD_AVANCADO",
-  "LEAD_VIROU_OPORTUNIDADE",
-  "LEAD_CONVERTIDO",
-  "DIA_SEM_PENDENCIA",
-  "DIA_SEM_ATRASO",
-  "RETORNO_ANTECIPADO",
-  "ATENDIMENTO_MESMO_DIA",
-  "NOTA_REGISTRADA",
-  "PRIMEIRO_CONTATO",
-  "PROJETO_ENTREGUE",
-  "PROJETO_ENTREGUE_NO_PRAZO",
-  "TAREFA_CRIADA",
-  "TAREFA_ATUALIZADA",
-  "TAREFA_CONCLUIDA",
-  "SLA_VENCIDO",
-  "CONVERSA_SEM_RESPOSTA",
-  "PRAZO_PRORROGADO",
-  "PROJETO_ATRASADO",
-  "TAREFA_SEM_PRAZO",
-  "TAREFA_ATRASADA",
-];
+const ALL_REASONS: ScoreReason[] = EDITABLE_REASONS;
 
 type RuleInput = {
   reason:         ScoreReason;

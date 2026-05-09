@@ -74,13 +74,13 @@ export const SCORE_TABLE: Record<ScoreReason, number> = {
 // Os nomes/limiares ficam em src/app/(admin)/gamificacao/labels.ts (BADGE_TIERS).
 // Aqui só mapeamos qual ScoreReason conta para qual BadgeType e os thresholds.
 
-type BadgeRule = {
+export type BadgeRule = {
   badge:      BadgeType;
   reasons:    ScoreReason[];
   thresholds: number[];   // [t1, t2, t3, t4, t5, t6] — espelha BADGE_TIERS em labels.ts
 };
 
-const BADGE_RULES: BadgeRule[] = [
+export const BADGE_RULES: BadgeRule[] = [
   {
     badge: BadgeType.RAIO_VELOZ,
     reasons: [ScoreReason.RESPOSTA_RAPIDA_5MIN],
@@ -219,7 +219,7 @@ const BADGE_RULES: BadgeRule[] = [
 
 // REI_DO_MES tem rule especial — é incrementado pelo cron via grantReiDoMes.
 // Tiers: 1, 2, 3, 5, 10, 20 vezes campeão do mês.
-const REI_DO_MES_THRESHOLDS = [1, 2, 3, 5, 10, 20];
+export const REI_DO_MES_THRESHOLDS = [1, 2, 3, 5, 10, 20];
 
 // ─── Caches em memória (per-process) ──────────────────────────────────────────
 // Em prod o servidor é Node + standalone, single process — esses caches vivem

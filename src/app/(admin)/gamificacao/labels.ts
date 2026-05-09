@@ -212,12 +212,14 @@ export const BADGE_TIERS: Record<BadgeType, Tier[]> = {
     { level: 6, name: "Highlander",    threshold: 1500 },
   ],
   SPRINT_MASTER: [
-    { level: 1, name: "Acelerou",      threshold: 1  },
-    { level: 2, name: "Ritmado",       threshold: 3  },
-    { level: 3, name: "Maratonista",   threshold: 7  },
-    { level: 4, name: "Incansável",    threshold: 14 },
-    { level: 5, name: "Forrest Gump",  threshold: 30 },
-    { level: 6, name: "Highlander",    threshold: 90 },
+    // Espelha BADGE_RULES.SPRINT_MASTER em src/lib/gamification.ts — o
+    // checkBadges é a fonte da verdade, a UI tem que mostrar os mesmos limiares.
+    { level: 1, name: "Acelerou",      threshold: 3   },
+    { level: 2, name: "Ritmado",       threshold: 7   },
+    { level: 3, name: "Maratonista",   threshold: 15  },
+    { level: 4, name: "Incansável",    threshold: 30  },
+    { level: 5, name: "Forrest Gump",  threshold: 60  },
+    { level: 6, name: "Highlander",    threshold: 180 },
   ],
   REI_DO_MES: [
     { level: 1, name: "Estreante",     threshold: 1  },

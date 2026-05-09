@@ -12,6 +12,7 @@
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio",
     "setup": "npm run db:push && npm run db:seed",
+    "test:gamification": "tsx scripts/test-gamification.ts",
     "postinstall": "echo 'Build pre-compilado incluido no repositorio'"
   },
   "prisma": {
