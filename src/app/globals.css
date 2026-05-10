@@ -24,3 +24,45 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* ── Scrollbars custom — discretas, no tema dark do LeadHub ─────────────────
+   Webkit (Chrome, Safari, Edge): track invisível, thumb fininho.
+   Firefox: scrollbar-width thin + scrollbar-color.
+   Aparece em hover/scroll, fade quando inativo. */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2a3d5a transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #1e2d45;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background 0.2s;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #3a5070;
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Utility: scrollbar ainda mais discreta em sidebars/painéis estreitos */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}

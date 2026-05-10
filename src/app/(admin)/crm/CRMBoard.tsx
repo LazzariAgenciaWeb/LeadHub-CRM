@@ -2,8 +2,10 @@
 
 import { useState, useTransition, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { Search, Target, Lightbulb, type LucideIcon } from "lucide-react";
 import ImportLeads from "./ImportLeads";
 import SourceBadge from "@/components/SourceBadge";
+import { gradStroke, type GradientKey } from "@/components/IconGradients";
 import type { TimelineEvent } from "@/app/api/leads/[id]/timeline/route";
 
 export interface PipelineStage {
@@ -216,10 +218,10 @@ function leadhubInboxUrl(phone: string): string {
   return `/whatsapp?abrir=${encodeURIComponent(phone)}`;
 }
 
-const PIPELINE_LABELS: Record<string, { label: string; icon: string; color: string }> = {
-  PROSPECCAO: { label: "Prospecção", icon: "🔎", color: "#8b5cf6" },
-  LEADS: { label: "Leads", icon: "🎯", color: "#6366f1" },
-  OPORTUNIDADES: { label: "Oportunidades", icon: "💡", color: "#f59e0b" },
+const PIPELINE_LABELS: Record<string, { label: string; Icon: LucideIcon; grad: GradientKey; emoji: string; color: string }> = {
+  PROSPECCAO:    { label: "Prospecção",    Icon: Search,    grad: "prospeccao",    emoji: "🔎", color: "#8b5cf6" },
+  LEADS:         { label: "Leads",         Icon: Target,    grad: "leads",         emoji: "🎯", color: "#6366f1" },
+  OPORTUNIDADES: { label: "Oportunidades", Icon: Lightbulb, grad: "oportunidades", emoji: "💡", color: "#f59e0b" },
 };
 
 const OTHER_PIPELINES: Record<string, { label: string; key: string }[]> = {
@@ -279,6 +281,8 @@ export default function CRMBoard({
   const [valueInput, setValueInput] = useState("");
   const [editingNotes, setEditingNotes] = useState(false);
   const [notesInput, setNotesInput] = useState("");
+  const [editingExpected, setEditingExpected] = useState(false);
+  const [expectedInput, setExpectedInput] = useState("");
 
   // Tags da empresa (carregadas sob demanda quando o usuário abre o seletor)
   const [allTags, setAllTags] = useState<TagInfo[]>([]);
@@ -449,6 +453,8 @@ export default function CRMBoard({
     setValueInput(lead.value?.toString() ?? "");
     setEditingNotes(false);
     setNotesInput(lead.notes ?? "");
+    setEditingExpected(false);
+    setExpectedInput(lead.expectedReturnAt ? lead.expectedReturnAt.slice(0, 10) : "");
     setShowLinkTracker(false);
     setTrackerLinks([]);
     setTrackerSearch("");
@@ -714,6 +720,20 @@ export default function CRMBoard({
     setEditingValue(false);
   }
 
+  async function handleSaveExpected(e: React.FormEvent) {
+    e.preventDefault();
+    if (!selected) return;
+    const iso = expectedInput ? new Date(expectedInput + "T12:00:00").toISOString() : null;
+    await fetch(`/api/leads/${selected.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ expectedReturnAt: iso }),
+    });
+    setSelected({ ...selected, expectedReturnAt: iso });
+    setLeads((prev) => prev.map((l) => (l.id === selected.id ? { ...l, expectedReturnAt: iso } : l)));
+    setEditingExpected(false);
+  }
+
   async function handleSaveNotes(e: React.FormEvent) {
     e.preventDefault();
     if (!selected) return;
@@ -919,7 +939,7 @@ export default function CRMBoard({
       <div className="flex items-center justify-between px-6 pt-5 pb-4 flex-shrink-0 border-b border-[#1e2d45]">
         <div>
           <h1 className="text-white font-bold text-xl flex items-center gap-2">
-            <span>{pipelineInfo.icon}</span>
+            <pipelineInfo.Icon className="w-5 h-5" stroke={gradStroke(pipelineInfo.grad)} strokeWidth={2.25} />
             {pipelineInfo.label}
           </h1>
           <p className="text-slate-500 text-sm mt-0.5">
@@ -1168,8 +1188,9 @@ export default function CRMBoard({
           <div className="relative bg-[#0c1220] border border-[#1e2d45] rounded-2xl w-full max-w-md mx-4 shadow-2xl overflow-hidden">
             <div className="px-6 py-4 border-b border-[#1e2d45] flex items-center justify-between">
               <div>
-                <h2 className="text-white font-bold text-base">
-                  {pipelineInfo.icon} Adicionar em {pipelineInfo.label}
+                <h2 className="text-white font-bold text-base flex items-center gap-2">
+                  <pipelineInfo.Icon className="w-4 h-4" stroke={gradStroke(pipelineInfo.grad)} strokeWidth={2.25} />
+                  Adicionar em {pipelineInfo.label}
                 </h2>
                 <p className="text-slate-500 text-xs mt-0.5">Cadastro manual de contato</p>
               </div>
@@ -1297,7 +1318,7 @@ export default function CRMBoard({
                     title="Pipeline"
                   >
                     {Object.entries(PIPELINE_LABELS).map(([key, info]) => (
-                      <option key={key} value={key}>{info.icon} {info.label}</option>
+                      <option key={key} value={key}>{info.emoji} {info.label}</option>
                     ))}
                   </select>
 
@@ -1498,6 +1519,122 @@ export default function CRMBoard({
                   )}
                 </div>
 
+                {/* ── Tarefas / Follow-ups (ação primária — vem antes da info) ── */}
+                <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="text-amber-400 text-[10px] font-semibold uppercase tracking-wide flex items-center gap-1.5">
+                      ⏰ Próximos passos
+                      {tasks.filter((t) => !t.done).length > 0 && (
+                        <span className="bg-amber-500/20 text-amber-300 text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                          {tasks.filter((t) => !t.done).length} aberta(s)
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Quick-add */}
+                  <form onSubmit={handleAddTask} className="space-y-2 mb-3">
+                    <input
+                      type="text"
+                      value={newTaskTitle}
+                      onChange={(e) => setNewTaskTitle(e.target.value)}
+                      placeholder="O que fazer? (ex: Ligar pra confirmar reunião)"
+                      className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-500/60"
+                    />
+                    <div className="flex gap-2">
+                      <input
+                        type="datetime-local"
+                        value={newTaskDue}
+                        onChange={(e) => setNewTaskDue(e.target.value)}
+                        className="flex-1 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500/60"
+                      />
+                      <button
+                        type="submit"
+                        disabled={savingTask || !newTaskTitle.trim()}
+                        className="px-3 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold disabled:opacity-40 transition-colors whitespace-nowrap"
+                      >
+                        {savingTask ? "..." : "+ Tarefa"}
+                      </button>
+                    </div>
+                  </form>
+
+                  {/* Lista */}
+                  {loadingTasks ? (
+                    <p className="text-slate-600 text-xs text-center py-2">Carregando...</p>
+                  ) : tasks.length === 0 ? (
+                    <p className="text-slate-600 text-xs italic text-center py-2">Nenhuma tarefa. Crie um follow-up acima.</p>
+                  ) : (
+                    <ul className="space-y-1.5">
+                      {tasks.map((t) => {
+                        const due = formatTaskDue(t.dueAt, t.done);
+                        const isAuto = t.source === "AUTO_LINK_OPEN";
+                        const isHotOpen = isAuto && !t.done;
+                        return (
+                          <li
+                            key={t.id}
+                            className={`flex items-start gap-2 px-2.5 py-2 rounded-lg border ${
+                              t.done
+                                ? "bg-[#0a0f1a]/40 border-[#1e2d45]/40"
+                                : isHotOpen
+                                ? "bg-red-500/10 border-red-500/30 hover:border-red-500/50"
+                                : "bg-[#0a0f1a] border-[#1e2d45] hover:border-amber-500/30"
+                            } group`}
+                          >
+                            <button
+                              onClick={() => handleToggleTask(t)}
+                              className={`mt-0.5 w-4 h-4 rounded border flex-shrink-0 flex items-center justify-center text-[10px] transition-colors ${
+                                t.done
+                                  ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300"
+                                  : isHotOpen
+                                  ? "border-red-400 hover:bg-red-500/20"
+                                  : "border-slate-600 hover:border-amber-400"
+                              }`}
+                              title={t.done ? "Reabrir tarefa" : "Marcar como feita"}
+                            >
+                              {t.done ? "✓" : ""}
+                            </button>
+
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <div className={`text-xs leading-tight ${
+                                  t.done
+                                    ? "text-slate-500 line-through"
+                                    : isHotOpen
+                                    ? "text-red-200 font-medium"
+                                    : "text-slate-200"
+                                }`}>
+                                  {t.title}
+                                </div>
+                                {isHotOpen && (
+                                  <span className="bg-red-500/25 text-red-200 border border-red-500/40 text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded">
+                                    Sinal quente
+                                  </span>
+                                )}
+                              </div>
+                              <div className={`text-[10px] mt-0.5 ${due.color}`}>
+                                {due.label}
+                                {t.assignee && <span className="text-slate-600 ml-2">· {t.assignee.name}</span>}
+                                {isAuto && !t.assignee && <span className="text-slate-600 ml-2">· sem responsável</span>}
+                              </div>
+                              {isHotOpen && t.notes && (
+                                <div className="text-[10px] text-red-300/70 mt-1 italic line-clamp-2">{t.notes}</div>
+                              )}
+                            </div>
+
+                            <button
+                              onClick={() => handleDeleteTask(t)}
+                              className="opacity-0 group-hover:opacity-100 text-slate-600 hover:text-red-400 text-xs transition-all flex-shrink-0"
+                              title="Remover"
+                            >
+                              ✕
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </div>
+
                 {/* Grid de dados principais */}
                 <div className="grid grid-cols-2 gap-2">
                   <div className="bg-[#161f30] rounded-lg p-3">
@@ -1506,13 +1643,40 @@ export default function CRMBoard({
                       {new Date(selected.createdAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" })}
                     </div>
                   </div>
-                  <div className="bg-[#161f30] rounded-lg p-3">
-                    <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-1">Previsão de retorno</div>
-                    <div className={`text-sm ${selected.expectedReturnAt ? "text-amber-400" : "text-slate-600"}`}>
-                      {selected.expectedReturnAt
-                        ? new Date(selected.expectedReturnAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" })
-                        : "—"}
+                  <div className="bg-[#161f30] rounded-lg p-3 group/exp">
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="text-slate-500 text-[10px] uppercase tracking-wide">Previsão de retorno</div>
+                      {!editingExpected && (
+                        <button
+                          onClick={() => {
+                            setExpectedInput(selected.expectedReturnAt ? selected.expectedReturnAt.slice(0, 10) : "");
+                            setEditingExpected(true);
+                          }}
+                          className="opacity-0 group-hover/exp:opacity-100 text-slate-600 hover:text-slate-400 text-[10px] transition-opacity"
+                        >
+                          ✏️
+                        </button>
+                      )}
                     </div>
+                    {editingExpected ? (
+                      <form onSubmit={handleSaveExpected} className="flex gap-1">
+                        <input
+                          autoFocus
+                          type="date"
+                          value={expectedInput}
+                          onChange={(e) => setExpectedInput(e.target.value)}
+                          className="flex-1 bg-[#0a0f1a] border border-[#1e2d45] rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-amber-500"
+                        />
+                        <button type="submit" className="px-2 py-1 rounded bg-amber-600 hover:bg-amber-500 text-white text-[10px]">OK</button>
+                        <button type="button" onClick={() => setEditingExpected(false)} className="text-slate-500 text-xs hover:text-white px-1">✕</button>
+                      </form>
+                    ) : (
+                      <div className={`text-sm ${selected.expectedReturnAt ? "text-amber-400" : "text-slate-600"}`}>
+                        {selected.expectedReturnAt
+                          ? new Date(selected.expectedReturnAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" })
+                          : "—"}
+                      </div>
+                    )}
                   </div>
 
                   {selected.email && (
@@ -1637,122 +1801,6 @@ export default function CRMBoard({
                   )}
                 </div>
 
-                {/* ── Tarefas / Follow-ups ── */}
-                <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="text-amber-400 text-[10px] font-semibold uppercase tracking-wide flex items-center gap-1.5">
-                      ⏰ Tarefas / Follow-ups
-                      {tasks.filter((t) => !t.done).length > 0 && (
-                        <span className="bg-amber-500/20 text-amber-300 text-[10px] font-bold px-1.5 py-0.5 rounded-full">
-                          {tasks.filter((t) => !t.done).length} aberta(s)
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Quick-add */}
-                  <form onSubmit={handleAddTask} className="space-y-2 mb-3">
-                    <input
-                      type="text"
-                      value={newTaskTitle}
-                      onChange={(e) => setNewTaskTitle(e.target.value)}
-                      placeholder="O que fazer? (ex: Ligar pra confirmar reunião)"
-                      className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-500/60"
-                    />
-                    <div className="flex gap-2">
-                      <input
-                        type="datetime-local"
-                        value={newTaskDue}
-                        onChange={(e) => setNewTaskDue(e.target.value)}
-                        className="flex-1 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500/60"
-                      />
-                      <button
-                        type="submit"
-                        disabled={savingTask || !newTaskTitle.trim()}
-                        className="px-3 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold disabled:opacity-40 transition-colors whitespace-nowrap"
-                      >
-                        {savingTask ? "..." : "+ Tarefa"}
-                      </button>
-                    </div>
-                  </form>
-
-                  {/* Lista */}
-                  {loadingTasks ? (
-                    <p className="text-slate-600 text-xs text-center py-2">Carregando...</p>
-                  ) : tasks.length === 0 ? (
-                    <p className="text-slate-600 text-xs italic text-center py-2">Nenhuma tarefa. Crie um follow-up acima.</p>
-                  ) : (
-                    <ul className="space-y-1.5">
-                      {tasks.map((t) => {
-                        const due = formatTaskDue(t.dueAt, t.done);
-                        const isAuto = t.source === "AUTO_LINK_OPEN";
-                        const isHotOpen = isAuto && !t.done;
-                        return (
-                          <li
-                            key={t.id}
-                            className={`flex items-start gap-2 px-2.5 py-2 rounded-lg border ${
-                              t.done
-                                ? "bg-[#0a0f1a]/40 border-[#1e2d45]/40"
-                                : isHotOpen
-                                ? "bg-red-500/10 border-red-500/30 hover:border-red-500/50"
-                                : "bg-[#0a0f1a] border-[#1e2d45] hover:border-amber-500/30"
-                            } group`}
-                          >
-                            <button
-                              onClick={() => handleToggleTask(t)}
-                              className={`mt-0.5 w-4 h-4 rounded border flex-shrink-0 flex items-center justify-center text-[10px] transition-colors ${
-                                t.done
-                                  ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300"
-                                  : isHotOpen
-                                  ? "border-red-400 hover:bg-red-500/20"
-                                  : "border-slate-600 hover:border-amber-400"
-                              }`}
-                              title={t.done ? "Reabrir tarefa" : "Marcar como feita"}
-                            >
-                              {t.done ? "✓" : ""}
-                            </button>
-
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-1.5 flex-wrap">
-                                <div className={`text-xs leading-tight ${
-                                  t.done
-                                    ? "text-slate-500 line-through"
-                                    : isHotOpen
-                                    ? "text-red-200 font-medium"
-                                    : "text-slate-200"
-                                }`}>
-                                  {t.title}
-                                </div>
-                                {isHotOpen && (
-                                  <span className="bg-red-500/25 text-red-200 border border-red-500/40 text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded">
-                                    Sinal quente
-                                  </span>
-                                )}
-                              </div>
-                              <div className={`text-[10px] mt-0.5 ${due.color}`}>
-                                {due.label}
-                                {t.assignee && <span className="text-slate-600 ml-2">· {t.assignee.name}</span>}
-                                {isAuto && !t.assignee && <span className="text-slate-600 ml-2">· sem responsável</span>}
-                              </div>
-                              {isHotOpen && t.notes && (
-                                <div className="text-[10px] text-red-300/70 mt-1 italic line-clamp-2">{t.notes}</div>
-                              )}
-                            </div>
-
-                            <button
-                              onClick={() => handleDeleteTask(t)}
-                              className="opacity-0 group-hover:opacity-100 text-slate-600 hover:text-red-400 text-xs transition-all flex-shrink-0"
-                              title="Remover"
-                            >
-                              ✕
-                            </button>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  )}
-                </div>
-
                 {/* ── Integrações (agrupadas — só mostra as ativas) ── */}
                 {(whatsappEnabled || clickupEnabled || true) && (
                   <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl overflow-hidden">
@@ -1760,7 +1808,7 @@ export default function CRMBoard({
                       onClick={() => setIntegrationsOpen(!integrationsOpen)}
                       className="w-full px-4 py-3 flex items-center justify-between hover:bg-[#0f1825] transition-colors"
                     >
-                      <span className="text-white text-sm font-semibold flex items-center gap-2">🔗 Integrações</span>
+                      <span className="text-white text-sm font-semibold flex items-center gap-2">🔗 Conexões externas</span>
                       <span className={`text-slate-500 text-xs transition-transform ${integrationsOpen ? "rotate-180" : ""}`}>▾</span>
                     </button>
 

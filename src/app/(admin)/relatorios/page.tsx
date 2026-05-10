@@ -140,11 +140,31 @@ export default async function RelatoriosPage({
       ? Math.round(sorted[Math.floor(sorted.length / 2)] * 10) / 10
       : null;
 
+    // Conversões entre pipelines no período (Activity PIPELINE_CHANGED).
+    // Mostra "X leads viraram oportunidade", "Y prospects viraram lead" etc.
+    const pipelineChanges = await prisma.activity.findMany({
+      where: {
+        type: "PIPELINE_CHANGED",
+        createdAt: { gte: since },
+        ...(isSuperAdmin ? {} : { companyId: userCompanyId }),
+      },
+      select: { meta: true },
+      take: 5000,
+    });
+    const transitions: Record<string, number> = {};
+    for (const a of pipelineChanges) {
+      const m = a.meta as { from?: string | null; to?: string | null } | null;
+      if (!m?.to) continue;
+      const key = `${m.from ?? "—"}::${m.to}`;
+      transitions[key] = (transitions[key] ?? 0) + 1;
+    }
+
     const funnelData: FunnelData = {
       stagesByPipeline,
       pipelines: PIPELINES.map((k) => ({ key: k, ...PIPELINE_INFO[k] })),
       stageChangeStats: { medianDays: median, sampleSize: intervalsDays.length },
       rangeDays: days,
+      transitions,
     };
 
     return (

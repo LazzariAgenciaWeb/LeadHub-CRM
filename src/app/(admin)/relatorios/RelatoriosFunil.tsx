@@ -32,6 +32,8 @@ export interface FunnelData {
     sampleSize: number;
   };
   rangeDays: number;
+  /** Mapa "from::to" → contagem de transições no período */
+  transitions: Record<string, number>;
 }
 
 const PIPELINE_LABELS: Record<string, { label: string; icon: string; color: string }> = {
@@ -56,6 +58,9 @@ export default function RelatoriosFunil({ data }: { data: FunnelData }) {
 
       {/* Resumo executivo */}
       <FunnelSummary data={data} />
+
+      {/* Conversões entre pipelines (transições) */}
+      <PipelineTransitions data={data} />
 
       {/* Funil por pipeline */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -115,6 +120,74 @@ function FunnelSummary({ data }: { data: FunnelData }) {
         sub={`Baseado em ${data.stageChangeStats.sampleSize} mudanças (${data.rangeDays}d)`}
         color="#06b6d4"
       />
+    </div>
+  );
+}
+
+function PipelineTransitions({ data }: { data: FunnelData }) {
+  // Mostra apenas transições "que importam" — entre pipelines diferentes.
+  const PIPELINE_LABEL: Record<string, { label: string; icon: string }> = {
+    PROSPECCAO: { label: "Prospecção", icon: "🔎" },
+    LEADS: { label: "Leads", icon: "🎯" },
+    OPORTUNIDADES: { label: "Oportunidades", icon: "💡" },
+  };
+  const FLOWS = [
+    { from: "PROSPECCAO",    to: "LEADS",         label: "Prospect → Lead",        color: "#3b82f6" },
+    { from: "LEADS",         to: "OPORTUNIDADES", label: "Lead → Oportunidade",    color: "#f59e0b" },
+    { from: "PROSPECCAO",    to: "OPORTUNIDADES", label: "Prospect → Oportunidade",color: "#a855f7" },
+  ];
+
+  const counts = FLOWS.map((f) => ({
+    ...f,
+    count: data.transitions[`${f.from}::${f.to}`] ?? 0,
+  }));
+  const totalTransitions = counts.reduce((s, x) => s + x.count, 0);
+
+  return (
+    <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5">
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <h2 className="text-white font-bold text-sm">↔️ Conversões entre pipelines</h2>
+          <p className="text-slate-500 text-xs mt-0.5">
+            Quantos leads avançaram entre pipelines no período de {data.rangeDays} dias.
+          </p>
+        </div>
+        <span className="text-[10px] text-slate-500">
+          {totalTransitions} transições
+        </span>
+      </div>
+
+      {totalTransitions === 0 ? (
+        <p className="text-slate-600 text-xs italic text-center py-4">
+          Nenhuma transição registrada. Mova leads entre pipelines pra começar a ver dados aqui.
+        </p>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {counts.map((f) => {
+            const fromInfo = PIPELINE_LABEL[f.from] ?? { label: f.from, icon: "•" };
+            const toInfo = PIPELINE_LABEL[f.to] ?? { label: f.to, icon: "•" };
+            return (
+              <div
+                key={`${f.from}::${f.to}`}
+                className="bg-[#0a0f1a] border border-[#1e2d45] rounded-lg p-3 relative overflow-hidden"
+                style={{ borderLeft: `3px solid ${f.color}` }}
+              >
+                <div className="flex items-center gap-2 text-[11px] text-slate-400 mb-2">
+                  <span>{fromInfo.icon}</span>
+                  <span className="truncate">{fromInfo.label}</span>
+                  <span className="text-slate-600">→</span>
+                  <span>{toInfo.icon}</span>
+                  <span className="truncate">{toInfo.label}</span>
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-white text-2xl font-bold">{f.count}</span>
+                  <span className="text-slate-500 text-[10px]">leads no período</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

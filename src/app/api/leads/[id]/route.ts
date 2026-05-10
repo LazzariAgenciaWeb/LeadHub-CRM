@@ -279,6 +279,43 @@ export async function PATCH(
     }
   }
 
+  // ── Activity (timeline + relatórios de conversão) ─────────────────────
+  // Registra mudanças de pipeline e stage como eventos no Activity table.
+  // O relatório de funil (em /relatorios?secao=funil) usa esses registros
+  // pra calcular conversão entre pipelines (ex: leads → oportunidades).
+  const authorName = (session?.user as any)?.name ?? null;
+  if (pipeline !== undefined && pipeline !== existing.pipeline) {
+    void prisma.activity.create({
+      data: {
+        type: "PIPELINE_CHANGED",
+        leadId: id,
+        companyId: existing.companyId,
+        authorId: userId ?? null,
+        authorName,
+        body: `Pipeline: ${existing.pipeline ?? "—"} → ${pipeline ?? "—"}`,
+        meta: { from: existing.pipeline, to: pipeline },
+      },
+    }).catch(() => null);
+  }
+  if (
+    pipelineStage !== undefined &&
+    pipelineStage !== existing.pipelineStage &&
+    // Só registra se foi mudança dentro do mesmo pipeline (mudança de pipeline já cobre acima).
+    (pipeline === undefined || pipeline === existing.pipeline)
+  ) {
+    void prisma.activity.create({
+      data: {
+        type: "STAGE_CHANGED",
+        leadId: id,
+        companyId: existing.companyId,
+        authorId: userId ?? null,
+        authorName,
+        body: `Etapa: ${existing.pipelineStage ?? "—"} → ${pipelineStage ?? "—"}`,
+        meta: { from: existing.pipelineStage, to: pipelineStage },
+      },
+    }).catch(() => null);
+  }
+
   // ── ClickUp auto-sync (Oportunidades only) ────────────────────────────
   const effectivePipeline = pipeline ?? existing.pipeline;
   if (effectivePipeline === "OPORTUNIDADES") {
