@@ -11,8 +11,13 @@ import { syncSearchConsole } from "@/lib/google/search-console-sync";
 export async function GET(req: NextRequest) {
   const secret = process.env.CRON_SECRET;
   if (secret) {
-    const auth = req.headers.get("x-cron-secret");
-    if (auth !== secret) {
+    // Aceita ambos formatos pra alinhar com os outros crons:
+    //   Authorization: Bearer <secret>     (padrão dos outros endpoints)
+    //   x-cron-secret: <secret>            (legado deste handler)
+    const bearer = req.headers.get("authorization");
+    const legacy = req.headers.get("x-cron-secret");
+    const ok = bearer === `Bearer ${secret}` || legacy === secret;
+    if (!ok) {
       return NextResponse.json({ error: "unauthorized" }, { status: 401 });
     }
   }
