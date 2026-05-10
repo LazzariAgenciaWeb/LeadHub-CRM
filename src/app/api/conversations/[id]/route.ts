@@ -6,6 +6,13 @@ import { mapConvStatusToLegacy } from "@/lib/whatsapp";
 import { formatBrazilDateTime, formatBrazilDateTimeShort } from "@/lib/datetime";
 import { addScore, addScoreOnce } from "@/lib/gamification";
 import { assertModule } from "@/lib/billing";
+import { SYSTEM_TIMEZONE } from "@/lib/business-hours";
+
+// YYYY-MM-DD no fuso da empresa (default America/Sao_Paulo). Usado pra
+// comparações "mesmo dia" sem depender do TZ do servidor (Docker = UTC).
+function localDayKey(d: Date): string {
+  return d.toLocaleDateString("en-CA", { timeZone: SYSTEM_TIMEZONE });
+}
 
 const VALID_STATUS: ConversationStatus[] = ["OPEN", "PENDING", "IN_PROGRESS", "WAITING_CUSTOMER", "SCHEDULED", "CLOSED"];
 
@@ -34,7 +41,7 @@ export async function PATCH(
 
   const conv = await prisma.conversation.findUnique({
     where: { id },
-    select: { id: true, companyId: true, status: true, assigneeId: true, setorId: true, scheduledReturnAt: true, returnNote: true, createdAt: true, excludeFromGamification: true },
+    select: { id: true, companyId: true, status: true, assigneeId: true, setorId: true, scheduledReturnAt: true, returnNote: true, createdAt: true, excludeFromGamification: true, lastMessageDirection: true, lastMessageAt: true },
   });
   if (!conv) return NextResponse.json({ error: "Conversa não encontrada" }, { status: 404 });
   if (userRole !== "SUPER_ADMIN" && conv.companyId !== userCompanyId) {
@@ -143,18 +150,31 @@ export async function PATCH(
   const skipGamification = conv.excludeFromGamification;
   if (!skipGamification && updated.status === "CLOSED" && conv.status !== "CLOSED") {
     const scorer = updated.assigneeId ?? userId;
-    const sameDay = conv.createdAt.toDateString() === new Date().toDateString();
+    // Mesmo dia comparado no fuso da empresa (não no TZ do servidor) — evita
+    // edge case quando servidor roda UTC e atendimento atravessa meia-noite local.
+    const sameDay = localDayKey(conv.createdAt) === localDayKey(new Date());
     if (sameDay) {
       void addScoreOnce(scorer, conv.companyId, "ATENDIMENTO_MESMO_DIA", conv.id).catch(() => {});
     }
-    if (conv.scheduledReturnAt && conv.scheduledReturnAt > new Date()) {
+    // RETORNO_ANTECIPADO no close manual só vale se o cliente realmente voltou
+    // antes do prazo (lastMessageDirection=INBOUND). Sem essa checagem o atendente
+    // poderia agendar pra amanhã e fechar agora pra ganhar pontos.
+    // Caso "feliz" (cliente respondeu enquanto SCHEDULED) já pontua em
+    // upsertConversation — aqui é fallback pra quando atendente fecha após
+    // o INBOUND mas antes do prazo agendado.
+    const customerActuallyReturned =
+      conv.lastMessageDirection === "INBOUND" &&
+      !!conv.lastMessageAt &&
+      !!conv.scheduledReturnAt &&
+      conv.lastMessageAt < conv.scheduledReturnAt;
+    if (customerActuallyReturned) {
       void addScoreOnce(scorer, conv.companyId, "RETORNO_ANTECIPADO", conv.id).catch(() => {});
     }
     // Bônus de colaboração: se quem fechou NÃO é o responsável da conversa,
     // ganha pontos de EXÉRCITO (ajudou a finalizar atendimento de colega).
     // Idempotente por (conv, userId, dia) — alinhado com a regra do envio.
     if (updated.assigneeId && updated.assigneeId !== userId) {
-      const dayKey = new Date().toISOString().slice(0, 10);
+      const dayKey = localDayKey(new Date());
       void addScoreOnce(
         userId, conv.companyId, "AJUDA_EXERCITO",
         `${conv.id}:${userId}:${dayKey}:exercito`,
@@ -216,29 +236,31 @@ export async function PATCH(
       ? `📅 Retorno agendado para ${when} — ${body.returnNote}`
       : `📅 Retorno agendado para ${when}`;
 
-    await prisma.conversationNote.create({
-      data: {
-        conversationId: conv.id,
-        body: noteText,
-        type: "SCHEDULED",
-        authorId: userId,
-        authorName: userName,
-      },
-    }).catch(() => { /* não crítico */ });
-
-    // Também appenda em Lead.notes (formato legado: "[DD/MM/YY HH:MM] texto").
-    // O parser da inbox pega daqui pra renderizar a bolha imediatamente.
+    // ConversationNote + appends em Lead.notes em transação única — evita
+    // bolha roxa aparecer na timeline estruturada mas não no parser legado
+    // (ou vice-versa) se uma das escritas falhar.
     const legacyEntry = `[${formatBrazilDateTimeShort(new Date())}] ${noteText}`;
     const leads = await prisma.lead.findMany({
       where: { conversationId: conv.id },
       select: { id: true, notes: true },
     });
-    await Promise.all(leads.map((l) =>
-      prisma.lead.update({
-        where: { id: l.id },
-        data: { notes: l.notes ? `${legacyEntry}\n\n${l.notes}` : legacyEntry },
-      }).catch(() => { /* não crítico */ })
-    ));
+    await prisma.$transaction(async (tx) => {
+      await tx.conversationNote.create({
+        data: {
+          conversationId: conv.id,
+          body: noteText,
+          type: "SCHEDULED",
+          authorId: userId,
+          authorName: userName,
+        },
+      });
+      for (const l of leads) {
+        await tx.lead.update({
+          where: { id: l.id },
+          data: { notes: l.notes ? `${legacyEntry}\n\n${l.notes}` : legacyEntry },
+        });
+      }
+    }).catch(() => { /* não crítico — agendamento já foi salvo na Conversation */ });
   }
 
   // Sincroniza Lead.attendanceStatus (legacy) quando o status da Conversation muda

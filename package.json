@@ -13,6 +13,8 @@
     "db:studio": "prisma studio",
     "setup": "npm run db:push && npm run db:seed",
     "test:gamification": "tsx scripts/test-gamification.ts",
+    "test:business-hours": "tsx scripts/test-business-hours.ts",
+    "test:messaging": "tsx scripts/test-messaging-flow.ts",
     "prepare": "git config core.hooksPath scripts/git-hooks 2>/dev/null || true",
     "postinstall": "echo 'Build pre-compilado incluido no repositorio'"
   },

@@ -1,6 +1,179 @@
 import { Prisma, LeadStatus, MessageDir, ConversationStatus, ActivityType } from "@/generated/prisma";
 import { prisma } from "./prisma";
 
+// Janela em que mensagens "terminais" (obrigado/emoji/blz) pós-finalização
+// NÃO reabrem o atendimento. Após esse prazo, qualquer INBOUND reabre normal.
+const TERMINAL_REPLY_WINDOW_MS = 24 * 60 * 60 * 1000;
+
+const TERMINAL_PHRASES = new Set([
+  "obrigado", "obrigada", "obg", "obgg", "brigado", "brigada", "agradeco", "agradecido", "agradecida",
+  "valeu", "valew", "vlw", "vlww", "vlwww",
+  "blz", "beleza", "blzz",
+  "ok", "okay", "okey", "oks", "ook",
+  "tmj", "tamo junto",
+  "tks", "thanks", "thx", "ty",
+  "ta", "tah", "ta bom", "ta bem", "tudo bem", "tudo certo",
+  "fechou", "fechado", "perfeito", "perfeita", "top", "show", "showw",
+  "ate mais", "ate logo", "ate", "abracos", "abraco", "abs",
+]);
+
+// Palavras "filler" que aparecem em mensagens curtas de agradecimento mas
+// não desqualificam como terminal: "obrigado pela ajuda", "valeu mesmo cara".
+const TERMINAL_FILLERS = new Set([
+  "pela", "pelo", "pelas", "pelos", "muito", "muita", "mesmo", "mesma",
+  "cara", "amigo", "amiga", "gente", "irmao", "irma", "mano", "mana",
+  "demais", "ajuda", "atencao", "viu", "rapaz", "moco", "moca",
+  "entao", "entendi", "compreendi",
+]);
+
+// Palavras que indicam pergunta / novo assunto / saudação. Se aparecer
+// alguma dessas, NÃO é terminal — provavelmente é continuação.
+const INTENT_KEYWORDS = new Set([
+  "como", "quando", "onde", "qual", "quanto", "porque", "pq",
+  "preciso", "preciso?", "queria", "vou", "podem", "pode", "poderia",
+  "tem", "tenho", "teria", "duvida", "pergunta", "problema", "erro",
+  "ola", "oi", "alguem", "mais", "outra", "outro",
+]);
+const INTENT_PHRASES = ["bom dia", "boa tarde", "boa noite", "por que", "uma duvida"];
+
+function normalizeForMatch(s: string): string {
+  return s.toLowerCase()
+    .normalize("NFD").replace(/[̀-ͯ]/g, "")
+    .replace(/[!.,?;:]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function isOnlyEmojiOrPunctuation(s: string): boolean {
+  const trimmed = s.trim();
+  if (!trimmed) return false;
+  return /^[\s\p{Extended_Pictographic}‍️\u{1F1E6}-\u{1F1FF}\u{1F3FB}-\u{1F3FF}!.,?;:]+$/u.test(trimmed);
+}
+
+/**
+ * Detecta mensagem "terminal" — agradecimento curto, emoji ou confirmação que
+ * não exige novo atendimento. Usado pra evitar reabrir conversa CLOSED quando
+ * cliente manda só "valeu", "👍", "obrigado pela ajuda".
+ *
+ * Regras (em ordem):
+ *   1. Vazio ou >30 chars → não-terminal
+ *   2. Tem "?" → não-terminal (pergunta)
+ *   3. Só emoji/pontuação → terminal
+ *   4. Tem keyword de intenção (preciso, como, oi, "boa tarde", "uma dúvida"…) → não-terminal
+ *   5. Frase exata no whitelist → terminal
+ *   6. Todos os tokens são terminais ou fillers ("obrigado pela ajuda") → terminal
+ *   7. ≤25 chars + ao menos 1 token terminal → terminal ("valeu cara")
+ */
+export function isTerminalMessage(body: string): boolean {
+  if (!body) return false;
+  const trimmed = body.trim();
+  if (trimmed.length === 0 || trimmed.length > 30) return false;
+  if (trimmed.includes("?")) return false;
+  if (isOnlyEmojiOrPunctuation(trimmed)) return true;
+  const norm = normalizeForMatch(trimmed);
+  if (!norm) return false;
+  if (INTENT_PHRASES.some((p) => norm.includes(p))) return false;
+  if (TERMINAL_PHRASES.has(norm)) return true;
+  const tokens = norm.split(" ").filter(Boolean);
+  if (tokens.length === 0 || tokens.length > 5) return false;
+  if (tokens.some((t) => INTENT_KEYWORDS.has(t))) return false;
+  // Caso 1: todos os tokens são terminais ou fillers
+  if (tokens.every((t) => TERMINAL_PHRASES.has(t) || TERMINAL_FILLERS.has(t))) {
+    // Pelo menos um token terminal de fato (não 100% filler)
+    if (tokens.some((t) => TERMINAL_PHRASES.has(t))) return true;
+  }
+  // Caso 2: mensagem curta (≤25 chars) com pelo menos 1 token terminal
+  if (trimmed.length <= 25 && tokens.some((t) => TERMINAL_PHRASES.has(t))) return true;
+  return false;
+}
+
+/** Snapshot mínimo da Conversation existente, suficiente pra decidir transições. */
+export type ExistingConversationSnapshot = {
+  status: ConversationStatus;
+  scheduledReturnAt: Date | null;
+  assigneeId: string | null;
+  closedAt: Date | null;
+};
+
+/** Plano de mudança que `upsertConversation` aplica via Prisma. */
+export type ConversationDecision = {
+  newStatus: ConversationStatus;
+  statusChanged: boolean;
+  isTerminalAfterClose: boolean;
+  closingScheduled: boolean;
+  /** Quando true, NÃO limpa closedAt (mantém a conversa CLOSED + closedAt original). */
+  preserveClosedAt: boolean;
+  /** Logs de Activity que devem ser criados em conjunto. */
+  activities: {
+    reopened: boolean;
+    terminalReply: boolean;
+    scheduledClosed: "ontime" | "late" | null;
+  };
+};
+
+/**
+ * Decide a transição de status + side effects pra um upsert de Conversa,
+ * dado o snapshot da existente (ou null se nova) e o payload da mensagem.
+ *
+ * Função PURA — não toca em DB, não chama gamificação. Toda a regra de
+ * transição vive aqui, então o simulador (`scripts/test-messaging-flow.ts`)
+ * exercita exatamente o mesmo código que o webhook usa em produção.
+ *
+ * Regras:
+ *   - INBOUND + CLOSED + mensagem terminal (até 24h) → mantém CLOSED
+ *   - INBOUND → OPEN (precisa resposta)
+ *   - OUTBOUND + SCHEDULED existente → mantém SCHEDULED (follow-up não quebra)
+ *   - OUTBOUND → WAITING_CUSTOMER
+ */
+export function decideConversationUpdate(args: {
+  direction: MessageDir;
+  body: string;
+  now: Date;
+  existing: ExistingConversationSnapshot | null;
+}): ConversationDecision {
+  const { direction, body, now, existing } = args;
+
+  const closingScheduled =
+    direction === "INBOUND" &&
+    existing?.status === "SCHEDULED" &&
+    !!existing.scheduledReturnAt;
+
+  const isTerminalAfterClose =
+    direction === "INBOUND" &&
+    existing?.status === "CLOSED" &&
+    !!existing.closedAt &&
+    (now.getTime() - existing.closedAt.getTime()) < TERMINAL_REPLY_WINDOW_MS &&
+    isTerminalMessage(body);
+
+  let newStatus: ConversationStatus;
+  if (isTerminalAfterClose) {
+    newStatus = "CLOSED";
+  } else if (direction === "INBOUND") {
+    newStatus = "OPEN";
+  } else if (existing?.status === "SCHEDULED") {
+    newStatus = "SCHEDULED";
+  } else {
+    newStatus = "WAITING_CUSTOMER";
+  }
+
+  const statusChanged = !existing || existing.status !== newStatus;
+  const reopened = !!existing && existing.status === "CLOSED" && newStatus === "OPEN";
+
+  let scheduledClosed: "ontime" | "late" | null = null;
+  if (closingScheduled && existing) {
+    scheduledClosed = existing.scheduledReturnAt && existing.scheduledReturnAt > now ? "ontime" : "late";
+  }
+
+  return {
+    newStatus,
+    statusChanged,
+    isTerminalAfterClose,
+    closingScheduled,
+    preserveClosedAt: isTerminalAfterClose,
+    activities: { reopened, terminalReply: isTerminalAfterClose, scheduledClosed },
+  };
+}
+
 /**
  * Upsert idempotente de Conversation.
  *
@@ -44,36 +217,26 @@ export async function upsertConversation(args: {
       // scheduledReturnAt / assigneeId pra encerrar agendamento quando cliente
       // responde antes do prazo (pontuar RETORNO_ANTECIPADO + remover do calendário)
       scheduledReturnAt: true, assigneeId: true,
+      // closedAt pra detector de mensagem terminal pós-finalização
+      closedAt: true,
     },
   });
 
-  // Cliente respondeu enquanto havia agendamento ativo? Encerra o agendamento
-  // (scheduledReturnAt = null) pra não ficar "atrasado" no calendário, e
-  // pontua RETORNO_ANTECIPADO se foi antes do prazo. A lógica de pontos no
-  // CLOSE da conversation continua, mas perderia a referência se a gente só
-  // limpasse silencioso — então pontuamos aqui mesmo.
-  const closingScheduled =
-    direction === "INBOUND" &&
-    existing?.status === "SCHEDULED" &&
-    !!existing.scheduledReturnAt;
-
-  // Regra:
-  // - INBOUND  → OPEN (precisa resposta)
-  // - OUTBOUND → WAITING_CUSTOMER (respondemos, esperando cliente)
-  //   IN_PROGRESS é usado APENAS quando o atendente clica "Pegar" sem ter respondido
-  //   ainda. Assim que responde, vai para WAITING_CUSTOMER automaticamente.
-  // - SCHEDULED resiste ao OUTBOUND (follow-up não quebra o standby do retorno marcado)
-  // - PENDING (= OPEN com SLA estourado) é setado pelo job /api/cron/sla
-  let newStatus: ConversationStatus;
-  if (direction === "INBOUND") {
-    newStatus = "OPEN";
-  } else if (existing?.status === "SCHEDULED") {
-    newStatus = "SCHEDULED"; // mantém standby após follow-up
-  } else {
-    newStatus = "WAITING_CUSTOMER";
-  }
-
-  const statusChanged = !existing || existing.status !== newStatus;
+  // Decisão pura — todas as regras de transição estão em decideConversationUpdate.
+  const decision = decideConversationUpdate({
+    direction,
+    body,
+    now,
+    existing: existing
+      ? {
+          status: existing.status,
+          scheduledReturnAt: existing.scheduledReturnAt,
+          assigneeId: existing.assigneeId,
+          closedAt: existing.closedAt,
+        }
+      : null,
+  });
+  const { newStatus, statusChanged, isTerminalAfterClose, closingScheduled } = decision;
 
   // Para nova conversa: tenta herdar setor da instância
   let setorId: string | null = existing?.setorId ?? null;
@@ -108,8 +271,9 @@ export async function upsertConversation(args: {
       lastMessageBody: bodyPreview,
       lastMessageDirection: direction,
       ...(statusChanged ? { status: newStatus, statusUpdatedAt: now } : {}),
-      // newStatus nunca é CLOSED via ingestão — toda mensagem nova reabre uma conversa fechada
-      closedAt: null,
+      // Mensagem terminal pós-CLOSED: mantém status CLOSED e closedAt original.
+      // Caso contrário, qualquer INBOUND reabre a conversa (closedAt = null).
+      ...(isTerminalAfterClose ? {} : { closedAt: null }),
       ...(direction === "INBOUND"
         ? { unreadCount: { increment: 1 } }
         : { unreadCount: 0 }),
@@ -129,6 +293,19 @@ export async function upsertConversation(args: {
       data: {
         type: ActivityType.CONVERSATION_REOPENED,
         body: "Cliente respondeu — conversa reaberta",
+        conversationId: conversation.id,
+        companyId,
+      },
+    }).catch(() => {/* não crítico */});
+  }
+
+  // Log de mensagem terminal pós-finalização (não reabriu conversa).
+  if (isTerminalAfterClose) {
+    await prisma.activity.create({
+      data: {
+        type: ActivityType.STATUS_CHANGED,
+        body: `Cliente respondeu pós-finalização (${bodyPreview.slice(0, 30)}) — atendimento mantido fechado`,
+        meta: { terminalReply: true } as Prisma.InputJsonValue,
         conversationId: conversation.id,
         companyId,
       },

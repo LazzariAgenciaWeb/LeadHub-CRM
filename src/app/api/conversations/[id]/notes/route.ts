@@ -75,44 +75,48 @@ export async function POST(
     return NextResponse.json({ error: "body obrigatório" }, { status: 400 });
   }
 
-  const note = await prisma.conversationNote.create({
-    data: {
-      conversationId: conv.id,
-      body: body.trim(),
-      authorId: userId,
-      authorName: userName ?? "Usuário",
-    },
-  });
+  const trimmed = body.trim();
+  const author = userName ?? "Usuário";
 
-  await prisma.activity.create({
-    data: {
-      type: ActivityType.NOTE_ADDED,
-      body: note.body,
-      authorId: userId,
-      authorName: userName ?? "Usuário",
-      conversationId: conv.id,
-      companyId: conv.companyId,
-    },
-  }).catch(() => { /* não crítico */ });
-
-  // Appenda no Lead.notes (campo legado) — a timeline do chat ainda parseia
-  // dele pra renderizar bolhas amarelas na ordem cronológica. Sem isso,
-  // a nota fica no banco mas não aparece pra quem abre a conversa.
-  // Formato: "[DD/MM/AA HH:MM] {nota} — {autor}" (igual ao parser espera).
+  // ConversationNote + Activity + append em Lead.notes em uma transação:
+  // se qualquer escrita falhar, nenhuma persiste — evita ficar com nota
+  // visível na timeline mas ausente do legacy Lead.notes (ou vice-versa).
   const lead = await prisma.lead.findFirst({
     where: { conversationId: conv.id },
     select: { id: true, notes: true },
   }).catch(() => null);
-  if (lead) {
-    const stamp = formatBrazilDateTimeShort(new Date());
-    const author = userName ?? "Usuário";
-    const entry = `[${stamp}] ${note.body} — ${author}`;
-    const newNotes = lead.notes ? `${entry}\n\n${lead.notes}` : entry;
-    await prisma.lead.update({
-      where: { id: lead.id },
-      data: { notes: newNotes },
-    }).catch(() => { /* não crítico */ });
-  }
+
+  const stamp = formatBrazilDateTimeShort(new Date());
+  const entry = `[${stamp}] ${trimmed} — ${author}`;
+  const newNotes = lead ? (lead.notes ? `${entry}\n\n${lead.notes}` : entry) : null;
+
+  const note = await prisma.$transaction(async (tx) => {
+    const created = await tx.conversationNote.create({
+      data: {
+        conversationId: conv.id,
+        body: trimmed,
+        authorId: userId,
+        authorName: author,
+      },
+    });
+    await tx.activity.create({
+      data: {
+        type: ActivityType.NOTE_ADDED,
+        body: created.body,
+        authorId: userId,
+        authorName: author,
+        conversationId: conv.id,
+        companyId: conv.companyId,
+      },
+    });
+    if (lead && newNotes !== null) {
+      await tx.lead.update({
+        where: { id: lead.id },
+        data: { notes: newNotes },
+      });
+    }
+    return created;
+  });
 
   void addScore(userId, conv.companyId, "NOTA_REGISTRADA", conv.id).catch(() => {});
 

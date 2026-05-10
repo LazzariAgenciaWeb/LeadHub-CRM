@@ -114,20 +114,51 @@ function localParts(date: Date) {
   };
 }
 
-/** Constrói um Date a partir de partes no fuso local (SYSTEM_TIMEZONE). */
-function fromLocalParts(year: number, month: number, day: number, hhmm: string): Date {
-  const [hh, mm] = hhmm.split(":").map(Number);
-  const iso = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}T${String(hh).padStart(2, "0")}:${String(mm).padStart(2, "0")}:00`;
-  const naive = new Date(iso + "Z");
-  const tzOffset = getTimezoneOffsetMs(naive);
-  return new Date(naive.getTime() - tzOffset);
+/**
+ * Retorna o offset de SYSTEM_TIMEZONE em relação a UTC para um instante dado,
+ * em milissegundos. Positivo a leste de UTC, negativo a oeste (BRT = -3h).
+ *
+ * Implementação: formata o `date` no fuso alvo, recombina os campos como UTC,
+ * e calcula a diferença pra `date.getTime()`. Independe do TZ do sistema —
+ * usa só `Intl.DateTimeFormat` que sempre retorna a representação correta
+ * no fuso solicitado.
+ */
+function tzOffsetMsAt(date: Date): number {
+  const fmt = new Intl.DateTimeFormat("en-US", {
+    timeZone: SYSTEM_TIMEZONE, hour12: false,
+    year: "numeric", month: "2-digit", day: "2-digit",
+    hour: "2-digit", minute: "2-digit", second: "2-digit",
+  });
+  const p = Object.fromEntries(fmt.formatToParts(date).map((x) => [x.type, x.value]));
+  let hour = parseInt(p.hour, 10);
+  if (hour === 24) hour = 0; // Intl em alguns ambientes retorna "24" em vez de "00"
+  const localAsUTC = Date.UTC(
+    parseInt(p.year, 10),
+    parseInt(p.month, 10) - 1,
+    parseInt(p.day, 10),
+    hour,
+    parseInt(p.minute, 10),
+    parseInt(p.second, 10),
+  );
+  return localAsUTC - date.getTime();
 }
 
-function getTimezoneOffsetMs(date: Date): number {
-  const utc   = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
-                         date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-  const local = new Date(date.toLocaleString("en-US", { timeZone: SYSTEM_TIMEZONE }));
-  return utc - local.getTime();
+/**
+ * Constrói um Date que representa o instante (year, month, day, hh:mm) no
+ * fuso SYSTEM_TIMEZONE.
+ *
+ * Estratégia: chuta que o (y,m,d,hh,mm) é UTC; descobre o offset do fuso
+ * naquele instante; subtrai esse offset pra chegar no UTC real.
+ *
+ * Ex: SYSTEM_TIMEZONE="America/Sao_Paulo" (UTC-3), pedir 09:00 →
+ *   chute = 09:00 UTC; offset @ 09:00 UTC = -3h; resultado = 09 - (-3) = 12:00 UTC.
+ *   12:00 UTC formatado em São Paulo = 09:00 ✓.
+ */
+function fromLocalParts(year: number, month: number, day: number, hhmm: string): Date {
+  const [hh, mm] = hhmm.split(":").map(Number);
+  const guess = Date.UTC(year, month, day, hh, mm, 0);
+  const offset = tzOffsetMsAt(new Date(guess));
+  return new Date(guess - offset);
 }
 
 /**
