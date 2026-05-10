@@ -1,0 +1,42 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/gamification.ts'
+      - 'src/app/(admin)/gamificacao/labels.ts'
+      - 'src/app/(admin)/gamificacao/scoring-meta.ts'
+      - 'scripts/test-gamification.ts'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/test.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/lib/gamification.ts'
+      - 'src/app/(admin)/gamificacao/labels.ts'
+      - 'src/app/(admin)/gamificacao/scoring-meta.ts'
+      - 'scripts/test-gamification.ts'
+      - 'package.json'
+      - 'package-lock.json'
+
+jobs:
+  gamification:
+    name: Gamificação — testes estruturais
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Instalar dependências
+        run: npm ci --no-audit --no-fund
+        # Usa --ignore-scripts NÃO — precisa do `prepare` rodar pra ativar hooks
+        # localmente; em CI não causa problema.
+
+      - name: Rodar suíte de testes da gamificação
+        run: npm run test:gamification

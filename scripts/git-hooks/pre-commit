@@ -1,0 +1,34 @@
+#!/usr/bin/env sh
+# Pre-commit hook: roda testes da gamificação se algum arquivo crítico foi staged.
+#
+# Ativado automaticamente via `npm install` (script `prepare` em package.json
+# faz `git config core.hooksPath scripts/git-hooks`). Pra burlar (não recomendado)
+# use `git commit --no-verify` — mas o CI vai pegar.
+
+# Lista de arquivos cuja edição EXIGE rodar o teste estrutural antes do commit.
+# Mantenha em sync com a regra de Gamificação no AGENTS.md.
+WATCH='^(src/lib/gamification\.ts|src/app/\(admin\)/gamificacao/labels\.ts|src/app/\(admin\)/gamificacao/scoring-meta\.ts|scripts/test-gamification\.ts)$'
+
+CHANGED=$(git diff --cached --name-only --diff-filter=ACM | grep -E "$WATCH" || true)
+
+if [ -z "$CHANGED" ]; then
+  exit 0
+fi
+
+echo ""
+echo "🎮 Pre-commit: arquivo crítico de gamificação alterado."
+printf '   • %s\n' $CHANGED
+echo "   Rodando suíte de testes (npm run test:gamification)..."
+echo ""
+
+if ! npm run --silent test:gamification; then
+  echo ""
+  echo "❌ Teste falhou. Commit abortado."
+  echo "   Conserte a regra OU atualize scripts/test-gamification.ts pra refletir"
+  echo "   a mudança intencional. Pra burlar (não recomendado): git commit --no-verify"
+  exit 1
+fi
+
+echo ""
+echo "✅ Testes passaram, seguindo com o commit."
+exit 0
