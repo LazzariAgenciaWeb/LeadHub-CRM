@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-const PUBLIC_VAPID_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
-
 function urlBase64ToUint8Array(base64: string): Uint8Array {
   const padding = "=".repeat((4 - (base64.length % 4)) % 4);
   const b64 = (base64 + padding).replace(/-/g, "+").replace(/_/g, "/");
@@ -17,16 +15,34 @@ type Status = "loading" | "unsupported" | "denied" | "subscribed" | "available";
 
 export default function PushNotificationsToggle() {
   const [status, setStatus] = useState<Status>("loading");
+  const [publicKey, setPublicKey] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
-      if (!PUBLIC_VAPID_KEY) { setStatus("unsupported"); setError("VAPID public key não configurada no servidor."); return; }
       if (typeof window === "undefined") return;
       if (!("serviceWorker" in navigator) || !("PushManager" in window)) {
         setStatus("unsupported"); return;
       }
+
+      // Busca a public key em runtime (evita problema de NEXT_PUBLIC_* congelado no build).
+      let key: string | null = null;
+      try {
+        const res = await fetch("/api/push/vapid-key");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.configured && data.publicKey) key = data.publicKey;
+        }
+      } catch { /* fica null */ }
+
+      if (!key) {
+        setStatus("unsupported");
+        setError("VAPID public key não configurada no servidor.");
+        return;
+      }
+      setPublicKey(key);
+
       if (Notification.permission === "denied") { setStatus("denied"); return; }
 
       try {
@@ -40,7 +56,7 @@ export default function PushNotificationsToggle() {
   }, []);
 
   async function enable() {
-    if (!PUBLIC_VAPID_KEY) return;
+    if (!publicKey) return;
     setBusy(true); setError(null);
     try {
       const permission = await Notification.requestPermission();
@@ -50,7 +66,7 @@ export default function PushNotificationsToggle() {
       }
 
       const reg = await navigator.serviceWorker.ready;
-      const keyArr = urlBase64ToUint8Array(PUBLIC_VAPID_KEY);
+      const keyArr = urlBase64ToUint8Array(publicKey);
       // Cast: SharedArrayBuffer-friendly types em DOM lib do TS são chatos —
       // o runtime aceita Uint8Array sem problema.
       const sub = await reg.pushManager.subscribe({
