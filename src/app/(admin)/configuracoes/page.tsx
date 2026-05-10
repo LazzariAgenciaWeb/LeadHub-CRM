@@ -4,6 +4,7 @@ import SettingsLayout from "./SettingsLayout";
 import SettingsForm from "./SettingsForm";
 import InstancesSection from "./InstancesSection";
 import PipelineSettings from "./PipelineSettings";
+import CustomFieldsSettings from "./CustomFieldsSettings";
 import ClickupSettings from "./ClickupSettings";
 import OpenAISettings from "./OpenAISettings";
 import SetoresSection from "./SetoresSection";
@@ -327,6 +328,22 @@ export default async function ConfiguracoesPage({
         isSuperAdmin={isSuperAdmin}
         allCompanies={allCompanies}
         selectedCompanyId={pipelineCompanyId ?? ""}
+      />
+    );
+  } else if (secao === "custom-fields") {
+    let customCompanyId = isSuperAdmin ? (qCompanyId ?? userCompanyId) : userCompanyId;
+    if (!customCompanyId) {
+      const firstCompany = await prisma.company.findFirst({ orderBy: { createdAt: "asc" }, select: { id: true } });
+      customCompanyId = firstCompany?.id;
+    }
+    const allCompaniesForCustom = isSuperAdmin
+      ? await prisma.company.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } })
+      : [];
+    content = (
+      <CustomFieldsSettings
+        isSuperAdmin={isSuperAdmin}
+        defaultCompanyId={customCompanyId ?? ""}
+        allCompanies={allCompaniesForCustom}
       />
     );
   } else if (secao === "setores") {

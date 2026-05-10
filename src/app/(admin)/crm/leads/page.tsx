@@ -1,5 +1,7 @@
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { attachTaskSummaries, openTaskCountMap } from "@/lib/lead-task-summary";
+import { computeScoresForLeads } from "@/lib/lead-score";
 import { redirect } from "next/navigation";
 import CRMBoard from "../CRMBoard";
 
@@ -61,7 +63,7 @@ export default async function LeadsPage({
     );
   }
 
-  const leads = await prisma.lead.findMany({
+  const rawLeads = await prisma.lead.findMany({
     where: {
       pipeline: PIPELINE,
       ...(effectiveCompanyId ? { companyId: effectiveCompanyId } : {}),
@@ -71,8 +73,19 @@ export default async function LeadsPage({
       campaign: { select: { id: true, name: true } },
       company: { select: { id: true, name: true } },
       trackingLink: { select: { id: true, code: true, label: true, clicks: true, destination: true, _count: { select: { clickEvents: true } } } },
+      tags: { include: { tag: true } },
     },
   });
+  const leadsWithTaskSummary = await attachTaskSummaries(rawLeads);
+  const scores = await computeScoresForLeads({
+    leads: leadsWithTaskSummary as any,
+    openTaskByLead: openTaskCountMap(leadsWithTaskSummary),
+  });
+  const leads = leadsWithTaskSummary.map((l) => ({
+    ...l,
+    tags: (l as any).tags?.map((lt: any) => ({ id: lt.tag.id, name: lt.tag.name, color: lt.tag.color })) ?? [],
+    score: scores[l.id] ?? null,
+  }));
 
   const companies = isSuperAdmin
     ? await prisma.company.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } })

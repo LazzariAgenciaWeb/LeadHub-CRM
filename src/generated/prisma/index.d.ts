@@ -59,6 +59,31 @@ export type ClickEvent = $Result.DefaultSelection<Prisma.$ClickEventPayload>
  */
 export type Lead = $Result.DefaultSelection<Prisma.$LeadPayload>
 /**
+ * Model Tag
+ * 
+ */
+export type Tag = $Result.DefaultSelection<Prisma.$TagPayload>
+/**
+ * Model LeadTag
+ * 
+ */
+export type LeadTag = $Result.DefaultSelection<Prisma.$LeadTagPayload>
+/**
+ * Model CustomFieldDef
+ * 
+ */
+export type CustomFieldDef = $Result.DefaultSelection<Prisma.$CustomFieldDefPayload>
+/**
+ * Model LeadCustomValue
+ * 
+ */
+export type LeadCustomValue = $Result.DefaultSelection<Prisma.$LeadCustomValuePayload>
+/**
+ * Model Task
+ * 
+ */
+export type Task = $Result.DefaultSelection<Prisma.$TaskPayload>
+/**
  * Model LeadComment
  * 
  */
@@ -249,6 +274,16 @@ export type ScoreEvent = $Result.DefaultSelection<Prisma.$ScoreEventPayload>
  */
 export type ScoreRuleConfig = $Result.DefaultSelection<Prisma.$ScoreRuleConfigPayload>
 /**
+ * Model PushSubscription
+ * 
+ */
+export type PushSubscription = $Result.DefaultSelection<Prisma.$PushSubscriptionPayload>
+/**
+ * Model UserNotifPreferences
+ * 
+ */
+export type UserNotifPreferences = $Result.DefaultSelection<Prisma.$UserNotifPreferencesPayload>
+/**
  * Model BillingEvent
  * 
  */
@@ -309,6 +344,14 @@ export const CampaignStatus: {
 export type CampaignStatus = (typeof CampaignStatus)[keyof typeof CampaignStatus]
 
 
+export const ClickEventKind: {
+  OPEN: 'OPEN',
+  INTERNAL: 'INTERNAL'
+};
+
+export type ClickEventKind = (typeof ClickEventKind)[keyof typeof ClickEventKind]
+
+
 export const LeadStatus: {
   NEW: 'NEW',
   CONTACTED: 'CONTACTED',
@@ -318,6 +361,24 @@ export const LeadStatus: {
 };
 
 export type LeadStatus = (typeof LeadStatus)[keyof typeof LeadStatus]
+
+
+export const CustomFieldType: {
+  TEXT: 'TEXT',
+  NUMBER: 'NUMBER',
+  DATE: 'DATE',
+  SELECT: 'SELECT'
+};
+
+export type CustomFieldType = (typeof CustomFieldType)[keyof typeof CustomFieldType]
+
+
+export const TaskSource: {
+  MANUAL: 'MANUAL',
+  AUTO_LINK_OPEN: 'AUTO_LINK_OPEN'
+};
+
+export type TaskSource = (typeof TaskSource)[keyof typeof TaskSource]
 
 
 export const InstanceStatus: {
@@ -568,7 +629,9 @@ export const ScoreReason: {
   ATENDIMENTO_GRUPO_NOVO: 'ATENDIMENTO_GRUPO_NOVO',
   RESPOSTA_RAPIDA_GRUPO: 'RESPOSTA_RAPIDA_GRUPO',
   DIA_NETWORK: 'DIA_NETWORK',
-  LEAD_VIROU_OPORTUNIDADE: 'LEAD_VIROU_OPORTUNIDADE'
+  LEAD_VIROU_OPORTUNIDADE: 'LEAD_VIROU_OPORTUNIDADE',
+  TAREFA_LEADHUB_FEITA: 'TAREFA_LEADHUB_FEITA',
+  SINAL_QUENTE_RESPONDIDO: 'SINAL_QUENTE_RESPONDIDO'
 };
 
 export type ScoreReason = (typeof ScoreReason)[keyof typeof ScoreReason]
@@ -595,9 +658,21 @@ export type CampaignStatus = $Enums.CampaignStatus
 
 export const CampaignStatus: typeof $Enums.CampaignStatus
 
+export type ClickEventKind = $Enums.ClickEventKind
+
+export const ClickEventKind: typeof $Enums.ClickEventKind
+
 export type LeadStatus = $Enums.LeadStatus
 
 export const LeadStatus: typeof $Enums.LeadStatus
+
+export type CustomFieldType = $Enums.CustomFieldType
+
+export const CustomFieldType: typeof $Enums.CustomFieldType
+
+export type TaskSource = $Enums.TaskSource
+
+export const TaskSource: typeof $Enums.TaskSource
 
 export type InstanceStatus = $Enums.InstanceStatus
 
@@ -879,6 +954,56 @@ export class PrismaClient<
     * ```
     */
   get lead(): Prisma.LeadDelegate<ExtArgs>;
+
+  /**
+   * `prisma.tag`: Exposes CRUD operations for the **Tag** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Tags
+    * const tags = await prisma.tag.findMany()
+    * ```
+    */
+  get tag(): Prisma.TagDelegate<ExtArgs>;
+
+  /**
+   * `prisma.leadTag`: Exposes CRUD operations for the **LeadTag** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LeadTags
+    * const leadTags = await prisma.leadTag.findMany()
+    * ```
+    */
+  get leadTag(): Prisma.LeadTagDelegate<ExtArgs>;
+
+  /**
+   * `prisma.customFieldDef`: Exposes CRUD operations for the **CustomFieldDef** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CustomFieldDefs
+    * const customFieldDefs = await prisma.customFieldDef.findMany()
+    * ```
+    */
+  get customFieldDef(): Prisma.CustomFieldDefDelegate<ExtArgs>;
+
+  /**
+   * `prisma.leadCustomValue`: Exposes CRUD operations for the **LeadCustomValue** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LeadCustomValues
+    * const leadCustomValues = await prisma.leadCustomValue.findMany()
+    * ```
+    */
+  get leadCustomValue(): Prisma.LeadCustomValueDelegate<ExtArgs>;
+
+  /**
+   * `prisma.task`: Exposes CRUD operations for the **Task** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Tasks
+    * const tasks = await prisma.task.findMany()
+    * ```
+    */
+  get task(): Prisma.TaskDelegate<ExtArgs>;
 
   /**
    * `prisma.leadComment`: Exposes CRUD operations for the **LeadComment** model.
@@ -1259,6 +1384,26 @@ export class PrismaClient<
     * ```
     */
   get scoreRuleConfig(): Prisma.ScoreRuleConfigDelegate<ExtArgs>;
+
+  /**
+   * `prisma.pushSubscription`: Exposes CRUD operations for the **PushSubscription** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PushSubscriptions
+    * const pushSubscriptions = await prisma.pushSubscription.findMany()
+    * ```
+    */
+  get pushSubscription(): Prisma.PushSubscriptionDelegate<ExtArgs>;
+
+  /**
+   * `prisma.userNotifPreferences`: Exposes CRUD operations for the **UserNotifPreferences** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserNotifPreferences
+    * const userNotifPreferences = await prisma.userNotifPreferences.findMany()
+    * ```
+    */
+  get userNotifPreferences(): Prisma.UserNotifPreferencesDelegate<ExtArgs>;
 
   /**
    * `prisma.billingEvent`: Exposes CRUD operations for the **BillingEvent** model.
@@ -1729,6 +1874,11 @@ export namespace Prisma {
     TrackingLink: 'TrackingLink',
     ClickEvent: 'ClickEvent',
     Lead: 'Lead',
+    Tag: 'Tag',
+    LeadTag: 'LeadTag',
+    CustomFieldDef: 'CustomFieldDef',
+    LeadCustomValue: 'LeadCustomValue',
+    Task: 'Task',
     LeadComment: 'LeadComment',
     PipelineStageConfig: 'PipelineStageConfig',
     CompanyContact: 'CompanyContact',
@@ -1767,6 +1917,8 @@ export namespace Prisma {
     UserBadge: 'UserBadge',
     ScoreEvent: 'ScoreEvent',
     ScoreRuleConfig: 'ScoreRuleConfig',
+    PushSubscription: 'PushSubscription',
+    UserNotifPreferences: 'UserNotifPreferences',
     BillingEvent: 'BillingEvent',
     AdminAuditLog: 'AdminAuditLog'
   };
@@ -1784,7 +1936,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "billingEvent" | "adminAuditLog"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "billingEvent" | "adminAuditLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2415,6 +2567,356 @@ export namespace Prisma {
           count: {
             args: Prisma.LeadCountArgs<ExtArgs>
             result: $Utils.Optional<LeadCountAggregateOutputType> | number
+          }
+        }
+      }
+      Tag: {
+        payload: Prisma.$TagPayload<ExtArgs>
+        fields: Prisma.TagFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TagFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TagFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>
+          }
+          findFirst: {
+            args: Prisma.TagFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TagFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>
+          }
+          findMany: {
+            args: Prisma.TagFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>[]
+          }
+          create: {
+            args: Prisma.TagCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>
+          }
+          createMany: {
+            args: Prisma.TagCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TagCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>[]
+          }
+          delete: {
+            args: Prisma.TagDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>
+          }
+          update: {
+            args: Prisma.TagUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>
+          }
+          deleteMany: {
+            args: Prisma.TagDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TagUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.TagUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>
+          }
+          aggregate: {
+            args: Prisma.TagAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTag>
+          }
+          groupBy: {
+            args: Prisma.TagGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TagGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TagCountArgs<ExtArgs>
+            result: $Utils.Optional<TagCountAggregateOutputType> | number
+          }
+        }
+      }
+      LeadTag: {
+        payload: Prisma.$LeadTagPayload<ExtArgs>
+        fields: Prisma.LeadTagFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LeadTagFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadTagPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LeadTagFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadTagPayload>
+          }
+          findFirst: {
+            args: Prisma.LeadTagFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadTagPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LeadTagFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadTagPayload>
+          }
+          findMany: {
+            args: Prisma.LeadTagFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadTagPayload>[]
+          }
+          create: {
+            args: Prisma.LeadTagCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadTagPayload>
+          }
+          createMany: {
+            args: Prisma.LeadTagCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LeadTagCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadTagPayload>[]
+          }
+          delete: {
+            args: Prisma.LeadTagDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadTagPayload>
+          }
+          update: {
+            args: Prisma.LeadTagUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadTagPayload>
+          }
+          deleteMany: {
+            args: Prisma.LeadTagDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LeadTagUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.LeadTagUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadTagPayload>
+          }
+          aggregate: {
+            args: Prisma.LeadTagAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLeadTag>
+          }
+          groupBy: {
+            args: Prisma.LeadTagGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LeadTagGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LeadTagCountArgs<ExtArgs>
+            result: $Utils.Optional<LeadTagCountAggregateOutputType> | number
+          }
+        }
+      }
+      CustomFieldDef: {
+        payload: Prisma.$CustomFieldDefPayload<ExtArgs>
+        fields: Prisma.CustomFieldDefFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CustomFieldDefFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldDefPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CustomFieldDefFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldDefPayload>
+          }
+          findFirst: {
+            args: Prisma.CustomFieldDefFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldDefPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CustomFieldDefFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldDefPayload>
+          }
+          findMany: {
+            args: Prisma.CustomFieldDefFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldDefPayload>[]
+          }
+          create: {
+            args: Prisma.CustomFieldDefCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldDefPayload>
+          }
+          createMany: {
+            args: Prisma.CustomFieldDefCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CustomFieldDefCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldDefPayload>[]
+          }
+          delete: {
+            args: Prisma.CustomFieldDefDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldDefPayload>
+          }
+          update: {
+            args: Prisma.CustomFieldDefUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldDefPayload>
+          }
+          deleteMany: {
+            args: Prisma.CustomFieldDefDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CustomFieldDefUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CustomFieldDefUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldDefPayload>
+          }
+          aggregate: {
+            args: Prisma.CustomFieldDefAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCustomFieldDef>
+          }
+          groupBy: {
+            args: Prisma.CustomFieldDefGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CustomFieldDefGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CustomFieldDefCountArgs<ExtArgs>
+            result: $Utils.Optional<CustomFieldDefCountAggregateOutputType> | number
+          }
+        }
+      }
+      LeadCustomValue: {
+        payload: Prisma.$LeadCustomValuePayload<ExtArgs>
+        fields: Prisma.LeadCustomValueFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LeadCustomValueFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadCustomValuePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LeadCustomValueFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadCustomValuePayload>
+          }
+          findFirst: {
+            args: Prisma.LeadCustomValueFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadCustomValuePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LeadCustomValueFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadCustomValuePayload>
+          }
+          findMany: {
+            args: Prisma.LeadCustomValueFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadCustomValuePayload>[]
+          }
+          create: {
+            args: Prisma.LeadCustomValueCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadCustomValuePayload>
+          }
+          createMany: {
+            args: Prisma.LeadCustomValueCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LeadCustomValueCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadCustomValuePayload>[]
+          }
+          delete: {
+            args: Prisma.LeadCustomValueDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadCustomValuePayload>
+          }
+          update: {
+            args: Prisma.LeadCustomValueUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadCustomValuePayload>
+          }
+          deleteMany: {
+            args: Prisma.LeadCustomValueDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LeadCustomValueUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.LeadCustomValueUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadCustomValuePayload>
+          }
+          aggregate: {
+            args: Prisma.LeadCustomValueAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLeadCustomValue>
+          }
+          groupBy: {
+            args: Prisma.LeadCustomValueGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LeadCustomValueGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LeadCustomValueCountArgs<ExtArgs>
+            result: $Utils.Optional<LeadCustomValueCountAggregateOutputType> | number
+          }
+        }
+      }
+      Task: {
+        payload: Prisma.$TaskPayload<ExtArgs>
+        fields: Prisma.TaskFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TaskFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TaskFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>
+          }
+          findFirst: {
+            args: Prisma.TaskFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TaskFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>
+          }
+          findMany: {
+            args: Prisma.TaskFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>[]
+          }
+          create: {
+            args: Prisma.TaskCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>
+          }
+          createMany: {
+            args: Prisma.TaskCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TaskCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>[]
+          }
+          delete: {
+            args: Prisma.TaskDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>
+          }
+          update: {
+            args: Prisma.TaskUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>
+          }
+          deleteMany: {
+            args: Prisma.TaskDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TaskUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.TaskUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>
+          }
+          aggregate: {
+            args: Prisma.TaskAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTask>
+          }
+          groupBy: {
+            args: Prisma.TaskGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TaskGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TaskCountArgs<ExtArgs>
+            result: $Utils.Optional<TaskCountAggregateOutputType> | number
           }
         }
       }
@@ -5078,6 +5580,146 @@ export namespace Prisma {
           }
         }
       }
+      PushSubscription: {
+        payload: Prisma.$PushSubscriptionPayload<ExtArgs>
+        fields: Prisma.PushSubscriptionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PushSubscriptionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushSubscriptionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PushSubscriptionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushSubscriptionPayload>
+          }
+          findFirst: {
+            args: Prisma.PushSubscriptionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushSubscriptionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PushSubscriptionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushSubscriptionPayload>
+          }
+          findMany: {
+            args: Prisma.PushSubscriptionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushSubscriptionPayload>[]
+          }
+          create: {
+            args: Prisma.PushSubscriptionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushSubscriptionPayload>
+          }
+          createMany: {
+            args: Prisma.PushSubscriptionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PushSubscriptionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushSubscriptionPayload>[]
+          }
+          delete: {
+            args: Prisma.PushSubscriptionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushSubscriptionPayload>
+          }
+          update: {
+            args: Prisma.PushSubscriptionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushSubscriptionPayload>
+          }
+          deleteMany: {
+            args: Prisma.PushSubscriptionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PushSubscriptionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PushSubscriptionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushSubscriptionPayload>
+          }
+          aggregate: {
+            args: Prisma.PushSubscriptionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePushSubscription>
+          }
+          groupBy: {
+            args: Prisma.PushSubscriptionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PushSubscriptionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PushSubscriptionCountArgs<ExtArgs>
+            result: $Utils.Optional<PushSubscriptionCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserNotifPreferences: {
+        payload: Prisma.$UserNotifPreferencesPayload<ExtArgs>
+        fields: Prisma.UserNotifPreferencesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserNotifPreferencesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotifPreferencesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserNotifPreferencesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotifPreferencesPayload>
+          }
+          findFirst: {
+            args: Prisma.UserNotifPreferencesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotifPreferencesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserNotifPreferencesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotifPreferencesPayload>
+          }
+          findMany: {
+            args: Prisma.UserNotifPreferencesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotifPreferencesPayload>[]
+          }
+          create: {
+            args: Prisma.UserNotifPreferencesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotifPreferencesPayload>
+          }
+          createMany: {
+            args: Prisma.UserNotifPreferencesCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserNotifPreferencesCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotifPreferencesPayload>[]
+          }
+          delete: {
+            args: Prisma.UserNotifPreferencesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotifPreferencesPayload>
+          }
+          update: {
+            args: Prisma.UserNotifPreferencesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotifPreferencesPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserNotifPreferencesDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserNotifPreferencesUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.UserNotifPreferencesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotifPreferencesPayload>
+          }
+          aggregate: {
+            args: Prisma.UserNotifPreferencesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserNotifPreferences>
+          }
+          groupBy: {
+            args: Prisma.UserNotifPreferencesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserNotifPreferencesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserNotifPreferencesCountArgs<ExtArgs>
+            result: $Utils.Optional<UserNotifPreferencesCountAggregateOutputType> | number
+          }
+        }
+      }
       BillingEvent: {
         payload: Prisma.$BillingEventPayload<ExtArgs>
         fields: Prisma.BillingEventFieldRefs
@@ -5392,6 +6034,9 @@ export namespace Prisma {
     projectMemberships: number
     rewardRedemptions: number
     messagesSent: number
+    tasksAssigned: number
+    tasksCreated: number
+    pushSubscriptions: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5408,6 +6053,9 @@ export namespace Prisma {
     projectMemberships?: boolean | UserCountOutputTypeCountProjectMembershipsArgs
     rewardRedemptions?: boolean | UserCountOutputTypeCountRewardRedemptionsArgs
     messagesSent?: boolean | UserCountOutputTypeCountMessagesSentArgs
+    tasksAssigned?: boolean | UserCountOutputTypeCountTasksAssignedArgs
+    tasksCreated?: boolean | UserCountOutputTypeCountTasksCreatedArgs
+    pushSubscriptions?: boolean | UserCountOutputTypeCountPushSubscriptionsArgs
   }
 
   // Custom InputTypes
@@ -5512,6 +6160,27 @@ export namespace Prisma {
     where?: MessageWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountTasksAssignedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TaskWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountTasksCreatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TaskWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPushSubscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PushSubscriptionWhereInput
+  }
+
 
   /**
    * Count Type CompanyCountOutputType
@@ -5530,6 +6199,9 @@ export namespace Prisma {
     businessHours: number
     campaigns: number
     leads: number
+    tasks: number
+    tags: number
+    customFieldDefs: number
     whatsappInstances: number
     messages: number
     keywordRules: number
@@ -5565,6 +6237,9 @@ export namespace Prisma {
     businessHours?: boolean | CompanyCountOutputTypeCountBusinessHoursArgs
     campaigns?: boolean | CompanyCountOutputTypeCountCampaignsArgs
     leads?: boolean | CompanyCountOutputTypeCountLeadsArgs
+    tasks?: boolean | CompanyCountOutputTypeCountTasksArgs
+    tags?: boolean | CompanyCountOutputTypeCountTagsArgs
+    customFieldDefs?: boolean | CompanyCountOutputTypeCountCustomFieldDefsArgs
     whatsappInstances?: boolean | CompanyCountOutputTypeCountWhatsappInstancesArgs
     messages?: boolean | CompanyCountOutputTypeCountMessagesArgs
     keywordRules?: boolean | CompanyCountOutputTypeCountKeywordRulesArgs
@@ -5680,6 +6355,27 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountLeadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LeadWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TaskWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TagWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountCustomFieldDefsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomFieldDefWhereInput
   }
 
   /**
@@ -5929,12 +6625,18 @@ export namespace Prisma {
     messages: number
     comments: number
     activities: number
+    tasks: number
+    tags: number
+    customValues: number
   }
 
   export type LeadCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | LeadCountOutputTypeCountMessagesArgs
     comments?: boolean | LeadCountOutputTypeCountCommentsArgs
     activities?: boolean | LeadCountOutputTypeCountActivitiesArgs
+    tasks?: boolean | LeadCountOutputTypeCountTasksArgs
+    tags?: boolean | LeadCountOutputTypeCountTagsArgs
+    customValues?: boolean | LeadCountOutputTypeCountCustomValuesArgs
   }
 
   // Custom InputTypes
@@ -5967,6 +6669,89 @@ export namespace Prisma {
    */
   export type LeadCountOutputTypeCountActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ActivityWhereInput
+  }
+
+  /**
+   * LeadCountOutputType without action
+   */
+  export type LeadCountOutputTypeCountTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TaskWhereInput
+  }
+
+  /**
+   * LeadCountOutputType without action
+   */
+  export type LeadCountOutputTypeCountTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeadTagWhereInput
+  }
+
+  /**
+   * LeadCountOutputType without action
+   */
+  export type LeadCountOutputTypeCountCustomValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeadCustomValueWhereInput
+  }
+
+
+  /**
+   * Count Type TagCountOutputType
+   */
+
+  export type TagCountOutputType = {
+    leads: number
+  }
+
+  export type TagCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    leads?: boolean | TagCountOutputTypeCountLeadsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TagCountOutputType without action
+   */
+  export type TagCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TagCountOutputType
+     */
+    select?: TagCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TagCountOutputType without action
+   */
+  export type TagCountOutputTypeCountLeadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeadTagWhereInput
+  }
+
+
+  /**
+   * Count Type CustomFieldDefCountOutputType
+   */
+
+  export type CustomFieldDefCountOutputType = {
+    values: number
+  }
+
+  export type CustomFieldDefCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    values?: boolean | CustomFieldDefCountOutputTypeCountValuesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CustomFieldDefCountOutputType without action
+   */
+  export type CustomFieldDefCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldDefCountOutputType
+     */
+    select?: CustomFieldDefCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CustomFieldDefCountOutputType without action
+   */
+  export type CustomFieldDefCountOutputTypeCountValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeadCustomValueWhereInput
   }
 
 
@@ -6587,6 +7372,10 @@ export namespace Prisma {
     projectMemberships?: boolean | User$projectMembershipsArgs<ExtArgs>
     rewardRedemptions?: boolean | User$rewardRedemptionsArgs<ExtArgs>
     messagesSent?: boolean | User$messagesSentArgs<ExtArgs>
+    tasksAssigned?: boolean | User$tasksAssignedArgs<ExtArgs>
+    tasksCreated?: boolean | User$tasksCreatedArgs<ExtArgs>
+    pushSubscriptions?: boolean | User$pushSubscriptionsArgs<ExtArgs>
+    notifPreferences?: boolean | User$notifPreferencesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -6637,6 +7426,10 @@ export namespace Prisma {
     projectMemberships?: boolean | User$projectMembershipsArgs<ExtArgs>
     rewardRedemptions?: boolean | User$rewardRedemptionsArgs<ExtArgs>
     messagesSent?: boolean | User$messagesSentArgs<ExtArgs>
+    tasksAssigned?: boolean | User$tasksAssignedArgs<ExtArgs>
+    tasksCreated?: boolean | User$tasksCreatedArgs<ExtArgs>
+    pushSubscriptions?: boolean | User$pushSubscriptionsArgs<ExtArgs>
+    notifPreferences?: boolean | User$notifPreferencesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6661,6 +7454,10 @@ export namespace Prisma {
       projectMemberships: Prisma.$ProjectMemberPayload<ExtArgs>[]
       rewardRedemptions: Prisma.$RewardRedemptionPayload<ExtArgs>[]
       messagesSent: Prisma.$MessagePayload<ExtArgs>[]
+      tasksAssigned: Prisma.$TaskPayload<ExtArgs>[]
+      tasksCreated: Prisma.$TaskPayload<ExtArgs>[]
+      pushSubscriptions: Prisma.$PushSubscriptionPayload<ExtArgs>[]
+      notifPreferences: Prisma.$UserNotifPreferencesPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7054,6 +7851,10 @@ export namespace Prisma {
     projectMemberships<T extends User$projectMembershipsArgs<ExtArgs> = {}>(args?: Subset<T, User$projectMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMemberPayload<ExtArgs>, T, "findMany"> | Null>
     rewardRedemptions<T extends User$rewardRedemptionsArgs<ExtArgs> = {}>(args?: Subset<T, User$rewardRedemptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RewardRedemptionPayload<ExtArgs>, T, "findMany"> | Null>
     messagesSent<T extends User$messagesSentArgs<ExtArgs> = {}>(args?: Subset<T, User$messagesSentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany"> | Null>
+    tasksAssigned<T extends User$tasksAssignedArgs<ExtArgs> = {}>(args?: Subset<T, User$tasksAssignedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany"> | Null>
+    tasksCreated<T extends User$tasksCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$tasksCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany"> | Null>
+    pushSubscriptions<T extends User$pushSubscriptionsArgs<ExtArgs> = {}>(args?: Subset<T, User$pushSubscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PushSubscriptionPayload<ExtArgs>, T, "findMany"> | Null>
+    notifPreferences<T extends User$notifPreferencesArgs<ExtArgs> = {}>(args?: Subset<T, User$notifPreferencesArgs<ExtArgs>>): Prisma__UserNotifPreferencesClient<$Result.GetResult<Prisma.$UserNotifPreferencesPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7700,6 +8501,81 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MessageScalarFieldEnum | MessageScalarFieldEnum[]
+  }
+
+  /**
+   * User.tasksAssigned
+   */
+  export type User$tasksAssignedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    where?: TaskWhereInput
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    cursor?: TaskWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
+  }
+
+  /**
+   * User.tasksCreated
+   */
+  export type User$tasksCreatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    where?: TaskWhereInput
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    cursor?: TaskWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
+  }
+
+  /**
+   * User.pushSubscriptions
+   */
+  export type User$pushSubscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushSubscription
+     */
+    select?: PushSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushSubscriptionInclude<ExtArgs> | null
+    where?: PushSubscriptionWhereInput
+    orderBy?: PushSubscriptionOrderByWithRelationInput | PushSubscriptionOrderByWithRelationInput[]
+    cursor?: PushSubscriptionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PushSubscriptionScalarFieldEnum | PushSubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * User.notifPreferences
+   */
+  export type User$notifPreferencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotifPreferences
+     */
+    select?: UserNotifPreferencesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotifPreferencesInclude<ExtArgs> | null
+    where?: UserNotifPreferencesWhereInput
   }
 
   /**
@@ -10999,6 +11875,9 @@ export namespace Prisma {
     businessHours?: boolean | Company$businessHoursArgs<ExtArgs>
     campaigns?: boolean | Company$campaignsArgs<ExtArgs>
     leads?: boolean | Company$leadsArgs<ExtArgs>
+    tasks?: boolean | Company$tasksArgs<ExtArgs>
+    tags?: boolean | Company$tagsArgs<ExtArgs>
+    customFieldDefs?: boolean | Company$customFieldDefsArgs<ExtArgs>
     whatsappInstances?: boolean | Company$whatsappInstancesArgs<ExtArgs>
     messages?: boolean | Company$messagesArgs<ExtArgs>
     keywordRules?: boolean | Company$keywordRulesArgs<ExtArgs>
@@ -11090,6 +11969,9 @@ export namespace Prisma {
     businessHours?: boolean | Company$businessHoursArgs<ExtArgs>
     campaigns?: boolean | Company$campaignsArgs<ExtArgs>
     leads?: boolean | Company$leadsArgs<ExtArgs>
+    tasks?: boolean | Company$tasksArgs<ExtArgs>
+    tags?: boolean | Company$tagsArgs<ExtArgs>
+    customFieldDefs?: boolean | Company$customFieldDefsArgs<ExtArgs>
     whatsappInstances?: boolean | Company$whatsappInstancesArgs<ExtArgs>
     messages?: boolean | Company$messagesArgs<ExtArgs>
     keywordRules?: boolean | Company$keywordRulesArgs<ExtArgs>
@@ -11133,6 +12015,9 @@ export namespace Prisma {
       businessHours: Prisma.$BusinessHoursConfigPayload<ExtArgs>[]
       campaigns: Prisma.$CampaignPayload<ExtArgs>[]
       leads: Prisma.$LeadPayload<ExtArgs>[]
+      tasks: Prisma.$TaskPayload<ExtArgs>[]
+      tags: Prisma.$TagPayload<ExtArgs>[]
+      customFieldDefs: Prisma.$CustomFieldDefPayload<ExtArgs>[]
       whatsappInstances: Prisma.$WhatsappInstancePayload<ExtArgs>[]
       messages: Prisma.$MessagePayload<ExtArgs>[]
       keywordRules: Prisma.$KeywordRulePayload<ExtArgs>[]
@@ -11556,6 +12441,9 @@ export namespace Prisma {
     businessHours<T extends Company$businessHoursArgs<ExtArgs> = {}>(args?: Subset<T, Company$businessHoursArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BusinessHoursConfigPayload<ExtArgs>, T, "findMany"> | Null>
     campaigns<T extends Company$campaignsArgs<ExtArgs> = {}>(args?: Subset<T, Company$campaignsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findMany"> | Null>
     leads<T extends Company$leadsArgs<ExtArgs> = {}>(args?: Subset<T, Company$leadsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findMany"> | Null>
+    tasks<T extends Company$tasksArgs<ExtArgs> = {}>(args?: Subset<T, Company$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany"> | Null>
+    tags<T extends Company$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Company$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany"> | Null>
+    customFieldDefs<T extends Company$customFieldDefsArgs<ExtArgs> = {}>(args?: Subset<T, Company$customFieldDefsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldDefPayload<ExtArgs>, T, "findMany"> | Null>
     whatsappInstances<T extends Company$whatsappInstancesArgs<ExtArgs> = {}>(args?: Subset<T, Company$whatsappInstancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhatsappInstancePayload<ExtArgs>, T, "findMany"> | Null>
     messages<T extends Company$messagesArgs<ExtArgs> = {}>(args?: Subset<T, Company$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany"> | Null>
     keywordRules<T extends Company$keywordRulesArgs<ExtArgs> = {}>(args?: Subset<T, Company$keywordRulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KeywordRulePayload<ExtArgs>, T, "findMany"> | Null>
@@ -12199,6 +13087,66 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: LeadScalarFieldEnum | LeadScalarFieldEnum[]
+  }
+
+  /**
+   * Company.tasks
+   */
+  export type Company$tasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    where?: TaskWhereInput
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    cursor?: TaskWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
+  }
+
+  /**
+   * Company.tags
+   */
+  export type Company$tagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    where?: TagWhereInput
+    orderBy?: TagOrderByWithRelationInput | TagOrderByWithRelationInput[]
+    cursor?: TagWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TagScalarFieldEnum | TagScalarFieldEnum[]
+  }
+
+  /**
+   * Company.customFieldDefs
+   */
+  export type Company$customFieldDefsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldDef
+     */
+    select?: CustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldDefInclude<ExtArgs> | null
+    where?: CustomFieldDefWhereInput
+    orderBy?: CustomFieldDefOrderByWithRelationInput | CustomFieldDefOrderByWithRelationInput[]
+    cursor?: CustomFieldDefWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CustomFieldDefScalarFieldEnum | CustomFieldDefScalarFieldEnum[]
   }
 
   /**
@@ -14932,6 +15880,7 @@ export namespace Prisma {
     trackingLinkId: string | null
     targetUrl: string | null
     targetLabel: string | null
+    kind: $Enums.ClickEventKind | null
     createdAt: Date | null
   }
 
@@ -14940,6 +15889,7 @@ export namespace Prisma {
     trackingLinkId: string | null
     targetUrl: string | null
     targetLabel: string | null
+    kind: $Enums.ClickEventKind | null
     createdAt: Date | null
   }
 
@@ -14948,6 +15898,7 @@ export namespace Prisma {
     trackingLinkId: number
     targetUrl: number
     targetLabel: number
+    kind: number
     createdAt: number
     _all: number
   }
@@ -14958,6 +15909,7 @@ export namespace Prisma {
     trackingLinkId?: true
     targetUrl?: true
     targetLabel?: true
+    kind?: true
     createdAt?: true
   }
 
@@ -14966,6 +15918,7 @@ export namespace Prisma {
     trackingLinkId?: true
     targetUrl?: true
     targetLabel?: true
+    kind?: true
     createdAt?: true
   }
 
@@ -14974,6 +15927,7 @@ export namespace Prisma {
     trackingLinkId?: true
     targetUrl?: true
     targetLabel?: true
+    kind?: true
     createdAt?: true
     _all?: true
   }
@@ -15055,6 +16009,7 @@ export namespace Prisma {
     trackingLinkId: string
     targetUrl: string
     targetLabel: string | null
+    kind: $Enums.ClickEventKind
     createdAt: Date
     _count: ClickEventCountAggregateOutputType | null
     _min: ClickEventMinAggregateOutputType | null
@@ -15080,6 +16035,7 @@ export namespace Prisma {
     trackingLinkId?: boolean
     targetUrl?: boolean
     targetLabel?: boolean
+    kind?: boolean
     createdAt?: boolean
     trackingLink?: boolean | TrackingLinkDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["clickEvent"]>
@@ -15089,6 +16045,7 @@ export namespace Prisma {
     trackingLinkId?: boolean
     targetUrl?: boolean
     targetLabel?: boolean
+    kind?: boolean
     createdAt?: boolean
     trackingLink?: boolean | TrackingLinkDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["clickEvent"]>
@@ -15098,6 +16055,7 @@ export namespace Prisma {
     trackingLinkId?: boolean
     targetUrl?: boolean
     targetLabel?: boolean
+    kind?: boolean
     createdAt?: boolean
   }
 
@@ -15118,6 +16076,7 @@ export namespace Prisma {
       trackingLinkId: string
       targetUrl: string
       targetLabel: string | null
+      kind: $Enums.ClickEventKind
       createdAt: Date
     }, ExtArgs["result"]["clickEvent"]>
     composites: {}
@@ -15517,6 +16476,7 @@ export namespace Prisma {
     readonly trackingLinkId: FieldRef<"ClickEvent", 'String'>
     readonly targetUrl: FieldRef<"ClickEvent", 'String'>
     readonly targetLabel: FieldRef<"ClickEvent", 'String'>
+    readonly kind: FieldRef<"ClickEvent", 'ClickEventKind'>
     readonly createdAt: FieldRef<"ClickEvent", 'DateTime'>
   }
     
@@ -16183,6 +17143,9 @@ export namespace Prisma {
     messages?: boolean | Lead$messagesArgs<ExtArgs>
     comments?: boolean | Lead$commentsArgs<ExtArgs>
     activities?: boolean | Lead$activitiesArgs<ExtArgs>
+    tasks?: boolean | Lead$tasksArgs<ExtArgs>
+    tags?: boolean | Lead$tagsArgs<ExtArgs>
+    customValues?: boolean | Lead$customValuesArgs<ExtArgs>
     _count?: boolean | LeadCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["lead"]>
 
@@ -16246,6 +17209,9 @@ export namespace Prisma {
     messages?: boolean | Lead$messagesArgs<ExtArgs>
     comments?: boolean | Lead$commentsArgs<ExtArgs>
     activities?: boolean | Lead$activitiesArgs<ExtArgs>
+    tasks?: boolean | Lead$tasksArgs<ExtArgs>
+    tags?: boolean | Lead$tagsArgs<ExtArgs>
+    customValues?: boolean | Lead$customValuesArgs<ExtArgs>
     _count?: boolean | LeadCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type LeadIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16265,6 +17231,9 @@ export namespace Prisma {
       messages: Prisma.$MessagePayload<ExtArgs>[]
       comments: Prisma.$LeadCommentPayload<ExtArgs>[]
       activities: Prisma.$ActivityPayload<ExtArgs>[]
+      tasks: Prisma.$TaskPayload<ExtArgs>[]
+      tags: Prisma.$LeadTagPayload<ExtArgs>[]
+      customValues: Prisma.$LeadCustomValuePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -16659,6 +17628,9 @@ export namespace Prisma {
     messages<T extends Lead$messagesArgs<ExtArgs> = {}>(args?: Subset<T, Lead$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany"> | Null>
     comments<T extends Lead$commentsArgs<ExtArgs> = {}>(args?: Subset<T, Lead$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadCommentPayload<ExtArgs>, T, "findMany"> | Null>
     activities<T extends Lead$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, Lead$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany"> | Null>
+    tasks<T extends Lead$tasksArgs<ExtArgs> = {}>(args?: Subset<T, Lead$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany"> | Null>
+    tags<T extends Lead$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Lead$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadTagPayload<ExtArgs>, T, "findMany"> | Null>
+    customValues<T extends Lead$customValuesArgs<ExtArgs> = {}>(args?: Subset<T, Lead$customValuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadCustomValuePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17132,6 +18104,66 @@ export namespace Prisma {
   }
 
   /**
+   * Lead.tasks
+   */
+  export type Lead$tasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    where?: TaskWhereInput
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    cursor?: TaskWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
+  }
+
+  /**
+   * Lead.tags
+   */
+  export type Lead$tagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadTag
+     */
+    select?: LeadTagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadTagInclude<ExtArgs> | null
+    where?: LeadTagWhereInput
+    orderBy?: LeadTagOrderByWithRelationInput | LeadTagOrderByWithRelationInput[]
+    cursor?: LeadTagWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LeadTagScalarFieldEnum | LeadTagScalarFieldEnum[]
+  }
+
+  /**
+   * Lead.customValues
+   */
+  export type Lead$customValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadCustomValue
+     */
+    select?: LeadCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCustomValueInclude<ExtArgs> | null
+    where?: LeadCustomValueWhereInput
+    orderBy?: LeadCustomValueOrderByWithRelationInput | LeadCustomValueOrderByWithRelationInput[]
+    cursor?: LeadCustomValueWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LeadCustomValueScalarFieldEnum | LeadCustomValueScalarFieldEnum[]
+  }
+
+  /**
    * Lead without action
    */
   export type LeadDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17143,6 +18175,5015 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: LeadInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Tag
+   */
+
+  export type AggregateTag = {
+    _count: TagCountAggregateOutputType | null
+    _avg: TagAvgAggregateOutputType | null
+    _sum: TagSumAggregateOutputType | null
+    _min: TagMinAggregateOutputType | null
+    _max: TagMaxAggregateOutputType | null
+  }
+
+  export type TagAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type TagSumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type TagMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    color: string | null
+    order: number | null
+    companyId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TagMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    color: string | null
+    order: number | null
+    companyId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TagCountAggregateOutputType = {
+    id: number
+    name: number
+    color: number
+    order: number
+    companyId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TagAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type TagSumAggregateInputType = {
+    order?: true
+  }
+
+  export type TagMinAggregateInputType = {
+    id?: true
+    name?: true
+    color?: true
+    order?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TagMaxAggregateInputType = {
+    id?: true
+    name?: true
+    color?: true
+    order?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TagCountAggregateInputType = {
+    id?: true
+    name?: true
+    color?: true
+    order?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TagAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Tag to aggregate.
+     */
+    where?: TagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tags to fetch.
+     */
+    orderBy?: TagOrderByWithRelationInput | TagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Tags
+    **/
+    _count?: true | TagCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TagAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TagSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TagMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TagMaxAggregateInputType
+  }
+
+  export type GetTagAggregateType<T extends TagAggregateArgs> = {
+        [P in keyof T & keyof AggregateTag]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTag[P]>
+      : GetScalarType<T[P], AggregateTag[P]>
+  }
+
+
+
+
+  export type TagGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TagWhereInput
+    orderBy?: TagOrderByWithAggregationInput | TagOrderByWithAggregationInput[]
+    by: TagScalarFieldEnum[] | TagScalarFieldEnum
+    having?: TagScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TagCountAggregateInputType | true
+    _avg?: TagAvgAggregateInputType
+    _sum?: TagSumAggregateInputType
+    _min?: TagMinAggregateInputType
+    _max?: TagMaxAggregateInputType
+  }
+
+  export type TagGroupByOutputType = {
+    id: string
+    name: string
+    color: string
+    order: number
+    companyId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: TagCountAggregateOutputType | null
+    _avg: TagAvgAggregateOutputType | null
+    _sum: TagSumAggregateOutputType | null
+    _min: TagMinAggregateOutputType | null
+    _max: TagMaxAggregateOutputType | null
+  }
+
+  type GetTagGroupByPayload<T extends TagGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TagGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TagGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TagGroupByOutputType[P]>
+            : GetScalarType<T[P], TagGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TagSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    color?: boolean
+    order?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    leads?: boolean | Tag$leadsArgs<ExtArgs>
+    _count?: boolean | TagCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tag"]>
+
+  export type TagSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    color?: boolean
+    order?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tag"]>
+
+  export type TagSelectScalar = {
+    id?: boolean
+    name?: boolean
+    color?: boolean
+    order?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TagInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    leads?: boolean | Tag$leadsArgs<ExtArgs>
+    _count?: boolean | TagCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type TagIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $TagPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Tag"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      leads: Prisma.$LeadTagPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      color: string
+      order: number
+      companyId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["tag"]>
+    composites: {}
+  }
+
+  type TagGetPayload<S extends boolean | null | undefined | TagDefaultArgs> = $Result.GetResult<Prisma.$TagPayload, S>
+
+  type TagCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<TagFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: TagCountAggregateInputType | true
+    }
+
+  export interface TagDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Tag'], meta: { name: 'Tag' } }
+    /**
+     * Find zero or one Tag that matches the filter.
+     * @param {TagFindUniqueArgs} args - Arguments to find a Tag
+     * @example
+     * // Get one Tag
+     * const tag = await prisma.tag.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TagFindUniqueArgs>(args: SelectSubset<T, TagFindUniqueArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Tag that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {TagFindUniqueOrThrowArgs} args - Arguments to find a Tag
+     * @example
+     * // Get one Tag
+     * const tag = await prisma.tag.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TagFindUniqueOrThrowArgs>(args: SelectSubset<T, TagFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Tag that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagFindFirstArgs} args - Arguments to find a Tag
+     * @example
+     * // Get one Tag
+     * const tag = await prisma.tag.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TagFindFirstArgs>(args?: SelectSubset<T, TagFindFirstArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Tag that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagFindFirstOrThrowArgs} args - Arguments to find a Tag
+     * @example
+     * // Get one Tag
+     * const tag = await prisma.tag.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TagFindFirstOrThrowArgs>(args?: SelectSubset<T, TagFindFirstOrThrowArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Tags that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Tags
+     * const tags = await prisma.tag.findMany()
+     * 
+     * // Get first 10 Tags
+     * const tags = await prisma.tag.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tagWithIdOnly = await prisma.tag.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TagFindManyArgs>(args?: SelectSubset<T, TagFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Tag.
+     * @param {TagCreateArgs} args - Arguments to create a Tag.
+     * @example
+     * // Create one Tag
+     * const Tag = await prisma.tag.create({
+     *   data: {
+     *     // ... data to create a Tag
+     *   }
+     * })
+     * 
+     */
+    create<T extends TagCreateArgs>(args: SelectSubset<T, TagCreateArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Tags.
+     * @param {TagCreateManyArgs} args - Arguments to create many Tags.
+     * @example
+     * // Create many Tags
+     * const tag = await prisma.tag.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TagCreateManyArgs>(args?: SelectSubset<T, TagCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Tags and returns the data saved in the database.
+     * @param {TagCreateManyAndReturnArgs} args - Arguments to create many Tags.
+     * @example
+     * // Create many Tags
+     * const tag = await prisma.tag.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Tags and only return the `id`
+     * const tagWithIdOnly = await prisma.tag.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TagCreateManyAndReturnArgs>(args?: SelectSubset<T, TagCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Tag.
+     * @param {TagDeleteArgs} args - Arguments to delete one Tag.
+     * @example
+     * // Delete one Tag
+     * const Tag = await prisma.tag.delete({
+     *   where: {
+     *     // ... filter to delete one Tag
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TagDeleteArgs>(args: SelectSubset<T, TagDeleteArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Tag.
+     * @param {TagUpdateArgs} args - Arguments to update one Tag.
+     * @example
+     * // Update one Tag
+     * const tag = await prisma.tag.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TagUpdateArgs>(args: SelectSubset<T, TagUpdateArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Tags.
+     * @param {TagDeleteManyArgs} args - Arguments to filter Tags to delete.
+     * @example
+     * // Delete a few Tags
+     * const { count } = await prisma.tag.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TagDeleteManyArgs>(args?: SelectSubset<T, TagDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Tags.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Tags
+     * const tag = await prisma.tag.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TagUpdateManyArgs>(args: SelectSubset<T, TagUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Tag.
+     * @param {TagUpsertArgs} args - Arguments to update or create a Tag.
+     * @example
+     * // Update or create a Tag
+     * const tag = await prisma.tag.upsert({
+     *   create: {
+     *     // ... data to create a Tag
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Tag we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TagUpsertArgs>(args: SelectSubset<T, TagUpsertArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Tags.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagCountArgs} args - Arguments to filter Tags to count.
+     * @example
+     * // Count the number of Tags
+     * const count = await prisma.tag.count({
+     *   where: {
+     *     // ... the filter for the Tags we want to count
+     *   }
+     * })
+    **/
+    count<T extends TagCountArgs>(
+      args?: Subset<T, TagCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TagCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Tag.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TagAggregateArgs>(args: Subset<T, TagAggregateArgs>): Prisma.PrismaPromise<GetTagAggregateType<T>>
+
+    /**
+     * Group by Tag.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TagGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TagGroupByArgs['orderBy'] }
+        : { orderBy?: TagGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TagGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTagGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Tag model
+   */
+  readonly fields: TagFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Tag.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TagClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    leads<T extends Tag$leadsArgs<ExtArgs> = {}>(args?: Subset<T, Tag$leadsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadTagPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Tag model
+   */ 
+  interface TagFieldRefs {
+    readonly id: FieldRef<"Tag", 'String'>
+    readonly name: FieldRef<"Tag", 'String'>
+    readonly color: FieldRef<"Tag", 'String'>
+    readonly order: FieldRef<"Tag", 'Int'>
+    readonly companyId: FieldRef<"Tag", 'String'>
+    readonly createdAt: FieldRef<"Tag", 'DateTime'>
+    readonly updatedAt: FieldRef<"Tag", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Tag findUnique
+   */
+  export type TagFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * Filter, which Tag to fetch.
+     */
+    where: TagWhereUniqueInput
+  }
+
+  /**
+   * Tag findUniqueOrThrow
+   */
+  export type TagFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * Filter, which Tag to fetch.
+     */
+    where: TagWhereUniqueInput
+  }
+
+  /**
+   * Tag findFirst
+   */
+  export type TagFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * Filter, which Tag to fetch.
+     */
+    where?: TagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tags to fetch.
+     */
+    orderBy?: TagOrderByWithRelationInput | TagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Tags.
+     */
+    cursor?: TagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tags.
+     */
+    distinct?: TagScalarFieldEnum | TagScalarFieldEnum[]
+  }
+
+  /**
+   * Tag findFirstOrThrow
+   */
+  export type TagFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * Filter, which Tag to fetch.
+     */
+    where?: TagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tags to fetch.
+     */
+    orderBy?: TagOrderByWithRelationInput | TagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Tags.
+     */
+    cursor?: TagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tags.
+     */
+    distinct?: TagScalarFieldEnum | TagScalarFieldEnum[]
+  }
+
+  /**
+   * Tag findMany
+   */
+  export type TagFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * Filter, which Tags to fetch.
+     */
+    where?: TagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tags to fetch.
+     */
+    orderBy?: TagOrderByWithRelationInput | TagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Tags.
+     */
+    cursor?: TagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tags.
+     */
+    skip?: number
+    distinct?: TagScalarFieldEnum | TagScalarFieldEnum[]
+  }
+
+  /**
+   * Tag create
+   */
+  export type TagCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Tag.
+     */
+    data: XOR<TagCreateInput, TagUncheckedCreateInput>
+  }
+
+  /**
+   * Tag createMany
+   */
+  export type TagCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Tags.
+     */
+    data: TagCreateManyInput | TagCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Tag createManyAndReturn
+   */
+  export type TagCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Tags.
+     */
+    data: TagCreateManyInput | TagCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Tag update
+   */
+  export type TagUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Tag.
+     */
+    data: XOR<TagUpdateInput, TagUncheckedUpdateInput>
+    /**
+     * Choose, which Tag to update.
+     */
+    where: TagWhereUniqueInput
+  }
+
+  /**
+   * Tag updateMany
+   */
+  export type TagUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Tags.
+     */
+    data: XOR<TagUpdateManyMutationInput, TagUncheckedUpdateManyInput>
+    /**
+     * Filter which Tags to update
+     */
+    where?: TagWhereInput
+  }
+
+  /**
+   * Tag upsert
+   */
+  export type TagUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Tag to update in case it exists.
+     */
+    where: TagWhereUniqueInput
+    /**
+     * In case the Tag found by the `where` argument doesn't exist, create a new Tag with this data.
+     */
+    create: XOR<TagCreateInput, TagUncheckedCreateInput>
+    /**
+     * In case the Tag was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TagUpdateInput, TagUncheckedUpdateInput>
+  }
+
+  /**
+   * Tag delete
+   */
+  export type TagDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * Filter which Tag to delete.
+     */
+    where: TagWhereUniqueInput
+  }
+
+  /**
+   * Tag deleteMany
+   */
+  export type TagDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Tags to delete
+     */
+    where?: TagWhereInput
+  }
+
+  /**
+   * Tag.leads
+   */
+  export type Tag$leadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadTag
+     */
+    select?: LeadTagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadTagInclude<ExtArgs> | null
+    where?: LeadTagWhereInput
+    orderBy?: LeadTagOrderByWithRelationInput | LeadTagOrderByWithRelationInput[]
+    cursor?: LeadTagWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LeadTagScalarFieldEnum | LeadTagScalarFieldEnum[]
+  }
+
+  /**
+   * Tag without action
+   */
+  export type TagDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LeadTag
+   */
+
+  export type AggregateLeadTag = {
+    _count: LeadTagCountAggregateOutputType | null
+    _min: LeadTagMinAggregateOutputType | null
+    _max: LeadTagMaxAggregateOutputType | null
+  }
+
+  export type LeadTagMinAggregateOutputType = {
+    leadId: string | null
+    tagId: string | null
+    createdAt: Date | null
+  }
+
+  export type LeadTagMaxAggregateOutputType = {
+    leadId: string | null
+    tagId: string | null
+    createdAt: Date | null
+  }
+
+  export type LeadTagCountAggregateOutputType = {
+    leadId: number
+    tagId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type LeadTagMinAggregateInputType = {
+    leadId?: true
+    tagId?: true
+    createdAt?: true
+  }
+
+  export type LeadTagMaxAggregateInputType = {
+    leadId?: true
+    tagId?: true
+    createdAt?: true
+  }
+
+  export type LeadTagCountAggregateInputType = {
+    leadId?: true
+    tagId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type LeadTagAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LeadTag to aggregate.
+     */
+    where?: LeadTagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeadTags to fetch.
+     */
+    orderBy?: LeadTagOrderByWithRelationInput | LeadTagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LeadTagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeadTags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeadTags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LeadTags
+    **/
+    _count?: true | LeadTagCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LeadTagMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LeadTagMaxAggregateInputType
+  }
+
+  export type GetLeadTagAggregateType<T extends LeadTagAggregateArgs> = {
+        [P in keyof T & keyof AggregateLeadTag]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLeadTag[P]>
+      : GetScalarType<T[P], AggregateLeadTag[P]>
+  }
+
+
+
+
+  export type LeadTagGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeadTagWhereInput
+    orderBy?: LeadTagOrderByWithAggregationInput | LeadTagOrderByWithAggregationInput[]
+    by: LeadTagScalarFieldEnum[] | LeadTagScalarFieldEnum
+    having?: LeadTagScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LeadTagCountAggregateInputType | true
+    _min?: LeadTagMinAggregateInputType
+    _max?: LeadTagMaxAggregateInputType
+  }
+
+  export type LeadTagGroupByOutputType = {
+    leadId: string
+    tagId: string
+    createdAt: Date
+    _count: LeadTagCountAggregateOutputType | null
+    _min: LeadTagMinAggregateOutputType | null
+    _max: LeadTagMaxAggregateOutputType | null
+  }
+
+  type GetLeadTagGroupByPayload<T extends LeadTagGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LeadTagGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LeadTagGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LeadTagGroupByOutputType[P]>
+            : GetScalarType<T[P], LeadTagGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LeadTagSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    leadId?: boolean
+    tagId?: boolean
+    createdAt?: boolean
+    lead?: boolean | LeadDefaultArgs<ExtArgs>
+    tag?: boolean | TagDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["leadTag"]>
+
+  export type LeadTagSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    leadId?: boolean
+    tagId?: boolean
+    createdAt?: boolean
+    lead?: boolean | LeadDefaultArgs<ExtArgs>
+    tag?: boolean | TagDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["leadTag"]>
+
+  export type LeadTagSelectScalar = {
+    leadId?: boolean
+    tagId?: boolean
+    createdAt?: boolean
+  }
+
+  export type LeadTagInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lead?: boolean | LeadDefaultArgs<ExtArgs>
+    tag?: boolean | TagDefaultArgs<ExtArgs>
+  }
+  export type LeadTagIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lead?: boolean | LeadDefaultArgs<ExtArgs>
+    tag?: boolean | TagDefaultArgs<ExtArgs>
+  }
+
+  export type $LeadTagPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LeadTag"
+    objects: {
+      lead: Prisma.$LeadPayload<ExtArgs>
+      tag: Prisma.$TagPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      leadId: string
+      tagId: string
+      createdAt: Date
+    }, ExtArgs["result"]["leadTag"]>
+    composites: {}
+  }
+
+  type LeadTagGetPayload<S extends boolean | null | undefined | LeadTagDefaultArgs> = $Result.GetResult<Prisma.$LeadTagPayload, S>
+
+  type LeadTagCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<LeadTagFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: LeadTagCountAggregateInputType | true
+    }
+
+  export interface LeadTagDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LeadTag'], meta: { name: 'LeadTag' } }
+    /**
+     * Find zero or one LeadTag that matches the filter.
+     * @param {LeadTagFindUniqueArgs} args - Arguments to find a LeadTag
+     * @example
+     * // Get one LeadTag
+     * const leadTag = await prisma.leadTag.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LeadTagFindUniqueArgs>(args: SelectSubset<T, LeadTagFindUniqueArgs<ExtArgs>>): Prisma__LeadTagClient<$Result.GetResult<Prisma.$LeadTagPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one LeadTag that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {LeadTagFindUniqueOrThrowArgs} args - Arguments to find a LeadTag
+     * @example
+     * // Get one LeadTag
+     * const leadTag = await prisma.leadTag.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LeadTagFindUniqueOrThrowArgs>(args: SelectSubset<T, LeadTagFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LeadTagClient<$Result.GetResult<Prisma.$LeadTagPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first LeadTag that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadTagFindFirstArgs} args - Arguments to find a LeadTag
+     * @example
+     * // Get one LeadTag
+     * const leadTag = await prisma.leadTag.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LeadTagFindFirstArgs>(args?: SelectSubset<T, LeadTagFindFirstArgs<ExtArgs>>): Prisma__LeadTagClient<$Result.GetResult<Prisma.$LeadTagPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first LeadTag that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadTagFindFirstOrThrowArgs} args - Arguments to find a LeadTag
+     * @example
+     * // Get one LeadTag
+     * const leadTag = await prisma.leadTag.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LeadTagFindFirstOrThrowArgs>(args?: SelectSubset<T, LeadTagFindFirstOrThrowArgs<ExtArgs>>): Prisma__LeadTagClient<$Result.GetResult<Prisma.$LeadTagPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more LeadTags that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadTagFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LeadTags
+     * const leadTags = await prisma.leadTag.findMany()
+     * 
+     * // Get first 10 LeadTags
+     * const leadTags = await prisma.leadTag.findMany({ take: 10 })
+     * 
+     * // Only select the `leadId`
+     * const leadTagWithLeadIdOnly = await prisma.leadTag.findMany({ select: { leadId: true } })
+     * 
+     */
+    findMany<T extends LeadTagFindManyArgs>(args?: SelectSubset<T, LeadTagFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadTagPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a LeadTag.
+     * @param {LeadTagCreateArgs} args - Arguments to create a LeadTag.
+     * @example
+     * // Create one LeadTag
+     * const LeadTag = await prisma.leadTag.create({
+     *   data: {
+     *     // ... data to create a LeadTag
+     *   }
+     * })
+     * 
+     */
+    create<T extends LeadTagCreateArgs>(args: SelectSubset<T, LeadTagCreateArgs<ExtArgs>>): Prisma__LeadTagClient<$Result.GetResult<Prisma.$LeadTagPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many LeadTags.
+     * @param {LeadTagCreateManyArgs} args - Arguments to create many LeadTags.
+     * @example
+     * // Create many LeadTags
+     * const leadTag = await prisma.leadTag.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LeadTagCreateManyArgs>(args?: SelectSubset<T, LeadTagCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LeadTags and returns the data saved in the database.
+     * @param {LeadTagCreateManyAndReturnArgs} args - Arguments to create many LeadTags.
+     * @example
+     * // Create many LeadTags
+     * const leadTag = await prisma.leadTag.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LeadTags and only return the `leadId`
+     * const leadTagWithLeadIdOnly = await prisma.leadTag.createManyAndReturn({ 
+     *   select: { leadId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LeadTagCreateManyAndReturnArgs>(args?: SelectSubset<T, LeadTagCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadTagPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a LeadTag.
+     * @param {LeadTagDeleteArgs} args - Arguments to delete one LeadTag.
+     * @example
+     * // Delete one LeadTag
+     * const LeadTag = await prisma.leadTag.delete({
+     *   where: {
+     *     // ... filter to delete one LeadTag
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LeadTagDeleteArgs>(args: SelectSubset<T, LeadTagDeleteArgs<ExtArgs>>): Prisma__LeadTagClient<$Result.GetResult<Prisma.$LeadTagPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one LeadTag.
+     * @param {LeadTagUpdateArgs} args - Arguments to update one LeadTag.
+     * @example
+     * // Update one LeadTag
+     * const leadTag = await prisma.leadTag.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LeadTagUpdateArgs>(args: SelectSubset<T, LeadTagUpdateArgs<ExtArgs>>): Prisma__LeadTagClient<$Result.GetResult<Prisma.$LeadTagPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more LeadTags.
+     * @param {LeadTagDeleteManyArgs} args - Arguments to filter LeadTags to delete.
+     * @example
+     * // Delete a few LeadTags
+     * const { count } = await prisma.leadTag.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LeadTagDeleteManyArgs>(args?: SelectSubset<T, LeadTagDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LeadTags.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadTagUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LeadTags
+     * const leadTag = await prisma.leadTag.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LeadTagUpdateManyArgs>(args: SelectSubset<T, LeadTagUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one LeadTag.
+     * @param {LeadTagUpsertArgs} args - Arguments to update or create a LeadTag.
+     * @example
+     * // Update or create a LeadTag
+     * const leadTag = await prisma.leadTag.upsert({
+     *   create: {
+     *     // ... data to create a LeadTag
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LeadTag we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LeadTagUpsertArgs>(args: SelectSubset<T, LeadTagUpsertArgs<ExtArgs>>): Prisma__LeadTagClient<$Result.GetResult<Prisma.$LeadTagPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of LeadTags.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadTagCountArgs} args - Arguments to filter LeadTags to count.
+     * @example
+     * // Count the number of LeadTags
+     * const count = await prisma.leadTag.count({
+     *   where: {
+     *     // ... the filter for the LeadTags we want to count
+     *   }
+     * })
+    **/
+    count<T extends LeadTagCountArgs>(
+      args?: Subset<T, LeadTagCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LeadTagCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LeadTag.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadTagAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LeadTagAggregateArgs>(args: Subset<T, LeadTagAggregateArgs>): Prisma.PrismaPromise<GetLeadTagAggregateType<T>>
+
+    /**
+     * Group by LeadTag.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadTagGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LeadTagGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LeadTagGroupByArgs['orderBy'] }
+        : { orderBy?: LeadTagGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LeadTagGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLeadTagGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LeadTag model
+   */
+  readonly fields: LeadTagFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LeadTag.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LeadTagClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    lead<T extends LeadDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LeadDefaultArgs<ExtArgs>>): Prisma__LeadClient<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    tag<T extends TagDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TagDefaultArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LeadTag model
+   */ 
+  interface LeadTagFieldRefs {
+    readonly leadId: FieldRef<"LeadTag", 'String'>
+    readonly tagId: FieldRef<"LeadTag", 'String'>
+    readonly createdAt: FieldRef<"LeadTag", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LeadTag findUnique
+   */
+  export type LeadTagFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadTag
+     */
+    select?: LeadTagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadTagInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadTag to fetch.
+     */
+    where: LeadTagWhereUniqueInput
+  }
+
+  /**
+   * LeadTag findUniqueOrThrow
+   */
+  export type LeadTagFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadTag
+     */
+    select?: LeadTagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadTagInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadTag to fetch.
+     */
+    where: LeadTagWhereUniqueInput
+  }
+
+  /**
+   * LeadTag findFirst
+   */
+  export type LeadTagFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadTag
+     */
+    select?: LeadTagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadTagInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadTag to fetch.
+     */
+    where?: LeadTagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeadTags to fetch.
+     */
+    orderBy?: LeadTagOrderByWithRelationInput | LeadTagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LeadTags.
+     */
+    cursor?: LeadTagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeadTags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeadTags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LeadTags.
+     */
+    distinct?: LeadTagScalarFieldEnum | LeadTagScalarFieldEnum[]
+  }
+
+  /**
+   * LeadTag findFirstOrThrow
+   */
+  export type LeadTagFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadTag
+     */
+    select?: LeadTagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadTagInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadTag to fetch.
+     */
+    where?: LeadTagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeadTags to fetch.
+     */
+    orderBy?: LeadTagOrderByWithRelationInput | LeadTagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LeadTags.
+     */
+    cursor?: LeadTagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeadTags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeadTags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LeadTags.
+     */
+    distinct?: LeadTagScalarFieldEnum | LeadTagScalarFieldEnum[]
+  }
+
+  /**
+   * LeadTag findMany
+   */
+  export type LeadTagFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadTag
+     */
+    select?: LeadTagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadTagInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadTags to fetch.
+     */
+    where?: LeadTagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeadTags to fetch.
+     */
+    orderBy?: LeadTagOrderByWithRelationInput | LeadTagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LeadTags.
+     */
+    cursor?: LeadTagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeadTags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeadTags.
+     */
+    skip?: number
+    distinct?: LeadTagScalarFieldEnum | LeadTagScalarFieldEnum[]
+  }
+
+  /**
+   * LeadTag create
+   */
+  export type LeadTagCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadTag
+     */
+    select?: LeadTagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadTagInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LeadTag.
+     */
+    data: XOR<LeadTagCreateInput, LeadTagUncheckedCreateInput>
+  }
+
+  /**
+   * LeadTag createMany
+   */
+  export type LeadTagCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LeadTags.
+     */
+    data: LeadTagCreateManyInput | LeadTagCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LeadTag createManyAndReturn
+   */
+  export type LeadTagCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadTag
+     */
+    select?: LeadTagSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many LeadTags.
+     */
+    data: LeadTagCreateManyInput | LeadTagCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadTagIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LeadTag update
+   */
+  export type LeadTagUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadTag
+     */
+    select?: LeadTagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadTagInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LeadTag.
+     */
+    data: XOR<LeadTagUpdateInput, LeadTagUncheckedUpdateInput>
+    /**
+     * Choose, which LeadTag to update.
+     */
+    where: LeadTagWhereUniqueInput
+  }
+
+  /**
+   * LeadTag updateMany
+   */
+  export type LeadTagUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LeadTags.
+     */
+    data: XOR<LeadTagUpdateManyMutationInput, LeadTagUncheckedUpdateManyInput>
+    /**
+     * Filter which LeadTags to update
+     */
+    where?: LeadTagWhereInput
+  }
+
+  /**
+   * LeadTag upsert
+   */
+  export type LeadTagUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadTag
+     */
+    select?: LeadTagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadTagInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LeadTag to update in case it exists.
+     */
+    where: LeadTagWhereUniqueInput
+    /**
+     * In case the LeadTag found by the `where` argument doesn't exist, create a new LeadTag with this data.
+     */
+    create: XOR<LeadTagCreateInput, LeadTagUncheckedCreateInput>
+    /**
+     * In case the LeadTag was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LeadTagUpdateInput, LeadTagUncheckedUpdateInput>
+  }
+
+  /**
+   * LeadTag delete
+   */
+  export type LeadTagDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadTag
+     */
+    select?: LeadTagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadTagInclude<ExtArgs> | null
+    /**
+     * Filter which LeadTag to delete.
+     */
+    where: LeadTagWhereUniqueInput
+  }
+
+  /**
+   * LeadTag deleteMany
+   */
+  export type LeadTagDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LeadTags to delete
+     */
+    where?: LeadTagWhereInput
+  }
+
+  /**
+   * LeadTag without action
+   */
+  export type LeadTagDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadTag
+     */
+    select?: LeadTagSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadTagInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CustomFieldDef
+   */
+
+  export type AggregateCustomFieldDef = {
+    _count: CustomFieldDefCountAggregateOutputType | null
+    _avg: CustomFieldDefAvgAggregateOutputType | null
+    _sum: CustomFieldDefSumAggregateOutputType | null
+    _min: CustomFieldDefMinAggregateOutputType | null
+    _max: CustomFieldDefMaxAggregateOutputType | null
+  }
+
+  export type CustomFieldDefAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type CustomFieldDefSumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type CustomFieldDefMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    key: string | null
+    type: $Enums.CustomFieldType | null
+    required: boolean | null
+    order: number | null
+    companyId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CustomFieldDefMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    key: string | null
+    type: $Enums.CustomFieldType | null
+    required: boolean | null
+    order: number | null
+    companyId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CustomFieldDefCountAggregateOutputType = {
+    id: number
+    name: number
+    key: number
+    type: number
+    options: number
+    required: number
+    order: number
+    companyId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CustomFieldDefAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type CustomFieldDefSumAggregateInputType = {
+    order?: true
+  }
+
+  export type CustomFieldDefMinAggregateInputType = {
+    id?: true
+    name?: true
+    key?: true
+    type?: true
+    required?: true
+    order?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CustomFieldDefMaxAggregateInputType = {
+    id?: true
+    name?: true
+    key?: true
+    type?: true
+    required?: true
+    order?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CustomFieldDefCountAggregateInputType = {
+    id?: true
+    name?: true
+    key?: true
+    type?: true
+    options?: true
+    required?: true
+    order?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CustomFieldDefAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomFieldDef to aggregate.
+     */
+    where?: CustomFieldDefWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFieldDefs to fetch.
+     */
+    orderBy?: CustomFieldDefOrderByWithRelationInput | CustomFieldDefOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CustomFieldDefWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFieldDefs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFieldDefs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CustomFieldDefs
+    **/
+    _count?: true | CustomFieldDefCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CustomFieldDefAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CustomFieldDefSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CustomFieldDefMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CustomFieldDefMaxAggregateInputType
+  }
+
+  export type GetCustomFieldDefAggregateType<T extends CustomFieldDefAggregateArgs> = {
+        [P in keyof T & keyof AggregateCustomFieldDef]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCustomFieldDef[P]>
+      : GetScalarType<T[P], AggregateCustomFieldDef[P]>
+  }
+
+
+
+
+  export type CustomFieldDefGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomFieldDefWhereInput
+    orderBy?: CustomFieldDefOrderByWithAggregationInput | CustomFieldDefOrderByWithAggregationInput[]
+    by: CustomFieldDefScalarFieldEnum[] | CustomFieldDefScalarFieldEnum
+    having?: CustomFieldDefScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CustomFieldDefCountAggregateInputType | true
+    _avg?: CustomFieldDefAvgAggregateInputType
+    _sum?: CustomFieldDefSumAggregateInputType
+    _min?: CustomFieldDefMinAggregateInputType
+    _max?: CustomFieldDefMaxAggregateInputType
+  }
+
+  export type CustomFieldDefGroupByOutputType = {
+    id: string
+    name: string
+    key: string
+    type: $Enums.CustomFieldType
+    options: JsonValue | null
+    required: boolean
+    order: number
+    companyId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: CustomFieldDefCountAggregateOutputType | null
+    _avg: CustomFieldDefAvgAggregateOutputType | null
+    _sum: CustomFieldDefSumAggregateOutputType | null
+    _min: CustomFieldDefMinAggregateOutputType | null
+    _max: CustomFieldDefMaxAggregateOutputType | null
+  }
+
+  type GetCustomFieldDefGroupByPayload<T extends CustomFieldDefGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CustomFieldDefGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CustomFieldDefGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CustomFieldDefGroupByOutputType[P]>
+            : GetScalarType<T[P], CustomFieldDefGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CustomFieldDefSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    key?: boolean
+    type?: boolean
+    options?: boolean
+    required?: boolean
+    order?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    values?: boolean | CustomFieldDef$valuesArgs<ExtArgs>
+    _count?: boolean | CustomFieldDefCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customFieldDef"]>
+
+  export type CustomFieldDefSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    key?: boolean
+    type?: boolean
+    options?: boolean
+    required?: boolean
+    order?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customFieldDef"]>
+
+  export type CustomFieldDefSelectScalar = {
+    id?: boolean
+    name?: boolean
+    key?: boolean
+    type?: boolean
+    options?: boolean
+    required?: boolean
+    order?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CustomFieldDefInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    values?: boolean | CustomFieldDef$valuesArgs<ExtArgs>
+    _count?: boolean | CustomFieldDefCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CustomFieldDefIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $CustomFieldDefPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CustomFieldDef"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      values: Prisma.$LeadCustomValuePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      key: string
+      type: $Enums.CustomFieldType
+      options: Prisma.JsonValue | null
+      required: boolean
+      order: number
+      companyId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["customFieldDef"]>
+    composites: {}
+  }
+
+  type CustomFieldDefGetPayload<S extends boolean | null | undefined | CustomFieldDefDefaultArgs> = $Result.GetResult<Prisma.$CustomFieldDefPayload, S>
+
+  type CustomFieldDefCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<CustomFieldDefFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: CustomFieldDefCountAggregateInputType | true
+    }
+
+  export interface CustomFieldDefDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CustomFieldDef'], meta: { name: 'CustomFieldDef' } }
+    /**
+     * Find zero or one CustomFieldDef that matches the filter.
+     * @param {CustomFieldDefFindUniqueArgs} args - Arguments to find a CustomFieldDef
+     * @example
+     * // Get one CustomFieldDef
+     * const customFieldDef = await prisma.customFieldDef.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CustomFieldDefFindUniqueArgs>(args: SelectSubset<T, CustomFieldDefFindUniqueArgs<ExtArgs>>): Prisma__CustomFieldDefClient<$Result.GetResult<Prisma.$CustomFieldDefPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one CustomFieldDef that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {CustomFieldDefFindUniqueOrThrowArgs} args - Arguments to find a CustomFieldDef
+     * @example
+     * // Get one CustomFieldDef
+     * const customFieldDef = await prisma.customFieldDef.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CustomFieldDefFindUniqueOrThrowArgs>(args: SelectSubset<T, CustomFieldDefFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CustomFieldDefClient<$Result.GetResult<Prisma.$CustomFieldDefPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first CustomFieldDef that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldDefFindFirstArgs} args - Arguments to find a CustomFieldDef
+     * @example
+     * // Get one CustomFieldDef
+     * const customFieldDef = await prisma.customFieldDef.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CustomFieldDefFindFirstArgs>(args?: SelectSubset<T, CustomFieldDefFindFirstArgs<ExtArgs>>): Prisma__CustomFieldDefClient<$Result.GetResult<Prisma.$CustomFieldDefPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first CustomFieldDef that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldDefFindFirstOrThrowArgs} args - Arguments to find a CustomFieldDef
+     * @example
+     * // Get one CustomFieldDef
+     * const customFieldDef = await prisma.customFieldDef.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CustomFieldDefFindFirstOrThrowArgs>(args?: SelectSubset<T, CustomFieldDefFindFirstOrThrowArgs<ExtArgs>>): Prisma__CustomFieldDefClient<$Result.GetResult<Prisma.$CustomFieldDefPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more CustomFieldDefs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldDefFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CustomFieldDefs
+     * const customFieldDefs = await prisma.customFieldDef.findMany()
+     * 
+     * // Get first 10 CustomFieldDefs
+     * const customFieldDefs = await prisma.customFieldDef.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const customFieldDefWithIdOnly = await prisma.customFieldDef.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CustomFieldDefFindManyArgs>(args?: SelectSubset<T, CustomFieldDefFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldDefPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a CustomFieldDef.
+     * @param {CustomFieldDefCreateArgs} args - Arguments to create a CustomFieldDef.
+     * @example
+     * // Create one CustomFieldDef
+     * const CustomFieldDef = await prisma.customFieldDef.create({
+     *   data: {
+     *     // ... data to create a CustomFieldDef
+     *   }
+     * })
+     * 
+     */
+    create<T extends CustomFieldDefCreateArgs>(args: SelectSubset<T, CustomFieldDefCreateArgs<ExtArgs>>): Prisma__CustomFieldDefClient<$Result.GetResult<Prisma.$CustomFieldDefPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many CustomFieldDefs.
+     * @param {CustomFieldDefCreateManyArgs} args - Arguments to create many CustomFieldDefs.
+     * @example
+     * // Create many CustomFieldDefs
+     * const customFieldDef = await prisma.customFieldDef.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CustomFieldDefCreateManyArgs>(args?: SelectSubset<T, CustomFieldDefCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CustomFieldDefs and returns the data saved in the database.
+     * @param {CustomFieldDefCreateManyAndReturnArgs} args - Arguments to create many CustomFieldDefs.
+     * @example
+     * // Create many CustomFieldDefs
+     * const customFieldDef = await prisma.customFieldDef.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CustomFieldDefs and only return the `id`
+     * const customFieldDefWithIdOnly = await prisma.customFieldDef.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CustomFieldDefCreateManyAndReturnArgs>(args?: SelectSubset<T, CustomFieldDefCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldDefPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a CustomFieldDef.
+     * @param {CustomFieldDefDeleteArgs} args - Arguments to delete one CustomFieldDef.
+     * @example
+     * // Delete one CustomFieldDef
+     * const CustomFieldDef = await prisma.customFieldDef.delete({
+     *   where: {
+     *     // ... filter to delete one CustomFieldDef
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CustomFieldDefDeleteArgs>(args: SelectSubset<T, CustomFieldDefDeleteArgs<ExtArgs>>): Prisma__CustomFieldDefClient<$Result.GetResult<Prisma.$CustomFieldDefPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one CustomFieldDef.
+     * @param {CustomFieldDefUpdateArgs} args - Arguments to update one CustomFieldDef.
+     * @example
+     * // Update one CustomFieldDef
+     * const customFieldDef = await prisma.customFieldDef.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CustomFieldDefUpdateArgs>(args: SelectSubset<T, CustomFieldDefUpdateArgs<ExtArgs>>): Prisma__CustomFieldDefClient<$Result.GetResult<Prisma.$CustomFieldDefPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more CustomFieldDefs.
+     * @param {CustomFieldDefDeleteManyArgs} args - Arguments to filter CustomFieldDefs to delete.
+     * @example
+     * // Delete a few CustomFieldDefs
+     * const { count } = await prisma.customFieldDef.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CustomFieldDefDeleteManyArgs>(args?: SelectSubset<T, CustomFieldDefDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CustomFieldDefs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldDefUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CustomFieldDefs
+     * const customFieldDef = await prisma.customFieldDef.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CustomFieldDefUpdateManyArgs>(args: SelectSubset<T, CustomFieldDefUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CustomFieldDef.
+     * @param {CustomFieldDefUpsertArgs} args - Arguments to update or create a CustomFieldDef.
+     * @example
+     * // Update or create a CustomFieldDef
+     * const customFieldDef = await prisma.customFieldDef.upsert({
+     *   create: {
+     *     // ... data to create a CustomFieldDef
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CustomFieldDef we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CustomFieldDefUpsertArgs>(args: SelectSubset<T, CustomFieldDefUpsertArgs<ExtArgs>>): Prisma__CustomFieldDefClient<$Result.GetResult<Prisma.$CustomFieldDefPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of CustomFieldDefs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldDefCountArgs} args - Arguments to filter CustomFieldDefs to count.
+     * @example
+     * // Count the number of CustomFieldDefs
+     * const count = await prisma.customFieldDef.count({
+     *   where: {
+     *     // ... the filter for the CustomFieldDefs we want to count
+     *   }
+     * })
+    **/
+    count<T extends CustomFieldDefCountArgs>(
+      args?: Subset<T, CustomFieldDefCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CustomFieldDefCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CustomFieldDef.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldDefAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CustomFieldDefAggregateArgs>(args: Subset<T, CustomFieldDefAggregateArgs>): Prisma.PrismaPromise<GetCustomFieldDefAggregateType<T>>
+
+    /**
+     * Group by CustomFieldDef.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldDefGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CustomFieldDefGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CustomFieldDefGroupByArgs['orderBy'] }
+        : { orderBy?: CustomFieldDefGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CustomFieldDefGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCustomFieldDefGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CustomFieldDef model
+   */
+  readonly fields: CustomFieldDefFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CustomFieldDef.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CustomFieldDefClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    values<T extends CustomFieldDef$valuesArgs<ExtArgs> = {}>(args?: Subset<T, CustomFieldDef$valuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadCustomValuePayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CustomFieldDef model
+   */ 
+  interface CustomFieldDefFieldRefs {
+    readonly id: FieldRef<"CustomFieldDef", 'String'>
+    readonly name: FieldRef<"CustomFieldDef", 'String'>
+    readonly key: FieldRef<"CustomFieldDef", 'String'>
+    readonly type: FieldRef<"CustomFieldDef", 'CustomFieldType'>
+    readonly options: FieldRef<"CustomFieldDef", 'Json'>
+    readonly required: FieldRef<"CustomFieldDef", 'Boolean'>
+    readonly order: FieldRef<"CustomFieldDef", 'Int'>
+    readonly companyId: FieldRef<"CustomFieldDef", 'String'>
+    readonly createdAt: FieldRef<"CustomFieldDef", 'DateTime'>
+    readonly updatedAt: FieldRef<"CustomFieldDef", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CustomFieldDef findUnique
+   */
+  export type CustomFieldDefFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldDef
+     */
+    select?: CustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldDefInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFieldDef to fetch.
+     */
+    where: CustomFieldDefWhereUniqueInput
+  }
+
+  /**
+   * CustomFieldDef findUniqueOrThrow
+   */
+  export type CustomFieldDefFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldDef
+     */
+    select?: CustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldDefInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFieldDef to fetch.
+     */
+    where: CustomFieldDefWhereUniqueInput
+  }
+
+  /**
+   * CustomFieldDef findFirst
+   */
+  export type CustomFieldDefFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldDef
+     */
+    select?: CustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldDefInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFieldDef to fetch.
+     */
+    where?: CustomFieldDefWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFieldDefs to fetch.
+     */
+    orderBy?: CustomFieldDefOrderByWithRelationInput | CustomFieldDefOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomFieldDefs.
+     */
+    cursor?: CustomFieldDefWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFieldDefs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFieldDefs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomFieldDefs.
+     */
+    distinct?: CustomFieldDefScalarFieldEnum | CustomFieldDefScalarFieldEnum[]
+  }
+
+  /**
+   * CustomFieldDef findFirstOrThrow
+   */
+  export type CustomFieldDefFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldDef
+     */
+    select?: CustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldDefInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFieldDef to fetch.
+     */
+    where?: CustomFieldDefWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFieldDefs to fetch.
+     */
+    orderBy?: CustomFieldDefOrderByWithRelationInput | CustomFieldDefOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomFieldDefs.
+     */
+    cursor?: CustomFieldDefWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFieldDefs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFieldDefs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomFieldDefs.
+     */
+    distinct?: CustomFieldDefScalarFieldEnum | CustomFieldDefScalarFieldEnum[]
+  }
+
+  /**
+   * CustomFieldDef findMany
+   */
+  export type CustomFieldDefFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldDef
+     */
+    select?: CustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldDefInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFieldDefs to fetch.
+     */
+    where?: CustomFieldDefWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFieldDefs to fetch.
+     */
+    orderBy?: CustomFieldDefOrderByWithRelationInput | CustomFieldDefOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CustomFieldDefs.
+     */
+    cursor?: CustomFieldDefWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFieldDefs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFieldDefs.
+     */
+    skip?: number
+    distinct?: CustomFieldDefScalarFieldEnum | CustomFieldDefScalarFieldEnum[]
+  }
+
+  /**
+   * CustomFieldDef create
+   */
+  export type CustomFieldDefCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldDef
+     */
+    select?: CustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldDefInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CustomFieldDef.
+     */
+    data: XOR<CustomFieldDefCreateInput, CustomFieldDefUncheckedCreateInput>
+  }
+
+  /**
+   * CustomFieldDef createMany
+   */
+  export type CustomFieldDefCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CustomFieldDefs.
+     */
+    data: CustomFieldDefCreateManyInput | CustomFieldDefCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CustomFieldDef createManyAndReturn
+   */
+  export type CustomFieldDefCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldDef
+     */
+    select?: CustomFieldDefSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many CustomFieldDefs.
+     */
+    data: CustomFieldDefCreateManyInput | CustomFieldDefCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldDefIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CustomFieldDef update
+   */
+  export type CustomFieldDefUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldDef
+     */
+    select?: CustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldDefInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CustomFieldDef.
+     */
+    data: XOR<CustomFieldDefUpdateInput, CustomFieldDefUncheckedUpdateInput>
+    /**
+     * Choose, which CustomFieldDef to update.
+     */
+    where: CustomFieldDefWhereUniqueInput
+  }
+
+  /**
+   * CustomFieldDef updateMany
+   */
+  export type CustomFieldDefUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CustomFieldDefs.
+     */
+    data: XOR<CustomFieldDefUpdateManyMutationInput, CustomFieldDefUncheckedUpdateManyInput>
+    /**
+     * Filter which CustomFieldDefs to update
+     */
+    where?: CustomFieldDefWhereInput
+  }
+
+  /**
+   * CustomFieldDef upsert
+   */
+  export type CustomFieldDefUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldDef
+     */
+    select?: CustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldDefInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CustomFieldDef to update in case it exists.
+     */
+    where: CustomFieldDefWhereUniqueInput
+    /**
+     * In case the CustomFieldDef found by the `where` argument doesn't exist, create a new CustomFieldDef with this data.
+     */
+    create: XOR<CustomFieldDefCreateInput, CustomFieldDefUncheckedCreateInput>
+    /**
+     * In case the CustomFieldDef was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CustomFieldDefUpdateInput, CustomFieldDefUncheckedUpdateInput>
+  }
+
+  /**
+   * CustomFieldDef delete
+   */
+  export type CustomFieldDefDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldDef
+     */
+    select?: CustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldDefInclude<ExtArgs> | null
+    /**
+     * Filter which CustomFieldDef to delete.
+     */
+    where: CustomFieldDefWhereUniqueInput
+  }
+
+  /**
+   * CustomFieldDef deleteMany
+   */
+  export type CustomFieldDefDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomFieldDefs to delete
+     */
+    where?: CustomFieldDefWhereInput
+  }
+
+  /**
+   * CustomFieldDef.values
+   */
+  export type CustomFieldDef$valuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadCustomValue
+     */
+    select?: LeadCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCustomValueInclude<ExtArgs> | null
+    where?: LeadCustomValueWhereInput
+    orderBy?: LeadCustomValueOrderByWithRelationInput | LeadCustomValueOrderByWithRelationInput[]
+    cursor?: LeadCustomValueWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LeadCustomValueScalarFieldEnum | LeadCustomValueScalarFieldEnum[]
+  }
+
+  /**
+   * CustomFieldDef without action
+   */
+  export type CustomFieldDefDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldDef
+     */
+    select?: CustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldDefInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LeadCustomValue
+   */
+
+  export type AggregateLeadCustomValue = {
+    _count: LeadCustomValueCountAggregateOutputType | null
+    _min: LeadCustomValueMinAggregateOutputType | null
+    _max: LeadCustomValueMaxAggregateOutputType | null
+  }
+
+  export type LeadCustomValueMinAggregateOutputType = {
+    id: string | null
+    leadId: string | null
+    fieldId: string | null
+    value: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LeadCustomValueMaxAggregateOutputType = {
+    id: string | null
+    leadId: string | null
+    fieldId: string | null
+    value: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LeadCustomValueCountAggregateOutputType = {
+    id: number
+    leadId: number
+    fieldId: number
+    value: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LeadCustomValueMinAggregateInputType = {
+    id?: true
+    leadId?: true
+    fieldId?: true
+    value?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LeadCustomValueMaxAggregateInputType = {
+    id?: true
+    leadId?: true
+    fieldId?: true
+    value?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LeadCustomValueCountAggregateInputType = {
+    id?: true
+    leadId?: true
+    fieldId?: true
+    value?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LeadCustomValueAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LeadCustomValue to aggregate.
+     */
+    where?: LeadCustomValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeadCustomValues to fetch.
+     */
+    orderBy?: LeadCustomValueOrderByWithRelationInput | LeadCustomValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LeadCustomValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeadCustomValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeadCustomValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LeadCustomValues
+    **/
+    _count?: true | LeadCustomValueCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LeadCustomValueMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LeadCustomValueMaxAggregateInputType
+  }
+
+  export type GetLeadCustomValueAggregateType<T extends LeadCustomValueAggregateArgs> = {
+        [P in keyof T & keyof AggregateLeadCustomValue]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLeadCustomValue[P]>
+      : GetScalarType<T[P], AggregateLeadCustomValue[P]>
+  }
+
+
+
+
+  export type LeadCustomValueGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeadCustomValueWhereInput
+    orderBy?: LeadCustomValueOrderByWithAggregationInput | LeadCustomValueOrderByWithAggregationInput[]
+    by: LeadCustomValueScalarFieldEnum[] | LeadCustomValueScalarFieldEnum
+    having?: LeadCustomValueScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LeadCustomValueCountAggregateInputType | true
+    _min?: LeadCustomValueMinAggregateInputType
+    _max?: LeadCustomValueMaxAggregateInputType
+  }
+
+  export type LeadCustomValueGroupByOutputType = {
+    id: string
+    leadId: string
+    fieldId: string
+    value: string
+    createdAt: Date
+    updatedAt: Date
+    _count: LeadCustomValueCountAggregateOutputType | null
+    _min: LeadCustomValueMinAggregateOutputType | null
+    _max: LeadCustomValueMaxAggregateOutputType | null
+  }
+
+  type GetLeadCustomValueGroupByPayload<T extends LeadCustomValueGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LeadCustomValueGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LeadCustomValueGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LeadCustomValueGroupByOutputType[P]>
+            : GetScalarType<T[P], LeadCustomValueGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LeadCustomValueSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    leadId?: boolean
+    fieldId?: boolean
+    value?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    lead?: boolean | LeadDefaultArgs<ExtArgs>
+    field?: boolean | CustomFieldDefDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["leadCustomValue"]>
+
+  export type LeadCustomValueSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    leadId?: boolean
+    fieldId?: boolean
+    value?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    lead?: boolean | LeadDefaultArgs<ExtArgs>
+    field?: boolean | CustomFieldDefDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["leadCustomValue"]>
+
+  export type LeadCustomValueSelectScalar = {
+    id?: boolean
+    leadId?: boolean
+    fieldId?: boolean
+    value?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LeadCustomValueInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lead?: boolean | LeadDefaultArgs<ExtArgs>
+    field?: boolean | CustomFieldDefDefaultArgs<ExtArgs>
+  }
+  export type LeadCustomValueIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lead?: boolean | LeadDefaultArgs<ExtArgs>
+    field?: boolean | CustomFieldDefDefaultArgs<ExtArgs>
+  }
+
+  export type $LeadCustomValuePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LeadCustomValue"
+    objects: {
+      lead: Prisma.$LeadPayload<ExtArgs>
+      field: Prisma.$CustomFieldDefPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      leadId: string
+      fieldId: string
+      value: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["leadCustomValue"]>
+    composites: {}
+  }
+
+  type LeadCustomValueGetPayload<S extends boolean | null | undefined | LeadCustomValueDefaultArgs> = $Result.GetResult<Prisma.$LeadCustomValuePayload, S>
+
+  type LeadCustomValueCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<LeadCustomValueFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: LeadCustomValueCountAggregateInputType | true
+    }
+
+  export interface LeadCustomValueDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LeadCustomValue'], meta: { name: 'LeadCustomValue' } }
+    /**
+     * Find zero or one LeadCustomValue that matches the filter.
+     * @param {LeadCustomValueFindUniqueArgs} args - Arguments to find a LeadCustomValue
+     * @example
+     * // Get one LeadCustomValue
+     * const leadCustomValue = await prisma.leadCustomValue.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LeadCustomValueFindUniqueArgs>(args: SelectSubset<T, LeadCustomValueFindUniqueArgs<ExtArgs>>): Prisma__LeadCustomValueClient<$Result.GetResult<Prisma.$LeadCustomValuePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one LeadCustomValue that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {LeadCustomValueFindUniqueOrThrowArgs} args - Arguments to find a LeadCustomValue
+     * @example
+     * // Get one LeadCustomValue
+     * const leadCustomValue = await prisma.leadCustomValue.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LeadCustomValueFindUniqueOrThrowArgs>(args: SelectSubset<T, LeadCustomValueFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LeadCustomValueClient<$Result.GetResult<Prisma.$LeadCustomValuePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first LeadCustomValue that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadCustomValueFindFirstArgs} args - Arguments to find a LeadCustomValue
+     * @example
+     * // Get one LeadCustomValue
+     * const leadCustomValue = await prisma.leadCustomValue.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LeadCustomValueFindFirstArgs>(args?: SelectSubset<T, LeadCustomValueFindFirstArgs<ExtArgs>>): Prisma__LeadCustomValueClient<$Result.GetResult<Prisma.$LeadCustomValuePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first LeadCustomValue that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadCustomValueFindFirstOrThrowArgs} args - Arguments to find a LeadCustomValue
+     * @example
+     * // Get one LeadCustomValue
+     * const leadCustomValue = await prisma.leadCustomValue.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LeadCustomValueFindFirstOrThrowArgs>(args?: SelectSubset<T, LeadCustomValueFindFirstOrThrowArgs<ExtArgs>>): Prisma__LeadCustomValueClient<$Result.GetResult<Prisma.$LeadCustomValuePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more LeadCustomValues that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadCustomValueFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LeadCustomValues
+     * const leadCustomValues = await prisma.leadCustomValue.findMany()
+     * 
+     * // Get first 10 LeadCustomValues
+     * const leadCustomValues = await prisma.leadCustomValue.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const leadCustomValueWithIdOnly = await prisma.leadCustomValue.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LeadCustomValueFindManyArgs>(args?: SelectSubset<T, LeadCustomValueFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadCustomValuePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a LeadCustomValue.
+     * @param {LeadCustomValueCreateArgs} args - Arguments to create a LeadCustomValue.
+     * @example
+     * // Create one LeadCustomValue
+     * const LeadCustomValue = await prisma.leadCustomValue.create({
+     *   data: {
+     *     // ... data to create a LeadCustomValue
+     *   }
+     * })
+     * 
+     */
+    create<T extends LeadCustomValueCreateArgs>(args: SelectSubset<T, LeadCustomValueCreateArgs<ExtArgs>>): Prisma__LeadCustomValueClient<$Result.GetResult<Prisma.$LeadCustomValuePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many LeadCustomValues.
+     * @param {LeadCustomValueCreateManyArgs} args - Arguments to create many LeadCustomValues.
+     * @example
+     * // Create many LeadCustomValues
+     * const leadCustomValue = await prisma.leadCustomValue.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LeadCustomValueCreateManyArgs>(args?: SelectSubset<T, LeadCustomValueCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LeadCustomValues and returns the data saved in the database.
+     * @param {LeadCustomValueCreateManyAndReturnArgs} args - Arguments to create many LeadCustomValues.
+     * @example
+     * // Create many LeadCustomValues
+     * const leadCustomValue = await prisma.leadCustomValue.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LeadCustomValues and only return the `id`
+     * const leadCustomValueWithIdOnly = await prisma.leadCustomValue.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LeadCustomValueCreateManyAndReturnArgs>(args?: SelectSubset<T, LeadCustomValueCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadCustomValuePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a LeadCustomValue.
+     * @param {LeadCustomValueDeleteArgs} args - Arguments to delete one LeadCustomValue.
+     * @example
+     * // Delete one LeadCustomValue
+     * const LeadCustomValue = await prisma.leadCustomValue.delete({
+     *   where: {
+     *     // ... filter to delete one LeadCustomValue
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LeadCustomValueDeleteArgs>(args: SelectSubset<T, LeadCustomValueDeleteArgs<ExtArgs>>): Prisma__LeadCustomValueClient<$Result.GetResult<Prisma.$LeadCustomValuePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one LeadCustomValue.
+     * @param {LeadCustomValueUpdateArgs} args - Arguments to update one LeadCustomValue.
+     * @example
+     * // Update one LeadCustomValue
+     * const leadCustomValue = await prisma.leadCustomValue.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LeadCustomValueUpdateArgs>(args: SelectSubset<T, LeadCustomValueUpdateArgs<ExtArgs>>): Prisma__LeadCustomValueClient<$Result.GetResult<Prisma.$LeadCustomValuePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more LeadCustomValues.
+     * @param {LeadCustomValueDeleteManyArgs} args - Arguments to filter LeadCustomValues to delete.
+     * @example
+     * // Delete a few LeadCustomValues
+     * const { count } = await prisma.leadCustomValue.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LeadCustomValueDeleteManyArgs>(args?: SelectSubset<T, LeadCustomValueDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LeadCustomValues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadCustomValueUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LeadCustomValues
+     * const leadCustomValue = await prisma.leadCustomValue.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LeadCustomValueUpdateManyArgs>(args: SelectSubset<T, LeadCustomValueUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one LeadCustomValue.
+     * @param {LeadCustomValueUpsertArgs} args - Arguments to update or create a LeadCustomValue.
+     * @example
+     * // Update or create a LeadCustomValue
+     * const leadCustomValue = await prisma.leadCustomValue.upsert({
+     *   create: {
+     *     // ... data to create a LeadCustomValue
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LeadCustomValue we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LeadCustomValueUpsertArgs>(args: SelectSubset<T, LeadCustomValueUpsertArgs<ExtArgs>>): Prisma__LeadCustomValueClient<$Result.GetResult<Prisma.$LeadCustomValuePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of LeadCustomValues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadCustomValueCountArgs} args - Arguments to filter LeadCustomValues to count.
+     * @example
+     * // Count the number of LeadCustomValues
+     * const count = await prisma.leadCustomValue.count({
+     *   where: {
+     *     // ... the filter for the LeadCustomValues we want to count
+     *   }
+     * })
+    **/
+    count<T extends LeadCustomValueCountArgs>(
+      args?: Subset<T, LeadCustomValueCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LeadCustomValueCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LeadCustomValue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadCustomValueAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LeadCustomValueAggregateArgs>(args: Subset<T, LeadCustomValueAggregateArgs>): Prisma.PrismaPromise<GetLeadCustomValueAggregateType<T>>
+
+    /**
+     * Group by LeadCustomValue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadCustomValueGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LeadCustomValueGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LeadCustomValueGroupByArgs['orderBy'] }
+        : { orderBy?: LeadCustomValueGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LeadCustomValueGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLeadCustomValueGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LeadCustomValue model
+   */
+  readonly fields: LeadCustomValueFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LeadCustomValue.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LeadCustomValueClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    lead<T extends LeadDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LeadDefaultArgs<ExtArgs>>): Prisma__LeadClient<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    field<T extends CustomFieldDefDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomFieldDefDefaultArgs<ExtArgs>>): Prisma__CustomFieldDefClient<$Result.GetResult<Prisma.$CustomFieldDefPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LeadCustomValue model
+   */ 
+  interface LeadCustomValueFieldRefs {
+    readonly id: FieldRef<"LeadCustomValue", 'String'>
+    readonly leadId: FieldRef<"LeadCustomValue", 'String'>
+    readonly fieldId: FieldRef<"LeadCustomValue", 'String'>
+    readonly value: FieldRef<"LeadCustomValue", 'String'>
+    readonly createdAt: FieldRef<"LeadCustomValue", 'DateTime'>
+    readonly updatedAt: FieldRef<"LeadCustomValue", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LeadCustomValue findUnique
+   */
+  export type LeadCustomValueFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadCustomValue
+     */
+    select?: LeadCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCustomValueInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadCustomValue to fetch.
+     */
+    where: LeadCustomValueWhereUniqueInput
+  }
+
+  /**
+   * LeadCustomValue findUniqueOrThrow
+   */
+  export type LeadCustomValueFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadCustomValue
+     */
+    select?: LeadCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCustomValueInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadCustomValue to fetch.
+     */
+    where: LeadCustomValueWhereUniqueInput
+  }
+
+  /**
+   * LeadCustomValue findFirst
+   */
+  export type LeadCustomValueFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadCustomValue
+     */
+    select?: LeadCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCustomValueInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadCustomValue to fetch.
+     */
+    where?: LeadCustomValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeadCustomValues to fetch.
+     */
+    orderBy?: LeadCustomValueOrderByWithRelationInput | LeadCustomValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LeadCustomValues.
+     */
+    cursor?: LeadCustomValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeadCustomValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeadCustomValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LeadCustomValues.
+     */
+    distinct?: LeadCustomValueScalarFieldEnum | LeadCustomValueScalarFieldEnum[]
+  }
+
+  /**
+   * LeadCustomValue findFirstOrThrow
+   */
+  export type LeadCustomValueFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadCustomValue
+     */
+    select?: LeadCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCustomValueInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadCustomValue to fetch.
+     */
+    where?: LeadCustomValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeadCustomValues to fetch.
+     */
+    orderBy?: LeadCustomValueOrderByWithRelationInput | LeadCustomValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LeadCustomValues.
+     */
+    cursor?: LeadCustomValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeadCustomValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeadCustomValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LeadCustomValues.
+     */
+    distinct?: LeadCustomValueScalarFieldEnum | LeadCustomValueScalarFieldEnum[]
+  }
+
+  /**
+   * LeadCustomValue findMany
+   */
+  export type LeadCustomValueFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadCustomValue
+     */
+    select?: LeadCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCustomValueInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadCustomValues to fetch.
+     */
+    where?: LeadCustomValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeadCustomValues to fetch.
+     */
+    orderBy?: LeadCustomValueOrderByWithRelationInput | LeadCustomValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LeadCustomValues.
+     */
+    cursor?: LeadCustomValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeadCustomValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeadCustomValues.
+     */
+    skip?: number
+    distinct?: LeadCustomValueScalarFieldEnum | LeadCustomValueScalarFieldEnum[]
+  }
+
+  /**
+   * LeadCustomValue create
+   */
+  export type LeadCustomValueCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadCustomValue
+     */
+    select?: LeadCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCustomValueInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LeadCustomValue.
+     */
+    data: XOR<LeadCustomValueCreateInput, LeadCustomValueUncheckedCreateInput>
+  }
+
+  /**
+   * LeadCustomValue createMany
+   */
+  export type LeadCustomValueCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LeadCustomValues.
+     */
+    data: LeadCustomValueCreateManyInput | LeadCustomValueCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LeadCustomValue createManyAndReturn
+   */
+  export type LeadCustomValueCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadCustomValue
+     */
+    select?: LeadCustomValueSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many LeadCustomValues.
+     */
+    data: LeadCustomValueCreateManyInput | LeadCustomValueCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCustomValueIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LeadCustomValue update
+   */
+  export type LeadCustomValueUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadCustomValue
+     */
+    select?: LeadCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCustomValueInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LeadCustomValue.
+     */
+    data: XOR<LeadCustomValueUpdateInput, LeadCustomValueUncheckedUpdateInput>
+    /**
+     * Choose, which LeadCustomValue to update.
+     */
+    where: LeadCustomValueWhereUniqueInput
+  }
+
+  /**
+   * LeadCustomValue updateMany
+   */
+  export type LeadCustomValueUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LeadCustomValues.
+     */
+    data: XOR<LeadCustomValueUpdateManyMutationInput, LeadCustomValueUncheckedUpdateManyInput>
+    /**
+     * Filter which LeadCustomValues to update
+     */
+    where?: LeadCustomValueWhereInput
+  }
+
+  /**
+   * LeadCustomValue upsert
+   */
+  export type LeadCustomValueUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadCustomValue
+     */
+    select?: LeadCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCustomValueInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LeadCustomValue to update in case it exists.
+     */
+    where: LeadCustomValueWhereUniqueInput
+    /**
+     * In case the LeadCustomValue found by the `where` argument doesn't exist, create a new LeadCustomValue with this data.
+     */
+    create: XOR<LeadCustomValueCreateInput, LeadCustomValueUncheckedCreateInput>
+    /**
+     * In case the LeadCustomValue was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LeadCustomValueUpdateInput, LeadCustomValueUncheckedUpdateInput>
+  }
+
+  /**
+   * LeadCustomValue delete
+   */
+  export type LeadCustomValueDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadCustomValue
+     */
+    select?: LeadCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCustomValueInclude<ExtArgs> | null
+    /**
+     * Filter which LeadCustomValue to delete.
+     */
+    where: LeadCustomValueWhereUniqueInput
+  }
+
+  /**
+   * LeadCustomValue deleteMany
+   */
+  export type LeadCustomValueDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LeadCustomValues to delete
+     */
+    where?: LeadCustomValueWhereInput
+  }
+
+  /**
+   * LeadCustomValue without action
+   */
+  export type LeadCustomValueDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadCustomValue
+     */
+    select?: LeadCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadCustomValueInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Task
+   */
+
+  export type AggregateTask = {
+    _count: TaskCountAggregateOutputType | null
+    _min: TaskMinAggregateOutputType | null
+    _max: TaskMaxAggregateOutputType | null
+  }
+
+  export type TaskMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    dueAt: Date | null
+    done: boolean | null
+    doneAt: Date | null
+    notes: string | null
+    source: $Enums.TaskSource | null
+    leadId: string | null
+    companyId: string | null
+    assigneeId: string | null
+    createdById: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TaskMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    dueAt: Date | null
+    done: boolean | null
+    doneAt: Date | null
+    notes: string | null
+    source: $Enums.TaskSource | null
+    leadId: string | null
+    companyId: string | null
+    assigneeId: string | null
+    createdById: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TaskCountAggregateOutputType = {
+    id: number
+    title: number
+    dueAt: number
+    done: number
+    doneAt: number
+    notes: number
+    source: number
+    leadId: number
+    companyId: number
+    assigneeId: number
+    createdById: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TaskMinAggregateInputType = {
+    id?: true
+    title?: true
+    dueAt?: true
+    done?: true
+    doneAt?: true
+    notes?: true
+    source?: true
+    leadId?: true
+    companyId?: true
+    assigneeId?: true
+    createdById?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TaskMaxAggregateInputType = {
+    id?: true
+    title?: true
+    dueAt?: true
+    done?: true
+    doneAt?: true
+    notes?: true
+    source?: true
+    leadId?: true
+    companyId?: true
+    assigneeId?: true
+    createdById?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TaskCountAggregateInputType = {
+    id?: true
+    title?: true
+    dueAt?: true
+    done?: true
+    doneAt?: true
+    notes?: true
+    source?: true
+    leadId?: true
+    companyId?: true
+    assigneeId?: true
+    createdById?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TaskAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Task to aggregate.
+     */
+    where?: TaskWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tasks to fetch.
+     */
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TaskWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tasks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tasks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Tasks
+    **/
+    _count?: true | TaskCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TaskMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TaskMaxAggregateInputType
+  }
+
+  export type GetTaskAggregateType<T extends TaskAggregateArgs> = {
+        [P in keyof T & keyof AggregateTask]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTask[P]>
+      : GetScalarType<T[P], AggregateTask[P]>
+  }
+
+
+
+
+  export type TaskGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TaskWhereInput
+    orderBy?: TaskOrderByWithAggregationInput | TaskOrderByWithAggregationInput[]
+    by: TaskScalarFieldEnum[] | TaskScalarFieldEnum
+    having?: TaskScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TaskCountAggregateInputType | true
+    _min?: TaskMinAggregateInputType
+    _max?: TaskMaxAggregateInputType
+  }
+
+  export type TaskGroupByOutputType = {
+    id: string
+    title: string
+    dueAt: Date
+    done: boolean
+    doneAt: Date | null
+    notes: string | null
+    source: $Enums.TaskSource
+    leadId: string
+    companyId: string
+    assigneeId: string | null
+    createdById: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: TaskCountAggregateOutputType | null
+    _min: TaskMinAggregateOutputType | null
+    _max: TaskMaxAggregateOutputType | null
+  }
+
+  type GetTaskGroupByPayload<T extends TaskGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TaskGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TaskGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TaskGroupByOutputType[P]>
+            : GetScalarType<T[P], TaskGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TaskSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    dueAt?: boolean
+    done?: boolean
+    doneAt?: boolean
+    notes?: boolean
+    source?: boolean
+    leadId?: boolean
+    companyId?: boolean
+    assigneeId?: boolean
+    createdById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    lead?: boolean | LeadDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    assignee?: boolean | Task$assigneeArgs<ExtArgs>
+    createdBy?: boolean | Task$createdByArgs<ExtArgs>
+  }, ExtArgs["result"]["task"]>
+
+  export type TaskSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    dueAt?: boolean
+    done?: boolean
+    doneAt?: boolean
+    notes?: boolean
+    source?: boolean
+    leadId?: boolean
+    companyId?: boolean
+    assigneeId?: boolean
+    createdById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    lead?: boolean | LeadDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    assignee?: boolean | Task$assigneeArgs<ExtArgs>
+    createdBy?: boolean | Task$createdByArgs<ExtArgs>
+  }, ExtArgs["result"]["task"]>
+
+  export type TaskSelectScalar = {
+    id?: boolean
+    title?: boolean
+    dueAt?: boolean
+    done?: boolean
+    doneAt?: boolean
+    notes?: boolean
+    source?: boolean
+    leadId?: boolean
+    companyId?: boolean
+    assigneeId?: boolean
+    createdById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lead?: boolean | LeadDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    assignee?: boolean | Task$assigneeArgs<ExtArgs>
+    createdBy?: boolean | Task$createdByArgs<ExtArgs>
+  }
+  export type TaskIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lead?: boolean | LeadDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    assignee?: boolean | Task$assigneeArgs<ExtArgs>
+    createdBy?: boolean | Task$createdByArgs<ExtArgs>
+  }
+
+  export type $TaskPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Task"
+    objects: {
+      lead: Prisma.$LeadPayload<ExtArgs>
+      company: Prisma.$CompanyPayload<ExtArgs>
+      assignee: Prisma.$UserPayload<ExtArgs> | null
+      createdBy: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      dueAt: Date
+      done: boolean
+      doneAt: Date | null
+      notes: string | null
+      source: $Enums.TaskSource
+      leadId: string
+      companyId: string
+      assigneeId: string | null
+      createdById: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["task"]>
+    composites: {}
+  }
+
+  type TaskGetPayload<S extends boolean | null | undefined | TaskDefaultArgs> = $Result.GetResult<Prisma.$TaskPayload, S>
+
+  type TaskCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<TaskFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: TaskCountAggregateInputType | true
+    }
+
+  export interface TaskDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Task'], meta: { name: 'Task' } }
+    /**
+     * Find zero or one Task that matches the filter.
+     * @param {TaskFindUniqueArgs} args - Arguments to find a Task
+     * @example
+     * // Get one Task
+     * const task = await prisma.task.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TaskFindUniqueArgs>(args: SelectSubset<T, TaskFindUniqueArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Task that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {TaskFindUniqueOrThrowArgs} args - Arguments to find a Task
+     * @example
+     * // Get one Task
+     * const task = await prisma.task.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TaskFindUniqueOrThrowArgs>(args: SelectSubset<T, TaskFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Task that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskFindFirstArgs} args - Arguments to find a Task
+     * @example
+     * // Get one Task
+     * const task = await prisma.task.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TaskFindFirstArgs>(args?: SelectSubset<T, TaskFindFirstArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Task that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskFindFirstOrThrowArgs} args - Arguments to find a Task
+     * @example
+     * // Get one Task
+     * const task = await prisma.task.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TaskFindFirstOrThrowArgs>(args?: SelectSubset<T, TaskFindFirstOrThrowArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Tasks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Tasks
+     * const tasks = await prisma.task.findMany()
+     * 
+     * // Get first 10 Tasks
+     * const tasks = await prisma.task.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const taskWithIdOnly = await prisma.task.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TaskFindManyArgs>(args?: SelectSubset<T, TaskFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Task.
+     * @param {TaskCreateArgs} args - Arguments to create a Task.
+     * @example
+     * // Create one Task
+     * const Task = await prisma.task.create({
+     *   data: {
+     *     // ... data to create a Task
+     *   }
+     * })
+     * 
+     */
+    create<T extends TaskCreateArgs>(args: SelectSubset<T, TaskCreateArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Tasks.
+     * @param {TaskCreateManyArgs} args - Arguments to create many Tasks.
+     * @example
+     * // Create many Tasks
+     * const task = await prisma.task.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TaskCreateManyArgs>(args?: SelectSubset<T, TaskCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Tasks and returns the data saved in the database.
+     * @param {TaskCreateManyAndReturnArgs} args - Arguments to create many Tasks.
+     * @example
+     * // Create many Tasks
+     * const task = await prisma.task.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Tasks and only return the `id`
+     * const taskWithIdOnly = await prisma.task.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TaskCreateManyAndReturnArgs>(args?: SelectSubset<T, TaskCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Task.
+     * @param {TaskDeleteArgs} args - Arguments to delete one Task.
+     * @example
+     * // Delete one Task
+     * const Task = await prisma.task.delete({
+     *   where: {
+     *     // ... filter to delete one Task
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TaskDeleteArgs>(args: SelectSubset<T, TaskDeleteArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Task.
+     * @param {TaskUpdateArgs} args - Arguments to update one Task.
+     * @example
+     * // Update one Task
+     * const task = await prisma.task.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TaskUpdateArgs>(args: SelectSubset<T, TaskUpdateArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Tasks.
+     * @param {TaskDeleteManyArgs} args - Arguments to filter Tasks to delete.
+     * @example
+     * // Delete a few Tasks
+     * const { count } = await prisma.task.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TaskDeleteManyArgs>(args?: SelectSubset<T, TaskDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Tasks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Tasks
+     * const task = await prisma.task.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TaskUpdateManyArgs>(args: SelectSubset<T, TaskUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Task.
+     * @param {TaskUpsertArgs} args - Arguments to update or create a Task.
+     * @example
+     * // Update or create a Task
+     * const task = await prisma.task.upsert({
+     *   create: {
+     *     // ... data to create a Task
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Task we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TaskUpsertArgs>(args: SelectSubset<T, TaskUpsertArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Tasks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskCountArgs} args - Arguments to filter Tasks to count.
+     * @example
+     * // Count the number of Tasks
+     * const count = await prisma.task.count({
+     *   where: {
+     *     // ... the filter for the Tasks we want to count
+     *   }
+     * })
+    **/
+    count<T extends TaskCountArgs>(
+      args?: Subset<T, TaskCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TaskCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Task.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TaskAggregateArgs>(args: Subset<T, TaskAggregateArgs>): Prisma.PrismaPromise<GetTaskAggregateType<T>>
+
+    /**
+     * Group by Task.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TaskGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TaskGroupByArgs['orderBy'] }
+        : { orderBy?: TaskGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TaskGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTaskGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Task model
+   */
+  readonly fields: TaskFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Task.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TaskClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    lead<T extends LeadDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LeadDefaultArgs<ExtArgs>>): Prisma__LeadClient<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    assignee<T extends Task$assigneeArgs<ExtArgs> = {}>(args?: Subset<T, Task$assigneeArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    createdBy<T extends Task$createdByArgs<ExtArgs> = {}>(args?: Subset<T, Task$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Task model
+   */ 
+  interface TaskFieldRefs {
+    readonly id: FieldRef<"Task", 'String'>
+    readonly title: FieldRef<"Task", 'String'>
+    readonly dueAt: FieldRef<"Task", 'DateTime'>
+    readonly done: FieldRef<"Task", 'Boolean'>
+    readonly doneAt: FieldRef<"Task", 'DateTime'>
+    readonly notes: FieldRef<"Task", 'String'>
+    readonly source: FieldRef<"Task", 'TaskSource'>
+    readonly leadId: FieldRef<"Task", 'String'>
+    readonly companyId: FieldRef<"Task", 'String'>
+    readonly assigneeId: FieldRef<"Task", 'String'>
+    readonly createdById: FieldRef<"Task", 'String'>
+    readonly createdAt: FieldRef<"Task", 'DateTime'>
+    readonly updatedAt: FieldRef<"Task", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Task findUnique
+   */
+  export type TaskFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    /**
+     * Filter, which Task to fetch.
+     */
+    where: TaskWhereUniqueInput
+  }
+
+  /**
+   * Task findUniqueOrThrow
+   */
+  export type TaskFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    /**
+     * Filter, which Task to fetch.
+     */
+    where: TaskWhereUniqueInput
+  }
+
+  /**
+   * Task findFirst
+   */
+  export type TaskFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    /**
+     * Filter, which Task to fetch.
+     */
+    where?: TaskWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tasks to fetch.
+     */
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Tasks.
+     */
+    cursor?: TaskWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tasks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tasks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tasks.
+     */
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
+  }
+
+  /**
+   * Task findFirstOrThrow
+   */
+  export type TaskFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    /**
+     * Filter, which Task to fetch.
+     */
+    where?: TaskWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tasks to fetch.
+     */
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Tasks.
+     */
+    cursor?: TaskWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tasks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tasks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tasks.
+     */
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
+  }
+
+  /**
+   * Task findMany
+   */
+  export type TaskFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    /**
+     * Filter, which Tasks to fetch.
+     */
+    where?: TaskWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tasks to fetch.
+     */
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Tasks.
+     */
+    cursor?: TaskWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tasks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tasks.
+     */
+    skip?: number
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
+  }
+
+  /**
+   * Task create
+   */
+  export type TaskCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Task.
+     */
+    data: XOR<TaskCreateInput, TaskUncheckedCreateInput>
+  }
+
+  /**
+   * Task createMany
+   */
+  export type TaskCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Tasks.
+     */
+    data: TaskCreateManyInput | TaskCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Task createManyAndReturn
+   */
+  export type TaskCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Tasks.
+     */
+    data: TaskCreateManyInput | TaskCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Task update
+   */
+  export type TaskUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Task.
+     */
+    data: XOR<TaskUpdateInput, TaskUncheckedUpdateInput>
+    /**
+     * Choose, which Task to update.
+     */
+    where: TaskWhereUniqueInput
+  }
+
+  /**
+   * Task updateMany
+   */
+  export type TaskUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Tasks.
+     */
+    data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyInput>
+    /**
+     * Filter which Tasks to update
+     */
+    where?: TaskWhereInput
+  }
+
+  /**
+   * Task upsert
+   */
+  export type TaskUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Task to update in case it exists.
+     */
+    where: TaskWhereUniqueInput
+    /**
+     * In case the Task found by the `where` argument doesn't exist, create a new Task with this data.
+     */
+    create: XOR<TaskCreateInput, TaskUncheckedCreateInput>
+    /**
+     * In case the Task was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TaskUpdateInput, TaskUncheckedUpdateInput>
+  }
+
+  /**
+   * Task delete
+   */
+  export type TaskDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    /**
+     * Filter which Task to delete.
+     */
+    where: TaskWhereUniqueInput
+  }
+
+  /**
+   * Task deleteMany
+   */
+  export type TaskDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Tasks to delete
+     */
+    where?: TaskWhereInput
+  }
+
+  /**
+   * Task.assignee
+   */
+  export type Task$assigneeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * Task.createdBy
+   */
+  export type Task$createdByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * Task without action
+   */
+  export type TaskDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
   }
 
 
@@ -56656,6 +62697,1954 @@ export namespace Prisma {
 
 
   /**
+   * Model PushSubscription
+   */
+
+  export type AggregatePushSubscription = {
+    _count: PushSubscriptionCountAggregateOutputType | null
+    _avg: PushSubscriptionAvgAggregateOutputType | null
+    _sum: PushSubscriptionSumAggregateOutputType | null
+    _min: PushSubscriptionMinAggregateOutputType | null
+    _max: PushSubscriptionMaxAggregateOutputType | null
+  }
+
+  export type PushSubscriptionAvgAggregateOutputType = {
+    failCount: number | null
+  }
+
+  export type PushSubscriptionSumAggregateOutputType = {
+    failCount: number | null
+  }
+
+  export type PushSubscriptionMinAggregateOutputType = {
+    id: string | null
+    endpoint: string | null
+    p256dh: string | null
+    auth: string | null
+    userAgent: string | null
+    userId: string | null
+    lastFailedAt: Date | null
+    failCount: number | null
+    createdAt: Date | null
+  }
+
+  export type PushSubscriptionMaxAggregateOutputType = {
+    id: string | null
+    endpoint: string | null
+    p256dh: string | null
+    auth: string | null
+    userAgent: string | null
+    userId: string | null
+    lastFailedAt: Date | null
+    failCount: number | null
+    createdAt: Date | null
+  }
+
+  export type PushSubscriptionCountAggregateOutputType = {
+    id: number
+    endpoint: number
+    p256dh: number
+    auth: number
+    userAgent: number
+    userId: number
+    lastFailedAt: number
+    failCount: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PushSubscriptionAvgAggregateInputType = {
+    failCount?: true
+  }
+
+  export type PushSubscriptionSumAggregateInputType = {
+    failCount?: true
+  }
+
+  export type PushSubscriptionMinAggregateInputType = {
+    id?: true
+    endpoint?: true
+    p256dh?: true
+    auth?: true
+    userAgent?: true
+    userId?: true
+    lastFailedAt?: true
+    failCount?: true
+    createdAt?: true
+  }
+
+  export type PushSubscriptionMaxAggregateInputType = {
+    id?: true
+    endpoint?: true
+    p256dh?: true
+    auth?: true
+    userAgent?: true
+    userId?: true
+    lastFailedAt?: true
+    failCount?: true
+    createdAt?: true
+  }
+
+  export type PushSubscriptionCountAggregateInputType = {
+    id?: true
+    endpoint?: true
+    p256dh?: true
+    auth?: true
+    userAgent?: true
+    userId?: true
+    lastFailedAt?: true
+    failCount?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PushSubscriptionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PushSubscription to aggregate.
+     */
+    where?: PushSubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PushSubscriptions to fetch.
+     */
+    orderBy?: PushSubscriptionOrderByWithRelationInput | PushSubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PushSubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PushSubscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PushSubscriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PushSubscriptions
+    **/
+    _count?: true | PushSubscriptionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PushSubscriptionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PushSubscriptionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PushSubscriptionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PushSubscriptionMaxAggregateInputType
+  }
+
+  export type GetPushSubscriptionAggregateType<T extends PushSubscriptionAggregateArgs> = {
+        [P in keyof T & keyof AggregatePushSubscription]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePushSubscription[P]>
+      : GetScalarType<T[P], AggregatePushSubscription[P]>
+  }
+
+
+
+
+  export type PushSubscriptionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PushSubscriptionWhereInput
+    orderBy?: PushSubscriptionOrderByWithAggregationInput | PushSubscriptionOrderByWithAggregationInput[]
+    by: PushSubscriptionScalarFieldEnum[] | PushSubscriptionScalarFieldEnum
+    having?: PushSubscriptionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PushSubscriptionCountAggregateInputType | true
+    _avg?: PushSubscriptionAvgAggregateInputType
+    _sum?: PushSubscriptionSumAggregateInputType
+    _min?: PushSubscriptionMinAggregateInputType
+    _max?: PushSubscriptionMaxAggregateInputType
+  }
+
+  export type PushSubscriptionGroupByOutputType = {
+    id: string
+    endpoint: string
+    p256dh: string
+    auth: string
+    userAgent: string | null
+    userId: string
+    lastFailedAt: Date | null
+    failCount: number
+    createdAt: Date
+    _count: PushSubscriptionCountAggregateOutputType | null
+    _avg: PushSubscriptionAvgAggregateOutputType | null
+    _sum: PushSubscriptionSumAggregateOutputType | null
+    _min: PushSubscriptionMinAggregateOutputType | null
+    _max: PushSubscriptionMaxAggregateOutputType | null
+  }
+
+  type GetPushSubscriptionGroupByPayload<T extends PushSubscriptionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PushSubscriptionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PushSubscriptionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PushSubscriptionGroupByOutputType[P]>
+            : GetScalarType<T[P], PushSubscriptionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PushSubscriptionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    endpoint?: boolean
+    p256dh?: boolean
+    auth?: boolean
+    userAgent?: boolean
+    userId?: boolean
+    lastFailedAt?: boolean
+    failCount?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["pushSubscription"]>
+
+  export type PushSubscriptionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    endpoint?: boolean
+    p256dh?: boolean
+    auth?: boolean
+    userAgent?: boolean
+    userId?: boolean
+    lastFailedAt?: boolean
+    failCount?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["pushSubscription"]>
+
+  export type PushSubscriptionSelectScalar = {
+    id?: boolean
+    endpoint?: boolean
+    p256dh?: boolean
+    auth?: boolean
+    userAgent?: boolean
+    userId?: boolean
+    lastFailedAt?: boolean
+    failCount?: boolean
+    createdAt?: boolean
+  }
+
+  export type PushSubscriptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PushSubscriptionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PushSubscriptionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PushSubscription"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      endpoint: string
+      p256dh: string
+      auth: string
+      userAgent: string | null
+      userId: string
+      lastFailedAt: Date | null
+      failCount: number
+      createdAt: Date
+    }, ExtArgs["result"]["pushSubscription"]>
+    composites: {}
+  }
+
+  type PushSubscriptionGetPayload<S extends boolean | null | undefined | PushSubscriptionDefaultArgs> = $Result.GetResult<Prisma.$PushSubscriptionPayload, S>
+
+  type PushSubscriptionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<PushSubscriptionFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: PushSubscriptionCountAggregateInputType | true
+    }
+
+  export interface PushSubscriptionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PushSubscription'], meta: { name: 'PushSubscription' } }
+    /**
+     * Find zero or one PushSubscription that matches the filter.
+     * @param {PushSubscriptionFindUniqueArgs} args - Arguments to find a PushSubscription
+     * @example
+     * // Get one PushSubscription
+     * const pushSubscription = await prisma.pushSubscription.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PushSubscriptionFindUniqueArgs>(args: SelectSubset<T, PushSubscriptionFindUniqueArgs<ExtArgs>>): Prisma__PushSubscriptionClient<$Result.GetResult<Prisma.$PushSubscriptionPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one PushSubscription that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {PushSubscriptionFindUniqueOrThrowArgs} args - Arguments to find a PushSubscription
+     * @example
+     * // Get one PushSubscription
+     * const pushSubscription = await prisma.pushSubscription.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PushSubscriptionFindUniqueOrThrowArgs>(args: SelectSubset<T, PushSubscriptionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PushSubscriptionClient<$Result.GetResult<Prisma.$PushSubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first PushSubscription that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushSubscriptionFindFirstArgs} args - Arguments to find a PushSubscription
+     * @example
+     * // Get one PushSubscription
+     * const pushSubscription = await prisma.pushSubscription.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PushSubscriptionFindFirstArgs>(args?: SelectSubset<T, PushSubscriptionFindFirstArgs<ExtArgs>>): Prisma__PushSubscriptionClient<$Result.GetResult<Prisma.$PushSubscriptionPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first PushSubscription that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushSubscriptionFindFirstOrThrowArgs} args - Arguments to find a PushSubscription
+     * @example
+     * // Get one PushSubscription
+     * const pushSubscription = await prisma.pushSubscription.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PushSubscriptionFindFirstOrThrowArgs>(args?: SelectSubset<T, PushSubscriptionFindFirstOrThrowArgs<ExtArgs>>): Prisma__PushSubscriptionClient<$Result.GetResult<Prisma.$PushSubscriptionPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more PushSubscriptions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushSubscriptionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PushSubscriptions
+     * const pushSubscriptions = await prisma.pushSubscription.findMany()
+     * 
+     * // Get first 10 PushSubscriptions
+     * const pushSubscriptions = await prisma.pushSubscription.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const pushSubscriptionWithIdOnly = await prisma.pushSubscription.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PushSubscriptionFindManyArgs>(args?: SelectSubset<T, PushSubscriptionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PushSubscriptionPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a PushSubscription.
+     * @param {PushSubscriptionCreateArgs} args - Arguments to create a PushSubscription.
+     * @example
+     * // Create one PushSubscription
+     * const PushSubscription = await prisma.pushSubscription.create({
+     *   data: {
+     *     // ... data to create a PushSubscription
+     *   }
+     * })
+     * 
+     */
+    create<T extends PushSubscriptionCreateArgs>(args: SelectSubset<T, PushSubscriptionCreateArgs<ExtArgs>>): Prisma__PushSubscriptionClient<$Result.GetResult<Prisma.$PushSubscriptionPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many PushSubscriptions.
+     * @param {PushSubscriptionCreateManyArgs} args - Arguments to create many PushSubscriptions.
+     * @example
+     * // Create many PushSubscriptions
+     * const pushSubscription = await prisma.pushSubscription.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PushSubscriptionCreateManyArgs>(args?: SelectSubset<T, PushSubscriptionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PushSubscriptions and returns the data saved in the database.
+     * @param {PushSubscriptionCreateManyAndReturnArgs} args - Arguments to create many PushSubscriptions.
+     * @example
+     * // Create many PushSubscriptions
+     * const pushSubscription = await prisma.pushSubscription.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PushSubscriptions and only return the `id`
+     * const pushSubscriptionWithIdOnly = await prisma.pushSubscription.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PushSubscriptionCreateManyAndReturnArgs>(args?: SelectSubset<T, PushSubscriptionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PushSubscriptionPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a PushSubscription.
+     * @param {PushSubscriptionDeleteArgs} args - Arguments to delete one PushSubscription.
+     * @example
+     * // Delete one PushSubscription
+     * const PushSubscription = await prisma.pushSubscription.delete({
+     *   where: {
+     *     // ... filter to delete one PushSubscription
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PushSubscriptionDeleteArgs>(args: SelectSubset<T, PushSubscriptionDeleteArgs<ExtArgs>>): Prisma__PushSubscriptionClient<$Result.GetResult<Prisma.$PushSubscriptionPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one PushSubscription.
+     * @param {PushSubscriptionUpdateArgs} args - Arguments to update one PushSubscription.
+     * @example
+     * // Update one PushSubscription
+     * const pushSubscription = await prisma.pushSubscription.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PushSubscriptionUpdateArgs>(args: SelectSubset<T, PushSubscriptionUpdateArgs<ExtArgs>>): Prisma__PushSubscriptionClient<$Result.GetResult<Prisma.$PushSubscriptionPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more PushSubscriptions.
+     * @param {PushSubscriptionDeleteManyArgs} args - Arguments to filter PushSubscriptions to delete.
+     * @example
+     * // Delete a few PushSubscriptions
+     * const { count } = await prisma.pushSubscription.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PushSubscriptionDeleteManyArgs>(args?: SelectSubset<T, PushSubscriptionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PushSubscriptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushSubscriptionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PushSubscriptions
+     * const pushSubscription = await prisma.pushSubscription.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PushSubscriptionUpdateManyArgs>(args: SelectSubset<T, PushSubscriptionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PushSubscription.
+     * @param {PushSubscriptionUpsertArgs} args - Arguments to update or create a PushSubscription.
+     * @example
+     * // Update or create a PushSubscription
+     * const pushSubscription = await prisma.pushSubscription.upsert({
+     *   create: {
+     *     // ... data to create a PushSubscription
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PushSubscription we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PushSubscriptionUpsertArgs>(args: SelectSubset<T, PushSubscriptionUpsertArgs<ExtArgs>>): Prisma__PushSubscriptionClient<$Result.GetResult<Prisma.$PushSubscriptionPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of PushSubscriptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushSubscriptionCountArgs} args - Arguments to filter PushSubscriptions to count.
+     * @example
+     * // Count the number of PushSubscriptions
+     * const count = await prisma.pushSubscription.count({
+     *   where: {
+     *     // ... the filter for the PushSubscriptions we want to count
+     *   }
+     * })
+    **/
+    count<T extends PushSubscriptionCountArgs>(
+      args?: Subset<T, PushSubscriptionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PushSubscriptionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PushSubscription.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushSubscriptionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PushSubscriptionAggregateArgs>(args: Subset<T, PushSubscriptionAggregateArgs>): Prisma.PrismaPromise<GetPushSubscriptionAggregateType<T>>
+
+    /**
+     * Group by PushSubscription.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushSubscriptionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PushSubscriptionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PushSubscriptionGroupByArgs['orderBy'] }
+        : { orderBy?: PushSubscriptionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PushSubscriptionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPushSubscriptionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PushSubscription model
+   */
+  readonly fields: PushSubscriptionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PushSubscription.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PushSubscriptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PushSubscription model
+   */ 
+  interface PushSubscriptionFieldRefs {
+    readonly id: FieldRef<"PushSubscription", 'String'>
+    readonly endpoint: FieldRef<"PushSubscription", 'String'>
+    readonly p256dh: FieldRef<"PushSubscription", 'String'>
+    readonly auth: FieldRef<"PushSubscription", 'String'>
+    readonly userAgent: FieldRef<"PushSubscription", 'String'>
+    readonly userId: FieldRef<"PushSubscription", 'String'>
+    readonly lastFailedAt: FieldRef<"PushSubscription", 'DateTime'>
+    readonly failCount: FieldRef<"PushSubscription", 'Int'>
+    readonly createdAt: FieldRef<"PushSubscription", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PushSubscription findUnique
+   */
+  export type PushSubscriptionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushSubscription
+     */
+    select?: PushSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushSubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which PushSubscription to fetch.
+     */
+    where: PushSubscriptionWhereUniqueInput
+  }
+
+  /**
+   * PushSubscription findUniqueOrThrow
+   */
+  export type PushSubscriptionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushSubscription
+     */
+    select?: PushSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushSubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which PushSubscription to fetch.
+     */
+    where: PushSubscriptionWhereUniqueInput
+  }
+
+  /**
+   * PushSubscription findFirst
+   */
+  export type PushSubscriptionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushSubscription
+     */
+    select?: PushSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushSubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which PushSubscription to fetch.
+     */
+    where?: PushSubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PushSubscriptions to fetch.
+     */
+    orderBy?: PushSubscriptionOrderByWithRelationInput | PushSubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PushSubscriptions.
+     */
+    cursor?: PushSubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PushSubscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PushSubscriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PushSubscriptions.
+     */
+    distinct?: PushSubscriptionScalarFieldEnum | PushSubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * PushSubscription findFirstOrThrow
+   */
+  export type PushSubscriptionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushSubscription
+     */
+    select?: PushSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushSubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which PushSubscription to fetch.
+     */
+    where?: PushSubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PushSubscriptions to fetch.
+     */
+    orderBy?: PushSubscriptionOrderByWithRelationInput | PushSubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PushSubscriptions.
+     */
+    cursor?: PushSubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PushSubscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PushSubscriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PushSubscriptions.
+     */
+    distinct?: PushSubscriptionScalarFieldEnum | PushSubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * PushSubscription findMany
+   */
+  export type PushSubscriptionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushSubscription
+     */
+    select?: PushSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushSubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which PushSubscriptions to fetch.
+     */
+    where?: PushSubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PushSubscriptions to fetch.
+     */
+    orderBy?: PushSubscriptionOrderByWithRelationInput | PushSubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PushSubscriptions.
+     */
+    cursor?: PushSubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PushSubscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PushSubscriptions.
+     */
+    skip?: number
+    distinct?: PushSubscriptionScalarFieldEnum | PushSubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * PushSubscription create
+   */
+  export type PushSubscriptionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushSubscription
+     */
+    select?: PushSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushSubscriptionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PushSubscription.
+     */
+    data: XOR<PushSubscriptionCreateInput, PushSubscriptionUncheckedCreateInput>
+  }
+
+  /**
+   * PushSubscription createMany
+   */
+  export type PushSubscriptionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PushSubscriptions.
+     */
+    data: PushSubscriptionCreateManyInput | PushSubscriptionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PushSubscription createManyAndReturn
+   */
+  export type PushSubscriptionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushSubscription
+     */
+    select?: PushSubscriptionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many PushSubscriptions.
+     */
+    data: PushSubscriptionCreateManyInput | PushSubscriptionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushSubscriptionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PushSubscription update
+   */
+  export type PushSubscriptionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushSubscription
+     */
+    select?: PushSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushSubscriptionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PushSubscription.
+     */
+    data: XOR<PushSubscriptionUpdateInput, PushSubscriptionUncheckedUpdateInput>
+    /**
+     * Choose, which PushSubscription to update.
+     */
+    where: PushSubscriptionWhereUniqueInput
+  }
+
+  /**
+   * PushSubscription updateMany
+   */
+  export type PushSubscriptionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PushSubscriptions.
+     */
+    data: XOR<PushSubscriptionUpdateManyMutationInput, PushSubscriptionUncheckedUpdateManyInput>
+    /**
+     * Filter which PushSubscriptions to update
+     */
+    where?: PushSubscriptionWhereInput
+  }
+
+  /**
+   * PushSubscription upsert
+   */
+  export type PushSubscriptionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushSubscription
+     */
+    select?: PushSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushSubscriptionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PushSubscription to update in case it exists.
+     */
+    where: PushSubscriptionWhereUniqueInput
+    /**
+     * In case the PushSubscription found by the `where` argument doesn't exist, create a new PushSubscription with this data.
+     */
+    create: XOR<PushSubscriptionCreateInput, PushSubscriptionUncheckedCreateInput>
+    /**
+     * In case the PushSubscription was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PushSubscriptionUpdateInput, PushSubscriptionUncheckedUpdateInput>
+  }
+
+  /**
+   * PushSubscription delete
+   */
+  export type PushSubscriptionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushSubscription
+     */
+    select?: PushSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushSubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter which PushSubscription to delete.
+     */
+    where: PushSubscriptionWhereUniqueInput
+  }
+
+  /**
+   * PushSubscription deleteMany
+   */
+  export type PushSubscriptionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PushSubscriptions to delete
+     */
+    where?: PushSubscriptionWhereInput
+  }
+
+  /**
+   * PushSubscription without action
+   */
+  export type PushSubscriptionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushSubscription
+     */
+    select?: PushSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushSubscriptionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserNotifPreferences
+   */
+
+  export type AggregateUserNotifPreferences = {
+    _count: UserNotifPreferencesCountAggregateOutputType | null
+    _min: UserNotifPreferencesMinAggregateOutputType | null
+    _max: UserNotifPreferencesMaxAggregateOutputType | null
+  }
+
+  export type UserNotifPreferencesMinAggregateOutputType = {
+    userId: string | null
+    newMessage: boolean | null
+    hotSignal: boolean | null
+    taskOverdue: boolean | null
+    updatedAt: Date | null
+  }
+
+  export type UserNotifPreferencesMaxAggregateOutputType = {
+    userId: string | null
+    newMessage: boolean | null
+    hotSignal: boolean | null
+    taskOverdue: boolean | null
+    updatedAt: Date | null
+  }
+
+  export type UserNotifPreferencesCountAggregateOutputType = {
+    userId: number
+    newMessage: number
+    hotSignal: number
+    taskOverdue: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type UserNotifPreferencesMinAggregateInputType = {
+    userId?: true
+    newMessage?: true
+    hotSignal?: true
+    taskOverdue?: true
+    updatedAt?: true
+  }
+
+  export type UserNotifPreferencesMaxAggregateInputType = {
+    userId?: true
+    newMessage?: true
+    hotSignal?: true
+    taskOverdue?: true
+    updatedAt?: true
+  }
+
+  export type UserNotifPreferencesCountAggregateInputType = {
+    userId?: true
+    newMessage?: true
+    hotSignal?: true
+    taskOverdue?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type UserNotifPreferencesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserNotifPreferences to aggregate.
+     */
+    where?: UserNotifPreferencesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserNotifPreferences to fetch.
+     */
+    orderBy?: UserNotifPreferencesOrderByWithRelationInput | UserNotifPreferencesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserNotifPreferencesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserNotifPreferences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserNotifPreferences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserNotifPreferences
+    **/
+    _count?: true | UserNotifPreferencesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserNotifPreferencesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserNotifPreferencesMaxAggregateInputType
+  }
+
+  export type GetUserNotifPreferencesAggregateType<T extends UserNotifPreferencesAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserNotifPreferences]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserNotifPreferences[P]>
+      : GetScalarType<T[P], AggregateUserNotifPreferences[P]>
+  }
+
+
+
+
+  export type UserNotifPreferencesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserNotifPreferencesWhereInput
+    orderBy?: UserNotifPreferencesOrderByWithAggregationInput | UserNotifPreferencesOrderByWithAggregationInput[]
+    by: UserNotifPreferencesScalarFieldEnum[] | UserNotifPreferencesScalarFieldEnum
+    having?: UserNotifPreferencesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserNotifPreferencesCountAggregateInputType | true
+    _min?: UserNotifPreferencesMinAggregateInputType
+    _max?: UserNotifPreferencesMaxAggregateInputType
+  }
+
+  export type UserNotifPreferencesGroupByOutputType = {
+    userId: string
+    newMessage: boolean
+    hotSignal: boolean
+    taskOverdue: boolean
+    updatedAt: Date
+    _count: UserNotifPreferencesCountAggregateOutputType | null
+    _min: UserNotifPreferencesMinAggregateOutputType | null
+    _max: UserNotifPreferencesMaxAggregateOutputType | null
+  }
+
+  type GetUserNotifPreferencesGroupByPayload<T extends UserNotifPreferencesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserNotifPreferencesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserNotifPreferencesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserNotifPreferencesGroupByOutputType[P]>
+            : GetScalarType<T[P], UserNotifPreferencesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserNotifPreferencesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    newMessage?: boolean
+    hotSignal?: boolean
+    taskOverdue?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userNotifPreferences"]>
+
+  export type UserNotifPreferencesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    newMessage?: boolean
+    hotSignal?: boolean
+    taskOverdue?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userNotifPreferences"]>
+
+  export type UserNotifPreferencesSelectScalar = {
+    userId?: boolean
+    newMessage?: boolean
+    hotSignal?: boolean
+    taskOverdue?: boolean
+    updatedAt?: boolean
+  }
+
+  export type UserNotifPreferencesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserNotifPreferencesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserNotifPreferencesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserNotifPreferences"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      userId: string
+      newMessage: boolean
+      hotSignal: boolean
+      taskOverdue: boolean
+      updatedAt: Date
+    }, ExtArgs["result"]["userNotifPreferences"]>
+    composites: {}
+  }
+
+  type UserNotifPreferencesGetPayload<S extends boolean | null | undefined | UserNotifPreferencesDefaultArgs> = $Result.GetResult<Prisma.$UserNotifPreferencesPayload, S>
+
+  type UserNotifPreferencesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<UserNotifPreferencesFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: UserNotifPreferencesCountAggregateInputType | true
+    }
+
+  export interface UserNotifPreferencesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserNotifPreferences'], meta: { name: 'UserNotifPreferences' } }
+    /**
+     * Find zero or one UserNotifPreferences that matches the filter.
+     * @param {UserNotifPreferencesFindUniqueArgs} args - Arguments to find a UserNotifPreferences
+     * @example
+     * // Get one UserNotifPreferences
+     * const userNotifPreferences = await prisma.userNotifPreferences.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserNotifPreferencesFindUniqueArgs>(args: SelectSubset<T, UserNotifPreferencesFindUniqueArgs<ExtArgs>>): Prisma__UserNotifPreferencesClient<$Result.GetResult<Prisma.$UserNotifPreferencesPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one UserNotifPreferences that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {UserNotifPreferencesFindUniqueOrThrowArgs} args - Arguments to find a UserNotifPreferences
+     * @example
+     * // Get one UserNotifPreferences
+     * const userNotifPreferences = await prisma.userNotifPreferences.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserNotifPreferencesFindUniqueOrThrowArgs>(args: SelectSubset<T, UserNotifPreferencesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserNotifPreferencesClient<$Result.GetResult<Prisma.$UserNotifPreferencesPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first UserNotifPreferences that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserNotifPreferencesFindFirstArgs} args - Arguments to find a UserNotifPreferences
+     * @example
+     * // Get one UserNotifPreferences
+     * const userNotifPreferences = await prisma.userNotifPreferences.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserNotifPreferencesFindFirstArgs>(args?: SelectSubset<T, UserNotifPreferencesFindFirstArgs<ExtArgs>>): Prisma__UserNotifPreferencesClient<$Result.GetResult<Prisma.$UserNotifPreferencesPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first UserNotifPreferences that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserNotifPreferencesFindFirstOrThrowArgs} args - Arguments to find a UserNotifPreferences
+     * @example
+     * // Get one UserNotifPreferences
+     * const userNotifPreferences = await prisma.userNotifPreferences.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserNotifPreferencesFindFirstOrThrowArgs>(args?: SelectSubset<T, UserNotifPreferencesFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserNotifPreferencesClient<$Result.GetResult<Prisma.$UserNotifPreferencesPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more UserNotifPreferences that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserNotifPreferencesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserNotifPreferences
+     * const userNotifPreferences = await prisma.userNotifPreferences.findMany()
+     * 
+     * // Get first 10 UserNotifPreferences
+     * const userNotifPreferences = await prisma.userNotifPreferences.findMany({ take: 10 })
+     * 
+     * // Only select the `userId`
+     * const userNotifPreferencesWithUserIdOnly = await prisma.userNotifPreferences.findMany({ select: { userId: true } })
+     * 
+     */
+    findMany<T extends UserNotifPreferencesFindManyArgs>(args?: SelectSubset<T, UserNotifPreferencesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserNotifPreferencesPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a UserNotifPreferences.
+     * @param {UserNotifPreferencesCreateArgs} args - Arguments to create a UserNotifPreferences.
+     * @example
+     * // Create one UserNotifPreferences
+     * const UserNotifPreferences = await prisma.userNotifPreferences.create({
+     *   data: {
+     *     // ... data to create a UserNotifPreferences
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserNotifPreferencesCreateArgs>(args: SelectSubset<T, UserNotifPreferencesCreateArgs<ExtArgs>>): Prisma__UserNotifPreferencesClient<$Result.GetResult<Prisma.$UserNotifPreferencesPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many UserNotifPreferences.
+     * @param {UserNotifPreferencesCreateManyArgs} args - Arguments to create many UserNotifPreferences.
+     * @example
+     * // Create many UserNotifPreferences
+     * const userNotifPreferences = await prisma.userNotifPreferences.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserNotifPreferencesCreateManyArgs>(args?: SelectSubset<T, UserNotifPreferencesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserNotifPreferences and returns the data saved in the database.
+     * @param {UserNotifPreferencesCreateManyAndReturnArgs} args - Arguments to create many UserNotifPreferences.
+     * @example
+     * // Create many UserNotifPreferences
+     * const userNotifPreferences = await prisma.userNotifPreferences.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserNotifPreferences and only return the `userId`
+     * const userNotifPreferencesWithUserIdOnly = await prisma.userNotifPreferences.createManyAndReturn({ 
+     *   select: { userId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserNotifPreferencesCreateManyAndReturnArgs>(args?: SelectSubset<T, UserNotifPreferencesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserNotifPreferencesPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a UserNotifPreferences.
+     * @param {UserNotifPreferencesDeleteArgs} args - Arguments to delete one UserNotifPreferences.
+     * @example
+     * // Delete one UserNotifPreferences
+     * const UserNotifPreferences = await prisma.userNotifPreferences.delete({
+     *   where: {
+     *     // ... filter to delete one UserNotifPreferences
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserNotifPreferencesDeleteArgs>(args: SelectSubset<T, UserNotifPreferencesDeleteArgs<ExtArgs>>): Prisma__UserNotifPreferencesClient<$Result.GetResult<Prisma.$UserNotifPreferencesPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one UserNotifPreferences.
+     * @param {UserNotifPreferencesUpdateArgs} args - Arguments to update one UserNotifPreferences.
+     * @example
+     * // Update one UserNotifPreferences
+     * const userNotifPreferences = await prisma.userNotifPreferences.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserNotifPreferencesUpdateArgs>(args: SelectSubset<T, UserNotifPreferencesUpdateArgs<ExtArgs>>): Prisma__UserNotifPreferencesClient<$Result.GetResult<Prisma.$UserNotifPreferencesPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more UserNotifPreferences.
+     * @param {UserNotifPreferencesDeleteManyArgs} args - Arguments to filter UserNotifPreferences to delete.
+     * @example
+     * // Delete a few UserNotifPreferences
+     * const { count } = await prisma.userNotifPreferences.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserNotifPreferencesDeleteManyArgs>(args?: SelectSubset<T, UserNotifPreferencesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserNotifPreferences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserNotifPreferencesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserNotifPreferences
+     * const userNotifPreferences = await prisma.userNotifPreferences.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserNotifPreferencesUpdateManyArgs>(args: SelectSubset<T, UserNotifPreferencesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one UserNotifPreferences.
+     * @param {UserNotifPreferencesUpsertArgs} args - Arguments to update or create a UserNotifPreferences.
+     * @example
+     * // Update or create a UserNotifPreferences
+     * const userNotifPreferences = await prisma.userNotifPreferences.upsert({
+     *   create: {
+     *     // ... data to create a UserNotifPreferences
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserNotifPreferences we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserNotifPreferencesUpsertArgs>(args: SelectSubset<T, UserNotifPreferencesUpsertArgs<ExtArgs>>): Prisma__UserNotifPreferencesClient<$Result.GetResult<Prisma.$UserNotifPreferencesPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of UserNotifPreferences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserNotifPreferencesCountArgs} args - Arguments to filter UserNotifPreferences to count.
+     * @example
+     * // Count the number of UserNotifPreferences
+     * const count = await prisma.userNotifPreferences.count({
+     *   where: {
+     *     // ... the filter for the UserNotifPreferences we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserNotifPreferencesCountArgs>(
+      args?: Subset<T, UserNotifPreferencesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserNotifPreferencesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserNotifPreferences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserNotifPreferencesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserNotifPreferencesAggregateArgs>(args: Subset<T, UserNotifPreferencesAggregateArgs>): Prisma.PrismaPromise<GetUserNotifPreferencesAggregateType<T>>
+
+    /**
+     * Group by UserNotifPreferences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserNotifPreferencesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserNotifPreferencesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserNotifPreferencesGroupByArgs['orderBy'] }
+        : { orderBy?: UserNotifPreferencesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserNotifPreferencesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserNotifPreferencesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserNotifPreferences model
+   */
+  readonly fields: UserNotifPreferencesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserNotifPreferences.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserNotifPreferencesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserNotifPreferences model
+   */ 
+  interface UserNotifPreferencesFieldRefs {
+    readonly userId: FieldRef<"UserNotifPreferences", 'String'>
+    readonly newMessage: FieldRef<"UserNotifPreferences", 'Boolean'>
+    readonly hotSignal: FieldRef<"UserNotifPreferences", 'Boolean'>
+    readonly taskOverdue: FieldRef<"UserNotifPreferences", 'Boolean'>
+    readonly updatedAt: FieldRef<"UserNotifPreferences", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserNotifPreferences findUnique
+   */
+  export type UserNotifPreferencesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotifPreferences
+     */
+    select?: UserNotifPreferencesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotifPreferencesInclude<ExtArgs> | null
+    /**
+     * Filter, which UserNotifPreferences to fetch.
+     */
+    where: UserNotifPreferencesWhereUniqueInput
+  }
+
+  /**
+   * UserNotifPreferences findUniqueOrThrow
+   */
+  export type UserNotifPreferencesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotifPreferences
+     */
+    select?: UserNotifPreferencesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotifPreferencesInclude<ExtArgs> | null
+    /**
+     * Filter, which UserNotifPreferences to fetch.
+     */
+    where: UserNotifPreferencesWhereUniqueInput
+  }
+
+  /**
+   * UserNotifPreferences findFirst
+   */
+  export type UserNotifPreferencesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotifPreferences
+     */
+    select?: UserNotifPreferencesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotifPreferencesInclude<ExtArgs> | null
+    /**
+     * Filter, which UserNotifPreferences to fetch.
+     */
+    where?: UserNotifPreferencesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserNotifPreferences to fetch.
+     */
+    orderBy?: UserNotifPreferencesOrderByWithRelationInput | UserNotifPreferencesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserNotifPreferences.
+     */
+    cursor?: UserNotifPreferencesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserNotifPreferences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserNotifPreferences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserNotifPreferences.
+     */
+    distinct?: UserNotifPreferencesScalarFieldEnum | UserNotifPreferencesScalarFieldEnum[]
+  }
+
+  /**
+   * UserNotifPreferences findFirstOrThrow
+   */
+  export type UserNotifPreferencesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotifPreferences
+     */
+    select?: UserNotifPreferencesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotifPreferencesInclude<ExtArgs> | null
+    /**
+     * Filter, which UserNotifPreferences to fetch.
+     */
+    where?: UserNotifPreferencesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserNotifPreferences to fetch.
+     */
+    orderBy?: UserNotifPreferencesOrderByWithRelationInput | UserNotifPreferencesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserNotifPreferences.
+     */
+    cursor?: UserNotifPreferencesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserNotifPreferences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserNotifPreferences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserNotifPreferences.
+     */
+    distinct?: UserNotifPreferencesScalarFieldEnum | UserNotifPreferencesScalarFieldEnum[]
+  }
+
+  /**
+   * UserNotifPreferences findMany
+   */
+  export type UserNotifPreferencesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotifPreferences
+     */
+    select?: UserNotifPreferencesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotifPreferencesInclude<ExtArgs> | null
+    /**
+     * Filter, which UserNotifPreferences to fetch.
+     */
+    where?: UserNotifPreferencesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserNotifPreferences to fetch.
+     */
+    orderBy?: UserNotifPreferencesOrderByWithRelationInput | UserNotifPreferencesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserNotifPreferences.
+     */
+    cursor?: UserNotifPreferencesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserNotifPreferences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserNotifPreferences.
+     */
+    skip?: number
+    distinct?: UserNotifPreferencesScalarFieldEnum | UserNotifPreferencesScalarFieldEnum[]
+  }
+
+  /**
+   * UserNotifPreferences create
+   */
+  export type UserNotifPreferencesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotifPreferences
+     */
+    select?: UserNotifPreferencesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotifPreferencesInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserNotifPreferences.
+     */
+    data: XOR<UserNotifPreferencesCreateInput, UserNotifPreferencesUncheckedCreateInput>
+  }
+
+  /**
+   * UserNotifPreferences createMany
+   */
+  export type UserNotifPreferencesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserNotifPreferences.
+     */
+    data: UserNotifPreferencesCreateManyInput | UserNotifPreferencesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserNotifPreferences createManyAndReturn
+   */
+  export type UserNotifPreferencesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotifPreferences
+     */
+    select?: UserNotifPreferencesSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many UserNotifPreferences.
+     */
+    data: UserNotifPreferencesCreateManyInput | UserNotifPreferencesCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotifPreferencesIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserNotifPreferences update
+   */
+  export type UserNotifPreferencesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotifPreferences
+     */
+    select?: UserNotifPreferencesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotifPreferencesInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserNotifPreferences.
+     */
+    data: XOR<UserNotifPreferencesUpdateInput, UserNotifPreferencesUncheckedUpdateInput>
+    /**
+     * Choose, which UserNotifPreferences to update.
+     */
+    where: UserNotifPreferencesWhereUniqueInput
+  }
+
+  /**
+   * UserNotifPreferences updateMany
+   */
+  export type UserNotifPreferencesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserNotifPreferences.
+     */
+    data: XOR<UserNotifPreferencesUpdateManyMutationInput, UserNotifPreferencesUncheckedUpdateManyInput>
+    /**
+     * Filter which UserNotifPreferences to update
+     */
+    where?: UserNotifPreferencesWhereInput
+  }
+
+  /**
+   * UserNotifPreferences upsert
+   */
+  export type UserNotifPreferencesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotifPreferences
+     */
+    select?: UserNotifPreferencesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotifPreferencesInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserNotifPreferences to update in case it exists.
+     */
+    where: UserNotifPreferencesWhereUniqueInput
+    /**
+     * In case the UserNotifPreferences found by the `where` argument doesn't exist, create a new UserNotifPreferences with this data.
+     */
+    create: XOR<UserNotifPreferencesCreateInput, UserNotifPreferencesUncheckedCreateInput>
+    /**
+     * In case the UserNotifPreferences was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserNotifPreferencesUpdateInput, UserNotifPreferencesUncheckedUpdateInput>
+  }
+
+  /**
+   * UserNotifPreferences delete
+   */
+  export type UserNotifPreferencesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotifPreferences
+     */
+    select?: UserNotifPreferencesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotifPreferencesInclude<ExtArgs> | null
+    /**
+     * Filter which UserNotifPreferences to delete.
+     */
+    where: UserNotifPreferencesWhereUniqueInput
+  }
+
+  /**
+   * UserNotifPreferences deleteMany
+   */
+  export type UserNotifPreferencesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserNotifPreferences to delete
+     */
+    where?: UserNotifPreferencesWhereInput
+  }
+
+  /**
+   * UserNotifPreferences without action
+   */
+  export type UserNotifPreferencesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotifPreferences
+     */
+    select?: UserNotifPreferencesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotifPreferencesInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model BillingEvent
    */
 
@@ -58746,6 +66735,7 @@ export namespace Prisma {
     trackingLinkId: 'trackingLinkId',
     targetUrl: 'targetUrl',
     targetLabel: 'targetLabel',
+    kind: 'kind',
     createdAt: 'createdAt'
   };
 
@@ -58777,6 +66767,75 @@ export namespace Prisma {
   };
 
   export type LeadScalarFieldEnum = (typeof LeadScalarFieldEnum)[keyof typeof LeadScalarFieldEnum]
+
+
+  export const TagScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    color: 'color',
+    order: 'order',
+    companyId: 'companyId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TagScalarFieldEnum = (typeof TagScalarFieldEnum)[keyof typeof TagScalarFieldEnum]
+
+
+  export const LeadTagScalarFieldEnum: {
+    leadId: 'leadId',
+    tagId: 'tagId',
+    createdAt: 'createdAt'
+  };
+
+  export type LeadTagScalarFieldEnum = (typeof LeadTagScalarFieldEnum)[keyof typeof LeadTagScalarFieldEnum]
+
+
+  export const CustomFieldDefScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    key: 'key',
+    type: 'type',
+    options: 'options',
+    required: 'required',
+    order: 'order',
+    companyId: 'companyId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CustomFieldDefScalarFieldEnum = (typeof CustomFieldDefScalarFieldEnum)[keyof typeof CustomFieldDefScalarFieldEnum]
+
+
+  export const LeadCustomValueScalarFieldEnum: {
+    id: 'id',
+    leadId: 'leadId',
+    fieldId: 'fieldId',
+    value: 'value',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LeadCustomValueScalarFieldEnum = (typeof LeadCustomValueScalarFieldEnum)[keyof typeof LeadCustomValueScalarFieldEnum]
+
+
+  export const TaskScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    dueAt: 'dueAt',
+    done: 'done',
+    doneAt: 'doneAt',
+    notes: 'notes',
+    source: 'source',
+    leadId: 'leadId',
+    companyId: 'companyId',
+    assigneeId: 'assigneeId',
+    createdById: 'createdById',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
 
 
   export const LeadCommentScalarFieldEnum: {
@@ -59407,6 +67466,32 @@ export namespace Prisma {
   export type ScoreRuleConfigScalarFieldEnum = (typeof ScoreRuleConfigScalarFieldEnum)[keyof typeof ScoreRuleConfigScalarFieldEnum]
 
 
+  export const PushSubscriptionScalarFieldEnum: {
+    id: 'id',
+    endpoint: 'endpoint',
+    p256dh: 'p256dh',
+    auth: 'auth',
+    userAgent: 'userAgent',
+    userId: 'userId',
+    lastFailedAt: 'lastFailedAt',
+    failCount: 'failCount',
+    createdAt: 'createdAt'
+  };
+
+  export type PushSubscriptionScalarFieldEnum = (typeof PushSubscriptionScalarFieldEnum)[keyof typeof PushSubscriptionScalarFieldEnum]
+
+
+  export const UserNotifPreferencesScalarFieldEnum: {
+    userId: 'userId',
+    newMessage: 'newMessage',
+    hotSignal: 'hotSignal',
+    taskOverdue: 'taskOverdue',
+    updatedAt: 'updatedAt'
+  };
+
+  export type UserNotifPreferencesScalarFieldEnum = (typeof UserNotifPreferencesScalarFieldEnum)[keyof typeof UserNotifPreferencesScalarFieldEnum]
+
+
   export const BillingEventScalarFieldEnum: {
     id: 'id',
     companyId: 'companyId',
@@ -59618,6 +67703,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ClickEventKind'
+   */
+  export type EnumClickEventKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ClickEventKind'>
+    
+
+
+  /**
+   * Reference to a field of type 'ClickEventKind[]'
+   */
+  export type ListEnumClickEventKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ClickEventKind[]'>
+    
+
+
+  /**
    * Reference to a field of type 'LeadStatus'
    */
   export type EnumLeadStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LeadStatus'>
@@ -59628,6 +67727,41 @@ export namespace Prisma {
    * Reference to a field of type 'LeadStatus[]'
    */
   export type ListEnumLeadStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LeadStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'CustomFieldType'
+   */
+  export type EnumCustomFieldTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CustomFieldType'>
+    
+
+
+  /**
+   * Reference to a field of type 'CustomFieldType[]'
+   */
+  export type ListEnumCustomFieldTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CustomFieldType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'TaskSource'
+   */
+  export type EnumTaskSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskSource'>
+    
+
+
+  /**
+   * Reference to a field of type 'TaskSource[]'
+   */
+  export type ListEnumTaskSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskSource[]'>
     
 
 
@@ -59656,13 +67790,6 @@ export namespace Prisma {
    * Reference to a field of type 'MessageDir[]'
    */
   export type ListEnumMessageDirFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MessageDir[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Json'
-   */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
     
 
 
@@ -59924,6 +68051,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberListRelationFilter
     rewardRedemptions?: RewardRedemptionListRelationFilter
     messagesSent?: MessageListRelationFilter
+    tasksAssigned?: TaskListRelationFilter
+    tasksCreated?: TaskListRelationFilter
+    pushSubscriptions?: PushSubscriptionListRelationFilter
+    notifPreferences?: XOR<UserNotifPreferencesNullableRelationFilter, UserNotifPreferencesWhereInput> | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -59954,6 +68085,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberOrderByRelationAggregateInput
     rewardRedemptions?: RewardRedemptionOrderByRelationAggregateInput
     messagesSent?: MessageOrderByRelationAggregateInput
+    tasksAssigned?: TaskOrderByRelationAggregateInput
+    tasksCreated?: TaskOrderByRelationAggregateInput
+    pushSubscriptions?: PushSubscriptionOrderByRelationAggregateInput
+    notifPreferences?: UserNotifPreferencesOrderByWithRelationInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -59987,6 +68122,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberListRelationFilter
     rewardRedemptions?: RewardRedemptionListRelationFilter
     messagesSent?: MessageListRelationFilter
+    tasksAssigned?: TaskListRelationFilter
+    tasksCreated?: TaskListRelationFilter
+    pushSubscriptions?: PushSubscriptionListRelationFilter
+    notifPreferences?: XOR<UserNotifPreferencesNullableRelationFilter, UserNotifPreferencesWhereInput> | null
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -60288,6 +68427,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigListRelationFilter
     campaigns?: CampaignListRelationFilter
     leads?: LeadListRelationFilter
+    tasks?: TaskListRelationFilter
+    tags?: TagListRelationFilter
+    customFieldDefs?: CustomFieldDefListRelationFilter
     whatsappInstances?: WhatsappInstanceListRelationFilter
     messages?: MessageListRelationFilter
     keywordRules?: KeywordRuleListRelationFilter
@@ -60348,6 +68490,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigOrderByRelationAggregateInput
     campaigns?: CampaignOrderByRelationAggregateInput
     leads?: LeadOrderByRelationAggregateInput
+    tasks?: TaskOrderByRelationAggregateInput
+    tags?: TagOrderByRelationAggregateInput
+    customFieldDefs?: CustomFieldDefOrderByRelationAggregateInput
     whatsappInstances?: WhatsappInstanceOrderByRelationAggregateInput
     messages?: MessageOrderByRelationAggregateInput
     keywordRules?: KeywordRuleOrderByRelationAggregateInput
@@ -60411,6 +68556,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigListRelationFilter
     campaigns?: CampaignListRelationFilter
     leads?: LeadListRelationFilter
+    tasks?: TaskListRelationFilter
+    tags?: TagListRelationFilter
+    customFieldDefs?: CustomFieldDefListRelationFilter
     whatsappInstances?: WhatsappInstanceListRelationFilter
     messages?: MessageListRelationFilter
     keywordRules?: KeywordRuleListRelationFilter
@@ -60706,6 +68854,7 @@ export namespace Prisma {
     trackingLinkId?: StringFilter<"ClickEvent"> | string
     targetUrl?: StringFilter<"ClickEvent"> | string
     targetLabel?: StringNullableFilter<"ClickEvent"> | string | null
+    kind?: EnumClickEventKindFilter<"ClickEvent"> | $Enums.ClickEventKind
     createdAt?: DateTimeFilter<"ClickEvent"> | Date | string
     trackingLink?: XOR<TrackingLinkRelationFilter, TrackingLinkWhereInput>
   }
@@ -60715,6 +68864,7 @@ export namespace Prisma {
     trackingLinkId?: SortOrder
     targetUrl?: SortOrder
     targetLabel?: SortOrderInput | SortOrder
+    kind?: SortOrder
     createdAt?: SortOrder
     trackingLink?: TrackingLinkOrderByWithRelationInput
   }
@@ -60727,6 +68877,7 @@ export namespace Prisma {
     trackingLinkId?: StringFilter<"ClickEvent"> | string
     targetUrl?: StringFilter<"ClickEvent"> | string
     targetLabel?: StringNullableFilter<"ClickEvent"> | string | null
+    kind?: EnumClickEventKindFilter<"ClickEvent"> | $Enums.ClickEventKind
     createdAt?: DateTimeFilter<"ClickEvent"> | Date | string
     trackingLink?: XOR<TrackingLinkRelationFilter, TrackingLinkWhereInput>
   }, "id">
@@ -60736,6 +68887,7 @@ export namespace Prisma {
     trackingLinkId?: SortOrder
     targetUrl?: SortOrder
     targetLabel?: SortOrderInput | SortOrder
+    kind?: SortOrder
     createdAt?: SortOrder
     _count?: ClickEventCountOrderByAggregateInput
     _max?: ClickEventMaxOrderByAggregateInput
@@ -60750,6 +68902,7 @@ export namespace Prisma {
     trackingLinkId?: StringWithAggregatesFilter<"ClickEvent"> | string
     targetUrl?: StringWithAggregatesFilter<"ClickEvent"> | string
     targetLabel?: StringNullableWithAggregatesFilter<"ClickEvent"> | string | null
+    kind?: EnumClickEventKindWithAggregatesFilter<"ClickEvent"> | $Enums.ClickEventKind
     createdAt?: DateTimeWithAggregatesFilter<"ClickEvent"> | Date | string
   }
 
@@ -60785,6 +68938,9 @@ export namespace Prisma {
     messages?: MessageListRelationFilter
     comments?: LeadCommentListRelationFilter
     activities?: ActivityListRelationFilter
+    tasks?: TaskListRelationFilter
+    tags?: LeadTagListRelationFilter
+    customValues?: LeadCustomValueListRelationFilter
   }
 
   export type LeadOrderByWithRelationInput = {
@@ -60816,6 +68972,9 @@ export namespace Prisma {
     messages?: MessageOrderByRelationAggregateInput
     comments?: LeadCommentOrderByRelationAggregateInput
     activities?: ActivityOrderByRelationAggregateInput
+    tasks?: TaskOrderByRelationAggregateInput
+    tags?: LeadTagOrderByRelationAggregateInput
+    customValues?: LeadCustomValueOrderByRelationAggregateInput
   }
 
   export type LeadWhereUniqueInput = Prisma.AtLeast<{
@@ -60850,6 +69009,9 @@ export namespace Prisma {
     messages?: MessageListRelationFilter
     comments?: LeadCommentListRelationFilter
     activities?: ActivityListRelationFilter
+    tasks?: TaskListRelationFilter
+    tags?: LeadTagListRelationFilter
+    customValues?: LeadCustomValueListRelationFilter
   }, "id">
 
   export type LeadOrderByWithAggregationInput = {
@@ -60906,6 +69068,380 @@ export namespace Prisma {
     campaignId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     conversationId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+  }
+
+  export type TagWhereInput = {
+    AND?: TagWhereInput | TagWhereInput[]
+    OR?: TagWhereInput[]
+    NOT?: TagWhereInput | TagWhereInput[]
+    id?: StringFilter<"Tag"> | string
+    name?: StringFilter<"Tag"> | string
+    color?: StringFilter<"Tag"> | string
+    order?: IntFilter<"Tag"> | number
+    companyId?: StringFilter<"Tag"> | string
+    createdAt?: DateTimeFilter<"Tag"> | Date | string
+    updatedAt?: DateTimeFilter<"Tag"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    leads?: LeadTagListRelationFilter
+  }
+
+  export type TagOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    order?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    leads?: LeadTagOrderByRelationAggregateInput
+  }
+
+  export type TagWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_name?: TagCompanyIdNameCompoundUniqueInput
+    AND?: TagWhereInput | TagWhereInput[]
+    OR?: TagWhereInput[]
+    NOT?: TagWhereInput | TagWhereInput[]
+    name?: StringFilter<"Tag"> | string
+    color?: StringFilter<"Tag"> | string
+    order?: IntFilter<"Tag"> | number
+    companyId?: StringFilter<"Tag"> | string
+    createdAt?: DateTimeFilter<"Tag"> | Date | string
+    updatedAt?: DateTimeFilter<"Tag"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    leads?: LeadTagListRelationFilter
+  }, "id" | "companyId_name">
+
+  export type TagOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    order?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TagCountOrderByAggregateInput
+    _avg?: TagAvgOrderByAggregateInput
+    _max?: TagMaxOrderByAggregateInput
+    _min?: TagMinOrderByAggregateInput
+    _sum?: TagSumOrderByAggregateInput
+  }
+
+  export type TagScalarWhereWithAggregatesInput = {
+    AND?: TagScalarWhereWithAggregatesInput | TagScalarWhereWithAggregatesInput[]
+    OR?: TagScalarWhereWithAggregatesInput[]
+    NOT?: TagScalarWhereWithAggregatesInput | TagScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Tag"> | string
+    name?: StringWithAggregatesFilter<"Tag"> | string
+    color?: StringWithAggregatesFilter<"Tag"> | string
+    order?: IntWithAggregatesFilter<"Tag"> | number
+    companyId?: StringWithAggregatesFilter<"Tag"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Tag"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Tag"> | Date | string
+  }
+
+  export type LeadTagWhereInput = {
+    AND?: LeadTagWhereInput | LeadTagWhereInput[]
+    OR?: LeadTagWhereInput[]
+    NOT?: LeadTagWhereInput | LeadTagWhereInput[]
+    leadId?: StringFilter<"LeadTag"> | string
+    tagId?: StringFilter<"LeadTag"> | string
+    createdAt?: DateTimeFilter<"LeadTag"> | Date | string
+    lead?: XOR<LeadRelationFilter, LeadWhereInput>
+    tag?: XOR<TagRelationFilter, TagWhereInput>
+  }
+
+  export type LeadTagOrderByWithRelationInput = {
+    leadId?: SortOrder
+    tagId?: SortOrder
+    createdAt?: SortOrder
+    lead?: LeadOrderByWithRelationInput
+    tag?: TagOrderByWithRelationInput
+  }
+
+  export type LeadTagWhereUniqueInput = Prisma.AtLeast<{
+    leadId_tagId?: LeadTagLeadIdTagIdCompoundUniqueInput
+    AND?: LeadTagWhereInput | LeadTagWhereInput[]
+    OR?: LeadTagWhereInput[]
+    NOT?: LeadTagWhereInput | LeadTagWhereInput[]
+    leadId?: StringFilter<"LeadTag"> | string
+    tagId?: StringFilter<"LeadTag"> | string
+    createdAt?: DateTimeFilter<"LeadTag"> | Date | string
+    lead?: XOR<LeadRelationFilter, LeadWhereInput>
+    tag?: XOR<TagRelationFilter, TagWhereInput>
+  }, "leadId_tagId">
+
+  export type LeadTagOrderByWithAggregationInput = {
+    leadId?: SortOrder
+    tagId?: SortOrder
+    createdAt?: SortOrder
+    _count?: LeadTagCountOrderByAggregateInput
+    _max?: LeadTagMaxOrderByAggregateInput
+    _min?: LeadTagMinOrderByAggregateInput
+  }
+
+  export type LeadTagScalarWhereWithAggregatesInput = {
+    AND?: LeadTagScalarWhereWithAggregatesInput | LeadTagScalarWhereWithAggregatesInput[]
+    OR?: LeadTagScalarWhereWithAggregatesInput[]
+    NOT?: LeadTagScalarWhereWithAggregatesInput | LeadTagScalarWhereWithAggregatesInput[]
+    leadId?: StringWithAggregatesFilter<"LeadTag"> | string
+    tagId?: StringWithAggregatesFilter<"LeadTag"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"LeadTag"> | Date | string
+  }
+
+  export type CustomFieldDefWhereInput = {
+    AND?: CustomFieldDefWhereInput | CustomFieldDefWhereInput[]
+    OR?: CustomFieldDefWhereInput[]
+    NOT?: CustomFieldDefWhereInput | CustomFieldDefWhereInput[]
+    id?: StringFilter<"CustomFieldDef"> | string
+    name?: StringFilter<"CustomFieldDef"> | string
+    key?: StringFilter<"CustomFieldDef"> | string
+    type?: EnumCustomFieldTypeFilter<"CustomFieldDef"> | $Enums.CustomFieldType
+    options?: JsonNullableFilter<"CustomFieldDef">
+    required?: BoolFilter<"CustomFieldDef"> | boolean
+    order?: IntFilter<"CustomFieldDef"> | number
+    companyId?: StringFilter<"CustomFieldDef"> | string
+    createdAt?: DateTimeFilter<"CustomFieldDef"> | Date | string
+    updatedAt?: DateTimeFilter<"CustomFieldDef"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    values?: LeadCustomValueListRelationFilter
+  }
+
+  export type CustomFieldDefOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    key?: SortOrder
+    type?: SortOrder
+    options?: SortOrderInput | SortOrder
+    required?: SortOrder
+    order?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    values?: LeadCustomValueOrderByRelationAggregateInput
+  }
+
+  export type CustomFieldDefWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_key?: CustomFieldDefCompanyIdKeyCompoundUniqueInput
+    AND?: CustomFieldDefWhereInput | CustomFieldDefWhereInput[]
+    OR?: CustomFieldDefWhereInput[]
+    NOT?: CustomFieldDefWhereInput | CustomFieldDefWhereInput[]
+    name?: StringFilter<"CustomFieldDef"> | string
+    key?: StringFilter<"CustomFieldDef"> | string
+    type?: EnumCustomFieldTypeFilter<"CustomFieldDef"> | $Enums.CustomFieldType
+    options?: JsonNullableFilter<"CustomFieldDef">
+    required?: BoolFilter<"CustomFieldDef"> | boolean
+    order?: IntFilter<"CustomFieldDef"> | number
+    companyId?: StringFilter<"CustomFieldDef"> | string
+    createdAt?: DateTimeFilter<"CustomFieldDef"> | Date | string
+    updatedAt?: DateTimeFilter<"CustomFieldDef"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    values?: LeadCustomValueListRelationFilter
+  }, "id" | "companyId_key">
+
+  export type CustomFieldDefOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    key?: SortOrder
+    type?: SortOrder
+    options?: SortOrderInput | SortOrder
+    required?: SortOrder
+    order?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CustomFieldDefCountOrderByAggregateInput
+    _avg?: CustomFieldDefAvgOrderByAggregateInput
+    _max?: CustomFieldDefMaxOrderByAggregateInput
+    _min?: CustomFieldDefMinOrderByAggregateInput
+    _sum?: CustomFieldDefSumOrderByAggregateInput
+  }
+
+  export type CustomFieldDefScalarWhereWithAggregatesInput = {
+    AND?: CustomFieldDefScalarWhereWithAggregatesInput | CustomFieldDefScalarWhereWithAggregatesInput[]
+    OR?: CustomFieldDefScalarWhereWithAggregatesInput[]
+    NOT?: CustomFieldDefScalarWhereWithAggregatesInput | CustomFieldDefScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CustomFieldDef"> | string
+    name?: StringWithAggregatesFilter<"CustomFieldDef"> | string
+    key?: StringWithAggregatesFilter<"CustomFieldDef"> | string
+    type?: EnumCustomFieldTypeWithAggregatesFilter<"CustomFieldDef"> | $Enums.CustomFieldType
+    options?: JsonNullableWithAggregatesFilter<"CustomFieldDef">
+    required?: BoolWithAggregatesFilter<"CustomFieldDef"> | boolean
+    order?: IntWithAggregatesFilter<"CustomFieldDef"> | number
+    companyId?: StringWithAggregatesFilter<"CustomFieldDef"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"CustomFieldDef"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CustomFieldDef"> | Date | string
+  }
+
+  export type LeadCustomValueWhereInput = {
+    AND?: LeadCustomValueWhereInput | LeadCustomValueWhereInput[]
+    OR?: LeadCustomValueWhereInput[]
+    NOT?: LeadCustomValueWhereInput | LeadCustomValueWhereInput[]
+    id?: StringFilter<"LeadCustomValue"> | string
+    leadId?: StringFilter<"LeadCustomValue"> | string
+    fieldId?: StringFilter<"LeadCustomValue"> | string
+    value?: StringFilter<"LeadCustomValue"> | string
+    createdAt?: DateTimeFilter<"LeadCustomValue"> | Date | string
+    updatedAt?: DateTimeFilter<"LeadCustomValue"> | Date | string
+    lead?: XOR<LeadRelationFilter, LeadWhereInput>
+    field?: XOR<CustomFieldDefRelationFilter, CustomFieldDefWhereInput>
+  }
+
+  export type LeadCustomValueOrderByWithRelationInput = {
+    id?: SortOrder
+    leadId?: SortOrder
+    fieldId?: SortOrder
+    value?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    lead?: LeadOrderByWithRelationInput
+    field?: CustomFieldDefOrderByWithRelationInput
+  }
+
+  export type LeadCustomValueWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    leadId_fieldId?: LeadCustomValueLeadIdFieldIdCompoundUniqueInput
+    AND?: LeadCustomValueWhereInput | LeadCustomValueWhereInput[]
+    OR?: LeadCustomValueWhereInput[]
+    NOT?: LeadCustomValueWhereInput | LeadCustomValueWhereInput[]
+    leadId?: StringFilter<"LeadCustomValue"> | string
+    fieldId?: StringFilter<"LeadCustomValue"> | string
+    value?: StringFilter<"LeadCustomValue"> | string
+    createdAt?: DateTimeFilter<"LeadCustomValue"> | Date | string
+    updatedAt?: DateTimeFilter<"LeadCustomValue"> | Date | string
+    lead?: XOR<LeadRelationFilter, LeadWhereInput>
+    field?: XOR<CustomFieldDefRelationFilter, CustomFieldDefWhereInput>
+  }, "id" | "leadId_fieldId">
+
+  export type LeadCustomValueOrderByWithAggregationInput = {
+    id?: SortOrder
+    leadId?: SortOrder
+    fieldId?: SortOrder
+    value?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LeadCustomValueCountOrderByAggregateInput
+    _max?: LeadCustomValueMaxOrderByAggregateInput
+    _min?: LeadCustomValueMinOrderByAggregateInput
+  }
+
+  export type LeadCustomValueScalarWhereWithAggregatesInput = {
+    AND?: LeadCustomValueScalarWhereWithAggregatesInput | LeadCustomValueScalarWhereWithAggregatesInput[]
+    OR?: LeadCustomValueScalarWhereWithAggregatesInput[]
+    NOT?: LeadCustomValueScalarWhereWithAggregatesInput | LeadCustomValueScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LeadCustomValue"> | string
+    leadId?: StringWithAggregatesFilter<"LeadCustomValue"> | string
+    fieldId?: StringWithAggregatesFilter<"LeadCustomValue"> | string
+    value?: StringWithAggregatesFilter<"LeadCustomValue"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"LeadCustomValue"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LeadCustomValue"> | Date | string
+  }
+
+  export type TaskWhereInput = {
+    AND?: TaskWhereInput | TaskWhereInput[]
+    OR?: TaskWhereInput[]
+    NOT?: TaskWhereInput | TaskWhereInput[]
+    id?: StringFilter<"Task"> | string
+    title?: StringFilter<"Task"> | string
+    dueAt?: DateTimeFilter<"Task"> | Date | string
+    done?: BoolFilter<"Task"> | boolean
+    doneAt?: DateTimeNullableFilter<"Task"> | Date | string | null
+    notes?: StringNullableFilter<"Task"> | string | null
+    source?: EnumTaskSourceFilter<"Task"> | $Enums.TaskSource
+    leadId?: StringFilter<"Task"> | string
+    companyId?: StringFilter<"Task"> | string
+    assigneeId?: StringNullableFilter<"Task"> | string | null
+    createdById?: StringNullableFilter<"Task"> | string | null
+    createdAt?: DateTimeFilter<"Task"> | Date | string
+    updatedAt?: DateTimeFilter<"Task"> | Date | string
+    lead?: XOR<LeadRelationFilter, LeadWhereInput>
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    assignee?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+  }
+
+  export type TaskOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    dueAt?: SortOrder
+    done?: SortOrder
+    doneAt?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    source?: SortOrder
+    leadId?: SortOrder
+    companyId?: SortOrder
+    assigneeId?: SortOrderInput | SortOrder
+    createdById?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    lead?: LeadOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
+    assignee?: UserOrderByWithRelationInput
+    createdBy?: UserOrderByWithRelationInput
+  }
+
+  export type TaskWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: TaskWhereInput | TaskWhereInput[]
+    OR?: TaskWhereInput[]
+    NOT?: TaskWhereInput | TaskWhereInput[]
+    title?: StringFilter<"Task"> | string
+    dueAt?: DateTimeFilter<"Task"> | Date | string
+    done?: BoolFilter<"Task"> | boolean
+    doneAt?: DateTimeNullableFilter<"Task"> | Date | string | null
+    notes?: StringNullableFilter<"Task"> | string | null
+    source?: EnumTaskSourceFilter<"Task"> | $Enums.TaskSource
+    leadId?: StringFilter<"Task"> | string
+    companyId?: StringFilter<"Task"> | string
+    assigneeId?: StringNullableFilter<"Task"> | string | null
+    createdById?: StringNullableFilter<"Task"> | string | null
+    createdAt?: DateTimeFilter<"Task"> | Date | string
+    updatedAt?: DateTimeFilter<"Task"> | Date | string
+    lead?: XOR<LeadRelationFilter, LeadWhereInput>
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    assignee?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+  }, "id">
+
+  export type TaskOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    dueAt?: SortOrder
+    done?: SortOrder
+    doneAt?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    source?: SortOrder
+    leadId?: SortOrder
+    companyId?: SortOrder
+    assigneeId?: SortOrderInput | SortOrder
+    createdById?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TaskCountOrderByAggregateInput
+    _max?: TaskMaxOrderByAggregateInput
+    _min?: TaskMinOrderByAggregateInput
+  }
+
+  export type TaskScalarWhereWithAggregatesInput = {
+    AND?: TaskScalarWhereWithAggregatesInput | TaskScalarWhereWithAggregatesInput[]
+    OR?: TaskScalarWhereWithAggregatesInput[]
+    NOT?: TaskScalarWhereWithAggregatesInput | TaskScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Task"> | string
+    title?: StringWithAggregatesFilter<"Task"> | string
+    dueAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
+    done?: BoolWithAggregatesFilter<"Task"> | boolean
+    doneAt?: DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
+    notes?: StringNullableWithAggregatesFilter<"Task"> | string | null
+    source?: EnumTaskSourceWithAggregatesFilter<"Task"> | $Enums.TaskSource
+    leadId?: StringWithAggregatesFilter<"Task"> | string
+    companyId?: StringWithAggregatesFilter<"Task"> | string
+    assigneeId?: StringNullableWithAggregatesFilter<"Task"> | string | null
+    createdById?: StringNullableWithAggregatesFilter<"Task"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
   }
 
   export type LeadCommentWhereInput = {
@@ -64236,6 +72772,138 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"ScoreRuleConfig"> | Date | string
   }
 
+  export type PushSubscriptionWhereInput = {
+    AND?: PushSubscriptionWhereInput | PushSubscriptionWhereInput[]
+    OR?: PushSubscriptionWhereInput[]
+    NOT?: PushSubscriptionWhereInput | PushSubscriptionWhereInput[]
+    id?: StringFilter<"PushSubscription"> | string
+    endpoint?: StringFilter<"PushSubscription"> | string
+    p256dh?: StringFilter<"PushSubscription"> | string
+    auth?: StringFilter<"PushSubscription"> | string
+    userAgent?: StringNullableFilter<"PushSubscription"> | string | null
+    userId?: StringFilter<"PushSubscription"> | string
+    lastFailedAt?: DateTimeNullableFilter<"PushSubscription"> | Date | string | null
+    failCount?: IntFilter<"PushSubscription"> | number
+    createdAt?: DateTimeFilter<"PushSubscription"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type PushSubscriptionOrderByWithRelationInput = {
+    id?: SortOrder
+    endpoint?: SortOrder
+    p256dh?: SortOrder
+    auth?: SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    lastFailedAt?: SortOrderInput | SortOrder
+    failCount?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type PushSubscriptionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    endpoint?: string
+    AND?: PushSubscriptionWhereInput | PushSubscriptionWhereInput[]
+    OR?: PushSubscriptionWhereInput[]
+    NOT?: PushSubscriptionWhereInput | PushSubscriptionWhereInput[]
+    p256dh?: StringFilter<"PushSubscription"> | string
+    auth?: StringFilter<"PushSubscription"> | string
+    userAgent?: StringNullableFilter<"PushSubscription"> | string | null
+    userId?: StringFilter<"PushSubscription"> | string
+    lastFailedAt?: DateTimeNullableFilter<"PushSubscription"> | Date | string | null
+    failCount?: IntFilter<"PushSubscription"> | number
+    createdAt?: DateTimeFilter<"PushSubscription"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id" | "endpoint">
+
+  export type PushSubscriptionOrderByWithAggregationInput = {
+    id?: SortOrder
+    endpoint?: SortOrder
+    p256dh?: SortOrder
+    auth?: SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    lastFailedAt?: SortOrderInput | SortOrder
+    failCount?: SortOrder
+    createdAt?: SortOrder
+    _count?: PushSubscriptionCountOrderByAggregateInput
+    _avg?: PushSubscriptionAvgOrderByAggregateInput
+    _max?: PushSubscriptionMaxOrderByAggregateInput
+    _min?: PushSubscriptionMinOrderByAggregateInput
+    _sum?: PushSubscriptionSumOrderByAggregateInput
+  }
+
+  export type PushSubscriptionScalarWhereWithAggregatesInput = {
+    AND?: PushSubscriptionScalarWhereWithAggregatesInput | PushSubscriptionScalarWhereWithAggregatesInput[]
+    OR?: PushSubscriptionScalarWhereWithAggregatesInput[]
+    NOT?: PushSubscriptionScalarWhereWithAggregatesInput | PushSubscriptionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PushSubscription"> | string
+    endpoint?: StringWithAggregatesFilter<"PushSubscription"> | string
+    p256dh?: StringWithAggregatesFilter<"PushSubscription"> | string
+    auth?: StringWithAggregatesFilter<"PushSubscription"> | string
+    userAgent?: StringNullableWithAggregatesFilter<"PushSubscription"> | string | null
+    userId?: StringWithAggregatesFilter<"PushSubscription"> | string
+    lastFailedAt?: DateTimeNullableWithAggregatesFilter<"PushSubscription"> | Date | string | null
+    failCount?: IntWithAggregatesFilter<"PushSubscription"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"PushSubscription"> | Date | string
+  }
+
+  export type UserNotifPreferencesWhereInput = {
+    AND?: UserNotifPreferencesWhereInput | UserNotifPreferencesWhereInput[]
+    OR?: UserNotifPreferencesWhereInput[]
+    NOT?: UserNotifPreferencesWhereInput | UserNotifPreferencesWhereInput[]
+    userId?: StringFilter<"UserNotifPreferences"> | string
+    newMessage?: BoolFilter<"UserNotifPreferences"> | boolean
+    hotSignal?: BoolFilter<"UserNotifPreferences"> | boolean
+    taskOverdue?: BoolFilter<"UserNotifPreferences"> | boolean
+    updatedAt?: DateTimeFilter<"UserNotifPreferences"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type UserNotifPreferencesOrderByWithRelationInput = {
+    userId?: SortOrder
+    newMessage?: SortOrder
+    hotSignal?: SortOrder
+    taskOverdue?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserNotifPreferencesWhereUniqueInput = Prisma.AtLeast<{
+    userId?: string
+    AND?: UserNotifPreferencesWhereInput | UserNotifPreferencesWhereInput[]
+    OR?: UserNotifPreferencesWhereInput[]
+    NOT?: UserNotifPreferencesWhereInput | UserNotifPreferencesWhereInput[]
+    newMessage?: BoolFilter<"UserNotifPreferences"> | boolean
+    hotSignal?: BoolFilter<"UserNotifPreferences"> | boolean
+    taskOverdue?: BoolFilter<"UserNotifPreferences"> | boolean
+    updatedAt?: DateTimeFilter<"UserNotifPreferences"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "userId">
+
+  export type UserNotifPreferencesOrderByWithAggregationInput = {
+    userId?: SortOrder
+    newMessage?: SortOrder
+    hotSignal?: SortOrder
+    taskOverdue?: SortOrder
+    updatedAt?: SortOrder
+    _count?: UserNotifPreferencesCountOrderByAggregateInput
+    _max?: UserNotifPreferencesMaxOrderByAggregateInput
+    _min?: UserNotifPreferencesMinOrderByAggregateInput
+  }
+
+  export type UserNotifPreferencesScalarWhereWithAggregatesInput = {
+    AND?: UserNotifPreferencesScalarWhereWithAggregatesInput | UserNotifPreferencesScalarWhereWithAggregatesInput[]
+    OR?: UserNotifPreferencesScalarWhereWithAggregatesInput[]
+    NOT?: UserNotifPreferencesScalarWhereWithAggregatesInput | UserNotifPreferencesScalarWhereWithAggregatesInput[]
+    userId?: StringWithAggregatesFilter<"UserNotifPreferences"> | string
+    newMessage?: BoolWithAggregatesFilter<"UserNotifPreferences"> | boolean
+    hotSignal?: BoolWithAggregatesFilter<"UserNotifPreferences"> | boolean
+    taskOverdue?: BoolWithAggregatesFilter<"UserNotifPreferences"> | boolean
+    updatedAt?: DateTimeWithAggregatesFilter<"UserNotifPreferences"> | Date | string
+  }
+
   export type BillingEventWhereInput = {
     AND?: BillingEventWhereInput | BillingEventWhereInput[]
     OR?: BillingEventWhereInput[]
@@ -64417,6 +73085,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -64446,6 +73118,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -64475,6 +73151,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -64504,6 +73184,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -64828,6 +73512,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -64887,6 +73574,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -64946,6 +73636,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -65005,6 +73698,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -65340,6 +74036,7 @@ export namespace Prisma {
     id?: string
     targetUrl: string
     targetLabel?: string | null
+    kind?: $Enums.ClickEventKind
     createdAt?: Date | string
     trackingLink: TrackingLinkCreateNestedOneWithoutClickEventsInput
   }
@@ -65349,6 +74046,7 @@ export namespace Prisma {
     trackingLinkId: string
     targetUrl: string
     targetLabel?: string | null
+    kind?: $Enums.ClickEventKind
     createdAt?: Date | string
   }
 
@@ -65356,6 +74054,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     targetUrl?: StringFieldUpdateOperationsInput | string
     targetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    kind?: EnumClickEventKindFieldUpdateOperationsInput | $Enums.ClickEventKind
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trackingLink?: TrackingLinkUpdateOneRequiredWithoutClickEventsNestedInput
   }
@@ -65365,6 +74064,7 @@ export namespace Prisma {
     trackingLinkId?: StringFieldUpdateOperationsInput | string
     targetUrl?: StringFieldUpdateOperationsInput | string
     targetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    kind?: EnumClickEventKindFieldUpdateOperationsInput | $Enums.ClickEventKind
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -65373,6 +74073,7 @@ export namespace Prisma {
     trackingLinkId: string
     targetUrl: string
     targetLabel?: string | null
+    kind?: $Enums.ClickEventKind
     createdAt?: Date | string
   }
 
@@ -65380,6 +74081,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     targetUrl?: StringFieldUpdateOperationsInput | string
     targetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    kind?: EnumClickEventKindFieldUpdateOperationsInput | $Enums.ClickEventKind
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -65388,6 +74090,7 @@ export namespace Prisma {
     trackingLinkId?: StringFieldUpdateOperationsInput | string
     targetUrl?: StringFieldUpdateOperationsInput | string
     targetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    kind?: EnumClickEventKindFieldUpdateOperationsInput | $Enums.ClickEventKind
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -65416,6 +74119,9 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutLeadInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
     activities?: ActivityCreateNestedManyWithoutLeadInput
+    tasks?: TaskCreateNestedManyWithoutLeadInput
+    tags?: LeadTagCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateInput = {
@@ -65443,6 +74149,9 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
     activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutLeadInput
+    tags?: LeadTagUncheckedCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUpdateInput = {
@@ -65470,6 +74179,9 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
     activities?: ActivityUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateInput = {
@@ -65497,6 +74209,9 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUncheckedUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadCreateManyInput = {
@@ -65565,6 +74280,382 @@ export namespace Prisma {
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TagCreateInput = {
+    id?: string
+    name: string
+    color?: string
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutTagsInput
+    leads?: LeadTagCreateNestedManyWithoutTagInput
+  }
+
+  export type TagUncheckedCreateInput = {
+    id?: string
+    name: string
+    color?: string
+    order?: number
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    leads?: LeadTagUncheckedCreateNestedManyWithoutTagInput
+  }
+
+  export type TagUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutTagsNestedInput
+    leads?: LeadTagUpdateManyWithoutTagNestedInput
+  }
+
+  export type TagUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leads?: LeadTagUncheckedUpdateManyWithoutTagNestedInput
+  }
+
+  export type TagCreateManyInput = {
+    id?: string
+    name: string
+    color?: string
+    order?: number
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TagUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TagUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadTagCreateInput = {
+    createdAt?: Date | string
+    lead: LeadCreateNestedOneWithoutTagsInput
+    tag: TagCreateNestedOneWithoutLeadsInput
+  }
+
+  export type LeadTagUncheckedCreateInput = {
+    leadId: string
+    tagId: string
+    createdAt?: Date | string
+  }
+
+  export type LeadTagUpdateInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lead?: LeadUpdateOneRequiredWithoutTagsNestedInput
+    tag?: TagUpdateOneRequiredWithoutLeadsNestedInput
+  }
+
+  export type LeadTagUncheckedUpdateInput = {
+    leadId?: StringFieldUpdateOperationsInput | string
+    tagId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadTagCreateManyInput = {
+    leadId: string
+    tagId: string
+    createdAt?: Date | string
+  }
+
+  export type LeadTagUpdateManyMutationInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadTagUncheckedUpdateManyInput = {
+    leadId?: StringFieldUpdateOperationsInput | string
+    tagId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomFieldDefCreateInput = {
+    id?: string
+    name: string
+    key: string
+    type?: $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: boolean
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutCustomFieldDefsInput
+    values?: LeadCustomValueCreateNestedManyWithoutFieldInput
+  }
+
+  export type CustomFieldDefUncheckedCreateInput = {
+    id?: string
+    name: string
+    key: string
+    type?: $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: boolean
+    order?: number
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    values?: LeadCustomValueUncheckedCreateNestedManyWithoutFieldInput
+  }
+
+  export type CustomFieldDefUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutCustomFieldDefsNestedInput
+    values?: LeadCustomValueUpdateManyWithoutFieldNestedInput
+  }
+
+  export type CustomFieldDefUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    values?: LeadCustomValueUncheckedUpdateManyWithoutFieldNestedInput
+  }
+
+  export type CustomFieldDefCreateManyInput = {
+    id?: string
+    name: string
+    key: string
+    type?: $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: boolean
+    order?: number
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomFieldDefUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomFieldDefUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadCustomValueCreateInput = {
+    id?: string
+    value: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lead: LeadCreateNestedOneWithoutCustomValuesInput
+    field: CustomFieldDefCreateNestedOneWithoutValuesInput
+  }
+
+  export type LeadCustomValueUncheckedCreateInput = {
+    id?: string
+    leadId: string
+    fieldId: string
+    value: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeadCustomValueUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lead?: LeadUpdateOneRequiredWithoutCustomValuesNestedInput
+    field?: CustomFieldDefUpdateOneRequiredWithoutValuesNestedInput
+  }
+
+  export type LeadCustomValueUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    leadId?: StringFieldUpdateOperationsInput | string
+    fieldId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadCustomValueCreateManyInput = {
+    id?: string
+    leadId: string
+    fieldId: string
+    value: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeadCustomValueUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadCustomValueUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    leadId?: StringFieldUpdateOperationsInput | string
+    fieldId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TaskCreateInput = {
+    id?: string
+    title: string
+    dueAt: Date | string
+    done?: boolean
+    doneAt?: Date | string | null
+    notes?: string | null
+    source?: $Enums.TaskSource
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lead: LeadCreateNestedOneWithoutTasksInput
+    company: CompanyCreateNestedOneWithoutTasksInput
+    assignee?: UserCreateNestedOneWithoutTasksAssignedInput
+    createdBy?: UserCreateNestedOneWithoutTasksCreatedInput
+  }
+
+  export type TaskUncheckedCreateInput = {
+    id?: string
+    title: string
+    dueAt: Date | string
+    done?: boolean
+    doneAt?: Date | string | null
+    notes?: string | null
+    source?: $Enums.TaskSource
+    leadId: string
+    companyId: string
+    assigneeId?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TaskUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    dueAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumTaskSourceFieldUpdateOperationsInput | $Enums.TaskSource
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lead?: LeadUpdateOneRequiredWithoutTasksNestedInput
+    company?: CompanyUpdateOneRequiredWithoutTasksNestedInput
+    assignee?: UserUpdateOneWithoutTasksAssignedNestedInput
+    createdBy?: UserUpdateOneWithoutTasksCreatedNestedInput
+  }
+
+  export type TaskUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    dueAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumTaskSourceFieldUpdateOperationsInput | $Enums.TaskSource
+    leadId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TaskCreateManyInput = {
+    id?: string
+    title: string
+    dueAt: Date | string
+    done?: boolean
+    doneAt?: Date | string | null
+    notes?: string | null
+    source?: $Enums.TaskSource
+    leadId: string
+    companyId: string
+    assigneeId?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TaskUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    dueAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumTaskSourceFieldUpdateOperationsInput | $Enums.TaskSource
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TaskUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    dueAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumTaskSourceFieldUpdateOperationsInput | $Enums.TaskSource
+    leadId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LeadCommentCreateInput = {
@@ -69185,6 +78276,144 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PushSubscriptionCreateInput = {
+    id?: string
+    endpoint: string
+    p256dh: string
+    auth: string
+    userAgent?: string | null
+    lastFailedAt?: Date | string | null
+    failCount?: number
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutPushSubscriptionsInput
+  }
+
+  export type PushSubscriptionUncheckedCreateInput = {
+    id?: string
+    endpoint: string
+    p256dh: string
+    auth: string
+    userAgent?: string | null
+    userId: string
+    lastFailedAt?: Date | string | null
+    failCount?: number
+    createdAt?: Date | string
+  }
+
+  export type PushSubscriptionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    endpoint?: StringFieldUpdateOperationsInput | string
+    p256dh?: StringFieldUpdateOperationsInput | string
+    auth?: StringFieldUpdateOperationsInput | string
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    lastFailedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPushSubscriptionsNestedInput
+  }
+
+  export type PushSubscriptionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    endpoint?: StringFieldUpdateOperationsInput | string
+    p256dh?: StringFieldUpdateOperationsInput | string
+    auth?: StringFieldUpdateOperationsInput | string
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    lastFailedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PushSubscriptionCreateManyInput = {
+    id?: string
+    endpoint: string
+    p256dh: string
+    auth: string
+    userAgent?: string | null
+    userId: string
+    lastFailedAt?: Date | string | null
+    failCount?: number
+    createdAt?: Date | string
+  }
+
+  export type PushSubscriptionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    endpoint?: StringFieldUpdateOperationsInput | string
+    p256dh?: StringFieldUpdateOperationsInput | string
+    auth?: StringFieldUpdateOperationsInput | string
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    lastFailedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PushSubscriptionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    endpoint?: StringFieldUpdateOperationsInput | string
+    p256dh?: StringFieldUpdateOperationsInput | string
+    auth?: StringFieldUpdateOperationsInput | string
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    lastFailedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserNotifPreferencesCreateInput = {
+    newMessage?: boolean
+    hotSignal?: boolean
+    taskOverdue?: boolean
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutNotifPreferencesInput
+  }
+
+  export type UserNotifPreferencesUncheckedCreateInput = {
+    userId: string
+    newMessage?: boolean
+    hotSignal?: boolean
+    taskOverdue?: boolean
+    updatedAt?: Date | string
+  }
+
+  export type UserNotifPreferencesUpdateInput = {
+    newMessage?: BoolFieldUpdateOperationsInput | boolean
+    hotSignal?: BoolFieldUpdateOperationsInput | boolean
+    taskOverdue?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutNotifPreferencesNestedInput
+  }
+
+  export type UserNotifPreferencesUncheckedUpdateInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    newMessage?: BoolFieldUpdateOperationsInput | boolean
+    hotSignal?: BoolFieldUpdateOperationsInput | boolean
+    taskOverdue?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserNotifPreferencesCreateManyInput = {
+    userId: string
+    newMessage?: boolean
+    hotSignal?: boolean
+    taskOverdue?: boolean
+    updatedAt?: Date | string
+  }
+
+  export type UserNotifPreferencesUpdateManyMutationInput = {
+    newMessage?: BoolFieldUpdateOperationsInput | boolean
+    hotSignal?: BoolFieldUpdateOperationsInput | boolean
+    taskOverdue?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserNotifPreferencesUncheckedUpdateManyInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    newMessage?: BoolFieldUpdateOperationsInput | boolean
+    hotSignal?: BoolFieldUpdateOperationsInput | boolean
+    taskOverdue?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BillingEventCreateInput = {
     id?: string
     type: string
@@ -69512,6 +78741,23 @@ export namespace Prisma {
     none?: MessageWhereInput
   }
 
+  export type TaskListRelationFilter = {
+    every?: TaskWhereInput
+    some?: TaskWhereInput
+    none?: TaskWhereInput
+  }
+
+  export type PushSubscriptionListRelationFilter = {
+    every?: PushSubscriptionWhereInput
+    some?: PushSubscriptionWhereInput
+    none?: PushSubscriptionWhereInput
+  }
+
+  export type UserNotifPreferencesNullableRelationFilter = {
+    is?: UserNotifPreferencesWhereInput | null
+    isNot?: UserNotifPreferencesWhereInput | null
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -69562,6 +78808,14 @@ export namespace Prisma {
   }
 
   export type MessageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TaskOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PushSubscriptionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -69913,6 +79167,18 @@ export namespace Prisma {
     none?: LeadWhereInput
   }
 
+  export type TagListRelationFilter = {
+    every?: TagWhereInput
+    some?: TagWhereInput
+    none?: TagWhereInput
+  }
+
+  export type CustomFieldDefListRelationFilter = {
+    every?: CustomFieldDefWhereInput
+    some?: CustomFieldDefWhereInput
+    none?: CustomFieldDefWhereInput
+  }
+
   export type WhatsappInstanceListRelationFilter = {
     every?: WhatsappInstanceWhereInput
     some?: WhatsappInstanceWhereInput
@@ -70043,6 +79309,14 @@ export namespace Prisma {
   }
 
   export type LeadOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TagOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CustomFieldDefOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -70390,6 +79664,13 @@ export namespace Prisma {
     clicks?: SortOrder
   }
 
+  export type EnumClickEventKindFilter<$PrismaModel = never> = {
+    equals?: $Enums.ClickEventKind | EnumClickEventKindFieldRefInput<$PrismaModel>
+    in?: $Enums.ClickEventKind[] | ListEnumClickEventKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ClickEventKind[] | ListEnumClickEventKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumClickEventKindFilter<$PrismaModel> | $Enums.ClickEventKind
+  }
+
   export type TrackingLinkRelationFilter = {
     is?: TrackingLinkWhereInput
     isNot?: TrackingLinkWhereInput
@@ -70400,6 +79681,7 @@ export namespace Prisma {
     trackingLinkId?: SortOrder
     targetUrl?: SortOrder
     targetLabel?: SortOrder
+    kind?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -70408,6 +79690,7 @@ export namespace Prisma {
     trackingLinkId?: SortOrder
     targetUrl?: SortOrder
     targetLabel?: SortOrder
+    kind?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -70416,7 +79699,18 @@ export namespace Prisma {
     trackingLinkId?: SortOrder
     targetUrl?: SortOrder
     targetLabel?: SortOrder
+    kind?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type EnumClickEventKindWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ClickEventKind | EnumClickEventKindFieldRefInput<$PrismaModel>
+    in?: $Enums.ClickEventKind[] | ListEnumClickEventKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ClickEventKind[] | ListEnumClickEventKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumClickEventKindWithAggregatesFilter<$PrismaModel> | $Enums.ClickEventKind
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumClickEventKindFilter<$PrismaModel>
+    _max?: NestedEnumClickEventKindFilter<$PrismaModel>
   }
 
   export type EnumLeadStatusFilter<$PrismaModel = never> = {
@@ -70442,7 +79736,27 @@ export namespace Prisma {
     none?: LeadCommentWhereInput
   }
 
+  export type LeadTagListRelationFilter = {
+    every?: LeadTagWhereInput
+    some?: LeadTagWhereInput
+    none?: LeadTagWhereInput
+  }
+
+  export type LeadCustomValueListRelationFilter = {
+    every?: LeadCustomValueWhereInput
+    some?: LeadCustomValueWhereInput
+    none?: LeadCustomValueWhereInput
+  }
+
   export type LeadCommentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LeadTagOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LeadCustomValueOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -70536,9 +79850,301 @@ export namespace Prisma {
     _max?: NestedEnumLeadStatusFilter<$PrismaModel>
   }
 
+  export type TagCompanyIdNameCompoundUniqueInput = {
+    companyId: string
+    name: string
+  }
+
+  export type TagCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    order?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TagAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type TagMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    order?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TagMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    color?: SortOrder
+    order?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TagSumOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
   export type LeadRelationFilter = {
     is?: LeadWhereInput
     isNot?: LeadWhereInput
+  }
+
+  export type TagRelationFilter = {
+    is?: TagWhereInput
+    isNot?: TagWhereInput
+  }
+
+  export type LeadTagLeadIdTagIdCompoundUniqueInput = {
+    leadId: string
+    tagId: string
+  }
+
+  export type LeadTagCountOrderByAggregateInput = {
+    leadId?: SortOrder
+    tagId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LeadTagMaxOrderByAggregateInput = {
+    leadId?: SortOrder
+    tagId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LeadTagMinOrderByAggregateInput = {
+    leadId?: SortOrder
+    tagId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumCustomFieldTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.CustomFieldType | EnumCustomFieldTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CustomFieldType[] | ListEnumCustomFieldTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CustomFieldType[] | ListEnumCustomFieldTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCustomFieldTypeFilter<$PrismaModel> | $Enums.CustomFieldType
+  }
+  export type JsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type CustomFieldDefCompanyIdKeyCompoundUniqueInput = {
+    companyId: string
+    key: string
+  }
+
+  export type CustomFieldDefCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    key?: SortOrder
+    type?: SortOrder
+    options?: SortOrder
+    required?: SortOrder
+    order?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomFieldDefAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type CustomFieldDefMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    key?: SortOrder
+    type?: SortOrder
+    required?: SortOrder
+    order?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomFieldDefMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    key?: SortOrder
+    type?: SortOrder
+    required?: SortOrder
+    order?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomFieldDefSumOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type EnumCustomFieldTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CustomFieldType | EnumCustomFieldTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CustomFieldType[] | ListEnumCustomFieldTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CustomFieldType[] | ListEnumCustomFieldTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCustomFieldTypeWithAggregatesFilter<$PrismaModel> | $Enums.CustomFieldType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCustomFieldTypeFilter<$PrismaModel>
+    _max?: NestedEnumCustomFieldTypeFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type CustomFieldDefRelationFilter = {
+    is?: CustomFieldDefWhereInput
+    isNot?: CustomFieldDefWhereInput
+  }
+
+  export type LeadCustomValueLeadIdFieldIdCompoundUniqueInput = {
+    leadId: string
+    fieldId: string
+  }
+
+  export type LeadCustomValueCountOrderByAggregateInput = {
+    id?: SortOrder
+    leadId?: SortOrder
+    fieldId?: SortOrder
+    value?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LeadCustomValueMaxOrderByAggregateInput = {
+    id?: SortOrder
+    leadId?: SortOrder
+    fieldId?: SortOrder
+    value?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LeadCustomValueMinOrderByAggregateInput = {
+    id?: SortOrder
+    leadId?: SortOrder
+    fieldId?: SortOrder
+    value?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumTaskSourceFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskSource | EnumTaskSourceFieldRefInput<$PrismaModel>
+    in?: $Enums.TaskSource[] | ListEnumTaskSourceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TaskSource[] | ListEnumTaskSourceFieldRefInput<$PrismaModel>
+    not?: NestedEnumTaskSourceFilter<$PrismaModel> | $Enums.TaskSource
+  }
+
+  export type UserNullableRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
+  export type TaskCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    dueAt?: SortOrder
+    done?: SortOrder
+    doneAt?: SortOrder
+    notes?: SortOrder
+    source?: SortOrder
+    leadId?: SortOrder
+    companyId?: SortOrder
+    assigneeId?: SortOrder
+    createdById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TaskMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    dueAt?: SortOrder
+    done?: SortOrder
+    doneAt?: SortOrder
+    notes?: SortOrder
+    source?: SortOrder
+    leadId?: SortOrder
+    companyId?: SortOrder
+    assigneeId?: SortOrder
+    createdById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TaskMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    dueAt?: SortOrder
+    done?: SortOrder
+    doneAt?: SortOrder
+    notes?: SortOrder
+    source?: SortOrder
+    leadId?: SortOrder
+    companyId?: SortOrder
+    assigneeId?: SortOrder
+    createdById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumTaskSourceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskSource | EnumTaskSourceFieldRefInput<$PrismaModel>
+    in?: $Enums.TaskSource[] | ListEnumTaskSourceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TaskSource[] | ListEnumTaskSourceFieldRefInput<$PrismaModel>
+    not?: NestedEnumTaskSourceWithAggregatesFilter<$PrismaModel> | $Enums.TaskSource
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTaskSourceFilter<$PrismaModel>
+    _max?: NestedEnumTaskSourceFilter<$PrismaModel>
   }
 
   export type LeadCommentCountOrderByAggregateInput = {
@@ -70607,11 +80213,6 @@ export namespace Prisma {
 
   export type PipelineStageConfigSumOrderByAggregateInput = {
     order?: SortOrder
-  }
-
-  export type UserNullableRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
   }
 
   export type CompanyContactCompanyIdPhoneCompoundUniqueInput = {
@@ -70737,28 +80338,6 @@ export namespace Prisma {
     notIn?: $Enums.LeadStatus[] | ListEnumLeadStatusFieldRefInput<$PrismaModel> | null
     not?: NestedEnumLeadStatusNullableFilter<$PrismaModel> | $Enums.LeadStatus | null
   }
-  export type JsonNullableFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type IntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
@@ -70880,31 +80459,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumLeadStatusNullableFilter<$PrismaModel>
     _max?: NestedEnumLeadStatusNullableFilter<$PrismaModel>
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -72969,6 +82523,74 @@ export namespace Prisma {
     points?: SortOrder
   }
 
+  export type PushSubscriptionCountOrderByAggregateInput = {
+    id?: SortOrder
+    endpoint?: SortOrder
+    p256dh?: SortOrder
+    auth?: SortOrder
+    userAgent?: SortOrder
+    userId?: SortOrder
+    lastFailedAt?: SortOrder
+    failCount?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PushSubscriptionAvgOrderByAggregateInput = {
+    failCount?: SortOrder
+  }
+
+  export type PushSubscriptionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    endpoint?: SortOrder
+    p256dh?: SortOrder
+    auth?: SortOrder
+    userAgent?: SortOrder
+    userId?: SortOrder
+    lastFailedAt?: SortOrder
+    failCount?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PushSubscriptionMinOrderByAggregateInput = {
+    id?: SortOrder
+    endpoint?: SortOrder
+    p256dh?: SortOrder
+    auth?: SortOrder
+    userAgent?: SortOrder
+    userId?: SortOrder
+    lastFailedAt?: SortOrder
+    failCount?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PushSubscriptionSumOrderByAggregateInput = {
+    failCount?: SortOrder
+  }
+
+  export type UserNotifPreferencesCountOrderByAggregateInput = {
+    userId?: SortOrder
+    newMessage?: SortOrder
+    hotSignal?: SortOrder
+    taskOverdue?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserNotifPreferencesMaxOrderByAggregateInput = {
+    userId?: SortOrder
+    newMessage?: SortOrder
+    hotSignal?: SortOrder
+    taskOverdue?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserNotifPreferencesMinOrderByAggregateInput = {
+    userId?: SortOrder
+    newMessage?: SortOrder
+    hotSignal?: SortOrder
+    taskOverdue?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type BillingEventCountOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
@@ -73151,6 +82773,33 @@ export namespace Prisma {
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
+  export type TaskCreateNestedManyWithoutAssigneeInput = {
+    create?: XOR<TaskCreateWithoutAssigneeInput, TaskUncheckedCreateWithoutAssigneeInput> | TaskCreateWithoutAssigneeInput[] | TaskUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutAssigneeInput | TaskCreateOrConnectWithoutAssigneeInput[]
+    createMany?: TaskCreateManyAssigneeInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+  }
+
+  export type TaskCreateNestedManyWithoutCreatedByInput = {
+    create?: XOR<TaskCreateWithoutCreatedByInput, TaskUncheckedCreateWithoutCreatedByInput> | TaskCreateWithoutCreatedByInput[] | TaskUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutCreatedByInput | TaskCreateOrConnectWithoutCreatedByInput[]
+    createMany?: TaskCreateManyCreatedByInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+  }
+
+  export type PushSubscriptionCreateNestedManyWithoutUserInput = {
+    create?: XOR<PushSubscriptionCreateWithoutUserInput, PushSubscriptionUncheckedCreateWithoutUserInput> | PushSubscriptionCreateWithoutUserInput[] | PushSubscriptionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PushSubscriptionCreateOrConnectWithoutUserInput | PushSubscriptionCreateOrConnectWithoutUserInput[]
+    createMany?: PushSubscriptionCreateManyUserInputEnvelope
+    connect?: PushSubscriptionWhereUniqueInput | PushSubscriptionWhereUniqueInput[]
+  }
+
+  export type UserNotifPreferencesCreateNestedOneWithoutUserInput = {
+    create?: XOR<UserNotifPreferencesCreateWithoutUserInput, UserNotifPreferencesUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserNotifPreferencesCreateOrConnectWithoutUserInput
+    connect?: UserNotifPreferencesWhereUniqueInput
+  }
+
   export type TicketUncheckedCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -73246,6 +82895,33 @@ export namespace Prisma {
     connectOrCreate?: MessageCreateOrConnectWithoutSentByInput | MessageCreateOrConnectWithoutSentByInput[]
     createMany?: MessageCreateManySentByInputEnvelope
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type TaskUncheckedCreateNestedManyWithoutAssigneeInput = {
+    create?: XOR<TaskCreateWithoutAssigneeInput, TaskUncheckedCreateWithoutAssigneeInput> | TaskCreateWithoutAssigneeInput[] | TaskUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutAssigneeInput | TaskCreateOrConnectWithoutAssigneeInput[]
+    createMany?: TaskCreateManyAssigneeInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+  }
+
+  export type TaskUncheckedCreateNestedManyWithoutCreatedByInput = {
+    create?: XOR<TaskCreateWithoutCreatedByInput, TaskUncheckedCreateWithoutCreatedByInput> | TaskCreateWithoutCreatedByInput[] | TaskUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutCreatedByInput | TaskCreateOrConnectWithoutCreatedByInput[]
+    createMany?: TaskCreateManyCreatedByInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+  }
+
+  export type PushSubscriptionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PushSubscriptionCreateWithoutUserInput, PushSubscriptionUncheckedCreateWithoutUserInput> | PushSubscriptionCreateWithoutUserInput[] | PushSubscriptionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PushSubscriptionCreateOrConnectWithoutUserInput | PushSubscriptionCreateOrConnectWithoutUserInput[]
+    createMany?: PushSubscriptionCreateManyUserInputEnvelope
+    connect?: PushSubscriptionWhereUniqueInput | PushSubscriptionWhereUniqueInput[]
+  }
+
+  export type UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<UserNotifPreferencesCreateWithoutUserInput, UserNotifPreferencesUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserNotifPreferencesCreateOrConnectWithoutUserInput
+    connect?: UserNotifPreferencesWhereUniqueInput
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -73478,6 +83154,58 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
+  export type TaskUpdateManyWithoutAssigneeNestedInput = {
+    create?: XOR<TaskCreateWithoutAssigneeInput, TaskUncheckedCreateWithoutAssigneeInput> | TaskCreateWithoutAssigneeInput[] | TaskUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutAssigneeInput | TaskCreateOrConnectWithoutAssigneeInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutAssigneeInput | TaskUpsertWithWhereUniqueWithoutAssigneeInput[]
+    createMany?: TaskCreateManyAssigneeInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutAssigneeInput | TaskUpdateWithWhereUniqueWithoutAssigneeInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutAssigneeInput | TaskUpdateManyWithWhereWithoutAssigneeInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
+  }
+
+  export type TaskUpdateManyWithoutCreatedByNestedInput = {
+    create?: XOR<TaskCreateWithoutCreatedByInput, TaskUncheckedCreateWithoutCreatedByInput> | TaskCreateWithoutCreatedByInput[] | TaskUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutCreatedByInput | TaskCreateOrConnectWithoutCreatedByInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutCreatedByInput | TaskUpsertWithWhereUniqueWithoutCreatedByInput[]
+    createMany?: TaskCreateManyCreatedByInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutCreatedByInput | TaskUpdateWithWhereUniqueWithoutCreatedByInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutCreatedByInput | TaskUpdateManyWithWhereWithoutCreatedByInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
+  }
+
+  export type PushSubscriptionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PushSubscriptionCreateWithoutUserInput, PushSubscriptionUncheckedCreateWithoutUserInput> | PushSubscriptionCreateWithoutUserInput[] | PushSubscriptionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PushSubscriptionCreateOrConnectWithoutUserInput | PushSubscriptionCreateOrConnectWithoutUserInput[]
+    upsert?: PushSubscriptionUpsertWithWhereUniqueWithoutUserInput | PushSubscriptionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PushSubscriptionCreateManyUserInputEnvelope
+    set?: PushSubscriptionWhereUniqueInput | PushSubscriptionWhereUniqueInput[]
+    disconnect?: PushSubscriptionWhereUniqueInput | PushSubscriptionWhereUniqueInput[]
+    delete?: PushSubscriptionWhereUniqueInput | PushSubscriptionWhereUniqueInput[]
+    connect?: PushSubscriptionWhereUniqueInput | PushSubscriptionWhereUniqueInput[]
+    update?: PushSubscriptionUpdateWithWhereUniqueWithoutUserInput | PushSubscriptionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PushSubscriptionUpdateManyWithWhereWithoutUserInput | PushSubscriptionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PushSubscriptionScalarWhereInput | PushSubscriptionScalarWhereInput[]
+  }
+
+  export type UserNotifPreferencesUpdateOneWithoutUserNestedInput = {
+    create?: XOR<UserNotifPreferencesCreateWithoutUserInput, UserNotifPreferencesUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserNotifPreferencesCreateOrConnectWithoutUserInput
+    upsert?: UserNotifPreferencesUpsertWithoutUserInput
+    disconnect?: UserNotifPreferencesWhereInput | boolean
+    delete?: UserNotifPreferencesWhereInput | boolean
+    connect?: UserNotifPreferencesWhereUniqueInput
+    update?: XOR<XOR<UserNotifPreferencesUpdateToOneWithWhereWithoutUserInput, UserNotifPreferencesUpdateWithoutUserInput>, UserNotifPreferencesUncheckedUpdateWithoutUserInput>
+  }
+
   export type TicketUncheckedUpdateManyWithoutCreatedByNestedInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -73670,6 +83398,58 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
+  export type TaskUncheckedUpdateManyWithoutAssigneeNestedInput = {
+    create?: XOR<TaskCreateWithoutAssigneeInput, TaskUncheckedCreateWithoutAssigneeInput> | TaskCreateWithoutAssigneeInput[] | TaskUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutAssigneeInput | TaskCreateOrConnectWithoutAssigneeInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutAssigneeInput | TaskUpsertWithWhereUniqueWithoutAssigneeInput[]
+    createMany?: TaskCreateManyAssigneeInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutAssigneeInput | TaskUpdateWithWhereUniqueWithoutAssigneeInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutAssigneeInput | TaskUpdateManyWithWhereWithoutAssigneeInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
+  }
+
+  export type TaskUncheckedUpdateManyWithoutCreatedByNestedInput = {
+    create?: XOR<TaskCreateWithoutCreatedByInput, TaskUncheckedCreateWithoutCreatedByInput> | TaskCreateWithoutCreatedByInput[] | TaskUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutCreatedByInput | TaskCreateOrConnectWithoutCreatedByInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutCreatedByInput | TaskUpsertWithWhereUniqueWithoutCreatedByInput[]
+    createMany?: TaskCreateManyCreatedByInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutCreatedByInput | TaskUpdateWithWhereUniqueWithoutCreatedByInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutCreatedByInput | TaskUpdateManyWithWhereWithoutCreatedByInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
+  }
+
+  export type PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PushSubscriptionCreateWithoutUserInput, PushSubscriptionUncheckedCreateWithoutUserInput> | PushSubscriptionCreateWithoutUserInput[] | PushSubscriptionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PushSubscriptionCreateOrConnectWithoutUserInput | PushSubscriptionCreateOrConnectWithoutUserInput[]
+    upsert?: PushSubscriptionUpsertWithWhereUniqueWithoutUserInput | PushSubscriptionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PushSubscriptionCreateManyUserInputEnvelope
+    set?: PushSubscriptionWhereUniqueInput | PushSubscriptionWhereUniqueInput[]
+    disconnect?: PushSubscriptionWhereUniqueInput | PushSubscriptionWhereUniqueInput[]
+    delete?: PushSubscriptionWhereUniqueInput | PushSubscriptionWhereUniqueInput[]
+    connect?: PushSubscriptionWhereUniqueInput | PushSubscriptionWhereUniqueInput[]
+    update?: PushSubscriptionUpdateWithWhereUniqueWithoutUserInput | PushSubscriptionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PushSubscriptionUpdateManyWithWhereWithoutUserInput | PushSubscriptionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PushSubscriptionScalarWhereInput | PushSubscriptionScalarWhereInput[]
+  }
+
+  export type UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<UserNotifPreferencesCreateWithoutUserInput, UserNotifPreferencesUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserNotifPreferencesCreateOrConnectWithoutUserInput
+    upsert?: UserNotifPreferencesUpsertWithoutUserInput
+    disconnect?: UserNotifPreferencesWhereInput | boolean
+    delete?: UserNotifPreferencesWhereInput | boolean
+    connect?: UserNotifPreferencesWhereUniqueInput
+    update?: XOR<XOR<UserNotifPreferencesUpdateToOneWithWhereWithoutUserInput, UserNotifPreferencesUpdateWithoutUserInput>, UserNotifPreferencesUncheckedUpdateWithoutUserInput>
+  }
+
   export type UserCreateNestedOneWithoutVaultChallengesInput = {
     create?: XOR<UserCreateWithoutVaultChallengesInput, UserUncheckedCreateWithoutVaultChallengesInput>
     connectOrCreate?: UserCreateOrConnectWithoutVaultChallengesInput
@@ -73817,6 +83597,27 @@ export namespace Prisma {
     connectOrCreate?: LeadCreateOrConnectWithoutCompanyInput | LeadCreateOrConnectWithoutCompanyInput[]
     createMany?: LeadCreateManyCompanyInputEnvelope
     connect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+  }
+
+  export type TaskCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<TaskCreateWithoutCompanyInput, TaskUncheckedCreateWithoutCompanyInput> | TaskCreateWithoutCompanyInput[] | TaskUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutCompanyInput | TaskCreateOrConnectWithoutCompanyInput[]
+    createMany?: TaskCreateManyCompanyInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+  }
+
+  export type TagCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<TagCreateWithoutCompanyInput, TagUncheckedCreateWithoutCompanyInput> | TagCreateWithoutCompanyInput[] | TagUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: TagCreateOrConnectWithoutCompanyInput | TagCreateOrConnectWithoutCompanyInput[]
+    createMany?: TagCreateManyCompanyInputEnvelope
+    connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+  }
+
+  export type CustomFieldDefCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<CustomFieldDefCreateWithoutCompanyInput, CustomFieldDefUncheckedCreateWithoutCompanyInput> | CustomFieldDefCreateWithoutCompanyInput[] | CustomFieldDefUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CustomFieldDefCreateOrConnectWithoutCompanyInput | CustomFieldDefCreateOrConnectWithoutCompanyInput[]
+    createMany?: CustomFieldDefCreateManyCompanyInputEnvelope
+    connect?: CustomFieldDefWhereUniqueInput | CustomFieldDefWhereUniqueInput[]
   }
 
   export type WhatsappInstanceCreateNestedManyWithoutCompanyInput = {
@@ -74047,6 +83848,27 @@ export namespace Prisma {
     connectOrCreate?: LeadCreateOrConnectWithoutCompanyInput | LeadCreateOrConnectWithoutCompanyInput[]
     createMany?: LeadCreateManyCompanyInputEnvelope
     connect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+  }
+
+  export type TaskUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<TaskCreateWithoutCompanyInput, TaskUncheckedCreateWithoutCompanyInput> | TaskCreateWithoutCompanyInput[] | TaskUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutCompanyInput | TaskCreateOrConnectWithoutCompanyInput[]
+    createMany?: TaskCreateManyCompanyInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+  }
+
+  export type TagUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<TagCreateWithoutCompanyInput, TagUncheckedCreateWithoutCompanyInput> | TagCreateWithoutCompanyInput[] | TagUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: TagCreateOrConnectWithoutCompanyInput | TagCreateOrConnectWithoutCompanyInput[]
+    createMany?: TagCreateManyCompanyInputEnvelope
+    connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+  }
+
+  export type CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<CustomFieldDefCreateWithoutCompanyInput, CustomFieldDefUncheckedCreateWithoutCompanyInput> | CustomFieldDefCreateWithoutCompanyInput[] | CustomFieldDefUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CustomFieldDefCreateOrConnectWithoutCompanyInput | CustomFieldDefCreateOrConnectWithoutCompanyInput[]
+    createMany?: CustomFieldDefCreateManyCompanyInputEnvelope
+    connect?: CustomFieldDefWhereUniqueInput | CustomFieldDefWhereUniqueInput[]
   }
 
   export type WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -74375,6 +84197,48 @@ export namespace Prisma {
     update?: LeadUpdateWithWhereUniqueWithoutCompanyInput | LeadUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: LeadUpdateManyWithWhereWithoutCompanyInput | LeadUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: LeadScalarWhereInput | LeadScalarWhereInput[]
+  }
+
+  export type TaskUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<TaskCreateWithoutCompanyInput, TaskUncheckedCreateWithoutCompanyInput> | TaskCreateWithoutCompanyInput[] | TaskUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutCompanyInput | TaskCreateOrConnectWithoutCompanyInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutCompanyInput | TaskUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: TaskCreateManyCompanyInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutCompanyInput | TaskUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutCompanyInput | TaskUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
+  }
+
+  export type TagUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<TagCreateWithoutCompanyInput, TagUncheckedCreateWithoutCompanyInput> | TagCreateWithoutCompanyInput[] | TagUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: TagCreateOrConnectWithoutCompanyInput | TagCreateOrConnectWithoutCompanyInput[]
+    upsert?: TagUpsertWithWhereUniqueWithoutCompanyInput | TagUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: TagCreateManyCompanyInputEnvelope
+    set?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    disconnect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    delete?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    update?: TagUpdateWithWhereUniqueWithoutCompanyInput | TagUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: TagUpdateManyWithWhereWithoutCompanyInput | TagUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: TagScalarWhereInput | TagScalarWhereInput[]
+  }
+
+  export type CustomFieldDefUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<CustomFieldDefCreateWithoutCompanyInput, CustomFieldDefUncheckedCreateWithoutCompanyInput> | CustomFieldDefCreateWithoutCompanyInput[] | CustomFieldDefUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CustomFieldDefCreateOrConnectWithoutCompanyInput | CustomFieldDefCreateOrConnectWithoutCompanyInput[]
+    upsert?: CustomFieldDefUpsertWithWhereUniqueWithoutCompanyInput | CustomFieldDefUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: CustomFieldDefCreateManyCompanyInputEnvelope
+    set?: CustomFieldDefWhereUniqueInput | CustomFieldDefWhereUniqueInput[]
+    disconnect?: CustomFieldDefWhereUniqueInput | CustomFieldDefWhereUniqueInput[]
+    delete?: CustomFieldDefWhereUniqueInput | CustomFieldDefWhereUniqueInput[]
+    connect?: CustomFieldDefWhereUniqueInput | CustomFieldDefWhereUniqueInput[]
+    update?: CustomFieldDefUpdateWithWhereUniqueWithoutCompanyInput | CustomFieldDefUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: CustomFieldDefUpdateManyWithWhereWithoutCompanyInput | CustomFieldDefUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: CustomFieldDefScalarWhereInput | CustomFieldDefScalarWhereInput[]
   }
 
   export type WhatsappInstanceUpdateManyWithoutCompanyNestedInput = {
@@ -74833,6 +84697,48 @@ export namespace Prisma {
     update?: LeadUpdateWithWhereUniqueWithoutCompanyInput | LeadUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: LeadUpdateManyWithWhereWithoutCompanyInput | LeadUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: LeadScalarWhereInput | LeadScalarWhereInput[]
+  }
+
+  export type TaskUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<TaskCreateWithoutCompanyInput, TaskUncheckedCreateWithoutCompanyInput> | TaskCreateWithoutCompanyInput[] | TaskUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutCompanyInput | TaskCreateOrConnectWithoutCompanyInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutCompanyInput | TaskUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: TaskCreateManyCompanyInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutCompanyInput | TaskUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutCompanyInput | TaskUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
+  }
+
+  export type TagUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<TagCreateWithoutCompanyInput, TagUncheckedCreateWithoutCompanyInput> | TagCreateWithoutCompanyInput[] | TagUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: TagCreateOrConnectWithoutCompanyInput | TagCreateOrConnectWithoutCompanyInput[]
+    upsert?: TagUpsertWithWhereUniqueWithoutCompanyInput | TagUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: TagCreateManyCompanyInputEnvelope
+    set?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    disconnect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    delete?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    update?: TagUpdateWithWhereUniqueWithoutCompanyInput | TagUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: TagUpdateManyWithWhereWithoutCompanyInput | TagUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: TagScalarWhereInput | TagScalarWhereInput[]
+  }
+
+  export type CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<CustomFieldDefCreateWithoutCompanyInput, CustomFieldDefUncheckedCreateWithoutCompanyInput> | CustomFieldDefCreateWithoutCompanyInput[] | CustomFieldDefUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CustomFieldDefCreateOrConnectWithoutCompanyInput | CustomFieldDefCreateOrConnectWithoutCompanyInput[]
+    upsert?: CustomFieldDefUpsertWithWhereUniqueWithoutCompanyInput | CustomFieldDefUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: CustomFieldDefCreateManyCompanyInputEnvelope
+    set?: CustomFieldDefWhereUniqueInput | CustomFieldDefWhereUniqueInput[]
+    disconnect?: CustomFieldDefWhereUniqueInput | CustomFieldDefWhereUniqueInput[]
+    delete?: CustomFieldDefWhereUniqueInput | CustomFieldDefWhereUniqueInput[]
+    connect?: CustomFieldDefWhereUniqueInput | CustomFieldDefWhereUniqueInput[]
+    update?: CustomFieldDefUpdateWithWhereUniqueWithoutCompanyInput | CustomFieldDefUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: CustomFieldDefUpdateManyWithWhereWithoutCompanyInput | CustomFieldDefUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: CustomFieldDefScalarWhereInput | CustomFieldDefScalarWhereInput[]
   }
 
   export type WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput = {
@@ -75445,6 +85351,10 @@ export namespace Prisma {
     connect?: TrackingLinkWhereUniqueInput
   }
 
+  export type EnumClickEventKindFieldUpdateOperationsInput = {
+    set?: $Enums.ClickEventKind
+  }
+
   export type TrackingLinkUpdateOneRequiredWithoutClickEventsNestedInput = {
     create?: XOR<TrackingLinkCreateWithoutClickEventsInput, TrackingLinkUncheckedCreateWithoutClickEventsInput>
     connectOrCreate?: TrackingLinkCreateOrConnectWithoutClickEventsInput
@@ -75498,6 +85408,27 @@ export namespace Prisma {
     connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
   }
 
+  export type TaskCreateNestedManyWithoutLeadInput = {
+    create?: XOR<TaskCreateWithoutLeadInput, TaskUncheckedCreateWithoutLeadInput> | TaskCreateWithoutLeadInput[] | TaskUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutLeadInput | TaskCreateOrConnectWithoutLeadInput[]
+    createMany?: TaskCreateManyLeadInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+  }
+
+  export type LeadTagCreateNestedManyWithoutLeadInput = {
+    create?: XOR<LeadTagCreateWithoutLeadInput, LeadTagUncheckedCreateWithoutLeadInput> | LeadTagCreateWithoutLeadInput[] | LeadTagUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: LeadTagCreateOrConnectWithoutLeadInput | LeadTagCreateOrConnectWithoutLeadInput[]
+    createMany?: LeadTagCreateManyLeadInputEnvelope
+    connect?: LeadTagWhereUniqueInput | LeadTagWhereUniqueInput[]
+  }
+
+  export type LeadCustomValueCreateNestedManyWithoutLeadInput = {
+    create?: XOR<LeadCustomValueCreateWithoutLeadInput, LeadCustomValueUncheckedCreateWithoutLeadInput> | LeadCustomValueCreateWithoutLeadInput[] | LeadCustomValueUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: LeadCustomValueCreateOrConnectWithoutLeadInput | LeadCustomValueCreateOrConnectWithoutLeadInput[]
+    createMany?: LeadCustomValueCreateManyLeadInputEnvelope
+    connect?: LeadCustomValueWhereUniqueInput | LeadCustomValueWhereUniqueInput[]
+  }
+
   export type MessageUncheckedCreateNestedManyWithoutLeadInput = {
     create?: XOR<MessageCreateWithoutLeadInput, MessageUncheckedCreateWithoutLeadInput> | MessageCreateWithoutLeadInput[] | MessageUncheckedCreateWithoutLeadInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutLeadInput | MessageCreateOrConnectWithoutLeadInput[]
@@ -75517,6 +85448,27 @@ export namespace Prisma {
     connectOrCreate?: ActivityCreateOrConnectWithoutLeadInput | ActivityCreateOrConnectWithoutLeadInput[]
     createMany?: ActivityCreateManyLeadInputEnvelope
     connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+  }
+
+  export type TaskUncheckedCreateNestedManyWithoutLeadInput = {
+    create?: XOR<TaskCreateWithoutLeadInput, TaskUncheckedCreateWithoutLeadInput> | TaskCreateWithoutLeadInput[] | TaskUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutLeadInput | TaskCreateOrConnectWithoutLeadInput[]
+    createMany?: TaskCreateManyLeadInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+  }
+
+  export type LeadTagUncheckedCreateNestedManyWithoutLeadInput = {
+    create?: XOR<LeadTagCreateWithoutLeadInput, LeadTagUncheckedCreateWithoutLeadInput> | LeadTagCreateWithoutLeadInput[] | LeadTagUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: LeadTagCreateOrConnectWithoutLeadInput | LeadTagCreateOrConnectWithoutLeadInput[]
+    createMany?: LeadTagCreateManyLeadInputEnvelope
+    connect?: LeadTagWhereUniqueInput | LeadTagWhereUniqueInput[]
+  }
+
+  export type LeadCustomValueUncheckedCreateNestedManyWithoutLeadInput = {
+    create?: XOR<LeadCustomValueCreateWithoutLeadInput, LeadCustomValueUncheckedCreateWithoutLeadInput> | LeadCustomValueCreateWithoutLeadInput[] | LeadCustomValueUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: LeadCustomValueCreateOrConnectWithoutLeadInput | LeadCustomValueCreateOrConnectWithoutLeadInput[]
+    createMany?: LeadCustomValueCreateManyLeadInputEnvelope
+    connect?: LeadCustomValueWhereUniqueInput | LeadCustomValueWhereUniqueInput[]
   }
 
   export type EnumLeadStatusFieldUpdateOperationsInput = {
@@ -75603,6 +85555,48 @@ export namespace Prisma {
     deleteMany?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
   }
 
+  export type TaskUpdateManyWithoutLeadNestedInput = {
+    create?: XOR<TaskCreateWithoutLeadInput, TaskUncheckedCreateWithoutLeadInput> | TaskCreateWithoutLeadInput[] | TaskUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutLeadInput | TaskCreateOrConnectWithoutLeadInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutLeadInput | TaskUpsertWithWhereUniqueWithoutLeadInput[]
+    createMany?: TaskCreateManyLeadInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutLeadInput | TaskUpdateWithWhereUniqueWithoutLeadInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutLeadInput | TaskUpdateManyWithWhereWithoutLeadInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
+  }
+
+  export type LeadTagUpdateManyWithoutLeadNestedInput = {
+    create?: XOR<LeadTagCreateWithoutLeadInput, LeadTagUncheckedCreateWithoutLeadInput> | LeadTagCreateWithoutLeadInput[] | LeadTagUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: LeadTagCreateOrConnectWithoutLeadInput | LeadTagCreateOrConnectWithoutLeadInput[]
+    upsert?: LeadTagUpsertWithWhereUniqueWithoutLeadInput | LeadTagUpsertWithWhereUniqueWithoutLeadInput[]
+    createMany?: LeadTagCreateManyLeadInputEnvelope
+    set?: LeadTagWhereUniqueInput | LeadTagWhereUniqueInput[]
+    disconnect?: LeadTagWhereUniqueInput | LeadTagWhereUniqueInput[]
+    delete?: LeadTagWhereUniqueInput | LeadTagWhereUniqueInput[]
+    connect?: LeadTagWhereUniqueInput | LeadTagWhereUniqueInput[]
+    update?: LeadTagUpdateWithWhereUniqueWithoutLeadInput | LeadTagUpdateWithWhereUniqueWithoutLeadInput[]
+    updateMany?: LeadTagUpdateManyWithWhereWithoutLeadInput | LeadTagUpdateManyWithWhereWithoutLeadInput[]
+    deleteMany?: LeadTagScalarWhereInput | LeadTagScalarWhereInput[]
+  }
+
+  export type LeadCustomValueUpdateManyWithoutLeadNestedInput = {
+    create?: XOR<LeadCustomValueCreateWithoutLeadInput, LeadCustomValueUncheckedCreateWithoutLeadInput> | LeadCustomValueCreateWithoutLeadInput[] | LeadCustomValueUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: LeadCustomValueCreateOrConnectWithoutLeadInput | LeadCustomValueCreateOrConnectWithoutLeadInput[]
+    upsert?: LeadCustomValueUpsertWithWhereUniqueWithoutLeadInput | LeadCustomValueUpsertWithWhereUniqueWithoutLeadInput[]
+    createMany?: LeadCustomValueCreateManyLeadInputEnvelope
+    set?: LeadCustomValueWhereUniqueInput | LeadCustomValueWhereUniqueInput[]
+    disconnect?: LeadCustomValueWhereUniqueInput | LeadCustomValueWhereUniqueInput[]
+    delete?: LeadCustomValueWhereUniqueInput | LeadCustomValueWhereUniqueInput[]
+    connect?: LeadCustomValueWhereUniqueInput | LeadCustomValueWhereUniqueInput[]
+    update?: LeadCustomValueUpdateWithWhereUniqueWithoutLeadInput | LeadCustomValueUpdateWithWhereUniqueWithoutLeadInput[]
+    updateMany?: LeadCustomValueUpdateManyWithWhereWithoutLeadInput | LeadCustomValueUpdateManyWithWhereWithoutLeadInput[]
+    deleteMany?: LeadCustomValueScalarWhereInput | LeadCustomValueScalarWhereInput[]
+  }
+
   export type MessageUncheckedUpdateManyWithoutLeadNestedInput = {
     create?: XOR<MessageCreateWithoutLeadInput, MessageUncheckedCreateWithoutLeadInput> | MessageCreateWithoutLeadInput[] | MessageUncheckedCreateWithoutLeadInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutLeadInput | MessageCreateOrConnectWithoutLeadInput[]
@@ -75643,6 +85637,284 @@ export namespace Prisma {
     update?: ActivityUpdateWithWhereUniqueWithoutLeadInput | ActivityUpdateWithWhereUniqueWithoutLeadInput[]
     updateMany?: ActivityUpdateManyWithWhereWithoutLeadInput | ActivityUpdateManyWithWhereWithoutLeadInput[]
     deleteMany?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
+  }
+
+  export type TaskUncheckedUpdateManyWithoutLeadNestedInput = {
+    create?: XOR<TaskCreateWithoutLeadInput, TaskUncheckedCreateWithoutLeadInput> | TaskCreateWithoutLeadInput[] | TaskUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutLeadInput | TaskCreateOrConnectWithoutLeadInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutLeadInput | TaskUpsertWithWhereUniqueWithoutLeadInput[]
+    createMany?: TaskCreateManyLeadInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutLeadInput | TaskUpdateWithWhereUniqueWithoutLeadInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutLeadInput | TaskUpdateManyWithWhereWithoutLeadInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
+  }
+
+  export type LeadTagUncheckedUpdateManyWithoutLeadNestedInput = {
+    create?: XOR<LeadTagCreateWithoutLeadInput, LeadTagUncheckedCreateWithoutLeadInput> | LeadTagCreateWithoutLeadInput[] | LeadTagUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: LeadTagCreateOrConnectWithoutLeadInput | LeadTagCreateOrConnectWithoutLeadInput[]
+    upsert?: LeadTagUpsertWithWhereUniqueWithoutLeadInput | LeadTagUpsertWithWhereUniqueWithoutLeadInput[]
+    createMany?: LeadTagCreateManyLeadInputEnvelope
+    set?: LeadTagWhereUniqueInput | LeadTagWhereUniqueInput[]
+    disconnect?: LeadTagWhereUniqueInput | LeadTagWhereUniqueInput[]
+    delete?: LeadTagWhereUniqueInput | LeadTagWhereUniqueInput[]
+    connect?: LeadTagWhereUniqueInput | LeadTagWhereUniqueInput[]
+    update?: LeadTagUpdateWithWhereUniqueWithoutLeadInput | LeadTagUpdateWithWhereUniqueWithoutLeadInput[]
+    updateMany?: LeadTagUpdateManyWithWhereWithoutLeadInput | LeadTagUpdateManyWithWhereWithoutLeadInput[]
+    deleteMany?: LeadTagScalarWhereInput | LeadTagScalarWhereInput[]
+  }
+
+  export type LeadCustomValueUncheckedUpdateManyWithoutLeadNestedInput = {
+    create?: XOR<LeadCustomValueCreateWithoutLeadInput, LeadCustomValueUncheckedCreateWithoutLeadInput> | LeadCustomValueCreateWithoutLeadInput[] | LeadCustomValueUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: LeadCustomValueCreateOrConnectWithoutLeadInput | LeadCustomValueCreateOrConnectWithoutLeadInput[]
+    upsert?: LeadCustomValueUpsertWithWhereUniqueWithoutLeadInput | LeadCustomValueUpsertWithWhereUniqueWithoutLeadInput[]
+    createMany?: LeadCustomValueCreateManyLeadInputEnvelope
+    set?: LeadCustomValueWhereUniqueInput | LeadCustomValueWhereUniqueInput[]
+    disconnect?: LeadCustomValueWhereUniqueInput | LeadCustomValueWhereUniqueInput[]
+    delete?: LeadCustomValueWhereUniqueInput | LeadCustomValueWhereUniqueInput[]
+    connect?: LeadCustomValueWhereUniqueInput | LeadCustomValueWhereUniqueInput[]
+    update?: LeadCustomValueUpdateWithWhereUniqueWithoutLeadInput | LeadCustomValueUpdateWithWhereUniqueWithoutLeadInput[]
+    updateMany?: LeadCustomValueUpdateManyWithWhereWithoutLeadInput | LeadCustomValueUpdateManyWithWhereWithoutLeadInput[]
+    deleteMany?: LeadCustomValueScalarWhereInput | LeadCustomValueScalarWhereInput[]
+  }
+
+  export type CompanyCreateNestedOneWithoutTagsInput = {
+    create?: XOR<CompanyCreateWithoutTagsInput, CompanyUncheckedCreateWithoutTagsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutTagsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type LeadTagCreateNestedManyWithoutTagInput = {
+    create?: XOR<LeadTagCreateWithoutTagInput, LeadTagUncheckedCreateWithoutTagInput> | LeadTagCreateWithoutTagInput[] | LeadTagUncheckedCreateWithoutTagInput[]
+    connectOrCreate?: LeadTagCreateOrConnectWithoutTagInput | LeadTagCreateOrConnectWithoutTagInput[]
+    createMany?: LeadTagCreateManyTagInputEnvelope
+    connect?: LeadTagWhereUniqueInput | LeadTagWhereUniqueInput[]
+  }
+
+  export type LeadTagUncheckedCreateNestedManyWithoutTagInput = {
+    create?: XOR<LeadTagCreateWithoutTagInput, LeadTagUncheckedCreateWithoutTagInput> | LeadTagCreateWithoutTagInput[] | LeadTagUncheckedCreateWithoutTagInput[]
+    connectOrCreate?: LeadTagCreateOrConnectWithoutTagInput | LeadTagCreateOrConnectWithoutTagInput[]
+    createMany?: LeadTagCreateManyTagInputEnvelope
+    connect?: LeadTagWhereUniqueInput | LeadTagWhereUniqueInput[]
+  }
+
+  export type CompanyUpdateOneRequiredWithoutTagsNestedInput = {
+    create?: XOR<CompanyCreateWithoutTagsInput, CompanyUncheckedCreateWithoutTagsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutTagsInput
+    upsert?: CompanyUpsertWithoutTagsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutTagsInput, CompanyUpdateWithoutTagsInput>, CompanyUncheckedUpdateWithoutTagsInput>
+  }
+
+  export type LeadTagUpdateManyWithoutTagNestedInput = {
+    create?: XOR<LeadTagCreateWithoutTagInput, LeadTagUncheckedCreateWithoutTagInput> | LeadTagCreateWithoutTagInput[] | LeadTagUncheckedCreateWithoutTagInput[]
+    connectOrCreate?: LeadTagCreateOrConnectWithoutTagInput | LeadTagCreateOrConnectWithoutTagInput[]
+    upsert?: LeadTagUpsertWithWhereUniqueWithoutTagInput | LeadTagUpsertWithWhereUniqueWithoutTagInput[]
+    createMany?: LeadTagCreateManyTagInputEnvelope
+    set?: LeadTagWhereUniqueInput | LeadTagWhereUniqueInput[]
+    disconnect?: LeadTagWhereUniqueInput | LeadTagWhereUniqueInput[]
+    delete?: LeadTagWhereUniqueInput | LeadTagWhereUniqueInput[]
+    connect?: LeadTagWhereUniqueInput | LeadTagWhereUniqueInput[]
+    update?: LeadTagUpdateWithWhereUniqueWithoutTagInput | LeadTagUpdateWithWhereUniqueWithoutTagInput[]
+    updateMany?: LeadTagUpdateManyWithWhereWithoutTagInput | LeadTagUpdateManyWithWhereWithoutTagInput[]
+    deleteMany?: LeadTagScalarWhereInput | LeadTagScalarWhereInput[]
+  }
+
+  export type LeadTagUncheckedUpdateManyWithoutTagNestedInput = {
+    create?: XOR<LeadTagCreateWithoutTagInput, LeadTagUncheckedCreateWithoutTagInput> | LeadTagCreateWithoutTagInput[] | LeadTagUncheckedCreateWithoutTagInput[]
+    connectOrCreate?: LeadTagCreateOrConnectWithoutTagInput | LeadTagCreateOrConnectWithoutTagInput[]
+    upsert?: LeadTagUpsertWithWhereUniqueWithoutTagInput | LeadTagUpsertWithWhereUniqueWithoutTagInput[]
+    createMany?: LeadTagCreateManyTagInputEnvelope
+    set?: LeadTagWhereUniqueInput | LeadTagWhereUniqueInput[]
+    disconnect?: LeadTagWhereUniqueInput | LeadTagWhereUniqueInput[]
+    delete?: LeadTagWhereUniqueInput | LeadTagWhereUniqueInput[]
+    connect?: LeadTagWhereUniqueInput | LeadTagWhereUniqueInput[]
+    update?: LeadTagUpdateWithWhereUniqueWithoutTagInput | LeadTagUpdateWithWhereUniqueWithoutTagInput[]
+    updateMany?: LeadTagUpdateManyWithWhereWithoutTagInput | LeadTagUpdateManyWithWhereWithoutTagInput[]
+    deleteMany?: LeadTagScalarWhereInput | LeadTagScalarWhereInput[]
+  }
+
+  export type LeadCreateNestedOneWithoutTagsInput = {
+    create?: XOR<LeadCreateWithoutTagsInput, LeadUncheckedCreateWithoutTagsInput>
+    connectOrCreate?: LeadCreateOrConnectWithoutTagsInput
+    connect?: LeadWhereUniqueInput
+  }
+
+  export type TagCreateNestedOneWithoutLeadsInput = {
+    create?: XOR<TagCreateWithoutLeadsInput, TagUncheckedCreateWithoutLeadsInput>
+    connectOrCreate?: TagCreateOrConnectWithoutLeadsInput
+    connect?: TagWhereUniqueInput
+  }
+
+  export type LeadUpdateOneRequiredWithoutTagsNestedInput = {
+    create?: XOR<LeadCreateWithoutTagsInput, LeadUncheckedCreateWithoutTagsInput>
+    connectOrCreate?: LeadCreateOrConnectWithoutTagsInput
+    upsert?: LeadUpsertWithoutTagsInput
+    connect?: LeadWhereUniqueInput
+    update?: XOR<XOR<LeadUpdateToOneWithWhereWithoutTagsInput, LeadUpdateWithoutTagsInput>, LeadUncheckedUpdateWithoutTagsInput>
+  }
+
+  export type TagUpdateOneRequiredWithoutLeadsNestedInput = {
+    create?: XOR<TagCreateWithoutLeadsInput, TagUncheckedCreateWithoutLeadsInput>
+    connectOrCreate?: TagCreateOrConnectWithoutLeadsInput
+    upsert?: TagUpsertWithoutLeadsInput
+    connect?: TagWhereUniqueInput
+    update?: XOR<XOR<TagUpdateToOneWithWhereWithoutLeadsInput, TagUpdateWithoutLeadsInput>, TagUncheckedUpdateWithoutLeadsInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutCustomFieldDefsInput = {
+    create?: XOR<CompanyCreateWithoutCustomFieldDefsInput, CompanyUncheckedCreateWithoutCustomFieldDefsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutCustomFieldDefsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type LeadCustomValueCreateNestedManyWithoutFieldInput = {
+    create?: XOR<LeadCustomValueCreateWithoutFieldInput, LeadCustomValueUncheckedCreateWithoutFieldInput> | LeadCustomValueCreateWithoutFieldInput[] | LeadCustomValueUncheckedCreateWithoutFieldInput[]
+    connectOrCreate?: LeadCustomValueCreateOrConnectWithoutFieldInput | LeadCustomValueCreateOrConnectWithoutFieldInput[]
+    createMany?: LeadCustomValueCreateManyFieldInputEnvelope
+    connect?: LeadCustomValueWhereUniqueInput | LeadCustomValueWhereUniqueInput[]
+  }
+
+  export type LeadCustomValueUncheckedCreateNestedManyWithoutFieldInput = {
+    create?: XOR<LeadCustomValueCreateWithoutFieldInput, LeadCustomValueUncheckedCreateWithoutFieldInput> | LeadCustomValueCreateWithoutFieldInput[] | LeadCustomValueUncheckedCreateWithoutFieldInput[]
+    connectOrCreate?: LeadCustomValueCreateOrConnectWithoutFieldInput | LeadCustomValueCreateOrConnectWithoutFieldInput[]
+    createMany?: LeadCustomValueCreateManyFieldInputEnvelope
+    connect?: LeadCustomValueWhereUniqueInput | LeadCustomValueWhereUniqueInput[]
+  }
+
+  export type EnumCustomFieldTypeFieldUpdateOperationsInput = {
+    set?: $Enums.CustomFieldType
+  }
+
+  export type CompanyUpdateOneRequiredWithoutCustomFieldDefsNestedInput = {
+    create?: XOR<CompanyCreateWithoutCustomFieldDefsInput, CompanyUncheckedCreateWithoutCustomFieldDefsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutCustomFieldDefsInput
+    upsert?: CompanyUpsertWithoutCustomFieldDefsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutCustomFieldDefsInput, CompanyUpdateWithoutCustomFieldDefsInput>, CompanyUncheckedUpdateWithoutCustomFieldDefsInput>
+  }
+
+  export type LeadCustomValueUpdateManyWithoutFieldNestedInput = {
+    create?: XOR<LeadCustomValueCreateWithoutFieldInput, LeadCustomValueUncheckedCreateWithoutFieldInput> | LeadCustomValueCreateWithoutFieldInput[] | LeadCustomValueUncheckedCreateWithoutFieldInput[]
+    connectOrCreate?: LeadCustomValueCreateOrConnectWithoutFieldInput | LeadCustomValueCreateOrConnectWithoutFieldInput[]
+    upsert?: LeadCustomValueUpsertWithWhereUniqueWithoutFieldInput | LeadCustomValueUpsertWithWhereUniqueWithoutFieldInput[]
+    createMany?: LeadCustomValueCreateManyFieldInputEnvelope
+    set?: LeadCustomValueWhereUniqueInput | LeadCustomValueWhereUniqueInput[]
+    disconnect?: LeadCustomValueWhereUniqueInput | LeadCustomValueWhereUniqueInput[]
+    delete?: LeadCustomValueWhereUniqueInput | LeadCustomValueWhereUniqueInput[]
+    connect?: LeadCustomValueWhereUniqueInput | LeadCustomValueWhereUniqueInput[]
+    update?: LeadCustomValueUpdateWithWhereUniqueWithoutFieldInput | LeadCustomValueUpdateWithWhereUniqueWithoutFieldInput[]
+    updateMany?: LeadCustomValueUpdateManyWithWhereWithoutFieldInput | LeadCustomValueUpdateManyWithWhereWithoutFieldInput[]
+    deleteMany?: LeadCustomValueScalarWhereInput | LeadCustomValueScalarWhereInput[]
+  }
+
+  export type LeadCustomValueUncheckedUpdateManyWithoutFieldNestedInput = {
+    create?: XOR<LeadCustomValueCreateWithoutFieldInput, LeadCustomValueUncheckedCreateWithoutFieldInput> | LeadCustomValueCreateWithoutFieldInput[] | LeadCustomValueUncheckedCreateWithoutFieldInput[]
+    connectOrCreate?: LeadCustomValueCreateOrConnectWithoutFieldInput | LeadCustomValueCreateOrConnectWithoutFieldInput[]
+    upsert?: LeadCustomValueUpsertWithWhereUniqueWithoutFieldInput | LeadCustomValueUpsertWithWhereUniqueWithoutFieldInput[]
+    createMany?: LeadCustomValueCreateManyFieldInputEnvelope
+    set?: LeadCustomValueWhereUniqueInput | LeadCustomValueWhereUniqueInput[]
+    disconnect?: LeadCustomValueWhereUniqueInput | LeadCustomValueWhereUniqueInput[]
+    delete?: LeadCustomValueWhereUniqueInput | LeadCustomValueWhereUniqueInput[]
+    connect?: LeadCustomValueWhereUniqueInput | LeadCustomValueWhereUniqueInput[]
+    update?: LeadCustomValueUpdateWithWhereUniqueWithoutFieldInput | LeadCustomValueUpdateWithWhereUniqueWithoutFieldInput[]
+    updateMany?: LeadCustomValueUpdateManyWithWhereWithoutFieldInput | LeadCustomValueUpdateManyWithWhereWithoutFieldInput[]
+    deleteMany?: LeadCustomValueScalarWhereInput | LeadCustomValueScalarWhereInput[]
+  }
+
+  export type LeadCreateNestedOneWithoutCustomValuesInput = {
+    create?: XOR<LeadCreateWithoutCustomValuesInput, LeadUncheckedCreateWithoutCustomValuesInput>
+    connectOrCreate?: LeadCreateOrConnectWithoutCustomValuesInput
+    connect?: LeadWhereUniqueInput
+  }
+
+  export type CustomFieldDefCreateNestedOneWithoutValuesInput = {
+    create?: XOR<CustomFieldDefCreateWithoutValuesInput, CustomFieldDefUncheckedCreateWithoutValuesInput>
+    connectOrCreate?: CustomFieldDefCreateOrConnectWithoutValuesInput
+    connect?: CustomFieldDefWhereUniqueInput
+  }
+
+  export type LeadUpdateOneRequiredWithoutCustomValuesNestedInput = {
+    create?: XOR<LeadCreateWithoutCustomValuesInput, LeadUncheckedCreateWithoutCustomValuesInput>
+    connectOrCreate?: LeadCreateOrConnectWithoutCustomValuesInput
+    upsert?: LeadUpsertWithoutCustomValuesInput
+    connect?: LeadWhereUniqueInput
+    update?: XOR<XOR<LeadUpdateToOneWithWhereWithoutCustomValuesInput, LeadUpdateWithoutCustomValuesInput>, LeadUncheckedUpdateWithoutCustomValuesInput>
+  }
+
+  export type CustomFieldDefUpdateOneRequiredWithoutValuesNestedInput = {
+    create?: XOR<CustomFieldDefCreateWithoutValuesInput, CustomFieldDefUncheckedCreateWithoutValuesInput>
+    connectOrCreate?: CustomFieldDefCreateOrConnectWithoutValuesInput
+    upsert?: CustomFieldDefUpsertWithoutValuesInput
+    connect?: CustomFieldDefWhereUniqueInput
+    update?: XOR<XOR<CustomFieldDefUpdateToOneWithWhereWithoutValuesInput, CustomFieldDefUpdateWithoutValuesInput>, CustomFieldDefUncheckedUpdateWithoutValuesInput>
+  }
+
+  export type LeadCreateNestedOneWithoutTasksInput = {
+    create?: XOR<LeadCreateWithoutTasksInput, LeadUncheckedCreateWithoutTasksInput>
+    connectOrCreate?: LeadCreateOrConnectWithoutTasksInput
+    connect?: LeadWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutTasksInput = {
+    create?: XOR<CompanyCreateWithoutTasksInput, CompanyUncheckedCreateWithoutTasksInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutTasksInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutTasksAssignedInput = {
+    create?: XOR<UserCreateWithoutTasksAssignedInput, UserUncheckedCreateWithoutTasksAssignedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTasksAssignedInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutTasksCreatedInput = {
+    create?: XOR<UserCreateWithoutTasksCreatedInput, UserUncheckedCreateWithoutTasksCreatedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTasksCreatedInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumTaskSourceFieldUpdateOperationsInput = {
+    set?: $Enums.TaskSource
+  }
+
+  export type LeadUpdateOneRequiredWithoutTasksNestedInput = {
+    create?: XOR<LeadCreateWithoutTasksInput, LeadUncheckedCreateWithoutTasksInput>
+    connectOrCreate?: LeadCreateOrConnectWithoutTasksInput
+    upsert?: LeadUpsertWithoutTasksInput
+    connect?: LeadWhereUniqueInput
+    update?: XOR<XOR<LeadUpdateToOneWithWhereWithoutTasksInput, LeadUpdateWithoutTasksInput>, LeadUncheckedUpdateWithoutTasksInput>
+  }
+
+  export type CompanyUpdateOneRequiredWithoutTasksNestedInput = {
+    create?: XOR<CompanyCreateWithoutTasksInput, CompanyUncheckedCreateWithoutTasksInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutTasksInput
+    upsert?: CompanyUpsertWithoutTasksInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutTasksInput, CompanyUpdateWithoutTasksInput>, CompanyUncheckedUpdateWithoutTasksInput>
+  }
+
+  export type UserUpdateOneWithoutTasksAssignedNestedInput = {
+    create?: XOR<UserCreateWithoutTasksAssignedInput, UserUncheckedCreateWithoutTasksAssignedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTasksAssignedInput
+    upsert?: UserUpsertWithoutTasksAssignedInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTasksAssignedInput, UserUpdateWithoutTasksAssignedInput>, UserUncheckedUpdateWithoutTasksAssignedInput>
+  }
+
+  export type UserUpdateOneWithoutTasksCreatedNestedInput = {
+    create?: XOR<UserCreateWithoutTasksCreatedInput, UserUncheckedCreateWithoutTasksCreatedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTasksCreatedInput
+    upsert?: UserUpsertWithoutTasksCreatedInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTasksCreatedInput, UserUpdateWithoutTasksCreatedInput>, UserUncheckedUpdateWithoutTasksCreatedInput>
   }
 
   export type LeadCreateNestedOneWithoutCommentsInput = {
@@ -77507,6 +87779,34 @@ export namespace Prisma {
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutScoreRuleConfigsInput, CompanyUpdateWithoutScoreRuleConfigsInput>, CompanyUncheckedUpdateWithoutScoreRuleConfigsInput>
   }
 
+  export type UserCreateNestedOneWithoutPushSubscriptionsInput = {
+    create?: XOR<UserCreateWithoutPushSubscriptionsInput, UserUncheckedCreateWithoutPushSubscriptionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPushSubscriptionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutPushSubscriptionsNestedInput = {
+    create?: XOR<UserCreateWithoutPushSubscriptionsInput, UserUncheckedCreateWithoutPushSubscriptionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPushSubscriptionsInput
+    upsert?: UserUpsertWithoutPushSubscriptionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPushSubscriptionsInput, UserUpdateWithoutPushSubscriptionsInput>, UserUncheckedUpdateWithoutPushSubscriptionsInput>
+  }
+
+  export type UserCreateNestedOneWithoutNotifPreferencesInput = {
+    create?: XOR<UserCreateWithoutNotifPreferencesInput, UserUncheckedCreateWithoutNotifPreferencesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNotifPreferencesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutNotifPreferencesNestedInput = {
+    create?: XOR<UserCreateWithoutNotifPreferencesInput, UserUncheckedCreateWithoutNotifPreferencesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNotifPreferencesInput
+    upsert?: UserUpsertWithoutNotifPreferencesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotifPreferencesInput, UserUpdateWithoutNotifPreferencesInput>, UserUncheckedUpdateWithoutNotifPreferencesInput>
+  }
+
   export type CompanyCreateNestedOneWithoutBillingEventsInput = {
     create?: XOR<CompanyCreateWithoutBillingEventsInput, CompanyUncheckedCreateWithoutBillingEventsInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutBillingEventsInput
@@ -77807,6 +88107,23 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumClickEventKindFilter<$PrismaModel = never> = {
+    equals?: $Enums.ClickEventKind | EnumClickEventKindFieldRefInput<$PrismaModel>
+    in?: $Enums.ClickEventKind[] | ListEnumClickEventKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ClickEventKind[] | ListEnumClickEventKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumClickEventKindFilter<$PrismaModel> | $Enums.ClickEventKind
+  }
+
+  export type NestedEnumClickEventKindWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ClickEventKind | EnumClickEventKindFieldRefInput<$PrismaModel>
+    in?: $Enums.ClickEventKind[] | ListEnumClickEventKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ClickEventKind[] | ListEnumClickEventKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumClickEventKindWithAggregatesFilter<$PrismaModel> | $Enums.ClickEventKind
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumClickEventKindFilter<$PrismaModel>
+    _max?: NestedEnumClickEventKindFilter<$PrismaModel>
+  }
+
   export type NestedEnumLeadStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.LeadStatus | EnumLeadStatusFieldRefInput<$PrismaModel>
     in?: $Enums.LeadStatus[] | ListEnumLeadStatusFieldRefInput<$PrismaModel>
@@ -77822,6 +88139,62 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumLeadStatusFilter<$PrismaModel>
     _max?: NestedEnumLeadStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumCustomFieldTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.CustomFieldType | EnumCustomFieldTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CustomFieldType[] | ListEnumCustomFieldTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CustomFieldType[] | ListEnumCustomFieldTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCustomFieldTypeFilter<$PrismaModel> | $Enums.CustomFieldType
+  }
+
+  export type NestedEnumCustomFieldTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CustomFieldType | EnumCustomFieldTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CustomFieldType[] | ListEnumCustomFieldTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CustomFieldType[] | ListEnumCustomFieldTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCustomFieldTypeWithAggregatesFilter<$PrismaModel> | $Enums.CustomFieldType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCustomFieldTypeFilter<$PrismaModel>
+    _max?: NestedEnumCustomFieldTypeFilter<$PrismaModel>
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumTaskSourceFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskSource | EnumTaskSourceFieldRefInput<$PrismaModel>
+    in?: $Enums.TaskSource[] | ListEnumTaskSourceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TaskSource[] | ListEnumTaskSourceFieldRefInput<$PrismaModel>
+    not?: NestedEnumTaskSourceFilter<$PrismaModel> | $Enums.TaskSource
+  }
+
+  export type NestedEnumTaskSourceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskSource | EnumTaskSourceFieldRefInput<$PrismaModel>
+    in?: $Enums.TaskSource[] | ListEnumTaskSourceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TaskSource[] | ListEnumTaskSourceFieldRefInput<$PrismaModel>
+    not?: NestedEnumTaskSourceWithAggregatesFilter<$PrismaModel> | $Enums.TaskSource
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTaskSourceFilter<$PrismaModel>
+    _max?: NestedEnumTaskSourceFilter<$PrismaModel>
   }
 
   export type NestedEnumInstanceStatusFilter<$PrismaModel = never> = {
@@ -77873,28 +88246,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumLeadStatusNullableFilter<$PrismaModel>
     _max?: NestedEnumLeadStatusNullableFilter<$PrismaModel>
-  }
-  export type NestedJsonNullableFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -78263,6 +88614,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -78321,6 +88675,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -78872,6 +89229,137 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TaskCreateWithoutAssigneeInput = {
+    id?: string
+    title: string
+    dueAt: Date | string
+    done?: boolean
+    doneAt?: Date | string | null
+    notes?: string | null
+    source?: $Enums.TaskSource
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lead: LeadCreateNestedOneWithoutTasksInput
+    company: CompanyCreateNestedOneWithoutTasksInput
+    createdBy?: UserCreateNestedOneWithoutTasksCreatedInput
+  }
+
+  export type TaskUncheckedCreateWithoutAssigneeInput = {
+    id?: string
+    title: string
+    dueAt: Date | string
+    done?: boolean
+    doneAt?: Date | string | null
+    notes?: string | null
+    source?: $Enums.TaskSource
+    leadId: string
+    companyId: string
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TaskCreateOrConnectWithoutAssigneeInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutAssigneeInput, TaskUncheckedCreateWithoutAssigneeInput>
+  }
+
+  export type TaskCreateManyAssigneeInputEnvelope = {
+    data: TaskCreateManyAssigneeInput | TaskCreateManyAssigneeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TaskCreateWithoutCreatedByInput = {
+    id?: string
+    title: string
+    dueAt: Date | string
+    done?: boolean
+    doneAt?: Date | string | null
+    notes?: string | null
+    source?: $Enums.TaskSource
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lead: LeadCreateNestedOneWithoutTasksInput
+    company: CompanyCreateNestedOneWithoutTasksInput
+    assignee?: UserCreateNestedOneWithoutTasksAssignedInput
+  }
+
+  export type TaskUncheckedCreateWithoutCreatedByInput = {
+    id?: string
+    title: string
+    dueAt: Date | string
+    done?: boolean
+    doneAt?: Date | string | null
+    notes?: string | null
+    source?: $Enums.TaskSource
+    leadId: string
+    companyId: string
+    assigneeId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TaskCreateOrConnectWithoutCreatedByInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutCreatedByInput, TaskUncheckedCreateWithoutCreatedByInput>
+  }
+
+  export type TaskCreateManyCreatedByInputEnvelope = {
+    data: TaskCreateManyCreatedByInput | TaskCreateManyCreatedByInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PushSubscriptionCreateWithoutUserInput = {
+    id?: string
+    endpoint: string
+    p256dh: string
+    auth: string
+    userAgent?: string | null
+    lastFailedAt?: Date | string | null
+    failCount?: number
+    createdAt?: Date | string
+  }
+
+  export type PushSubscriptionUncheckedCreateWithoutUserInput = {
+    id?: string
+    endpoint: string
+    p256dh: string
+    auth: string
+    userAgent?: string | null
+    lastFailedAt?: Date | string | null
+    failCount?: number
+    createdAt?: Date | string
+  }
+
+  export type PushSubscriptionCreateOrConnectWithoutUserInput = {
+    where: PushSubscriptionWhereUniqueInput
+    create: XOR<PushSubscriptionCreateWithoutUserInput, PushSubscriptionUncheckedCreateWithoutUserInput>
+  }
+
+  export type PushSubscriptionCreateManyUserInputEnvelope = {
+    data: PushSubscriptionCreateManyUserInput | PushSubscriptionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserNotifPreferencesCreateWithoutUserInput = {
+    newMessage?: boolean
+    hotSignal?: boolean
+    taskOverdue?: boolean
+    updatedAt?: Date | string
+  }
+
+  export type UserNotifPreferencesUncheckedCreateWithoutUserInput = {
+    newMessage?: boolean
+    hotSignal?: boolean
+    taskOverdue?: boolean
+    updatedAt?: Date | string
+  }
+
+  export type UserNotifPreferencesCreateOrConnectWithoutUserInput = {
+    where: UserNotifPreferencesWhereUniqueInput
+    create: XOR<UserNotifPreferencesCreateWithoutUserInput, UserNotifPreferencesUncheckedCreateWithoutUserInput>
+  }
+
   export type CompanyUpsertWithoutUsersInput = {
     update: XOR<CompanyUpdateWithoutUsersInput, CompanyUncheckedUpdateWithoutUsersInput>
     create: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
@@ -78918,6 +89406,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -78976,6 +89467,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -79443,6 +89937,113 @@ export namespace Prisma {
     sentByUserId?: StringNullableFilter<"Message"> | string | null
   }
 
+  export type TaskUpsertWithWhereUniqueWithoutAssigneeInput = {
+    where: TaskWhereUniqueInput
+    update: XOR<TaskUpdateWithoutAssigneeInput, TaskUncheckedUpdateWithoutAssigneeInput>
+    create: XOR<TaskCreateWithoutAssigneeInput, TaskUncheckedCreateWithoutAssigneeInput>
+  }
+
+  export type TaskUpdateWithWhereUniqueWithoutAssigneeInput = {
+    where: TaskWhereUniqueInput
+    data: XOR<TaskUpdateWithoutAssigneeInput, TaskUncheckedUpdateWithoutAssigneeInput>
+  }
+
+  export type TaskUpdateManyWithWhereWithoutAssigneeInput = {
+    where: TaskScalarWhereInput
+    data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutAssigneeInput>
+  }
+
+  export type TaskScalarWhereInput = {
+    AND?: TaskScalarWhereInput | TaskScalarWhereInput[]
+    OR?: TaskScalarWhereInput[]
+    NOT?: TaskScalarWhereInput | TaskScalarWhereInput[]
+    id?: StringFilter<"Task"> | string
+    title?: StringFilter<"Task"> | string
+    dueAt?: DateTimeFilter<"Task"> | Date | string
+    done?: BoolFilter<"Task"> | boolean
+    doneAt?: DateTimeNullableFilter<"Task"> | Date | string | null
+    notes?: StringNullableFilter<"Task"> | string | null
+    source?: EnumTaskSourceFilter<"Task"> | $Enums.TaskSource
+    leadId?: StringFilter<"Task"> | string
+    companyId?: StringFilter<"Task"> | string
+    assigneeId?: StringNullableFilter<"Task"> | string | null
+    createdById?: StringNullableFilter<"Task"> | string | null
+    createdAt?: DateTimeFilter<"Task"> | Date | string
+    updatedAt?: DateTimeFilter<"Task"> | Date | string
+  }
+
+  export type TaskUpsertWithWhereUniqueWithoutCreatedByInput = {
+    where: TaskWhereUniqueInput
+    update: XOR<TaskUpdateWithoutCreatedByInput, TaskUncheckedUpdateWithoutCreatedByInput>
+    create: XOR<TaskCreateWithoutCreatedByInput, TaskUncheckedCreateWithoutCreatedByInput>
+  }
+
+  export type TaskUpdateWithWhereUniqueWithoutCreatedByInput = {
+    where: TaskWhereUniqueInput
+    data: XOR<TaskUpdateWithoutCreatedByInput, TaskUncheckedUpdateWithoutCreatedByInput>
+  }
+
+  export type TaskUpdateManyWithWhereWithoutCreatedByInput = {
+    where: TaskScalarWhereInput
+    data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutCreatedByInput>
+  }
+
+  export type PushSubscriptionUpsertWithWhereUniqueWithoutUserInput = {
+    where: PushSubscriptionWhereUniqueInput
+    update: XOR<PushSubscriptionUpdateWithoutUserInput, PushSubscriptionUncheckedUpdateWithoutUserInput>
+    create: XOR<PushSubscriptionCreateWithoutUserInput, PushSubscriptionUncheckedCreateWithoutUserInput>
+  }
+
+  export type PushSubscriptionUpdateWithWhereUniqueWithoutUserInput = {
+    where: PushSubscriptionWhereUniqueInput
+    data: XOR<PushSubscriptionUpdateWithoutUserInput, PushSubscriptionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PushSubscriptionUpdateManyWithWhereWithoutUserInput = {
+    where: PushSubscriptionScalarWhereInput
+    data: XOR<PushSubscriptionUpdateManyMutationInput, PushSubscriptionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PushSubscriptionScalarWhereInput = {
+    AND?: PushSubscriptionScalarWhereInput | PushSubscriptionScalarWhereInput[]
+    OR?: PushSubscriptionScalarWhereInput[]
+    NOT?: PushSubscriptionScalarWhereInput | PushSubscriptionScalarWhereInput[]
+    id?: StringFilter<"PushSubscription"> | string
+    endpoint?: StringFilter<"PushSubscription"> | string
+    p256dh?: StringFilter<"PushSubscription"> | string
+    auth?: StringFilter<"PushSubscription"> | string
+    userAgent?: StringNullableFilter<"PushSubscription"> | string | null
+    userId?: StringFilter<"PushSubscription"> | string
+    lastFailedAt?: DateTimeNullableFilter<"PushSubscription"> | Date | string | null
+    failCount?: IntFilter<"PushSubscription"> | number
+    createdAt?: DateTimeFilter<"PushSubscription"> | Date | string
+  }
+
+  export type UserNotifPreferencesUpsertWithoutUserInput = {
+    update: XOR<UserNotifPreferencesUpdateWithoutUserInput, UserNotifPreferencesUncheckedUpdateWithoutUserInput>
+    create: XOR<UserNotifPreferencesCreateWithoutUserInput, UserNotifPreferencesUncheckedCreateWithoutUserInput>
+    where?: UserNotifPreferencesWhereInput
+  }
+
+  export type UserNotifPreferencesUpdateToOneWithWhereWithoutUserInput = {
+    where?: UserNotifPreferencesWhereInput
+    data: XOR<UserNotifPreferencesUpdateWithoutUserInput, UserNotifPreferencesUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserNotifPreferencesUpdateWithoutUserInput = {
+    newMessage?: BoolFieldUpdateOperationsInput | boolean
+    hotSignal?: BoolFieldUpdateOperationsInput | boolean
+    taskOverdue?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserNotifPreferencesUncheckedUpdateWithoutUserInput = {
+    newMessage?: BoolFieldUpdateOperationsInput | boolean
+    hotSignal?: BoolFieldUpdateOperationsInput | boolean
+    taskOverdue?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserCreateWithoutVaultChallengesInput = {
     id?: string
     name: string
@@ -79469,6 +90070,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutVaultChallengesInput = {
@@ -79497,6 +90102,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutVaultChallengesInput = {
@@ -79541,6 +90150,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultChallengesInput = {
@@ -79569,6 +90182,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutVaultTrustedSessionsInput = {
@@ -79597,6 +90214,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutVaultTrustedSessionsInput = {
@@ -79625,6 +90246,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutVaultTrustedSessionsInput = {
@@ -79669,6 +90294,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultTrustedSessionsInput = {
@@ -79697,6 +90326,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutGoogleConnectionsInput = {
@@ -79725,6 +90358,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGoogleConnectionsInput = {
@@ -79753,6 +90390,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGoogleConnectionsInput = {
@@ -79797,6 +90438,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGoogleConnectionsInput = {
@@ -79825,6 +90470,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutSubCompaniesInput = {
@@ -79862,6 +90511,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -79920,6 +90572,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -79983,6 +90638,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -80041,6 +90699,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -80100,6 +90761,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyInput = {
@@ -80128,6 +90793,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyInput = {
@@ -80498,6 +91167,9 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutLeadInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
     activities?: ActivityCreateNestedManyWithoutLeadInput
+    tasks?: TaskCreateNestedManyWithoutLeadInput
+    tags?: LeadTagCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutCompanyInput = {
@@ -80524,6 +91196,9 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
     activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutLeadInput
+    tags?: LeadTagUncheckedCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutCompanyInput = {
@@ -80533,6 +91208,112 @@ export namespace Prisma {
 
   export type LeadCreateManyCompanyInputEnvelope = {
     data: LeadCreateManyCompanyInput | LeadCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TaskCreateWithoutCompanyInput = {
+    id?: string
+    title: string
+    dueAt: Date | string
+    done?: boolean
+    doneAt?: Date | string | null
+    notes?: string | null
+    source?: $Enums.TaskSource
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lead: LeadCreateNestedOneWithoutTasksInput
+    assignee?: UserCreateNestedOneWithoutTasksAssignedInput
+    createdBy?: UserCreateNestedOneWithoutTasksCreatedInput
+  }
+
+  export type TaskUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    title: string
+    dueAt: Date | string
+    done?: boolean
+    doneAt?: Date | string | null
+    notes?: string | null
+    source?: $Enums.TaskSource
+    leadId: string
+    assigneeId?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TaskCreateOrConnectWithoutCompanyInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutCompanyInput, TaskUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type TaskCreateManyCompanyInputEnvelope = {
+    data: TaskCreateManyCompanyInput | TaskCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TagCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    color?: string
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    leads?: LeadTagCreateNestedManyWithoutTagInput
+  }
+
+  export type TagUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    color?: string
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    leads?: LeadTagUncheckedCreateNestedManyWithoutTagInput
+  }
+
+  export type TagCreateOrConnectWithoutCompanyInput = {
+    where: TagWhereUniqueInput
+    create: XOR<TagCreateWithoutCompanyInput, TagUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type TagCreateManyCompanyInputEnvelope = {
+    data: TagCreateManyCompanyInput | TagCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CustomFieldDefCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    key: string
+    type?: $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: boolean
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    values?: LeadCustomValueCreateNestedManyWithoutFieldInput
+  }
+
+  export type CustomFieldDefUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    key: string
+    type?: $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: boolean
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    values?: LeadCustomValueUncheckedCreateNestedManyWithoutFieldInput
+  }
+
+  export type CustomFieldDefCreateOrConnectWithoutCompanyInput = {
+    where: CustomFieldDefWhereUniqueInput
+    create: XOR<CustomFieldDefCreateWithoutCompanyInput, CustomFieldDefUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type CustomFieldDefCreateManyCompanyInputEnvelope = {
+    data: CustomFieldDefCreateManyCompanyInput | CustomFieldDefCreateManyCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -81461,6 +92242,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -81519,6 +92303,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -81894,6 +92681,83 @@ export namespace Prisma {
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
     conversationId?: StringNullableFilter<"Lead"> | string | null
+  }
+
+  export type TaskUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: TaskWhereUniqueInput
+    update: XOR<TaskUpdateWithoutCompanyInput, TaskUncheckedUpdateWithoutCompanyInput>
+    create: XOR<TaskCreateWithoutCompanyInput, TaskUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type TaskUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: TaskWhereUniqueInput
+    data: XOR<TaskUpdateWithoutCompanyInput, TaskUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type TaskUpdateManyWithWhereWithoutCompanyInput = {
+    where: TaskScalarWhereInput
+    data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type TagUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: TagWhereUniqueInput
+    update: XOR<TagUpdateWithoutCompanyInput, TagUncheckedUpdateWithoutCompanyInput>
+    create: XOR<TagCreateWithoutCompanyInput, TagUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type TagUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: TagWhereUniqueInput
+    data: XOR<TagUpdateWithoutCompanyInput, TagUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type TagUpdateManyWithWhereWithoutCompanyInput = {
+    where: TagScalarWhereInput
+    data: XOR<TagUpdateManyMutationInput, TagUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type TagScalarWhereInput = {
+    AND?: TagScalarWhereInput | TagScalarWhereInput[]
+    OR?: TagScalarWhereInput[]
+    NOT?: TagScalarWhereInput | TagScalarWhereInput[]
+    id?: StringFilter<"Tag"> | string
+    name?: StringFilter<"Tag"> | string
+    color?: StringFilter<"Tag"> | string
+    order?: IntFilter<"Tag"> | number
+    companyId?: StringFilter<"Tag"> | string
+    createdAt?: DateTimeFilter<"Tag"> | Date | string
+    updatedAt?: DateTimeFilter<"Tag"> | Date | string
+  }
+
+  export type CustomFieldDefUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: CustomFieldDefWhereUniqueInput
+    update: XOR<CustomFieldDefUpdateWithoutCompanyInput, CustomFieldDefUncheckedUpdateWithoutCompanyInput>
+    create: XOR<CustomFieldDefCreateWithoutCompanyInput, CustomFieldDefUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type CustomFieldDefUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: CustomFieldDefWhereUniqueInput
+    data: XOR<CustomFieldDefUpdateWithoutCompanyInput, CustomFieldDefUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type CustomFieldDefUpdateManyWithWhereWithoutCompanyInput = {
+    where: CustomFieldDefScalarWhereInput
+    data: XOR<CustomFieldDefUpdateManyMutationInput, CustomFieldDefUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type CustomFieldDefScalarWhereInput = {
+    AND?: CustomFieldDefScalarWhereInput | CustomFieldDefScalarWhereInput[]
+    OR?: CustomFieldDefScalarWhereInput[]
+    NOT?: CustomFieldDefScalarWhereInput | CustomFieldDefScalarWhereInput[]
+    id?: StringFilter<"CustomFieldDef"> | string
+    name?: StringFilter<"CustomFieldDef"> | string
+    key?: StringFilter<"CustomFieldDef"> | string
+    type?: EnumCustomFieldTypeFilter<"CustomFieldDef"> | $Enums.CustomFieldType
+    options?: JsonNullableFilter<"CustomFieldDef">
+    required?: BoolFilter<"CustomFieldDef"> | boolean
+    order?: IntFilter<"CustomFieldDef"> | number
+    companyId?: StringFilter<"CustomFieldDef"> | string
+    createdAt?: DateTimeFilter<"CustomFieldDef"> | Date | string
+    updatedAt?: DateTimeFilter<"CustomFieldDef"> | Date | string
   }
 
   export type WhatsappInstanceUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -82580,6 +93444,9 @@ export namespace Prisma {
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -82638,6 +93505,9 @@ export namespace Prisma {
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -82690,6 +93560,9 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutLeadInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
     activities?: ActivityCreateNestedManyWithoutLeadInput
+    tasks?: TaskCreateNestedManyWithoutLeadInput
+    tags?: LeadTagCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutCampaignInput = {
@@ -82716,6 +93589,9 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
     activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutLeadInput
+    tags?: LeadTagUncheckedCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutCampaignInput = {
@@ -82902,6 +93778,9 @@ export namespace Prisma {
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -82960,6 +93839,9 @@ export namespace Prisma {
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -83124,6 +94006,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -83182,6 +94067,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -83233,6 +94121,9 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutLeadInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
     activities?: ActivityCreateNestedManyWithoutLeadInput
+    tasks?: TaskCreateNestedManyWithoutLeadInput
+    tags?: LeadTagCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutTrackingLinkInput = {
@@ -83259,6 +94150,9 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
     activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutLeadInput
+    tags?: LeadTagUncheckedCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutTrackingLinkInput = {
@@ -83275,6 +94169,7 @@ export namespace Prisma {
     id?: string
     targetUrl: string
     targetLabel?: string | null
+    kind?: $Enums.ClickEventKind
     createdAt?: Date | string
   }
 
@@ -83282,6 +94177,7 @@ export namespace Prisma {
     id?: string
     targetUrl: string
     targetLabel?: string | null
+    kind?: $Enums.ClickEventKind
     createdAt?: Date | string
   }
 
@@ -83389,6 +94285,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -83447,6 +94346,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -83509,6 +94411,7 @@ export namespace Prisma {
     trackingLinkId?: StringFilter<"ClickEvent"> | string
     targetUrl?: StringFilter<"ClickEvent"> | string
     targetLabel?: StringNullableFilter<"ClickEvent"> | string | null
+    kind?: EnumClickEventKindFilter<"ClickEvent"> | $Enums.ClickEventKind
     createdAt?: DateTimeFilter<"ClickEvent"> | Date | string
   }
 
@@ -83627,6 +94530,9 @@ export namespace Prisma {
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -83685,6 +94591,9 @@ export namespace Prisma {
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -83968,6 +94877,92 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TaskCreateWithoutLeadInput = {
+    id?: string
+    title: string
+    dueAt: Date | string
+    done?: boolean
+    doneAt?: Date | string | null
+    notes?: string | null
+    source?: $Enums.TaskSource
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutTasksInput
+    assignee?: UserCreateNestedOneWithoutTasksAssignedInput
+    createdBy?: UserCreateNestedOneWithoutTasksCreatedInput
+  }
+
+  export type TaskUncheckedCreateWithoutLeadInput = {
+    id?: string
+    title: string
+    dueAt: Date | string
+    done?: boolean
+    doneAt?: Date | string | null
+    notes?: string | null
+    source?: $Enums.TaskSource
+    companyId: string
+    assigneeId?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TaskCreateOrConnectWithoutLeadInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutLeadInput, TaskUncheckedCreateWithoutLeadInput>
+  }
+
+  export type TaskCreateManyLeadInputEnvelope = {
+    data: TaskCreateManyLeadInput | TaskCreateManyLeadInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LeadTagCreateWithoutLeadInput = {
+    createdAt?: Date | string
+    tag: TagCreateNestedOneWithoutLeadsInput
+  }
+
+  export type LeadTagUncheckedCreateWithoutLeadInput = {
+    tagId: string
+    createdAt?: Date | string
+  }
+
+  export type LeadTagCreateOrConnectWithoutLeadInput = {
+    where: LeadTagWhereUniqueInput
+    create: XOR<LeadTagCreateWithoutLeadInput, LeadTagUncheckedCreateWithoutLeadInput>
+  }
+
+  export type LeadTagCreateManyLeadInputEnvelope = {
+    data: LeadTagCreateManyLeadInput | LeadTagCreateManyLeadInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LeadCustomValueCreateWithoutLeadInput = {
+    id?: string
+    value: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    field: CustomFieldDefCreateNestedOneWithoutValuesInput
+  }
+
+  export type LeadCustomValueUncheckedCreateWithoutLeadInput = {
+    id?: string
+    fieldId: string
+    value: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeadCustomValueCreateOrConnectWithoutLeadInput = {
+    where: LeadCustomValueWhereUniqueInput
+    create: XOR<LeadCustomValueCreateWithoutLeadInput, LeadCustomValueUncheckedCreateWithoutLeadInput>
+  }
+
+  export type LeadCustomValueCreateManyLeadInputEnvelope = {
+    data: LeadCustomValueCreateManyLeadInput | LeadCustomValueCreateManyLeadInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutLeadsInput = {
     update: XOR<CompanyUpdateWithoutLeadsInput, CompanyUncheckedUpdateWithoutLeadsInput>
     create: XOR<CompanyCreateWithoutLeadsInput, CompanyUncheckedCreateWithoutLeadsInput>
@@ -84014,6 +95009,9 @@ export namespace Prisma {
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -84072,6 +95070,9 @@ export namespace Prisma {
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -84307,6 +95308,1741 @@ export namespace Prisma {
     data: XOR<ActivityUpdateManyMutationInput, ActivityUncheckedUpdateManyWithoutLeadInput>
   }
 
+  export type TaskUpsertWithWhereUniqueWithoutLeadInput = {
+    where: TaskWhereUniqueInput
+    update: XOR<TaskUpdateWithoutLeadInput, TaskUncheckedUpdateWithoutLeadInput>
+    create: XOR<TaskCreateWithoutLeadInput, TaskUncheckedCreateWithoutLeadInput>
+  }
+
+  export type TaskUpdateWithWhereUniqueWithoutLeadInput = {
+    where: TaskWhereUniqueInput
+    data: XOR<TaskUpdateWithoutLeadInput, TaskUncheckedUpdateWithoutLeadInput>
+  }
+
+  export type TaskUpdateManyWithWhereWithoutLeadInput = {
+    where: TaskScalarWhereInput
+    data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutLeadInput>
+  }
+
+  export type LeadTagUpsertWithWhereUniqueWithoutLeadInput = {
+    where: LeadTagWhereUniqueInput
+    update: XOR<LeadTagUpdateWithoutLeadInput, LeadTagUncheckedUpdateWithoutLeadInput>
+    create: XOR<LeadTagCreateWithoutLeadInput, LeadTagUncheckedCreateWithoutLeadInput>
+  }
+
+  export type LeadTagUpdateWithWhereUniqueWithoutLeadInput = {
+    where: LeadTagWhereUniqueInput
+    data: XOR<LeadTagUpdateWithoutLeadInput, LeadTagUncheckedUpdateWithoutLeadInput>
+  }
+
+  export type LeadTagUpdateManyWithWhereWithoutLeadInput = {
+    where: LeadTagScalarWhereInput
+    data: XOR<LeadTagUpdateManyMutationInput, LeadTagUncheckedUpdateManyWithoutLeadInput>
+  }
+
+  export type LeadTagScalarWhereInput = {
+    AND?: LeadTagScalarWhereInput | LeadTagScalarWhereInput[]
+    OR?: LeadTagScalarWhereInput[]
+    NOT?: LeadTagScalarWhereInput | LeadTagScalarWhereInput[]
+    leadId?: StringFilter<"LeadTag"> | string
+    tagId?: StringFilter<"LeadTag"> | string
+    createdAt?: DateTimeFilter<"LeadTag"> | Date | string
+  }
+
+  export type LeadCustomValueUpsertWithWhereUniqueWithoutLeadInput = {
+    where: LeadCustomValueWhereUniqueInput
+    update: XOR<LeadCustomValueUpdateWithoutLeadInput, LeadCustomValueUncheckedUpdateWithoutLeadInput>
+    create: XOR<LeadCustomValueCreateWithoutLeadInput, LeadCustomValueUncheckedCreateWithoutLeadInput>
+  }
+
+  export type LeadCustomValueUpdateWithWhereUniqueWithoutLeadInput = {
+    where: LeadCustomValueWhereUniqueInput
+    data: XOR<LeadCustomValueUpdateWithoutLeadInput, LeadCustomValueUncheckedUpdateWithoutLeadInput>
+  }
+
+  export type LeadCustomValueUpdateManyWithWhereWithoutLeadInput = {
+    where: LeadCustomValueScalarWhereInput
+    data: XOR<LeadCustomValueUpdateManyMutationInput, LeadCustomValueUncheckedUpdateManyWithoutLeadInput>
+  }
+
+  export type LeadCustomValueScalarWhereInput = {
+    AND?: LeadCustomValueScalarWhereInput | LeadCustomValueScalarWhereInput[]
+    OR?: LeadCustomValueScalarWhereInput[]
+    NOT?: LeadCustomValueScalarWhereInput | LeadCustomValueScalarWhereInput[]
+    id?: StringFilter<"LeadCustomValue"> | string
+    leadId?: StringFilter<"LeadCustomValue"> | string
+    fieldId?: StringFilter<"LeadCustomValue"> | string
+    value?: StringFilter<"LeadCustomValue"> | string
+    createdAt?: DateTimeFilter<"LeadCustomValue"> | Date | string
+    updatedAt?: DateTimeFilter<"LeadCustomValue"> | Date | string
+  }
+
+  export type CompanyCreateWithoutTagsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleClickup?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutTagsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleClickup?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutTagsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutTagsInput, CompanyUncheckedCreateWithoutTagsInput>
+  }
+
+  export type LeadTagCreateWithoutTagInput = {
+    createdAt?: Date | string
+    lead: LeadCreateNestedOneWithoutTagsInput
+  }
+
+  export type LeadTagUncheckedCreateWithoutTagInput = {
+    leadId: string
+    createdAt?: Date | string
+  }
+
+  export type LeadTagCreateOrConnectWithoutTagInput = {
+    where: LeadTagWhereUniqueInput
+    create: XOR<LeadTagCreateWithoutTagInput, LeadTagUncheckedCreateWithoutTagInput>
+  }
+
+  export type LeadTagCreateManyTagInputEnvelope = {
+    data: LeadTagCreateManyTagInput | LeadTagCreateManyTagInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutTagsInput = {
+    update: XOR<CompanyUpdateWithoutTagsInput, CompanyUncheckedUpdateWithoutTagsInput>
+    create: XOR<CompanyCreateWithoutTagsInput, CompanyUncheckedCreateWithoutTagsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutTagsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutTagsInput, CompanyUncheckedUpdateWithoutTagsInput>
+  }
+
+  export type CompanyUpdateWithoutTagsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutTagsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type LeadTagUpsertWithWhereUniqueWithoutTagInput = {
+    where: LeadTagWhereUniqueInput
+    update: XOR<LeadTagUpdateWithoutTagInput, LeadTagUncheckedUpdateWithoutTagInput>
+    create: XOR<LeadTagCreateWithoutTagInput, LeadTagUncheckedCreateWithoutTagInput>
+  }
+
+  export type LeadTagUpdateWithWhereUniqueWithoutTagInput = {
+    where: LeadTagWhereUniqueInput
+    data: XOR<LeadTagUpdateWithoutTagInput, LeadTagUncheckedUpdateWithoutTagInput>
+  }
+
+  export type LeadTagUpdateManyWithWhereWithoutTagInput = {
+    where: LeadTagScalarWhereInput
+    data: XOR<LeadTagUpdateManyMutationInput, LeadTagUncheckedUpdateManyWithoutTagInput>
+  }
+
+  export type LeadCreateWithoutTagsInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    email?: string | null
+    source?: string | null
+    status?: $Enums.LeadStatus
+    notes?: string | null
+    value?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
+    isInternal?: boolean
+    company: CompanyCreateNestedOneWithoutLeadsInput
+    campaign?: CampaignCreateNestedOneWithoutLeadsInput
+    trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    conversation?: ConversationCreateNestedOneWithoutLeadsInput
+    messages?: MessageCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentCreateNestedManyWithoutLeadInput
+    activities?: ActivityCreateNestedManyWithoutLeadInput
+    tasks?: TaskCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueCreateNestedManyWithoutLeadInput
+  }
+
+  export type LeadUncheckedCreateWithoutTagsInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    email?: string | null
+    source?: string | null
+    status?: $Enums.LeadStatus
+    notes?: string | null
+    value?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
+    isInternal?: boolean
+    companyId: string
+    campaignId?: string | null
+    trackingLinkId?: string | null
+    conversationId?: string | null
+    messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueUncheckedCreateNestedManyWithoutLeadInput
+  }
+
+  export type LeadCreateOrConnectWithoutTagsInput = {
+    where: LeadWhereUniqueInput
+    create: XOR<LeadCreateWithoutTagsInput, LeadUncheckedCreateWithoutTagsInput>
+  }
+
+  export type TagCreateWithoutLeadsInput = {
+    id?: string
+    name: string
+    color?: string
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutTagsInput
+  }
+
+  export type TagUncheckedCreateWithoutLeadsInput = {
+    id?: string
+    name: string
+    color?: string
+    order?: number
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TagCreateOrConnectWithoutLeadsInput = {
+    where: TagWhereUniqueInput
+    create: XOR<TagCreateWithoutLeadsInput, TagUncheckedCreateWithoutLeadsInput>
+  }
+
+  export type LeadUpsertWithoutTagsInput = {
+    update: XOR<LeadUpdateWithoutTagsInput, LeadUncheckedUpdateWithoutTagsInput>
+    create: XOR<LeadCreateWithoutTagsInput, LeadUncheckedCreateWithoutTagsInput>
+    where?: LeadWhereInput
+  }
+
+  export type LeadUpdateToOneWithWhereWithoutTagsInput = {
+    where?: LeadWhereInput
+    data: XOR<LeadUpdateWithoutTagsInput, LeadUncheckedUpdateWithoutTagsInput>
+  }
+
+  export type LeadUpdateWithoutTagsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
+    campaign?: CampaignUpdateOneWithoutLeadsNestedInput
+    trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    conversation?: ConversationUpdateOneWithoutLeadsNestedInput
+    messages?: MessageUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUpdateManyWithoutLeadNestedInput
+  }
+
+  export type LeadUncheckedUpdateWithoutTagsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUncheckedUpdateManyWithoutLeadNestedInput
+  }
+
+  export type TagUpsertWithoutLeadsInput = {
+    update: XOR<TagUpdateWithoutLeadsInput, TagUncheckedUpdateWithoutLeadsInput>
+    create: XOR<TagCreateWithoutLeadsInput, TagUncheckedCreateWithoutLeadsInput>
+    where?: TagWhereInput
+  }
+
+  export type TagUpdateToOneWithWhereWithoutLeadsInput = {
+    where?: TagWhereInput
+    data: XOR<TagUpdateWithoutLeadsInput, TagUncheckedUpdateWithoutLeadsInput>
+  }
+
+  export type TagUpdateWithoutLeadsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutTagsNestedInput
+  }
+
+  export type TagUncheckedUpdateWithoutLeadsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompanyCreateWithoutCustomFieldDefsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleClickup?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutCustomFieldDefsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleClickup?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutCustomFieldDefsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutCustomFieldDefsInput, CompanyUncheckedCreateWithoutCustomFieldDefsInput>
+  }
+
+  export type LeadCustomValueCreateWithoutFieldInput = {
+    id?: string
+    value: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lead: LeadCreateNestedOneWithoutCustomValuesInput
+  }
+
+  export type LeadCustomValueUncheckedCreateWithoutFieldInput = {
+    id?: string
+    leadId: string
+    value: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeadCustomValueCreateOrConnectWithoutFieldInput = {
+    where: LeadCustomValueWhereUniqueInput
+    create: XOR<LeadCustomValueCreateWithoutFieldInput, LeadCustomValueUncheckedCreateWithoutFieldInput>
+  }
+
+  export type LeadCustomValueCreateManyFieldInputEnvelope = {
+    data: LeadCustomValueCreateManyFieldInput | LeadCustomValueCreateManyFieldInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutCustomFieldDefsInput = {
+    update: XOR<CompanyUpdateWithoutCustomFieldDefsInput, CompanyUncheckedUpdateWithoutCustomFieldDefsInput>
+    create: XOR<CompanyCreateWithoutCustomFieldDefsInput, CompanyUncheckedCreateWithoutCustomFieldDefsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutCustomFieldDefsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutCustomFieldDefsInput, CompanyUncheckedUpdateWithoutCustomFieldDefsInput>
+  }
+
+  export type CompanyUpdateWithoutCustomFieldDefsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutCustomFieldDefsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type LeadCustomValueUpsertWithWhereUniqueWithoutFieldInput = {
+    where: LeadCustomValueWhereUniqueInput
+    update: XOR<LeadCustomValueUpdateWithoutFieldInput, LeadCustomValueUncheckedUpdateWithoutFieldInput>
+    create: XOR<LeadCustomValueCreateWithoutFieldInput, LeadCustomValueUncheckedCreateWithoutFieldInput>
+  }
+
+  export type LeadCustomValueUpdateWithWhereUniqueWithoutFieldInput = {
+    where: LeadCustomValueWhereUniqueInput
+    data: XOR<LeadCustomValueUpdateWithoutFieldInput, LeadCustomValueUncheckedUpdateWithoutFieldInput>
+  }
+
+  export type LeadCustomValueUpdateManyWithWhereWithoutFieldInput = {
+    where: LeadCustomValueScalarWhereInput
+    data: XOR<LeadCustomValueUpdateManyMutationInput, LeadCustomValueUncheckedUpdateManyWithoutFieldInput>
+  }
+
+  export type LeadCreateWithoutCustomValuesInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    email?: string | null
+    source?: string | null
+    status?: $Enums.LeadStatus
+    notes?: string | null
+    value?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
+    isInternal?: boolean
+    company: CompanyCreateNestedOneWithoutLeadsInput
+    campaign?: CampaignCreateNestedOneWithoutLeadsInput
+    trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    conversation?: ConversationCreateNestedOneWithoutLeadsInput
+    messages?: MessageCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentCreateNestedManyWithoutLeadInput
+    activities?: ActivityCreateNestedManyWithoutLeadInput
+    tasks?: TaskCreateNestedManyWithoutLeadInput
+    tags?: LeadTagCreateNestedManyWithoutLeadInput
+  }
+
+  export type LeadUncheckedCreateWithoutCustomValuesInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    email?: string | null
+    source?: string | null
+    status?: $Enums.LeadStatus
+    notes?: string | null
+    value?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
+    isInternal?: boolean
+    companyId: string
+    campaignId?: string | null
+    trackingLinkId?: string | null
+    conversationId?: string | null
+    messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutLeadInput
+    tags?: LeadTagUncheckedCreateNestedManyWithoutLeadInput
+  }
+
+  export type LeadCreateOrConnectWithoutCustomValuesInput = {
+    where: LeadWhereUniqueInput
+    create: XOR<LeadCreateWithoutCustomValuesInput, LeadUncheckedCreateWithoutCustomValuesInput>
+  }
+
+  export type CustomFieldDefCreateWithoutValuesInput = {
+    id?: string
+    name: string
+    key: string
+    type?: $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: boolean
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutCustomFieldDefsInput
+  }
+
+  export type CustomFieldDefUncheckedCreateWithoutValuesInput = {
+    id?: string
+    name: string
+    key: string
+    type?: $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: boolean
+    order?: number
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomFieldDefCreateOrConnectWithoutValuesInput = {
+    where: CustomFieldDefWhereUniqueInput
+    create: XOR<CustomFieldDefCreateWithoutValuesInput, CustomFieldDefUncheckedCreateWithoutValuesInput>
+  }
+
+  export type LeadUpsertWithoutCustomValuesInput = {
+    update: XOR<LeadUpdateWithoutCustomValuesInput, LeadUncheckedUpdateWithoutCustomValuesInput>
+    create: XOR<LeadCreateWithoutCustomValuesInput, LeadUncheckedCreateWithoutCustomValuesInput>
+    where?: LeadWhereInput
+  }
+
+  export type LeadUpdateToOneWithWhereWithoutCustomValuesInput = {
+    where?: LeadWhereInput
+    data: XOR<LeadUpdateWithoutCustomValuesInput, LeadUncheckedUpdateWithoutCustomValuesInput>
+  }
+
+  export type LeadUpdateWithoutCustomValuesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
+    campaign?: CampaignUpdateOneWithoutLeadsNestedInput
+    trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    conversation?: ConversationUpdateOneWithoutLeadsNestedInput
+    messages?: MessageUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUpdateManyWithoutLeadNestedInput
+  }
+
+  export type LeadUncheckedUpdateWithoutCustomValuesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUncheckedUpdateManyWithoutLeadNestedInput
+  }
+
+  export type CustomFieldDefUpsertWithoutValuesInput = {
+    update: XOR<CustomFieldDefUpdateWithoutValuesInput, CustomFieldDefUncheckedUpdateWithoutValuesInput>
+    create: XOR<CustomFieldDefCreateWithoutValuesInput, CustomFieldDefUncheckedCreateWithoutValuesInput>
+    where?: CustomFieldDefWhereInput
+  }
+
+  export type CustomFieldDefUpdateToOneWithWhereWithoutValuesInput = {
+    where?: CustomFieldDefWhereInput
+    data: XOR<CustomFieldDefUpdateWithoutValuesInput, CustomFieldDefUncheckedUpdateWithoutValuesInput>
+  }
+
+  export type CustomFieldDefUpdateWithoutValuesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutCustomFieldDefsNestedInput
+  }
+
+  export type CustomFieldDefUncheckedUpdateWithoutValuesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadCreateWithoutTasksInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    email?: string | null
+    source?: string | null
+    status?: $Enums.LeadStatus
+    notes?: string | null
+    value?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
+    isInternal?: boolean
+    company: CompanyCreateNestedOneWithoutLeadsInput
+    campaign?: CampaignCreateNestedOneWithoutLeadsInput
+    trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    conversation?: ConversationCreateNestedOneWithoutLeadsInput
+    messages?: MessageCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentCreateNestedManyWithoutLeadInput
+    activities?: ActivityCreateNestedManyWithoutLeadInput
+    tags?: LeadTagCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueCreateNestedManyWithoutLeadInput
+  }
+
+  export type LeadUncheckedCreateWithoutTasksInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    email?: string | null
+    source?: string | null
+    status?: $Enums.LeadStatus
+    notes?: string | null
+    value?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
+    isInternal?: boolean
+    companyId: string
+    campaignId?: string | null
+    trackingLinkId?: string | null
+    conversationId?: string | null
+    messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
+    tags?: LeadTagUncheckedCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueUncheckedCreateNestedManyWithoutLeadInput
+  }
+
+  export type LeadCreateOrConnectWithoutTasksInput = {
+    where: LeadWhereUniqueInput
+    create: XOR<LeadCreateWithoutTasksInput, LeadUncheckedCreateWithoutTasksInput>
+  }
+
+  export type CompanyCreateWithoutTasksInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleClickup?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutTasksInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleClickup?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutTasksInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutTasksInput, CompanyUncheckedCreateWithoutTasksInput>
+  }
+
+  export type UserCreateWithoutTasksAssignedInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutTasksAssignedInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutTasksAssignedInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutTasksAssignedInput, UserUncheckedCreateWithoutTasksAssignedInput>
+  }
+
+  export type UserCreateWithoutTasksCreatedInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutTasksCreatedInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutTasksCreatedInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutTasksCreatedInput, UserUncheckedCreateWithoutTasksCreatedInput>
+  }
+
+  export type LeadUpsertWithoutTasksInput = {
+    update: XOR<LeadUpdateWithoutTasksInput, LeadUncheckedUpdateWithoutTasksInput>
+    create: XOR<LeadCreateWithoutTasksInput, LeadUncheckedCreateWithoutTasksInput>
+    where?: LeadWhereInput
+  }
+
+  export type LeadUpdateToOneWithWhereWithoutTasksInput = {
+    where?: LeadWhereInput
+    data: XOR<LeadUpdateWithoutTasksInput, LeadUncheckedUpdateWithoutTasksInput>
+  }
+
+  export type LeadUpdateWithoutTasksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
+    campaign?: CampaignUpdateOneWithoutLeadsNestedInput
+    trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    conversation?: ConversationUpdateOneWithoutLeadsNestedInput
+    messages?: MessageUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUpdateManyWithoutLeadNestedInput
+  }
+
+  export type LeadUncheckedUpdateWithoutTasksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUncheckedUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUncheckedUpdateManyWithoutLeadNestedInput
+  }
+
+  export type CompanyUpsertWithoutTasksInput = {
+    update: XOR<CompanyUpdateWithoutTasksInput, CompanyUncheckedUpdateWithoutTasksInput>
+    create: XOR<CompanyCreateWithoutTasksInput, CompanyUncheckedCreateWithoutTasksInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutTasksInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutTasksInput, CompanyUncheckedUpdateWithoutTasksInput>
+  }
+
+  export type CompanyUpdateWithoutTasksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutTasksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type UserUpsertWithoutTasksAssignedInput = {
+    update: XOR<UserUpdateWithoutTasksAssignedInput, UserUncheckedUpdateWithoutTasksAssignedInput>
+    create: XOR<UserCreateWithoutTasksAssignedInput, UserUncheckedCreateWithoutTasksAssignedInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutTasksAssignedInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutTasksAssignedInput, UserUncheckedUpdateWithoutTasksAssignedInput>
+  }
+
+  export type UserUpdateWithoutTasksAssignedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutTasksAssignedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUpsertWithoutTasksCreatedInput = {
+    update: XOR<UserUpdateWithoutTasksCreatedInput, UserUncheckedUpdateWithoutTasksCreatedInput>
+    create: XOR<UserCreateWithoutTasksCreatedInput, UserUncheckedCreateWithoutTasksCreatedInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutTasksCreatedInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutTasksCreatedInput, UserUncheckedUpdateWithoutTasksCreatedInput>
+  }
+
+  export type UserUpdateWithoutTasksCreatedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutTasksCreatedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
+  }
+
   export type LeadCreateWithoutCommentsInput = {
     id?: string
     name?: string | null
@@ -84331,6 +97067,9 @@ export namespace Prisma {
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
     activities?: ActivityCreateNestedManyWithoutLeadInput
+    tasks?: TaskCreateNestedManyWithoutLeadInput
+    tags?: LeadTagCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutCommentsInput = {
@@ -84357,6 +97096,9 @@ export namespace Prisma {
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutLeadInput
+    tags?: LeadTagUncheckedCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutCommentsInput = {
@@ -84399,6 +97141,9 @@ export namespace Prisma {
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
     activities?: ActivityUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutCommentsInput = {
@@ -84425,6 +97170,9 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUncheckedUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type CompanyCreateWithoutPipelineStagesInput = {
@@ -84463,6 +97211,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -84521,6 +97272,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -84595,6 +97349,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -84653,6 +97410,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -84711,6 +97471,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -84769,6 +97532,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -84822,6 +97588,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyContactInput = {
@@ -84850,6 +97620,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyContactInput = {
@@ -84904,6 +97678,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -84962,6 +97739,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -85021,6 +97801,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyContactInput = {
@@ -85049,6 +97833,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutWhatsappInstancesInput = {
@@ -85087,6 +97875,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
@@ -85145,6 +97936,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
@@ -85295,6 +98089,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
@@ -85353,6 +98150,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
@@ -85451,6 +98251,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
@@ -85509,6 +98312,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
@@ -85634,6 +98440,9 @@ export namespace Prisma {
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
     activities?: ActivityCreateNestedManyWithoutLeadInput
+    tasks?: TaskCreateNestedManyWithoutLeadInput
+    tags?: LeadTagCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutMessagesInput = {
@@ -85660,6 +98469,9 @@ export namespace Prisma {
     conversationId?: string | null
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
     activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutLeadInput
+    tags?: LeadTagUncheckedCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutMessagesInput = {
@@ -85748,6 +98560,10 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessagesSentInput = {
@@ -85776,6 +98592,10 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessagesSentInput = {
@@ -85830,6 +98650,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
@@ -85888,6 +98711,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
@@ -86031,6 +98857,9 @@ export namespace Prisma {
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
     activities?: ActivityUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutMessagesInput = {
@@ -86057,6 +98886,9 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUncheckedUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type ConversationUpsertWithoutMessagesInput = {
@@ -86157,6 +98989,10 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesSentInput = {
@@ -86185,6 +99021,10 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutKeywordRulesInput = {
@@ -86223,6 +99063,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
@@ -86281,6 +99124,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
@@ -86396,6 +99242,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
@@ -86454,6 +99303,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
@@ -86549,6 +99401,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConversationsAssignedInput = {
@@ -86577,6 +99433,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConversationsAssignedInput = {
@@ -86671,6 +99531,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -86729,6 +99592,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -86902,6 +99768,9 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutLeadInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
     activities?: ActivityCreateNestedManyWithoutLeadInput
+    tasks?: TaskCreateNestedManyWithoutLeadInput
+    tags?: LeadTagCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutConversationInput = {
@@ -86928,6 +99797,9 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
     activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutLeadInput
+    tags?: LeadTagUncheckedCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutConversationInput = {
@@ -86977,6 +99849,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversationsAssignedInput = {
@@ -87005,6 +99881,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type SetorUpsertWithoutConversationsInput = {
@@ -87111,6 +99991,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -87169,6 +100052,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -87463,6 +100349,9 @@ export namespace Prisma {
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
+    tasks?: TaskCreateNestedManyWithoutLeadInput
+    tags?: LeadTagCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutActivitiesInput = {
@@ -87489,6 +100378,9 @@ export namespace Prisma {
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutLeadInput
+    tags?: LeadTagUncheckedCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutActivitiesInput = {
@@ -87583,6 +100475,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -87641,6 +100536,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -87764,6 +100662,9 @@ export namespace Prisma {
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutActivitiesInput = {
@@ -87790,6 +100691,9 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUncheckedUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type TicketUpsertWithoutActivitiesInput = {
@@ -87896,6 +100800,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -87954,6 +100861,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -88012,6 +100922,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -88070,6 +100983,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -88123,6 +101039,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketsAssignedInput = {
@@ -88151,6 +101071,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketsAssignedInput = {
@@ -88194,6 +101118,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -88252,6 +101179,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -88305,6 +101235,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketsCreatedInput = {
@@ -88333,6 +101267,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketsCreatedInput = {
@@ -88510,6 +101448,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -88568,6 +101509,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -88627,6 +101571,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsAssignedInput = {
@@ -88655,6 +101603,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutTicketsInput = {
@@ -88704,6 +101656,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -88762,6 +101717,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -88821,6 +101779,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsCreatedInput = {
@@ -88849,6 +101811,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type SetorUpsertWithoutTicketsInput = {
@@ -89101,6 +102067,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -89159,6 +102128,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -89447,6 +102419,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -89505,6 +102480,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -89693,6 +102671,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -89751,6 +102732,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -89970,6 +102954,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -90028,6 +103015,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -90453,6 +103443,10 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectMembershipsInput = {
@@ -90481,6 +103475,10 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectMembershipsInput = {
@@ -90588,6 +103586,10 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
@@ -90616,6 +103618,10 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type SetorCreateWithoutUsersInput = {
@@ -90695,6 +103701,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSetoresInput = {
@@ -90723,6 +103733,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSetoresInput = {
@@ -90824,6 +103838,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSetoresInput = {
@@ -90852,6 +103870,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type SetorCreateWithoutInstancesInput = {
@@ -91070,6 +104092,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -91128,6 +104153,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -91246,6 +104274,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -91304,6 +104335,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -91575,6 +104609,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -91633,6 +104670,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -91752,6 +104792,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -91810,6 +104853,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -91868,6 +104914,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -91926,6 +104975,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -92000,6 +105052,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -92058,6 +105113,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -92116,6 +105174,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -92174,6 +105235,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -92248,6 +105312,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -92306,6 +105373,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -92364,6 +105434,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -92422,6 +105495,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -92496,6 +105572,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -92554,6 +105633,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -92612,6 +105694,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -92670,6 +105755,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -92744,6 +105832,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -92802,6 +105893,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -92860,6 +105954,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -92918,6 +106015,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -92992,6 +106092,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -93050,6 +106153,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -93108,6 +106214,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -93166,6 +106275,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -93240,6 +106352,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -93298,6 +106413,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -93356,6 +106474,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -93414,6 +106535,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -93488,6 +106612,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -93546,6 +106673,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -93603,6 +106733,9 @@ export namespace Prisma {
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -93661,6 +106794,9 @@ export namespace Prisma {
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -93759,6 +106895,9 @@ export namespace Prisma {
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -93817,6 +106956,9 @@ export namespace Prisma {
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -93962,6 +107104,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -94020,6 +107165,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -94130,6 +107278,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -94188,6 +107339,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -94253,6 +107407,10 @@ export namespace Prisma {
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRewardRedemptionsInput = {
@@ -94281,6 +107439,10 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRewardRedemptionsInput = {
@@ -94323,6 +107485,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -94381,6 +107546,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -94477,6 +107645,10 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRewardRedemptionsInput = {
@@ -94505,6 +107677,10 @@ export namespace Prisma {
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutRewardRedemptionsInput = {
@@ -94553,6 +107729,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -94611,6 +107790,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -94697,6 +107879,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserScoresInput = {
@@ -94725,6 +107911,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserScoresInput = {
@@ -94767,6 +107957,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -94825,6 +108018,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -94890,6 +108086,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserScoresInput = {
@@ -94918,6 +108118,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutUserScoresInput = {
@@ -94966,6 +108170,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -95024,6 +108231,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -95073,6 +108283,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserBadgesInput = {
@@ -95101,6 +108315,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserBadgesInput = {
@@ -95143,6 +108361,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -95201,6 +108422,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -95266,6 +108490,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserBadgesInput = {
@@ -95294,6 +108522,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutUserBadgesInput = {
@@ -95342,6 +108574,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -95400,6 +108635,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -95449,6 +108687,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutScoreEventsInput = {
@@ -95477,6 +108719,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutScoreEventsInput = {
@@ -95519,6 +108765,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -95577,6 +108826,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -95642,6 +108894,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutScoreEventsInput = {
@@ -95670,6 +108926,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutScoreEventsInput = {
@@ -95718,6 +108978,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -95776,6 +109039,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -95834,6 +109100,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -95892,6 +109161,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -95966,6 +109238,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -96024,6 +109299,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -96045,6 +109323,294 @@ export namespace Prisma {
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type UserCreateWithoutPushSubscriptionsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPushSubscriptionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPushSubscriptionsInput, UserUncheckedCreateWithoutPushSubscriptionsInput>
+  }
+
+  export type UserUpsertWithoutPushSubscriptionsInput = {
+    update: XOR<UserUpdateWithoutPushSubscriptionsInput, UserUncheckedUpdateWithoutPushSubscriptionsInput>
+    create: XOR<UserCreateWithoutPushSubscriptionsInput, UserUncheckedCreateWithoutPushSubscriptionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPushSubscriptionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPushSubscriptionsInput, UserUncheckedUpdateWithoutPushSubscriptionsInput>
+  }
+
+  export type UserUpdateWithoutPushSubscriptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutNotifPreferencesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutNotifPreferencesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutNotifPreferencesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutNotifPreferencesInput, UserUncheckedCreateWithoutNotifPreferencesInput>
+  }
+
+  export type UserUpsertWithoutNotifPreferencesInput = {
+    update: XOR<UserUpdateWithoutNotifPreferencesInput, UserUncheckedUpdateWithoutNotifPreferencesInput>
+    create: XOR<UserCreateWithoutNotifPreferencesInput, UserUncheckedCreateWithoutNotifPreferencesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutNotifPreferencesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutNotifPreferencesInput, UserUncheckedUpdateWithoutNotifPreferencesInput>
+  }
+
+  export type UserUpdateWithoutNotifPreferencesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutNotifPreferencesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutBillingEventsInput = {
@@ -96083,6 +109649,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignCreateNestedManyWithoutCompanyInput
     leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -96141,6 +109710,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -96215,6 +109787,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -96273,6 +109848,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -96467,6 +110045,47 @@ export namespace Prisma {
     campaignId?: string | null
     leadId?: string | null
     conversationId?: string | null
+  }
+
+  export type TaskCreateManyAssigneeInput = {
+    id?: string
+    title: string
+    dueAt: Date | string
+    done?: boolean
+    doneAt?: Date | string | null
+    notes?: string | null
+    source?: $Enums.TaskSource
+    leadId: string
+    companyId: string
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TaskCreateManyCreatedByInput = {
+    id?: string
+    title: string
+    dueAt: Date | string
+    done?: boolean
+    doneAt?: Date | string | null
+    notes?: string | null
+    source?: $Enums.TaskSource
+    leadId: string
+    companyId: string
+    assigneeId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PushSubscriptionCreateManyUserInput = {
+    id?: string
+    endpoint: string
+    p256dh: string
+    auth: string
+    userAgent?: string | null
+    lastFailedAt?: Date | string | null
+    failCount?: number
+    createdAt?: Date | string
   }
 
   export type TicketUpdateWithoutCreatedByInput = {
@@ -97007,6 +110626,129 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type TaskUpdateWithoutAssigneeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    dueAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumTaskSourceFieldUpdateOperationsInput | $Enums.TaskSource
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lead?: LeadUpdateOneRequiredWithoutTasksNestedInput
+    company?: CompanyUpdateOneRequiredWithoutTasksNestedInput
+    createdBy?: UserUpdateOneWithoutTasksCreatedNestedInput
+  }
+
+  export type TaskUncheckedUpdateWithoutAssigneeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    dueAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumTaskSourceFieldUpdateOperationsInput | $Enums.TaskSource
+    leadId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TaskUncheckedUpdateManyWithoutAssigneeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    dueAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumTaskSourceFieldUpdateOperationsInput | $Enums.TaskSource
+    leadId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TaskUpdateWithoutCreatedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    dueAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumTaskSourceFieldUpdateOperationsInput | $Enums.TaskSource
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lead?: LeadUpdateOneRequiredWithoutTasksNestedInput
+    company?: CompanyUpdateOneRequiredWithoutTasksNestedInput
+    assignee?: UserUpdateOneWithoutTasksAssignedNestedInput
+  }
+
+  export type TaskUncheckedUpdateWithoutCreatedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    dueAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumTaskSourceFieldUpdateOperationsInput | $Enums.TaskSource
+    leadId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TaskUncheckedUpdateManyWithoutCreatedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    dueAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumTaskSourceFieldUpdateOperationsInput | $Enums.TaskSource
+    leadId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PushSubscriptionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    endpoint?: StringFieldUpdateOperationsInput | string
+    p256dh?: StringFieldUpdateOperationsInput | string
+    auth?: StringFieldUpdateOperationsInput | string
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    lastFailedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PushSubscriptionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    endpoint?: StringFieldUpdateOperationsInput | string
+    p256dh?: StringFieldUpdateOperationsInput | string
+    auth?: StringFieldUpdateOperationsInput | string
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    lastFailedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PushSubscriptionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    endpoint?: StringFieldUpdateOperationsInput | string
+    p256dh?: StringFieldUpdateOperationsInput | string
+    auth?: StringFieldUpdateOperationsInput | string
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    lastFailedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CompanyCreateManyParentCompanyInput = {
     id?: string
     name: string
@@ -97180,6 +110922,42 @@ export namespace Prisma {
     campaignId?: string | null
     trackingLinkId?: string | null
     conversationId?: string | null
+  }
+
+  export type TaskCreateManyCompanyInput = {
+    id?: string
+    title: string
+    dueAt: Date | string
+    done?: boolean
+    doneAt?: Date | string | null
+    notes?: string | null
+    source?: $Enums.TaskSource
+    leadId: string
+    assigneeId?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TagCreateManyCompanyInput = {
+    id?: string
+    name: string
+    color?: string
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomFieldDefCreateManyCompanyInput = {
+    id?: string
+    name: string
+    key: string
+    type?: $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: boolean
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type WhatsappInstanceCreateManyCompanyInput = {
@@ -97514,6 +111292,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
     leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -97572,6 +111353,9 @@ export namespace Prisma {
     businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -97646,6 +111430,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyInput = {
@@ -97674,6 +111462,10 @@ export namespace Prisma {
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCompanyInput = {
@@ -98071,6 +111863,9 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
     activities?: ActivityUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutCompanyInput = {
@@ -98097,6 +111892,9 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUncheckedUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateManyWithoutCompanyInput = {
@@ -98120,6 +111918,118 @@ export namespace Prisma {
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TaskUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    dueAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumTaskSourceFieldUpdateOperationsInput | $Enums.TaskSource
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lead?: LeadUpdateOneRequiredWithoutTasksNestedInput
+    assignee?: UserUpdateOneWithoutTasksAssignedNestedInput
+    createdBy?: UserUpdateOneWithoutTasksCreatedNestedInput
+  }
+
+  export type TaskUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    dueAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumTaskSourceFieldUpdateOperationsInput | $Enums.TaskSource
+    leadId?: StringFieldUpdateOperationsInput | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TaskUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    dueAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumTaskSourceFieldUpdateOperationsInput | $Enums.TaskSource
+    leadId?: StringFieldUpdateOperationsInput | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TagUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leads?: LeadTagUpdateManyWithoutTagNestedInput
+  }
+
+  export type TagUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leads?: LeadTagUncheckedUpdateManyWithoutTagNestedInput
+  }
+
+  export type TagUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomFieldDefUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    values?: LeadCustomValueUpdateManyWithoutFieldNestedInput
+  }
+
+  export type CustomFieldDefUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    values?: LeadCustomValueUncheckedUpdateManyWithoutFieldNestedInput
+  }
+
+  export type CustomFieldDefUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WhatsappInstanceUpdateWithoutCompanyInput = {
@@ -99143,6 +113053,9 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
     activities?: ActivityUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutCampaignInput = {
@@ -99169,6 +113082,9 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUncheckedUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateManyWithoutCampaignInput = {
@@ -99366,6 +113282,7 @@ export namespace Prisma {
     id?: string
     targetUrl: string
     targetLabel?: string | null
+    kind?: $Enums.ClickEventKind
     createdAt?: Date | string
   }
 
@@ -99393,6 +113310,9 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
     activities?: ActivityUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutTrackingLinkInput = {
@@ -99419,6 +113339,9 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUncheckedUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateManyWithoutTrackingLinkInput = {
@@ -99448,6 +113371,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     targetUrl?: StringFieldUpdateOperationsInput | string
     targetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    kind?: EnumClickEventKindFieldUpdateOperationsInput | $Enums.ClickEventKind
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -99455,6 +113379,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     targetUrl?: StringFieldUpdateOperationsInput | string
     targetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    kind?: EnumClickEventKindFieldUpdateOperationsInput | $Enums.ClickEventKind
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -99462,6 +113387,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     targetUrl?: StringFieldUpdateOperationsInput | string
     targetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    kind?: EnumClickEventKindFieldUpdateOperationsInput | $Enums.ClickEventKind
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -99509,6 +113435,34 @@ export namespace Prisma {
     conversationId?: string | null
     ticketId?: string | null
     companyId: string
+  }
+
+  export type TaskCreateManyLeadInput = {
+    id?: string
+    title: string
+    dueAt: Date | string
+    done?: boolean
+    doneAt?: Date | string | null
+    notes?: string | null
+    source?: $Enums.TaskSource
+    companyId: string
+    assigneeId?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeadTagCreateManyLeadInput = {
+    tagId: string
+    createdAt?: Date | string
+  }
+
+  export type LeadCustomValueCreateManyLeadInput = {
+    id?: string
+    fieldId: string
+    value: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MessageUpdateWithoutLeadInput = {
@@ -99647,6 +113601,142 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TaskUpdateWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    dueAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumTaskSourceFieldUpdateOperationsInput | $Enums.TaskSource
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutTasksNestedInput
+    assignee?: UserUpdateOneWithoutTasksAssignedNestedInput
+    createdBy?: UserUpdateOneWithoutTasksCreatedNestedInput
+  }
+
+  export type TaskUncheckedUpdateWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    dueAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumTaskSourceFieldUpdateOperationsInput | $Enums.TaskSource
+    companyId?: StringFieldUpdateOperationsInput | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TaskUncheckedUpdateManyWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    dueAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    done?: BoolFieldUpdateOperationsInput | boolean
+    doneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumTaskSourceFieldUpdateOperationsInput | $Enums.TaskSource
+    companyId?: StringFieldUpdateOperationsInput | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadTagUpdateWithoutLeadInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tag?: TagUpdateOneRequiredWithoutLeadsNestedInput
+  }
+
+  export type LeadTagUncheckedUpdateWithoutLeadInput = {
+    tagId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadTagUncheckedUpdateManyWithoutLeadInput = {
+    tagId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadCustomValueUpdateWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    field?: CustomFieldDefUpdateOneRequiredWithoutValuesNestedInput
+  }
+
+  export type LeadCustomValueUncheckedUpdateWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fieldId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadCustomValueUncheckedUpdateManyWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fieldId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadTagCreateManyTagInput = {
+    leadId: string
+    createdAt?: Date | string
+  }
+
+  export type LeadTagUpdateWithoutTagInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lead?: LeadUpdateOneRequiredWithoutTagsNestedInput
+  }
+
+  export type LeadTagUncheckedUpdateWithoutTagInput = {
+    leadId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadTagUncheckedUpdateManyWithoutTagInput = {
+    leadId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadCustomValueCreateManyFieldInput = {
+    id?: string
+    leadId: string
+    value: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeadCustomValueUpdateWithoutFieldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lead?: LeadUpdateOneRequiredWithoutCustomValuesNestedInput
+  }
+
+  export type LeadCustomValueUncheckedUpdateWithoutFieldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    leadId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadCustomValueUncheckedUpdateManyWithoutFieldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    leadId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageCreateManyInstanceInput = {
@@ -99992,6 +114082,9 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
     activities?: ActivityUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutConversationInput = {
@@ -100018,6 +114111,9 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUncheckedUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateManyWithoutConversationInput = {
@@ -100793,6 +114889,14 @@ export namespace Prisma {
      */
     export type LeadCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = LeadCountOutputTypeDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use TagCountOutputTypeDefaultArgs instead
+     */
+    export type TagCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = TagCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use CustomFieldDefCountOutputTypeDefaultArgs instead
+     */
+    export type CustomFieldDefCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CustomFieldDefCountOutputTypeDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use WhatsappInstanceCountOutputTypeDefaultArgs instead
      */
     export type WhatsappInstanceCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = WhatsappInstanceCountOutputTypeDefaultArgs<ExtArgs>
@@ -100864,6 +114968,26 @@ export namespace Prisma {
      * @deprecated Use LeadDefaultArgs instead
      */
     export type LeadArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = LeadDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use TagDefaultArgs instead
+     */
+    export type TagArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = TagDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use LeadTagDefaultArgs instead
+     */
+    export type LeadTagArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = LeadTagDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use CustomFieldDefDefaultArgs instead
+     */
+    export type CustomFieldDefArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CustomFieldDefDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use LeadCustomValueDefaultArgs instead
+     */
+    export type LeadCustomValueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = LeadCustomValueDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use TaskDefaultArgs instead
+     */
+    export type TaskArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = TaskDefaultArgs<ExtArgs>
     /**
      * @deprecated Use LeadCommentDefaultArgs instead
      */
@@ -101016,6 +115140,14 @@ export namespace Prisma {
      * @deprecated Use ScoreRuleConfigDefaultArgs instead
      */
     export type ScoreRuleConfigArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ScoreRuleConfigDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PushSubscriptionDefaultArgs instead
+     */
+    export type PushSubscriptionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PushSubscriptionDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use UserNotifPreferencesDefaultArgs instead
+     */
+    export type UserNotifPreferencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserNotifPreferencesDefaultArgs<ExtArgs>
     /**
      * @deprecated Use BillingEventDefaultArgs instead
      */

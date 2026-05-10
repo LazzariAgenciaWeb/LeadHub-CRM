@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import RelatoriosDashboard from "./RelatoriosDashboard";
 import RelatoriosNav from "./RelatoriosNav";
 import RelatoriosMarketing from "./RelatoriosMarketing";
+import RelatoriosFunil, { type StageStat, type FunnelData } from "./RelatoriosFunil";
 
 export default async function RelatoriosPage({
   searchParams,
@@ -48,6 +49,109 @@ export default async function RelatoriosPage({
             selectedCompanyId={selectedCompanyId}
             companies={companies}
           />
+        </div>
+      </div>
+    );
+  }
+
+  // ─── Seção: Funil ─────────────────────────────────────────────────────────
+  if (secao === "funil") {
+    const where = isSuperAdmin ? {} : { companyId: userCompanyId };
+
+    const PIPELINES = ["PROSPECCAO", "LEADS", "OPORTUNIDADES"] as const;
+    const PIPELINE_INFO: Record<string, { label: string; icon: string }> = {
+      PROSPECCAO:    { label: "Prospecção",    icon: "🔎" },
+      LEADS:         { label: "Leads",         icon: "🎯" },
+      OPORTUNIDADES: { label: "Oportunidades", icon: "💡" },
+    };
+
+    // Configurações de etapas + agregados de leads em paralelo
+    const [stagesConfig, leadsAggRaw] = await Promise.all([
+      prisma.pipelineStageConfig.findMany({
+        where: { ...(isSuperAdmin ? {} : { companyId: userCompanyId }), pipeline: { in: [...PIPELINES] } },
+        orderBy: [{ pipeline: "asc" }, { order: "asc" }],
+      }),
+      prisma.lead.findMany({
+        where: { ...where, pipeline: { in: [...PIPELINES] } },
+        select: { pipeline: true, pipelineStage: true, value: true },
+      }),
+    ]);
+
+    // Deduplicar etapas por (pipeline, name) — SUPER_ADMIN agrega de todas as empresas
+    const seen = new Set<string>();
+    const stages = stagesConfig.filter((s) => {
+      const k = `${s.pipeline}::${s.name}`;
+      if (seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    });
+
+    // Agregar count + sum(value) por (pipeline, stageName)
+    type Agg = { count: number; totalValue: number };
+    const agg = new Map<string, Agg>();
+    for (const l of leadsAggRaw) {
+      if (!l.pipeline || !l.pipelineStage) continue;
+      const k = `${l.pipeline}::${l.pipelineStage}`;
+      const cur = agg.get(k) ?? { count: 0, totalValue: 0 };
+      cur.count += 1;
+      cur.totalValue += l.value ?? 0;
+      agg.set(k, cur);
+    }
+
+    const stagesByPipeline: Record<string, StageStat[]> = {};
+    for (const p of PIPELINES) stagesByPipeline[p] = [];
+    for (const s of stages) {
+      const a = agg.get(`${s.pipeline}::${s.name}`) ?? { count: 0, totalValue: 0 };
+      stagesByPipeline[s.pipeline]?.push({
+        pipeline: s.pipeline,
+        stageName: s.name,
+        color: s.color,
+        order: s.order,
+        isFinal: s.isFinal,
+        count: a.count,
+        totalValue: a.totalValue,
+      });
+    }
+
+    // Tempo médio entre mudanças de stage (mediana, dias) usando Activity STAGE_CHANGED
+    const stageChanges = await prisma.activity.findMany({
+      where: {
+        type: "STAGE_CHANGED",
+        createdAt: { gte: since },
+        ...(isSuperAdmin ? {} : { companyId: userCompanyId }),
+      },
+      orderBy: [{ leadId: "asc" }, { createdAt: "asc" }],
+      select: { leadId: true, createdAt: true },
+      take: 5000,
+    });
+    const intervalsDays: number[] = [];
+    let prevLead: string | null | undefined;
+    let prevAt: Date | null = null;
+    for (const a of stageChanges) {
+      if (a.leadId !== prevLead) { prevLead = a.leadId; prevAt = a.createdAt; continue; }
+      if (prevAt) {
+        const diff = (a.createdAt.getTime() - prevAt.getTime()) / 86_400_000;
+        if (diff > 0) intervalsDays.push(diff);
+      }
+      prevAt = a.createdAt;
+    }
+    const sorted = intervalsDays.slice().sort((a, b) => a - b);
+    const median = sorted.length > 0
+      ? Math.round(sorted[Math.floor(sorted.length / 2)] * 10) / 10
+      : null;
+
+    const funnelData: FunnelData = {
+      stagesByPipeline,
+      pipelines: PIPELINES.map((k) => ({ key: k, ...PIPELINE_INFO[k] })),
+      stageChangeStats: { medianDays: median, sampleSize: intervalsDays.length },
+      rangeDays: days,
+    };
+
+    return (
+      <div className="flex flex-col h-full overflow-hidden">
+        <RelatoriosNav active="funil" />
+        <div className="flex-1 overflow-y-auto">
+          <RelatoriosFunil data={funnelData} />
         </div>
       </div>
     );

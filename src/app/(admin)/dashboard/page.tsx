@@ -6,6 +6,7 @@ import UnansweredWidget from "./UnansweredWidget";
 import AtendimentoStats from "./AtendimentoStats";
 import PerformanceTeaser from "./PerformanceTeaser";
 import DashboardGamificacaoTop from "./DashboardGamificacaoTop";
+import MyTasksToday from "./MyTasksToday";
 
 // Sem cache — ranking, conquistas e progresso atualizam imediatamente
 // quando alguém pontua em outras páginas.
@@ -261,6 +262,9 @@ export default async function DashboardPage() {
           {isSuperAdmin ? "Visão geral de todas as empresas" : "Painel da sua empresa"}
         </p>
       </div>
+
+      {/* Minhas tarefas de hoje — primeira ação do dia do vendedor */}
+      <MyTasksToday />
 
       {/* Conquistas (medalhões) + ranking lateral — primeira coisa que se vê */}
       <DashboardGamificacaoTop />

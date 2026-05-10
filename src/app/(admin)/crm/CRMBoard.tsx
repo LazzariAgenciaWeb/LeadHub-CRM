@@ -41,6 +41,53 @@ export interface CRMLead {
     destination: string;
     _count: { clickEvents: number };
   } | null;
+  /** Resumo de tarefas (preenchido server-side; opcional) */
+  taskSummary?: {
+    openCount: number;
+    nextDueAt: string | null;
+  };
+  /** Tags atribuídas ao lead */
+  tags?: TagInfo[];
+  /** Lead score calculado server-side */
+  score?: {
+    value: number;
+    tier: "fire" | "hot" | "warm" | "cold" | "icy";
+    reasons: string[];
+  } | null;
+}
+
+export interface TagInfo {
+  id: string;
+  name: string;
+  color: string;
+}
+
+export interface CustomFieldDef {
+  id: string;
+  name: string;
+  key: string;
+  type: "TEXT" | "NUMBER" | "DATE" | "SELECT";
+  options: string[] | null;
+  required: boolean;
+  order: number;
+}
+
+export interface CustomValueRow {
+  fieldId: string;
+  value: string;
+}
+
+export interface CRMTask {
+  id: string;
+  title: string;
+  dueAt: string;
+  done: boolean;
+  doneAt: string | null;
+  notes: string | null;
+  /** "MANUAL" | "AUTO_LINK_OPEN" — sinaliza tarefas auto-criadas pelo sistema. */
+  source: "MANUAL" | "AUTO_LINK_OPEN";
+  assignee: { id: string; name: string } | null;
+  createdBy: { id: string; name: string } | null;
 }
 
 export interface LeadComment {
@@ -55,9 +102,31 @@ const TIMELINE_META: Record<string, { icon: string; titleColor: string; bg: stri
   comment:           { icon: "💬", titleColor: "#a5b4fc", bg: "bg-[#0a0f1a] border-[#1e2d45]" },
   message_in:        { icon: "📥", titleColor: "#6ee7b7", bg: "bg-emerald-500/5 border-emerald-500/15" },
   message_out:       { icon: "📤", titleColor: "#86efac", bg: "bg-green-500/5 border-green-500/15" },
+  link_open:         { icon: "👁️", titleColor: "#fbbf24", bg: "bg-amber-500/5 border-amber-500/20" },
   link_click:        { icon: "🖱️", titleColor: "#67e8f9", bg: "bg-cyan-500/5 border-cyan-500/15" },
   tracking_link_set: { icon: "🔗", titleColor: "#c4b5fd", bg: "bg-violet-500/5 border-violet-500/15" },
   clickup_linked:    { icon: "✅", titleColor: "#fcd34d", bg: "bg-amber-500/5 border-amber-500/15" },
+};
+
+type TimelineFilter = "all" | "messages" | "links" | "system" | "notes";
+
+const TIMELINE_FILTERS: { id: TimelineFilter; icon: string; label: string }[] = [
+  { id: "all",      icon: "📋", label: "Tudo" },
+  { id: "messages", icon: "💬", label: "Mensagens" },
+  { id: "links",    icon: "🔗", label: "Links" },
+  { id: "notes",    icon: "📝", label: "Anotações" },
+  { id: "system",   icon: "⚙️", label: "Sistema" },
+];
+
+const EVENT_GROUP: Record<string, Exclude<TimelineFilter, "all">> = {
+  message_in:        "messages",
+  message_out:       "messages",
+  link_open:         "links",
+  link_click:        "links",
+  tracking_link_set: "links",
+  comment:           "notes",
+  lead_created:      "system",
+  clickup_linked:    "system",
 };
 
 function formatTimelineDate(iso: string): string {
@@ -72,6 +141,79 @@ function formatTimelineDate(iso: string): string {
   if (diffH < 24)   return `${diffH}h`;
   if (diffDays < 7) return `${diffDays}d`;
   return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
+}
+
+/** Default: amanhã 09:00, no formato `YYYY-MM-DDTHH:mm` exigido pelo input datetime-local */
+function defaultDueAtLocal(): string {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  d.setHours(9, 0, 0, 0);
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+/** "atrasada 2d", "hoje 14:30", "amanhã 09:00", "23/05 09:00" */
+function formatTaskDue(iso: string, done: boolean): { label: string; color: string } {
+  const d = new Date(iso);
+  if (done) return { label: d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" }), color: "text-slate-500" };
+  const now = new Date();
+  const startToday = new Date(now); startToday.setHours(0, 0, 0, 0);
+  const startTomorrow = new Date(startToday); startTomorrow.setDate(startTomorrow.getDate() + 1);
+  const startDayAfter = new Date(startTomorrow); startDayAfter.setDate(startDayAfter.getDate() + 1);
+  const time = d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+  if (d < startToday) {
+    const diff = Math.ceil((startToday.getTime() - d.getTime()) / 86400000);
+    return { label: `atrasada ${diff}d`, color: "text-red-400" };
+  }
+  if (d >= startToday && d < startTomorrow) return { label: `hoje ${time}`, color: "text-amber-400" };
+  if (d >= startTomorrow && d < startDayAfter) return { label: `amanhã ${time}`, color: "text-sky-400" };
+  return { label: `${d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })} ${time}`, color: "text-slate-400" };
+}
+
+/** Status agregado para o card do Kanban (overdue > today > upcoming > none). */
+function leadTaskBadge(summary?: { openCount: number; nextDueAt: string | null }): { dot: string; tip: string } | null {
+  if (!summary || !summary.openCount || !summary.nextDueAt) return null;
+  const due = new Date(summary.nextDueAt);
+  const now = new Date();
+  const startToday = new Date(now); startToday.setHours(0, 0, 0, 0);
+  const startTomorrow = new Date(startToday); startTomorrow.setDate(startTomorrow.getDate() + 1);
+  if (due < startToday) return { dot: "bg-red-400", tip: `${summary.openCount} tarefa(s) atrasada(s)` };
+  if (due < startTomorrow) return { dot: "bg-amber-400", tip: `${summary.openCount} tarefa(s) hoje` };
+  return { dot: "bg-sky-400", tip: `${summary.openCount} tarefa(s) agendada(s)` };
+}
+
+/** Cor de borda esquerda do card por tier do lead score */
+const SCORE_TIER_BORDER: Record<string, string> = {
+  fire: "#ef4444", // vermelho — score 80+
+  hot:  "#f97316", // laranja  — 60-79
+  warm: "#eab308", // amarelo  — 40-59
+  cold: "#64748b", // cinza    — 20-39
+  icy:  "#1e293b", // grafite  — 0-19
+};
+const SCORE_TIER_LABEL: Record<string, string> = {
+  fire: "🔥 Quente",
+  hot:  "🌶️ Aquecendo",
+  warm: "☀️ Morno",
+  cold: "❄️ Frio",
+  icy:  "🧊 Gelado",
+};
+
+/** Cores pré-aprovadas pra tags novas (variedade visual sem o user precisar escolher) */
+const TAG_COLOR_PALETTE = [
+  "#6366f1", "#8b5cf6", "#ec4899", "#f43f5e", "#ef4444",
+  "#f59e0b", "#22c55e", "#14b8a6", "#06b6d4", "#3b82f6",
+];
+function pickRandomTagColor(): string {
+  return TAG_COLOR_PALETTE[Math.floor(Math.random() * TAG_COLOR_PALETTE.length)];
+}
+
+function waMeUrl(phone: string): string {
+  const digits = (phone ?? "").replace(/\D/g, "");
+  return `https://wa.me/${digits}`;
+}
+
+function leadhubInboxUrl(phone: string): string {
+  return `/whatsapp?abrir=${encodeURIComponent(phone)}`;
 }
 
 const PIPELINE_LABELS: Record<string, { label: string; icon: string; color: string }> = {
@@ -130,12 +272,35 @@ export default function CRMBoard({
   const [savingComment, setSavingComment] = useState(false);
   const [timeline, setTimeline] = useState<TimelineEvent[]>([]);
   const [loadingTimeline, setLoadingTimeline] = useState(false);
+  const [timelineFilter, setTimelineFilter] = useState<TimelineFilter>("all");
   const [actionsOpen, setActionsOpen] = useState(false);
   const [integrationsOpen, setIntegrationsOpen] = useState(true);
   const [editingValue, setEditingValue] = useState(false);
   const [valueInput, setValueInput] = useState("");
   const [editingNotes, setEditingNotes] = useState(false);
   const [notesInput, setNotesInput] = useState("");
+
+  // Tags da empresa (carregadas sob demanda quando o usuário abre o seletor)
+  const [allTags, setAllTags] = useState<TagInfo[]>([]);
+  const [loadingAllTags, setLoadingAllTags] = useState(false);
+  const [tagPickerOpen, setTagPickerOpen] = useState(false);
+  const [tagSearch, setTagSearch] = useState("");
+  const [savingTag, setSavingTag] = useState(false);
+
+  // Filtro por tag no header do Kanban
+  const [tagFilterId, setTagFilterId] = useState<string | null>(null);
+
+  // Custom fields da empresa + valores do lead aberto
+  const [customDefs, setCustomDefs] = useState<CustomFieldDef[]>([]);
+  const [customValues, setCustomValues] = useState<Record<string, string>>({});
+  const [savingCustomField, setSavingCustomField] = useState<string | null>(null);
+
+  // Tarefas do lead aberto
+  const [tasks, setTasks] = useState<CRMTask[]>([]);
+  const [loadingTasks, setLoadingTasks] = useState(false);
+  const [newTaskTitle, setNewTaskTitle] = useState("");
+  const [newTaskDue, setNewTaskDue] = useState<string>(() => defaultDueAtLocal());
+  const [savingTask, setSavingTask] = useState(false);
 
   // Vincular tracking link
   const [showLinkTracker, setShowLinkTracker] = useState(false);
@@ -174,10 +339,60 @@ export default function CRMBoard({
   const [syncing, setSyncing] = useState(false);
   const [syncResult, setSyncResult] = useState<{ imported: number; skipped: number; total: number } | null>(null);
 
+  // Modal de motivo de perda (acionado ao mover para stage final "perdido/descartado")
+  const [lostReasonModal, setLostReasonModal] = useState<{ leadId: string; stageName: string } | null>(null);
+  const [lostReasonText, setLostReasonText] = useState("");
+  const [lostReasonSaving, setLostReasonSaving] = useState(false);
+
+  const LOST_REASON_PRESETS = [
+    "Sem orçamento",
+    "Escolheu concorrente",
+    "Não respondeu mais",
+    "Fora do perfil (ICP)",
+    "Sem fit / não é o momento",
+    "Preço alto",
+  ];
+
+  function isLostStage(stage: PipelineStage | undefined): boolean {
+    if (!stage) return false;
+    if (!stage.isFinal) return false;
+    const n = stage.name.toLowerCase();
+    return /perdi|descart|recus|n[aã]o\s*fech/.test(n);
+  }
+
+  async function confirmLostReason() {
+    if (!lostReasonModal) return;
+    const reason = lostReasonText.trim();
+    if (!reason) return;
+    setLostReasonSaving(true);
+    try {
+      // 1) registra motivo como comentário (timeline)
+      await fetch(`/api/leads/${lostReasonModal.leadId}/comments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ body: `❌ Motivo da perda: ${reason}` }),
+      });
+      // 2) move o lead para a coluna final
+      await moveToStage(lostReasonModal.leadId, lostReasonModal.stageName);
+    } finally {
+      setLostReasonSaving(false);
+      setLostReasonModal(null);
+      setLostReasonText("");
+    }
+  }
+
   const pipelineInfo = PIPELINE_LABELS[pipeline] ?? { label: pipeline, icon: "🫧", color: "#6366f1" };
 
-  // Filtro de busca
+  // Tags presentes em pelo menos 1 lead — alimenta o filtro do header.
+  const tagsInUse = (() => {
+    const map = new Map<string, TagInfo>();
+    for (const l of leads) for (const t of l.tags ?? []) if (!map.has(t.id)) map.set(t.id, t);
+    return [...map.values()].sort((a, b) => a.name.localeCompare(b.name));
+  })();
+
+  // Filtro de busca + tag
   const filteredLeads = leads.filter((l) => {
+    if (tagFilterId && !(l.tags ?? []).some((t) => t.id === tagFilterId)) return false;
     if (!search) return true;
     const q = search.toLowerCase();
     return (
@@ -248,9 +463,19 @@ export default function CRMBoard({
     setIntegrationsOpen(true);
     setLoadingComments(true);
     setLoadingTimeline(true);
+    setTimelineFilter("all");
+    setTagPickerOpen(false);
+    setTagSearch("");
+    setTasks([]);
+    setNewTaskTitle("");
+    setNewTaskDue(defaultDueAtLocal());
+    setCustomDefs([]);
+    setCustomValues({});
     const [commentsRes, timelineRes] = await Promise.all([
       fetch(`/api/leads/${lead.id}/comments`),
       fetch(`/api/leads/${lead.id}/timeline`),
+      loadTasks(lead.id),
+      loadCustomFieldsAndValues(lead.id, lead.company?.id ?? defaultCompanyId),
     ]);
     if (commentsRes.ok) setComments(await commentsRes.json());
     if (timelineRes.ok) setTimeline(await timelineRes.json());
@@ -262,6 +487,199 @@ export default function CRMBoard({
     if (!selected) return;
     const res = await fetch(`/api/leads/${selected.id}/timeline`);
     if (res.ok) setTimeline(await res.json());
+  }
+
+  async function loadTasks(leadId: string) {
+    setLoadingTasks(true);
+    const res = await fetch(`/api/leads/${leadId}/tasks`);
+    if (res.ok) setTasks(await res.json());
+    setLoadingTasks(false);
+  }
+
+  async function handleAddTask(e: React.FormEvent) {
+    e.preventDefault();
+    if (!selected || !newTaskTitle.trim()) return;
+    setSavingTask(true);
+    const res = await fetch(`/api/leads/${selected.id}/tasks`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: newTaskTitle.trim(),
+        dueAt: new Date(newTaskDue).toISOString(),
+      }),
+    });
+    if (res.ok) {
+      const created: CRMTask = await res.json();
+      setTasks((prev) => [created, ...prev].sort(taskSorter));
+      setNewTaskTitle("");
+      setNewTaskDue(defaultDueAtLocal());
+      bumpLeadTaskSummary(selected.id, +1, created.dueAt);
+    }
+    setSavingTask(false);
+  }
+
+  async function handleToggleTask(task: CRMTask) {
+    const next = !task.done;
+    setTasks((prev) => prev.map((t) => (t.id === task.id ? { ...t, done: next, doneAt: next ? new Date().toISOString() : null } : t)));
+    const res = await fetch(`/api/tasks/${task.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ done: next }),
+    });
+    if (!res.ok) {
+      // rollback
+      setTasks((prev) => prev.map((t) => (t.id === task.id ? task : t)));
+      return;
+    }
+    if (selected) bumpLeadTaskSummary(selected.id, next ? -1 : +1);
+  }
+
+  async function handleDeleteTask(task: CRMTask) {
+    setTasks((prev) => prev.filter((t) => t.id !== task.id));
+    await fetch(`/api/tasks/${task.id}`, { method: "DELETE" });
+    if (selected && !task.done) bumpLeadTaskSummary(selected.id, -1);
+  }
+
+  function taskSorter(a: CRMTask, b: CRMTask) {
+    if (a.done !== b.done) return a.done ? 1 : -1;
+    return new Date(a.dueAt).getTime() - new Date(b.dueAt).getTime();
+  }
+
+  // ── Custom Fields ────────────────────────────────────────────────────────
+  async function loadCustomFieldsAndValues(leadId: string, leadCompanyId: string | undefined) {
+    try {
+      const defsUrl = isSuperAdmin && leadCompanyId
+        ? `/api/custom-fields?companyId=${leadCompanyId}`
+        : "/api/custom-fields";
+      const [defsRes, valsRes] = await Promise.all([
+        fetch(defsUrl),
+        fetch(`/api/leads/${leadId}/custom-values`),
+      ]);
+      const defs: CustomFieldDef[] = defsRes.ok ? await defsRes.json() : [];
+      const vals: { fieldId: string; value: string }[] = valsRes.ok ? await valsRes.json() : [];
+      setCustomDefs(defs);
+      const map: Record<string, string> = {};
+      for (const v of vals) map[v.fieldId] = v.value;
+      setCustomValues(map);
+    } catch {
+      setCustomDefs([]);
+      setCustomValues({});
+    }
+  }
+
+  async function handleSaveCustomField(fieldId: string, value: string) {
+    if (!selected) return;
+    setSavingCustomField(fieldId);
+    const before = customValues[fieldId];
+    setCustomValues((cur) => ({ ...cur, [fieldId]: value }));
+    const res = await fetch(`/api/leads/${selected.id}/custom-values`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fieldId, value }),
+    });
+    if (!res.ok) {
+      // rollback
+      setCustomValues((cur) => ({ ...cur, [fieldId]: before ?? "" }));
+    }
+    setSavingCustomField(null);
+  }
+
+  // ── Tags ─────────────────────────────────────────────────────────────────
+  async function loadAllTags() {
+    if (loadingAllTags || allTags.length > 0) return;
+    setLoadingAllTags(true);
+    try {
+      const companyId = selected?.company?.id ?? defaultCompanyId ?? "";
+      const url = isSuperAdmin && companyId ? `/api/tags?companyId=${companyId}` : "/api/tags";
+      const res = await fetch(url);
+      if (res.ok) setAllTags(await res.json());
+    } finally {
+      setLoadingAllTags(false);
+    }
+  }
+
+  function updateLeadTagsLocal(leadId: string, updater: (current: TagInfo[]) => TagInfo[]) {
+    setLeads((prev) =>
+      prev.map((l) => (l.id === leadId ? { ...l, tags: updater(l.tags ?? []) } : l))
+    );
+    setSelected((cur) => (cur && cur.id === leadId ? { ...cur, tags: updater(cur.tags ?? []) } : cur));
+  }
+
+  async function handleAttachTag(tag: TagInfo) {
+    if (!selected) return;
+    if (selected.tags?.some((t) => t.id === tag.id)) return; // já tem
+    setSavingTag(true);
+    updateLeadTagsLocal(selected.id, (cur) => [...cur, tag]);
+    const res = await fetch(`/api/leads/${selected.id}/tags`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tagId: tag.id }),
+    });
+    if (!res.ok) {
+      // rollback
+      updateLeadTagsLocal(selected.id, (cur) => cur.filter((t) => t.id !== tag.id));
+    }
+    setSavingTag(false);
+  }
+
+  async function handleDetachTag(tag: TagInfo) {
+    if (!selected) return;
+    updateLeadTagsLocal(selected.id, (cur) => cur.filter((t) => t.id !== tag.id));
+    const res = await fetch(`/api/leads/${selected.id}/tags/${tag.id}`, { method: "DELETE" });
+    if (!res.ok) {
+      // rollback
+      updateLeadTagsLocal(selected.id, (cur) => [...cur, tag]);
+    }
+  }
+
+  /**
+   * "Quick-add" no input do drawer: digita um nome e dá Enter.
+   * Se já existe tag com esse nome, só anexa. Se não existe, cria + anexa.
+   */
+  async function handleQuickCreateTag() {
+    if (!selected || !tagSearch.trim()) return;
+    const name = tagSearch.trim();
+    const existing = allTags.find((t) => t.name.toLowerCase() === name.toLowerCase());
+    if (existing) {
+      await handleAttachTag(existing);
+      setTagSearch("");
+      return;
+    }
+    setSavingTag(true);
+    const companyId = selected.company?.id ?? defaultCompanyId;
+    const res = await fetch("/api/tags", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name,
+        color: pickRandomTagColor(),
+        ...(isSuperAdmin && companyId ? { companyId } : {}),
+      }),
+    });
+    if (res.ok) {
+      const created: TagInfo = await res.json();
+      setAllTags((prev) => [...prev, created]);
+      await handleAttachTag(created);
+      setTagSearch("");
+    }
+    setSavingTag(false);
+  }
+
+  /** Atualiza o resumo do card no Kanban sem precisar refetchar tudo. */
+  function bumpLeadTaskSummary(leadId: string, delta: number, newDueAt?: string) {
+    setLeads((prev) =>
+      prev.map((l) => {
+        if (l.id !== leadId) return l;
+        const cur = l.taskSummary ?? { openCount: 0, nextDueAt: null };
+        const openCount = Math.max(0, cur.openCount + delta);
+        let nextDueAt = cur.nextDueAt;
+        if (newDueAt) {
+          if (!nextDueAt || new Date(newDueAt) < new Date(nextDueAt)) nextDueAt = newDueAt;
+        }
+        if (openCount === 0) nextDueAt = null;
+        return { ...l, taskSummary: { openCount, nextDueAt } };
+      })
+    );
   }
 
   async function handleAddComment(e: React.FormEvent) {
@@ -481,7 +899,14 @@ export default function CRMBoard({
     e.preventDefault();
     setDragOverStage(null);
     const leadId = e.dataTransfer.getData("leadId");
-    if (leadId) moveToStage(leadId, stageName);
+    if (!leadId) return;
+    const targetStage = stages.find((s) => s.name === stageName);
+    if (isLostStage(targetStage)) {
+      setLostReasonText("");
+      setLostReasonModal({ leadId, stageName });
+      return;
+    }
+    moveToStage(leadId, stageName);
   }
 
   const totalValue = pipeline === "OPORTUNIDADES"
@@ -515,6 +940,20 @@ export default function CRMBoard({
             placeholder="Buscar..."
             className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 w-48"
           />
+          {tagsInUse.length > 0 && (
+            <select
+              value={tagFilterId ?? ""}
+              onChange={(e) => setTagFilterId(e.target.value || null)}
+              className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 text-sm text-white focus:outline-none focus:border-indigo-500 cursor-pointer"
+              title="Filtrar por tag"
+              style={tagFilterId ? { borderLeftWidth: 3, borderLeftColor: tagsInUse.find((t) => t.id === tagFilterId)?.color ?? "#6366f1" } : undefined}
+            >
+              <option value="">🏷️ Todas as tags</option>
+              {tagsInUse.map((t) => (
+                <option key={t.id} value={t.id}>{t.name}</option>
+              ))}
+            </select>
+          )}
           {pipeline === "PROSPECCAO" && (
             <div className="flex flex-col items-end gap-1">
               <div className="flex items-center gap-2">
@@ -623,16 +1062,46 @@ export default function CRMBoard({
                         draggable
                         onDragStart={(e) => onDragStart(e, lead.id)}
                         onClick={() => openCard(lead)}
-                        className={`bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3 cursor-grab active:cursor-grabbing hover:border-white/20 transition-all group ${
+                        title={lead.score ? `Score ${lead.score.value}: ${SCORE_TIER_LABEL[lead.score.tier]}` : undefined}
+                        style={lead.score ? { borderLeftWidth: 3, borderLeftColor: SCORE_TIER_BORDER[lead.score.tier] } : undefined}
+                        className={`relative bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3 cursor-grab active:cursor-grabbing hover:border-white/20 transition-all group ${
                           movingId === lead.id ? "opacity-40" : ""
                         }`}
                       >
-                        {/* Linha de cima: origem + data */}
-                        <div className="flex items-center justify-between gap-2 mb-1.5">
+                        {/* Botão WhatsApp rápido — 1 clique */}
+                        <a
+                          href={whatsappEnabled ? leadhubInboxUrl(lead.phone) : waMeUrl(lead.phone)}
+                          target={whatsappEnabled ? "_self" : "_blank"}
+                          rel={whatsappEnabled ? undefined : "noopener noreferrer"}
+                          onClick={(e) => e.stopPropagation()}
+                          onMouseDown={(e) => e.stopPropagation()}
+                          draggable={false}
+                          title={whatsappEnabled ? "Abrir conversa no LeadHub" : "Abrir no WhatsApp Web"}
+                          className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-md bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 hover:bg-emerald-500/30 hover:text-emerald-200 opacity-0 group-hover:opacity-100 transition-opacity text-[12px] z-10"
+                          aria-label="WhatsApp"
+                        >
+                          💬
+                        </a>
+
+                        {/* Linha de cima: origem + tarefa-badge + data */}
+                        <div className="flex items-center justify-between gap-2 mb-1.5 pr-7">
                           <SourceBadge source={lead.source} size="xs" />
-                          <span className="text-slate-700 text-[10px] flex-shrink-0">
-                            {new Date(lead.createdAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })}
-                          </span>
+                          <div className="flex items-center gap-1.5">
+                            {(() => {
+                              const badge = leadTaskBadge(lead.taskSummary);
+                              if (!badge) return null;
+                              return (
+                                <span
+                                  title={badge.tip}
+                                  className={`w-2 h-2 rounded-full ${badge.dot} ring-2 ring-[#0f1623]`}
+                                  aria-label={badge.tip}
+                                />
+                              );
+                            })()}
+                            <span className="text-slate-700 text-[10px] flex-shrink-0">
+                              {new Date(lead.createdAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })}
+                            </span>
+                          </div>
                         </div>
 
                         {/* Nome */}
@@ -641,6 +1110,30 @@ export default function CRMBoard({
                         </div>
                         {lead.name && (
                           <div className="text-slate-600 text-[10px] mb-1">{lead.phone}</div>
+                        )}
+
+                        {/* Tags compactas */}
+                        {(lead.tags ?? []).length > 0 && (
+                          <div className="flex flex-wrap gap-1 mb-1">
+                            {(lead.tags ?? []).slice(0, 4).map((t) => (
+                              <span
+                                key={t.id}
+                                className="inline-flex items-center px-1.5 py-px rounded-full text-[9px] font-medium border"
+                                style={{
+                                  backgroundColor: `${t.color}22`,
+                                  borderColor: `${t.color}55`,
+                                  color: t.color,
+                                }}
+                              >
+                                {t.name}
+                              </span>
+                            ))}
+                            {(lead.tags?.length ?? 0) > 4 && (
+                              <span className="text-slate-600 text-[9px] self-center">
+                                +{(lead.tags?.length ?? 0) - 4}
+                              </span>
+                            )}
+                          </div>
                         )}
 
                         {lead.campaign && (
@@ -812,8 +1305,15 @@ export default function CRMBoard({
                     <select
                       value={selected.pipelineStage ?? stages[0].name}
                       onChange={(e) => {
-                        moveToStage(selected.id, e.target.value);
-                        setSelected({ ...selected, pipelineStage: e.target.value });
+                        const newStage = e.target.value;
+                        const target = stages.find((s) => s.name === newStage);
+                        if (isLostStage(target)) {
+                          setLostReasonText("");
+                          setLostReasonModal({ leadId: selected.id, stageName: newStage });
+                          return;
+                        }
+                        moveToStage(selected.id, newStage);
+                        setSelected({ ...selected, pipelineStage: newStage });
                       }}
                       className="bg-indigo-500/15 hover:bg-indigo-500/25 border border-indigo-500/25 rounded-lg px-2.5 py-1 text-xs text-indigo-300 cursor-pointer focus:outline-none focus:border-indigo-500"
                       title="Etapa"
@@ -838,6 +1338,31 @@ export default function CRMBoard({
               {/* ── Coluna esquerda: informações ── */}
               <div className="flex-1 overflow-y-auto p-5 space-y-4 md:border-r border-[#1e2d45]">
 
+                {/* Lead score — temperatura do lead */}
+                {selected.score && (
+                  <div
+                    className="bg-[#0a0f1a] border rounded-xl p-3 flex items-center gap-3"
+                    style={{ borderColor: `${SCORE_TIER_BORDER[selected.score.tier]}55` }}
+                  >
+                    <div
+                      className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-base flex-shrink-0"
+                      style={{ backgroundColor: SCORE_TIER_BORDER[selected.score.tier] }}
+                    >
+                      {selected.score.value}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-white text-sm font-semibold">
+                        {SCORE_TIER_LABEL[selected.score.tier]}
+                      </div>
+                      <div className="text-slate-500 text-[10px] mt-0.5 leading-tight" title={selected.score.reasons.join(" · ")}>
+                        {selected.score.reasons.length > 0
+                          ? selected.score.reasons.slice(0, 2).join(" · ") + (selected.score.reasons.length > 2 ? "…" : "")
+                          : "Sem sinais ainda"}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* Bloco de Origem — bem destacado no topo */}
                 <div className="bg-gradient-to-br from-[#0f1825] to-[#0a0f1a] border border-[#1e2d45] rounded-xl p-4">
                   <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-2 font-semibold">🎯 Origem</div>
@@ -855,6 +1380,122 @@ export default function CRMBoard({
                       </span>
                     )}
                   </div>
+                </div>
+
+                {/* ── Tags ── */}
+                <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="text-slate-500 text-[10px] uppercase tracking-wide font-semibold">🏷️ Tags</div>
+                    {!tagPickerOpen && (
+                      <button
+                        onClick={() => { setTagPickerOpen(true); setTagSearch(""); loadAllTags(); }}
+                        className="text-slate-600 hover:text-slate-400 text-[10px]"
+                      >
+                        + Adicionar
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Tags atribuídas */}
+                  {(selected.tags ?? []).length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mb-2">
+                      {selected.tags?.map((t) => (
+                        <span
+                          key={t.id}
+                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium border group/tag"
+                          style={{
+                            backgroundColor: `${t.color}22`,
+                            borderColor: `${t.color}55`,
+                            color: t.color,
+                          }}
+                        >
+                          {t.name}
+                          <button
+                            onClick={() => handleDetachTag(t)}
+                            className="opacity-50 hover:opacity-100 ml-0.5 text-[10px] leading-none"
+                            title="Remover tag"
+                          >
+                            ✕
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {tagPickerOpen && (
+                    <div className="space-y-2 bg-[#0f1623] border border-[#1e2d45] rounded-lg p-2">
+                      <div className="flex gap-2">
+                        <input
+                          autoFocus
+                          type="text"
+                          value={tagSearch}
+                          onChange={(e) => setTagSearch(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") { e.preventDefault(); handleQuickCreateTag(); }
+                          }}
+                          placeholder="Digite nome ou crie nova (Enter)"
+                          className="flex-1 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                        />
+                        <button
+                          onClick={() => { setTagPickerOpen(false); setTagSearch(""); }}
+                          className="text-slate-500 hover:text-white text-xs px-2"
+                        >
+                          ✕
+                        </button>
+                      </div>
+
+                      {loadingAllTags ? (
+                        <div className="text-slate-600 text-[10px] text-center py-2">Carregando...</div>
+                      ) : (
+                        <div className="max-h-40 overflow-y-auto space-y-0.5">
+                          {(() => {
+                            const q = tagSearch.trim().toLowerCase();
+                            const assignedIds = new Set((selected.tags ?? []).map((t) => t.id));
+                            const matches = allTags
+                              .filter((t) => !assignedIds.has(t.id))
+                              .filter((t) => !q || t.name.toLowerCase().includes(q))
+                              .slice(0, 30);
+
+                            if (matches.length === 0 && q) {
+                              return (
+                                <button
+                                  onClick={handleQuickCreateTag}
+                                  disabled={savingTag}
+                                  className="w-full text-left px-2 py-1.5 rounded text-xs text-indigo-300 hover:bg-indigo-500/10 disabled:opacity-50"
+                                >
+                                  + Criar tag &quot;{tagSearch.trim()}&quot;
+                                </button>
+                              );
+                            }
+
+                            return matches.map((t) => (
+                              <button
+                                key={t.id}
+                                onClick={() => handleAttachTag(t)}
+                                disabled={savingTag}
+                                className="w-full flex items-center gap-2 px-2 py-1 rounded hover:bg-white/[0.03] disabled:opacity-50 text-left"
+                              >
+                                <span
+                                  className="w-2 h-2 rounded-full flex-shrink-0"
+                                  style={{ backgroundColor: t.color }}
+                                />
+                                <span className="text-xs text-slate-200 truncate">{t.name}</span>
+                              </button>
+                            ));
+                          })()}
+                          {allTags.filter((t) => !(selected.tags ?? []).some((s) => s.id === t.id)).length === 0 && !tagSearch && (
+                            <p className="text-slate-600 text-[10px] text-center py-2 italic">
+                              Nenhuma tag criada ainda. Digite um nome e tecle Enter pra criar.
+                            </p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {(selected.tags ?? []).length === 0 && !tagPickerOpen && (
+                    <p className="text-slate-700 text-[10px] italic">Nenhuma tag. Clique em &quot;Adicionar&quot;.</p>
+                  )}
                 </div>
 
                 {/* Grid de dados principais */}
@@ -895,6 +1536,29 @@ export default function CRMBoard({
                     </div>
                   )}
                 </div>
+
+                {/* ── Campos customizados (renderiza se a empresa tem defs) ── */}
+                {customDefs.length > 0 && (
+                  <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="text-slate-500 text-[10px] uppercase tracking-wide font-semibold">📋 Campos personalizados</div>
+                      <a href="/configuracoes?secao=custom-fields" className="text-slate-600 hover:text-slate-400 text-[10px]">
+                        ⚙️ Gerenciar
+                      </a>
+                    </div>
+                    <div className="space-y-2.5">
+                      {customDefs.map((def) => (
+                        <CustomFieldRow
+                          key={def.id}
+                          def={def}
+                          value={customValues[def.id] ?? ""}
+                          saving={savingCustomField === def.id}
+                          onSave={(v) => handleSaveCustomField(def.id, v)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Valor */}
                 <div className="bg-green-500/5 border border-green-500/20 rounded-lg p-3">
@@ -973,6 +1637,122 @@ export default function CRMBoard({
                   )}
                 </div>
 
+                {/* ── Tarefas / Follow-ups ── */}
+                <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="text-amber-400 text-[10px] font-semibold uppercase tracking-wide flex items-center gap-1.5">
+                      ⏰ Tarefas / Follow-ups
+                      {tasks.filter((t) => !t.done).length > 0 && (
+                        <span className="bg-amber-500/20 text-amber-300 text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                          {tasks.filter((t) => !t.done).length} aberta(s)
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Quick-add */}
+                  <form onSubmit={handleAddTask} className="space-y-2 mb-3">
+                    <input
+                      type="text"
+                      value={newTaskTitle}
+                      onChange={(e) => setNewTaskTitle(e.target.value)}
+                      placeholder="O que fazer? (ex: Ligar pra confirmar reunião)"
+                      className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-500/60"
+                    />
+                    <div className="flex gap-2">
+                      <input
+                        type="datetime-local"
+                        value={newTaskDue}
+                        onChange={(e) => setNewTaskDue(e.target.value)}
+                        className="flex-1 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500/60"
+                      />
+                      <button
+                        type="submit"
+                        disabled={savingTask || !newTaskTitle.trim()}
+                        className="px-3 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold disabled:opacity-40 transition-colors whitespace-nowrap"
+                      >
+                        {savingTask ? "..." : "+ Tarefa"}
+                      </button>
+                    </div>
+                  </form>
+
+                  {/* Lista */}
+                  {loadingTasks ? (
+                    <p className="text-slate-600 text-xs text-center py-2">Carregando...</p>
+                  ) : tasks.length === 0 ? (
+                    <p className="text-slate-600 text-xs italic text-center py-2">Nenhuma tarefa. Crie um follow-up acima.</p>
+                  ) : (
+                    <ul className="space-y-1.5">
+                      {tasks.map((t) => {
+                        const due = formatTaskDue(t.dueAt, t.done);
+                        const isAuto = t.source === "AUTO_LINK_OPEN";
+                        const isHotOpen = isAuto && !t.done;
+                        return (
+                          <li
+                            key={t.id}
+                            className={`flex items-start gap-2 px-2.5 py-2 rounded-lg border ${
+                              t.done
+                                ? "bg-[#0a0f1a]/40 border-[#1e2d45]/40"
+                                : isHotOpen
+                                ? "bg-red-500/10 border-red-500/30 hover:border-red-500/50"
+                                : "bg-[#0a0f1a] border-[#1e2d45] hover:border-amber-500/30"
+                            } group`}
+                          >
+                            <button
+                              onClick={() => handleToggleTask(t)}
+                              className={`mt-0.5 w-4 h-4 rounded border flex-shrink-0 flex items-center justify-center text-[10px] transition-colors ${
+                                t.done
+                                  ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300"
+                                  : isHotOpen
+                                  ? "border-red-400 hover:bg-red-500/20"
+                                  : "border-slate-600 hover:border-amber-400"
+                              }`}
+                              title={t.done ? "Reabrir tarefa" : "Marcar como feita"}
+                            >
+                              {t.done ? "✓" : ""}
+                            </button>
+
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <div className={`text-xs leading-tight ${
+                                  t.done
+                                    ? "text-slate-500 line-through"
+                                    : isHotOpen
+                                    ? "text-red-200 font-medium"
+                                    : "text-slate-200"
+                                }`}>
+                                  {t.title}
+                                </div>
+                                {isHotOpen && (
+                                  <span className="bg-red-500/25 text-red-200 border border-red-500/40 text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded">
+                                    Sinal quente
+                                  </span>
+                                )}
+                              </div>
+                              <div className={`text-[10px] mt-0.5 ${due.color}`}>
+                                {due.label}
+                                {t.assignee && <span className="text-slate-600 ml-2">· {t.assignee.name}</span>}
+                                {isAuto && !t.assignee && <span className="text-slate-600 ml-2">· sem responsável</span>}
+                              </div>
+                              {isHotOpen && t.notes && (
+                                <div className="text-[10px] text-red-300/70 mt-1 italic line-clamp-2">{t.notes}</div>
+                              )}
+                            </div>
+
+                            <button
+                              onClick={() => handleDeleteTask(t)}
+                              className="opacity-0 group-hover:opacity-100 text-slate-600 hover:text-red-400 text-xs transition-all flex-shrink-0"
+                              title="Remover"
+                            >
+                              ✕
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </div>
+
                 {/* ── Integrações (agrupadas — só mostra as ativas) ── */}
                 {(whatsappEnabled || clickupEnabled || true) && (
                   <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl overflow-hidden">
@@ -987,24 +1767,39 @@ export default function CRMBoard({
                     {integrationsOpen && (
                       <div className="px-4 pb-4 space-y-3 border-t border-[#1e2d45]">
 
-                        {/* WhatsApp — só se ativo */}
-                        {whatsappEnabled && (
-                          <div className="pt-3">
-                            <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-2 font-semibold">📱 WhatsApp</div>
-                            <div className="flex flex-wrap gap-2">
+                        {/* WhatsApp — sempre disponível: inbox interno se módulo ativo + WhatsApp Web sempre */}
+                        <div className="pt-3">
+                          <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-2 font-semibold">📱 WhatsApp</div>
+                          <div className="flex flex-wrap gap-2">
+                            {whatsappEnabled && (
                               <a
-                                href={`/whatsapp?abrir=${encodeURIComponent(selected.phone)}`}
+                                href={leadhubInboxUrl(selected.phone)}
                                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 hover:bg-emerald-500/25 text-xs font-medium transition-colors"
                               >
-                                💬 Abrir conversa
+                                💬 Abrir no LeadHub
                               </a>
+                            )}
+                            <a
+                              href={waMeUrl(selected.phone)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                                whatsappEnabled
+                                  ? "bg-[#161f30] border border-[#1e2d45] text-slate-300 hover:text-white"
+                                  : "bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 hover:bg-emerald-500/25"
+                              }`}
+                            >
+                              🌐 WhatsApp Web
+                            </a>
+                            {whatsappEnabled && (
                               <button
                                 onClick={() => { setShowLinkConv(!showLinkConv); setLinkResult(null); setLinkPhone(""); }}
                                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white text-xs transition-colors"
                               >
                                 🔗 Vincular outra conversa {showLinkConv ? "▴" : "▾"}
                               </button>
-                            </div>
+                            )}
+                          </div>
                             {showLinkConv && (
                               <div className="mt-2 space-y-2 bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
                                 <p className="text-slate-500 text-[10px]">Cole o telefone da conversa para vincular as mensagens a este lead.</p>
@@ -1027,12 +1822,11 @@ export default function CRMBoard({
                                 {linkResult && <p className="text-xs">{linkResult}</p>}
                               </div>
                             )}
-                          </div>
-                        )}
+                        </div>
 
                         {/* ClickUp — só se ativo */}
                         {clickupEnabled && (
-                          <div className={whatsappEnabled ? "pt-3 border-t border-[#1e2d45]" : "pt-3"}>
+                          <div className="pt-3 border-t border-[#1e2d45]">
                             <div className="flex items-center justify-between mb-2">
                               <div className="text-slate-500 text-[10px] uppercase tracking-wide font-semibold">✅ ClickUp</div>
                               {!editingClickup && selected.clickupTaskId && (
@@ -1070,7 +1864,7 @@ export default function CRMBoard({
                         )}
 
                         {/* Link de rastreamento — sempre disponível */}
-                        <div className={(whatsappEnabled || clickupEnabled) ? "pt-3 border-t border-[#1e2d45]" : "pt-3"}>
+                        <div className="pt-3 border-t border-[#1e2d45]">
                           <div className="flex items-center justify-between mb-2">
                             <div className="text-slate-500 text-[10px] uppercase tracking-wide font-semibold">🔗 Link de rastreamento</div>
                             {selected.trackingLink && !showLinkTracker && (
@@ -1225,15 +2019,59 @@ export default function CRMBoard({
                   </button>
                 </form>
 
+                {/* Filtros — agrupam eventos por tipo */}
+                <div className="px-3 py-2 border-b border-[#1e2d45] flex-shrink-0 flex flex-wrap gap-1">
+                  {TIMELINE_FILTERS.map((f) => {
+                    const count = f.id === "all"
+                      ? timeline.length
+                      : timeline.filter((e) => EVENT_GROUP[e.type] === f.id).length;
+                    const active = timelineFilter === f.id;
+                    const disabled = f.id !== "all" && count === 0;
+                    return (
+                      <button
+                        key={f.id}
+                        onClick={() => setTimelineFilter(f.id)}
+                        disabled={disabled}
+                        title={f.label}
+                        className={`flex items-center gap-1 px-2 py-1 rounded-md text-[11px] border transition-colors disabled:opacity-30 disabled:cursor-not-allowed ${
+                          active
+                            ? "bg-indigo-500/20 border-indigo-500/40 text-indigo-200"
+                            : "bg-[#0a0f1a] border-[#1e2d45] text-slate-400 hover:text-white hover:border-[#2a3d5a]"
+                        }`}
+                      >
+                        <span>{f.icon}</span>
+                        <span>{f.label}</span>
+                        {count > 0 && (
+                          <span className={`text-[9px] font-bold px-1 rounded ${
+                            active ? "bg-indigo-500/30 text-indigo-100" : "bg-[#1e2d45] text-slate-500"
+                          }`}>
+                            {count}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+
                 {/* Timeline */}
                 <div className="flex-1 overflow-y-auto p-4 space-y-2">
                   {loadingTimeline ? (
                     <div className="text-slate-600 text-xs text-center py-6">Carregando atividades...</div>
                   ) : timeline.length === 0 ? (
                     <div className="text-slate-700 text-xs text-center py-6">Nenhuma atividade registrada.</div>
-                  ) : (
-                    timeline.map((evt) => {
-                      const meta = TIMELINE_META[evt.type];
+                  ) : (() => {
+                    const filtered = timelineFilter === "all"
+                      ? timeline
+                      : timeline.filter((e) => EVENT_GROUP[e.type] === timelineFilter);
+                    if (filtered.length === 0) {
+                      return (
+                        <div className="text-slate-700 text-xs text-center py-6">
+                          Nenhum evento neste filtro.
+                        </div>
+                      );
+                    }
+                    return filtered.map((evt) => {
+                      const meta = TIMELINE_META[evt.type] ?? TIMELINE_META.lead_created;
                       return (
                         <div key={evt.id} className={`rounded-lg px-3 py-2.5 border ${meta.bg}`}>
                           <div className="flex items-center justify-between gap-2 mb-1">
@@ -1248,13 +2086,99 @@ export default function CRMBoard({
                           {evt.body && (
                             <p className="text-slate-300 text-xs leading-relaxed whitespace-pre-wrap break-words">{evt.body}</p>
                           )}
+                          {evt.type === "link_open" && evt.meta?.url && (
+                            <a
+                              href={evt.meta.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-amber-400 text-[10px] underline hover:text-amber-300 mt-1 inline-block break-all"
+                            >
+                              ↗ {evt.meta.url}
+                            </a>
+                          )}
+                          {evt.type === "link_click" && evt.meta?.url && (
+                            <a
+                              href={evt.meta.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-cyan-400 text-[10px] underline hover:text-cyan-300 mt-1 inline-block break-all"
+                            >
+                              ↗ {evt.meta.url}
+                            </a>
+                          )}
                         </div>
                       );
-                    })
-                  )}
+                    });
+                  })()}
                 </div>
               </div>
 
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Modal: Motivo de perda ── */}
+      {lostReasonModal && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+          <div
+            className="absolute inset-0 bg-black/70"
+            onClick={() => !lostReasonSaving && setLostReasonModal(null)}
+          />
+          <div className="relative bg-[#0c1220] border border-red-500/30 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden">
+            <div className="px-5 py-4 border-b border-[#1e2d45] bg-red-500/5">
+              <h2 className="text-white font-bold text-base flex items-center gap-2">
+                <span>❌</span> Marcar como perdido
+              </h2>
+              <p className="text-slate-400 text-xs mt-1">
+                Por que esse lead foi perdido? Essa informação alimenta os relatórios de funil.
+              </p>
+            </div>
+
+            <div className="p-5 space-y-3">
+              <div className="flex flex-wrap gap-1.5">
+                {LOST_REASON_PRESETS.map((preset) => (
+                  <button
+                    key={preset}
+                    type="button"
+                    onClick={() => setLostReasonText(preset)}
+                    className={`px-2.5 py-1 rounded-full text-[11px] border transition-colors ${
+                      lostReasonText === preset
+                        ? "bg-red-500/20 border-red-500/50 text-red-200"
+                        : "bg-[#161f30] border-[#1e2d45] text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    {preset}
+                  </button>
+                ))}
+              </div>
+
+              <textarea
+                autoFocus
+                value={lostReasonText}
+                onChange={(e) => setLostReasonText(e.target.value)}
+                placeholder="Detalhe o motivo (obrigatório)..."
+                rows={3}
+                className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-red-500/60 resize-none"
+              />
+
+              <div className="flex gap-2 pt-1">
+                <button
+                  onClick={confirmLostReason}
+                  disabled={lostReasonSaving || !lostReasonText.trim()}
+                  className="flex-1 py-2.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-sm font-medium disabled:opacity-50 transition-colors"
+                >
+                  {lostReasonSaving ? "Salvando..." : "Confirmar perda"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setLostReasonModal(null); setLostReasonText(""); }}
+                  disabled={lostReasonSaving}
+                  className="px-4 py-2.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white text-sm transition-colors disabled:opacity-50"
+                >
+                  Cancelar
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -1288,6 +2212,96 @@ export default function CRMBoard({
             allow="clipboard-read; clipboard-write"
           />
         </div>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Renderiza UM campo customizado conforme o tipo. Salva no blur (TEXT/NUMBER)
+ * ou no change (DATE/SELECT) — UX que vendedor já tá acostumado em formulários.
+ */
+function CustomFieldRow({
+  def,
+  value,
+  saving,
+  onSave,
+}: {
+  def: CustomFieldDef;
+  value: string;
+  saving: boolean;
+  onSave: (v: string) => void;
+}) {
+  const [draft, setDraft] = useState(value);
+  // Sincroniza quando o valor remoto mudar (ex: outro tab editou)
+  useEffect(() => { setDraft(value); }, [value]);
+
+  const baseInput = "w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 disabled:opacity-50";
+
+  return (
+    <div>
+      <label className="block text-slate-400 text-[10px] font-medium mb-1 flex items-center gap-1">
+        {def.name}
+        {def.required && <span className="text-red-400">*</span>}
+        {saving && <span className="text-slate-600 text-[9px] ml-1">salvando...</span>}
+      </label>
+
+      {def.type === "TEXT" && (
+        <input
+          type="text"
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          onBlur={() => { if (draft !== value) onSave(draft); }}
+          onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }}
+          placeholder="—"
+          disabled={saving}
+          className={baseInput}
+        />
+      )}
+
+      {def.type === "NUMBER" && (
+        <input
+          type="number"
+          inputMode="decimal"
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          onBlur={() => { if (draft !== value) onSave(draft); }}
+          onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }}
+          placeholder="0"
+          disabled={saving}
+          className={baseInput}
+        />
+      )}
+
+      {def.type === "DATE" && (
+        <input
+          type="date"
+          value={draft ? new Date(draft).toISOString().slice(0, 10) : ""}
+          onChange={(e) => {
+            const v = e.target.value;
+            setDraft(v);
+            onSave(v);
+          }}
+          disabled={saving}
+          className={baseInput}
+        />
+      )}
+
+      {def.type === "SELECT" && (
+        <select
+          value={draft}
+          onChange={(e) => {
+            setDraft(e.target.value);
+            onSave(e.target.value);
+          }}
+          disabled={saving}
+          className={`${baseInput} cursor-pointer`}
+        >
+          <option value="">—</option>
+          {(def.options ?? []).map((opt) => (
+            <option key={opt} value={opt}>{opt}</option>
+          ))}
+        </select>
       )}
     </div>
   );

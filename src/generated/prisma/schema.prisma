@@ -48,6 +48,10 @@ model User {
   lastBadgeSeenAt       DateTime?
   rewardRedemptions     RewardRedemption[]
   messagesSent          Message[]              @relation("MessageSentBy")
+  tasksAssigned         Task[]                 @relation("TaskAssignee")
+  tasksCreated          Task[]                 @relation("TaskCreatedBy")
+  pushSubscriptions     PushSubscription[]
+  notifPreferences      UserNotifPreferences?
 
   @@index([companyId])
 }
@@ -174,6 +178,9 @@ model Company {
   businessHours             BusinessHoursConfig[]
   campaigns                 Campaign[]
   leads                     Lead[]
+  tasks                     Task[]
+  tags                      Tag[]
+  customFieldDefs           CustomFieldDef[]
   whatsappInstances         WhatsappInstance[]
   messages                  Message[]
   keywordRules              KeywordRule[]
@@ -276,14 +283,23 @@ model TrackingLink {
 }
 
 model ClickEvent {
-  id             String       @id @default(cuid())
-  trackingLink   TrackingLink @relation(fields: [trackingLinkId], references: [id], onDelete: Cascade)
+  id             String         @id @default(cuid())
+  trackingLink   TrackingLink   @relation(fields: [trackingLinkId], references: [id], onDelete: Cascade)
   trackingLinkId String
-  targetUrl      String       @db.Text
+  targetUrl      String         @db.Text
   targetLabel    String?
-  createdAt      DateTime     @default(now())
+  // OPEN  = cliente abriu o shortlink /r/CODE (entrou na proposta/landing)
+  // INTERNAL = clicou em algum link/CTA DENTRO da página de destino (pixel script)
+  kind           ClickEventKind @default(INTERNAL)
+  createdAt      DateTime       @default(now())
 
   @@index([trackingLinkId])
+  @@index([trackingLinkId, kind])
+}
+
+enum ClickEventKind {
+  OPEN
+  INTERNAL
 }
 
 // ─── Leads ────────────────────────────────────────────────────────────────────
@@ -330,9 +346,12 @@ model Lead {
   conversation   Conversation? @relation(fields: [conversationId], references: [id])
   conversationId String?
 
-  messages   Message[]
-  comments   LeadComment[]
-  activities Activity[]
+  messages     Message[]
+  comments     LeadComment[]
+  activities   Activity[]
+  tasks        Task[]
+  tags         LeadTag[]
+  customValues LeadCustomValue[]
 
   @@index([companyId])
   @@index([campaignId])
@@ -340,6 +359,147 @@ model Lead {
   @@index([pipeline, companyId])
   @@index([externalId])
   @@index([conversationId])
+}
+
+// Tag colorida atribuível a leads. Configurada por empresa (cada empresa
+// monta as próprias categorias: "VIP", "Quente", "Aguardando docs"…).
+model Tag {
+  id    String @id @default(cuid())
+  name  String
+  // Hex color usada nas chips. Default: indigo (combina com o tema).
+  color String @default("#6366f1")
+  // Ordem de exibição. Default 0 — usuário pode arrastar pra reordenar depois.
+  order Int    @default(0)
+
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  leads LeadTag[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Não duplicar tag com mesmo nome dentro da mesma empresa.
+  @@unique([companyId, name])
+  @@index([companyId, order])
+}
+
+// Pivot N:N Lead↔Tag. Composta como PK pra evitar duplicatas naturalmente.
+model LeadTag {
+  lead   Lead   @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  leadId String
+
+  tag   Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  tagId String
+
+  createdAt DateTime @default(now())
+
+  @@id([leadId, tagId])
+  @@index([tagId])
+}
+
+// ─── Custom Fields ────────────────────────────────────────────────────────────
+// Cada empresa-cliente define os campos extras que faz sentido pra ela
+// (clínica = "Convênio", imobiliária = "Tipo do imóvel", agência = "Verba mensal").
+// CustomFieldDef é a definição (metadata); LeadCustomValue guarda o valor por lead.
+
+model CustomFieldDef {
+  id       String          @id @default(cuid())
+  // Nome legível ("Convênio", "Tipo do imóvel"). Pode mudar sem quebrar nada.
+  name     String
+  // Identificador estável usado na URL/API. Slug do nome no momento da criação.
+  // Não duplicar na mesma empresa.
+  key      String
+  type     CustomFieldType @default(TEXT)
+  // Pra type=SELECT: array JSON de strings. Ex: ["Unimed","Bradesco","Particular"].
+  options  Json?
+  required Boolean         @default(false)
+  // Ordem de exibição no drawer. Menor primeiro.
+  order    Int             @default(0)
+
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  values LeadCustomValue[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, key])
+  @@index([companyId, order])
+}
+
+enum CustomFieldType {
+  TEXT
+  NUMBER
+  DATE
+  SELECT
+}
+
+model LeadCustomValue {
+  id String @id @default(cuid())
+
+  lead   Lead   @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  leadId String
+
+  field   CustomFieldDef @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  fieldId String
+
+  // Valor sempre como texto — interpretação fica a cargo do `field.type`.
+  // Pra DATE guarda ISO string; pra NUMBER guarda string numérica; SELECT
+  // guarda o valor escolhido (uma das `options`). Simplifica muito o schema.
+  value String @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Um valor por (lead, field).
+  @@unique([leadId, fieldId])
+  @@index([fieldId])
+}
+
+// Tarefa de follow-up de um lead (ligar, mandar proposta, agendar reunião…)
+// Modelo simples e propositalmente enxuto — vendedor abre o sistema, vê
+// "minhas tarefas de hoje", marca como feita e segue. Sem recorrência por agora.
+model Task {
+  id     String    @id @default(cuid())
+  title  String
+  dueAt  DateTime
+  done   Boolean   @default(false)
+  doneAt DateTime?
+  notes  String?   @db.Text
+
+  // Origem da tarefa: criada por humano ou disparada automaticamente
+  // (ex: cliente abriu o link rastreado). Usado pra UI marcar "🔥 sinal quente"
+  // e pra cooldowns de auto-criação.
+  source TaskSource @default(MANUAL)
+
+  lead   Lead   @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  leadId String
+
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  // Quem deve executar. Opcional — null = "qualquer um do setor pode pegar".
+  assignee   User?   @relation("TaskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  assigneeId String?
+
+  // Quem criou (auditoria, gamificação). Null = sistema.
+  createdBy   User?   @relation("TaskCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  createdById String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId, done, dueAt])
+  @@index([assigneeId, done, dueAt])
+  @@index([leadId])
+  @@index([leadId, source, done, createdAt])
+}
+
+enum TaskSource {
+  MANUAL
+  AUTO_LINK_OPEN // disparada quando cliente abriu o shortlink (proposta etc.)
 }
 
 enum LeadStatus {
@@ -1523,6 +1683,45 @@ enum ScoreReason {
   RESPOSTA_RAPIDA_GRUPO // resposta em grupo em ≤5min úteis (Preciso)
   DIA_NETWORK // dia em que respondeu em 3+ grupos diferentes (Network)
   LEAD_VIROU_OPORTUNIDADE // lead promovido pra oportunidade (cliente pediu orcamento)
+  TAREFA_LEADHUB_FEITA // marcou tarefa do LeadHub como feita (não confundir com TAREFA_CONCLUIDA do ClickUp)
+  SINAL_QUENTE_RESPONDIDO // marcou tarefa AUTO_LINK_OPEN feita (cliente abriu proposta → vendedor agiu rápido)
+}
+
+// ─── Push Notifications (Web Push API) ───────────────────────────────────────
+// Cada navegador/device do usuário tem uma PushSubscription. Quando o usuário
+// permite notificações, o frontend envia o objeto subscription pra cá. Os hooks
+// do servidor (mensagem nova, sinal quente etc.) percorrem todas as subs ativas
+// do destinatário e disparam.
+
+model PushSubscription {
+  id        String  @id @default(cuid())
+  endpoint  String  @unique // URL única do push service do browser
+  p256dh    String // chave pública (criptografia VAPID)
+  auth      String // segredo compartilhado
+  userAgent String? // pra UI mostrar "Chrome no Mac" etc.
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  // Quando uma notificação retorna 410 Gone, a sub é apagada.
+  lastFailedAt DateTime?
+  failCount    Int       @default(0)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model UserNotifPreferences {
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+
+  // Liga/desliga categorias específicas
+  newMessage  Boolean @default(true) // chegou mensagem WhatsApp em conversa que é minha
+  hotSignal   Boolean @default(true) // tarefa AUTO_LINK_OPEN criada
+  taskOverdue Boolean @default(false) // ainda não tem cron, deixa off
+
+  updatedAt DateTime @updatedAt
 }
 
 // Trilha de auditoria de eventos de cobrança — útil pra suporte e debug.

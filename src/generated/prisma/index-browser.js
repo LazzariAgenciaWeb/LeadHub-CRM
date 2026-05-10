@@ -233,6 +233,7 @@ exports.Prisma.ClickEventScalarFieldEnum = {
   trackingLinkId: 'trackingLinkId',
   targetUrl: 'targetUrl',
   targetLabel: 'targetLabel',
+  kind: 'kind',
   createdAt: 'createdAt'
 };
 
@@ -258,6 +259,60 @@ exports.Prisma.LeadScalarFieldEnum = {
   campaignId: 'campaignId',
   trackingLinkId: 'trackingLinkId',
   conversationId: 'conversationId'
+};
+
+exports.Prisma.TagScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  color: 'color',
+  order: 'order',
+  companyId: 'companyId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LeadTagScalarFieldEnum = {
+  leadId: 'leadId',
+  tagId: 'tagId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CustomFieldDefScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  key: 'key',
+  type: 'type',
+  options: 'options',
+  required: 'required',
+  order: 'order',
+  companyId: 'companyId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LeadCustomValueScalarFieldEnum = {
+  id: 'id',
+  leadId: 'leadId',
+  fieldId: 'fieldId',
+  value: 'value',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TaskScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  dueAt: 'dueAt',
+  done: 'done',
+  doneAt: 'doneAt',
+  notes: 'notes',
+  source: 'source',
+  leadId: 'leadId',
+  companyId: 'companyId',
+  assigneeId: 'assigneeId',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.LeadCommentScalarFieldEnum = {
@@ -774,6 +829,26 @@ exports.Prisma.ScoreRuleConfigScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PushSubscriptionScalarFieldEnum = {
+  id: 'id',
+  endpoint: 'endpoint',
+  p256dh: 'p256dh',
+  auth: 'auth',
+  userAgent: 'userAgent',
+  userId: 'userId',
+  lastFailedAt: 'lastFailedAt',
+  failCount: 'failCount',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.UserNotifPreferencesScalarFieldEnum = {
+  userId: 'userId',
+  newMessage: 'newMessage',
+  hotSignal: 'hotSignal',
+  taskOverdue: 'taskOverdue',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.BillingEventScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
@@ -855,12 +930,29 @@ exports.CampaignStatus = exports.$Enums.CampaignStatus = {
   FINISHED: 'FINISHED'
 };
 
+exports.ClickEventKind = exports.$Enums.ClickEventKind = {
+  OPEN: 'OPEN',
+  INTERNAL: 'INTERNAL'
+};
+
 exports.LeadStatus = exports.$Enums.LeadStatus = {
   NEW: 'NEW',
   CONTACTED: 'CONTACTED',
   PROPOSAL: 'PROPOSAL',
   CLOSED: 'CLOSED',
   LOST: 'LOST'
+};
+
+exports.CustomFieldType = exports.$Enums.CustomFieldType = {
+  TEXT: 'TEXT',
+  NUMBER: 'NUMBER',
+  DATE: 'DATE',
+  SELECT: 'SELECT'
+};
+
+exports.TaskSource = exports.$Enums.TaskSource = {
+  MANUAL: 'MANUAL',
+  AUTO_LINK_OPEN: 'AUTO_LINK_OPEN'
 };
 
 exports.InstanceStatus = exports.$Enums.InstanceStatus = {
@@ -1063,7 +1155,9 @@ exports.ScoreReason = exports.$Enums.ScoreReason = {
   ATENDIMENTO_GRUPO_NOVO: 'ATENDIMENTO_GRUPO_NOVO',
   RESPOSTA_RAPIDA_GRUPO: 'RESPOSTA_RAPIDA_GRUPO',
   DIA_NETWORK: 'DIA_NETWORK',
-  LEAD_VIROU_OPORTUNIDADE: 'LEAD_VIROU_OPORTUNIDADE'
+  LEAD_VIROU_OPORTUNIDADE: 'LEAD_VIROU_OPORTUNIDADE',
+  TAREFA_LEADHUB_FEITA: 'TAREFA_LEADHUB_FEITA',
+  SINAL_QUENTE_RESPONDIDO: 'SINAL_QUENTE_RESPONDIDO'
 };
 
 exports.Prisma.ModelName = {
@@ -1076,6 +1170,11 @@ exports.Prisma.ModelName = {
   TrackingLink: 'TrackingLink',
   ClickEvent: 'ClickEvent',
   Lead: 'Lead',
+  Tag: 'Tag',
+  LeadTag: 'LeadTag',
+  CustomFieldDef: 'CustomFieldDef',
+  LeadCustomValue: 'LeadCustomValue',
+  Task: 'Task',
   LeadComment: 'LeadComment',
   PipelineStageConfig: 'PipelineStageConfig',
   CompanyContact: 'CompanyContact',
@@ -1114,6 +1213,8 @@ exports.Prisma.ModelName = {
   UserBadge: 'UserBadge',
   ScoreEvent: 'ScoreEvent',
   ScoreRuleConfig: 'ScoreRuleConfig',
+  PushSubscription: 'PushSubscription',
+  UserNotifPreferences: 'UserNotifPreferences',
   BillingEvent: 'BillingEvent',
   AdminAuditLog: 'AdminAuditLog'
 };

@@ -799,7 +799,56 @@ export async function processInboundMessage(payload: {
     ...(mediaBase64 ? { mediaBase64, mediaType: mediaType ?? null } : {}),
   });
 
+  // Push notification — só pra quem é responsável pela conversa.
+  // fire-and-forget, nunca bloqueia o webhook.
+  void (async () => {
+    try {
+      const c = await prisma.conversation.findUnique({
+        where: { id: conv.id },
+        select: { assigneeId: true },
+      });
+      if (c?.assigneeId) {
+        await notifyInboundMessage({
+          assigneeId: c.assigneeId,
+          contactName: lead.name ?? contactName ?? phone,
+          body,
+          mediaType: mediaType ?? null,
+          url: `/whatsapp?abrir=${encodeURIComponent(phone)}`,
+          conversationId: conv.id,
+        });
+      }
+    } catch { /* nunca propaga */ }
+  })();
+
   return { lead, message, identifiedAs, campaignId };
+}
+
+async function notifyInboundMessage(args: {
+  assigneeId: string;
+  contactName: string;
+  body: string;
+  mediaType: string | null;
+  url: string;
+  conversationId: string;
+}) {
+  try {
+    const { sendPushToUser } = await import("./push");
+    const preview = args.body?.trim()
+      ? (args.body.length > 80 ? args.body.slice(0, 80) + "…" : args.body)
+      : (args.mediaType?.startsWith("image") ? "📷 Enviou uma imagem"
+        : args.mediaType?.startsWith("audio") ? "🎤 Enviou um áudio"
+        : "📎 Enviou um anexo");
+    await sendPushToUser(
+      args.assigneeId,
+      {
+        title: `💬 ${args.contactName}`,
+        body: preview,
+        url: args.url,
+        tag: `conv-${args.conversationId}`, // agrupa: várias mensagens viram 1 notificação
+      },
+      "newMessage"
+    );
+  } catch { /* nunca propaga */ }
 }
 
 /**

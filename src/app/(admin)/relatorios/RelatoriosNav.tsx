@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   LayoutGrid, BarChart3, Search, Target, Lightbulb, Link2, MessageSquare, LifeBuoy,
+  TrendingUp,
   type LucideIcon,
 } from "lucide-react";
 import { gradStroke, type GradientKey } from "@/components/IconGradients";
@@ -17,6 +18,7 @@ type Section = {
 
 const SECTIONS: Section[] = [
   { key: "geral",         label: "Visão Geral",   Icon: LayoutGrid,    grad: "dashboard"     },
+  { key: "funil",         label: "Funil",         Icon: TrendingUp,    grad: "oportunidades" },
   { key: "marketing",     label: "Marketing",     Icon: BarChart3,     grad: "marketing"     },
   { key: "prospects",     label: "Prospects",     Icon: Search,        grad: "prospeccao", badge: "em breve" },
   { key: "leads",         label: "Leads",         Icon: Target,        grad: "leads",      badge: "em breve" },
@@ -43,7 +45,7 @@ export default function RelatoriosNav({ active }: { active: string }) {
       <div className="flex gap-1 px-4 overflow-x-auto">
         {SECTIONS.map((s) => {
           const isActive = active === s.key;
-          const isDisabled = !!s.badge && s.key !== "geral" && s.key !== "marketing";
+          const isDisabled = !!s.badge && s.key !== "geral" && s.key !== "marketing" && s.key !== "funil";
           return (
             <button
               key={s.key}

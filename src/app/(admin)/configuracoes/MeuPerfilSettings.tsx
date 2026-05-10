@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import PushNotificationsToggle from "@/components/PushNotificationsToggle";
 
 const MAX_SIGNATURE = 120;
 
@@ -73,6 +74,9 @@ export default function MeuPerfilSettings({
           </p>
         </div>
       </div>
+
+      {/* Push notifications */}
+      <PushNotificationsToggle />
 
       {/* Dados básicos (read-only) */}
       <section className="bg-[#0f1623] border border-[#1e2d45] rounded-xl overflow-hidden">

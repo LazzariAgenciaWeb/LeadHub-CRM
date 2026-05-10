@@ -58,6 +58,7 @@ const SECTIONS: SectionItem[] = [
     ],
   },
   { type: "item", key: "pipeline",    Icon: Workflow, grad: "pipeline",    label: "CRM / Pipeline", desc: "Etapas e configurações" },
+  { type: "item", key: "custom-fields", Icon: FileText, grad: "pipeline",  label: "Campos personalizados", desc: "Atributos extras dos leads" },
 ];
 
 function isIntegSubKey(key: string) {

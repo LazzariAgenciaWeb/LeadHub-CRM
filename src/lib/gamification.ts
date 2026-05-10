@@ -68,6 +68,9 @@ export const SCORE_TABLE: Record<ScoreReason, number> = {
   DIA_NETWORK:             15, // semana sem deixar grupo responsável sem resposta (Network)
   // Comercial — promoção do lead pra oportunidade (cliente pediu orçamento)
   LEAD_VIROU_OPORTUNIDADE: 20, // lead virou oportunidade (entre lead simples e venda fechada)
+  // Tarefas do CRM (módulo nativo do LeadHub, não confundir com ClickUp)
+  TAREFA_LEADHUB_FEITA:     3, // marcou tarefa de follow-up como feita
+  SINAL_QUENTE_RESPONDIDO: 12, // tarefa AUTO_LINK_OPEN (cliente abriu proposta) feita — bônus por resposta rápida
 };
 
 // ─── Regras de badges (6 tiers cada) ──────────────────────────────────────────

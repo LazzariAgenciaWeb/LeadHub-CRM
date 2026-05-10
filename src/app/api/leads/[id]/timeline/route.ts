@@ -7,9 +7,27 @@ export type TimelineEventType =
   | "comment"
   | "message_in"
   | "message_out"
-  | "link_click"
+  | "link_open"   // cliente abriu o shortlink /r/CODE (entrou na proposta)
+  | "link_click"  // cliente clicou em algo DENTRO da página de destino
   | "tracking_link_set"
   | "clickup_linked";
+
+/**
+ * Categorias de filtro usadas pela UI. Cada evento pertence a uma categoria.
+ * Mantido aqui (server) e replicado no client pra evitar drift.
+ */
+export type TimelineGroup = "messages" | "links" | "system" | "notes";
+
+export const EVENT_GROUP: Record<TimelineEventType, TimelineGroup> = {
+  message_in:        "messages",
+  message_out:       "messages",
+  link_open:         "links",
+  link_click:        "links",
+  tracking_link_set: "links",
+  comment:           "notes",
+  lead_created:      "system",
+  clickup_linked:    "system",
+};
 
 export interface TimelineEvent {
   id: string;
@@ -121,11 +139,12 @@ export async function GET(
       take: 30,
     });
     for (const c of clicks) {
+      const isOpen = (c as any).kind === "OPEN";
       events.push({
         id: `click-${c.id}`,
-        type: "link_click",
+        type: isOpen ? "link_open" : "link_click",
         timestamp: c.createdAt.toISOString(),
-        title: "Clique no link rastreado",
+        title: isOpen ? "Abriu o link" : "Clique dentro do link",
         body: c.targetLabel ?? c.targetUrl,
         meta: { url: c.targetUrl },
       });
