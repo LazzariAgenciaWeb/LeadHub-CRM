@@ -1,4 +1,5 @@
 import { getEffectiveSession } from "@/lib/effective-session";
+import { getUserPermissions } from "@/lib/user-permissions";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import CRMCharts from "./CRMCharts";
@@ -164,29 +165,30 @@ export default async function DashboardPage() {
     include: { company: { select: { name: true } } },
   });
 
-  // Conversas aguardando resposta (última mensagem é INBOUND)
-  // Pega conversas agrupadas por phone+companyId ordenadas pela mais recente
-  const phoneGroups = await prisma.message.groupBy({
-    by: ["phone", "companyId"],
-    where: { ...where },
-    _max: { receivedAt: true },
-    orderBy: { _max: { receivedAt: "desc" } },
-    take: 100,
-  });
-  // Para cada conversa, pega a última mensagem e verifica se é INBOUND
+  // Conversas aguardando resposta (última mensagem é INBOUND).
+  // Regra: grupos visíveis a todos; pessoais filtrados pela instância do setor.
+  // Espelha /api/dashboard/unanswered (que rehidrata isto no cliente).
+  const perms = await getUserPermissions(session);
+  const phoneGroups = perms?.noSetor
+    ? []
+    : await prisma.message.groupBy({
+        by: ["phone", "companyId"],
+        where: { ...where },
+        _max: { receivedAt: true },
+        orderBy: { _max: { receivedAt: "desc" } },
+        take: 100,
+      });
   const unansweredConvs: Array<{
     phone: string; companyId: string; companyName: string | null;
     leadName: string | null; leadId: string | null;
     pipeline: string | null; pipelineStage: string | null; attendanceStatus: string | null;
     lastMsgBody: string; lastMsgAt: string; instanceName: string | null;
+    isGroup: boolean; groupName: string | null;
   }> = [];
   for (const g of phoneGroups) {
     if (unansweredConvs.length >= 10) break;
     const isGroup = g.phone.includes("@g.us");
-    if (isGroup) continue;
 
-    // Lead buscado por phone (fonte correta do attendanceStatus)
-    // A mensagem pode ter leadId=null ou apontar para lead antigo
     const [lastMsg, lead] = await Promise.all([
       prisma.message.findFirst({
         where: { phone: g.phone, companyId: g.companyId },
@@ -204,15 +206,25 @@ export default async function DashboardPage() {
     ]);
 
     if (!lastMsg || lastMsg.direction !== "INBOUND") continue;
+
+    // Visibilidade por instância: grupos passam pra todos; pessoais só pra
+    // usuários com permissão na instância (admin/super_admin: instanceIds=null → passa).
+    if (!isGroup && !isSuperAdmin && perms && !perms.isAdmin) {
+      const allowed = perms.instanceIds ?? [];
+      if (!lastMsg.instanceId || !allowed.includes(lastMsg.instanceId)) continue;
+    }
+
     const atStatus = lead?.attendanceStatus;
     const resolved = atStatus === "RESOLVED" || atStatus === "CLOSED";
     if (resolved) continue;
+
+    const groupName = isGroup ? contactNameByPhone.get(g.phone) ?? null : null;
 
     unansweredConvs.push({
       phone: g.phone,
       companyId: g.companyId,
       companyName: lastMsg.company?.name ?? null,
-      leadName: lead?.name ?? null,
+      leadName: lead?.name ?? (isGroup ? groupName : null),
       leadId: lead?.id ?? null,
       pipeline: lead?.pipeline ?? null,
       pipelineStage: lead?.pipelineStage ?? null,
@@ -220,6 +232,8 @@ export default async function DashboardPage() {
       lastMsgBody: lastMsg.body,
       lastMsgAt: lastMsg.receivedAt.toISOString(),
       instanceName: lastMsg.instance?.instanceName ?? null,
+      isGroup,
+      groupName,
     });
   }
 

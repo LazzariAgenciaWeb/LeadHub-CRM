@@ -1,30 +1,26 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { cookies } from "next/headers";
-import { IMPERSONATE_COOKIE } from "@/lib/effective-session";
+import { getEffectiveSession } from "@/lib/effective-session";
+import { getUserPermissions } from "@/lib/user-permissions";
 import { prisma } from "@/lib/prisma";
 
 // GET /api/dashboard/unanswered
 // Retorna conversas aguardando resposta (última mensagem INBOUND + não resolvida)
+//
+// Regra de visibilidade:
+//  - Grupos (@g.us) → todos os usuários da empresa veem, indiferente de instância.
+//  - Conversas pessoais → só usuários com permissão na instância em que a mensagem
+//    chegou (via setor.instances). Admin/SUPER_ADMIN veem tudo.
 export async function GET() {
-  const session = await getServerSession(authOptions);
+  const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
-  // Respeita impersonation: se SUPER_ADMIN está impersonando uma empresa, filtra por ela
-  const cookieStore = await cookies();
-  const impersonatedId = cookieStore.get(IMPERSONATE_COOKIE)?.value;
+  const role = (session.user as any).role;
+  const companyId = (session.user as any).companyId as string | undefined;
+  const isSuperAdmin = role === "SUPER_ADMIN";
 
-  const realRole = (session.user as any).role;
-  const realCompanyId = (session.user as any).companyId as string | undefined;
-
-  let isSuperAdmin = realRole === "SUPER_ADMIN";
-  let companyId = realCompanyId;
-
-  if (isSuperAdmin && impersonatedId) {
-    isSuperAdmin = false;
-    companyId = impersonatedId;
-  }
+  const perms = await getUserPermissions(session);
+  // CLIENT sem setor → não vê nada
+  if (perms?.noSetor) return NextResponse.json([]);
 
   const where = isSuperAdmin ? {} : { companyId };
 
@@ -42,18 +38,18 @@ export async function GET() {
     leadName: string | null; leadId: string | null;
     pipeline: string | null; pipelineStage: string | null; attendanceStatus: string | null;
     lastMsgBody: string; lastMsgAt: string; instanceName: string | null;
+    isGroup: boolean; groupName: string | null;
   }> = [];
 
   for (const g of phoneGroups) {
     if (result.length >= 10) break;
     const isGroup = g.phone.includes("@g.us");
-    if (isGroup) continue;
 
     // Busca última mensagem, lead e Conversation em paralelo. O Conversation
     // é a fonte de verdade do status: quando o usuário clica em "Finalizar"
     // na inbox, é Conversation.status que vira CLOSED. O Lead.attendanceStatus
     // é legado (sincronizado quando há Lead vinculado, mas pode ficar dessincronizado).
-    const [lastMsg, lead, conversation] = await Promise.all([
+    const [lastMsg, lead, conversation, contact] = await Promise.all([
       prisma.message.findFirst({
         where: { phone: g.phone, companyId: g.companyId },
         orderBy: { receivedAt: "desc" },
@@ -71,10 +67,22 @@ export async function GET() {
         where: { companyId_phone: { companyId: g.companyId, phone: g.phone } },
         select: { status: true },
       }),
+      // Grupos têm nome em CompanyContact (isGroup=true); pessoais também podem ter
+      prisma.companyContact.findUnique({
+        where: { companyId_phone: { companyId: g.companyId, phone: g.phone } },
+        select: { name: true },
+      }),
     ]);
 
     if (!lastMsg) continue;
     if (lastMsg.direction !== "INBOUND") continue;
+
+    // Visibilidade por instância: grupos passam pra todos; pessoais só pra
+    // usuários com permissão na instância (admin/super_admin: perms.instanceIds=null → passa).
+    if (!isGroup && !isSuperAdmin && perms && !perms.isAdmin) {
+      const allowed = perms.instanceIds ?? [];
+      if (!lastMsg.instanceId || !allowed.includes(lastMsg.instanceId)) continue;
+    }
 
     // Status real vem da Conversation. Conversa CLOSED ou SCHEDULED não é
     // "não respondida" — foi atendida ou tem retorno marcado.
@@ -91,7 +99,7 @@ export async function GET() {
       phone: g.phone,
       companyId: g.companyId,
       companyName: lastMsg.company?.name ?? null,
-      leadName: lead?.name ?? null,
+      leadName: lead?.name ?? contact?.name ?? null,
       leadId: lead?.id ?? null,
       pipeline: lead?.pipeline ?? null,
       pipelineStage: lead?.pipelineStage ?? null,
@@ -99,6 +107,8 @@ export async function GET() {
       lastMsgBody: lastMsg.body,
       lastMsgAt: lastMsg.receivedAt.toISOString(),
       instanceName: lastMsg.instance?.instanceName ?? null,
+      isGroup,
+      groupName: isGroup ? contact?.name ?? null : null,
     });
   }
 

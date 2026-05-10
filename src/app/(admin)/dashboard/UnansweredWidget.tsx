@@ -15,6 +15,8 @@ interface UnansweredConv {
   lastMsgBody: string;
   lastMsgAt: string;
   instanceName: string | null;
+  isGroup?: boolean;
+  groupName?: string | null;
 }
 
 const PIPELINE_LABEL: Record<string, string> = {
@@ -138,7 +140,7 @@ export default function UnansweredWidget({ initialConvs }: { initialConvs: Unans
             {/* Avatar */}
             <div className="relative flex-shrink-0 mt-0.5">
               <div className="w-9 h-9 rounded-full bg-[#1e2d45] flex items-center justify-center text-xs font-bold text-slate-400">
-                {c.phone.slice(-2)}
+                {c.isGroup ? "👥" : c.phone.slice(-2)}
               </div>
               <span className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-red-500 border-2 border-[#0c1220] animate-pulse" />
             </div>
@@ -147,13 +149,18 @@ export default function UnansweredWidget({ initialConvs }: { initialConvs: Unans
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between gap-2">
                 <span className="text-white text-[13px] font-semibold truncate">
-                  {c.leadName ?? c.phone}
+                  {c.isGroup
+                    ? (c.groupName ?? c.leadName ?? `Grupo …${c.phone.replace("@g.us", "").slice(-6)}`)
+                    : (c.leadName ?? c.phone)}
                 </span>
                 <ElapsedBadge isoDate={c.lastMsgAt} />
               </div>
 
-              {c.leadName && (
+              {!c.isGroup && c.leadName && (
                 <div className="text-slate-600 text-[10px]">{c.phone}</div>
+              )}
+              {c.isGroup && (
+                <div className="text-slate-600 text-[10px]">💬 Grupo do WhatsApp</div>
               )}
 
               <div className="text-slate-500 text-[11px] truncate mt-0.5">
