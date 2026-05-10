@@ -15,14 +15,31 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Build args para versionamento (injetados pelo Portainer/CI ou via --build-arg)
-ARG GIT_COMMIT_SHA=unknown
-ARG BUILD_TIMESTAMP
-RUN BUILD_TIMESTAMP="${BUILD_TIMESTAMP:-$(date -u +%Y-%m-%dT%H:%M:%SZ)}" \
-    GIT_COMMIT_SHA="${GIT_COMMIT_SHA}" \
-    npm run build
-ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
-ENV BUILD_TIMESTAMP=${BUILD_TIMESTAMP}
+# Build args opcionais — se não vierem (ex: Portainer sem --build-arg),
+# auto-detectamos o commit a partir de .git/HEAD do contexto.
+ARG GIT_COMMIT_SHA=
+ARG BUILD_TIMESTAMP=
+
+# Resolve commit + timestamp e grava em /app/version.json — esse arquivo é a
+# fonte de verdade que o /api/version lê em runtime. Não depende do ARG ser
+# propagado pra ENV (pegadinha clássica do Docker).
+RUN set -e; \
+    if [ -z "$GIT_COMMIT_SHA" ] || [ "$GIT_COMMIT_SHA" = "unknown" ]; then \
+      if [ -f .git/HEAD ]; then \
+        HEAD_REF=$(cat .git/HEAD); \
+        case "$HEAD_REF" in \
+          "ref: "*) \
+            REF_FILE=".git/$(echo "$HEAD_REF" | sed 's/^ref: //')"; \
+            if [ -f "$REF_FILE" ]; then GIT_COMMIT_SHA=$(cat "$REF_FILE"); fi ;; \
+          *) GIT_COMMIT_SHA="$HEAD_REF" ;; \
+        esac; \
+      fi; \
+    fi; \
+    GIT_COMMIT_SHA="${GIT_COMMIT_SHA:-unknown}"; \
+    BUILD_TIMESTAMP="${BUILD_TIMESTAMP:-$(date -u +%Y-%m-%dT%H:%M:%SZ)}"; \
+    echo "[build] commit=$GIT_COMMIT_SHA timestamp=$BUILD_TIMESTAMP"; \
+    printf '{"commit":"%s","builtAt":"%s"}\n' "$GIT_COMMIT_SHA" "$BUILD_TIMESTAMP" > /app/version.json; \
+    GIT_COMMIT_SHA="$GIT_COMMIT_SHA" BUILD_TIMESTAMP="$BUILD_TIMESTAMP" npm run build
 
 # ─── Runner (imagem final mínima) ─────────────────────────────────────────────
 FROM base AS runner
@@ -36,6 +53,7 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/version.json ./version.json
 
 # Prisma: schema + client gerado para migrations automáticas no startup
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
@@ -52,10 +70,7 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# Propaga build args para o runtime (acessíveis via process.env)
-ARG GIT_COMMIT_SHA=unknown
-ARG BUILD_TIMESTAMP
-ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
-ENV BUILD_TIMESTAMP=${BUILD_TIMESTAMP}
+# version.json é a fonte de verdade do commit/timestamp em runtime — não
+# precisamos mais propagar ARG → ENV (pegadinha do Docker que dava "unknown").
 
 CMD ["sh", "start.sh"]
