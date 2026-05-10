@@ -2,7 +2,12 @@
 
 import { useState, useTransition, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Search, Target, Lightbulb, type LucideIcon } from "lucide-react";
+import {
+  Search, Target, Lightbulb,
+  Tag, Clock, FileText, Sparkles, Link2, Plug, Settings, MessageSquare, CheckSquare, Building2,
+  Activity as ActivityIcon, Inbox,
+  type LucideIcon,
+} from "lucide-react";
 import ImportLeads from "./ImportLeads";
 import SourceBadge from "@/components/SourceBadge";
 import { gradStroke, type GradientKey } from "@/components/IconGradients";
@@ -112,12 +117,12 @@ const TIMELINE_META: Record<string, { icon: string; titleColor: string; bg: stri
 
 type TimelineFilter = "all" | "messages" | "links" | "system" | "notes";
 
-const TIMELINE_FILTERS: { id: TimelineFilter; icon: string; label: string }[] = [
-  { id: "all",      icon: "📋", label: "Tudo" },
-  { id: "messages", icon: "💬", label: "Mensagens" },
-  { id: "links",    icon: "🔗", label: "Links" },
-  { id: "notes",    icon: "📝", label: "Anotações" },
-  { id: "system",   icon: "⚙️", label: "Sistema" },
+const TIMELINE_FILTERS: { id: TimelineFilter; Icon: LucideIcon; grad: GradientKey; label: string }[] = [
+  { id: "all",      Icon: Inbox,          grad: "dashboard",   label: "Tudo" },
+  { id: "messages", Icon: MessageSquare,  grad: "whatsapp",    label: "Mensagens" },
+  { id: "links",    Icon: Link2,          grad: "links",       label: "Links" },
+  { id: "notes",    Icon: FileText,       grad: "pipeline",    label: "Anotações" },
+  { id: "system",   Icon: Settings,       grad: "configuracoes", label: "Sistema" },
 ];
 
 const EVENT_GROUP: Record<string, Exclude<TimelineFilter, "all">> = {
@@ -1359,6 +1364,11 @@ export default function CRMBoard({
               {/* ── Coluna esquerda: informações ── */}
               <div className="flex-1 overflow-y-auto p-5 space-y-4 md:border-r border-[#1e2d45]">
 
+                {/* ─── Grupo 1: STATUS DO LEAD ─── */}
+                <div className="text-[9px] uppercase tracking-[0.15em] text-slate-600 font-bold pt-1">
+                  Status do lead
+                </div>
+
                 {/* Lead score — temperatura do lead */}
                 {selected.score && (
                   <div
@@ -1386,7 +1396,10 @@ export default function CRMBoard({
 
                 {/* Bloco de Origem — bem destacado no topo */}
                 <div className="bg-gradient-to-br from-[#0f1825] to-[#0a0f1a] border border-[#1e2d45] rounded-xl p-4">
-                  <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-2 font-semibold">🎯 Origem</div>
+                  <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-2 font-semibold flex items-center gap-1.5">
+                    <Sparkles className="w-3 h-3" stroke={gradStroke("crm")} strokeWidth={2.5} />
+                    Origem
+                  </div>
                   <div className="flex flex-wrap items-center gap-2">
                     <SourceBadge source={selected.source} size="md" />
                     {selected.campaign && (
@@ -1406,7 +1419,10 @@ export default function CRMBoard({
                 {/* ── Tags ── */}
                 <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-3">
                   <div className="flex items-center justify-between mb-2">
-                    <div className="text-slate-500 text-[10px] uppercase tracking-wide font-semibold">🏷️ Tags</div>
+                    <div className="text-slate-500 text-[10px] uppercase tracking-wide font-semibold flex items-center gap-1.5">
+                      <Tag className="w-3 h-3" stroke={gradStroke("setores")} strokeWidth={2.5} />
+                      Tags
+                    </div>
                     {!tagPickerOpen && (
                       <button
                         onClick={() => { setTagPickerOpen(true); setTagSearch(""); loadAllTags(); }}
@@ -1519,11 +1535,17 @@ export default function CRMBoard({
                   )}
                 </div>
 
+                {/* ─── Grupo 2: PRÓXIMA AÇÃO ─── */}
+                <div className="text-[9px] uppercase tracking-[0.15em] text-slate-600 font-bold pt-3 border-t border-[#1e2d45]">
+                  Próxima ação
+                </div>
+
                 {/* ── Tarefas / Follow-ups (ação primária — vem antes da info) ── */}
                 <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4">
                   <div className="flex items-center justify-between mb-3">
                     <div className="text-amber-400 text-[10px] font-semibold uppercase tracking-wide flex items-center gap-1.5">
-                      ⏰ Próximos passos
+                      <Clock className="w-3 h-3" stroke={gradStroke("atendimento")} strokeWidth={2.5} />
+                      Próximos passos
                       {tasks.filter((t) => !t.done).length > 0 && (
                         <span className="bg-amber-500/20 text-amber-300 text-[10px] font-bold px-1.5 py-0.5 rounded-full">
                           {tasks.filter((t) => !t.done).length} aberta(s)
@@ -1635,6 +1657,11 @@ export default function CRMBoard({
                   )}
                 </div>
 
+                {/* ─── Grupo 3: INFORMAÇÕES ─── */}
+                <div className="text-[9px] uppercase tracking-[0.15em] text-slate-600 font-bold pt-3 border-t border-[#1e2d45]">
+                  Informações
+                </div>
+
                 {/* Grid de dados principais */}
                 <div className="grid grid-cols-2 gap-2">
                   <div className="bg-[#161f30] rounded-lg p-3">
@@ -1689,7 +1716,10 @@ export default function CRMBoard({
                   {selected.company && (
                     <div className="bg-[#161f30] rounded-lg p-3 col-span-2">
                       <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-1">Empresa</div>
-                      <div className="text-white text-sm">🏢 {selected.company.name}</div>
+                      <div className="text-white text-sm flex items-center gap-1.5">
+                        <Building2 className="w-3.5 h-3.5" stroke={gradStroke("empresa")} strokeWidth={2.25} />
+                        {selected.company.name}
+                      </div>
                     </div>
                   )}
 
@@ -1705,7 +1735,10 @@ export default function CRMBoard({
                 {customDefs.length > 0 && (
                   <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-4">
                     <div className="flex items-center justify-between mb-3">
-                      <div className="text-slate-500 text-[10px] uppercase tracking-wide font-semibold">📋 Campos personalizados</div>
+                      <div className="text-slate-500 text-[10px] uppercase tracking-wide font-semibold flex items-center gap-1.5">
+                        <FileText className="w-3 h-3" stroke={gradStroke("pipeline")} strokeWidth={2.5} />
+                        Campos personalizados
+                      </div>
                       <a href="/configuracoes?secao=custom-fields" className="text-slate-600 hover:text-slate-400 text-[10px]">
                         ⚙️ Gerenciar
                       </a>
@@ -1753,8 +1786,9 @@ export default function CRMBoard({
                 {/* Descrição / Notas */}
                 <div className="bg-violet-500/5 border border-violet-500/20 rounded-xl p-4">
                   <div className="flex items-center justify-between mb-2">
-                    <div className="text-violet-400 text-[10px] font-semibold uppercase tracking-wide">
-                      📋 Descrição / Observações
+                    <div className="text-violet-400 text-[10px] font-semibold uppercase tracking-wide flex items-center gap-1.5">
+                      <FileText className="w-3 h-3" stroke={gradStroke("integracoes")} strokeWidth={2.5} />
+                      Descrição / Observações
                     </div>
                     {!editingNotes && (
                       <button
@@ -1801,6 +1835,11 @@ export default function CRMBoard({
                   )}
                 </div>
 
+                {/* ─── Grupo 4: CONEXÕES EXTERNAS ─── */}
+                <div className="text-[9px] uppercase tracking-[0.15em] text-slate-600 font-bold pt-3 border-t border-[#1e2d45]">
+                  Conexões
+                </div>
+
                 {/* ── Integrações (agrupadas — só mostra as ativas) ── */}
                 {(whatsappEnabled || clickupEnabled || true) && (
                   <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl overflow-hidden">
@@ -1808,7 +1847,10 @@ export default function CRMBoard({
                       onClick={() => setIntegrationsOpen(!integrationsOpen)}
                       className="w-full px-4 py-3 flex items-center justify-between hover:bg-[#0f1825] transition-colors"
                     >
-                      <span className="text-white text-sm font-semibold flex items-center gap-2">🔗 Conexões externas</span>
+                      <span className="text-white text-sm font-semibold flex items-center gap-2">
+                        <Plug className="w-4 h-4" stroke={gradStroke("integracoes")} strokeWidth={2.25} />
+                        Conexões externas
+                      </span>
                       <span className={`text-slate-500 text-xs transition-transform ${integrationsOpen ? "rotate-180" : ""}`}>▾</span>
                     </button>
 
@@ -1817,7 +1859,10 @@ export default function CRMBoard({
 
                         {/* WhatsApp — sempre disponível: inbox interno se módulo ativo + WhatsApp Web sempre */}
                         <div className="pt-3">
-                          <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-2 font-semibold">📱 WhatsApp</div>
+                          <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-2 font-semibold flex items-center gap-1.5">
+                            <MessageSquare className="w-3 h-3" stroke={gradStroke("whatsapp")} strokeWidth={2.5} />
+                            WhatsApp
+                          </div>
                           <div className="flex flex-wrap gap-2">
                             {whatsappEnabled && (
                               <a
@@ -1876,7 +1921,10 @@ export default function CRMBoard({
                         {clickupEnabled && (
                           <div className="pt-3 border-t border-[#1e2d45]">
                             <div className="flex items-center justify-between mb-2">
-                              <div className="text-slate-500 text-[10px] uppercase tracking-wide font-semibold">✅ ClickUp</div>
+                              <div className="text-slate-500 text-[10px] uppercase tracking-wide font-semibold flex items-center gap-1.5">
+                                <CheckSquare className="w-3 h-3" stroke={gradStroke("clickup")} strokeWidth={2.5} />
+                                ClickUp
+                              </div>
                               {!editingClickup && selected.clickupTaskId && (
                                 <button onClick={() => { setEditingClickup(true); setClickupInput(selected.clickupTaskId ?? ""); }} className="text-slate-600 hover:text-slate-400 text-[10px]">✏️ Editar</button>
                               )}
@@ -1914,7 +1962,10 @@ export default function CRMBoard({
                         {/* Link de rastreamento — sempre disponível */}
                         <div className="pt-3 border-t border-[#1e2d45]">
                           <div className="flex items-center justify-between mb-2">
-                            <div className="text-slate-500 text-[10px] uppercase tracking-wide font-semibold">🔗 Link de rastreamento</div>
+                            <div className="text-slate-500 text-[10px] uppercase tracking-wide font-semibold flex items-center gap-1.5">
+                              <Link2 className="w-3 h-3" stroke={gradStroke("links")} strokeWidth={2.5} />
+                              Link de rastreamento
+                            </div>
                             {selected.trackingLink && !showLinkTracker && (
                               <button onClick={() => { setShowLinkTracker(true); loadTrackerLinks(); }} className="text-slate-600 hover:text-slate-400 text-[10px]">Trocar</button>
                             )}
@@ -2010,7 +2061,8 @@ export default function CRMBoard({
                         onClick={() => setActionsOpen(!actionsOpen)}
                         className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-300 hover:text-white hover:bg-[#1a2540] text-xs font-medium transition-colors"
                       >
-                        ⚙️ Ações <span className={`text-[10px] transition-transform ${actionsOpen ? "rotate-180" : ""}`}>▾</span>
+                        <Settings className="w-3.5 h-3.5" stroke={gradStroke("configuracoes")} strokeWidth={2.5} />
+                        Ações <span className={`text-[10px] transition-transform ${actionsOpen ? "rotate-180" : ""}`}>▾</span>
                       </button>
                       {actionsOpen && (
                         <div className="absolute bottom-full left-0 right-0 mb-1 bg-[#0f1623] border border-[#1e2d45] rounded-lg shadow-xl overflow-hidden z-10">
@@ -2038,7 +2090,10 @@ export default function CRMBoard({
               <div className="md:w-80 lg:w-96 flex flex-col flex-shrink-0 border-t md:border-t-0 border-[#1e2d45] min-h-0">
                 {/* Header */}
                 <div className="px-4 py-3 border-b border-[#1e2d45] flex-shrink-0 flex items-center gap-2 bg-[#0f1825]">
-                  <span className="text-sm font-semibold text-white">📜 Atividade</span>
+                  <span className="text-sm font-semibold text-white flex items-center gap-1.5">
+                    <ActivityIcon className="w-3.5 h-3.5" stroke={gradStroke("relatorios")} strokeWidth={2.25} />
+                    Atividade
+                  </span>
                   {timeline.length > 0 && (
                     <span className="text-[10px] bg-indigo-500/20 text-indigo-400 px-1.5 py-0.5 rounded-full border border-indigo-500/30">
                       {timeline.length}
@@ -2087,7 +2142,7 @@ export default function CRMBoard({
                             : "bg-[#0a0f1a] border-[#1e2d45] text-slate-400 hover:text-white hover:border-[#2a3d5a]"
                         }`}
                       >
-                        <span>{f.icon}</span>
+                        <f.Icon className="w-3 h-3" stroke={gradStroke(f.grad)} strokeWidth={2.5} />
                         <span>{f.label}</span>
                         {count > 0 && (
                           <span className={`text-[9px] font-bold px-1 rounded ${
