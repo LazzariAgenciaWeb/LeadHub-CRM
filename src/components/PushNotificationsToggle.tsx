@@ -58,24 +58,69 @@ export default function PushNotificationsToggle() {
   async function enable() {
     if (!publicKey) return;
     setBusy(true); setError(null);
+    const log = (...args: any[]) => console.log("[push]", ...args);
     try {
-      const permission = await Notification.requestPermission();
+      log("permission state:", Notification.permission);
+      // Pede permissão (no-op se já concedida).
+      // Se browser estiver em estado "default" e o user não clicar Allow no popup,
+      // a promise NÃO resolve nunca em alguns browsers — daí o timeout abaixo.
+      const permission = await Promise.race([
+        Notification.requestPermission(),
+        new Promise<NotificationPermission>((_, rej) =>
+          setTimeout(() => rej(new Error("Timeout aguardando permissão. Procure o popup na barra de endereço.")), 60_000)
+        ),
+      ]);
+      log("permission resolved:", permission);
       if (permission !== "granted") {
         setStatus(permission === "denied" ? "denied" : "available");
+        if (permission === "default") setError("Permissão não foi concedida — tente novamente e clique em 'Permitir'.");
         return;
       }
 
-      const reg = await navigator.serviceWorker.ready;
-      const keyArr = urlBase64ToUint8Array(publicKey);
-      // Cast: SharedArrayBuffer-friendly types em DOM lib do TS são chatos —
-      // o runtime aceita Uint8Array sem problema.
-      const sub = await reg.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: keyArr as unknown as BufferSource,
-      });
+      log("waiting for service worker ready...");
+      const reg = await Promise.race([
+        navigator.serviceWorker.ready,
+        new Promise<ServiceWorkerRegistration>((_, rej) =>
+          setTimeout(() => rej(new Error("Service worker demorou demais pra iniciar.")), 15_000)
+        ),
+      ]);
+      log("service worker ready");
+
+      // Reaproveita subscription existente (ex: outro user logou nesse browser antes).
+      // Se VAPID key bater, evita rodar subscribe() de novo. Se não bater, desinscreve.
+      let sub = await reg.pushManager.getSubscription();
+      if (sub) {
+        log("subscription pré-existente encontrada");
+        const existingKey = sub.options?.applicationServerKey;
+        if (existingKey) {
+          const existingB64 = btoa(String.fromCharCode(...new Uint8Array(existingKey)));
+          const newB64 = btoa(String.fromCharCode(...urlBase64ToUint8Array(publicKey)));
+          if (existingB64 !== newB64) {
+            log("VAPID key diferente, desinscrevendo subscription antiga");
+            await sub.unsubscribe();
+            sub = null;
+          }
+        }
+      }
+
+      if (!sub) {
+        log("criando nova subscription");
+        const keyArr = urlBase64ToUint8Array(publicKey);
+        sub = await Promise.race([
+          reg.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: keyArr as unknown as BufferSource,
+          }),
+          new Promise<PushSubscription>((_, rej) =>
+            setTimeout(() => rej(new Error("Browser demorou demais pra criar a subscription.")), 30_000)
+          ),
+        ]);
+        log("subscription criada");
+      }
 
       const json = sub.toJSON() as any;
-      await fetch("/api/push/subscribe", {
+      log("salvando subscription no servidor...");
+      const saveRes = await fetch("/api/push/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -85,8 +130,14 @@ export default function PushNotificationsToggle() {
           userAgent: navigator.userAgent,
         }),
       });
+      log("save response:", saveRes.status);
+      if (!saveRes.ok) {
+        throw new Error(`Servidor retornou ${saveRes.status} ao salvar subscription.`);
+      }
       setStatus("subscribed");
+      log("✅ ativado");
     } catch (e: any) {
+      console.error("[push] enable failed:", e);
       setError(e?.message ?? "Erro ao ativar notificações");
     } finally {
       setBusy(false);
