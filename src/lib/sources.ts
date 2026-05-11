@@ -32,6 +32,11 @@ export const SOURCE_META: Record<string, SourceMeta> = {
   indicação:   { label: "Indicação",   icon: "🤝", color: "amber" },
   organico:    { label: "Orgânico",    icon: "🌱", color: "emerald" },
   orgânico:    { label: "Orgânico",    icon: "🌱", color: "emerald" },
+  // Origens da feature "Prospecta IA · LeadHub" — busca via SerpAPI/Google Maps
+  // dentro do CRM. "serpapi" é o canal técnico; "prospecta leadhub" é o rótulo
+  // do produto (ambos coexistem porque um lead pode ter qualquer das duas).
+  serpapi:             { label: "SerpAPI",          icon: "🔎", color: "cyan"   },
+  "prospecta leadhub": { label: "Prospecta LeadHub", icon: "🎯", color: "indigo" },
 };
 
 export function getSourceMeta(source: string | null | undefined): SourceMeta {

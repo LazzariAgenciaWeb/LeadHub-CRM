@@ -103,9 +103,41 @@ export async function POST(req: NextRequest) {
     gps: r.gps_coordinates ?? null,
   }));
 
+  // Marca quais resultados já estão no banco — UI mostra tag "Já listado"
+  // e desabilita o checkbox. Lookup por externalId (place_id) OU phone
+  // normalizado. Só checa se temos uma empresa-alvo definida.
+  let alreadyImportedKeys = new Set<string>();
+  if (effectiveCompanyId && results.length > 0) {
+    const placeIds = results.map((r: any) => r.placeId).filter(Boolean) as string[];
+    const phoneDigits = results
+      .map((r: any) => (r.phone ? String(r.phone).replace(/\D/g, "") : null))
+      .filter((p: string | null): p is string => !!p && p.length >= 8);
+    const dedupOr: any[] = [];
+    if (placeIds.length > 0) dedupOr.push({ externalId: { in: placeIds } });
+    if (phoneDigits.length > 0) dedupOr.push({ phone: { in: phoneDigits } });
+    if (dedupOr.length > 0) {
+      const existing = await prisma.lead.findMany({
+        where: { companyId: effectiveCompanyId, OR: dedupOr },
+        select: { externalId: true, phone: true },
+      });
+      for (const lead of existing) {
+        if (lead.externalId) alreadyImportedKeys.add(`place:${lead.externalId}`);
+        if (lead.phone) alreadyImportedKeys.add(`phone:${lead.phone}`);
+      }
+    }
+  }
+
+  const annotated = results.map((r: any) => {
+    const phoneDigits = r.phone ? String(r.phone).replace(/\D/g, "") : null;
+    const alreadyImported =
+      (r.placeId && alreadyImportedKeys.has(`place:${r.placeId}`)) ||
+      (phoneDigits && alreadyImportedKeys.has(`phone:${phoneDigits}`));
+    return { ...r, alreadyImported: !!alreadyImported };
+  });
+
   return NextResponse.json({
     query: fullQuery,
-    count: results.length,
-    results,
+    count: annotated.length,
+    results: annotated,
   });
 }

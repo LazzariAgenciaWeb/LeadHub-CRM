@@ -24,7 +24,6 @@ interface Company {
   moduleProjetos: boolean;
   moduleCalendario: boolean;
   moduleProspeccao: boolean;
-  serpapiKey: string | null;
 }
 
 interface Props {
@@ -55,7 +54,6 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
     moduleProjetos: company.moduleProjetos,
     moduleCalendario: company.moduleCalendario,
     moduleProspeccao: company.moduleProspeccao,
-    serpapiKey: company.serpapiKey ?? "",
   });
 
   function set(field: string, value: string | boolean) {
@@ -87,7 +85,6 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
         payload.moduleProjetos = form.moduleProjetos;
         payload.moduleCalendario = form.moduleCalendario;
         payload.moduleProspeccao = form.moduleProspeccao;
-        payload.serpapiKey = form.serpapiKey.trim() || null;
       }
 
       const res = await fetch(`/api/companies/${company.id}`, {
@@ -242,19 +239,9 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
                         </div>
 
                         {form.moduleProspeccao && (
-                          <div className="mt-3 pt-3 border-t border-[#1e2d45]">
-                            <label className="text-[11px] text-slate-400 font-semibold uppercase tracking-wide block mb-1">SerpAPI Key</label>
-                            <input
-                              type="text"
-                              value={form.serpapiKey}
-                              onChange={(e) => set("serpapiKey", e.target.value)}
-                              placeholder="cole aqui a API key da conta SerpAPI da empresa"
-                              className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
-                            />
-                            <p className="text-[11px] text-slate-500 mt-1">
-                              Cada empresa traz a própria key (<a href="https://serpapi.com" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">serpapi.com</a>). Sem key, o botão "Buscar prospects" fica oculto.
-                            </p>
-                          </div>
+                          <p className="text-[11px] text-slate-500 mt-2">
+                            ℹ️ A SerpAPI key da empresa fica em <em>Configurações → Integrações → Prospecta IA · SerpAPI</em> (visível pro ADMIN da empresa após salvar).
+                          </p>
                         )}
                       </div>
                     )}

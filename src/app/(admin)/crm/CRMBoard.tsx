@@ -40,6 +40,14 @@ export interface CRMLead {
   campaign: { id: string; name: string } | null;
   company: { id: string; name: string } | null;
   clickupTaskId: string | null;
+  // Campos preenchidos pela busca SerpAPI + scraper (módulo Prospecção).
+  website: string | null;
+  instagram: string | null;
+  facebook: string | null;
+  address: string | null;
+  city: string | null;
+  segment: string | null;
+  externalId: string | null;
   trackingLinkId: string | null;
   trackingLink: {
     id: string;
@@ -1721,7 +1729,77 @@ export default function CRMBoard({
                   {selected.email && (
                     <div className="bg-[#161f30] rounded-lg p-3 col-span-2">
                       <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-1">E-mail</div>
-                      <div className="text-white text-sm">{selected.email}</div>
+                      <div className="text-white text-sm">
+                        <a
+                          href={`mailto:${selected.email}`}
+                          className="text-white hover:text-indigo-400 transition-colors"
+                        >
+                          {selected.email}
+                        </a>
+                      </div>
+                    </div>
+                  )}
+
+                  {(selected.website || selected.instagram || selected.facebook || selected.address || selected.city || selected.segment) && (
+                    <div className="bg-[#161f30] rounded-lg p-3 col-span-2 space-y-2">
+                      <div className="text-slate-500 text-[10px] uppercase tracking-wide">Dados do prospect</div>
+                      {selected.segment && (
+                        <div className="flex items-baseline gap-2 text-sm">
+                          <span className="text-slate-500 text-[11px] w-16 shrink-0">Segmento</span>
+                          <span className="text-indigo-300 bg-indigo-950/50 px-1.5 py-0.5 rounded text-xs">{selected.segment}</span>
+                        </div>
+                      )}
+                      {selected.city && (
+                        <div className="flex items-baseline gap-2 text-sm">
+                          <span className="text-slate-500 text-[11px] w-16 shrink-0">Cidade</span>
+                          <span className="text-white">{selected.city}</span>
+                        </div>
+                      )}
+                      {selected.address && (
+                        <div className="flex items-baseline gap-2 text-sm">
+                          <span className="text-slate-500 text-[11px] w-16 shrink-0">Endereço</span>
+                          <span className="text-white text-xs">📍 {selected.address}</span>
+                        </div>
+                      )}
+                      {selected.website && (
+                        <div className="flex items-baseline gap-2 text-sm">
+                          <span className="text-slate-500 text-[11px] w-16 shrink-0">Site</span>
+                          <a
+                            href={selected.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sky-400 hover:underline truncate text-xs"
+                          >
+                            🌐 {(() => { try { return new URL(selected.website!).hostname; } catch { return selected.website; } })()}
+                          </a>
+                        </div>
+                      )}
+                      {selected.instagram && (
+                        <div className="flex items-baseline gap-2 text-sm">
+                          <span className="text-slate-500 text-[11px] w-16 shrink-0">Instagram</span>
+                          <a
+                            href={selected.instagram}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-pink-400 hover:underline text-xs"
+                          >
+                            📷 {selected.instagram.replace(/^https?:\/\/(www\.)?instagram\.com\//, "@")}
+                          </a>
+                        </div>
+                      )}
+                      {selected.facebook && (
+                        <div className="flex items-baseline gap-2 text-sm">
+                          <span className="text-slate-500 text-[11px] w-16 shrink-0">Facebook</span>
+                          <a
+                            href={selected.facebook}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-400 hover:underline text-xs"
+                          >
+                            👤 {selected.facebook.replace(/^https?:\/\/(www\.)?facebook\.com\//, "/")}
+                          </a>
+                        </div>
+                      )}
                     </div>
                   )}
 

@@ -5,7 +5,7 @@ import { useState } from "react";
 import {
   MessageSquare, Building2, Plug, Zap, CheckSquare, Sparkles, Webhook,
   Workflow, Tag, Clock, Globe, Mail, FileText, Users, KeyRound, Shield, CreditCard, Trophy,
-  UserCircle,
+  UserCircle, Search,
   ChevronDown, ChevronRight,
   type LucideIcon,
 } from "lucide-react";
@@ -54,6 +54,7 @@ const SECTIONS: SectionItem[] = [
       { key: "integracoes-evolution", Icon: Zap,        grad: "evolution", label: "Evolution API",   desc: "WhatsApp gateway" },
       { key: "integracoes-clickup",   Icon: CheckSquare,grad: "clickup",   label: "ClickUp",         desc: "Tarefas e projetos" },
       { key: "integracoes-openai",    Icon: Sparkles,   grad: "openai",    label: "OpenAI",          desc: "IA e automação" },
+      { key: "integracoes-prospeccao",Icon: Search,     grad: "pipeline",  label: "Prospecta IA · SerpAPI", desc: "Busca de prospects no Google Maps" },
       { key: "integracoes-webhook",   Icon: Webhook,    grad: "webhook",   label: "Webhook de Leads",desc: "Receba leads de qualquer fonte" },
     ],
   },
@@ -76,11 +77,24 @@ function isMinhaEmpresaSubKey(key: string) {
 export default function SettingsLayout({
   activeSection,
   children,
+  prospeccaoEnabled = false,
 }: {
   activeSection: string;
   children: React.ReactNode;
+  prospeccaoEnabled?: boolean;
 }) {
   const router = useRouter();
+
+  // Filtra subitems de Integrações que dependem de módulos por empresa.
+  const visibleSections = SECTIONS.map((s) => {
+    if (s.type !== "group" || s.key !== "integracoes") return s;
+    return {
+      ...s,
+      children: s.children.filter((c) =>
+        c.key === "integracoes-prospeccao" ? prospeccaoEnabled : true
+      ),
+    };
+  });
 
   // Estado de colapso por grupo. Inicia aberto se a seção ativa pertence
   // ao grupo (pra usuário não precisar abrir manualmente toda vez).
@@ -104,7 +118,7 @@ export default function SettingsLayout({
         <div className="text-[10px] font-semibold text-slate-600 uppercase tracking-wider px-2 mb-3">
           Configurações
         </div>
-        {SECTIONS.map((s) => {
+        {visibleSections.map((s) => {
           if (s.type === "item") {
             const active = activeSection === s.key;
             return (

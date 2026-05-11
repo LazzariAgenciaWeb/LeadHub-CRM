@@ -12,6 +12,7 @@ type SerpResult = {
   rating: number | null;
   reviews: number | null;
   type: string | null;
+  alreadyImported?: boolean;
 };
 
 type ImportResult = {
@@ -84,8 +85,15 @@ export default function BuscarProspectsModal({
         return;
       }
       setResults(data.results ?? []);
-      // pré-seleciona todos por padrão
-      setSelected(new Set((data.results ?? []).map((r: SerpResult) => r.placeId ?? r.name ?? "").filter(Boolean)));
+      // pré-seleciona apenas os que NÃO estão já importados
+      setSelected(
+        new Set(
+          (data.results ?? [])
+            .filter((r: SerpResult) => !r.alreadyImported)
+            .map((r: SerpResult) => r.placeId ?? r.name ?? "")
+            .filter(Boolean)
+        )
+      );
     } catch (err: any) {
       setError(err?.message ?? "Erro inesperado");
     } finally {
@@ -103,10 +111,11 @@ export default function BuscarProspectsModal({
   }
 
   function toggleAll() {
-    if (selected.size === results.length) {
+    const selectable = results.filter((r) => !r.alreadyImported);
+    if (selected.size === selectable.length) {
       setSelected(new Set());
     } else {
-      setSelected(new Set(results.map((r) => r.placeId ?? r.name ?? "").filter(Boolean)));
+      setSelected(new Set(selectable.map((r) => r.placeId ?? r.name ?? "").filter(Boolean)));
     }
   }
 
@@ -263,34 +272,48 @@ export default function BuscarProspectsModal({
                       onClick={toggleAll}
                       className="text-xs text-slate-300 hover:text-white"
                     >
-                      {selected.size === results.length ? "✖ Desmarcar todos" : "✔ Selecionar todos"}
+                      {(() => {
+                        const selectable = results.filter((r) => !r.alreadyImported).length;
+                        return selected.size === selectable && selectable > 0
+                          ? "✖ Desmarcar todos"
+                          : "✔ Selecionar todos";
+                      })()}
                     </button>
                     <span className="text-xs text-slate-500">
-                      {selected.size} de {results.length} selecionados
+                      {selected.size} selecionados · {results.filter((r) => r.alreadyImported).length} já listados
                     </span>
                   </div>
                   <div className="space-y-2">
                     {results.map((r, idx) => {
                       const key = r.placeId ?? r.name ?? `idx-${idx}`;
                       const isOn = selected.has(key);
+                      const dup = !!r.alreadyImported;
                       return (
                         <label
                           key={key}
-                          className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${
-                            isOn
-                              ? "bg-sky-950/30 border-sky-700"
-                              : "bg-[#0f1623] border-[#1e2d45] hover:border-slate-600"
+                          className={`flex items-start gap-3 p-3 rounded-lg border transition-colors ${
+                            dup
+                              ? "bg-slate-900/40 border-slate-800 opacity-60 cursor-not-allowed"
+                              : isOn
+                              ? "bg-sky-950/30 border-sky-700 cursor-pointer"
+                              : "bg-[#0f1623] border-[#1e2d45] hover:border-slate-600 cursor-pointer"
                           }`}
                         >
                           <input
                             type="checkbox"
                             checked={isOn}
-                            onChange={() => toggle(key)}
-                            className="mt-1 accent-sky-500"
+                            disabled={dup}
+                            onChange={() => !dup && toggle(key)}
+                            className="mt-1 accent-sky-500 disabled:cursor-not-allowed"
                           />
                           <div className="flex-1 min-w-0">
                             <div className="flex items-baseline gap-2 flex-wrap">
                               <span className="text-white font-medium">{r.name ?? "(sem nome)"}</span>
+                              {dup && (
+                                <span className="text-[10px] uppercase tracking-wide font-semibold text-amber-300 bg-amber-900/40 border border-amber-700/50 px-1.5 py-0.5 rounded">
+                                  Já listado
+                                </span>
+                              )}
                               {r.rating != null && (
                                 <span className="text-xs text-amber-400">★ {r.rating} ({r.reviews ?? 0})</span>
                               )}

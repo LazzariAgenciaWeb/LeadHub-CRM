@@ -16,6 +16,7 @@ import { ScoreReason } from "@/generated/prisma";
 import IntegracoesGoogleSection from "./IntegracoesGoogleSection";
 import EmailSettings from "./EmailSettings";
 import MeuPerfilSettings from "./MeuPerfilSettings";
+import ProspectaApiSettings from "./ProspectaApiSettings";
 import CompanyContacts from "../empresas/[id]/CompanyContacts";
 import CompanyVault from "../empresas/[id]/CompanyVault";
 import CompanySubscription from "../empresas/[id]/CompanySubscription";
@@ -290,6 +291,22 @@ export default async function ConfiguracoesPage({
         companies={companies}
       />
     );
+  } else if (secao === "integracoes-prospeccao") {
+    // Empresa-alvo: SUPER_ADMIN pode passar ?companyId=, fallback pra sessão.
+    const targetCompanyId = isSuperAdmin ? (qCompanyId ?? userCompanyId) : userCompanyId;
+    if (!targetCompanyId) {
+      content = <div className="p-6 text-slate-500 text-sm">Selecione uma empresa.</div>;
+    } else {
+      const company = await prisma.company.findUnique({
+        where: { id: targetCompanyId },
+        select: { moduleProspeccao: true, serpapiKey: true },
+      });
+      if (!company?.moduleProspeccao && !isSuperAdmin) {
+        content = <div className="p-6 text-slate-500 text-sm">Módulo Prospecção não habilitado pra esta empresa. Solicite ao administrador da plataforma.</div>;
+      } else {
+        content = <ProspectaApiSettings companyId={targetCompanyId} initialKey={company?.serpapiKey ?? ""} />;
+      }
+    }
   } else if (secao === "integracoes-openai") {
     const settingsRaw = await prisma.setting.findMany({
       where: { key: { in: ["openai_api_key", "openai_model"] } },
@@ -467,9 +484,21 @@ export default async function ConfiguracoesPage({
     content = <div className="p-6 text-slate-500 text-sm">Seção não encontrada.</div>;
   }
 
+  // Visibilidade do menu "Prospecta IA · SerpAPI": empresa do usuário precisa
+  // do módulo ligado. SUPER_ADMIN sempre vê (pra configurar de qualquer empresa).
+  const layoutCompanyId = isSuperAdmin ? (qCompanyId ?? userCompanyId) : userCompanyId;
+  let prospeccaoEnabled = isSuperAdmin;
+  if (!isSuperAdmin && layoutCompanyId) {
+    const c = await prisma.company.findUnique({
+      where: { id: layoutCompanyId },
+      select: { moduleProspeccao: true },
+    });
+    prospeccaoEnabled = !!c?.moduleProspeccao;
+  }
+
   return (
     <div className="flex flex-col h-full overflow-hidden">
-      <SettingsLayout activeSection={secao}>
+      <SettingsLayout activeSection={secao} prospeccaoEnabled={prospeccaoEnabled}>
         {content}
       </SettingsLayout>
     </div>
