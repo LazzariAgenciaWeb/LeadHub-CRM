@@ -124,7 +124,8 @@ export default function CompanySubscription({
       if (j.subscription) {
         setPlan(j.subscription.plan);
         setStatus(j.subscription.status);
-        setTrialEndsAt(j.subscription.trialEndsAt ? j.subscription.trialEndsAt.slice(0, 10) : "");
+        // new Date(x).toISOString() é robusto contra valor vir como Date.
+        setTrialEndsAt(j.subscription.trialEndsAt ? new Date(j.subscription.trialEndsAt).toISOString().slice(0, 10) : "");
         setCustomNotes(j.subscription.customNotes ?? "");
         const cl: Partial<Record<keyof PlanLimits, string>> = {};
         for (const k of Object.keys(j.subscription.customLimits ?? {}) as (keyof PlanLimits)[]) {

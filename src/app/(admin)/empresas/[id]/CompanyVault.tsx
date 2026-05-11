@@ -597,7 +597,7 @@ function AssetModal({
     url: asset?.url ?? "",
     host: asset?.host ?? "",
     identifier: asset?.identifier ?? "",
-    expiresAt: asset?.expiresAt ? asset.expiresAt.slice(0, 10) : "",
+    expiresAt: asset?.expiresAt ? new Date(asset.expiresAt).toISOString().slice(0, 10) : "",
     status: asset?.status ?? ("ACTIVE" as AssetStatus),
     notes: asset?.notes ?? "",
   });
