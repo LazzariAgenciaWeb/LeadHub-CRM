@@ -1,11 +1,16 @@
 import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import EmpresasClient from "./EmpresasClient";
-import { getEffectiveSession } from "@/lib/effective-session";
 import { can } from "@/lib/permissions";
 
+// Usa getServerSession (sessão real), não getEffectiveSession.
+// Gerir empresas (deletar, transferir, criar) é ação de SUPER_ADMIN e não deve
+// respeitar o cookie de impersonation — se o admin clicou "Visualizar como cliente"
+// e voltou pra cá, ele continua sendo SUPER_ADMIN nesta tela.
 export default async function EmpresasPage() {
-  const session = await getEffectiveSession();
+  const session = await getServerSession(authOptions);
   const role = (session?.user as any)?.role;
   const userCompanyId = (session?.user as any)?.companyId;
 
