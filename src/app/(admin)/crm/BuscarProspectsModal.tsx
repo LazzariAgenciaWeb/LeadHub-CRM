@@ -280,7 +280,7 @@ export default function BuscarProspectsModal({
                       })()}
                     </button>
                     <span className="text-xs text-slate-500">
-                      {selected.size} selecionados · {results.filter((r) => r.alreadyImported).length} já listados
+                      {selected.size} selecionados · {results.filter((r) => r.alreadyImported).length} já importados
                     </span>
                   </div>
                   <div className="space-y-2">
@@ -311,7 +311,7 @@ export default function BuscarProspectsModal({
                               <span className="text-white font-medium">{r.name ?? "(sem nome)"}</span>
                               {dup && (
                                 <span className="text-[10px] uppercase tracking-wide font-semibold text-amber-300 bg-amber-900/40 border border-amber-700/50 px-1.5 py-0.5 rounded">
-                                  Já listado
+                                  Já importado
                                 </span>
                               )}
                               {r.rating != null && (
