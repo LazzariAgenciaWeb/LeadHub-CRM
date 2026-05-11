@@ -113,5 +113,5 @@ export default async function RedirectPage({
 
   const dest = buildDestUrl(link);
 
-  return <RedirectClient linkId={link.id} dest={dest} />;
+  return <RedirectClient linkId={link.id} code={link.code} dest={dest} />;
 }

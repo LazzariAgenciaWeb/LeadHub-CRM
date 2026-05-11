@@ -10,6 +10,7 @@ export type TimelineEventType =
   | "link_open"   // cliente abriu o shortlink /r/CODE (entrou na proposta)
   | "link_click"  // cliente clicou em algo DENTRO da página de destino
   | "tracking_link_set"
+  | "hot_signal"  // tarefa auto-criada quando cliente abre o link (🔥 ligar agora)
   | "clickup_linked";
 
 /**
@@ -24,6 +25,7 @@ export const EVENT_GROUP: Record<TimelineEventType, TimelineGroup> = {
   link_open:         "links",
   link_click:        "links",
   tracking_link_set: "links",
+  hot_signal:        "links",
   comment:           "notes",
   lead_created:      "system",
   clickup_linked:    "system",
@@ -160,7 +162,30 @@ export async function GET(
     });
   }
 
-  // 5. ClickUp vinculado (sem histórico real — usa updatedAt)
+  // 5. Sinais quentes (Tasks auto-criadas quando o cliente abre o link).
+  // Aparecem como linha da timeline pra ter o histórico visível mesmo depois
+  // que a tarefa for resolvida e sair de "Próximos Passos".
+  const hotTasks = await prisma.task.findMany({
+    where: { leadId: lead.id, source: "AUTO_LINK_OPEN" },
+    orderBy: { createdAt: "desc" },
+    take: 20,
+    select: {
+      id: true, title: true, notes: true, done: true,
+      createdAt: true, dueAt: true,
+    },
+  });
+  for (const t of hotTasks) {
+    events.push({
+      id: `hot-${t.id}`,
+      type: "hot_signal",
+      timestamp: t.createdAt.toISOString(),
+      title: t.done ? "🔥 Sinal Quente (resolvido)" : "🔥 Sinal Quente",
+      body: t.notes ?? t.title,
+      meta: { taskId: t.id, done: t.done, dueAt: t.dueAt?.toISOString() ?? null },
+    });
+  }
+
+  // 6. ClickUp vinculado (sem histórico real — usa updatedAt)
   if (lead.clickupTaskId) {
     events.push({
       id: `clickup-${lead.clickupTaskId}`,

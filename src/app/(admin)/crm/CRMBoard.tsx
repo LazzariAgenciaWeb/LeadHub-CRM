@@ -121,6 +121,9 @@ const TIMELINE_META: Record<string, { icon: string; titleColor: string; bg: stri
   link_open:         { icon: "👁️", titleColor: "#fbbf24", bg: "bg-amber-500/5 border-amber-500/20" },
   link_click:        { icon: "🖱️", titleColor: "#67e8f9", bg: "bg-cyan-500/5 border-cyan-500/15" },
   tracking_link_set: { icon: "🔗", titleColor: "#c4b5fd", bg: "bg-violet-500/5 border-violet-500/15" },
+  // Sinal quente: fundo vermelho mais forte pra puxar o olho — é a linha mais
+  // acionável da timeline (cliente abriu agora, tem que ligar).
+  hot_signal:        { icon: "🔥", titleColor: "#fca5a5", bg: "bg-red-500/10 border-red-500/30" },
   clickup_linked:    { icon: "✅", titleColor: "#fcd34d", bg: "bg-amber-500/5 border-amber-500/15" },
 };
 
@@ -140,6 +143,7 @@ const EVENT_GROUP: Record<string, Exclude<TimelineFilter, "all">> = {
   link_open:         "links",
   link_click:        "links",
   tracking_link_set: "links",
+  hot_signal:        "links",
   comment:           "notes",
   lead_created:      "system",
   clickup_linked:    "system",

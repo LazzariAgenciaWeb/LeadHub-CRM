@@ -4,9 +4,11 @@ import { useEffect } from "react";
 
 export default function RedirectClient({
   linkId,
+  code,
   dest,
 }: {
   linkId: string;
+  code: string;
   dest: string;
 }) {
   useEffect(() => {
@@ -14,9 +16,19 @@ export default function RedirectClient({
     fetch(`/api/tracking-links/${linkId}/click`, { method: "POST" }).catch(
       () => {}
     );
-    // Redireciona imediatamente
-    window.location.replace(dest);
-  }, [linkId, dest]);
+    // Anexa ?lh_ref=CODE ao destino pra que o snippet de tracking interno
+    // (data-lh-track) na página da proposta saiba qual TrackingLink reportar.
+    // Preserva query/hash existentes.
+    let target = dest;
+    try {
+      const u = new URL(dest);
+      u.searchParams.set("lh_ref", code);
+      target = u.toString();
+    } catch {
+      // Destino malformado — usa como está.
+    }
+    window.location.replace(target);
+  }, [linkId, code, dest]);
 
   return (
     <div
