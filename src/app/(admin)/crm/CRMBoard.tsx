@@ -124,6 +124,12 @@ const TIMELINE_META: Record<string, { icon: string; titleColor: string; bg: stri
   // Sinal quente: fundo vermelho mais forte pra puxar o olho — é a linha mais
   // acionável da timeline (cliente abriu agora, tem que ligar).
   hot_signal:        { icon: "🔥", titleColor: "#fca5a5", bg: "bg-red-500/10 border-red-500/30" },
+  // Mudanças estruturais do lead (Activity table). Pipeline merece destaque
+  // — "Virou Oportunidade" é marco do funil. Os outros mais discretos.
+  pipeline_changed:  { icon: "🎯", titleColor: "#86efac", bg: "bg-green-500/8 border-green-500/25" },
+  stage_changed:     { icon: "🪜", titleColor: "#c4b5fd", bg: "bg-violet-500/5 border-violet-500/15" },
+  assignee_changed:  { icon: "👤", titleColor: "#94a3b8", bg: "bg-slate-500/5 border-slate-500/15" },
+  value_changed:     { icon: "💰", titleColor: "#86efac", bg: "bg-emerald-500/5 border-emerald-500/15" },
   clickup_linked:    { icon: "✅", titleColor: "#fcd34d", bg: "bg-amber-500/5 border-amber-500/15" },
 };
 
@@ -146,6 +152,10 @@ const EVENT_GROUP: Record<string, Exclude<TimelineFilter, "all">> = {
   hot_signal:        "links",
   comment:           "notes",
   lead_created:      "system",
+  pipeline_changed:  "system",
+  stage_changed:     "system",
+  assignee_changed:  "system",
+  value_changed:     "system",
   clickup_linked:    "system",
 };
 

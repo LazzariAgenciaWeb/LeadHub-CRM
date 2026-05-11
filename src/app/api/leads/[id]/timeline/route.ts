@@ -11,6 +11,10 @@ export type TimelineEventType =
   | "link_click"  // cliente clicou em algo DENTRO da página de destino
   | "tracking_link_set"
   | "hot_signal"  // tarefa auto-criada quando cliente abre o link (🔥 ligar agora)
+  | "pipeline_changed" // ex: Lead → Oportunidade
+  | "stage_changed"    // mudança de etapa dentro do mesmo pipeline
+  | "assignee_changed" // mudou de responsável
+  | "value_changed"    // valor da oportunidade alterado
   | "clickup_linked";
 
 /**
@@ -28,6 +32,10 @@ export const EVENT_GROUP: Record<TimelineEventType, TimelineGroup> = {
   hot_signal:        "links",
   comment:           "notes",
   lead_created:      "system",
+  pipeline_changed:  "system",
+  stage_changed:     "system",
+  assignee_changed:  "system",
+  value_changed:     "system",
   clickup_linked:    "system",
 };
 
@@ -213,7 +221,65 @@ export async function GET(
     console.warn("[timeline] hot_signal bucket falhou (Task.source?)", e);
   }
 
-  // 6. ClickUp vinculado (sem histórico real — usa updatedAt)
+  // 6. Mudanças de pipeline/stage/assignee/value (Activity table).
+  // PATCH /api/leads/:id já registra Activity nessas mudanças — aqui só
+  // agregamos pra UI. Mostra o histórico "Virou Oportunidade", "Mudou de
+  // etapa", "Passou pra Fulano" com data/hora.
+  try {
+    const activities = await prisma.activity.findMany({
+      where: {
+        leadId: lead.id,
+        type: {
+          in: ["PIPELINE_CHANGED", "STAGE_CHANGED", "ASSIGNEE_CHANGED", "VALUE_CHANGED"],
+        },
+      },
+      orderBy: { createdAt: "desc" },
+      take: 50,
+      select: {
+        id: true, type: true, body: true, meta: true,
+        authorName: true, createdAt: true,
+      },
+    });
+    for (const a of activities) {
+      const meta = (a.meta ?? {}) as Record<string, any>;
+      let title = a.body ?? "Mudança registrada";
+      let typeOut: TimelineEventType = "pipeline_changed";
+
+      if (a.type === "PIPELINE_CHANGED") {
+        typeOut = "pipeline_changed";
+        // Título mais útil quando vira oportunidade — ação que merece destaque.
+        title = meta.to === "OPORTUNIDADES"
+          ? "🎯 Virou Oportunidade"
+          : meta.to === "LEADS"
+          ? "Voltou pra Lead"
+          : meta.to === "PROSPECCAO"
+          ? "Voltou pra Prospecção"
+          : `Pipeline: ${meta.from ?? "—"} → ${meta.to ?? "—"}`;
+      } else if (a.type === "STAGE_CHANGED") {
+        typeOut = "stage_changed";
+        title = meta.to ? `Etapa: ${meta.to}` : "Mudou de etapa";
+      } else if (a.type === "ASSIGNEE_CHANGED") {
+        typeOut = "assignee_changed";
+        title = a.body ?? "Responsável alterado";
+      } else if (a.type === "VALUE_CHANGED") {
+        typeOut = "value_changed";
+        title = a.body ?? "Valor alterado";
+      }
+
+      events.push({
+        id: `act-${a.id}`,
+        type: typeOut,
+        timestamp: a.createdAt.toISOString(),
+        title,
+        body: a.authorName ? `por ${a.authorName}` : undefined,
+        meta,
+      });
+    }
+  } catch (e) {
+    console.warn("[timeline] activities bucket falhou", e);
+  }
+
+  // 7. ClickUp vinculado (sem histórico real — usa updatedAt)
   if (lead.clickupTaskId) {
     events.push({
       id: `clickup-${lead.clickupTaskId}`,
