@@ -337,6 +337,18 @@ export default function WhatsappManager({
   // Citação (responder mensagem específica)
   const [replyingTo, setReplyingTo] = useState<WaMessage | null>(null);
 
+  // Anexo de mídia (imagem) pendente pra envio. Suporta tanto file picker quanto Ctrl+V.
+  // Imagem é comprimida client-side (canvas → JPEG 1920px max, 0.85 quality)
+  // antes de virar base64 — economiza payload e DB sem perder qualidade aparente.
+  const [pendingMedia, setPendingMedia] = useState<{
+    base64: string;       // sem prefixo data:...
+    mimeType: string;     // sempre "image/jpeg" após compressão
+    previewUrl: string;   // dataURL pra <img src>
+    sizeKB: number;
+  } | null>(null);
+  const [mediaError, setMediaError] = useState<string | null>(null);
+  const mediaInputRef = useRef<HTMLInputElement>(null);
+
   // Scroll to bottom button visibility
   const [showScrollBtn, setShowScrollBtn] = useState(false);
 
@@ -1655,9 +1667,66 @@ export default function WhatsappManager({
     router.refresh();
   }
 
+  // Comprime imagem client-side antes de enviar: canvas → JPEG 1920px max, 0.85.
+  // Reduz prints de 3-4MB pra ~150-400KB, sem perda visível.
+  async function compressImageFile(file: File): Promise<{ base64: string; mimeType: string; previewUrl: string; sizeKB: number }> {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        try {
+          const MAX_DIM = 1920;
+          const scale = Math.min(1, MAX_DIM / Math.max(img.width, img.height));
+          const w = Math.max(1, Math.round(img.width * scale));
+          const h = Math.max(1, Math.round(img.height * scale));
+          const canvas = document.createElement("canvas");
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) throw new Error("Canvas indisponível");
+          ctx.drawImage(img, 0, 0, w, h);
+          const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+          const base64 = dataUrl.replace(/^data:image\/jpeg;base64,/, "");
+          const sizeKB = Math.round((base64.length * 3) / 4 / 1024);
+          URL.revokeObjectURL(url);
+          resolve({ base64, mimeType: "image/jpeg", previewUrl: dataUrl, sizeKB });
+        } catch (err) {
+          URL.revokeObjectURL(url);
+          reject(err);
+        }
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error("Não foi possível ler a imagem."));
+      };
+      img.src = url;
+    });
+  }
+
+  async function handlePickMedia(file: File | null) {
+    setMediaError(null);
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      setMediaError("Por enquanto só imagens (PNG/JPEG/WEBP).");
+      return;
+    }
+    // Limite generoso pré-compressão (40MB): protege contra arrastar vídeo por engano.
+    if (file.size > 40 * 1024 * 1024) {
+      setMediaError("Imagem muito grande (>40MB).");
+      return;
+    }
+    try {
+      const result = await compressImageFile(file);
+      setPendingMedia(result);
+    } catch (err: any) {
+      setMediaError(err?.message ?? "Falha ao processar imagem.");
+    }
+  }
+
   async function handleReply(e: React.FormEvent) {
     e.preventDefault();
-    if (!selectedConv || !replyText.trim()) return;
+    if (!selectedConv) return;
+    if (!pendingMedia && !replyText.trim()) return;
 
     const isGroup = selectedConv.phone.includes("@g.us");
 
@@ -1685,12 +1754,19 @@ export default function WhatsappManager({
     setReplyError(null);
 
     // Se o usuário ativou a assinatura, anexa "-- _{nome}_" ao final da mensagem.
-    // Underscores rendem itálico no WhatsApp.
-    const finalText = (includeSignature && userSignature)
-      ? `${replyText.trim()}\n\n-- _${userSignature}_`
-      : replyText.trim();
+    // Underscores rendem itálico no WhatsApp. Em envio de imagem sem caption,
+    // não força assinatura sozinha (ficaria estranho mandar imagem com só "-- _x_").
+    const trimmedText = replyText.trim();
+    const finalText = trimmedText && (includeSignature && userSignature)
+      ? `${trimmedText}\n\n-- _${userSignature}_`
+      : trimmedText;
 
     const payload: Record<string, unknown> = { phone: selectedConv.phone, text: finalText };
+    if (pendingMedia) {
+      payload.media = pendingMedia.base64;
+      payload.mediaMimeType = pendingMedia.mimeType;
+      payload.mediaType = "image";
+    }
     if (replyingTo?.externalId) {
       payload.quotedExternalId = replyingTo.externalId;
       payload.quotedBody = replyingTo.body;
@@ -1715,7 +1791,7 @@ export default function WhatsappManager({
         ...prev,
         data.message ?? {
           id: `tmp-${Date.now()}`,
-          body: finalText,
+          body: finalText || (pendingMedia ? "[imagem]" : ""),
           direction: "OUTBOUND",
           receivedAt: new Date().toISOString(),
           participantPhone: null,
@@ -1725,11 +1801,16 @@ export default function WhatsappManager({
           ack: 0,
           quotedId: replyingTo?.externalId ?? null,
           quotedBody: replyingTo?.body ?? null,
+          hasMedia: !!pendingMedia,
+          mediaType: pendingMedia?.mimeType ?? null,
         },
       ]);
-      // Após enviar, limpa citação e textarea (assinatura é anexada na hora do envio, não no texto editável)
+      // Após enviar, limpa citação, textarea e anexo de mídia
       setReplyingTo(null);
       setReplyText("");
+      setPendingMedia(null);
+      setMediaError(null);
+      if (mediaInputRef.current) mediaInputRef.current.value = "";
     }
   }
 
@@ -4069,6 +4150,36 @@ export default function WhatsappManager({
                   </div>
                 )}
 
+                {/* Preview do anexo de imagem (acima do form) */}
+                {pendingMedia && (
+                  <div className="mb-2 bg-[#0f1623] border border-indigo-500/30 rounded-xl p-2 flex items-center gap-3">
+                    <img
+                      src={pendingMedia.previewUrl}
+                      alt="Preview"
+                      className="w-14 h-14 object-cover rounded-lg flex-shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-white text-xs font-semibold">Imagem anexada</p>
+                      <p className="text-slate-500 text-[10px]">JPEG · {pendingMedia.sizeKB} KB · vai com a legenda do campo abaixo</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPendingMedia(null);
+                        setMediaError(null);
+                        if (mediaInputRef.current) mediaInputRef.current.value = "";
+                      }}
+                      title="Remover imagem"
+                      className="text-slate-500 hover:text-red-400 text-lg leading-none px-2"
+                    >×</button>
+                  </div>
+                )}
+                {mediaError && (
+                  <div className="mb-2 bg-red-500/10 border border-red-500/30 text-red-400 text-xs rounded-lg px-3 py-1.5">
+                    {mediaError}
+                  </div>
+                )}
+
                 <form onSubmit={handleReply} className="flex items-end gap-2">
 
                   {/* ── Botão + Ações (abre para cima) ── */}
@@ -4356,6 +4467,25 @@ export default function WhatsappManager({
                     );
                   })()}
 
+                  {/* Input file invisível — disparado pelo botão 📎 */}
+                  <input
+                    ref={mediaInputRef}
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp"
+                    className="hidden"
+                    onChange={(e) => handlePickMedia(e.target.files?.[0] ?? null)}
+                  />
+                  {/* Botão 📎 — anexar imagem */}
+                  <button
+                    type="button"
+                    onClick={() => mediaInputRef.current?.click()}
+                    disabled={sendingReply || !!pendingMedia}
+                    title={pendingMedia ? "Remova a imagem atual antes de anexar outra" : "Anexar imagem (também aceita Ctrl+V)"}
+                    className="px-3 rounded-xl bg-[#0f1623] border border-[#1e2d45] text-slate-400 text-sm hover:text-white hover:border-indigo-500/40 disabled:opacity-40 transition-colors flex-shrink-0"
+                    style={{ height: "42px" }}
+                  >
+                    📎
+                  </button>
                   <div className="flex-1 relative">
                     <textarea
                       ref={replyTextareaRef}
@@ -4366,15 +4496,32 @@ export default function WhatsappManager({
                         e.target.style.height = "auto";
                         e.target.style.height = Math.min(e.target.scrollHeight, 160) + "px";
                       }}
+                      onPaste={(e) => {
+                        // Aceita print de tela colado direto (Ctrl+V) — ignora texto puro
+                        const items = e.clipboardData?.items;
+                        if (!items) return;
+                        for (const item of Array.from(items)) {
+                          if (item.kind === "file" && item.type.startsWith("image/")) {
+                            const file = item.getAsFile();
+                            if (file) {
+                              e.preventDefault();
+                              handlePickMedia(file);
+                              return;
+                            }
+                          }
+                        }
+                      }}
                       onKeyDown={(e) => {
                         if (e.key === "Enter" && !e.ctrlKey && !e.shiftKey) {
                           e.preventDefault();
-                          if (replyText.trim() && !sendingReply) handleReply(e as any);
+                          if ((replyText.trim() || pendingMedia) && !sendingReply) handleReply(e as any);
                         }
                         // Ctrl+Enter ou Shift+Enter → quebra de linha (comportamento default do textarea)
                       }}
                       placeholder={
-                        currentSendInstance
+                        pendingMedia
+                          ? "Adicione uma legenda (opcional)..."
+                          : currentSendInstance
                           ? `Escreva via ${currentSendInstance.instanceName}... (Enter envia)`
                           : "Digite uma mensagem... (Enter envia · Ctrl+Enter nova linha)"
                       }
@@ -4395,7 +4542,7 @@ export default function WhatsappManager({
                   </div>
                   <button
                     type="submit"
-                    disabled={sendingReply || !replyText.trim()}
+                    disabled={sendingReply || (!replyText.trim() && !pendingMedia)}
                     className="px-4 py-2.5 rounded-xl bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-500 disabled:opacity-40 transition-colors flex-shrink-0"
                     style={{ height: "42px" }}
                   >

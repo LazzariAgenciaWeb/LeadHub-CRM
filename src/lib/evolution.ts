@@ -260,6 +260,63 @@ export async function evolutionSendText(
   return res.json();
 }
 
+/** Envia mídia (imagem, vídeo, documento) — base64 OU URL */
+export async function evolutionSendMedia(
+  instanceName: string,
+  phone: string,
+  args: {
+    /** base64 puro (sem o prefixo `data:image/...;base64,`) ou URL pública */
+    media: string;
+    /** "image" | "video" | "document". Áudio tem endpoint próprio (sendWhatsAppAudio). */
+    mediatype: "image" | "video" | "document";
+    /** MIME real do arquivo, ex: "image/jpeg" */
+    mimetype: string;
+    /** Legenda opcional (aparece junto da imagem no WhatsApp) */
+    caption?: string | null;
+    /** Nome do arquivo (só usado pra mediatype="document") */
+    fileName?: string | null;
+  },
+  instanceToken?: string | null,
+  quoted?: { externalId: string; body: string; fromMe: boolean } | null
+) {
+  const { baseUrl, apiKey } = await getConfig();
+  const authKey = instanceToken ?? (await evolutionGetInstanceToken(instanceName)) ?? apiKey;
+  const number = phone.includes("@g.us") ? phone : phone.replace(/\D/g, "");
+
+  // Evolution aceita base64 puro no campo `media`. Se vier com prefixo data:..., remove.
+  const media = args.media.replace(/^data:[^;]+;base64,/, "");
+
+  const body: Record<string, unknown> = {
+    number,
+    mediatype: args.mediatype,
+    mimetype: args.mimetype,
+    media,
+  };
+  if (args.caption) body.caption = args.caption;
+  if (args.fileName) body.fileName = args.fileName;
+  if (quoted) {
+    body.quoted = {
+      key: {
+        remoteJid: phone.includes("@g.us") ? phone : `${number}@s.whatsapp.net`,
+        fromMe: quoted.fromMe,
+        id: quoted.externalId,
+      },
+      message: { conversation: quoted.body },
+    };
+  }
+
+  const res = await fetch(`${baseUrl}/message/sendMedia/${instanceName}`, {
+    method: "POST",
+    headers: headers(authKey),
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Evolution sendMedia: ${res.status} ${err}`);
+  }
+  return res.json();
+}
+
 /** Busca o nome (subject) de um grupo pelo JID */
 export async function evolutionGetGroupName(instanceName: string, groupJid: string, instanceToken?: string | null): Promise<string | null> {
   try {

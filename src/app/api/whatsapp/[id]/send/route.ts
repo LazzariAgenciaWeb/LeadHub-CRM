@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { evolutionSendText } from "@/lib/evolution";
+import { evolutionSendText, evolutionSendMedia } from "@/lib/evolution";
 import { upsertConversation } from "@/lib/whatsapp";
 import { assertModule } from "@/lib/billing";
 import { enforceSendGuards, releaseQuota } from "@/lib/whatsapp-guard";
@@ -32,9 +32,25 @@ export async function POST(
   }
 
   const userId = (session.user as any).id as string | undefined;
-  const { phone, text, quotedExternalId, quotedBody, quotedFromMe } = await req.json();
-  if (!phone || !text) {
-    return NextResponse.json({ error: "phone e text são obrigatórios" }, { status: 400 });
+  const {
+    phone,
+    text,
+    quotedExternalId,
+    quotedBody,
+    quotedFromMe,
+    // Mídia opcional. Quando presente, `text` vira caption.
+    media,            // base64 puro (sem prefixo data:...) — ou com prefixo, o helper limpa
+    mediaMimeType,    // ex: "image/jpeg"
+    mediaType,        // "image" | "video" | "document" (default "image")
+    fileName,         // só usado pra mediaType="document"
+  } = await req.json();
+
+  const hasMedia = typeof media === "string" && media.length > 0 && typeof mediaMimeType === "string";
+  if (!phone) {
+    return NextResponse.json({ error: "phone é obrigatório" }, { status: 400 });
+  }
+  if (!hasMedia && !text) {
+    return NextResponse.json({ error: "text é obrigatório quando não há mídia" }, { status: 400 });
   }
 
   const quoted = quotedExternalId
@@ -55,7 +71,24 @@ export async function POST(
 
   try {
     const instanceToken = (instance as any).instanceToken as string | null | undefined;
-    const result = await evolutionSendText(instance.instanceName, phone, text, instanceToken, quoted);
+    const result = hasMedia
+      ? await evolutionSendMedia(
+          instance.instanceName,
+          phone,
+          {
+            media,
+            mediatype: (mediaType === "video" || mediaType === "document" ? mediaType : "image") as
+              | "image"
+              | "video"
+              | "document",
+            mimetype: mediaMimeType,
+            caption: text || null,
+            fileName: fileName ?? null,
+          },
+          instanceToken,
+          quoted
+        )
+      : await evolutionSendText(instance.instanceName, phone, text, instanceToken, quoted);
 
     // Extrair externalId do retorno da Evolution (múltiplos paths por segurança)
     const externalId: string =
@@ -84,12 +117,19 @@ export async function POST(
     });
     const phoneForStorage = existingCount > 0 ? phone : canonicalPhone;
 
+    // Texto a salvar no Message.body — caption se houver; senão um placeholder
+    // descritivo conforme o tipo de mídia (mesma convenção da recepção via webhook).
+    const placeholder = hasMedia
+      ? (mediaType === "video" ? "[vídeo]" : mediaType === "document" ? "[documento]" : "[imagem]")
+      : "";
+    const bodyToStore = text || placeholder;
+
     // Upsert da Conversation — fonte da verdade do status de atendimento
     const conv = await upsertConversation({
       companyId: instance.companyId,
       phone: phoneForStorage,
       direction: "OUTBOUND",
-      body: text,
+      body: bodyToStore,
       instanceId: id,
     });
 
@@ -101,7 +141,7 @@ export async function POST(
     const saved = await prisma.message.create({
       data: {
         externalId,
-        body: text,
+        body: bodyToStore,
         direction: "OUTBOUND",
         phone: phoneForStorage,
         instanceId: id,
@@ -109,6 +149,14 @@ export async function POST(
         conversationId: conv.id,
         ack: 1,
         sentByUserId: userId ?? null,
+        ...(hasMedia
+          ? {
+              // Mesma convenção da recepção: base64 puro (sem prefixo data:) no DB.
+              // É servido por /api/whatsapp/messages/[id]/media com Content-Type.
+              mediaBase64: media.replace(/^data:[^;]+;base64,/, ""),
+              mediaType: mediaMimeType,
+            }
+          : {}),
         ...(quoted ? { quotedId: quotedExternalId, quotedBody: quotedBody ?? null } : {}),
       },
       include: { instance: { select: { instanceName: true } }, campaign: { select: { id: true, name: true } } },
@@ -135,7 +183,11 @@ export async function POST(
       }
     }
 
-    return NextResponse.json({ ok: true, message: saved });
+    // Strip mediaBase64 da resposta (pode ser >500KB) e expõe `hasMedia: true`
+    // pro front renderizar via /api/whatsapp/messages/[id]/media — mesmo padrão
+    // do listing e do ticket endpoint.
+    const { mediaBase64: _drop, ...rest } = saved as any;
+    return NextResponse.json({ ok: true, message: { ...rest, hasMedia: !!_drop } });
   } catch (err: any) {
     // fix 7b — devolve a quota consumida quando a Evolution falha; o limite
     // diário só conta sucessos, evitando "queimar" envios pra cliente com
