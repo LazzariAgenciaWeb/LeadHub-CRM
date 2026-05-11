@@ -474,7 +474,11 @@ export default function CRMBoard({
     setEditingNotes(false);
     setNotesInput(lead.notes ?? "");
     setEditingExpected(false);
-    setExpectedInput(lead.expectedReturnAt ? lead.expectedReturnAt.slice(0, 10) : "");
+    // new Date(x).toISOString() aceita string ISO OU Date — defensivo contra
+    // valor vir como Date (caso prop não tenha sido serializada / fetch direto).
+    // O .slice direto crashava o openLead() inteiro, abortando o fetch da
+    // timeline e deixando o modal com TODAS as seções vazias.
+    setExpectedInput(lead.expectedReturnAt ? new Date(lead.expectedReturnAt).toISOString().slice(0, 10) : "");
     setShowLinkTracker(false);
     setTrackerLinks([]);
     setTrackerSearch("");
@@ -1700,7 +1704,7 @@ export default function CRMBoard({
                       {!editingExpected && (
                         <button
                           onClick={() => {
-                            setExpectedInput(selected.expectedReturnAt ? selected.expectedReturnAt.slice(0, 10) : "");
+                            setExpectedInput(selected.expectedReturnAt ? new Date(selected.expectedReturnAt).toISOString().slice(0, 10) : "");
                             setEditingExpected(true);
                           }}
                           className="opacity-0 group-hover/exp:opacity-100 text-slate-600 hover:text-slate-400 text-[10px] transition-opacity"
