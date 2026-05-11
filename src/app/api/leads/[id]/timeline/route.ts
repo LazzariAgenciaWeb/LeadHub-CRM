@@ -165,24 +165,35 @@ export async function GET(
   // 5. Sinais quentes (Tasks auto-criadas quando o cliente abre o link).
   // Aparecem como linha da timeline pra ter o histórico visível mesmo depois
   // que a tarefa for resolvida e sair de "Próximos Passos".
-  const hotTasks = await prisma.task.findMany({
-    where: { leadId: lead.id, source: "AUTO_LINK_OPEN" },
-    orderBy: { createdAt: "desc" },
-    take: 20,
-    select: {
-      id: true, title: true, notes: true, done: true,
-      createdAt: true, dueAt: true,
-    },
-  });
-  for (const t of hotTasks) {
-    events.push({
-      id: `hot-${t.id}`,
-      type: "hot_signal",
-      timestamp: t.createdAt.toISOString(),
-      title: t.done ? "🔥 Sinal Quente (resolvido)" : "🔥 Sinal Quente",
-      body: t.notes ?? t.title,
-      meta: { taskId: t.id, done: t.done, dueAt: t.dueAt?.toISOString() ?? null },
+  //
+  // Envolvido em try/catch porque: a coluna Task.source foi adicionada no
+  // schema mas pode não estar no banco em ambientes que ainda não rodaram
+  // `prisma db push` / `prisma migrate deploy`. Sem isso, a query inteira
+  // joga e o endpoint retorna 500 — UI fica VAZIA (sem comments, sem
+  // mensagens, sem cliques). Aqui falhamos gracefully só pra esse bucket.
+  try {
+    const hotTasks = await prisma.task.findMany({
+      where: { leadId: lead.id, source: "AUTO_LINK_OPEN" },
+      orderBy: { createdAt: "desc" },
+      take: 20,
+      select: {
+        id: true, title: true, notes: true, done: true,
+        createdAt: true, dueAt: true,
+      },
     });
+    for (const t of hotTasks) {
+      events.push({
+        id: `hot-${t.id}`,
+        type: "hot_signal",
+        timestamp: t.createdAt.toISOString(),
+        title: t.done ? "🔥 Sinal Quente (resolvido)" : "🔥 Sinal Quente",
+        body: t.notes ?? t.title,
+        meta: { taskId: t.id, done: t.done, dueAt: t.dueAt?.toISOString() ?? null },
+      });
+    }
+  } catch (e) {
+    // Schema Task.source ausente no banco → ignora bucket, mantém o resto.
+    console.warn("[timeline] hot_signal bucket falhou (Task.source?)", e);
   }
 
   // 6. ClickUp vinculado (sem histórico real — usa updatedAt)
