@@ -1,20 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 import { mergeCompany } from "@/lib/company-merge";
 
 // POST /api/companies/[id]/merge
 // Body: { targetId: string }
 // Mescla a empresa [id] (origem) na empresa targetId (destino) e deleta a origem.
-// Apenas SUPER_ADMIN. Usa getServerSession (sessão real) — não respeita impersonation.
+// SUPER_ADMIN: pode mesclar quaisquer empresas.
+// ADMIN: pode mesclar entre suas próprias sub-empresas (origem e destino com parentCompanyId === userCompanyId).
+// Usa getServerSession (sessão real) — não respeita impersonation.
 export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
-  if (!session || (session.user as any).role !== "SUPER_ADMIN") {
+  if (!session) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
   }
+  const userRole = (session.user as any).role;
+  const userCompanyId = (session.user as any).companyId as string | undefined;
+  const isSuperAdmin = userRole === "SUPER_ADMIN";
 
   const { id: sourceId } = await params;
   const body = await req.json().catch(() => ({}));
@@ -31,6 +37,27 @@ export async function POST(
       { error: "Empresa origem e destino são iguais." },
       { status: 400 }
     );
+  }
+
+  if (!isSuperAdmin) {
+    if (userRole !== "ADMIN") {
+      return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+    }
+    const [src, dst] = await Promise.all([
+      prisma.company.findUnique({ where: { id: sourceId }, select: { parentCompanyId: true } }),
+      prisma.company.findUnique({ where: { id: targetId }, select: { parentCompanyId: true } }),
+    ]);
+    if (
+      !src ||
+      !dst ||
+      src.parentCompanyId !== userCompanyId ||
+      dst.parentCompanyId !== userCompanyId
+    ) {
+      return NextResponse.json(
+        { error: "Você só pode mesclar entre suas próprias sub-empresas." },
+        { status: 403 }
+      );
+    }
   }
 
   try {

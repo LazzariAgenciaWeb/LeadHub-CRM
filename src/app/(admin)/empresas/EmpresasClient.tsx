@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import DeleteMergeModal from "./DeleteMergeModal";
 
 interface Company {
   id: string;
@@ -45,61 +46,8 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
   const [transferring, setTransferring] = useState(false);
   const [transferError, setTransferError] = useState<string | null>(null);
 
-  // Modal de confirmação de deleção (SuperAdmin)
-  // Permite escolher entre: apenas deletar, ou mesclar dados em outra empresa antes.
+  // Empresa selecionada pra deletar ou mesclar. O modal compartilhado cuida do resto.
   const [deleteTarget, setDeleteTarget] = useState<Company | null>(null);
-  const [deleting, setDeleting] = useState(false);
-  const [deleteError, setDeleteError] = useState<string | null>(null);
-  const [deleteMode, setDeleteMode] = useState<"delete" | "merge">("delete");
-  const [mergeIntoId, setMergeIntoId] = useState<string>("");
-  const [mergeSummary, setMergeSummary] = useState<{ transferred: Record<string, number>; conflicts: Record<string, number>; targetName: string } | null>(null);
-
-  function openDeleteModal(company: Company) {
-    setDeleteTarget(company);
-    setDeleteError(null);
-    setDeleteMode("delete");
-    setMergeIntoId("");
-    setMergeSummary(null);
-  }
-
-  async function handleDeleteConfirm() {
-    if (!deleteTarget) return;
-    setDeleting(true);
-    setDeleteError(null);
-    try {
-      if (deleteMode === "merge") {
-        if (!mergeIntoId) {
-          throw new Error("Selecione a empresa de destino para a mesclagem.");
-        }
-        const res = await fetch(`/api/companies/${deleteTarget.id}/merge`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ targetId: mergeIntoId }),
-        });
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok) throw new Error(data.error ?? "Falha ao mesclar");
-        const targetName = companies.find((c) => c.id === mergeIntoId)?.name ?? "destino";
-        setMergeSummary({
-          transferred: data.transferred ?? {},
-          conflicts: data.conflicts ?? {},
-          targetName,
-        });
-        router.refresh();
-      } else {
-        const res = await fetch(`/api/companies/${deleteTarget.id}`, { method: "DELETE" });
-        if (!res.ok) {
-          const d = await res.json().catch(() => ({}));
-          throw new Error(d.error ?? "Falha ao deletar");
-        }
-        setDeleteTarget(null);
-        router.refresh();
-      }
-    } catch (err: any) {
-      setDeleteError(err.message ?? "Erro inesperado");
-    } finally {
-      setDeleting(false);
-    }
-  }
 
   useEffect(() => { setPinnedIds(getPinned()); }, []);
 
@@ -381,15 +329,14 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
                       ↗ Transferir
                     </button>
                   )}
-                  {isSuperAdmin && (
-                    <button
-                      onClick={() => openDeleteModal(company)}
-                      title="Deletar ou mesclar esta empresa em outra"
-                      className="text-red-400 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-xs font-semibold py-1.5 px-3 rounded-lg transition-colors"
-                    >
-                      🗑️
-                    </button>
-                  )}
+                  {/* ADMIN também pode deletar/mesclar — a lista só traz subs dele, então é seguro */}
+                  <button
+                    onClick={() => setDeleteTarget(company)}
+                    title="Deletar ou mesclar esta empresa em outra"
+                    className="text-red-400 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-xs font-semibold py-1.5 px-3 rounded-lg transition-colors"
+                  >
+                    🗑️
+                  </button>
                   {isSuperAdmin && company.hasSystemAccess && (
                     /* <a> em vez de <Link>: navegação real para a API setar o cookie */
                     <a
@@ -467,176 +414,18 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
         </div>
       )}
 
-      {/* Modal de Deleção / Mesclagem (SuperAdmin) */}
+      {/* Modal de Deleção / Mesclagem — componente compartilhado com a página de detalhe */}
       {deleteTarget && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/70" onClick={() => { if (!deleting) setDeleteTarget(null); }} />
-          <div className="relative bg-[#0c1220] border border-red-500/40 rounded-2xl w-full max-w-md mx-4 shadow-2xl">
-            <div className="px-6 py-4 border-b border-[#1e2d45] flex items-center justify-between">
-              <div>
-                <h2 className="text-red-400 font-bold text-base">
-                  {mergeSummary ? "✓ Mesclagem concluída" : deleteMode === "merge" ? "🔀 Mesclar empresa" : "🗑️ Deletar empresa"}
-                </h2>
-                <p className="text-slate-500 text-xs mt-0.5 truncate"><strong className="text-slate-300">{deleteTarget.name}</strong></p>
-              </div>
-              <button onClick={() => setDeleteTarget(null)} className="text-slate-500 hover:text-white text-2xl leading-none">×</button>
-            </div>
-
-            <div className="p-6 space-y-4">
-              {mergeSummary ? (
-                <>
-                  <div className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-200 text-xs rounded-lg px-3 py-3 space-y-2">
-                    <p className="font-semibold">
-                      Dados mesclados em <strong className="text-white">{mergeSummary.targetName}</strong>. A empresa <strong className="text-white">{deleteTarget.name}</strong> foi removida.
-                    </p>
-                    <div>
-                      <p className="text-emerald-300 font-semibold mb-1">Transferidos:</p>
-                      <ul className="grid grid-cols-2 gap-x-3 gap-y-0.5 text-emerald-200/80">
-                        {Object.entries(mergeSummary.transferred)
-                          .filter(([, n]) => n > 0)
-                          .map(([k, n]) => (
-                            <li key={k}>{k}: {n}</li>
-                          ))}
-                      </ul>
-                    </div>
-                    {Object.values(mergeSummary.conflicts).some((n) => n > 0) && (
-                      <div>
-                        <p className="text-amber-300 font-semibold mb-1">Conflitos (destino prevaleceu):</p>
-                        <ul className="grid grid-cols-2 gap-x-3 gap-y-0.5 text-amber-200/80">
-                          {Object.entries(mergeSummary.conflicts)
-                            .filter(([, n]) => n > 0)
-                            .map(([k, n]) => (
-                              <li key={k}>{k}: {n}</li>
-                            ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                  <button
-                    onClick={() => setDeleteTarget(null)}
-                    className="w-full py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold transition-colors"
-                  >
-                    Fechar
-                  </button>
-                </>
-              ) : (
-                <>
-                  {/* Seletor de modo */}
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => setDeleteMode("delete")}
-                      className={`flex-1 py-2 rounded-lg text-xs font-semibold border transition-colors ${
-                        deleteMode === "delete"
-                          ? "bg-red-500/20 border-red-500/50 text-red-300"
-                          : "bg-[#161f30] border-[#1e2d45] text-slate-400 hover:text-white"
-                      }`}
-                    >
-                      🗑️ Apenas deletar
-                    </button>
-                    <button
-                      onClick={() => setDeleteMode("merge")}
-                      className={`flex-1 py-2 rounded-lg text-xs font-semibold border transition-colors ${
-                        deleteMode === "merge"
-                          ? "bg-indigo-500/20 border-indigo-500/50 text-indigo-300"
-                          : "bg-[#161f30] border-[#1e2d45] text-slate-400 hover:text-white"
-                      }`}
-                    >
-                      🔀 Mesclar em outra
-                    </button>
-                  </div>
-
-                  {deleteMode === "delete" ? (
-                    <div className="bg-red-500/10 border border-red-500/30 text-red-300 text-xs rounded-lg px-3 py-3 space-y-1">
-                      <p className="font-semibold">⚠️ Esta ação NÃO pode ser desfeita.</p>
-                      <p>Vai apagar todos os dados vinculados a esta empresa:</p>
-                      <ul className="list-disc list-inside space-y-0.5 text-red-300/80">
-                        <li>{deleteTarget._count.leads} leads</li>
-                        <li>{deleteTarget._count.campaigns} campanhas</li>
-                        <li>{deleteTarget._count.whatsappInstances} instâncias WhatsApp</li>
-                        <li>Mensagens, conversas, contatos, setores, tickets, etc.</li>
-                      </ul>
-                      {deleteTarget._count.subCompanies > 0 && (
-                        <p className="mt-2 font-semibold text-amber-300">
-                          🚫 Esta empresa tem {deleteTarget._count.subCompanies} sub-empresa(s).
-                          Transfira-as para outra empresa-mãe antes de deletar.
-                        </p>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="space-y-3">
-                      <div>
-                        <label className="block text-slate-400 text-xs font-medium mb-1.5">
-                          Empresa de destino (vai receber todos os dados)
-                        </label>
-                        <select
-                          value={mergeIntoId}
-                          onChange={(e) => setMergeIntoId(e.target.value)}
-                          className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
-                        >
-                          <option value="">— Selecione a empresa destino —</option>
-                          {companies
-                            .filter((c) => c.id !== deleteTarget.id)
-                            .map((c) => (
-                              <option key={c.id} value={c.id}>{c.name}</option>
-                            ))}
-                        </select>
-                      </div>
-                      <div className="bg-indigo-500/10 border border-indigo-500/30 text-indigo-200 text-xs rounded-lg px-3 py-3 space-y-1">
-                        <p className="font-semibold">🔀 Mesclagem completa:</p>
-                        <p className="text-indigo-200/80">
-                          Leads, mensagens, conversas, contatos, tickets, campanhas, tags, custom fields, instâncias WhatsApp,
-                          setores, gamificação e configurações vão pra empresa destino. Em conflitos (mesmo telefone, slug ou nome de tag),
-                          o destino prevalece — o equivalente da origem é descartado ou renomeado.
-                        </p>
-                        <p className="text-indigo-200/80 mt-1">
-                          Depois da transferência, <strong className="text-white">{deleteTarget.name}</strong> é deletada.
-                        </p>
-                      </div>
-                      {deleteTarget._count.subCompanies > 0 && (
-                        <div className="bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs rounded-lg px-3 py-2">
-                          ⚠️ As {deleteTarget._count.subCompanies} sub-empresa(s) vão ser re-vinculadas à empresa destino.
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {deleteError && (
-                    <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-xs rounded-lg px-3 py-2">
-                      {deleteError}
-                    </div>
-                  )}
-
-                  <div className="flex gap-2 pt-1">
-                    <button
-                      onClick={handleDeleteConfirm}
-                      disabled={
-                        deleting ||
-                        (deleteMode === "delete" && deleteTarget._count.subCompanies > 0) ||
-                        (deleteMode === "merge" && !mergeIntoId)
-                      }
-                      className={`flex-1 py-2 rounded-lg text-white text-sm font-semibold disabled:opacity-50 transition-colors ${
-                        deleteMode === "merge"
-                          ? "bg-indigo-600 hover:bg-indigo-500"
-                          : "bg-red-600 hover:bg-red-500"
-                      }`}
-                    >
-                      {deleting
-                        ? deleteMode === "merge" ? "Mesclando..." : "Deletando..."
-                        : deleteMode === "merge" ? "Mesclar e deletar origem" : "Sim, deletar permanentemente"}
-                    </button>
-                    <button
-                      onClick={() => setDeleteTarget(null)}
-                      disabled={deleting}
-                      className="px-4 py-2 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white text-sm transition-colors disabled:opacity-50"
-                    >
-                      Cancelar
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
+        <DeleteMergeModal
+          target={deleteTarget}
+          eligibleTargets={companies
+            .filter((c) => c.id !== deleteTarget.id)
+            .map((c) => ({ id: c.id, name: c.name }))}
+          open={true}
+          onClose={() => setDeleteTarget(null)}
+          onDeleted={() => router.refresh()}
+          onMerged={() => router.refresh()}
+        />
       )}
     </div>
   );

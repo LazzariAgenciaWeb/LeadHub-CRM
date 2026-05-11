@@ -121,19 +121,39 @@ export async function PATCH(
 }
 
 // DELETE /api/companies/[id]
-// Apenas SUPER_ADMIN pode deletar empresas. Cascade nas FKs cuida de leads/mensagens/
-// instâncias/etc., mas se houver sub-empresas filhas, exige limpeza prévia (ou move
-// pra outra parent — mais seguro do que apagar em cascata).
+// SUPER_ADMIN pode deletar qualquer empresa.
+// ADMIN pode deletar apenas suas próprias sub-empresas (parentCompanyId === userCompanyId).
+// Cascade nas FKs cuida de leads/mensagens/instâncias/etc., mas se houver sub-empresas
+// filhas, exige limpeza prévia.
 export async function DELETE(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
-  if (!session || (session.user as any).role !== "SUPER_ADMIN") {
+  if (!session) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
   }
+  const userRole = (session.user as any).role;
+  const userCompanyId = (session.user as any).companyId as string | undefined;
+  const isSuperAdmin = userRole === "SUPER_ADMIN";
 
   const { id } = await params;
+
+  if (!isSuperAdmin) {
+    if (userRole !== "ADMIN") {
+      return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+    }
+    const company = await prisma.company.findUnique({
+      where: { id },
+      select: { parentCompanyId: true },
+    });
+    if (!company || company.parentCompanyId !== userCompanyId) {
+      return NextResponse.json(
+        { error: "Você só pode deletar suas próprias sub-empresas." },
+        { status: 403 }
+      );
+    }
+  }
 
   // Bloqueia se houver sub-empresas — usuário precisa transferi-las primeiro
   const subCount = await prisma.company.count({ where: { parentCompanyId: id } });

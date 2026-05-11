@@ -55,7 +55,7 @@ export default async function EmpresaDetailPage({
           include: { _count: { select: { leads: true, messages: true } } },
         },
         whatsappInstances: true,
-        _count: { select: { leads: true, messages: true } },
+        _count: { select: { leads: true, messages: true, campaigns: true, subCompanies: true } },
         subCompanies: { select: { id: true, name: true }, take: 5 },
       },
     }),
@@ -70,6 +70,22 @@ export default async function EmpresaDetailPage({
 
   // ADMIN can only see sub-companies of their own company
   if (!isSuperAdmin && company.parentCompanyId !== userCompanyId) redirect("/empresas");
+
+  // ADMIN pode deletar/mesclar suas próprias sub-empresas; SUPER_ADMIN qualquer uma.
+  const canDeleteOrMerge =
+    isSuperAdmin || (role === "ADMIN" && company.parentCompanyId === userCompanyId);
+
+  // Empresas elegíveis como destino do merge.
+  // SUPER_ADMIN: todas as outras. ADMIN: outras sub-empresas do mesmo parent.
+  const eligibleTargets = canDeleteOrMerge
+    ? await prisma.company.findMany({
+        where: isSuperAdmin
+          ? { id: { not: id } }
+          : { parentCompanyId: userCompanyId, id: { not: id } },
+        select: { id: true, name: true },
+        orderBy: { name: "asc" },
+      })
+    : [];
 
   const [prospeccaoCount, leadsCount, oportunidadesCount, totalLeads, recentLeads, recentOportunidades, recentChamados] = await Promise.all([
     prisma.lead.count({ where: { companyId: id, pipeline: "PROSPECCAO" } }),
@@ -134,7 +150,19 @@ export default async function EmpresaDetailPage({
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          {isSuperAdmin && <DeleteCompanyButton id={company.id} name={company.name} />}
+          {canDeleteOrMerge && (
+            <DeleteCompanyButton
+              id={company.id}
+              name={company.name}
+              counts={{
+                leads: company._count.leads,
+                campaigns: (company._count as any).campaigns ?? 0,
+                whatsappInstances: company.whatsappInstances.length,
+                subCompanies: (company._count as any).subCompanies ?? 0,
+              }}
+              eligibleTargets={eligibleTargets}
+            />
+          )}
           <EditCompanyButton company={company as any} isSuperAdmin={isSuperAdmin} />
           {isSuperAdmin && (
             <>
