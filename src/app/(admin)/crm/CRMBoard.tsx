@@ -9,6 +9,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import ImportLeads from "./ImportLeads";
+import BuscarProspectsModal from "./BuscarProspectsModal";
 import SourceBadge from "@/components/SourceBadge";
 import { gradStroke, type GradientKey } from "@/components/IconGradients";
 import type { TimelineEvent } from "@/app/api/leads/[id]/timeline/route";
@@ -245,6 +246,7 @@ export default function CRMBoard({
   defaultCompanyId,
   whatsappEnabled = false,
   clickupEnabled = false,
+  prospeccaoEnabled = false,
 }: {
   pipeline: string;
   initialLeads: CRMLead[];
@@ -255,6 +257,7 @@ export default function CRMBoard({
   defaultCompanyId?: string;
   whatsappEnabled?: boolean;
   clickupEnabled?: boolean;
+  prospeccaoEnabled?: boolean;
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -979,24 +982,33 @@ export default function CRMBoard({
               ))}
             </select>
           )}
-          {pipeline === "PROSPECCAO" && (
+          {pipeline === "PROSPECCAO" && (prospeccaoEnabled || isSuperAdmin) && (
             <div className="flex flex-col items-end gap-1">
               <div className="flex items-center gap-2">
-                <a
-                  href="https://webhooks.azzagencia.com.br/webhook/c96d1a1b-14dd-457e-a6a9-d2a765328d88"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors flex-shrink-0"
-                >
-                  🤖 Prospecção Automática
-                </a>
-                <button
-                  onClick={handleBdrSync}
-                  disabled={syncing}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors flex-shrink-0 disabled:opacity-60"
-                >
-                  {syncing ? "⏳ Importando..." : "☁️ Importar Supabase"}
-                </button>
+                {prospeccaoEnabled && (
+                  <BuscarProspectsModal isSuperAdmin={isSuperAdmin} defaultCompanyId={defaultCompanyId} />
+                )}
+                {isSuperAdmin && (
+                  <>
+                    <a
+                      href="https://webhooks.azzagencia.com.br/webhook/c96d1a1b-14dd-457e-a6a9-d2a765328d88"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors flex-shrink-0"
+                      title="Webhook do n8n da AZZ (SUPER_ADMIN-only)"
+                    >
+                      🤖 Prospecção Automática
+                    </a>
+                    <button
+                      onClick={handleBdrSync}
+                      disabled={syncing}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors flex-shrink-0 disabled:opacity-60"
+                      title="Import do Supabase BDR (SUPER_ADMIN-only)"
+                    >
+                      {syncing ? "⏳ Importando..." : "☁️ Importar Supabase"}
+                    </button>
+                  </>
+                )}
               </div>
               {syncResult && (
                 <span className="text-[10px] text-slate-400">

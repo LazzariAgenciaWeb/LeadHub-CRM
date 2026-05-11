@@ -99,11 +99,15 @@ export default async function ProspeccaoPage({
       ? prisma.whatsappInstance.count({ where: { companyId: effectiveCompanyId } })
       : Promise.resolve(0),
     effectiveCompanyId
-      ? prisma.company.findUnique({ where: { id: effectiveCompanyId }, select: { moduleWhatsapp: true } })
+      ? prisma.company.findUnique({ where: { id: effectiveCompanyId }, select: { moduleWhatsapp: true, moduleProspeccao: true, serpapiKey: true } })
       : Promise.resolve(null),
   ]);
   const clickupEnabled  = !!clickupSetting?.value;
   const whatsappEnabled = isRealSuperAdmin || (currentCompany?.moduleWhatsapp === true && whatsappInstanceCount > 0);
+  // SUPER_ADMIN sempre vê (pra testar/operar AZZ). ADMIN da empresa precisa do
+  // módulo ligado E da própria SerpAPI key cadastrada — sem key não dá pra buscar.
+  const prospeccaoEnabled = isRealSuperAdmin
+    || (currentCompany?.moduleProspeccao === true && !!currentCompany?.serpapiKey);
 
   return (
     <CRMBoard
@@ -116,6 +120,7 @@ export default async function ProspeccaoPage({
       defaultCompanyId={defaultCompanyId}
       whatsappEnabled={whatsappEnabled}
       clickupEnabled={clickupEnabled}
+      prospeccaoEnabled={prospeccaoEnabled}
     />
   );
 }

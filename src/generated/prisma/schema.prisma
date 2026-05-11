@@ -157,6 +157,12 @@ model Company {
   moduleGamificacao Boolean @default(false)
   moduleProjetos    Boolean @default(false)
   moduleCalendario  Boolean @default(false)
+  // Habilita busca de prospects via SerpAPI (Google Maps + scraper inline)
+  // na página /crm/prospeccao. Cada empresa traz a própria `serpapiKey`.
+  moduleProspeccao  Boolean @default(false)
+  // API key SerpAPI da empresa (texto plano, mesmo padrão dos tokens de
+  // integração atuais). Sem key, o botão "Buscar prospects" não aparece.
+  serpapiKey        String?
   // Habilita a integração com ClickUp pra esta empresa. Quando false, a UI
   // de configuração e a sincronização (push + webhook) ficam desligadas.
   // Cada empresa-cliente liga o módulo e configura a própria conta ClickUp.
@@ -320,6 +326,14 @@ model Lead {
   pipeline      String? // "PROSPECCAO" | "LEADS" | "OPORTUNIDADES"
   pipelineStage String? // nome da etapa configurável
   externalId    String? // ID externo (ex: id do Supabase BDR para evitar duplicatas)
+
+  // Dados de prospect (preenchidos pela busca SerpAPI + scraper inline em /crm/prospeccao)
+  website   String?
+  instagram String?
+  facebook  String?
+  address   String?
+  city      String?
+  segment   String? // categoria/segmento (ex: "Clínica Pediátrica", vem do `type` do Google Maps)
 
   // Atendimento WhatsApp
   // @deprecated — espelho legacy de Conversation.status (mantido pra UI antiga via sync automático).

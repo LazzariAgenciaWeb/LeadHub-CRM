@@ -23,6 +23,8 @@ interface Company {
   moduleGamificacao: boolean;
   moduleProjetos: boolean;
   moduleCalendario: boolean;
+  moduleProspeccao: boolean;
+  serpapiKey: string | null;
 }
 
 interface Props {
@@ -52,6 +54,8 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
     moduleGamificacao: company.moduleGamificacao,
     moduleProjetos: company.moduleProjetos,
     moduleCalendario: company.moduleCalendario,
+    moduleProspeccao: company.moduleProspeccao,
+    serpapiKey: company.serpapiKey ?? "",
   });
 
   function set(field: string, value: string | boolean) {
@@ -82,6 +86,8 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
         payload.moduleGamificacao = form.moduleGamificacao;
         payload.moduleProjetos = form.moduleProjetos;
         payload.moduleCalendario = form.moduleCalendario;
+        payload.moduleProspeccao = form.moduleProspeccao;
+        payload.serpapiKey = form.serpapiKey.trim() || null;
       }
 
       const res = await fetch(`/api/companies/${company.id}`, {
@@ -226,6 +232,7 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
                             { key: "moduleGamificacao", label: "Gamificação (ranking + badges + cron)" },
                             { key: "moduleProjetos", label: "Projetos" },
                             { key: "moduleCalendario", label: "Calendário" },
+                            { key: "moduleProspeccao", label: "Prospecção via SerpAPI" },
                           ].map(({ key, label }) => (
                             <label key={key} className="flex items-center gap-3 cursor-pointer py-1 px-2 rounded-lg hover:bg-white/5 transition-colors">
                               <input type="checkbox" checked={(form as any)[key]} onChange={(e) => set(key, e.target.checked)} className="w-4 h-4 accent-indigo-500" />
@@ -233,6 +240,22 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
                             </label>
                           ))}
                         </div>
+
+                        {form.moduleProspeccao && (
+                          <div className="mt-3 pt-3 border-t border-[#1e2d45]">
+                            <label className="text-[11px] text-slate-400 font-semibold uppercase tracking-wide block mb-1">SerpAPI Key</label>
+                            <input
+                              type="text"
+                              value={form.serpapiKey}
+                              onChange={(e) => set("serpapiKey", e.target.value)}
+                              placeholder="cole aqui a API key da conta SerpAPI da empresa"
+                              className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
+                            />
+                            <p className="text-[11px] text-slate-500 mt-1">
+                              Cada empresa traz a própria key (<a href="https://serpapi.com" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">serpapi.com</a>). Sem key, o botão "Buscar prospects" fica oculto.
+                            </p>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>

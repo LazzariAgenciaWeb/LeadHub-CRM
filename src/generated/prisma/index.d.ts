@@ -11584,6 +11584,8 @@ export namespace Prisma {
     moduleGamificacao: boolean | null
     moduleProjetos: boolean | null
     moduleCalendario: boolean | null
+    moduleProspeccao: boolean | null
+    serpapiKey: string | null
     moduleClickup: boolean | null
     parentCompanyId: string | null
     triggerOnly: boolean | null
@@ -11610,6 +11612,8 @@ export namespace Prisma {
     moduleGamificacao: boolean | null
     moduleProjetos: boolean | null
     moduleCalendario: boolean | null
+    moduleProspeccao: boolean | null
+    serpapiKey: string | null
     moduleClickup: boolean | null
     parentCompanyId: string | null
     triggerOnly: boolean | null
@@ -11636,6 +11640,8 @@ export namespace Prisma {
     moduleGamificacao: number
     moduleProjetos: number
     moduleCalendario: number
+    moduleProspeccao: number
+    serpapiKey: number
     moduleClickup: number
     parentCompanyId: number
     triggerOnly: number
@@ -11664,6 +11670,8 @@ export namespace Prisma {
     moduleGamificacao?: true
     moduleProjetos?: true
     moduleCalendario?: true
+    moduleProspeccao?: true
+    serpapiKey?: true
     moduleClickup?: true
     parentCompanyId?: true
     triggerOnly?: true
@@ -11690,6 +11698,8 @@ export namespace Prisma {
     moduleGamificacao?: true
     moduleProjetos?: true
     moduleCalendario?: true
+    moduleProspeccao?: true
+    serpapiKey?: true
     moduleClickup?: true
     parentCompanyId?: true
     triggerOnly?: true
@@ -11716,6 +11726,8 @@ export namespace Prisma {
     moduleGamificacao?: true
     moduleProjetos?: true
     moduleCalendario?: true
+    moduleProspeccao?: true
+    serpapiKey?: true
     moduleClickup?: true
     parentCompanyId?: true
     triggerOnly?: true
@@ -11815,6 +11827,8 @@ export namespace Prisma {
     moduleGamificacao: boolean
     moduleProjetos: boolean
     moduleCalendario: boolean
+    moduleProspeccao: boolean
+    serpapiKey: string | null
     moduleClickup: boolean
     parentCompanyId: string | null
     triggerOnly: boolean
@@ -11858,6 +11872,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: boolean
     moduleClickup?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
@@ -11922,6 +11938,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: boolean
     moduleClickup?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
@@ -11949,6 +11967,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: boolean
     moduleClickup?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
@@ -12060,6 +12080,8 @@ export namespace Prisma {
       moduleGamificacao: boolean
       moduleProjetos: boolean
       moduleCalendario: boolean
+      moduleProspeccao: boolean
+      serpapiKey: string | null
       moduleClickup: boolean
       parentCompanyId: string | null
       triggerOnly: boolean
@@ -12513,6 +12535,8 @@ export namespace Prisma {
     readonly moduleGamificacao: FieldRef<"Company", 'Boolean'>
     readonly moduleProjetos: FieldRef<"Company", 'Boolean'>
     readonly moduleCalendario: FieldRef<"Company", 'Boolean'>
+    readonly moduleProspeccao: FieldRef<"Company", 'Boolean'>
+    readonly serpapiKey: FieldRef<"Company", 'String'>
     readonly moduleClickup: FieldRef<"Company", 'Boolean'>
     readonly parentCompanyId: FieldRef<"Company", 'String'>
     readonly triggerOnly: FieldRef<"Company", 'Boolean'>
@@ -16844,6 +16868,12 @@ export namespace Prisma {
     pipeline: string | null
     pipelineStage: string | null
     externalId: string | null
+    website: string | null
+    instagram: string | null
+    facebook: string | null
+    address: string | null
+    city: string | null
+    segment: string | null
     attendanceStatus: string | null
     expectedReturnAt: Date | null
     clickupTaskId: string | null
@@ -16868,6 +16898,12 @@ export namespace Prisma {
     pipeline: string | null
     pipelineStage: string | null
     externalId: string | null
+    website: string | null
+    instagram: string | null
+    facebook: string | null
+    address: string | null
+    city: string | null
+    segment: string | null
     attendanceStatus: string | null
     expectedReturnAt: Date | null
     clickupTaskId: string | null
@@ -16892,6 +16928,12 @@ export namespace Prisma {
     pipeline: number
     pipelineStage: number
     externalId: number
+    website: number
+    instagram: number
+    facebook: number
+    address: number
+    city: number
+    segment: number
     attendanceStatus: number
     expectedReturnAt: number
     clickupTaskId: number
@@ -16926,6 +16968,12 @@ export namespace Prisma {
     pipeline?: true
     pipelineStage?: true
     externalId?: true
+    website?: true
+    instagram?: true
+    facebook?: true
+    address?: true
+    city?: true
+    segment?: true
     attendanceStatus?: true
     expectedReturnAt?: true
     clickupTaskId?: true
@@ -16950,6 +16998,12 @@ export namespace Prisma {
     pipeline?: true
     pipelineStage?: true
     externalId?: true
+    website?: true
+    instagram?: true
+    facebook?: true
+    address?: true
+    city?: true
+    segment?: true
     attendanceStatus?: true
     expectedReturnAt?: true
     clickupTaskId?: true
@@ -16974,6 +17028,12 @@ export namespace Prisma {
     pipeline?: true
     pipelineStage?: true
     externalId?: true
+    website?: true
+    instagram?: true
+    facebook?: true
+    address?: true
+    city?: true
+    segment?: true
     attendanceStatus?: true
     expectedReturnAt?: true
     clickupTaskId?: true
@@ -17085,6 +17145,12 @@ export namespace Prisma {
     pipeline: string | null
     pipelineStage: string | null
     externalId: string | null
+    website: string | null
+    instagram: string | null
+    facebook: string | null
+    address: string | null
+    city: string | null
+    segment: string | null
     attendanceStatus: string | null
     expectedReturnAt: Date | null
     clickupTaskId: string | null
@@ -17128,6 +17194,12 @@ export namespace Prisma {
     pipeline?: boolean
     pipelineStage?: boolean
     externalId?: boolean
+    website?: boolean
+    instagram?: boolean
+    facebook?: boolean
+    address?: boolean
+    city?: boolean
+    segment?: boolean
     attendanceStatus?: boolean
     expectedReturnAt?: boolean
     clickupTaskId?: boolean
@@ -17163,6 +17235,12 @@ export namespace Prisma {
     pipeline?: boolean
     pipelineStage?: boolean
     externalId?: boolean
+    website?: boolean
+    instagram?: boolean
+    facebook?: boolean
+    address?: boolean
+    city?: boolean
+    segment?: boolean
     attendanceStatus?: boolean
     expectedReturnAt?: boolean
     clickupTaskId?: boolean
@@ -17191,6 +17269,12 @@ export namespace Prisma {
     pipeline?: boolean
     pipelineStage?: boolean
     externalId?: boolean
+    website?: boolean
+    instagram?: boolean
+    facebook?: boolean
+    address?: boolean
+    city?: boolean
+    segment?: boolean
     attendanceStatus?: boolean
     expectedReturnAt?: boolean
     clickupTaskId?: boolean
@@ -17249,6 +17333,12 @@ export namespace Prisma {
       pipeline: string | null
       pipelineStage: string | null
       externalId: string | null
+      website: string | null
+      instagram: string | null
+      facebook: string | null
+      address: string | null
+      city: string | null
+      segment: string | null
       attendanceStatus: string | null
       expectedReturnAt: Date | null
       clickupTaskId: string | null
@@ -17673,6 +17763,12 @@ export namespace Prisma {
     readonly pipeline: FieldRef<"Lead", 'String'>
     readonly pipelineStage: FieldRef<"Lead", 'String'>
     readonly externalId: FieldRef<"Lead", 'String'>
+    readonly website: FieldRef<"Lead", 'String'>
+    readonly instagram: FieldRef<"Lead", 'String'>
+    readonly facebook: FieldRef<"Lead", 'String'>
+    readonly address: FieldRef<"Lead", 'String'>
+    readonly city: FieldRef<"Lead", 'String'>
+    readonly segment: FieldRef<"Lead", 'String'>
     readonly attendanceStatus: FieldRef<"Lead", 'String'>
     readonly expectedReturnAt: FieldRef<"Lead", 'DateTime'>
     readonly clickupTaskId: FieldRef<"Lead", 'String'>
@@ -66685,6 +66781,8 @@ export namespace Prisma {
     moduleGamificacao: 'moduleGamificacao',
     moduleProjetos: 'moduleProjetos',
     moduleCalendario: 'moduleCalendario',
+    moduleProspeccao: 'moduleProspeccao',
+    serpapiKey: 'serpapiKey',
     moduleClickup: 'moduleClickup',
     parentCompanyId: 'parentCompanyId',
     triggerOnly: 'triggerOnly',
@@ -66756,6 +66854,12 @@ export namespace Prisma {
     pipeline: 'pipeline',
     pipelineStage: 'pipelineStage',
     externalId: 'externalId',
+    website: 'website',
+    instagram: 'instagram',
+    facebook: 'facebook',
+    address: 'address',
+    city: 'city',
+    segment: 'segment',
     attendanceStatus: 'attendanceStatus',
     expectedReturnAt: 'expectedReturnAt',
     clickupTaskId: 'clickupTaskId',
@@ -68410,6 +68514,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFilter<"Company"> | boolean
     moduleProjetos?: BoolFilter<"Company"> | boolean
     moduleCalendario?: BoolFilter<"Company"> | boolean
+    moduleProspeccao?: BoolFilter<"Company"> | boolean
+    serpapiKey?: StringNullableFilter<"Company"> | string | null
     moduleClickup?: BoolFilter<"Company"> | boolean
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
@@ -68473,6 +68579,8 @@ export namespace Prisma {
     moduleGamificacao?: SortOrder
     moduleProjetos?: SortOrder
     moduleCalendario?: SortOrder
+    moduleProspeccao?: SortOrder
+    serpapiKey?: SortOrderInput | SortOrder
     moduleClickup?: SortOrder
     parentCompanyId?: SortOrderInput | SortOrder
     triggerOnly?: SortOrder
@@ -68540,6 +68648,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFilter<"Company"> | boolean
     moduleProjetos?: BoolFilter<"Company"> | boolean
     moduleCalendario?: BoolFilter<"Company"> | boolean
+    moduleProspeccao?: BoolFilter<"Company"> | boolean
+    serpapiKey?: StringNullableFilter<"Company"> | string | null
     moduleClickup?: BoolFilter<"Company"> | boolean
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
@@ -68602,6 +68712,8 @@ export namespace Prisma {
     moduleGamificacao?: SortOrder
     moduleProjetos?: SortOrder
     moduleCalendario?: SortOrder
+    moduleProspeccao?: SortOrder
+    serpapiKey?: SortOrderInput | SortOrder
     moduleClickup?: SortOrder
     parentCompanyId?: SortOrderInput | SortOrder
     triggerOnly?: SortOrder
@@ -68634,6 +68746,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleProjetos?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleCalendario?: BoolWithAggregatesFilter<"Company"> | boolean
+    moduleProspeccao?: BoolWithAggregatesFilter<"Company"> | boolean
+    serpapiKey?: StringNullableWithAggregatesFilter<"Company"> | string | null
     moduleClickup?: BoolWithAggregatesFilter<"Company"> | boolean
     parentCompanyId?: StringNullableWithAggregatesFilter<"Company"> | string | null
     triggerOnly?: BoolWithAggregatesFilter<"Company"> | boolean
@@ -68923,6 +69037,12 @@ export namespace Prisma {
     pipeline?: StringNullableFilter<"Lead"> | string | null
     pipelineStage?: StringNullableFilter<"Lead"> | string | null
     externalId?: StringNullableFilter<"Lead"> | string | null
+    website?: StringNullableFilter<"Lead"> | string | null
+    instagram?: StringNullableFilter<"Lead"> | string | null
+    facebook?: StringNullableFilter<"Lead"> | string | null
+    address?: StringNullableFilter<"Lead"> | string | null
+    city?: StringNullableFilter<"Lead"> | string | null
+    segment?: StringNullableFilter<"Lead"> | string | null
     attendanceStatus?: StringNullableFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     clickupTaskId?: StringNullableFilter<"Lead"> | string | null
@@ -68957,6 +69077,12 @@ export namespace Prisma {
     pipeline?: SortOrderInput | SortOrder
     pipelineStage?: SortOrderInput | SortOrder
     externalId?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
+    instagram?: SortOrderInput | SortOrder
+    facebook?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    segment?: SortOrderInput | SortOrder
     attendanceStatus?: SortOrderInput | SortOrder
     expectedReturnAt?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
@@ -68994,6 +69120,12 @@ export namespace Prisma {
     pipeline?: StringNullableFilter<"Lead"> | string | null
     pipelineStage?: StringNullableFilter<"Lead"> | string | null
     externalId?: StringNullableFilter<"Lead"> | string | null
+    website?: StringNullableFilter<"Lead"> | string | null
+    instagram?: StringNullableFilter<"Lead"> | string | null
+    facebook?: StringNullableFilter<"Lead"> | string | null
+    address?: StringNullableFilter<"Lead"> | string | null
+    city?: StringNullableFilter<"Lead"> | string | null
+    segment?: StringNullableFilter<"Lead"> | string | null
     attendanceStatus?: StringNullableFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     clickupTaskId?: StringNullableFilter<"Lead"> | string | null
@@ -69028,6 +69160,12 @@ export namespace Prisma {
     pipeline?: SortOrderInput | SortOrder
     pipelineStage?: SortOrderInput | SortOrder
     externalId?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
+    instagram?: SortOrderInput | SortOrder
+    facebook?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    segment?: SortOrderInput | SortOrder
     attendanceStatus?: SortOrderInput | SortOrder
     expectedReturnAt?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
@@ -69060,6 +69198,12 @@ export namespace Prisma {
     pipeline?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     pipelineStage?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     externalId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    website?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    instagram?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    facebook?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    address?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    city?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    segment?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     attendanceStatus?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableWithAggregatesFilter<"Lead"> | Date | string | null
     clickupTaskId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
@@ -73496,6 +73640,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -73558,6 +73704,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -73620,6 +73768,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -73682,6 +73832,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -73744,6 +73896,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -73770,6 +73924,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -73795,6 +73951,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -74108,6 +74266,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -74138,6 +74302,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -74168,6 +74338,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -74198,6 +74374,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -74228,6 +74410,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -74252,6 +74440,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -74272,6 +74466,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -79404,6 +79604,8 @@ export namespace Prisma {
     moduleGamificacao?: SortOrder
     moduleProjetos?: SortOrder
     moduleCalendario?: SortOrder
+    moduleProspeccao?: SortOrder
+    serpapiKey?: SortOrder
     moduleClickup?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
@@ -79430,6 +79632,8 @@ export namespace Prisma {
     moduleGamificacao?: SortOrder
     moduleProjetos?: SortOrder
     moduleCalendario?: SortOrder
+    moduleProspeccao?: SortOrder
+    serpapiKey?: SortOrder
     moduleClickup?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
@@ -79456,6 +79660,8 @@ export namespace Prisma {
     moduleGamificacao?: SortOrder
     moduleProjetos?: SortOrder
     moduleCalendario?: SortOrder
+    moduleProspeccao?: SortOrder
+    serpapiKey?: SortOrder
     moduleClickup?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
@@ -79774,6 +79980,12 @@ export namespace Prisma {
     pipeline?: SortOrder
     pipelineStage?: SortOrder
     externalId?: SortOrder
+    website?: SortOrder
+    instagram?: SortOrder
+    facebook?: SortOrder
+    address?: SortOrder
+    city?: SortOrder
+    segment?: SortOrder
     attendanceStatus?: SortOrder
     expectedReturnAt?: SortOrder
     clickupTaskId?: SortOrder
@@ -79802,6 +80014,12 @@ export namespace Prisma {
     pipeline?: SortOrder
     pipelineStage?: SortOrder
     externalId?: SortOrder
+    website?: SortOrder
+    instagram?: SortOrder
+    facebook?: SortOrder
+    address?: SortOrder
+    city?: SortOrder
+    segment?: SortOrder
     attendanceStatus?: SortOrder
     expectedReturnAt?: SortOrder
     clickupTaskId?: SortOrder
@@ -79826,6 +80044,12 @@ export namespace Prisma {
     pipeline?: SortOrder
     pipelineStage?: SortOrder
     externalId?: SortOrder
+    website?: SortOrder
+    instagram?: SortOrder
+    facebook?: SortOrder
+    address?: SortOrder
+    city?: SortOrder
+    segment?: SortOrder
     attendanceStatus?: SortOrder
     expectedReturnAt?: SortOrder
     clickupTaskId?: SortOrder
@@ -88599,6 +88823,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -88660,6 +88886,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -89391,6 +89619,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -89452,6 +89682,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -90496,6 +90728,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -90557,6 +90791,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -90623,6 +90859,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -90684,6 +90922,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -91157,6 +91397,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -91186,6 +91432,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -92227,6 +92479,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -92288,6 +92542,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -92368,6 +92624,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFilter<"Company"> | boolean
     moduleProjetos?: BoolFilter<"Company"> | boolean
     moduleCalendario?: BoolFilter<"Company"> | boolean
+    moduleProspeccao?: BoolFilter<"Company"> | boolean
+    serpapiKey?: StringNullableFilter<"Company"> | string | null
     moduleClickup?: BoolFilter<"Company"> | boolean
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
@@ -92673,6 +92931,12 @@ export namespace Prisma {
     pipeline?: StringNullableFilter<"Lead"> | string | null
     pipelineStage?: StringNullableFilter<"Lead"> | string | null
     externalId?: StringNullableFilter<"Lead"> | string | null
+    website?: StringNullableFilter<"Lead"> | string | null
+    instagram?: StringNullableFilter<"Lead"> | string | null
+    facebook?: StringNullableFilter<"Lead"> | string | null
+    address?: StringNullableFilter<"Lead"> | string | null
+    city?: StringNullableFilter<"Lead"> | string | null
+    segment?: StringNullableFilter<"Lead"> | string | null
     attendanceStatus?: StringNullableFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     clickupTaskId?: StringNullableFilter<"Lead"> | string | null
@@ -93429,6 +93693,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -93490,6 +93756,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -93550,6 +93818,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -93579,6 +93853,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -93763,6 +94043,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -93824,6 +94106,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -93990,6 +94274,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -94051,6 +94337,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -94111,6 +94399,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -94140,6 +94434,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -94269,6 +94569,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -94330,6 +94632,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -94515,6 +94819,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -94576,6 +94882,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -94994,6 +95302,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -95055,6 +95365,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -95397,6 +95709,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -95458,6 +95772,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -95555,6 +95871,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -95616,6 +95934,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -95687,6 +96007,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -95716,6 +96042,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -95786,6 +96118,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -95815,6 +96153,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -95881,6 +96225,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -95942,6 +96288,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -96045,6 +96393,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -96106,6 +96456,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -96177,6 +96529,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -96206,6 +96564,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -96282,6 +96646,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -96311,6 +96681,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -96377,6 +96753,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -96406,6 +96788,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -96446,6 +96834,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -96507,6 +96897,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -96716,6 +97108,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -96745,6 +97143,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -96791,6 +97195,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -96852,6 +97258,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -97057,6 +97465,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -97086,6 +97500,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -97131,6 +97551,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -97160,6 +97586,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -97195,6 +97627,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -97256,6 +97690,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -97333,6 +97769,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -97394,6 +97832,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -97455,6 +97895,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -97516,6 +97958,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -97662,6 +98106,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -97723,6 +98169,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -97859,6 +98307,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -97920,6 +98370,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -98073,6 +98525,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -98134,6 +98588,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -98235,6 +98691,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -98296,6 +98754,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -98430,6 +98890,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -98459,6 +98925,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -98634,6 +99106,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -98695,6 +99169,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -98847,6 +99323,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -98876,6 +99358,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -99047,6 +99535,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -99108,6 +99598,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -99226,6 +99718,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -99287,6 +99781,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -99515,6 +100011,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -99576,6 +100074,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -99758,6 +100258,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -99787,6 +100293,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -99975,6 +100487,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -100036,6 +100550,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -100339,6 +100855,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -100368,6 +100890,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -100459,6 +100987,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -100520,6 +101050,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -100652,6 +101184,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -100681,6 +101219,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -100784,6 +101328,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -100845,6 +101391,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -100906,6 +101454,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -100967,6 +101517,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -101102,6 +101654,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -101163,6 +101717,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -101432,6 +101988,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -101493,6 +102051,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -101640,6 +102200,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -101701,6 +102263,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -102051,6 +102615,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -102112,6 +102678,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -102403,6 +102971,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -102464,6 +103034,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -102656,6 +103228,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -102717,6 +103291,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -102939,6 +103515,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -103000,6 +103578,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -104076,6 +104656,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -104137,6 +104719,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -104258,6 +104842,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -104319,6 +104905,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -104593,6 +105181,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -104654,6 +105244,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -104776,6 +105368,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -104837,6 +105431,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -104898,6 +105494,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -104959,6 +105557,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -105036,6 +105636,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -105097,6 +105699,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -105158,6 +105762,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -105219,6 +105825,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -105296,6 +105904,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -105357,6 +105967,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -105418,6 +106030,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -105479,6 +106093,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -105556,6 +106172,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -105617,6 +106235,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -105678,6 +106298,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -105739,6 +106361,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -105816,6 +106440,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -105877,6 +106503,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -105938,6 +106566,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -105999,6 +106629,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -106076,6 +106708,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -106137,6 +106771,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -106198,6 +106834,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -106259,6 +106897,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -106336,6 +106976,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -106397,6 +107039,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -106458,6 +107102,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -106519,6 +107165,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -106596,6 +107244,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -106657,6 +107307,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -106718,6 +107370,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -106779,6 +107433,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -106880,6 +107536,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -106941,6 +107599,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -107089,6 +107749,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -107150,6 +107812,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -107263,6 +107927,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -107324,6 +107990,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -107470,6 +108138,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -107531,6 +108201,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -107714,6 +108386,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -107775,6 +108449,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -107942,6 +108618,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -108003,6 +108681,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -108155,6 +108835,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -108216,6 +108898,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -108346,6 +109030,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -108407,6 +109093,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -108559,6 +109247,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -108620,6 +109310,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -108750,6 +109442,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -108811,6 +109505,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -108963,6 +109659,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -109024,6 +109722,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -109085,6 +109785,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -109146,6 +109848,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -109223,6 +109927,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -109284,6 +109990,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -109633,6 +110341,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -109694,6 +110404,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     parentCompanyId?: string | null
     triggerOnly?: boolean
@@ -109771,6 +110483,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -109832,6 +110546,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
@@ -110769,6 +111485,8 @@ export namespace Prisma {
     moduleGamificacao?: boolean
     moduleProjetos?: boolean
     moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
     moduleClickup?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -110915,6 +111633,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -111277,6 +112001,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -111338,6 +112064,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -111399,6 +112127,8 @@ export namespace Prisma {
     moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -111853,6 +112583,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -111882,6 +112618,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -111911,6 +112653,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -112973,6 +113721,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -113043,6 +113797,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -113072,6 +113832,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -113101,6 +113867,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -113269,6 +114041,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -113300,6 +114078,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -113329,6 +114113,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -113358,6 +114148,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -113911,6 +114707,12 @@ export namespace Prisma {
     pipeline?: string | null
     pipelineStage?: string | null
     externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -114072,6 +114874,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -114101,6 +114909,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -114130,6 +114944,12 @@ export namespace Prisma {
     pipeline?: NullableStringFieldUpdateOperationsInput | string | null
     pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
