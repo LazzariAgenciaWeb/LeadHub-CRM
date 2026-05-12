@@ -87,6 +87,9 @@ export default function CompanyContacts({
   const [accessModal, setAccessModal] = useState<{ contact: Contact; email: string; userName: string } | null>(null);
   // Credenciais geradas — exibir uma única vez após criação/reset
   const [credentials, setCredentials] = useState<{ email: string; password: string; name: string } | null>(null);
+  // Modal de editar email de usuário já existente
+  const [editEmailModal, setEditEmailModal] = useState<{ contact: Contact; email: string } | null>(null);
+  const [editEmailError, setEditEmailError] = useState<string | null>(null);
 
   // Edit inline
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -284,6 +287,28 @@ export default function CompanyContacts({
     )) return;
     setSaving(true);
     await patchContact(contact.id, { userRole: targetRole });
+    setSaving(false);
+  }
+
+  async function handleSaveEmailEdit() {
+    if (!editEmailModal) return;
+    const newEmail = editEmailModal.email.trim();
+    if (!newEmail) { setEditEmailError("Informe o novo email"); return; }
+    setSaving(true);
+    setEditEmailError(null);
+    const res = await fetch(`/api/companies/${companyId}/contacts/${editEmailModal.contact.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ editUserEmail: newEmail }),
+    });
+    if (res.ok) {
+      const updated = await res.json();
+      setContacts((prev) => prev.map((c) => (c.id === editEmailModal.contact.id ? updated : c)));
+      setEditEmailModal(null);
+    } else {
+      const err = await res.json().catch(() => ({}));
+      setEditEmailError(err.error ?? "Erro ao atualizar email");
+    }
     setSaving(false);
   }
 
@@ -657,6 +682,16 @@ export default function CompanyContacts({
                     <div className="flex items-center gap-1 flex-shrink-0">
                       {c.user && !isVirtual(c) && (
                         <button
+                          onClick={() => { setEditEmailModal({ contact: c, email: c.user!.email }); setEditEmailError(null); }}
+                          disabled={saving}
+                          className="w-7 h-7 rounded-lg hover:bg-indigo-500/10 flex items-center justify-center text-slate-500 hover:text-indigo-400 transition-colors text-xs disabled:opacity-50"
+                          title="Editar email do usuário"
+                        >
+                          📧
+                        </button>
+                      )}
+                      {c.user && !isVirtual(c) && (
+                        <button
                           onClick={() => handleResetPassword(c)}
                           disabled={saving}
                           className="w-7 h-7 rounded-lg hover:bg-yellow-500/10 flex items-center justify-center text-slate-500 hover:text-yellow-400 transition-colors text-xs disabled:opacity-50"
@@ -772,6 +807,62 @@ export default function CompanyContacts({
                 className="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-500 text-white text-sm font-semibold disabled:opacity-50 transition-colors"
               >
                 {saving ? "Salvando..." : "✓ Confirmar Acesso"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: Editar email de usuário existente */}
+      {editEmailModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-[#0f1623] border border-[#1e2d45] rounded-2xl w-full max-w-md shadow-2xl">
+            <div className="px-6 py-5 border-b border-[#1e2d45]">
+              <h3 className="text-white font-bold">📧 Editar email do usuário</h3>
+              <p className="text-slate-500 text-sm mt-1">
+                Atualizar email de login de <strong className="text-slate-300">{editEmailModal.contact.user?.name ?? editEmailModal.contact.name}</strong>.
+              </p>
+            </div>
+            <div className="px-6 py-5 space-y-3">
+              <div>
+                <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-1.5">
+                  Novo email
+                </label>
+                <input
+                  autoFocus
+                  type="email"
+                  value={editEmailModal.email}
+                  onChange={(e) => setEditEmailModal({ ...editEmailModal, email: e.target.value })}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") { e.preventDefault(); handleSaveEmailEdit(); }
+                    if (e.key === "Escape") setEditEmailModal(null);
+                  }}
+                  placeholder="email@empresa.com"
+                  className="w-full bg-[#0c1220] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                />
+                <p className="text-slate-600 text-[11px] mt-1.5">
+                  O usuário precisará fazer login novamente com o novo email.
+                </p>
+              </div>
+              {editEmailError && (
+                <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-2.5 text-red-400 text-xs">
+                  {editEmailError}
+                </div>
+              )}
+            </div>
+            <div className="px-6 pb-5 flex gap-3 justify-end">
+              <button
+                onClick={() => setEditEmailModal(null)}
+                className="px-4 py-2 rounded-lg bg-white/5 text-slate-400 text-sm hover:text-white transition-colors"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleSaveEmailEdit}
+                disabled={saving || !editEmailModal.email.trim() || editEmailModal.email.trim().toLowerCase() === editEmailModal.contact.user?.email?.toLowerCase()}
+                className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold disabled:opacity-50 transition-colors"
+              >
+                {saving ? "Salvando..." : "✓ Salvar"}
               </button>
             </div>
           </div>

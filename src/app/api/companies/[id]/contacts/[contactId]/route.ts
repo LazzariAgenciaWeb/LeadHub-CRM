@@ -42,7 +42,7 @@ export async function PATCH(
   }
 
   const body = await req.json();
-  const { name, role: contactRole, notes, hasAccess, userEmail, userName, resetPassword, userRole } = body;
+  const { name, role: contactRole, notes, hasAccess, userEmail, userName, resetPassword, userRole, editUserEmail } = body;
 
   const contact = await prisma.companyContact.findFirst({
     where: { id: contactId, companyId: id },
@@ -56,8 +56,22 @@ export async function PATCH(
   // Gestão de acesso (criar user, conceder/revogar, resetar senha):
   // SUPER_ADMIN sempre pode; ADMIN só pode gerir contatos da própria empresa.
   // canAccessCompany já garantiu acesso à empresa-alvo acima.
-  if ((hasAccess !== undefined || userEmail || resetPassword) && role !== "SUPER_ADMIN" && role !== "ADMIN") {
+  if ((hasAccess !== undefined || userEmail || resetPassword || editUserEmail) && role !== "SUPER_ADMIN" && role !== "ADMIN") {
     return NextResponse.json({ error: "Sem permissão para gerenciar acesso" }, { status: 403 });
+  }
+
+  // Editar email de usuário já vinculado. Distinto de `userEmail` (criação).
+  // Valida formato e unicidade antes de atualizar — colisão dá 409.
+  if (editUserEmail && contact.userId) {
+    const trimmed = String(editUserEmail).trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+      return NextResponse.json({ error: "Email inválido" }, { status: 400 });
+    }
+    const collision = await prisma.user.findUnique({ where: { email: trimmed }, select: { id: true } });
+    if (collision && collision.id !== contact.userId) {
+      return NextResponse.json({ error: "Já existe um usuário com esse email" }, { status: 409 });
+    }
+    await prisma.user.update({ where: { id: contact.userId }, data: { email: trimmed } });
   }
 
   // fix A2 — antes era possível marcar hasAccess=true sem fornecer userEmail
