@@ -90,6 +90,15 @@ export default async function TicketPage({
     }),
   ]);
 
+  // Detecta se a empresa-agência tem WhatsApp habilitado — usado pra mostrar
+  // a aba "WhatsApp" no detalhe do chamado quando há telefone vinculado.
+  const [whatsappInstanceCount, currentCompany] = await Promise.all([
+    prisma.whatsappInstance.count({ where: { companyId: lookupCompanyId } }),
+    prisma.company.findUnique({ where: { id: lookupCompanyId }, select: { moduleWhatsapp: true } }),
+  ]);
+  const whatsappEnabled =
+    isSuperAdmin || (currentCompany?.moduleWhatsapp === true && whatsappInstanceCount > 0);
+
   // Load CHAMADOS stages
   const stagesWhere = isSuperAdmin
     ? { pipeline: "CHAMADOS" as const }
@@ -128,6 +137,7 @@ export default async function TicketPage({
       users={users as any}
       setores={setores as any}
       clientCompanies={clientCompanies as any}
+      whatsappEnabled={whatsappEnabled}
     />
   );
 }

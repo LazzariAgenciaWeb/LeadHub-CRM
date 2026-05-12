@@ -27,6 +27,18 @@ interface TicketActivity {
   createdAt: string;
 }
 
+// Mensagem da conversa WhatsApp (do schema Message). Carregada sob demanda
+// quando o usuário clica na aba "WhatsApp" — evita SSR de conversas grandes.
+interface WaMessage {
+  id: string;
+  body: string | null;
+  direction: string;
+  receivedAt: string;
+  participantName: string | null;
+  hasMedia?: boolean;
+  mediaType?: string | null;
+}
+
 interface TicketStageOption {
   id: string;
   name: string;
@@ -76,6 +88,7 @@ export default function TicketDetail({
   users,
   setores,
   clientCompanies,
+  whatsappEnabled = false,
 }: {
   ticket: Ticket;
   isSuperAdmin: boolean;
@@ -88,15 +101,49 @@ export default function TicketDetail({
   users?: { id: string; name: string | null; email: string | null }[];
   setores?: { id: string; name: string }[];
   clientCompanies?: { id: string; name: string }[];
+  whatsappEnabled?: boolean;
 }) {
   const router = useRouter();
   const [, startTransition] = useTransition();
   const [messages, setMessages] = useState<TicketMessage[]>(ticket.messages);
   const [activities] = useState<TicketActivity[]>(ticket.activities ?? []);
   // Abas do chamado (acima da solicitação original). "info" é a principal —
-  // mostra só a descrição. As demais são filtros do feed: Todas / Mensagens /
-  // Notas internas / Sistema. Replica o padrão das filter pills do CRM.
-  const [feedTab, setFeedTab] = useState<"info" | "all" | "messages" | "internal" | "system">("info");
+  // mostra só a descrição. As demais são filtros do feed (Todas / Mensagens /
+  // Notas internas / Sistema) ou view dedicada (WhatsApp). Replica o padrão
+  // das filter pills do CRM.
+  const [feedTab, setFeedTab] = useState<"info" | "all" | "messages" | "internal" | "system" | "whatsapp">("info");
+
+  // Conversa WhatsApp — carregada sob demanda quando user clica na aba.
+  // Evita SSR de conversas longas (50+ mensagens) só pra abrir o chamado.
+  const [whatsappMessages, setWhatsappMessages] = useState<WaMessage[] | null>(null);
+  const [loadingWhatsapp, setLoadingWhatsapp] = useState(false);
+  const [whatsappError, setWhatsappError] = useState<string | null>(null);
+  const showWhatsappTab = whatsappEnabled && !!ticket.phone;
+
+  useEffect(() => {
+    if (feedTab !== "whatsapp") return;
+    if (whatsappMessages !== null || loadingWhatsapp) return;
+    if (!ticket.phone) return;
+    setLoadingWhatsapp(true);
+    setWhatsappError(null);
+    const params = new URLSearchParams({
+      phone: ticket.phone,
+      limit: "100",
+      companyId: ticket.company.id,
+    });
+    fetch(`/api/whatsapp/messages?${params}`)
+      .then(async (res) => {
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data.error ?? `Erro ${res.status}`);
+        }
+        const data = await res.json();
+        // API retorna { messages, hasMore } no modo paginado
+        setWhatsappMessages(Array.isArray(data) ? data : data.messages ?? []);
+      })
+      .catch((err) => setWhatsappError(err.message ?? "Erro ao carregar conversa"))
+      .finally(() => setLoadingWhatsapp(false));
+  }, [feedTab, whatsappMessages, loadingWhatsapp, ticket.phone, ticket.company.id]);
   const [status, setStatus] = useState(ticket.status);
   const [ticketStage, setTicketStage] = useState(ticket.ticketStage ?? stages[0]?.name ?? "");
   const [priority, setPriority] = useState(ticket.priority);
@@ -437,6 +484,9 @@ export default function TicketDetail({
     { id: "messages", icon: "💬", label: "Mensagens",      count: allMessagesCount },
     { id: "internal", icon: "🔒", label: "Notas internas", count: internalCount },
     { id: "system",   icon: "⚙️", label: "Sistema",        count: systemCount },
+    ...(showWhatsappTab
+      ? [{ id: "whatsapp" as const, icon: "📱", label: "WhatsApp", count: whatsappMessages?.length ?? null }]
+      : []),
   ];
 
   return (
@@ -583,8 +633,9 @@ export default function TicketDetail({
 
             {/* Activity feed — mistura mensagens e activities (mudanças de campo) ordenadas.
                 Filtrado pela aba ativa. Na aba "Informações" o feed é omitido — só a
-                descrição é mostrada acima pra um overview limpo. */}
-            {feedTab !== "info" && (() => {
+                descrição é mostrada acima pra um overview limpo. A aba "WhatsApp" tem
+                view dedicada (logo abaixo) então também não renderiza o feed. */}
+            {feedTab !== "info" && feedTab !== "whatsapp" && (() => {
               type FeedItem =
                 | { kind: "msg"; createdAt: string; data: TicketMessage }
                 | { kind: "act"; createdAt: string; data: TicketActivity };
@@ -678,6 +729,91 @@ export default function TicketDetail({
               </div>
               );
             })()}
+
+            {/* WhatsApp tab — view dedicada. Carrega conversa do telefone vinculado
+                sob demanda. Direction "OUTBOUND" alinha à direita (nosso), "INBOUND"
+                à esquerda (cliente). Mídia via /api/whatsapp/messages/[id]/media. */}
+            {feedTab === "whatsapp" && (
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <div className="text-[10px] font-semibold text-slate-600 uppercase tracking-wider">
+                    Conversa WhatsApp {whatsappMessages && `(${whatsappMessages.length})`}
+                  </div>
+                  <Link
+                    href={`/whatsapp?abrir=${encodeURIComponent(ticket.phone ?? "")}`}
+                    className="text-[10px] text-green-400 hover:text-green-300 transition-colors"
+                  >
+                    Abrir no inbox ↗
+                  </Link>
+                </div>
+                {loadingWhatsapp && (
+                  <div className="text-slate-600 text-xs text-center py-6">Carregando conversa...</div>
+                )}
+                {whatsappError && !loadingWhatsapp && (
+                  <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 text-red-400 text-xs">
+                    {whatsappError}
+                  </div>
+                )}
+                {whatsappMessages && whatsappMessages.length === 0 && !loadingWhatsapp && (
+                  <div className="text-slate-600 text-xs text-center py-6 italic">
+                    Nenhuma mensagem encontrada para {ticket.phone}.
+                  </div>
+                )}
+                {whatsappMessages && whatsappMessages.length > 0 && (
+                  <div className="space-y-2">
+                    {whatsappMessages.map((msg) => {
+                      const isOut = msg.direction === "OUTBOUND";
+                      return (
+                        <div key={msg.id} className={`flex gap-2 ${isOut ? "flex-row-reverse" : ""}`}>
+                          <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0 ${
+                            isOut ? "bg-emerald-500/20 text-emerald-300" : "bg-[#1e2d45] text-slate-400"
+                          }`}>
+                            {isOut ? "→" : (msg.participantName?.charAt(0).toUpperCase() ?? "C")}
+                          </div>
+                          <div className={`flex-1 min-w-0 ${isOut ? "items-end" : "items-start"} flex flex-col gap-0.5`}>
+                            <div className={`flex items-center gap-2 ${isOut ? "flex-row-reverse" : ""}`}>
+                              <span className={`text-[10px] font-medium ${isOut ? "text-emerald-400" : "text-slate-500"}`}>
+                                {isOut ? "Você" : (msg.participantName ?? "Cliente")}
+                              </span>
+                              <span className="text-slate-700 text-[10px] font-mono">
+                                {new Date(msg.receivedAt).toLocaleString("pt-BR")}
+                              </span>
+                            </div>
+                            <div className={`rounded-xl px-3 py-2 text-sm max-w-[85%] whitespace-pre-wrap break-words ${
+                              isOut
+                                ? "bg-emerald-600/90 text-white"
+                                : "bg-[#0f1623] border border-[#1e2d45] text-slate-200"
+                            }`}>
+                              {msg.hasMedia && msg.mediaType?.startsWith("image/") && (
+                                <img
+                                  src={`/api/whatsapp/messages/${msg.id}/media`}
+                                  alt="anexo"
+                                  loading="lazy"
+                                  className="rounded-lg max-h-80 mb-2 cursor-pointer hover:opacity-90"
+                                  onClick={() => window.open(`/api/whatsapp/messages/${msg.id}/media`, "_blank")}
+                                />
+                              )}
+                              {msg.hasMedia && !msg.mediaType?.startsWith("image/") && (
+                                <a
+                                  href={`/api/whatsapp/messages/${msg.id}/media`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className={`block text-[11px] mb-1 underline ${isOut ? "text-emerald-100" : "text-indigo-300"}`}
+                                >
+                                  📎 Abrir anexo ({msg.mediaType ?? "arquivo"})
+                                </a>
+                              )}
+                              {msg.body}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
+
             <div ref={messagesEndRef} />
           </div>
 
