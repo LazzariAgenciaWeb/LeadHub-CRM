@@ -6,6 +6,7 @@ import { getClickupSettings, syncOportunidadeToClickup } from "@/lib/clickup";
 import { formatBrazilDateTime, formatBrazilDateTimeShort } from "@/lib/datetime";
 import { addScore, addScoreOnce, revertScore } from "@/lib/gamification";
 import { getUserPermissions } from "@/lib/user-permissions";
+import { createConversationEvent } from "@/lib/conversation-events";
 
 // GET /api/leads/[id]
 export async function GET(
@@ -336,6 +337,76 @@ export async function PATCH(
         await prisma.lead.update({ where: { id }, data: { clickupTaskId: newTaskId } });
         (lead as any).clickupTaskId = newTaskId;
       }
+    }
+  }
+
+  // ── Bolhas de evento na timeline da conversa ────────────────────────────
+  // Eventos significativos: promoção pra Oportunidade, ganho, perda, mudança
+  // de etapa. Fire-and-forget — não bloqueia a resposta.
+  if (lead.phone && existing.companyId) {
+    const sessionUserId   = (session.user as any)?.id ?? null;
+    const sessionUserName = session.user?.name ?? null;
+
+    // Pipeline: LEADS → OPORTUNIDADES (promoção)
+    const promotedToOpp = pipeline === "OPORTUNIDADES" && existing.pipeline !== "OPORTUNIDADES";
+    if (promotedToOpp) {
+      const valueStr = lead.value
+        ? ` — R$ ${lead.value.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+        : "";
+      void createConversationEvent({
+        companyId:  existing.companyId,
+        phone:      lead.phone,
+        type:       "OPP_CREATED",
+        message:    `Lead virou Oportunidade: ${lead.name ?? lead.phone}${valueStr}`,
+        authorId:   sessionUserId,
+        authorName: sessionUserName,
+        meta:       { leadId: id },
+      });
+    }
+
+    // Status final: CLOSED (ganho) ou LOST (perdido)
+    if (effectiveStatus === "CLOSED" && existing.status !== "CLOSED") {
+      const isOpp = (pipeline ?? existing.pipeline) === "OPORTUNIDADES";
+      const valueStr = lead.value
+        ? ` — R$ ${lead.value.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+        : "";
+      void createConversationEvent({
+        companyId:  existing.companyId,
+        phone:      lead.phone,
+        type:       "OPP_WON",
+        message:    `${isOpp ? "Oportunidade ganha" : "Lead convertido"}${valueStr}`,
+        authorId:   sessionUserId,
+        authorName: sessionUserName,
+        meta:       { leadId: id },
+      });
+    } else if (effectiveStatus === "LOST" && existing.status !== "LOST") {
+      void createConversationEvent({
+        companyId:  existing.companyId,
+        phone:      lead.phone,
+        type:       "OPP_LOST",
+        message:    `Oportunidade perdida: ${lead.name ?? lead.phone}`,
+        authorId:   sessionUserId,
+        authorName: sessionUserName,
+        meta:       { leadId: id },
+      });
+    } else if (
+      // Mudança de etapa dentro do mesmo pipeline (sem ser pra ganho/perda) —
+      // promoção já foi tratada acima.
+      !promotedToOpp &&
+      pipelineStage !== undefined &&
+      pipelineStage !== existing.pipelineStage &&
+      pipelineStage &&
+      existing.pipelineStage
+    ) {
+      void createConversationEvent({
+        companyId:  existing.companyId,
+        phone:      lead.phone,
+        type:       "LEAD_MOVED",
+        message:    `${existing.pipelineStage} → ${pipelineStage}`,
+        authorId:   sessionUserId,
+        authorName: sessionUserName,
+        meta:       { leadId: id },
+      });
     }
   }
 

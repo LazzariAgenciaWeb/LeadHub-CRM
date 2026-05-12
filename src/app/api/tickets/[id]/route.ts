@@ -6,6 +6,7 @@ import { getClickupSettings, syncTicketToClickup } from "@/lib/clickup";
 import { addScore, addScoreOnce, revertScore } from "@/lib/gamification";
 import { ActivityType } from "@/generated/prisma";
 import { formatBrazilDateTime } from "@/lib/datetime";
+import { createConversationEvent } from "@/lib/conversation-events";
 import { getUserPermissions } from "@/lib/user-permissions";
 
 // GET /api/tickets/[id]
@@ -300,6 +301,25 @@ export async function PATCH(
       assigneeId, existing.companyId, "PRIMEIRA_RESPOSTA",
       `ticket:${id}:${assigneeId}:${dayKey}:guardiao`,
     ).catch(() => {});
+  }
+
+  // Bolha de evento na timeline da conversa quando status muda pra final.
+  // Fire-and-forget. (ticket.phone vem do retorno do update e é o campo
+  // que liga o chamado à conversa do WhatsApp.)
+  if (
+    status && status !== existing.status &&
+    (status === "RESOLVED" || status === "CLOSED") &&
+    (ticket as any).phone
+  ) {
+    void createConversationEvent({
+      companyId:  existing.companyId,
+      phone:      (ticket as any).phone,
+      type:       "TICKET_CLOSED",
+      message:    `Chamado #${id.slice(-6)} ${status === "RESOLVED" ? "resolvido" : "fechado"}: ${ticket.title}`,
+      authorId:   userId,
+      authorName: userName ?? null,
+      meta:       { ticketId: id },
+    });
   }
 
   // Penalidade: empurrar dueDate depois de já estar vencido (cumulativa).

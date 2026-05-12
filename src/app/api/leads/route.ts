@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getClickupSettings, syncOportunidadeToClickup } from "@/lib/clickup";
 import { getUserPermissions } from "@/lib/user-permissions";
+import { createConversationEvent } from "@/lib/conversation-events";
 
 // GET /api/leads?companyId=&status=&campaignId=&pipeline=&search=&page=&limit=
 export async function GET(req: NextRequest) {
@@ -143,6 +144,24 @@ export async function POST(req: NextRequest) {
         (lead as any).clickupTaskId = newTaskId;
       }
     }
+  }
+
+  // Bolha de evento na timeline da conversa. Distingue Oportunidade (💰)
+  // de Lead (🎯). Fire-and-forget.
+  if (lead.phone) {
+    const isOpp = pipeline === "OPORTUNIDADES";
+    const valueStr = lead.value
+      ? ` — R$ ${lead.value.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+      : "";
+    void createConversationEvent({
+      companyId:  lead.companyId,
+      phone:      lead.phone,
+      type:       isOpp ? "OPP_CREATED" : "LEAD_CREATED",
+      message:    `${isOpp ? "Oportunidade" : "Lead"} criada: ${lead.name ?? lead.phone}${valueStr}`,
+      authorId:   (session.user as any).id ?? null,
+      authorName: session.user?.name ?? null,
+      meta:       { leadId: lead.id },
+    });
   }
 
   return NextResponse.json(lead, { status: 201 });

@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { getClickupSettings, syncTicketToClickup } from "@/lib/clickup";
 import { findOrCreateClientCompany } from "@/lib/client-company";
 import { getUserPermissions } from "@/lib/user-permissions";
+import { createConversationEvent } from "@/lib/conversation-events";
 
 // GET /api/tickets?companyId=&status=&priority=&type=&assigneeId=&overdueOnly=&unassignedOnly=
 export async function GET(req: NextRequest) {
@@ -196,6 +197,20 @@ export async function POST(req: NextRequest) {
         (ticket as any).clickupTaskId = newTaskId;
       }
     }
+  }
+
+  // Bolha de evento na timeline da conversa (só quando criado a partir
+  // de um WhatsApp com phone vinculado). Fire-and-forget.
+  if (ticket.phone) {
+    void createConversationEvent({
+      companyId:  ticket.companyId,
+      phone:      ticket.phone,
+      type:       "TICKET_OPENED",
+      message:    `Chamado #${ticket.id.slice(-6)} aberto: ${ticket.title}`,
+      authorId:   userId,
+      authorName: session.user?.name ?? null,
+      meta:       { ticketId: ticket.id },
+    });
   }
 
   return NextResponse.json(ticket, { status: 201 });

@@ -8,11 +8,24 @@ import {
   MessageCircle, MessageSquare, Hourglass, Calendar,
   Sparkles, Users, Star, Inbox, CheckCircle2, ChevronUp,
   Send, StickyNote, Target, DollarSign, Search, Bot, Building2, Link2,
-  ArrowRightLeft, Ticket, User, Trophy, Ban,
+  ArrowRightLeft, ArrowRight, Ticket, User, Trophy, Ban, XCircle,
   type LucideIcon,
 } from "lucide-react";
 
 type ConvStatus = "OPEN" | "PENDING" | "IN_PROGRESS" | "WAITING_CUSTOMER" | "SCHEDULED" | "CLOSED";
+
+// Tipos de nota renderizados na timeline da conversa. Cada tipo tem
+// cor/ícone próprios. Backend grava o emoji no início do body como marker.
+type NoteType =
+  | "STANDARD"        // amarelo  — anotação manual
+  | "SCHEDULED"       // roxo     — 📅 agendamento de retorno
+  | "TICKET_OPENED"   // laranja  — 🎫 chamado aberto
+  | "TICKET_CLOSED"   // verde    — ✅ chamado resolvido/fechado
+  | "OPP_CREATED"     // âmbar    — 💰 oportunidade criada
+  | "OPP_WON"         // verde    — 🏆 oportunidade ganha
+  | "OPP_LOST"        // vermelho — ❌ oportunidade perdida
+  | "LEAD_CREATED"    // azul     — 🎯 lead criado
+  | "LEAD_MOVED";     // ciano    — ➡️ lead mudou de etapa
 
 /**
  * Termômetro circular SVG ao redor do avatar.
@@ -114,6 +127,7 @@ interface Conversation {
     id: string; name: string | null; status: string; notes: string | null;
     pipeline: string | null; pipelineStage: string | null;
     attendanceStatus: string | null; expectedReturnAt: string | null;
+    value?: number | null;
     companyId?: string;
   } | null;
   lastMsg: {
@@ -299,7 +313,8 @@ export default function WhatsappManager({
   // selectedConv + convMessages + groupInstanceId que são declarados depois).
   // Modal de transferência (Sprint 4) — pode transferir para setor OU atendente
   const [showTransferModal, setShowTransferModal] = useState(false);
-  const [transferTargetType, setTransferTargetType] = useState<"setor" | "atendente">("atendente");
+  // Modal de transferência agora aceita combinação livre — não precisa mais
+  // do toggle. Estado mantido como comentário caso queiramos atalho rápido.
   const [transferSetorId, setTransferSetorId] = useState("");
   const [transferAssigneeId, setTransferAssigneeId] = useState("");
   const [transferNote, setTransferNote] = useState("");
@@ -1110,21 +1125,29 @@ export default function WhatsappManager({
     }
   }
 
-  // Transferência de conversa — para setor OU atendente específico (Sprint 4)
+  // Transferência de conversa — agora aceita combinação livre de setor + atendente
+  // (antes era um OU outro via toggle). Casos:
+  //   só setor       → atribui setor + limpa atendente (qualquer um do setor pega)
+  //   só atendente   → atribui atendente, mantém setor atual, força IN_PROGRESS
+  //   setor + atend. → atribui ambos + força IN_PROGRESS (atend. é o responsável,
+  //                    mas a conversa fica visível pra todo o setor)
   async function handleTransfer() {
     if (!selectedConv?.conversation?.id) return;
-    const isSetor     = transferTargetType === "setor";
-    const isAtendente = transferTargetType === "atendente";
-    if (isSetor && !transferSetorId) return;
-    if (isAtendente && !transferAssigneeId) return;
+    const hasSetor     = !!transferSetorId;
+    const hasAtendente = !!transferAssigneeId;
+    if (!hasSetor && !hasAtendente) return;
 
     setTransferring(true);
     try {
-      // Setor: limpa atendente (quem pegar do novo setor assume)
-      // Atendente: força status IN_PROGRESS e mantém o setor atual
-      const body: Record<string, unknown> = isSetor
-        ? { setorId: transferSetorId, assigneeId: null }
-        : { assigneeId: transferAssigneeId, status: "IN_PROGRESS" };
+      const body: Record<string, unknown> = {};
+      if (hasSetor)     body.setorId    = transferSetorId;
+      if (hasAtendente) {
+        body.assigneeId = transferAssigneeId;
+        body.status     = "IN_PROGRESS";
+      } else if (hasSetor) {
+        // Setor sem atendente: quem pegar do setor assume.
+        body.assigneeId = null;
+      }
 
       const res = await fetch(`/api/conversations/${selectedConv.conversation.id}`, {
         method: "PATCH",
@@ -1162,7 +1185,7 @@ export default function WhatsappManager({
             setor:      data.setor,
             assigneeId: data.assigneeId,
             assignee:   data.assignee,
-            status:     isAtendente ? "IN_PROGRESS" : selectedConv.conversation.status,
+            status:     hasAtendente ? "IN_PROGRESS" : selectedConv.conversation.status,
           },
         });
         setConvAssigneeOverride((prev) => {
@@ -1170,7 +1193,7 @@ export default function WhatsappManager({
           m.set(selectedConv.phone, data.assignee ?? null);
           return m;
         });
-        if (isAtendente) {
+        if (hasAtendente) {
           setConvStatusOverride((prev) => {
             const m = new Map(prev);
             m.set(selectedConv.phone, "IN_PROGRESS");
@@ -2262,6 +2285,19 @@ export default function WhatsappManager({
   // Date format used by handleAddNote: "DD/MM/YY HH:MM"
   // Notas começando com "📅 " são agendamentos automáticos → tipo SCHEDULED
   // (renderizados em roxo). Demais são tipo STANDARD (âmbar).
+  // Lead/Oportunidade ativos da conversa selecionada — usado tanto pelos
+  // chips do header quanto pelo menu + Ações. Considera ativo quando o
+  // pipeline existe E o stage atual NÃO é final (encerrado/ganho/perdido).
+  const { isActiveLead, isActiveOportunidade } = useMemo(() => {
+    const leadPipe  = selectedConv?.lead?.pipeline;
+    const leadStage = selectedConv?.lead?.pipelineStage;
+    const isStageFinal = !!(leadStage && finalStageNames.includes(leadStage));
+    return {
+      isActiveLead:         leadPipe === "LEADS" && !isStageFinal,
+      isActiveOportunidade: leadPipe === "OPORTUNIDADES" && !isStageFinal,
+    };
+  }, [selectedConv?.lead?.pipeline, selectedConv?.lead?.pipelineStage, finalStageNames]);
+
   const parsedNotes = useMemo(() => {
     if (!leadNotes) return [];
     return leadNotes.split(/\n\n+/).map((entry) => {
@@ -2281,9 +2317,31 @@ export default function WhatsappManager({
       } else {
         text = entry.trim();
       }
-      // Detecta marcador de agendamento — renderizado em roxo no chat
-      const noteType: "STANDARD" | "SCHEDULED" = text.startsWith("📅 ") ? "SCHEDULED" : "STANDARD";
-      return { date: dateStr, dateObj, text, noteType };
+      // Detecta marcador no início → escolhe tipo (cor/ícone próprios na UI).
+      // STANDARD     → amarelo (nota manual)
+      // SCHEDULED    → roxo    (📅 agendamento)
+      // TICKET       → laranja (🎫 chamado aberto, ✅ chamado resolvido)
+      // OPP          → âmbar/verde/vermelho (💰 / 🏆 / ❌)
+      // LEAD         → azul    (🎯 / ➡️)
+      let noteType: NoteType = "STANDARD";
+      if (text.startsWith("📅 "))      noteType = "SCHEDULED";
+      else if (text.startsWith("🎫 ")) noteType = "TICKET_OPENED";
+      else if (text.startsWith("✅ ")) noteType = "TICKET_CLOSED";
+      else if (text.startsWith("💰 ")) noteType = "OPP_CREATED";
+      else if (text.startsWith("🏆 ")) noteType = "OPP_WON";
+      else if (text.startsWith("❌ ")) noteType = "OPP_LOST";
+      else if (text.startsWith("🎯 ")) noteType = "LEAD_CREATED";
+      else if (text.startsWith("➡️ ")) noteType = "LEAD_MOVED";
+
+      // Extrai meta embutida no formato " [key=value]" — usado pra linkar
+      // pro recurso no CRM (ticketId, leadId). Limpa do texto exibido.
+      const meta: Record<string, string> = {};
+      const cleanedText = text.replace(/\s*\[(\w+)=([^\]]+)\]/g, (_m, k, v) => {
+        meta[k] = v;
+        return "";
+      }).trim();
+
+      return { date: dateStr, dateObj, text: cleanedText, noteType, meta };
     }).filter((n) => n.text);
   }, [leadNotes]);
 
@@ -2293,11 +2351,11 @@ export default function WhatsappManager({
     type TLMsg = { kind: "msg"; date: Date; msg: WaMessage };
     type TLNote = {
       kind: "note"; date: Date | null; text: string; dateLabel: string | null;
-      noteType: "STANDARD" | "SCHEDULED";
+      noteType: NoteType; meta: Record<string, string>;
     };
     const msgs: TLMsg[] = convMessages.map((m) => ({ kind: "msg", date: new Date(m.receivedAt), msg: m }));
     const notes: TLNote[] = parsedNotes.map((n) => ({
-      kind: "note", date: n.dateObj, text: n.text, dateLabel: n.date, noteType: n.noteType,
+      kind: "note", date: n.dateObj, text: n.text, dateLabel: n.date, noteType: n.noteType, meta: n.meta,
     }));
     const merged: (TLMsg | TLNote)[] = [...msgs, ...notes];
     merged.sort((a, b) => {
@@ -2958,6 +3016,41 @@ export default function WhatsappManager({
                                 {setorName}
                               </span>
                             )}
+                            {/* Chip de Chamado aberto — visível quando há
+                                ticket vinculado e não fechado. Click leva pro
+                                /chamados/:id pra inspeção rápida. */}
+                            {hasTicketsModule && openTicket && openTicket.status !== "RESOLVED" && openTicket.status !== "CLOSED" && (
+                              <Link
+                                href={`/chamados/${openTicket.id}`}
+                                title={`Chamado #${openTicket.id.slice(-6)}: ${openTicket.title}`}
+                                className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-orange-500/15 text-orange-300 border border-orange-500/25 flex items-center gap-1 hover:bg-orange-500/25 transition-colors max-w-[180px]"
+                              >
+                                <Ticket className="w-2.5 h-2.5 flex-shrink-0" strokeWidth={2.5} />
+                                <span className="truncate">Chamado · {openTicket.title}</span>
+                              </Link>
+                            )}
+
+                            {/* Chip de Lead/Oportunidade ativo */}
+                            {hasCrmModule && selectedConv.lead && (isActiveLead || isActiveOportunidade) && (
+                              <Link
+                                href={`/crm/${isActiveOportunidade ? "oportunidades" : "leads"}?lead=${selectedConv.lead.id}`}
+                                title={`Ver no CRM: ${selectedConv.lead.name ?? selectedConv.phone}`}
+                                className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border flex items-center gap-1 transition-colors max-w-[180px] ${
+                                  isActiveOportunidade
+                                    ? "bg-amber-500/15 text-amber-300 border-amber-500/25 hover:bg-amber-500/25"
+                                    : "bg-blue-500/15 text-blue-300 border-blue-500/25 hover:bg-blue-500/25"
+                                }`}
+                              >
+                                {isActiveOportunidade
+                                  ? <DollarSign className="w-2.5 h-2.5 flex-shrink-0" strokeWidth={2.5} />
+                                  : <Target     className="w-2.5 h-2.5 flex-shrink-0" strokeWidth={2.5} />}
+                                <span className="truncate">
+                                  {isActiveOportunidade ? "Oportunidade" : "Lead"}
+                                  {selectedConv.lead.value && isActiveOportunidade ? ` · R$ ${selectedConv.lead.value.toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}` : ""}
+                                </span>
+                              </Link>
+                            )}
+
                             {/* Atendente */}
                             {assignee ? (
                               <span
@@ -3101,16 +3194,9 @@ export default function WhatsappManager({
                         )}
                       </button>
 
-                      {canTransfer && (
-                        <button
-                          onClick={() => { setShowTransferModal(true); setTransferSetorId(conv.setorId ?? ""); setTransferAssigneeId(""); setTransferNote(""); }}
-                          disabled={convActionLoading}
-                          title="Mudar responsável / Transferir"
-                          className="px-2.5 py-1.5 rounded-lg border border-violet-500/30 bg-violet-500/10 text-violet-300 text-xs font-medium hover:bg-violet-500/20 transition-colors disabled:opacity-50 flex items-center gap-1"
-                        >
-                          ↗
-                        </button>
-                      )}
+                      {/* Encaminhar movido pro menu "+ Ações" — header fica mais
+                          limpo, com Pegar e Finalizar apenas. canTransfer
+                          ainda controla a visibilidade da opção no menu. */}
 
                       {/* Toggle de gamificação — admin marca grupos internos
                           pra não gerar pontos. Visível apenas pra admin. */}
@@ -3682,28 +3768,103 @@ export default function WhatsappManager({
                       const noteDateKey = noteDate ? noteDate.toDateString() : "";
                       const showNoteDivider = noteDate ? noteDateKey !== lastDateKey : false;
                       if (noteDate) lastDateKey = noteDateKey;
-                      const isScheduled = item.noteType === "SCHEDULED";
-                      const noteStyle = isScheduled ? {
-                        bubble: "bg-purple-500/10 border-purple-500/30 text-purple-50",
-                        icon:   "text-purple-400",
-                        label:  "text-purple-300/80",
-                        text:   "text-purple-50/95",
-                        date:   "text-purple-300/60",
-                        title:  "Agendamento",
-                        Icon:   Calendar,
-                      } : {
-                        bubble: "bg-amber-500/10 border-amber-500/30 text-amber-100",
-                        icon:   "text-amber-400",
-                        label:  "text-amber-300/80",
-                        text:   "text-amber-50/95",
-                        date:   "text-amber-300/60",
-                        title:  "Nota interna",
-                        Icon:   StickyNote,
+                      // Cor/ícone por tipo. Mantém STANDARD (amarelo) e
+                      // SCHEDULED (roxo) como antes e adiciona ticket/opp/lead.
+                      const NOTE_STYLES: Record<NoteType, {
+                        bubble: string; icon: string; label: string; text: string; date: string;
+                        title: string; Icon: LucideIcon;
+                      }> = {
+                        STANDARD: {
+                          bubble: "bg-amber-500/10 border-amber-500/30 text-amber-100",
+                          icon:   "text-amber-400",
+                          label:  "text-amber-300/80",
+                          text:   "text-amber-50/95",
+                          date:   "text-amber-300/60",
+                          title:  "Nota interna",
+                          Icon:   StickyNote,
+                        },
+                        SCHEDULED: {
+                          bubble: "bg-purple-500/10 border-purple-500/30 text-purple-50",
+                          icon:   "text-purple-400",
+                          label:  "text-purple-300/80",
+                          text:   "text-purple-50/95",
+                          date:   "text-purple-300/60",
+                          title:  "Agendamento",
+                          Icon:   Calendar,
+                        },
+                        TICKET_OPENED: {
+                          bubble: "bg-orange-500/10 border-orange-500/30",
+                          icon:   "text-orange-400",
+                          label:  "text-orange-300/80",
+                          text:   "text-orange-50/95",
+                          date:   "text-orange-300/60",
+                          title:  "Chamado aberto",
+                          Icon:   Ticket,
+                        },
+                        TICKET_CLOSED: {
+                          bubble: "bg-emerald-500/10 border-emerald-500/30",
+                          icon:   "text-emerald-400",
+                          label:  "text-emerald-300/80",
+                          text:   "text-emerald-50/95",
+                          date:   "text-emerald-300/60",
+                          title:  "Chamado finalizado",
+                          Icon:   CheckCircle2,
+                        },
+                        OPP_CREATED: {
+                          bubble: "bg-amber-500/10 border-amber-500/30",
+                          icon:   "text-amber-400",
+                          label:  "text-amber-300/80",
+                          text:   "text-amber-50/95",
+                          date:   "text-amber-300/60",
+                          title:  "Oportunidade",
+                          Icon:   DollarSign,
+                        },
+                        OPP_WON: {
+                          bubble: "bg-emerald-500/10 border-emerald-500/40",
+                          icon:   "text-emerald-300",
+                          label:  "text-emerald-300/90",
+                          text:   "text-emerald-50",
+                          date:   "text-emerald-300/60",
+                          title:  "Oportunidade ganha",
+                          Icon:   Trophy,
+                        },
+                        OPP_LOST: {
+                          bubble: "bg-red-500/10 border-red-500/30",
+                          icon:   "text-red-400",
+                          label:  "text-red-300/80",
+                          text:   "text-red-50/95",
+                          date:   "text-red-300/60",
+                          title:  "Oportunidade perdida",
+                          Icon:   XCircle,
+                        },
+                        LEAD_CREATED: {
+                          bubble: "bg-blue-500/10 border-blue-500/30",
+                          icon:   "text-blue-400",
+                          label:  "text-blue-300/80",
+                          text:   "text-blue-50/95",
+                          date:   "text-blue-300/60",
+                          title:  "Lead criado",
+                          Icon:   Target,
+                        },
+                        LEAD_MOVED: {
+                          bubble: "bg-cyan-500/10 border-cyan-500/30",
+                          icon:   "text-cyan-400",
+                          label:  "text-cyan-300/80",
+                          text:   "text-cyan-50/95",
+                          date:   "text-cyan-300/60",
+                          title:  "Lead movido",
+                          Icon:   ArrowRight,
+                        },
                       };
-                      // Pra agendamentos, remove o emoji 📅 do início do texto pq já temos o ícone
-                      const displayText = isScheduled
-                        ? item.text.replace(/^📅\s*/, "")
-                        : item.text;
+                      const noteStyle = NOTE_STYLES[item.noteType];
+                      // Remove o emoji do início (o ícone visual já indica o tipo).
+                      const displayText = item.text.replace(/^(📅|🎫|✅|💰|🏆|❌|🎯|➡️)\s*/, "");
+                      // Link pro recurso, se houver meta
+                      const eventHref = item.meta.ticketId
+                        ? `/chamados/${item.meta.ticketId}`
+                        : item.meta.leadId
+                        ? `/crm/${(item.noteType === "OPP_CREATED" || item.noteType === "OPP_WON" || item.noteType === "OPP_LOST") ? "oportunidades" : "leads"}?lead=${item.meta.leadId}`
+                        : null;
                       return (
                         <div key={`note-${itemIdx}`}>
                           {showNoteDivider && noteDate && (
@@ -3716,18 +3877,34 @@ export default function WhatsappManager({
                             </div>
                           )}
                           <div className="flex justify-center my-2">
-                            <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 border shadow-sm ${noteStyle.bubble}`}>
-                              <div className="flex items-center gap-1.5 mb-1">
-                                <noteStyle.Icon className={`w-3 h-3 ${noteStyle.icon}`} strokeWidth={2.5} />
-                                <span className={`text-[10px] ${noteStyle.label} font-semibold uppercase tracking-wide`}>{noteStyle.title}</span>
-                              </div>
-                              <p className={`text-sm whitespace-pre-wrap break-words ${noteStyle.text}`}>{displayText}</p>
-                              {item.dateLabel && (
-                                <div className={`text-[10px] ${noteStyle.date} mt-1 text-right`}>
-                                  {item.dateLabel}
-                                </div>
-                              )}
-                            </div>
+                            {(() => {
+                              const inner = (
+                                <>
+                                  <div className="flex items-center gap-1.5 mb-1">
+                                    <noteStyle.Icon className={`w-3 h-3 ${noteStyle.icon}`} strokeWidth={2.5} />
+                                    <span className={`text-[10px] ${noteStyle.label} font-semibold uppercase tracking-wide`}>{noteStyle.title}</span>
+                                  </div>
+                                  <p className={`text-sm whitespace-pre-wrap break-words ${noteStyle.text}`}>{displayText}</p>
+                                  {item.dateLabel && (
+                                    <div className={`text-[10px] ${noteStyle.date} mt-1 text-right`}>
+                                      {item.dateLabel}
+                                    </div>
+                                  )}
+                                </>
+                              );
+                              const baseClass = `max-w-[80%] rounded-2xl px-4 py-2.5 border shadow-sm ${noteStyle.bubble}`;
+                              return eventHref ? (
+                                <Link
+                                  href={eventHref}
+                                  className={`${baseClass} hover:brightness-125 transition-all cursor-pointer`}
+                                  title="Ver no CRM"
+                                >
+                                  {inner}
+                                </Link>
+                              ) : (
+                                <div className={baseClass}>{inner}</div>
+                              );
+                            })()}
                           </div>
                         </div>
                       );
@@ -4331,13 +4508,7 @@ export default function WhatsappManager({
 
                             {/* ── Classificar ── */}
                             {(() => {
-                              // Lead/Oportunidade ativo = pipeline definido E estágio NÃO é final (encerrado/perdido).
-                              // Em estágio final, libera criar de novo (caso o cliente reabriu).
-                              const leadPipe  = selectedConv.lead?.pipeline;
-                              const leadStage = selectedConv.lead?.pipelineStage;
-                              const isStageFinal = !!(leadStage && finalStageNames.includes(leadStage));
-                              const isActiveLead        = leadPipe === "LEADS" && !isStageFinal;
-                              const isActiveOportunidade = leadPipe === "OPORTUNIDADES" && !isStageFinal;
+                              // isActiveLead / isActiveOportunidade já estão no escopo (useMemo no topo)
                               return (
                                 <div className="px-3 py-1.5">
                                   <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2">Classificar</p>
@@ -4432,6 +4603,32 @@ export default function WhatsappManager({
                             <div className="px-3 py-1.5">
                               <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2">Mais</p>
                               <div className="space-y-0.5">
+                                {/* Encaminhar / Transferir — antes ficava no
+                                    header como botão "↗", agora vive aqui pra
+                                    deixar o topo limpo. canTransfer recalcula
+                                    o gate (não-fechada + setores/atendentes). */}
+                                {(() => {
+                                  const conv = selectedConv.conversation;
+                                  const isClosed = conv?.status === "CLOSED";
+                                  const canTransfer = !!conv && !isClosed && (scopedSetores.length + scopedAtendentes.length) > 0;
+                                  if (!canTransfer) return null;
+                                  return (
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setShowTransferModal(true);
+                                        setTransferSetorId(conv!.setorId ?? "");
+                                        setTransferAssigneeId("");
+                                        setTransferNote("");
+                                        setShowActionsMenu(false);
+                                      }}
+                                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-violet-300 hover:bg-violet-500/10 hover:text-violet-200 transition-colors text-left"
+                                    >
+                                      <ArrowRightLeft className="w-4 h-4 text-violet-400" strokeWidth={2.25} />
+                                      Encaminhar / Transferir
+                                    </button>
+                                  );
+                                })()}
                                 <button
                                   type="button"
                                   onClick={() => { setShowAiPanel(!showAiPanel); setShowActionsMenu(false); }}
@@ -4585,68 +4782,48 @@ export default function WhatsappManager({
             </div>
 
             <div className="p-6 space-y-4">
-              {/* Toggle entre atendente e setor */}
-              <div className="grid grid-cols-2 gap-2 bg-[#080b12] p-1 rounded-lg border border-[#1e2d45]">
-                <button
-                  onClick={() => setTransferTargetType("atendente")}
-                  className={`py-2 rounded-md text-xs font-medium transition-colors ${
-                    transferTargetType === "atendente"
-                      ? "bg-violet-600 text-white"
-                      : "text-slate-400 hover:text-white"
-                  }`}
+              {/* Dois selectors em conjunto: dá pra escolher só setor, só
+                  atendente, ou os dois juntos. Quando manda os dois, o
+                  atendente fica responsável MAS a conversa também aparece
+                  pra todos do setor pegarem. */}
+              <div>
+                <label className="block text-slate-400 text-xs font-medium mb-1.5">Setor</label>
+                <select
+                  value={transferSetorId}
+                  onChange={(e) => setTransferSetorId(e.target.value)}
+                  className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
                 >
-                  👤 Atendente
-                </button>
-                <button
-                  onClick={() => setTransferTargetType("setor")}
-                  className={`py-2 rounded-md text-xs font-medium transition-colors ${
-                    transferTargetType === "setor"
-                      ? "bg-violet-600 text-white"
-                      : "text-slate-400 hover:text-white"
-                  }`}
-                >
-                  🏷️ Setor
-                </button>
+                  <option value="">— Manter setor atual —</option>
+                  {scopedSetores.map((s) => (
+                    <option key={s.id} value={s.id}>{s.name}</option>
+                  ))}
+                </select>
               </div>
 
-              {/* Selector — atendente ou setor */}
-              {transferTargetType === "atendente" ? (
-                <div>
-                  <label className="block text-slate-400 text-xs font-medium mb-1.5">Atendente de destino</label>
-                  <select
-                    value={transferAssigneeId}
-                    onChange={(e) => setTransferAssigneeId(e.target.value)}
-                    className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
-                  >
-                    <option value="">— Selecione —</option>
-                    {scopedAtendentes
-                      .filter((u) => u.id !== selectedConv.conversation?.assigneeId)
-                      .map((u) => (
-                        <option key={u.id} value={u.id}>
-                          {u.name} {u.role === "ADMIN" ? "(Admin)" : ""}
-                        </option>
-                      ))}
-                  </select>
-                  <p className="text-slate-600 text-[10px] mt-1">A conversa entra automaticamente como <strong className="text-yellow-400">Em atendimento</strong>.</p>
-                </div>
-              ) : (
-                <div>
-                  <label className="block text-slate-400 text-xs font-medium mb-1.5">Setor de destino</label>
-                  <select
-                    value={transferSetorId}
-                    onChange={(e) => setTransferSetorId(e.target.value)}
-                    className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
-                  >
-                    <option value="">— Selecione —</option>
-                    {scopedSetores
-                      .filter((s) => s.id !== selectedConv.conversation?.setorId)
-                      .map((s) => (
-                        <option key={s.id} value={s.id}>{s.name}</option>
-                      ))}
-                  </select>
-                  <p className="text-slate-600 text-[10px] mt-1">Limpa o atendente atual — quem do novo setor pegar, assume.</p>
-                </div>
-              )}
+              <div>
+                <label className="block text-slate-400 text-xs font-medium mb-1.5">Atendente</label>
+                <select
+                  value={transferAssigneeId}
+                  onChange={(e) => setTransferAssigneeId(e.target.value)}
+                  className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
+                >
+                  <option value="">— Deixar aberto no setor —</option>
+                  {scopedAtendentes
+                    .filter((u) => u.id !== selectedConv.conversation?.assigneeId)
+                    .map((u) => (
+                      <option key={u.id} value={u.id}>
+                        {u.name} {u.role === "ADMIN" ? "(Admin)" : ""}
+                      </option>
+                    ))}
+                </select>
+                <p className="text-slate-600 text-[10px] mt-1">
+                  {transferAssigneeId
+                    ? <>Conversa vira <strong className="text-yellow-400">Em atendimento</strong> com este responsável{transferSetorId ? ", visível para o setor escolhido." : ", no setor atual."}</>
+                    : transferSetorId
+                    ? <>Sem atendente fixo — qualquer um do setor pega.</>
+                    : <>Escolha pelo menos um (setor ou atendente).</>}
+                </p>
+              </div>
 
               <div>
                 <label className="block text-slate-400 text-xs font-medium mb-1.5">Nota interna (opcional)</label>
@@ -4663,7 +4840,7 @@ export default function WhatsappManager({
               <div className="flex gap-2 pt-1">
                 <button
                   onClick={handleTransfer}
-                  disabled={transferring || (transferTargetType === "atendente" ? !transferAssigneeId : !transferSetorId)}
+                  disabled={transferring || (!transferAssigneeId && !transferSetorId)}
                   className="flex-1 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium disabled:opacity-50 transition-colors"
                 >
                   {transferring ? "Transferindo..." : "Transferir"}
