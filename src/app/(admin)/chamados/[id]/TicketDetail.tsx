@@ -111,7 +111,7 @@ export default function TicketDetail({
   // mostra só a descrição. As demais são filtros do feed (Todas / Mensagens /
   // Notas internas / Sistema) ou view dedicada (WhatsApp). Replica o padrão
   // das filter pills do CRM.
-  const [feedTab, setFeedTab] = useState<"info" | "all" | "messages" | "internal" | "system" | "whatsapp">("info");
+  const [feedTab, setFeedTab] = useState<"info" | "all" | "messages" | "internal" | "system" | "whatsapp">("all");
 
   // Conversa WhatsApp — carregada sob demanda quando user clica na aba.
   // Evita SSR de conversas longas (50+ mensagens) só pra abrir o chamado.
