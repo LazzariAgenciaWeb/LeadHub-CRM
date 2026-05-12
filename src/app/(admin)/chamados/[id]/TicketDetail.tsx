@@ -93,6 +93,10 @@ export default function TicketDetail({
   const [, startTransition] = useTransition();
   const [messages, setMessages] = useState<TicketMessage[]>(ticket.messages);
   const [activities] = useState<TicketActivity[]>(ticket.activities ?? []);
+  // Abas do chamado (acima da solicitação original). "info" é a principal —
+  // mostra só a descrição. As demais são filtros do feed: Todas / Mensagens /
+  // Notas internas / Sistema. Replica o padrão das filter pills do CRM.
+  const [feedTab, setFeedTab] = useState<"info" | "all" | "messages" | "internal" | "system">("info");
   const [status, setStatus] = useState(ticket.status);
   const [ticketStage, setTicketStage] = useState(ticket.ticketStage ?? stages[0]?.name ?? "");
   const [priority, setPriority] = useState(ticket.priority);
@@ -420,6 +424,21 @@ export default function TicketDetail({
   // "description" is always messages[0] body (the initial request), subsequent are updates
   const [initialMsg, ...updates] = messages;
 
+  // Contadores das abas — independem do filtro atual pra mostrar badges fixos.
+  // "Mensagens" inclui a solicitação original (ela é uma mensagem do cliente).
+  // "Notas internas" e "Sistema" excluem a original (não se aplica).
+  const allMessagesCount = messages.filter((m) => !m.isInternal).length;
+  const internalCount = messages.filter((m) => m.isInternal).length;
+  const systemCount = activities.length;
+  const totalAllCount = messages.length + activities.length;
+  const FEED_TABS: { id: typeof feedTab; icon: string; label: string; count: number | null }[] = [
+    { id: "info",     icon: "📋", label: "Informações",    count: null },
+    { id: "all",      icon: "🗂️", label: "Todas",          count: totalAllCount },
+    { id: "messages", icon: "💬", label: "Mensagens",      count: allMessagesCount },
+    { id: "internal", icon: "🔒", label: "Notas internas", count: internalCount },
+    { id: "system",   icon: "⚙️", label: "Sistema",        count: systemCount },
+  ];
+
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
@@ -515,9 +534,41 @@ export default function TicketDetail({
       <div className="flex flex-1 overflow-hidden">
         {/* Left: description + activity + reply */}
         <div className="flex-1 flex flex-col overflow-hidden border-r border-[#1e2d45]">
+          {/* Abas do chamado — sempre visíveis no topo. "Informações" é a principal.
+              Estilo replicado das filter pills do CRM (TIMELINE_FILTERS). */}
+          <div className="flex-shrink-0 px-6 py-2.5 border-b border-[#1e2d45] flex flex-wrap gap-1.5 bg-[#0a0f1a]/40">
+            {FEED_TABS.map((t) => {
+              const active = feedTab === t.id;
+              const disabled = t.count !== null && t.count === 0;
+              return (
+                <button
+                  key={t.id}
+                  onClick={() => setFeedTab(t.id)}
+                  disabled={disabled}
+                  title={t.label}
+                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] border transition-colors disabled:opacity-30 disabled:cursor-not-allowed ${
+                    active
+                      ? "bg-indigo-500/20 border-indigo-500/40 text-indigo-200"
+                      : "bg-[#0a0f1a] border-[#1e2d45] text-slate-400 hover:text-white hover:border-[#2a3d5a]"
+                  }`}
+                >
+                  <span>{t.icon}</span>
+                  <span>{t.label}</span>
+                  {t.count !== null && t.count > 0 && (
+                    <span className={`text-[9px] font-bold px-1 rounded ${
+                      active ? "bg-indigo-500/30 text-indigo-100" : "bg-[#1e2d45] text-slate-500"
+                    }`}>
+                      {t.count}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
           <div className="flex-1 overflow-y-auto px-6 py-5 space-y-4">
-            {/* Original request card */}
-            {initialMsg && (
+            {/* Original request card — aparece nas abas Informações, Todas e Mensagens.
+                Faz sentido omitir em Notas internas/Sistema (não é nota nem evento). */}
+            {initialMsg && (feedTab === "info" || feedTab === "all" || feedTab === "messages") && (
               <div className="bg-indigo-500/5 border border-indigo-500/20 rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-indigo-400 text-[10px] font-bold uppercase tracking-wide">📋 Solicitação Original</span>
@@ -530,20 +581,36 @@ export default function TicketDetail({
               </div>
             )}
 
-            {/* Activity feed — mistura mensagens e activities (mudanças de campo) ordenadas */}
-            {(() => {
+            {/* Activity feed — mistura mensagens e activities (mudanças de campo) ordenadas.
+                Filtrado pela aba ativa. Na aba "Informações" o feed é omitido — só a
+                descrição é mostrada acima pra um overview limpo. */}
+            {feedTab !== "info" && (() => {
               type FeedItem =
                 | { kind: "msg"; createdAt: string; data: TicketMessage }
                 | { kind: "act"; createdAt: string; data: TicketActivity };
-              const feed: FeedItem[] = [
+              const allFeed: FeedItem[] = [
                 ...updates.map((m): FeedItem => ({ kind: "msg", createdAt: m.createdAt, data: m })),
                 ...activities.map((a): FeedItem => ({ kind: "act", createdAt: a.createdAt, data: a })),
               ].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
-              if (feed.length === 0) return null;
+              const feed = allFeed.filter((item) => {
+                if (feedTab === "all") return true;
+                if (feedTab === "system") return item.kind === "act";
+                if (feedTab === "internal") return item.kind === "msg" && item.data.isInternal;
+                if (feedTab === "messages") return item.kind === "msg" && !item.data.isInternal;
+                return true;
+              });
+              if (allFeed.length === 0) return null;
+              if (feed.length === 0) {
+                return (
+                  <div className="text-slate-600 text-xs text-center py-6 italic">
+                    Nada nesta aba ainda.
+                  </div>
+                );
+              }
               return (
               <div>
                 <div className="text-[10px] font-semibold text-slate-600 uppercase tracking-wider mb-3">
-                  Atualizações ({feed.length})
+                  Atualizações ({feed.length}{feed.length !== allFeed.length ? ` de ${allFeed.length}` : ""})
                 </div>
                 <div className="space-y-3">
                   {feed.map((item) => {
