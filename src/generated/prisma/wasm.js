@@ -222,6 +222,7 @@ exports.Prisma.TrackingLinkScalarFieldEnum = {
   destination: 'destination',
   destType: 'destType',
   clicks: 'clicks',
+  isActive: 'isActive',
   ogTitle: 'ogTitle',
   ogDescription: 'ogDescription',
   ogImage: 'ogImage',

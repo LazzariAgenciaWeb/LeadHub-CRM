@@ -130,7 +130,7 @@ export async function PATCH(
     include: {
       company: { select: { id: true, name: true } },
       campaign: { select: { id: true, name: true } },
-      trackingLink: { select: { id: true, code: true, label: true, clicks: true, destination: true, _count: { select: { clickEvents: true } } } },
+      trackingLink: { select: { id: true, code: true, label: true, clicks: true, destination: true, isActive: true, _count: { select: { clickEvents: true } } } },
     },
   });
 

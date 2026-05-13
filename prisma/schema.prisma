@@ -274,6 +274,10 @@ model TrackingLink {
   destination   String
   destType      String   @default("url")
   clicks        Int      @default(0)
+  // Quando false, o link permanece cadastrado e cliques continuam sendo
+  // registrados (pra saber que o cliente tentou abrir), mas a página /r/CODE
+  // não redireciona pro destino — mostra "proposta encerrada".
+  isActive      Boolean  @default(true)
   ogTitle       String?
   ogDescription String?  @db.Text
   ogImage       String?

@@ -63,6 +63,16 @@ export async function generateMetadata({
   const link = await getLink(code);
   if (!link) return {};
 
+  // Link pausado: sem meta refresh + título neutro pra preview no WhatsApp
+  // não mostrar nada da proposta original.
+  if (!link.isActive) {
+    return {
+      title:       "Proposta encerrada",
+      description: "O conteúdo deste link não está mais disponível.",
+      robots:      { index: false, follow: false },
+    };
+  }
+
   const title =
     link.ogTitle ??
     link.label ??
@@ -113,5 +123,5 @@ export default async function RedirectPage({
 
   const dest = buildDestUrl(link);
 
-  return <RedirectClient linkId={link.id} code={link.code} dest={dest} />;
+  return <RedirectClient linkId={link.id} code={link.code} dest={dest} isActive={link.isActive} />;
 }

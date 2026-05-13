@@ -15049,6 +15049,7 @@ export namespace Prisma {
     destination: string | null
     destType: string | null
     clicks: number | null
+    isActive: boolean | null
     ogTitle: string | null
     ogDescription: string | null
     ogImage: string | null
@@ -15064,6 +15065,7 @@ export namespace Prisma {
     destination: string | null
     destType: string | null
     clicks: number | null
+    isActive: boolean | null
     ogTitle: string | null
     ogDescription: string | null
     ogImage: string | null
@@ -15079,6 +15081,7 @@ export namespace Prisma {
     destination: number
     destType: number
     clicks: number
+    isActive: number
     ogTitle: number
     ogDescription: number
     ogImage: number
@@ -15104,6 +15107,7 @@ export namespace Prisma {
     destination?: true
     destType?: true
     clicks?: true
+    isActive?: true
     ogTitle?: true
     ogDescription?: true
     ogImage?: true
@@ -15119,6 +15123,7 @@ export namespace Prisma {
     destination?: true
     destType?: true
     clicks?: true
+    isActive?: true
     ogTitle?: true
     ogDescription?: true
     ogImage?: true
@@ -15134,6 +15139,7 @@ export namespace Prisma {
     destination?: true
     destType?: true
     clicks?: true
+    isActive?: true
     ogTitle?: true
     ogDescription?: true
     ogImage?: true
@@ -15236,6 +15242,7 @@ export namespace Prisma {
     destination: string
     destType: string
     clicks: number
+    isActive: boolean
     ogTitle: string | null
     ogDescription: string | null
     ogImage: string | null
@@ -15270,6 +15277,7 @@ export namespace Prisma {
     destination?: boolean
     destType?: boolean
     clicks?: boolean
+    isActive?: boolean
     ogTitle?: boolean
     ogDescription?: boolean
     ogImage?: boolean
@@ -15290,6 +15298,7 @@ export namespace Prisma {
     destination?: boolean
     destType?: boolean
     clicks?: boolean
+    isActive?: boolean
     ogTitle?: boolean
     ogDescription?: boolean
     ogImage?: boolean
@@ -15307,6 +15316,7 @@ export namespace Prisma {
     destination?: boolean
     destType?: boolean
     clicks?: boolean
+    isActive?: boolean
     ogTitle?: boolean
     ogDescription?: boolean
     ogImage?: boolean
@@ -15342,6 +15352,7 @@ export namespace Prisma {
       destination: string
       destType: string
       clicks: number
+      isActive: boolean
       ogTitle: string | null
       ogDescription: string | null
       ogImage: string | null
@@ -15751,6 +15762,7 @@ export namespace Prisma {
     readonly destination: FieldRef<"TrackingLink", 'String'>
     readonly destType: FieldRef<"TrackingLink", 'String'>
     readonly clicks: FieldRef<"TrackingLink", 'Int'>
+    readonly isActive: FieldRef<"TrackingLink", 'Boolean'>
     readonly ogTitle: FieldRef<"TrackingLink", 'String'>
     readonly ogDescription: FieldRef<"TrackingLink", 'String'>
     readonly ogImage: FieldRef<"TrackingLink", 'String'>
@@ -69075,6 +69087,7 @@ export namespace Prisma {
     destination: 'destination',
     destType: 'destType',
     clicks: 'clicks',
+    isActive: 'isActive',
     ogTitle: 'ogTitle',
     ogDescription: 'ogDescription',
     ogImage: 'ogImage',
@@ -71160,6 +71173,7 @@ export namespace Prisma {
     destination?: StringFilter<"TrackingLink"> | string
     destType?: StringFilter<"TrackingLink"> | string
     clicks?: IntFilter<"TrackingLink"> | number
+    isActive?: BoolFilter<"TrackingLink"> | boolean
     ogTitle?: StringNullableFilter<"TrackingLink"> | string | null
     ogDescription?: StringNullableFilter<"TrackingLink"> | string | null
     ogImage?: StringNullableFilter<"TrackingLink"> | string | null
@@ -71179,6 +71193,7 @@ export namespace Prisma {
     destination?: SortOrder
     destType?: SortOrder
     clicks?: SortOrder
+    isActive?: SortOrder
     ogTitle?: SortOrderInput | SortOrder
     ogDescription?: SortOrderInput | SortOrder
     ogImage?: SortOrderInput | SortOrder
@@ -71201,6 +71216,7 @@ export namespace Prisma {
     destination?: StringFilter<"TrackingLink"> | string
     destType?: StringFilter<"TrackingLink"> | string
     clicks?: IntFilter<"TrackingLink"> | number
+    isActive?: BoolFilter<"TrackingLink"> | boolean
     ogTitle?: StringNullableFilter<"TrackingLink"> | string | null
     ogDescription?: StringNullableFilter<"TrackingLink"> | string | null
     ogImage?: StringNullableFilter<"TrackingLink"> | string | null
@@ -71220,6 +71236,7 @@ export namespace Prisma {
     destination?: SortOrder
     destType?: SortOrder
     clicks?: SortOrder
+    isActive?: SortOrder
     ogTitle?: SortOrderInput | SortOrder
     ogDescription?: SortOrderInput | SortOrder
     ogImage?: SortOrderInput | SortOrder
@@ -71243,6 +71260,7 @@ export namespace Prisma {
     destination?: StringWithAggregatesFilter<"TrackingLink"> | string
     destType?: StringWithAggregatesFilter<"TrackingLink"> | string
     clicks?: IntWithAggregatesFilter<"TrackingLink"> | number
+    isActive?: BoolWithAggregatesFilter<"TrackingLink"> | boolean
     ogTitle?: StringNullableWithAggregatesFilter<"TrackingLink"> | string | null
     ogDescription?: StringNullableWithAggregatesFilter<"TrackingLink"> | string | null
     ogImage?: StringNullableWithAggregatesFilter<"TrackingLink"> | string | null
@@ -76530,6 +76548,7 @@ export namespace Prisma {
     destination: string
     destType?: string
     clicks?: number
+    isActive?: boolean
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
@@ -76547,6 +76566,7 @@ export namespace Prisma {
     destination: string
     destType?: string
     clicks?: number
+    isActive?: boolean
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
@@ -76564,6 +76584,7 @@ export namespace Prisma {
     destination?: StringFieldUpdateOperationsInput | string
     destType?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -76581,6 +76602,7 @@ export namespace Prisma {
     destination?: StringFieldUpdateOperationsInput | string
     destType?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -76598,6 +76620,7 @@ export namespace Prisma {
     destination: string
     destType?: string
     clicks?: number
+    isActive?: boolean
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
@@ -76613,6 +76636,7 @@ export namespace Prisma {
     destination?: StringFieldUpdateOperationsInput | string
     destType?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -76626,6 +76650,7 @@ export namespace Prisma {
     destination?: StringFieldUpdateOperationsInput | string
     destType?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -82436,6 +82461,7 @@ export namespace Prisma {
     destination?: SortOrder
     destType?: SortOrder
     clicks?: SortOrder
+    isActive?: SortOrder
     ogTitle?: SortOrder
     ogDescription?: SortOrder
     ogImage?: SortOrder
@@ -82455,6 +82481,7 @@ export namespace Prisma {
     destination?: SortOrder
     destType?: SortOrder
     clicks?: SortOrder
+    isActive?: SortOrder
     ogTitle?: SortOrder
     ogDescription?: SortOrder
     ogImage?: SortOrder
@@ -82470,6 +82497,7 @@ export namespace Prisma {
     destination?: SortOrder
     destType?: SortOrder
     clicks?: SortOrder
+    isActive?: SortOrder
     ogTitle?: SortOrder
     ogDescription?: SortOrder
     ogImage?: SortOrder
@@ -94752,6 +94780,7 @@ export namespace Prisma {
     destination: string
     destType?: string
     clicks?: number
+    isActive?: boolean
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
@@ -94768,6 +94797,7 @@ export namespace Prisma {
     destination: string
     destType?: string
     clicks?: number
+    isActive?: boolean
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
@@ -96162,6 +96192,7 @@ export namespace Prisma {
     destination?: StringFilter<"TrackingLink"> | string
     destType?: StringFilter<"TrackingLink"> | string
     clicks?: IntFilter<"TrackingLink"> | number
+    isActive?: BoolFilter<"TrackingLink"> | boolean
     ogTitle?: StringNullableFilter<"TrackingLink"> | string | null
     ogDescription?: StringNullableFilter<"TrackingLink"> | string | null
     ogImage?: StringNullableFilter<"TrackingLink"> | string | null
@@ -96956,6 +96987,7 @@ export namespace Prisma {
     destination: string
     destType?: string
     clicks?: number
+    isActive?: boolean
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
@@ -96972,6 +97004,7 @@ export namespace Prisma {
     destination: string
     destType?: string
     clicks?: number
+    isActive?: boolean
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
@@ -97745,6 +97778,7 @@ export namespace Prisma {
     destination: string
     destType?: string
     clicks?: number
+    isActive?: boolean
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
@@ -97761,6 +97795,7 @@ export namespace Prisma {
     destination: string
     destType?: string
     clicks?: number
+    isActive?: boolean
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
@@ -97793,6 +97828,7 @@ export namespace Prisma {
     destination?: StringFieldUpdateOperationsInput | string
     destType?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -97809,6 +97845,7 @@ export namespace Prisma {
     destination?: StringFieldUpdateOperationsInput | string
     destType?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -98001,6 +98038,7 @@ export namespace Prisma {
     destination: string
     destType?: string
     clicks?: number
+    isActive?: boolean
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
@@ -98017,6 +98055,7 @@ export namespace Prisma {
     destination: string
     destType?: string
     clicks?: number
+    isActive?: boolean
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
@@ -98500,6 +98539,7 @@ export namespace Prisma {
     destination?: StringFieldUpdateOperationsInput | string
     destType?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -98516,6 +98556,7 @@ export namespace Prisma {
     destination?: StringFieldUpdateOperationsInput | string
     destType?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -115730,6 +115771,7 @@ export namespace Prisma {
     destination: string
     destType?: string
     clicks?: number
+    isActive?: boolean
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
@@ -117075,6 +117117,7 @@ export namespace Prisma {
     destination?: StringFieldUpdateOperationsInput | string
     destType?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -117091,6 +117134,7 @@ export namespace Prisma {
     destination?: StringFieldUpdateOperationsInput | string
     destType?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -117107,6 +117151,7 @@ export namespace Prisma {
     destination?: StringFieldUpdateOperationsInput | string
     destType?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -117782,6 +117827,7 @@ export namespace Prisma {
     destination: string
     destType?: string
     clicks?: number
+    isActive?: boolean
     ogTitle?: string | null
     ogDescription?: string | null
     ogImage?: string | null
@@ -117976,6 +118022,7 @@ export namespace Prisma {
     destination?: StringFieldUpdateOperationsInput | string
     destType?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -117992,6 +118039,7 @@ export namespace Prisma {
     destination?: StringFieldUpdateOperationsInput | string
     destType?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -118008,6 +118056,7 @@ export namespace Prisma {
     destination?: StringFieldUpdateOperationsInput | string
     destType?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     ogTitle?: NullableStringFieldUpdateOperationsInput | string | null
     ogDescription?: NullableStringFieldUpdateOperationsInput | string | null
     ogImage?: NullableStringFieldUpdateOperationsInput | string | null

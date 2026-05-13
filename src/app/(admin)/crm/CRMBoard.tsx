@@ -55,6 +55,7 @@ export interface CRMLead {
     label: string | null;
     clicks: number;
     destination: string;
+    isActive: boolean;
     _count: { clickEvents: number };
   } | null;
   /** Resumo de tarefas (preenchido server-side; opcional) */
@@ -2083,16 +2084,21 @@ export default function CRMBoard({
                             <div className="space-y-2">
                               <div className="flex items-center gap-2 flex-wrap">
                                 <a href={`/r/${selected.trackingLink.code}`} target="_blank" rel="noopener noreferrer"
-                                  className="text-indigo-400 hover:text-indigo-300 text-sm font-medium underline">
+                                  className={`text-sm font-medium underline ${selected.trackingLink.isActive ? "text-indigo-400 hover:text-indigo-300" : "text-slate-400 hover:text-slate-300 line-through"}`}>
                                   {selected.trackingLink.label ?? selected.trackingLink.code}
                                 </a>
                                 <span className="text-[10px] text-slate-500 font-mono">/r/{selected.trackingLink.code}</span>
+                                {!selected.trackingLink.isActive && (
+                                  <span className="text-red-400 text-[10px] bg-red-500/10 border border-red-500/30 px-1.5 py-0.5 rounded font-semibold uppercase tracking-wide">
+                                    ⏸ Pausado
+                                  </span>
+                                )}
                               </div>
                               <div className="flex items-center gap-4 text-xs">
                                 <span className="text-slate-400"><span className="text-white font-semibold">{selected.trackingLink.clicks}</span> cliques externos</span>
                                 <span className="text-slate-400"><span className="text-white font-semibold">{selected.trackingLink._count.clickEvents}</span> internos</span>
                               </div>
-                              <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-2 flex-wrap">
                                 <button onClick={() => navigator.clipboard.writeText(`${window.location.origin}/r/${selected.trackingLink!.code}`)}
                                   className="text-[10px] px-2 py-1 rounded bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 hover:bg-indigo-500/20 transition-colors">
                                   📋 Copiar
@@ -2108,6 +2114,31 @@ export default function CRMBoard({
                                     ↗ Original
                                   </a>
                                 )}
+                                <button
+                                  onClick={async () => {
+                                    const next = !selected.trackingLink!.isActive;
+                                    const res = await fetch(`/api/tracking-links/${selected.trackingLink!.id}`, {
+                                      method:  "PATCH",
+                                      headers: { "Content-Type": "application/json" },
+                                      body:    JSON.stringify({ isActive: next }),
+                                    });
+                                    if (res.ok) {
+                                      const updated = { ...selected.trackingLink!, isActive: next };
+                                      setSelected({ ...selected, trackingLink: updated });
+                                      setLeads((prev) => prev.map((l) => l.id === selected.id ? { ...l, trackingLink: updated } : l));
+                                    }
+                                  }}
+                                  title={selected.trackingLink.isActive
+                                    ? "Pausar: cliques seguem contando, mas o destino não abre"
+                                    : "Reativar: o link volta a abrir o destino"}
+                                  className={`text-[10px] px-2 py-1 rounded border transition-colors ${
+                                    selected.trackingLink.isActive
+                                      ? "bg-amber-500/10 border-amber-500/20 text-amber-400 hover:bg-amber-500/20"
+                                      : "bg-emerald-500/10 border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20"
+                                  }`}
+                                >
+                                  {selected.trackingLink.isActive ? "⏸ Pausar" : "▶ Reativar"}
+                                </button>
                                 <button onClick={() => handleLinkTracker(null)} disabled={savingTracker}
                                   className="text-[10px] px-2 py-1 rounded bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 transition-colors disabled:opacity-50">
                                   Desvincular

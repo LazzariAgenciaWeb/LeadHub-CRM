@@ -21,6 +21,7 @@ interface TrackingLink {
   destination: string;
   destType: string;
   clicks: number;
+  isActive: boolean;
   createdAt: string;
   campaignId: string | null;
   companyId: string | null;
@@ -129,6 +130,20 @@ export default function LinksManager({
     setLinks((prev) => prev.filter((l) => l.id !== id));
     setDeleting(null);
     router.refresh();
+  }
+
+  async function handleToggleActive(link: TrackingLink) {
+    const next = !link.isActive;
+    // Atualiza otimista; reverte em erro
+    setLinks((prev) => prev.map((l) => l.id === link.id ? { ...l, isActive: next } : l));
+    const res = await fetch(`/api/tracking-links/${link.id}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ isActive: next }),
+    });
+    if (!res.ok) {
+      setLinks((prev) => prev.map((l) => l.id === link.id ? { ...l, isActive: link.isActive } : l));
+    }
   }
 
   function copyLink(code: string) {
@@ -445,7 +460,7 @@ export default function LinksManager({
                 const convRate = link.clicks > 0 ? ((link._count.leads / link.clicks) * 100).toFixed(0) : "0";
                 const isExpanded = expandedLink === link.id;
                 return (
-                  <div key={link.id} className={idx < filtered.length - 1 ? "border-b border-[#1e2d45]/50" : ""}>
+                  <div key={link.id} className={`${idx < filtered.length - 1 ? "border-b border-[#1e2d45]/50" : ""} ${link.isActive ? "" : "opacity-60"}`}>
                     <div className="flex items-start gap-3 p-4 hover:bg-white/[0.015] transition-colors">
                       {/* Icon */}
                       <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-[#161f30] flex items-center justify-center text-sm mt-0.5">
@@ -454,8 +469,13 @@ export default function LinksManager({
 
                       {/* Info */}
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-0.5">
+                        <div className="flex items-center gap-2 mb-0.5 flex-wrap">
                           {link.label && <span className="text-white text-[13px] font-semibold">{link.label}</span>}
+                          {!link.isActive && (
+                            <span className="text-red-400 text-[10px] bg-red-500/10 border border-red-500/30 px-1.5 py-0.5 rounded font-semibold uppercase tracking-wide">
+                              ⏸ Pausado
+                            </span>
+                          )}
                           {link.campaign
                             ? <span className="text-indigo-400 text-[10px] bg-indigo-500/10 px-1.5 py-0.5 rounded font-medium">📣 {link.campaign.name}</span>
                             : <span className="text-amber-400 text-[10px] bg-amber-500/10 px-1.5 py-0.5 rounded font-medium">🌱 Orgânico</span>}
@@ -513,6 +533,19 @@ export default function LinksManager({
                             title="Copiar URL original (sem registrar clique)"
                           >
                             {copiedDest === link.id ? "✓ Copiado!" : "🔗 URL original"}
+                          </button>
+                          <button
+                            onClick={() => handleToggleActive(link)}
+                            className={`px-2 py-1 rounded text-[10px] transition-colors ${
+                              link.isActive
+                                ? "bg-amber-500/10 text-amber-400 hover:bg-amber-500/20"
+                                : "bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20"
+                            }`}
+                            title={link.isActive
+                              ? "Pausar: cliques continuam sendo contados, mas o destino não abre"
+                              : "Reativar: o link volta a abrir o destino"}
+                          >
+                            {link.isActive ? "⏸ Pausar" : "▶ Reativar"}
                           </button>
                           <button onClick={() => handleDelete(link.id)} disabled={deleting === link.id}
                             className="px-2 py-1 rounded bg-white/5 text-slate-600 text-[10px] hover:text-red-400 transition-colors">
