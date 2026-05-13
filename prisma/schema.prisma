@@ -187,6 +187,10 @@ model Company {
   tasks             Task[]
   tags              Tag[]
   customFieldDefs   CustomFieldDef[]
+  // Campos personalizados definidos por este tenant — aplicam-se às próprias
+  // empresas-cliente (sub-empresas) e à própria empresa.
+  companyFieldDefs        CompanyCustomFieldDef[] @relation("CompanyFieldDefOwner")
+  companyCustomValues     CompanyCustomValue[]
   whatsappInstances WhatsappInstance[]
   messages          Message[]
   keywordRules      KeywordRule[]
@@ -469,6 +473,53 @@ model LeadCustomValue {
 
   // Um valor por (lead, field).
   @@unique([leadId, fieldId])
+  @@index([fieldId])
+}
+
+// ─── Campos personalizados de EMPRESA ─────────────────────────────────────────
+// Mesma ideia do CustomFieldDef (que é pra Lead), mas o alvo aqui é a própria
+// `Company`. Definição pertence a um "tenant" (a empresa-dona, normalmente a
+// agência que opera o LeadHub) e aplica-se a si mesma + às sub-empresas dela.
+// Cada usuário da agência pode criar campos conforme o atendimento exigir
+// (ex.: "Plano contratado", "Data de renovação", "Driver Stripe").
+
+model CompanyCustomFieldDef {
+  id        String          @id @default(cuid())
+  name      String
+  key       String
+  type      CustomFieldType @default(TEXT)
+  options   Json?
+  order     Int             @default(0)
+
+  // Tenant que definiu o campo (a agência). Os campos visíveis em uma empresa
+  // são os do parentCompanyId dela (ou os dela mesma se for top-level).
+  ownerCompany   Company @relation("CompanyFieldDefOwner", fields: [ownerCompanyId], references: [id], onDelete: Cascade)
+  ownerCompanyId String
+
+  values    CompanyCustomValue[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([ownerCompanyId, key])
+  @@index([ownerCompanyId, order])
+}
+
+model CompanyCustomValue {
+  id String @id @default(cuid())
+
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  field   CompanyCustomFieldDef @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  fieldId String
+
+  value String @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, fieldId])
   @@index([fieldId])
 }
 

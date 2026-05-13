@@ -10,6 +10,7 @@ import Link from "next/link";
 import DeleteCompanyButton from "./DeleteCompanyButton";
 import EditCompanyButton from "./EditCompanyButton";
 import CompanyDetailTabs from "./CompanyDetailTabs";
+import CompanyCustomFields from "./CompanyCustomFields";
 
 export default async function EmpresaDetailPage({
   params,
@@ -239,6 +240,13 @@ export default async function EmpresaDetailPage({
               <span className="text-slate-500">📅</span>
               <span className="text-slate-400 text-xs">Criado em {new Date(company.createdAt).toLocaleDateString("pt-BR")}</span>
             </div>
+          </div>
+
+          <div className="mt-4 pt-3 border-t border-[#1e2d45]">
+            <h4 className="text-slate-400 text-[11px] font-semibold uppercase tracking-wide mb-2">
+              Informações personalizadas
+            </h4>
+            <CompanyCustomFields companyId={id} />
           </div>
         </div>
 

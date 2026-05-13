@@ -79,6 +79,16 @@ export type CustomFieldDef = $Result.DefaultSelection<Prisma.$CustomFieldDefPayl
  */
 export type LeadCustomValue = $Result.DefaultSelection<Prisma.$LeadCustomValuePayload>
 /**
+ * Model CompanyCustomFieldDef
+ * 
+ */
+export type CompanyCustomFieldDef = $Result.DefaultSelection<Prisma.$CompanyCustomFieldDefPayload>
+/**
+ * Model CompanyCustomValue
+ * 
+ */
+export type CompanyCustomValue = $Result.DefaultSelection<Prisma.$CompanyCustomValuePayload>
+/**
  * Model Task
  * 
  */
@@ -996,6 +1006,26 @@ export class PrismaClient<
   get leadCustomValue(): Prisma.LeadCustomValueDelegate<ExtArgs>;
 
   /**
+   * `prisma.companyCustomFieldDef`: Exposes CRUD operations for the **CompanyCustomFieldDef** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CompanyCustomFieldDefs
+    * const companyCustomFieldDefs = await prisma.companyCustomFieldDef.findMany()
+    * ```
+    */
+  get companyCustomFieldDef(): Prisma.CompanyCustomFieldDefDelegate<ExtArgs>;
+
+  /**
+   * `prisma.companyCustomValue`: Exposes CRUD operations for the **CompanyCustomValue** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CompanyCustomValues
+    * const companyCustomValues = await prisma.companyCustomValue.findMany()
+    * ```
+    */
+  get companyCustomValue(): Prisma.CompanyCustomValueDelegate<ExtArgs>;
+
+  /**
    * `prisma.task`: Exposes CRUD operations for the **Task** model.
     * Example usage:
     * ```ts
@@ -1878,6 +1908,8 @@ export namespace Prisma {
     LeadTag: 'LeadTag',
     CustomFieldDef: 'CustomFieldDef',
     LeadCustomValue: 'LeadCustomValue',
+    CompanyCustomFieldDef: 'CompanyCustomFieldDef',
+    CompanyCustomValue: 'CompanyCustomValue',
     Task: 'Task',
     LeadComment: 'LeadComment',
     PipelineStageConfig: 'PipelineStageConfig',
@@ -1936,7 +1968,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "billingEvent" | "adminAuditLog"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "billingEvent" | "adminAuditLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2847,6 +2879,146 @@ export namespace Prisma {
           count: {
             args: Prisma.LeadCustomValueCountArgs<ExtArgs>
             result: $Utils.Optional<LeadCustomValueCountAggregateOutputType> | number
+          }
+        }
+      }
+      CompanyCustomFieldDef: {
+        payload: Prisma.$CompanyCustomFieldDefPayload<ExtArgs>
+        fields: Prisma.CompanyCustomFieldDefFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CompanyCustomFieldDefFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCustomFieldDefPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CompanyCustomFieldDefFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCustomFieldDefPayload>
+          }
+          findFirst: {
+            args: Prisma.CompanyCustomFieldDefFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCustomFieldDefPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CompanyCustomFieldDefFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCustomFieldDefPayload>
+          }
+          findMany: {
+            args: Prisma.CompanyCustomFieldDefFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCustomFieldDefPayload>[]
+          }
+          create: {
+            args: Prisma.CompanyCustomFieldDefCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCustomFieldDefPayload>
+          }
+          createMany: {
+            args: Prisma.CompanyCustomFieldDefCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CompanyCustomFieldDefCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCustomFieldDefPayload>[]
+          }
+          delete: {
+            args: Prisma.CompanyCustomFieldDefDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCustomFieldDefPayload>
+          }
+          update: {
+            args: Prisma.CompanyCustomFieldDefUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCustomFieldDefPayload>
+          }
+          deleteMany: {
+            args: Prisma.CompanyCustomFieldDefDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CompanyCustomFieldDefUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CompanyCustomFieldDefUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCustomFieldDefPayload>
+          }
+          aggregate: {
+            args: Prisma.CompanyCustomFieldDefAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCompanyCustomFieldDef>
+          }
+          groupBy: {
+            args: Prisma.CompanyCustomFieldDefGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CompanyCustomFieldDefGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CompanyCustomFieldDefCountArgs<ExtArgs>
+            result: $Utils.Optional<CompanyCustomFieldDefCountAggregateOutputType> | number
+          }
+        }
+      }
+      CompanyCustomValue: {
+        payload: Prisma.$CompanyCustomValuePayload<ExtArgs>
+        fields: Prisma.CompanyCustomValueFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CompanyCustomValueFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCustomValuePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CompanyCustomValueFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCustomValuePayload>
+          }
+          findFirst: {
+            args: Prisma.CompanyCustomValueFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCustomValuePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CompanyCustomValueFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCustomValuePayload>
+          }
+          findMany: {
+            args: Prisma.CompanyCustomValueFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCustomValuePayload>[]
+          }
+          create: {
+            args: Prisma.CompanyCustomValueCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCustomValuePayload>
+          }
+          createMany: {
+            args: Prisma.CompanyCustomValueCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CompanyCustomValueCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCustomValuePayload>[]
+          }
+          delete: {
+            args: Prisma.CompanyCustomValueDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCustomValuePayload>
+          }
+          update: {
+            args: Prisma.CompanyCustomValueUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCustomValuePayload>
+          }
+          deleteMany: {
+            args: Prisma.CompanyCustomValueDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CompanyCustomValueUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CompanyCustomValueUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyCustomValuePayload>
+          }
+          aggregate: {
+            args: Prisma.CompanyCustomValueAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCompanyCustomValue>
+          }
+          groupBy: {
+            args: Prisma.CompanyCustomValueGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CompanyCustomValueGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CompanyCustomValueCountArgs<ExtArgs>
+            result: $Utils.Optional<CompanyCustomValueCountAggregateOutputType> | number
           }
         }
       }
@@ -6202,6 +6374,8 @@ export namespace Prisma {
     tasks: number
     tags: number
     customFieldDefs: number
+    companyFieldDefs: number
+    companyCustomValues: number
     whatsappInstances: number
     messages: number
     keywordRules: number
@@ -6240,6 +6414,8 @@ export namespace Prisma {
     tasks?: boolean | CompanyCountOutputTypeCountTasksArgs
     tags?: boolean | CompanyCountOutputTypeCountTagsArgs
     customFieldDefs?: boolean | CompanyCountOutputTypeCountCustomFieldDefsArgs
+    companyFieldDefs?: boolean | CompanyCountOutputTypeCountCompanyFieldDefsArgs
+    companyCustomValues?: boolean | CompanyCountOutputTypeCountCompanyCustomValuesArgs
     whatsappInstances?: boolean | CompanyCountOutputTypeCountWhatsappInstancesArgs
     messages?: boolean | CompanyCountOutputTypeCountMessagesArgs
     keywordRules?: boolean | CompanyCountOutputTypeCountKeywordRulesArgs
@@ -6376,6 +6552,20 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountCustomFieldDefsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CustomFieldDefWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountCompanyFieldDefsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompanyCustomFieldDefWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountCompanyCustomValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompanyCustomValueWhereInput
   }
 
   /**
@@ -6752,6 +6942,37 @@ export namespace Prisma {
    */
   export type CustomFieldDefCountOutputTypeCountValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LeadCustomValueWhereInput
+  }
+
+
+  /**
+   * Count Type CompanyCustomFieldDefCountOutputType
+   */
+
+  export type CompanyCustomFieldDefCountOutputType = {
+    values: number
+  }
+
+  export type CompanyCustomFieldDefCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    values?: boolean | CompanyCustomFieldDefCountOutputTypeCountValuesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CompanyCustomFieldDefCountOutputType without action
+   */
+  export type CompanyCustomFieldDefCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomFieldDefCountOutputType
+     */
+    select?: CompanyCustomFieldDefCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CompanyCustomFieldDefCountOutputType without action
+   */
+  export type CompanyCustomFieldDefCountOutputTypeCountValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompanyCustomValueWhereInput
   }
 
 
@@ -11894,6 +12115,8 @@ export namespace Prisma {
     tasks?: boolean | Company$tasksArgs<ExtArgs>
     tags?: boolean | Company$tagsArgs<ExtArgs>
     customFieldDefs?: boolean | Company$customFieldDefsArgs<ExtArgs>
+    companyFieldDefs?: boolean | Company$companyFieldDefsArgs<ExtArgs>
+    companyCustomValues?: boolean | Company$companyCustomValuesArgs<ExtArgs>
     whatsappInstances?: boolean | Company$whatsappInstancesArgs<ExtArgs>
     messages?: boolean | Company$messagesArgs<ExtArgs>
     keywordRules?: boolean | Company$keywordRulesArgs<ExtArgs>
@@ -11992,6 +12215,8 @@ export namespace Prisma {
     tasks?: boolean | Company$tasksArgs<ExtArgs>
     tags?: boolean | Company$tagsArgs<ExtArgs>
     customFieldDefs?: boolean | Company$customFieldDefsArgs<ExtArgs>
+    companyFieldDefs?: boolean | Company$companyFieldDefsArgs<ExtArgs>
+    companyCustomValues?: boolean | Company$companyCustomValuesArgs<ExtArgs>
     whatsappInstances?: boolean | Company$whatsappInstancesArgs<ExtArgs>
     messages?: boolean | Company$messagesArgs<ExtArgs>
     keywordRules?: boolean | Company$keywordRulesArgs<ExtArgs>
@@ -12038,6 +12263,8 @@ export namespace Prisma {
       tasks: Prisma.$TaskPayload<ExtArgs>[]
       tags: Prisma.$TagPayload<ExtArgs>[]
       customFieldDefs: Prisma.$CustomFieldDefPayload<ExtArgs>[]
+      companyFieldDefs: Prisma.$CompanyCustomFieldDefPayload<ExtArgs>[]
+      companyCustomValues: Prisma.$CompanyCustomValuePayload<ExtArgs>[]
       whatsappInstances: Prisma.$WhatsappInstancePayload<ExtArgs>[]
       messages: Prisma.$MessagePayload<ExtArgs>[]
       keywordRules: Prisma.$KeywordRulePayload<ExtArgs>[]
@@ -12466,6 +12693,8 @@ export namespace Prisma {
     tasks<T extends Company$tasksArgs<ExtArgs> = {}>(args?: Subset<T, Company$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany"> | Null>
     tags<T extends Company$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Company$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany"> | Null>
     customFieldDefs<T extends Company$customFieldDefsArgs<ExtArgs> = {}>(args?: Subset<T, Company$customFieldDefsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldDefPayload<ExtArgs>, T, "findMany"> | Null>
+    companyFieldDefs<T extends Company$companyFieldDefsArgs<ExtArgs> = {}>(args?: Subset<T, Company$companyFieldDefsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyCustomFieldDefPayload<ExtArgs>, T, "findMany"> | Null>
+    companyCustomValues<T extends Company$companyCustomValuesArgs<ExtArgs> = {}>(args?: Subset<T, Company$companyCustomValuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyCustomValuePayload<ExtArgs>, T, "findMany"> | Null>
     whatsappInstances<T extends Company$whatsappInstancesArgs<ExtArgs> = {}>(args?: Subset<T, Company$whatsappInstancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhatsappInstancePayload<ExtArgs>, T, "findMany"> | Null>
     messages<T extends Company$messagesArgs<ExtArgs> = {}>(args?: Subset<T, Company$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany"> | Null>
     keywordRules<T extends Company$keywordRulesArgs<ExtArgs> = {}>(args?: Subset<T, Company$keywordRulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KeywordRulePayload<ExtArgs>, T, "findMany"> | Null>
@@ -13171,6 +13400,46 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CustomFieldDefScalarFieldEnum | CustomFieldDefScalarFieldEnum[]
+  }
+
+  /**
+   * Company.companyFieldDefs
+   */
+  export type Company$companyFieldDefsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomFieldDef
+     */
+    select?: CompanyCustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomFieldDefInclude<ExtArgs> | null
+    where?: CompanyCustomFieldDefWhereInput
+    orderBy?: CompanyCustomFieldDefOrderByWithRelationInput | CompanyCustomFieldDefOrderByWithRelationInput[]
+    cursor?: CompanyCustomFieldDefWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CompanyCustomFieldDefScalarFieldEnum | CompanyCustomFieldDefScalarFieldEnum[]
+  }
+
+  /**
+   * Company.companyCustomValues
+   */
+  export type Company$companyCustomValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomValue
+     */
+    select?: CompanyCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomValueInclude<ExtArgs> | null
+    where?: CompanyCustomValueWhereInput
+    orderBy?: CompanyCustomValueOrderByWithRelationInput | CompanyCustomValueOrderByWithRelationInput[]
+    cursor?: CompanyCustomValueWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CompanyCustomValueScalarFieldEnum | CompanyCustomValueScalarFieldEnum[]
   }
 
   /**
@@ -22203,6 +22472,1994 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: LeadCustomValueInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CompanyCustomFieldDef
+   */
+
+  export type AggregateCompanyCustomFieldDef = {
+    _count: CompanyCustomFieldDefCountAggregateOutputType | null
+    _avg: CompanyCustomFieldDefAvgAggregateOutputType | null
+    _sum: CompanyCustomFieldDefSumAggregateOutputType | null
+    _min: CompanyCustomFieldDefMinAggregateOutputType | null
+    _max: CompanyCustomFieldDefMaxAggregateOutputType | null
+  }
+
+  export type CompanyCustomFieldDefAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type CompanyCustomFieldDefSumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type CompanyCustomFieldDefMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    key: string | null
+    type: $Enums.CustomFieldType | null
+    order: number | null
+    ownerCompanyId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CompanyCustomFieldDefMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    key: string | null
+    type: $Enums.CustomFieldType | null
+    order: number | null
+    ownerCompanyId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CompanyCustomFieldDefCountAggregateOutputType = {
+    id: number
+    name: number
+    key: number
+    type: number
+    options: number
+    order: number
+    ownerCompanyId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CompanyCustomFieldDefAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type CompanyCustomFieldDefSumAggregateInputType = {
+    order?: true
+  }
+
+  export type CompanyCustomFieldDefMinAggregateInputType = {
+    id?: true
+    name?: true
+    key?: true
+    type?: true
+    order?: true
+    ownerCompanyId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CompanyCustomFieldDefMaxAggregateInputType = {
+    id?: true
+    name?: true
+    key?: true
+    type?: true
+    order?: true
+    ownerCompanyId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CompanyCustomFieldDefCountAggregateInputType = {
+    id?: true
+    name?: true
+    key?: true
+    type?: true
+    options?: true
+    order?: true
+    ownerCompanyId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CompanyCustomFieldDefAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CompanyCustomFieldDef to aggregate.
+     */
+    where?: CompanyCustomFieldDefWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyCustomFieldDefs to fetch.
+     */
+    orderBy?: CompanyCustomFieldDefOrderByWithRelationInput | CompanyCustomFieldDefOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CompanyCustomFieldDefWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyCustomFieldDefs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyCustomFieldDefs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CompanyCustomFieldDefs
+    **/
+    _count?: true | CompanyCustomFieldDefCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CompanyCustomFieldDefAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CompanyCustomFieldDefSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CompanyCustomFieldDefMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CompanyCustomFieldDefMaxAggregateInputType
+  }
+
+  export type GetCompanyCustomFieldDefAggregateType<T extends CompanyCustomFieldDefAggregateArgs> = {
+        [P in keyof T & keyof AggregateCompanyCustomFieldDef]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCompanyCustomFieldDef[P]>
+      : GetScalarType<T[P], AggregateCompanyCustomFieldDef[P]>
+  }
+
+
+
+
+  export type CompanyCustomFieldDefGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompanyCustomFieldDefWhereInput
+    orderBy?: CompanyCustomFieldDefOrderByWithAggregationInput | CompanyCustomFieldDefOrderByWithAggregationInput[]
+    by: CompanyCustomFieldDefScalarFieldEnum[] | CompanyCustomFieldDefScalarFieldEnum
+    having?: CompanyCustomFieldDefScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CompanyCustomFieldDefCountAggregateInputType | true
+    _avg?: CompanyCustomFieldDefAvgAggregateInputType
+    _sum?: CompanyCustomFieldDefSumAggregateInputType
+    _min?: CompanyCustomFieldDefMinAggregateInputType
+    _max?: CompanyCustomFieldDefMaxAggregateInputType
+  }
+
+  export type CompanyCustomFieldDefGroupByOutputType = {
+    id: string
+    name: string
+    key: string
+    type: $Enums.CustomFieldType
+    options: JsonValue | null
+    order: number
+    ownerCompanyId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: CompanyCustomFieldDefCountAggregateOutputType | null
+    _avg: CompanyCustomFieldDefAvgAggregateOutputType | null
+    _sum: CompanyCustomFieldDefSumAggregateOutputType | null
+    _min: CompanyCustomFieldDefMinAggregateOutputType | null
+    _max: CompanyCustomFieldDefMaxAggregateOutputType | null
+  }
+
+  type GetCompanyCustomFieldDefGroupByPayload<T extends CompanyCustomFieldDefGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CompanyCustomFieldDefGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CompanyCustomFieldDefGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CompanyCustomFieldDefGroupByOutputType[P]>
+            : GetScalarType<T[P], CompanyCustomFieldDefGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CompanyCustomFieldDefSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    key?: boolean
+    type?: boolean
+    options?: boolean
+    order?: boolean
+    ownerCompanyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    ownerCompany?: boolean | CompanyDefaultArgs<ExtArgs>
+    values?: boolean | CompanyCustomFieldDef$valuesArgs<ExtArgs>
+    _count?: boolean | CompanyCustomFieldDefCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["companyCustomFieldDef"]>
+
+  export type CompanyCustomFieldDefSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    key?: boolean
+    type?: boolean
+    options?: boolean
+    order?: boolean
+    ownerCompanyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    ownerCompany?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["companyCustomFieldDef"]>
+
+  export type CompanyCustomFieldDefSelectScalar = {
+    id?: boolean
+    name?: boolean
+    key?: boolean
+    type?: boolean
+    options?: boolean
+    order?: boolean
+    ownerCompanyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CompanyCustomFieldDefInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ownerCompany?: boolean | CompanyDefaultArgs<ExtArgs>
+    values?: boolean | CompanyCustomFieldDef$valuesArgs<ExtArgs>
+    _count?: boolean | CompanyCustomFieldDefCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CompanyCustomFieldDefIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ownerCompany?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $CompanyCustomFieldDefPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CompanyCustomFieldDef"
+    objects: {
+      ownerCompany: Prisma.$CompanyPayload<ExtArgs>
+      values: Prisma.$CompanyCustomValuePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      key: string
+      type: $Enums.CustomFieldType
+      options: Prisma.JsonValue | null
+      order: number
+      ownerCompanyId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["companyCustomFieldDef"]>
+    composites: {}
+  }
+
+  type CompanyCustomFieldDefGetPayload<S extends boolean | null | undefined | CompanyCustomFieldDefDefaultArgs> = $Result.GetResult<Prisma.$CompanyCustomFieldDefPayload, S>
+
+  type CompanyCustomFieldDefCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<CompanyCustomFieldDefFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: CompanyCustomFieldDefCountAggregateInputType | true
+    }
+
+  export interface CompanyCustomFieldDefDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CompanyCustomFieldDef'], meta: { name: 'CompanyCustomFieldDef' } }
+    /**
+     * Find zero or one CompanyCustomFieldDef that matches the filter.
+     * @param {CompanyCustomFieldDefFindUniqueArgs} args - Arguments to find a CompanyCustomFieldDef
+     * @example
+     * // Get one CompanyCustomFieldDef
+     * const companyCustomFieldDef = await prisma.companyCustomFieldDef.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CompanyCustomFieldDefFindUniqueArgs>(args: SelectSubset<T, CompanyCustomFieldDefFindUniqueArgs<ExtArgs>>): Prisma__CompanyCustomFieldDefClient<$Result.GetResult<Prisma.$CompanyCustomFieldDefPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one CompanyCustomFieldDef that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {CompanyCustomFieldDefFindUniqueOrThrowArgs} args - Arguments to find a CompanyCustomFieldDef
+     * @example
+     * // Get one CompanyCustomFieldDef
+     * const companyCustomFieldDef = await prisma.companyCustomFieldDef.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CompanyCustomFieldDefFindUniqueOrThrowArgs>(args: SelectSubset<T, CompanyCustomFieldDefFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CompanyCustomFieldDefClient<$Result.GetResult<Prisma.$CompanyCustomFieldDefPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first CompanyCustomFieldDef that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCustomFieldDefFindFirstArgs} args - Arguments to find a CompanyCustomFieldDef
+     * @example
+     * // Get one CompanyCustomFieldDef
+     * const companyCustomFieldDef = await prisma.companyCustomFieldDef.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CompanyCustomFieldDefFindFirstArgs>(args?: SelectSubset<T, CompanyCustomFieldDefFindFirstArgs<ExtArgs>>): Prisma__CompanyCustomFieldDefClient<$Result.GetResult<Prisma.$CompanyCustomFieldDefPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first CompanyCustomFieldDef that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCustomFieldDefFindFirstOrThrowArgs} args - Arguments to find a CompanyCustomFieldDef
+     * @example
+     * // Get one CompanyCustomFieldDef
+     * const companyCustomFieldDef = await prisma.companyCustomFieldDef.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CompanyCustomFieldDefFindFirstOrThrowArgs>(args?: SelectSubset<T, CompanyCustomFieldDefFindFirstOrThrowArgs<ExtArgs>>): Prisma__CompanyCustomFieldDefClient<$Result.GetResult<Prisma.$CompanyCustomFieldDefPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more CompanyCustomFieldDefs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCustomFieldDefFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CompanyCustomFieldDefs
+     * const companyCustomFieldDefs = await prisma.companyCustomFieldDef.findMany()
+     * 
+     * // Get first 10 CompanyCustomFieldDefs
+     * const companyCustomFieldDefs = await prisma.companyCustomFieldDef.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const companyCustomFieldDefWithIdOnly = await prisma.companyCustomFieldDef.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CompanyCustomFieldDefFindManyArgs>(args?: SelectSubset<T, CompanyCustomFieldDefFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyCustomFieldDefPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a CompanyCustomFieldDef.
+     * @param {CompanyCustomFieldDefCreateArgs} args - Arguments to create a CompanyCustomFieldDef.
+     * @example
+     * // Create one CompanyCustomFieldDef
+     * const CompanyCustomFieldDef = await prisma.companyCustomFieldDef.create({
+     *   data: {
+     *     // ... data to create a CompanyCustomFieldDef
+     *   }
+     * })
+     * 
+     */
+    create<T extends CompanyCustomFieldDefCreateArgs>(args: SelectSubset<T, CompanyCustomFieldDefCreateArgs<ExtArgs>>): Prisma__CompanyCustomFieldDefClient<$Result.GetResult<Prisma.$CompanyCustomFieldDefPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many CompanyCustomFieldDefs.
+     * @param {CompanyCustomFieldDefCreateManyArgs} args - Arguments to create many CompanyCustomFieldDefs.
+     * @example
+     * // Create many CompanyCustomFieldDefs
+     * const companyCustomFieldDef = await prisma.companyCustomFieldDef.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CompanyCustomFieldDefCreateManyArgs>(args?: SelectSubset<T, CompanyCustomFieldDefCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CompanyCustomFieldDefs and returns the data saved in the database.
+     * @param {CompanyCustomFieldDefCreateManyAndReturnArgs} args - Arguments to create many CompanyCustomFieldDefs.
+     * @example
+     * // Create many CompanyCustomFieldDefs
+     * const companyCustomFieldDef = await prisma.companyCustomFieldDef.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CompanyCustomFieldDefs and only return the `id`
+     * const companyCustomFieldDefWithIdOnly = await prisma.companyCustomFieldDef.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CompanyCustomFieldDefCreateManyAndReturnArgs>(args?: SelectSubset<T, CompanyCustomFieldDefCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyCustomFieldDefPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a CompanyCustomFieldDef.
+     * @param {CompanyCustomFieldDefDeleteArgs} args - Arguments to delete one CompanyCustomFieldDef.
+     * @example
+     * // Delete one CompanyCustomFieldDef
+     * const CompanyCustomFieldDef = await prisma.companyCustomFieldDef.delete({
+     *   where: {
+     *     // ... filter to delete one CompanyCustomFieldDef
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CompanyCustomFieldDefDeleteArgs>(args: SelectSubset<T, CompanyCustomFieldDefDeleteArgs<ExtArgs>>): Prisma__CompanyCustomFieldDefClient<$Result.GetResult<Prisma.$CompanyCustomFieldDefPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one CompanyCustomFieldDef.
+     * @param {CompanyCustomFieldDefUpdateArgs} args - Arguments to update one CompanyCustomFieldDef.
+     * @example
+     * // Update one CompanyCustomFieldDef
+     * const companyCustomFieldDef = await prisma.companyCustomFieldDef.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CompanyCustomFieldDefUpdateArgs>(args: SelectSubset<T, CompanyCustomFieldDefUpdateArgs<ExtArgs>>): Prisma__CompanyCustomFieldDefClient<$Result.GetResult<Prisma.$CompanyCustomFieldDefPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more CompanyCustomFieldDefs.
+     * @param {CompanyCustomFieldDefDeleteManyArgs} args - Arguments to filter CompanyCustomFieldDefs to delete.
+     * @example
+     * // Delete a few CompanyCustomFieldDefs
+     * const { count } = await prisma.companyCustomFieldDef.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CompanyCustomFieldDefDeleteManyArgs>(args?: SelectSubset<T, CompanyCustomFieldDefDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CompanyCustomFieldDefs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCustomFieldDefUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CompanyCustomFieldDefs
+     * const companyCustomFieldDef = await prisma.companyCustomFieldDef.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CompanyCustomFieldDefUpdateManyArgs>(args: SelectSubset<T, CompanyCustomFieldDefUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CompanyCustomFieldDef.
+     * @param {CompanyCustomFieldDefUpsertArgs} args - Arguments to update or create a CompanyCustomFieldDef.
+     * @example
+     * // Update or create a CompanyCustomFieldDef
+     * const companyCustomFieldDef = await prisma.companyCustomFieldDef.upsert({
+     *   create: {
+     *     // ... data to create a CompanyCustomFieldDef
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CompanyCustomFieldDef we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CompanyCustomFieldDefUpsertArgs>(args: SelectSubset<T, CompanyCustomFieldDefUpsertArgs<ExtArgs>>): Prisma__CompanyCustomFieldDefClient<$Result.GetResult<Prisma.$CompanyCustomFieldDefPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of CompanyCustomFieldDefs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCustomFieldDefCountArgs} args - Arguments to filter CompanyCustomFieldDefs to count.
+     * @example
+     * // Count the number of CompanyCustomFieldDefs
+     * const count = await prisma.companyCustomFieldDef.count({
+     *   where: {
+     *     // ... the filter for the CompanyCustomFieldDefs we want to count
+     *   }
+     * })
+    **/
+    count<T extends CompanyCustomFieldDefCountArgs>(
+      args?: Subset<T, CompanyCustomFieldDefCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CompanyCustomFieldDefCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CompanyCustomFieldDef.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCustomFieldDefAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CompanyCustomFieldDefAggregateArgs>(args: Subset<T, CompanyCustomFieldDefAggregateArgs>): Prisma.PrismaPromise<GetCompanyCustomFieldDefAggregateType<T>>
+
+    /**
+     * Group by CompanyCustomFieldDef.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCustomFieldDefGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CompanyCustomFieldDefGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CompanyCustomFieldDefGroupByArgs['orderBy'] }
+        : { orderBy?: CompanyCustomFieldDefGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CompanyCustomFieldDefGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCompanyCustomFieldDefGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CompanyCustomFieldDef model
+   */
+  readonly fields: CompanyCustomFieldDefFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CompanyCustomFieldDef.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CompanyCustomFieldDefClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    ownerCompany<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    values<T extends CompanyCustomFieldDef$valuesArgs<ExtArgs> = {}>(args?: Subset<T, CompanyCustomFieldDef$valuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyCustomValuePayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CompanyCustomFieldDef model
+   */ 
+  interface CompanyCustomFieldDefFieldRefs {
+    readonly id: FieldRef<"CompanyCustomFieldDef", 'String'>
+    readonly name: FieldRef<"CompanyCustomFieldDef", 'String'>
+    readonly key: FieldRef<"CompanyCustomFieldDef", 'String'>
+    readonly type: FieldRef<"CompanyCustomFieldDef", 'CustomFieldType'>
+    readonly options: FieldRef<"CompanyCustomFieldDef", 'Json'>
+    readonly order: FieldRef<"CompanyCustomFieldDef", 'Int'>
+    readonly ownerCompanyId: FieldRef<"CompanyCustomFieldDef", 'String'>
+    readonly createdAt: FieldRef<"CompanyCustomFieldDef", 'DateTime'>
+    readonly updatedAt: FieldRef<"CompanyCustomFieldDef", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CompanyCustomFieldDef findUnique
+   */
+  export type CompanyCustomFieldDefFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomFieldDef
+     */
+    select?: CompanyCustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomFieldDefInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyCustomFieldDef to fetch.
+     */
+    where: CompanyCustomFieldDefWhereUniqueInput
+  }
+
+  /**
+   * CompanyCustomFieldDef findUniqueOrThrow
+   */
+  export type CompanyCustomFieldDefFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomFieldDef
+     */
+    select?: CompanyCustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomFieldDefInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyCustomFieldDef to fetch.
+     */
+    where: CompanyCustomFieldDefWhereUniqueInput
+  }
+
+  /**
+   * CompanyCustomFieldDef findFirst
+   */
+  export type CompanyCustomFieldDefFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomFieldDef
+     */
+    select?: CompanyCustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomFieldDefInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyCustomFieldDef to fetch.
+     */
+    where?: CompanyCustomFieldDefWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyCustomFieldDefs to fetch.
+     */
+    orderBy?: CompanyCustomFieldDefOrderByWithRelationInput | CompanyCustomFieldDefOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CompanyCustomFieldDefs.
+     */
+    cursor?: CompanyCustomFieldDefWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyCustomFieldDefs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyCustomFieldDefs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CompanyCustomFieldDefs.
+     */
+    distinct?: CompanyCustomFieldDefScalarFieldEnum | CompanyCustomFieldDefScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyCustomFieldDef findFirstOrThrow
+   */
+  export type CompanyCustomFieldDefFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomFieldDef
+     */
+    select?: CompanyCustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomFieldDefInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyCustomFieldDef to fetch.
+     */
+    where?: CompanyCustomFieldDefWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyCustomFieldDefs to fetch.
+     */
+    orderBy?: CompanyCustomFieldDefOrderByWithRelationInput | CompanyCustomFieldDefOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CompanyCustomFieldDefs.
+     */
+    cursor?: CompanyCustomFieldDefWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyCustomFieldDefs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyCustomFieldDefs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CompanyCustomFieldDefs.
+     */
+    distinct?: CompanyCustomFieldDefScalarFieldEnum | CompanyCustomFieldDefScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyCustomFieldDef findMany
+   */
+  export type CompanyCustomFieldDefFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomFieldDef
+     */
+    select?: CompanyCustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomFieldDefInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyCustomFieldDefs to fetch.
+     */
+    where?: CompanyCustomFieldDefWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyCustomFieldDefs to fetch.
+     */
+    orderBy?: CompanyCustomFieldDefOrderByWithRelationInput | CompanyCustomFieldDefOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CompanyCustomFieldDefs.
+     */
+    cursor?: CompanyCustomFieldDefWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyCustomFieldDefs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyCustomFieldDefs.
+     */
+    skip?: number
+    distinct?: CompanyCustomFieldDefScalarFieldEnum | CompanyCustomFieldDefScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyCustomFieldDef create
+   */
+  export type CompanyCustomFieldDefCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomFieldDef
+     */
+    select?: CompanyCustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomFieldDefInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CompanyCustomFieldDef.
+     */
+    data: XOR<CompanyCustomFieldDefCreateInput, CompanyCustomFieldDefUncheckedCreateInput>
+  }
+
+  /**
+   * CompanyCustomFieldDef createMany
+   */
+  export type CompanyCustomFieldDefCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CompanyCustomFieldDefs.
+     */
+    data: CompanyCustomFieldDefCreateManyInput | CompanyCustomFieldDefCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CompanyCustomFieldDef createManyAndReturn
+   */
+  export type CompanyCustomFieldDefCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomFieldDef
+     */
+    select?: CompanyCustomFieldDefSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many CompanyCustomFieldDefs.
+     */
+    data: CompanyCustomFieldDefCreateManyInput | CompanyCustomFieldDefCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomFieldDefIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CompanyCustomFieldDef update
+   */
+  export type CompanyCustomFieldDefUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomFieldDef
+     */
+    select?: CompanyCustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomFieldDefInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CompanyCustomFieldDef.
+     */
+    data: XOR<CompanyCustomFieldDefUpdateInput, CompanyCustomFieldDefUncheckedUpdateInput>
+    /**
+     * Choose, which CompanyCustomFieldDef to update.
+     */
+    where: CompanyCustomFieldDefWhereUniqueInput
+  }
+
+  /**
+   * CompanyCustomFieldDef updateMany
+   */
+  export type CompanyCustomFieldDefUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CompanyCustomFieldDefs.
+     */
+    data: XOR<CompanyCustomFieldDefUpdateManyMutationInput, CompanyCustomFieldDefUncheckedUpdateManyInput>
+    /**
+     * Filter which CompanyCustomFieldDefs to update
+     */
+    where?: CompanyCustomFieldDefWhereInput
+  }
+
+  /**
+   * CompanyCustomFieldDef upsert
+   */
+  export type CompanyCustomFieldDefUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomFieldDef
+     */
+    select?: CompanyCustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomFieldDefInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CompanyCustomFieldDef to update in case it exists.
+     */
+    where: CompanyCustomFieldDefWhereUniqueInput
+    /**
+     * In case the CompanyCustomFieldDef found by the `where` argument doesn't exist, create a new CompanyCustomFieldDef with this data.
+     */
+    create: XOR<CompanyCustomFieldDefCreateInput, CompanyCustomFieldDefUncheckedCreateInput>
+    /**
+     * In case the CompanyCustomFieldDef was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CompanyCustomFieldDefUpdateInput, CompanyCustomFieldDefUncheckedUpdateInput>
+  }
+
+  /**
+   * CompanyCustomFieldDef delete
+   */
+  export type CompanyCustomFieldDefDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomFieldDef
+     */
+    select?: CompanyCustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomFieldDefInclude<ExtArgs> | null
+    /**
+     * Filter which CompanyCustomFieldDef to delete.
+     */
+    where: CompanyCustomFieldDefWhereUniqueInput
+  }
+
+  /**
+   * CompanyCustomFieldDef deleteMany
+   */
+  export type CompanyCustomFieldDefDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CompanyCustomFieldDefs to delete
+     */
+    where?: CompanyCustomFieldDefWhereInput
+  }
+
+  /**
+   * CompanyCustomFieldDef.values
+   */
+  export type CompanyCustomFieldDef$valuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomValue
+     */
+    select?: CompanyCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomValueInclude<ExtArgs> | null
+    where?: CompanyCustomValueWhereInput
+    orderBy?: CompanyCustomValueOrderByWithRelationInput | CompanyCustomValueOrderByWithRelationInput[]
+    cursor?: CompanyCustomValueWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CompanyCustomValueScalarFieldEnum | CompanyCustomValueScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyCustomFieldDef without action
+   */
+  export type CompanyCustomFieldDefDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomFieldDef
+     */
+    select?: CompanyCustomFieldDefSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomFieldDefInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CompanyCustomValue
+   */
+
+  export type AggregateCompanyCustomValue = {
+    _count: CompanyCustomValueCountAggregateOutputType | null
+    _min: CompanyCustomValueMinAggregateOutputType | null
+    _max: CompanyCustomValueMaxAggregateOutputType | null
+  }
+
+  export type CompanyCustomValueMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    fieldId: string | null
+    value: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CompanyCustomValueMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    fieldId: string | null
+    value: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CompanyCustomValueCountAggregateOutputType = {
+    id: number
+    companyId: number
+    fieldId: number
+    value: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CompanyCustomValueMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    fieldId?: true
+    value?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CompanyCustomValueMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    fieldId?: true
+    value?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CompanyCustomValueCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    fieldId?: true
+    value?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CompanyCustomValueAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CompanyCustomValue to aggregate.
+     */
+    where?: CompanyCustomValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyCustomValues to fetch.
+     */
+    orderBy?: CompanyCustomValueOrderByWithRelationInput | CompanyCustomValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CompanyCustomValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyCustomValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyCustomValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CompanyCustomValues
+    **/
+    _count?: true | CompanyCustomValueCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CompanyCustomValueMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CompanyCustomValueMaxAggregateInputType
+  }
+
+  export type GetCompanyCustomValueAggregateType<T extends CompanyCustomValueAggregateArgs> = {
+        [P in keyof T & keyof AggregateCompanyCustomValue]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCompanyCustomValue[P]>
+      : GetScalarType<T[P], AggregateCompanyCustomValue[P]>
+  }
+
+
+
+
+  export type CompanyCustomValueGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompanyCustomValueWhereInput
+    orderBy?: CompanyCustomValueOrderByWithAggregationInput | CompanyCustomValueOrderByWithAggregationInput[]
+    by: CompanyCustomValueScalarFieldEnum[] | CompanyCustomValueScalarFieldEnum
+    having?: CompanyCustomValueScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CompanyCustomValueCountAggregateInputType | true
+    _min?: CompanyCustomValueMinAggregateInputType
+    _max?: CompanyCustomValueMaxAggregateInputType
+  }
+
+  export type CompanyCustomValueGroupByOutputType = {
+    id: string
+    companyId: string
+    fieldId: string
+    value: string
+    createdAt: Date
+    updatedAt: Date
+    _count: CompanyCustomValueCountAggregateOutputType | null
+    _min: CompanyCustomValueMinAggregateOutputType | null
+    _max: CompanyCustomValueMaxAggregateOutputType | null
+  }
+
+  type GetCompanyCustomValueGroupByPayload<T extends CompanyCustomValueGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CompanyCustomValueGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CompanyCustomValueGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CompanyCustomValueGroupByOutputType[P]>
+            : GetScalarType<T[P], CompanyCustomValueGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CompanyCustomValueSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    fieldId?: boolean
+    value?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    field?: boolean | CompanyCustomFieldDefDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["companyCustomValue"]>
+
+  export type CompanyCustomValueSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    fieldId?: boolean
+    value?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    field?: boolean | CompanyCustomFieldDefDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["companyCustomValue"]>
+
+  export type CompanyCustomValueSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    fieldId?: boolean
+    value?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CompanyCustomValueInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    field?: boolean | CompanyCustomFieldDefDefaultArgs<ExtArgs>
+  }
+  export type CompanyCustomValueIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    field?: boolean | CompanyCustomFieldDefDefaultArgs<ExtArgs>
+  }
+
+  export type $CompanyCustomValuePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CompanyCustomValue"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      field: Prisma.$CompanyCustomFieldDefPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      fieldId: string
+      value: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["companyCustomValue"]>
+    composites: {}
+  }
+
+  type CompanyCustomValueGetPayload<S extends boolean | null | undefined | CompanyCustomValueDefaultArgs> = $Result.GetResult<Prisma.$CompanyCustomValuePayload, S>
+
+  type CompanyCustomValueCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<CompanyCustomValueFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: CompanyCustomValueCountAggregateInputType | true
+    }
+
+  export interface CompanyCustomValueDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CompanyCustomValue'], meta: { name: 'CompanyCustomValue' } }
+    /**
+     * Find zero or one CompanyCustomValue that matches the filter.
+     * @param {CompanyCustomValueFindUniqueArgs} args - Arguments to find a CompanyCustomValue
+     * @example
+     * // Get one CompanyCustomValue
+     * const companyCustomValue = await prisma.companyCustomValue.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CompanyCustomValueFindUniqueArgs>(args: SelectSubset<T, CompanyCustomValueFindUniqueArgs<ExtArgs>>): Prisma__CompanyCustomValueClient<$Result.GetResult<Prisma.$CompanyCustomValuePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one CompanyCustomValue that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {CompanyCustomValueFindUniqueOrThrowArgs} args - Arguments to find a CompanyCustomValue
+     * @example
+     * // Get one CompanyCustomValue
+     * const companyCustomValue = await prisma.companyCustomValue.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CompanyCustomValueFindUniqueOrThrowArgs>(args: SelectSubset<T, CompanyCustomValueFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CompanyCustomValueClient<$Result.GetResult<Prisma.$CompanyCustomValuePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first CompanyCustomValue that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCustomValueFindFirstArgs} args - Arguments to find a CompanyCustomValue
+     * @example
+     * // Get one CompanyCustomValue
+     * const companyCustomValue = await prisma.companyCustomValue.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CompanyCustomValueFindFirstArgs>(args?: SelectSubset<T, CompanyCustomValueFindFirstArgs<ExtArgs>>): Prisma__CompanyCustomValueClient<$Result.GetResult<Prisma.$CompanyCustomValuePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first CompanyCustomValue that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCustomValueFindFirstOrThrowArgs} args - Arguments to find a CompanyCustomValue
+     * @example
+     * // Get one CompanyCustomValue
+     * const companyCustomValue = await prisma.companyCustomValue.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CompanyCustomValueFindFirstOrThrowArgs>(args?: SelectSubset<T, CompanyCustomValueFindFirstOrThrowArgs<ExtArgs>>): Prisma__CompanyCustomValueClient<$Result.GetResult<Prisma.$CompanyCustomValuePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more CompanyCustomValues that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCustomValueFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CompanyCustomValues
+     * const companyCustomValues = await prisma.companyCustomValue.findMany()
+     * 
+     * // Get first 10 CompanyCustomValues
+     * const companyCustomValues = await prisma.companyCustomValue.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const companyCustomValueWithIdOnly = await prisma.companyCustomValue.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CompanyCustomValueFindManyArgs>(args?: SelectSubset<T, CompanyCustomValueFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyCustomValuePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a CompanyCustomValue.
+     * @param {CompanyCustomValueCreateArgs} args - Arguments to create a CompanyCustomValue.
+     * @example
+     * // Create one CompanyCustomValue
+     * const CompanyCustomValue = await prisma.companyCustomValue.create({
+     *   data: {
+     *     // ... data to create a CompanyCustomValue
+     *   }
+     * })
+     * 
+     */
+    create<T extends CompanyCustomValueCreateArgs>(args: SelectSubset<T, CompanyCustomValueCreateArgs<ExtArgs>>): Prisma__CompanyCustomValueClient<$Result.GetResult<Prisma.$CompanyCustomValuePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many CompanyCustomValues.
+     * @param {CompanyCustomValueCreateManyArgs} args - Arguments to create many CompanyCustomValues.
+     * @example
+     * // Create many CompanyCustomValues
+     * const companyCustomValue = await prisma.companyCustomValue.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CompanyCustomValueCreateManyArgs>(args?: SelectSubset<T, CompanyCustomValueCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CompanyCustomValues and returns the data saved in the database.
+     * @param {CompanyCustomValueCreateManyAndReturnArgs} args - Arguments to create many CompanyCustomValues.
+     * @example
+     * // Create many CompanyCustomValues
+     * const companyCustomValue = await prisma.companyCustomValue.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CompanyCustomValues and only return the `id`
+     * const companyCustomValueWithIdOnly = await prisma.companyCustomValue.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CompanyCustomValueCreateManyAndReturnArgs>(args?: SelectSubset<T, CompanyCustomValueCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyCustomValuePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a CompanyCustomValue.
+     * @param {CompanyCustomValueDeleteArgs} args - Arguments to delete one CompanyCustomValue.
+     * @example
+     * // Delete one CompanyCustomValue
+     * const CompanyCustomValue = await prisma.companyCustomValue.delete({
+     *   where: {
+     *     // ... filter to delete one CompanyCustomValue
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CompanyCustomValueDeleteArgs>(args: SelectSubset<T, CompanyCustomValueDeleteArgs<ExtArgs>>): Prisma__CompanyCustomValueClient<$Result.GetResult<Prisma.$CompanyCustomValuePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one CompanyCustomValue.
+     * @param {CompanyCustomValueUpdateArgs} args - Arguments to update one CompanyCustomValue.
+     * @example
+     * // Update one CompanyCustomValue
+     * const companyCustomValue = await prisma.companyCustomValue.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CompanyCustomValueUpdateArgs>(args: SelectSubset<T, CompanyCustomValueUpdateArgs<ExtArgs>>): Prisma__CompanyCustomValueClient<$Result.GetResult<Prisma.$CompanyCustomValuePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more CompanyCustomValues.
+     * @param {CompanyCustomValueDeleteManyArgs} args - Arguments to filter CompanyCustomValues to delete.
+     * @example
+     * // Delete a few CompanyCustomValues
+     * const { count } = await prisma.companyCustomValue.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CompanyCustomValueDeleteManyArgs>(args?: SelectSubset<T, CompanyCustomValueDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CompanyCustomValues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCustomValueUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CompanyCustomValues
+     * const companyCustomValue = await prisma.companyCustomValue.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CompanyCustomValueUpdateManyArgs>(args: SelectSubset<T, CompanyCustomValueUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CompanyCustomValue.
+     * @param {CompanyCustomValueUpsertArgs} args - Arguments to update or create a CompanyCustomValue.
+     * @example
+     * // Update or create a CompanyCustomValue
+     * const companyCustomValue = await prisma.companyCustomValue.upsert({
+     *   create: {
+     *     // ... data to create a CompanyCustomValue
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CompanyCustomValue we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CompanyCustomValueUpsertArgs>(args: SelectSubset<T, CompanyCustomValueUpsertArgs<ExtArgs>>): Prisma__CompanyCustomValueClient<$Result.GetResult<Prisma.$CompanyCustomValuePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of CompanyCustomValues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCustomValueCountArgs} args - Arguments to filter CompanyCustomValues to count.
+     * @example
+     * // Count the number of CompanyCustomValues
+     * const count = await prisma.companyCustomValue.count({
+     *   where: {
+     *     // ... the filter for the CompanyCustomValues we want to count
+     *   }
+     * })
+    **/
+    count<T extends CompanyCustomValueCountArgs>(
+      args?: Subset<T, CompanyCustomValueCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CompanyCustomValueCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CompanyCustomValue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCustomValueAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CompanyCustomValueAggregateArgs>(args: Subset<T, CompanyCustomValueAggregateArgs>): Prisma.PrismaPromise<GetCompanyCustomValueAggregateType<T>>
+
+    /**
+     * Group by CompanyCustomValue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyCustomValueGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CompanyCustomValueGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CompanyCustomValueGroupByArgs['orderBy'] }
+        : { orderBy?: CompanyCustomValueGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CompanyCustomValueGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCompanyCustomValueGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CompanyCustomValue model
+   */
+  readonly fields: CompanyCustomValueFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CompanyCustomValue.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CompanyCustomValueClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    field<T extends CompanyCustomFieldDefDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyCustomFieldDefDefaultArgs<ExtArgs>>): Prisma__CompanyCustomFieldDefClient<$Result.GetResult<Prisma.$CompanyCustomFieldDefPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CompanyCustomValue model
+   */ 
+  interface CompanyCustomValueFieldRefs {
+    readonly id: FieldRef<"CompanyCustomValue", 'String'>
+    readonly companyId: FieldRef<"CompanyCustomValue", 'String'>
+    readonly fieldId: FieldRef<"CompanyCustomValue", 'String'>
+    readonly value: FieldRef<"CompanyCustomValue", 'String'>
+    readonly createdAt: FieldRef<"CompanyCustomValue", 'DateTime'>
+    readonly updatedAt: FieldRef<"CompanyCustomValue", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CompanyCustomValue findUnique
+   */
+  export type CompanyCustomValueFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomValue
+     */
+    select?: CompanyCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomValueInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyCustomValue to fetch.
+     */
+    where: CompanyCustomValueWhereUniqueInput
+  }
+
+  /**
+   * CompanyCustomValue findUniqueOrThrow
+   */
+  export type CompanyCustomValueFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomValue
+     */
+    select?: CompanyCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomValueInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyCustomValue to fetch.
+     */
+    where: CompanyCustomValueWhereUniqueInput
+  }
+
+  /**
+   * CompanyCustomValue findFirst
+   */
+  export type CompanyCustomValueFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomValue
+     */
+    select?: CompanyCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomValueInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyCustomValue to fetch.
+     */
+    where?: CompanyCustomValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyCustomValues to fetch.
+     */
+    orderBy?: CompanyCustomValueOrderByWithRelationInput | CompanyCustomValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CompanyCustomValues.
+     */
+    cursor?: CompanyCustomValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyCustomValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyCustomValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CompanyCustomValues.
+     */
+    distinct?: CompanyCustomValueScalarFieldEnum | CompanyCustomValueScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyCustomValue findFirstOrThrow
+   */
+  export type CompanyCustomValueFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomValue
+     */
+    select?: CompanyCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomValueInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyCustomValue to fetch.
+     */
+    where?: CompanyCustomValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyCustomValues to fetch.
+     */
+    orderBy?: CompanyCustomValueOrderByWithRelationInput | CompanyCustomValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CompanyCustomValues.
+     */
+    cursor?: CompanyCustomValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyCustomValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyCustomValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CompanyCustomValues.
+     */
+    distinct?: CompanyCustomValueScalarFieldEnum | CompanyCustomValueScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyCustomValue findMany
+   */
+  export type CompanyCustomValueFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomValue
+     */
+    select?: CompanyCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomValueInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyCustomValues to fetch.
+     */
+    where?: CompanyCustomValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyCustomValues to fetch.
+     */
+    orderBy?: CompanyCustomValueOrderByWithRelationInput | CompanyCustomValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CompanyCustomValues.
+     */
+    cursor?: CompanyCustomValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyCustomValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyCustomValues.
+     */
+    skip?: number
+    distinct?: CompanyCustomValueScalarFieldEnum | CompanyCustomValueScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyCustomValue create
+   */
+  export type CompanyCustomValueCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomValue
+     */
+    select?: CompanyCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomValueInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CompanyCustomValue.
+     */
+    data: XOR<CompanyCustomValueCreateInput, CompanyCustomValueUncheckedCreateInput>
+  }
+
+  /**
+   * CompanyCustomValue createMany
+   */
+  export type CompanyCustomValueCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CompanyCustomValues.
+     */
+    data: CompanyCustomValueCreateManyInput | CompanyCustomValueCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CompanyCustomValue createManyAndReturn
+   */
+  export type CompanyCustomValueCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomValue
+     */
+    select?: CompanyCustomValueSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many CompanyCustomValues.
+     */
+    data: CompanyCustomValueCreateManyInput | CompanyCustomValueCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomValueIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CompanyCustomValue update
+   */
+  export type CompanyCustomValueUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomValue
+     */
+    select?: CompanyCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomValueInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CompanyCustomValue.
+     */
+    data: XOR<CompanyCustomValueUpdateInput, CompanyCustomValueUncheckedUpdateInput>
+    /**
+     * Choose, which CompanyCustomValue to update.
+     */
+    where: CompanyCustomValueWhereUniqueInput
+  }
+
+  /**
+   * CompanyCustomValue updateMany
+   */
+  export type CompanyCustomValueUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CompanyCustomValues.
+     */
+    data: XOR<CompanyCustomValueUpdateManyMutationInput, CompanyCustomValueUncheckedUpdateManyInput>
+    /**
+     * Filter which CompanyCustomValues to update
+     */
+    where?: CompanyCustomValueWhereInput
+  }
+
+  /**
+   * CompanyCustomValue upsert
+   */
+  export type CompanyCustomValueUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomValue
+     */
+    select?: CompanyCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomValueInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CompanyCustomValue to update in case it exists.
+     */
+    where: CompanyCustomValueWhereUniqueInput
+    /**
+     * In case the CompanyCustomValue found by the `where` argument doesn't exist, create a new CompanyCustomValue with this data.
+     */
+    create: XOR<CompanyCustomValueCreateInput, CompanyCustomValueUncheckedCreateInput>
+    /**
+     * In case the CompanyCustomValue was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CompanyCustomValueUpdateInput, CompanyCustomValueUncheckedUpdateInput>
+  }
+
+  /**
+   * CompanyCustomValue delete
+   */
+  export type CompanyCustomValueDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomValue
+     */
+    select?: CompanyCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomValueInclude<ExtArgs> | null
+    /**
+     * Filter which CompanyCustomValue to delete.
+     */
+    where: CompanyCustomValueWhereUniqueInput
+  }
+
+  /**
+   * CompanyCustomValue deleteMany
+   */
+  export type CompanyCustomValueDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CompanyCustomValues to delete
+     */
+    where?: CompanyCustomValueWhereInput
+  }
+
+  /**
+   * CompanyCustomValue without action
+   */
+  export type CompanyCustomValueDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyCustomValue
+     */
+    select?: CompanyCustomValueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyCustomValueInclude<ExtArgs> | null
   }
 
 
@@ -66923,6 +69180,33 @@ export namespace Prisma {
   export type LeadCustomValueScalarFieldEnum = (typeof LeadCustomValueScalarFieldEnum)[keyof typeof LeadCustomValueScalarFieldEnum]
 
 
+  export const CompanyCustomFieldDefScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    key: 'key',
+    type: 'type',
+    options: 'options',
+    order: 'order',
+    ownerCompanyId: 'ownerCompanyId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CompanyCustomFieldDefScalarFieldEnum = (typeof CompanyCustomFieldDefScalarFieldEnum)[keyof typeof CompanyCustomFieldDefScalarFieldEnum]
+
+
+  export const CompanyCustomValueScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    fieldId: 'fieldId',
+    value: 'value',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CompanyCustomValueScalarFieldEnum = (typeof CompanyCustomValueScalarFieldEnum)[keyof typeof CompanyCustomValueScalarFieldEnum]
+
+
   export const TaskScalarFieldEnum: {
     id: 'id',
     title: 'title',
@@ -68536,6 +70820,8 @@ export namespace Prisma {
     tasks?: TaskListRelationFilter
     tags?: TagListRelationFilter
     customFieldDefs?: CustomFieldDefListRelationFilter
+    companyFieldDefs?: CompanyCustomFieldDefListRelationFilter
+    companyCustomValues?: CompanyCustomValueListRelationFilter
     whatsappInstances?: WhatsappInstanceListRelationFilter
     messages?: MessageListRelationFilter
     keywordRules?: KeywordRuleListRelationFilter
@@ -68601,6 +70887,8 @@ export namespace Prisma {
     tasks?: TaskOrderByRelationAggregateInput
     tags?: TagOrderByRelationAggregateInput
     customFieldDefs?: CustomFieldDefOrderByRelationAggregateInput
+    companyFieldDefs?: CompanyCustomFieldDefOrderByRelationAggregateInput
+    companyCustomValues?: CompanyCustomValueOrderByRelationAggregateInput
     whatsappInstances?: WhatsappInstanceOrderByRelationAggregateInput
     messages?: MessageOrderByRelationAggregateInput
     keywordRules?: KeywordRuleOrderByRelationAggregateInput
@@ -68669,6 +70957,8 @@ export namespace Prisma {
     tasks?: TaskListRelationFilter
     tags?: TagListRelationFilter
     customFieldDefs?: CustomFieldDefListRelationFilter
+    companyFieldDefs?: CompanyCustomFieldDefListRelationFilter
+    companyCustomValues?: CompanyCustomValueListRelationFilter
     whatsappInstances?: WhatsappInstanceListRelationFilter
     messages?: MessageListRelationFilter
     keywordRules?: KeywordRuleListRelationFilter
@@ -69482,6 +71772,151 @@ export namespace Prisma {
     value?: StringWithAggregatesFilter<"LeadCustomValue"> | string
     createdAt?: DateTimeWithAggregatesFilter<"LeadCustomValue"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"LeadCustomValue"> | Date | string
+  }
+
+  export type CompanyCustomFieldDefWhereInput = {
+    AND?: CompanyCustomFieldDefWhereInput | CompanyCustomFieldDefWhereInput[]
+    OR?: CompanyCustomFieldDefWhereInput[]
+    NOT?: CompanyCustomFieldDefWhereInput | CompanyCustomFieldDefWhereInput[]
+    id?: StringFilter<"CompanyCustomFieldDef"> | string
+    name?: StringFilter<"CompanyCustomFieldDef"> | string
+    key?: StringFilter<"CompanyCustomFieldDef"> | string
+    type?: EnumCustomFieldTypeFilter<"CompanyCustomFieldDef"> | $Enums.CustomFieldType
+    options?: JsonNullableFilter<"CompanyCustomFieldDef">
+    order?: IntFilter<"CompanyCustomFieldDef"> | number
+    ownerCompanyId?: StringFilter<"CompanyCustomFieldDef"> | string
+    createdAt?: DateTimeFilter<"CompanyCustomFieldDef"> | Date | string
+    updatedAt?: DateTimeFilter<"CompanyCustomFieldDef"> | Date | string
+    ownerCompany?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    values?: CompanyCustomValueListRelationFilter
+  }
+
+  export type CompanyCustomFieldDefOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    key?: SortOrder
+    type?: SortOrder
+    options?: SortOrderInput | SortOrder
+    order?: SortOrder
+    ownerCompanyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    ownerCompany?: CompanyOrderByWithRelationInput
+    values?: CompanyCustomValueOrderByRelationAggregateInput
+  }
+
+  export type CompanyCustomFieldDefWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    ownerCompanyId_key?: CompanyCustomFieldDefOwnerCompanyIdKeyCompoundUniqueInput
+    AND?: CompanyCustomFieldDefWhereInput | CompanyCustomFieldDefWhereInput[]
+    OR?: CompanyCustomFieldDefWhereInput[]
+    NOT?: CompanyCustomFieldDefWhereInput | CompanyCustomFieldDefWhereInput[]
+    name?: StringFilter<"CompanyCustomFieldDef"> | string
+    key?: StringFilter<"CompanyCustomFieldDef"> | string
+    type?: EnumCustomFieldTypeFilter<"CompanyCustomFieldDef"> | $Enums.CustomFieldType
+    options?: JsonNullableFilter<"CompanyCustomFieldDef">
+    order?: IntFilter<"CompanyCustomFieldDef"> | number
+    ownerCompanyId?: StringFilter<"CompanyCustomFieldDef"> | string
+    createdAt?: DateTimeFilter<"CompanyCustomFieldDef"> | Date | string
+    updatedAt?: DateTimeFilter<"CompanyCustomFieldDef"> | Date | string
+    ownerCompany?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    values?: CompanyCustomValueListRelationFilter
+  }, "id" | "ownerCompanyId_key">
+
+  export type CompanyCustomFieldDefOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    key?: SortOrder
+    type?: SortOrder
+    options?: SortOrderInput | SortOrder
+    order?: SortOrder
+    ownerCompanyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CompanyCustomFieldDefCountOrderByAggregateInput
+    _avg?: CompanyCustomFieldDefAvgOrderByAggregateInput
+    _max?: CompanyCustomFieldDefMaxOrderByAggregateInput
+    _min?: CompanyCustomFieldDefMinOrderByAggregateInput
+    _sum?: CompanyCustomFieldDefSumOrderByAggregateInput
+  }
+
+  export type CompanyCustomFieldDefScalarWhereWithAggregatesInput = {
+    AND?: CompanyCustomFieldDefScalarWhereWithAggregatesInput | CompanyCustomFieldDefScalarWhereWithAggregatesInput[]
+    OR?: CompanyCustomFieldDefScalarWhereWithAggregatesInput[]
+    NOT?: CompanyCustomFieldDefScalarWhereWithAggregatesInput | CompanyCustomFieldDefScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CompanyCustomFieldDef"> | string
+    name?: StringWithAggregatesFilter<"CompanyCustomFieldDef"> | string
+    key?: StringWithAggregatesFilter<"CompanyCustomFieldDef"> | string
+    type?: EnumCustomFieldTypeWithAggregatesFilter<"CompanyCustomFieldDef"> | $Enums.CustomFieldType
+    options?: JsonNullableWithAggregatesFilter<"CompanyCustomFieldDef">
+    order?: IntWithAggregatesFilter<"CompanyCustomFieldDef"> | number
+    ownerCompanyId?: StringWithAggregatesFilter<"CompanyCustomFieldDef"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"CompanyCustomFieldDef"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CompanyCustomFieldDef"> | Date | string
+  }
+
+  export type CompanyCustomValueWhereInput = {
+    AND?: CompanyCustomValueWhereInput | CompanyCustomValueWhereInput[]
+    OR?: CompanyCustomValueWhereInput[]
+    NOT?: CompanyCustomValueWhereInput | CompanyCustomValueWhereInput[]
+    id?: StringFilter<"CompanyCustomValue"> | string
+    companyId?: StringFilter<"CompanyCustomValue"> | string
+    fieldId?: StringFilter<"CompanyCustomValue"> | string
+    value?: StringFilter<"CompanyCustomValue"> | string
+    createdAt?: DateTimeFilter<"CompanyCustomValue"> | Date | string
+    updatedAt?: DateTimeFilter<"CompanyCustomValue"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    field?: XOR<CompanyCustomFieldDefRelationFilter, CompanyCustomFieldDefWhereInput>
+  }
+
+  export type CompanyCustomValueOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    fieldId?: SortOrder
+    value?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    field?: CompanyCustomFieldDefOrderByWithRelationInput
+  }
+
+  export type CompanyCustomValueWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_fieldId?: CompanyCustomValueCompanyIdFieldIdCompoundUniqueInput
+    AND?: CompanyCustomValueWhereInput | CompanyCustomValueWhereInput[]
+    OR?: CompanyCustomValueWhereInput[]
+    NOT?: CompanyCustomValueWhereInput | CompanyCustomValueWhereInput[]
+    companyId?: StringFilter<"CompanyCustomValue"> | string
+    fieldId?: StringFilter<"CompanyCustomValue"> | string
+    value?: StringFilter<"CompanyCustomValue"> | string
+    createdAt?: DateTimeFilter<"CompanyCustomValue"> | Date | string
+    updatedAt?: DateTimeFilter<"CompanyCustomValue"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    field?: XOR<CompanyCustomFieldDefRelationFilter, CompanyCustomFieldDefWhereInput>
+  }, "id" | "companyId_fieldId">
+
+  export type CompanyCustomValueOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    fieldId?: SortOrder
+    value?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CompanyCustomValueCountOrderByAggregateInput
+    _max?: CompanyCustomValueMaxOrderByAggregateInput
+    _min?: CompanyCustomValueMinOrderByAggregateInput
+  }
+
+  export type CompanyCustomValueScalarWhereWithAggregatesInput = {
+    AND?: CompanyCustomValueScalarWhereWithAggregatesInput | CompanyCustomValueScalarWhereWithAggregatesInput[]
+    OR?: CompanyCustomValueScalarWhereWithAggregatesInput[]
+    NOT?: CompanyCustomValueScalarWhereWithAggregatesInput | CompanyCustomValueScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CompanyCustomValue"> | string
+    companyId?: StringWithAggregatesFilter<"CompanyCustomValue"> | string
+    fieldId?: StringWithAggregatesFilter<"CompanyCustomValue"> | string
+    value?: StringWithAggregatesFilter<"CompanyCustomValue"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"CompanyCustomValue"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CompanyCustomValue"> | Date | string
   }
 
   export type TaskWhereInput = {
@@ -73661,6 +76096,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -73725,6 +76162,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -73789,6 +76228,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -73853,6 +76294,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -74744,6 +77187,154 @@ export namespace Prisma {
   export type LeadCustomValueUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     leadId?: StringFieldUpdateOperationsInput | string
+    fieldId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompanyCustomFieldDefCreateInput = {
+    id?: string
+    name: string
+    key: string
+    type?: $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ownerCompany: CompanyCreateNestedOneWithoutCompanyFieldDefsInput
+    values?: CompanyCustomValueCreateNestedManyWithoutFieldInput
+  }
+
+  export type CompanyCustomFieldDefUncheckedCreateInput = {
+    id?: string
+    name: string
+    key: string
+    type?: $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    order?: number
+    ownerCompanyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    values?: CompanyCustomValueUncheckedCreateNestedManyWithoutFieldInput
+  }
+
+  export type CompanyCustomFieldDefUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ownerCompany?: CompanyUpdateOneRequiredWithoutCompanyFieldDefsNestedInput
+    values?: CompanyCustomValueUpdateManyWithoutFieldNestedInput
+  }
+
+  export type CompanyCustomFieldDefUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    order?: IntFieldUpdateOperationsInput | number
+    ownerCompanyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    values?: CompanyCustomValueUncheckedUpdateManyWithoutFieldNestedInput
+  }
+
+  export type CompanyCustomFieldDefCreateManyInput = {
+    id?: string
+    name: string
+    key: string
+    type?: $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    order?: number
+    ownerCompanyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CompanyCustomFieldDefUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompanyCustomFieldDefUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    order?: IntFieldUpdateOperationsInput | number
+    ownerCompanyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompanyCustomValueCreateInput = {
+    id?: string
+    value: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutCompanyCustomValuesInput
+    field: CompanyCustomFieldDefCreateNestedOneWithoutValuesInput
+  }
+
+  export type CompanyCustomValueUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    fieldId: string
+    value: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CompanyCustomValueUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutCompanyCustomValuesNestedInput
+    field?: CompanyCustomFieldDefUpdateOneRequiredWithoutValuesNestedInput
+  }
+
+  export type CompanyCustomValueUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    fieldId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompanyCustomValueCreateManyInput = {
+    id?: string
+    companyId: string
+    fieldId: string
+    value: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CompanyCustomValueUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompanyCustomValueUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
     fieldId?: StringFieldUpdateOperationsInput | string
     value?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -79379,6 +81970,18 @@ export namespace Prisma {
     none?: CustomFieldDefWhereInput
   }
 
+  export type CompanyCustomFieldDefListRelationFilter = {
+    every?: CompanyCustomFieldDefWhereInput
+    some?: CompanyCustomFieldDefWhereInput
+    none?: CompanyCustomFieldDefWhereInput
+  }
+
+  export type CompanyCustomValueListRelationFilter = {
+    every?: CompanyCustomValueWhereInput
+    some?: CompanyCustomValueWhereInput
+    none?: CompanyCustomValueWhereInput
+  }
+
   export type WhatsappInstanceListRelationFilter = {
     every?: WhatsappInstanceWhereInput
     some?: WhatsappInstanceWhereInput
@@ -79517,6 +82120,14 @@ export namespace Prisma {
   }
 
   export type CustomFieldDefOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CompanyCustomFieldDefOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CompanyCustomValueOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -80295,6 +82906,90 @@ export namespace Prisma {
   export type LeadCustomValueMinOrderByAggregateInput = {
     id?: SortOrder
     leadId?: SortOrder
+    fieldId?: SortOrder
+    value?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CompanyCustomFieldDefOwnerCompanyIdKeyCompoundUniqueInput = {
+    ownerCompanyId: string
+    key: string
+  }
+
+  export type CompanyCustomFieldDefCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    key?: SortOrder
+    type?: SortOrder
+    options?: SortOrder
+    order?: SortOrder
+    ownerCompanyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CompanyCustomFieldDefAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type CompanyCustomFieldDefMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    key?: SortOrder
+    type?: SortOrder
+    order?: SortOrder
+    ownerCompanyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CompanyCustomFieldDefMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    key?: SortOrder
+    type?: SortOrder
+    order?: SortOrder
+    ownerCompanyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CompanyCustomFieldDefSumOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type CompanyCustomFieldDefRelationFilter = {
+    is?: CompanyCustomFieldDefWhereInput
+    isNot?: CompanyCustomFieldDefWhereInput
+  }
+
+  export type CompanyCustomValueCompanyIdFieldIdCompoundUniqueInput = {
+    companyId: string
+    fieldId: string
+  }
+
+  export type CompanyCustomValueCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    fieldId?: SortOrder
+    value?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CompanyCustomValueMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    fieldId?: SortOrder
+    value?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CompanyCustomValueMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
     fieldId?: SortOrder
     value?: SortOrder
     createdAt?: SortOrder
@@ -83844,6 +86539,20 @@ export namespace Prisma {
     connect?: CustomFieldDefWhereUniqueInput | CustomFieldDefWhereUniqueInput[]
   }
 
+  export type CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput = {
+    create?: XOR<CompanyCustomFieldDefCreateWithoutOwnerCompanyInput, CompanyCustomFieldDefUncheckedCreateWithoutOwnerCompanyInput> | CompanyCustomFieldDefCreateWithoutOwnerCompanyInput[] | CompanyCustomFieldDefUncheckedCreateWithoutOwnerCompanyInput[]
+    connectOrCreate?: CompanyCustomFieldDefCreateOrConnectWithoutOwnerCompanyInput | CompanyCustomFieldDefCreateOrConnectWithoutOwnerCompanyInput[]
+    createMany?: CompanyCustomFieldDefCreateManyOwnerCompanyInputEnvelope
+    connect?: CompanyCustomFieldDefWhereUniqueInput | CompanyCustomFieldDefWhereUniqueInput[]
+  }
+
+  export type CompanyCustomValueCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<CompanyCustomValueCreateWithoutCompanyInput, CompanyCustomValueUncheckedCreateWithoutCompanyInput> | CompanyCustomValueCreateWithoutCompanyInput[] | CompanyCustomValueUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CompanyCustomValueCreateOrConnectWithoutCompanyInput | CompanyCustomValueCreateOrConnectWithoutCompanyInput[]
+    createMany?: CompanyCustomValueCreateManyCompanyInputEnvelope
+    connect?: CompanyCustomValueWhereUniqueInput | CompanyCustomValueWhereUniqueInput[]
+  }
+
   export type WhatsappInstanceCreateNestedManyWithoutCompanyInput = {
     create?: XOR<WhatsappInstanceCreateWithoutCompanyInput, WhatsappInstanceUncheckedCreateWithoutCompanyInput> | WhatsappInstanceCreateWithoutCompanyInput[] | WhatsappInstanceUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: WhatsappInstanceCreateOrConnectWithoutCompanyInput | WhatsappInstanceCreateOrConnectWithoutCompanyInput[]
@@ -84093,6 +86802,20 @@ export namespace Prisma {
     connectOrCreate?: CustomFieldDefCreateOrConnectWithoutCompanyInput | CustomFieldDefCreateOrConnectWithoutCompanyInput[]
     createMany?: CustomFieldDefCreateManyCompanyInputEnvelope
     connect?: CustomFieldDefWhereUniqueInput | CustomFieldDefWhereUniqueInput[]
+  }
+
+  export type CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput = {
+    create?: XOR<CompanyCustomFieldDefCreateWithoutOwnerCompanyInput, CompanyCustomFieldDefUncheckedCreateWithoutOwnerCompanyInput> | CompanyCustomFieldDefCreateWithoutOwnerCompanyInput[] | CompanyCustomFieldDefUncheckedCreateWithoutOwnerCompanyInput[]
+    connectOrCreate?: CompanyCustomFieldDefCreateOrConnectWithoutOwnerCompanyInput | CompanyCustomFieldDefCreateOrConnectWithoutOwnerCompanyInput[]
+    createMany?: CompanyCustomFieldDefCreateManyOwnerCompanyInputEnvelope
+    connect?: CompanyCustomFieldDefWhereUniqueInput | CompanyCustomFieldDefWhereUniqueInput[]
+  }
+
+  export type CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<CompanyCustomValueCreateWithoutCompanyInput, CompanyCustomValueUncheckedCreateWithoutCompanyInput> | CompanyCustomValueCreateWithoutCompanyInput[] | CompanyCustomValueUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CompanyCustomValueCreateOrConnectWithoutCompanyInput | CompanyCustomValueCreateOrConnectWithoutCompanyInput[]
+    createMany?: CompanyCustomValueCreateManyCompanyInputEnvelope
+    connect?: CompanyCustomValueWhereUniqueInput | CompanyCustomValueWhereUniqueInput[]
   }
 
   export type WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -84463,6 +87186,34 @@ export namespace Prisma {
     update?: CustomFieldDefUpdateWithWhereUniqueWithoutCompanyInput | CustomFieldDefUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: CustomFieldDefUpdateManyWithWhereWithoutCompanyInput | CustomFieldDefUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: CustomFieldDefScalarWhereInput | CustomFieldDefScalarWhereInput[]
+  }
+
+  export type CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput = {
+    create?: XOR<CompanyCustomFieldDefCreateWithoutOwnerCompanyInput, CompanyCustomFieldDefUncheckedCreateWithoutOwnerCompanyInput> | CompanyCustomFieldDefCreateWithoutOwnerCompanyInput[] | CompanyCustomFieldDefUncheckedCreateWithoutOwnerCompanyInput[]
+    connectOrCreate?: CompanyCustomFieldDefCreateOrConnectWithoutOwnerCompanyInput | CompanyCustomFieldDefCreateOrConnectWithoutOwnerCompanyInput[]
+    upsert?: CompanyCustomFieldDefUpsertWithWhereUniqueWithoutOwnerCompanyInput | CompanyCustomFieldDefUpsertWithWhereUniqueWithoutOwnerCompanyInput[]
+    createMany?: CompanyCustomFieldDefCreateManyOwnerCompanyInputEnvelope
+    set?: CompanyCustomFieldDefWhereUniqueInput | CompanyCustomFieldDefWhereUniqueInput[]
+    disconnect?: CompanyCustomFieldDefWhereUniqueInput | CompanyCustomFieldDefWhereUniqueInput[]
+    delete?: CompanyCustomFieldDefWhereUniqueInput | CompanyCustomFieldDefWhereUniqueInput[]
+    connect?: CompanyCustomFieldDefWhereUniqueInput | CompanyCustomFieldDefWhereUniqueInput[]
+    update?: CompanyCustomFieldDefUpdateWithWhereUniqueWithoutOwnerCompanyInput | CompanyCustomFieldDefUpdateWithWhereUniqueWithoutOwnerCompanyInput[]
+    updateMany?: CompanyCustomFieldDefUpdateManyWithWhereWithoutOwnerCompanyInput | CompanyCustomFieldDefUpdateManyWithWhereWithoutOwnerCompanyInput[]
+    deleteMany?: CompanyCustomFieldDefScalarWhereInput | CompanyCustomFieldDefScalarWhereInput[]
+  }
+
+  export type CompanyCustomValueUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<CompanyCustomValueCreateWithoutCompanyInput, CompanyCustomValueUncheckedCreateWithoutCompanyInput> | CompanyCustomValueCreateWithoutCompanyInput[] | CompanyCustomValueUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CompanyCustomValueCreateOrConnectWithoutCompanyInput | CompanyCustomValueCreateOrConnectWithoutCompanyInput[]
+    upsert?: CompanyCustomValueUpsertWithWhereUniqueWithoutCompanyInput | CompanyCustomValueUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: CompanyCustomValueCreateManyCompanyInputEnvelope
+    set?: CompanyCustomValueWhereUniqueInput | CompanyCustomValueWhereUniqueInput[]
+    disconnect?: CompanyCustomValueWhereUniqueInput | CompanyCustomValueWhereUniqueInput[]
+    delete?: CompanyCustomValueWhereUniqueInput | CompanyCustomValueWhereUniqueInput[]
+    connect?: CompanyCustomValueWhereUniqueInput | CompanyCustomValueWhereUniqueInput[]
+    update?: CompanyCustomValueUpdateWithWhereUniqueWithoutCompanyInput | CompanyCustomValueUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: CompanyCustomValueUpdateManyWithWhereWithoutCompanyInput | CompanyCustomValueUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: CompanyCustomValueScalarWhereInput | CompanyCustomValueScalarWhereInput[]
   }
 
   export type WhatsappInstanceUpdateManyWithoutCompanyNestedInput = {
@@ -84963,6 +87714,34 @@ export namespace Prisma {
     update?: CustomFieldDefUpdateWithWhereUniqueWithoutCompanyInput | CustomFieldDefUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: CustomFieldDefUpdateManyWithWhereWithoutCompanyInput | CustomFieldDefUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: CustomFieldDefScalarWhereInput | CustomFieldDefScalarWhereInput[]
+  }
+
+  export type CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput = {
+    create?: XOR<CompanyCustomFieldDefCreateWithoutOwnerCompanyInput, CompanyCustomFieldDefUncheckedCreateWithoutOwnerCompanyInput> | CompanyCustomFieldDefCreateWithoutOwnerCompanyInput[] | CompanyCustomFieldDefUncheckedCreateWithoutOwnerCompanyInput[]
+    connectOrCreate?: CompanyCustomFieldDefCreateOrConnectWithoutOwnerCompanyInput | CompanyCustomFieldDefCreateOrConnectWithoutOwnerCompanyInput[]
+    upsert?: CompanyCustomFieldDefUpsertWithWhereUniqueWithoutOwnerCompanyInput | CompanyCustomFieldDefUpsertWithWhereUniqueWithoutOwnerCompanyInput[]
+    createMany?: CompanyCustomFieldDefCreateManyOwnerCompanyInputEnvelope
+    set?: CompanyCustomFieldDefWhereUniqueInput | CompanyCustomFieldDefWhereUniqueInput[]
+    disconnect?: CompanyCustomFieldDefWhereUniqueInput | CompanyCustomFieldDefWhereUniqueInput[]
+    delete?: CompanyCustomFieldDefWhereUniqueInput | CompanyCustomFieldDefWhereUniqueInput[]
+    connect?: CompanyCustomFieldDefWhereUniqueInput | CompanyCustomFieldDefWhereUniqueInput[]
+    update?: CompanyCustomFieldDefUpdateWithWhereUniqueWithoutOwnerCompanyInput | CompanyCustomFieldDefUpdateWithWhereUniqueWithoutOwnerCompanyInput[]
+    updateMany?: CompanyCustomFieldDefUpdateManyWithWhereWithoutOwnerCompanyInput | CompanyCustomFieldDefUpdateManyWithWhereWithoutOwnerCompanyInput[]
+    deleteMany?: CompanyCustomFieldDefScalarWhereInput | CompanyCustomFieldDefScalarWhereInput[]
+  }
+
+  export type CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<CompanyCustomValueCreateWithoutCompanyInput, CompanyCustomValueUncheckedCreateWithoutCompanyInput> | CompanyCustomValueCreateWithoutCompanyInput[] | CompanyCustomValueUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CompanyCustomValueCreateOrConnectWithoutCompanyInput | CompanyCustomValueCreateOrConnectWithoutCompanyInput[]
+    upsert?: CompanyCustomValueUpsertWithWhereUniqueWithoutCompanyInput | CompanyCustomValueUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: CompanyCustomValueCreateManyCompanyInputEnvelope
+    set?: CompanyCustomValueWhereUniqueInput | CompanyCustomValueWhereUniqueInput[]
+    disconnect?: CompanyCustomValueWhereUniqueInput | CompanyCustomValueWhereUniqueInput[]
+    delete?: CompanyCustomValueWhereUniqueInput | CompanyCustomValueWhereUniqueInput[]
+    connect?: CompanyCustomValueWhereUniqueInput | CompanyCustomValueWhereUniqueInput[]
+    update?: CompanyCustomValueUpdateWithWhereUniqueWithoutCompanyInput | CompanyCustomValueUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: CompanyCustomValueUpdateManyWithWhereWithoutCompanyInput | CompanyCustomValueUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: CompanyCustomValueScalarWhereInput | CompanyCustomValueScalarWhereInput[]
   }
 
   export type WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput = {
@@ -86075,6 +88854,90 @@ export namespace Prisma {
     upsert?: CustomFieldDefUpsertWithoutValuesInput
     connect?: CustomFieldDefWhereUniqueInput
     update?: XOR<XOR<CustomFieldDefUpdateToOneWithWhereWithoutValuesInput, CustomFieldDefUpdateWithoutValuesInput>, CustomFieldDefUncheckedUpdateWithoutValuesInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutCompanyFieldDefsInput = {
+    create?: XOR<CompanyCreateWithoutCompanyFieldDefsInput, CompanyUncheckedCreateWithoutCompanyFieldDefsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutCompanyFieldDefsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyCustomValueCreateNestedManyWithoutFieldInput = {
+    create?: XOR<CompanyCustomValueCreateWithoutFieldInput, CompanyCustomValueUncheckedCreateWithoutFieldInput> | CompanyCustomValueCreateWithoutFieldInput[] | CompanyCustomValueUncheckedCreateWithoutFieldInput[]
+    connectOrCreate?: CompanyCustomValueCreateOrConnectWithoutFieldInput | CompanyCustomValueCreateOrConnectWithoutFieldInput[]
+    createMany?: CompanyCustomValueCreateManyFieldInputEnvelope
+    connect?: CompanyCustomValueWhereUniqueInput | CompanyCustomValueWhereUniqueInput[]
+  }
+
+  export type CompanyCustomValueUncheckedCreateNestedManyWithoutFieldInput = {
+    create?: XOR<CompanyCustomValueCreateWithoutFieldInput, CompanyCustomValueUncheckedCreateWithoutFieldInput> | CompanyCustomValueCreateWithoutFieldInput[] | CompanyCustomValueUncheckedCreateWithoutFieldInput[]
+    connectOrCreate?: CompanyCustomValueCreateOrConnectWithoutFieldInput | CompanyCustomValueCreateOrConnectWithoutFieldInput[]
+    createMany?: CompanyCustomValueCreateManyFieldInputEnvelope
+    connect?: CompanyCustomValueWhereUniqueInput | CompanyCustomValueWhereUniqueInput[]
+  }
+
+  export type CompanyUpdateOneRequiredWithoutCompanyFieldDefsNestedInput = {
+    create?: XOR<CompanyCreateWithoutCompanyFieldDefsInput, CompanyUncheckedCreateWithoutCompanyFieldDefsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutCompanyFieldDefsInput
+    upsert?: CompanyUpsertWithoutCompanyFieldDefsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutCompanyFieldDefsInput, CompanyUpdateWithoutCompanyFieldDefsInput>, CompanyUncheckedUpdateWithoutCompanyFieldDefsInput>
+  }
+
+  export type CompanyCustomValueUpdateManyWithoutFieldNestedInput = {
+    create?: XOR<CompanyCustomValueCreateWithoutFieldInput, CompanyCustomValueUncheckedCreateWithoutFieldInput> | CompanyCustomValueCreateWithoutFieldInput[] | CompanyCustomValueUncheckedCreateWithoutFieldInput[]
+    connectOrCreate?: CompanyCustomValueCreateOrConnectWithoutFieldInput | CompanyCustomValueCreateOrConnectWithoutFieldInput[]
+    upsert?: CompanyCustomValueUpsertWithWhereUniqueWithoutFieldInput | CompanyCustomValueUpsertWithWhereUniqueWithoutFieldInput[]
+    createMany?: CompanyCustomValueCreateManyFieldInputEnvelope
+    set?: CompanyCustomValueWhereUniqueInput | CompanyCustomValueWhereUniqueInput[]
+    disconnect?: CompanyCustomValueWhereUniqueInput | CompanyCustomValueWhereUniqueInput[]
+    delete?: CompanyCustomValueWhereUniqueInput | CompanyCustomValueWhereUniqueInput[]
+    connect?: CompanyCustomValueWhereUniqueInput | CompanyCustomValueWhereUniqueInput[]
+    update?: CompanyCustomValueUpdateWithWhereUniqueWithoutFieldInput | CompanyCustomValueUpdateWithWhereUniqueWithoutFieldInput[]
+    updateMany?: CompanyCustomValueUpdateManyWithWhereWithoutFieldInput | CompanyCustomValueUpdateManyWithWhereWithoutFieldInput[]
+    deleteMany?: CompanyCustomValueScalarWhereInput | CompanyCustomValueScalarWhereInput[]
+  }
+
+  export type CompanyCustomValueUncheckedUpdateManyWithoutFieldNestedInput = {
+    create?: XOR<CompanyCustomValueCreateWithoutFieldInput, CompanyCustomValueUncheckedCreateWithoutFieldInput> | CompanyCustomValueCreateWithoutFieldInput[] | CompanyCustomValueUncheckedCreateWithoutFieldInput[]
+    connectOrCreate?: CompanyCustomValueCreateOrConnectWithoutFieldInput | CompanyCustomValueCreateOrConnectWithoutFieldInput[]
+    upsert?: CompanyCustomValueUpsertWithWhereUniqueWithoutFieldInput | CompanyCustomValueUpsertWithWhereUniqueWithoutFieldInput[]
+    createMany?: CompanyCustomValueCreateManyFieldInputEnvelope
+    set?: CompanyCustomValueWhereUniqueInput | CompanyCustomValueWhereUniqueInput[]
+    disconnect?: CompanyCustomValueWhereUniqueInput | CompanyCustomValueWhereUniqueInput[]
+    delete?: CompanyCustomValueWhereUniqueInput | CompanyCustomValueWhereUniqueInput[]
+    connect?: CompanyCustomValueWhereUniqueInput | CompanyCustomValueWhereUniqueInput[]
+    update?: CompanyCustomValueUpdateWithWhereUniqueWithoutFieldInput | CompanyCustomValueUpdateWithWhereUniqueWithoutFieldInput[]
+    updateMany?: CompanyCustomValueUpdateManyWithWhereWithoutFieldInput | CompanyCustomValueUpdateManyWithWhereWithoutFieldInput[]
+    deleteMany?: CompanyCustomValueScalarWhereInput | CompanyCustomValueScalarWhereInput[]
+  }
+
+  export type CompanyCreateNestedOneWithoutCompanyCustomValuesInput = {
+    create?: XOR<CompanyCreateWithoutCompanyCustomValuesInput, CompanyUncheckedCreateWithoutCompanyCustomValuesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutCompanyCustomValuesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyCustomFieldDefCreateNestedOneWithoutValuesInput = {
+    create?: XOR<CompanyCustomFieldDefCreateWithoutValuesInput, CompanyCustomFieldDefUncheckedCreateWithoutValuesInput>
+    connectOrCreate?: CompanyCustomFieldDefCreateOrConnectWithoutValuesInput
+    connect?: CompanyCustomFieldDefWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutCompanyCustomValuesNestedInput = {
+    create?: XOR<CompanyCreateWithoutCompanyCustomValuesInput, CompanyUncheckedCreateWithoutCompanyCustomValuesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutCompanyCustomValuesInput
+    upsert?: CompanyUpsertWithoutCompanyCustomValuesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutCompanyCustomValuesInput, CompanyUpdateWithoutCompanyCustomValuesInput>, CompanyUncheckedUpdateWithoutCompanyCustomValuesInput>
+  }
+
+  export type CompanyCustomFieldDefUpdateOneRequiredWithoutValuesNestedInput = {
+    create?: XOR<CompanyCustomFieldDefCreateWithoutValuesInput, CompanyCustomFieldDefUncheckedCreateWithoutValuesInput>
+    connectOrCreate?: CompanyCustomFieldDefCreateOrConnectWithoutValuesInput
+    upsert?: CompanyCustomFieldDefUpsertWithoutValuesInput
+    connect?: CompanyCustomFieldDefWhereUniqueInput
+    update?: XOR<XOR<CompanyCustomFieldDefUpdateToOneWithWhereWithoutValuesInput, CompanyCustomFieldDefUpdateWithoutValuesInput>, CompanyCustomFieldDefUncheckedUpdateWithoutValuesInput>
   }
 
   export type LeadCreateNestedOneWithoutTasksInput = {
@@ -88843,6 +91706,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -88906,6 +91771,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -89639,6 +92506,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -89702,6 +92571,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -90748,6 +93619,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -90811,6 +93684,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -90879,6 +93754,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -90942,6 +93819,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -91566,6 +94445,66 @@ export namespace Prisma {
 
   export type CustomFieldDefCreateManyCompanyInputEnvelope = {
     data: CustomFieldDefCreateManyCompanyInput | CustomFieldDefCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyCustomFieldDefCreateWithoutOwnerCompanyInput = {
+    id?: string
+    name: string
+    key: string
+    type?: $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    values?: CompanyCustomValueCreateNestedManyWithoutFieldInput
+  }
+
+  export type CompanyCustomFieldDefUncheckedCreateWithoutOwnerCompanyInput = {
+    id?: string
+    name: string
+    key: string
+    type?: $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    values?: CompanyCustomValueUncheckedCreateNestedManyWithoutFieldInput
+  }
+
+  export type CompanyCustomFieldDefCreateOrConnectWithoutOwnerCompanyInput = {
+    where: CompanyCustomFieldDefWhereUniqueInput
+    create: XOR<CompanyCustomFieldDefCreateWithoutOwnerCompanyInput, CompanyCustomFieldDefUncheckedCreateWithoutOwnerCompanyInput>
+  }
+
+  export type CompanyCustomFieldDefCreateManyOwnerCompanyInputEnvelope = {
+    data: CompanyCustomFieldDefCreateManyOwnerCompanyInput | CompanyCustomFieldDefCreateManyOwnerCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyCustomValueCreateWithoutCompanyInput = {
+    id?: string
+    value: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    field: CompanyCustomFieldDefCreateNestedOneWithoutValuesInput
+  }
+
+  export type CompanyCustomValueUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    fieldId: string
+    value: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CompanyCustomValueCreateOrConnectWithoutCompanyInput = {
+    where: CompanyCustomValueWhereUniqueInput
+    create: XOR<CompanyCustomValueCreateWithoutCompanyInput, CompanyCustomValueUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type CompanyCustomValueCreateManyCompanyInputEnvelope = {
+    data: CompanyCustomValueCreateManyCompanyInput | CompanyCustomValueCreateManyCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -92499,6 +95438,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -92562,6 +95503,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -93022,6 +95965,65 @@ export namespace Prisma {
     companyId?: StringFilter<"CustomFieldDef"> | string
     createdAt?: DateTimeFilter<"CustomFieldDef"> | Date | string
     updatedAt?: DateTimeFilter<"CustomFieldDef"> | Date | string
+  }
+
+  export type CompanyCustomFieldDefUpsertWithWhereUniqueWithoutOwnerCompanyInput = {
+    where: CompanyCustomFieldDefWhereUniqueInput
+    update: XOR<CompanyCustomFieldDefUpdateWithoutOwnerCompanyInput, CompanyCustomFieldDefUncheckedUpdateWithoutOwnerCompanyInput>
+    create: XOR<CompanyCustomFieldDefCreateWithoutOwnerCompanyInput, CompanyCustomFieldDefUncheckedCreateWithoutOwnerCompanyInput>
+  }
+
+  export type CompanyCustomFieldDefUpdateWithWhereUniqueWithoutOwnerCompanyInput = {
+    where: CompanyCustomFieldDefWhereUniqueInput
+    data: XOR<CompanyCustomFieldDefUpdateWithoutOwnerCompanyInput, CompanyCustomFieldDefUncheckedUpdateWithoutOwnerCompanyInput>
+  }
+
+  export type CompanyCustomFieldDefUpdateManyWithWhereWithoutOwnerCompanyInput = {
+    where: CompanyCustomFieldDefScalarWhereInput
+    data: XOR<CompanyCustomFieldDefUpdateManyMutationInput, CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyInput>
+  }
+
+  export type CompanyCustomFieldDefScalarWhereInput = {
+    AND?: CompanyCustomFieldDefScalarWhereInput | CompanyCustomFieldDefScalarWhereInput[]
+    OR?: CompanyCustomFieldDefScalarWhereInput[]
+    NOT?: CompanyCustomFieldDefScalarWhereInput | CompanyCustomFieldDefScalarWhereInput[]
+    id?: StringFilter<"CompanyCustomFieldDef"> | string
+    name?: StringFilter<"CompanyCustomFieldDef"> | string
+    key?: StringFilter<"CompanyCustomFieldDef"> | string
+    type?: EnumCustomFieldTypeFilter<"CompanyCustomFieldDef"> | $Enums.CustomFieldType
+    options?: JsonNullableFilter<"CompanyCustomFieldDef">
+    order?: IntFilter<"CompanyCustomFieldDef"> | number
+    ownerCompanyId?: StringFilter<"CompanyCustomFieldDef"> | string
+    createdAt?: DateTimeFilter<"CompanyCustomFieldDef"> | Date | string
+    updatedAt?: DateTimeFilter<"CompanyCustomFieldDef"> | Date | string
+  }
+
+  export type CompanyCustomValueUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: CompanyCustomValueWhereUniqueInput
+    update: XOR<CompanyCustomValueUpdateWithoutCompanyInput, CompanyCustomValueUncheckedUpdateWithoutCompanyInput>
+    create: XOR<CompanyCustomValueCreateWithoutCompanyInput, CompanyCustomValueUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type CompanyCustomValueUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: CompanyCustomValueWhereUniqueInput
+    data: XOR<CompanyCustomValueUpdateWithoutCompanyInput, CompanyCustomValueUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type CompanyCustomValueUpdateManyWithWhereWithoutCompanyInput = {
+    where: CompanyCustomValueScalarWhereInput
+    data: XOR<CompanyCustomValueUpdateManyMutationInput, CompanyCustomValueUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type CompanyCustomValueScalarWhereInput = {
+    AND?: CompanyCustomValueScalarWhereInput | CompanyCustomValueScalarWhereInput[]
+    OR?: CompanyCustomValueScalarWhereInput[]
+    NOT?: CompanyCustomValueScalarWhereInput | CompanyCustomValueScalarWhereInput[]
+    id?: StringFilter<"CompanyCustomValue"> | string
+    companyId?: StringFilter<"CompanyCustomValue"> | string
+    fieldId?: StringFilter<"CompanyCustomValue"> | string
+    value?: StringFilter<"CompanyCustomValue"> | string
+    createdAt?: DateTimeFilter<"CompanyCustomValue"> | Date | string
+    updatedAt?: DateTimeFilter<"CompanyCustomValue"> | Date | string
   }
 
   export type WhatsappInstanceUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -93713,6 +96715,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -93776,6 +96780,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -94063,6 +97069,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -94126,6 +97134,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -94295,6 +97305,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -94358,6 +97370,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -94590,6 +97604,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -94653,6 +97669,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -94839,6 +97857,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -94902,6 +97922,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -95322,6 +98344,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -95385,6 +98409,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -95729,6 +98755,8 @@ export namespace Prisma {
     leads?: LeadCreateNestedManyWithoutCompanyInput
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -95792,6 +98820,8 @@ export namespace Prisma {
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -95891,6 +98921,8 @@ export namespace Prisma {
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -95954,6 +98986,8 @@ export namespace Prisma {
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -96245,6 +99279,8 @@ export namespace Prisma {
     leads?: LeadCreateNestedManyWithoutCompanyInput
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -96308,6 +99344,8 @@ export namespace Prisma {
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -96413,6 +99451,8 @@ export namespace Prisma {
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -96476,6 +99516,8 @@ export namespace Prisma {
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -96739,6 +99781,664 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CompanyCreateWithoutCompanyFieldDefsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutCompanyFieldDefsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutCompanyFieldDefsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutCompanyFieldDefsInput, CompanyUncheckedCreateWithoutCompanyFieldDefsInput>
+  }
+
+  export type CompanyCustomValueCreateWithoutFieldInput = {
+    id?: string
+    value: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutCompanyCustomValuesInput
+  }
+
+  export type CompanyCustomValueUncheckedCreateWithoutFieldInput = {
+    id?: string
+    companyId: string
+    value: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CompanyCustomValueCreateOrConnectWithoutFieldInput = {
+    where: CompanyCustomValueWhereUniqueInput
+    create: XOR<CompanyCustomValueCreateWithoutFieldInput, CompanyCustomValueUncheckedCreateWithoutFieldInput>
+  }
+
+  export type CompanyCustomValueCreateManyFieldInputEnvelope = {
+    data: CompanyCustomValueCreateManyFieldInput | CompanyCustomValueCreateManyFieldInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutCompanyFieldDefsInput = {
+    update: XOR<CompanyUpdateWithoutCompanyFieldDefsInput, CompanyUncheckedUpdateWithoutCompanyFieldDefsInput>
+    create: XOR<CompanyCreateWithoutCompanyFieldDefsInput, CompanyUncheckedCreateWithoutCompanyFieldDefsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutCompanyFieldDefsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutCompanyFieldDefsInput, CompanyUncheckedUpdateWithoutCompanyFieldDefsInput>
+  }
+
+  export type CompanyUpdateWithoutCompanyFieldDefsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutCompanyFieldDefsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCustomValueUpsertWithWhereUniqueWithoutFieldInput = {
+    where: CompanyCustomValueWhereUniqueInput
+    update: XOR<CompanyCustomValueUpdateWithoutFieldInput, CompanyCustomValueUncheckedUpdateWithoutFieldInput>
+    create: XOR<CompanyCustomValueCreateWithoutFieldInput, CompanyCustomValueUncheckedCreateWithoutFieldInput>
+  }
+
+  export type CompanyCustomValueUpdateWithWhereUniqueWithoutFieldInput = {
+    where: CompanyCustomValueWhereUniqueInput
+    data: XOR<CompanyCustomValueUpdateWithoutFieldInput, CompanyCustomValueUncheckedUpdateWithoutFieldInput>
+  }
+
+  export type CompanyCustomValueUpdateManyWithWhereWithoutFieldInput = {
+    where: CompanyCustomValueScalarWhereInput
+    data: XOR<CompanyCustomValueUpdateManyMutationInput, CompanyCustomValueUncheckedUpdateManyWithoutFieldInput>
+  }
+
+  export type CompanyCreateWithoutCompanyCustomValuesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutCompanyCustomValuesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutCompanyCustomValuesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutCompanyCustomValuesInput, CompanyUncheckedCreateWithoutCompanyCustomValuesInput>
+  }
+
+  export type CompanyCustomFieldDefCreateWithoutValuesInput = {
+    id?: string
+    name: string
+    key: string
+    type?: $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ownerCompany: CompanyCreateNestedOneWithoutCompanyFieldDefsInput
+  }
+
+  export type CompanyCustomFieldDefUncheckedCreateWithoutValuesInput = {
+    id?: string
+    name: string
+    key: string
+    type?: $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    order?: number
+    ownerCompanyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CompanyCustomFieldDefCreateOrConnectWithoutValuesInput = {
+    where: CompanyCustomFieldDefWhereUniqueInput
+    create: XOR<CompanyCustomFieldDefCreateWithoutValuesInput, CompanyCustomFieldDefUncheckedCreateWithoutValuesInput>
+  }
+
+  export type CompanyUpsertWithoutCompanyCustomValuesInput = {
+    update: XOR<CompanyUpdateWithoutCompanyCustomValuesInput, CompanyUncheckedUpdateWithoutCompanyCustomValuesInput>
+    create: XOR<CompanyCreateWithoutCompanyCustomValuesInput, CompanyUncheckedCreateWithoutCompanyCustomValuesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutCompanyCustomValuesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutCompanyCustomValuesInput, CompanyUncheckedUpdateWithoutCompanyCustomValuesInput>
+  }
+
+  export type CompanyUpdateWithoutCompanyCustomValuesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutCompanyCustomValuesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCustomFieldDefUpsertWithoutValuesInput = {
+    update: XOR<CompanyCustomFieldDefUpdateWithoutValuesInput, CompanyCustomFieldDefUncheckedUpdateWithoutValuesInput>
+    create: XOR<CompanyCustomFieldDefCreateWithoutValuesInput, CompanyCustomFieldDefUncheckedCreateWithoutValuesInput>
+    where?: CompanyCustomFieldDefWhereInput
+  }
+
+  export type CompanyCustomFieldDefUpdateToOneWithWhereWithoutValuesInput = {
+    where?: CompanyCustomFieldDefWhereInput
+    data: XOR<CompanyCustomFieldDefUpdateWithoutValuesInput, CompanyCustomFieldDefUncheckedUpdateWithoutValuesInput>
+  }
+
+  export type CompanyCustomFieldDefUpdateWithoutValuesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ownerCompany?: CompanyUpdateOneRequiredWithoutCompanyFieldDefsNestedInput
+  }
+
+  export type CompanyCustomFieldDefUncheckedUpdateWithoutValuesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    order?: IntFieldUpdateOperationsInput | number
+    ownerCompanyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type LeadCreateWithoutTasksInput = {
     id?: string
     name?: string | null
@@ -96854,6 +100554,8 @@ export namespace Prisma {
     leads?: LeadCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -96917,6 +100619,8 @@ export namespace Prisma {
     leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -97215,6 +100919,8 @@ export namespace Prisma {
     leads?: LeadUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -97278,6 +100984,8 @@ export namespace Prisma {
     leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -97648,6 +101356,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -97711,6 +101421,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -97790,6 +101502,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -97853,6 +101567,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -97916,6 +101632,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -97979,6 +101697,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -98127,6 +101847,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -98190,6 +101912,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -98328,6 +102052,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
@@ -98391,6 +102117,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
@@ -98546,6 +102274,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
@@ -98609,6 +102339,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
@@ -98712,6 +102444,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
@@ -98775,6 +102509,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
@@ -99127,6 +102863,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
@@ -99190,6 +102928,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
@@ -99556,6 +103296,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
@@ -99619,6 +103361,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
@@ -99739,6 +103483,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
@@ -99802,6 +103548,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
@@ -100032,6 +103780,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -100095,6 +103845,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -100508,6 +104260,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -100571,6 +104325,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -101008,6 +104764,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -101071,6 +104829,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -101349,6 +105109,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -101412,6 +105174,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -101475,6 +105239,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -101538,6 +105304,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -101675,6 +105443,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -101738,6 +105508,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -102009,6 +105781,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -102072,6 +105846,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -102221,6 +105997,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -102284,6 +106062,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -102636,6 +106416,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -102699,6 +106481,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -102992,6 +106776,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -103055,6 +106841,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -103248,6 +107036,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -103311,6 +107101,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -103535,6 +107327,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -103598,6 +107392,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -104677,6 +108473,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -104740,6 +108538,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -104863,6 +108663,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -104926,6 +108728,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -105202,6 +109006,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -105265,6 +109071,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -105389,6 +109197,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -105452,6 +109262,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -105515,6 +109327,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -105578,6 +109392,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -105657,6 +109473,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -105720,6 +109538,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -105783,6 +109603,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -105846,6 +109668,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -105925,6 +109749,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -105988,6 +109814,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -106051,6 +109879,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -106114,6 +109944,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -106193,6 +110025,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -106256,6 +110090,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -106319,6 +110155,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -106382,6 +110220,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -106461,6 +110301,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -106524,6 +110366,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -106587,6 +110431,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -106650,6 +110496,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -106729,6 +110577,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -106792,6 +110642,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -106855,6 +110707,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -106918,6 +110772,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -106997,6 +110853,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -107060,6 +110918,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -107123,6 +110983,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -107186,6 +111048,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -107265,6 +111129,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -107328,6 +111194,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -107390,6 +111258,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -107453,6 +111323,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -107556,6 +111428,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -107619,6 +111493,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -107769,6 +111645,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -107832,6 +111710,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -107947,6 +111827,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -108010,6 +111892,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -108158,6 +112042,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -108221,6 +112107,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -108406,6 +112294,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -108469,6 +112359,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -108638,6 +112530,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -108701,6 +112595,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -108855,6 +112751,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -108918,6 +112816,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -109050,6 +112950,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -109113,6 +113015,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -109267,6 +113171,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -109330,6 +113236,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -109462,6 +113370,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -109525,6 +113435,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -109679,6 +113591,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -109742,6 +113656,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -109805,6 +113721,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -109868,6 +113786,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -109947,6 +113867,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -110010,6 +113932,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -110362,6 +114286,8 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     tags?: TagCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
     messages?: MessageCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
@@ -110425,6 +114351,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
     customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
     whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
     messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
@@ -110504,6 +114432,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -110567,6 +114497,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -111684,6 +115616,25 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type CompanyCustomFieldDefCreateManyOwnerCompanyInput = {
+    id?: string
+    name: string
+    key: string
+    type?: $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CompanyCustomValueCreateManyCompanyInput = {
+    id?: string
+    fieldId: string
+    value: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type WhatsappInstanceCreateManyCompanyInput = {
     id?: string
     instanceName: string
@@ -112021,6 +115972,8 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     tags?: TagUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
     messages?: MessageUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
@@ -112084,6 +116037,8 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
     customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
     whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
     messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
@@ -112776,6 +116731,65 @@ export namespace Prisma {
     options?: NullableJsonNullValueInput | InputJsonValue
     required?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompanyCustomFieldDefUpdateWithoutOwnerCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    values?: CompanyCustomValueUpdateManyWithoutFieldNestedInput
+  }
+
+  export type CompanyCustomFieldDefUncheckedUpdateWithoutOwnerCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    values?: CompanyCustomValueUncheckedUpdateManyWithoutFieldNestedInput
+  }
+
+  export type CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
+    options?: NullableJsonNullValueInput | InputJsonValue
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompanyCustomValueUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    field?: CompanyCustomFieldDefUpdateOneRequiredWithoutValuesNestedInput
+  }
+
+  export type CompanyCustomValueUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fieldId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompanyCustomValueUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fieldId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -114535,6 +118549,38 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CompanyCustomValueCreateManyFieldInput = {
+    id?: string
+    companyId: string
+    value: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CompanyCustomValueUpdateWithoutFieldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutCompanyCustomValuesNestedInput
+  }
+
+  export type CompanyCustomValueUncheckedUpdateWithoutFieldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompanyCustomValueUncheckedUpdateManyWithoutFieldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type MessageCreateManyInstanceInput = {
     id?: string
     externalId?: string | null
@@ -115717,6 +119763,10 @@ export namespace Prisma {
      */
     export type CustomFieldDefCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CustomFieldDefCountOutputTypeDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use CompanyCustomFieldDefCountOutputTypeDefaultArgs instead
+     */
+    export type CompanyCustomFieldDefCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CompanyCustomFieldDefCountOutputTypeDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use WhatsappInstanceCountOutputTypeDefaultArgs instead
      */
     export type WhatsappInstanceCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = WhatsappInstanceCountOutputTypeDefaultArgs<ExtArgs>
@@ -115804,6 +119854,14 @@ export namespace Prisma {
      * @deprecated Use LeadCustomValueDefaultArgs instead
      */
     export type LeadCustomValueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = LeadCustomValueDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use CompanyCustomFieldDefDefaultArgs instead
+     */
+    export type CompanyCustomFieldDefArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CompanyCustomFieldDefDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use CompanyCustomValueDefaultArgs instead
+     */
+    export type CompanyCustomValueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CompanyCustomValueDefaultArgs<ExtArgs>
     /**
      * @deprecated Use TaskDefaultArgs instead
      */

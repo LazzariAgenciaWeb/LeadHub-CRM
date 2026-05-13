@@ -307,6 +307,27 @@ exports.Prisma.LeadCustomValueScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CompanyCustomFieldDefScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  key: 'key',
+  type: 'type',
+  options: 'options',
+  order: 'order',
+  ownerCompanyId: 'ownerCompanyId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CompanyCustomValueScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  fieldId: 'fieldId',
+  value: 'value',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.TaskScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -1182,6 +1203,8 @@ exports.Prisma.ModelName = {
   LeadTag: 'LeadTag',
   CustomFieldDef: 'CustomFieldDef',
   LeadCustomValue: 'LeadCustomValue',
+  CompanyCustomFieldDef: 'CompanyCustomFieldDef',
+  CompanyCustomValue: 'CompanyCustomValue',
   Task: 'Task',
   LeadComment: 'LeadComment',
   PipelineStageConfig: 'PipelineStageConfig',
