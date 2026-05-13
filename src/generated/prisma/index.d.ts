@@ -377,7 +377,8 @@ export const CustomFieldType: {
   TEXT: 'TEXT',
   NUMBER: 'NUMBER',
   DATE: 'DATE',
-  SELECT: 'SELECT'
+  SELECT: 'SELECT',
+  LINK: 'LINK'
 };
 
 export type CustomFieldType = (typeof CustomFieldType)[keyof typeof CustomFieldType]

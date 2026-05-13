@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-type FieldType = "TEXT" | "NUMBER" | "DATE" | "SELECT";
+type FieldType = "TEXT" | "NUMBER" | "DATE" | "SELECT" | "LINK";
 
 type FieldDef = {
   id:      string;
@@ -27,7 +27,14 @@ const TYPE_LABEL: Record<FieldType, string> = {
   NUMBER: "Número",
   DATE:   "Data",
   SELECT: "Lista",
+  LINK:   "Link",
 };
+
+function normalizeUrl(raw: string): string {
+  const t = raw.trim();
+  if (!t) return "";
+  return /^https?:\/\//i.test(t) ? t : `https://${t}`;
+}
 
 export default function CompanyCustomFields({ companyId }: Props) {
   const [defs, setDefs] = useState<FieldDef[]>([]);
@@ -182,6 +189,7 @@ export default function CompanyCustomFields({ companyId }: Props) {
               <option value="NUMBER">Número</option>
               <option value="DATE">Data</option>
               <option value="SELECT">Lista</option>
+              <option value="LINK">Link</option>
             </select>
             {newType === "SELECT" && (
               <input
@@ -256,6 +264,35 @@ function FieldEditor({
           <option key={o} value={o}>{o}</option>
         ))}
       </select>
+    );
+  }
+
+  if (def.type === "LINK") {
+    const savedUrl = value ? normalizeUrl(value) : "";
+    return (
+      <div className="flex items-center gap-1">
+        <input
+          type="url"
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          onBlur={commit}
+          onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }}
+          placeholder="https://…"
+          disabled={saving}
+          className={baseClass}
+        />
+        {savedUrl && (
+          <a
+            href={savedUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-shrink-0 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 text-[11px] font-semibold px-2 py-1 rounded transition-colors"
+            title={savedUrl}
+          >
+            Abrir ↗
+          </a>
+        )}
+      </div>
     );
   }
 

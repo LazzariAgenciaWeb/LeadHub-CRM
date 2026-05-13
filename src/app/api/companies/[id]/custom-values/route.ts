@@ -83,6 +83,16 @@ export async function PUT(
       return NextResponse.json({ error: "Opção fora da lista permitida" }, { status: 400 });
     }
   }
+  if (field.type === "LINK") {
+    // Aceita com ou sem protocolo. Se faltar, presume https.
+    const candidate = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+    try {
+      // eslint-disable-next-line no-new
+      new URL(candidate);
+    } catch {
+      return NextResponse.json({ error: "URL inválida" }, { status: 400 });
+    }
+  }
 
   const saved = await prisma.companyCustomValue.upsert({
     where: { companyId_fieldId: { companyId: id, fieldId } },

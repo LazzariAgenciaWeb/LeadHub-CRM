@@ -10,7 +10,7 @@ import { prisma } from "@/lib/prisma";
 //   owner = target.parentCompanyId ?? target.id
 // Assim a agência (parent) define uma vez e todos os clientes (filhos) herdam.
 
-const VALID_TYPES = new Set(["TEXT", "NUMBER", "DATE", "SELECT"]);
+const VALID_TYPES = new Set(["TEXT", "NUMBER", "DATE", "SELECT", "LINK"]);
 
 function slugify(s: string): string {
   return s

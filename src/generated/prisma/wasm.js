@@ -976,7 +976,8 @@ exports.CustomFieldType = exports.$Enums.CustomFieldType = {
   TEXT: 'TEXT',
   NUMBER: 'NUMBER',
   DATE: 'DATE',
-  SELECT: 'SELECT'
+  SELECT: 'SELECT',
+  LINK: 'LINK'
 };
 
 exports.TaskSource = exports.$Enums.TaskSource = {

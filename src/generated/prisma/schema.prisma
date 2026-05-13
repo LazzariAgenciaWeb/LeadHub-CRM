@@ -452,6 +452,7 @@ enum CustomFieldType {
   NUMBER
   DATE
   SELECT
+  LINK
 }
 
 model LeadCustomValue {
