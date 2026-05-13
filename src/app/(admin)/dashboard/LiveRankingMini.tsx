@@ -57,11 +57,6 @@ export default function LiveRankingMini({ initialRanking, viewUserId }: Props) {
     .sort((a, b) => b.monthPoints - a.monthPoints)
     .map((r, i) => ({ ...r, globalPosition: i + 1 }));
 
-  const me = globalRanking.find((r) => r.userId === viewUserId);
-  const top5 = globalRanking.slice(0, 5);
-  const myPosition = me?.globalPosition ?? 0;
-  const showsMe = top5.some((r) => r.userId === viewUserId);
-
   // Idade do snapshot pra dar pista de "ao vivo"
   const ageSec = Math.floor((Date.now() - updatedAt) / 1000);
 
@@ -77,7 +72,7 @@ export default function LiveRankingMini({ initialRanking, viewUserId }: Props) {
             />
           </h3>
           <p className="text-slate-500 text-xs mt-0.5">
-            Top do mês — atualiza a cada 30s
+            Ranking do mês — atualiza a cada 30s
           </p>
         </div>
         <Link href="/gamificacao" className="text-[10px] text-slate-500 hover:text-white">
@@ -91,7 +86,7 @@ export default function LiveRankingMini({ initialRanking, viewUserId }: Props) {
         </p>
       ) : (
         <div className="space-y-1.5">
-          {top5.map((entry) => {
+          {globalRanking.map((entry) => {
             const isMe = entry.userId === viewUserId;
             const medal = entry.globalPosition === 1 ? "🥇"
                         : entry.globalPosition === 2 ? "🥈"
@@ -125,21 +120,6 @@ export default function LiveRankingMini({ initialRanking, viewUserId }: Props) {
             );
           })}
 
-          {!showsMe && me && myPosition > 0 && (
-            <>
-              <div className="text-center text-slate-700 text-[10px] py-0.5">···</div>
-              <div className="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-indigo-500/10 ring-1 ring-indigo-500/30">
-                <span className="w-6 text-center">
-                  <span className="text-slate-500 text-xs">#{myPosition}</span>
-                </span>
-                <span className="flex-1 truncate text-xs text-white font-medium">
-                  {me.name}
-                  <span className="ml-1 text-[9px] uppercase tracking-wider text-indigo-300">você</span>
-                </span>
-                <span className="text-xs font-bold text-white">{me.monthPoints}</span>
-              </div>
-            </>
-          )}
         </div>
       )}
     </div>
