@@ -2097,6 +2097,17 @@ export default function CRMBoard({
                                   className="text-[10px] px-2 py-1 rounded bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 hover:bg-indigo-500/20 transition-colors">
                                   📋 Copiar
                                 </button>
+                                {selected.trackingLink.destination && (
+                                  <a
+                                    href={selected.trackingLink.destination}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    title="Abre a URL original sem contar como clique externo"
+                                    className="text-[10px] px-2 py-1 rounded bg-slate-500/10 border border-slate-500/20 text-slate-300 hover:bg-slate-500/20 transition-colors"
+                                  >
+                                    ↗ Original
+                                  </a>
+                                )}
                                 <button onClick={() => handleLinkTracker(null)} disabled={savingTracker}
                                   className="text-[10px] px-2 py-1 rounded bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 transition-colors disabled:opacity-50">
                                   Desvincular
