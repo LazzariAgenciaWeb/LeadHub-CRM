@@ -146,19 +146,19 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
         </Link>
       </div>
 
-      {/* Busca + Filtros (apenas SUPER_ADMIN) */}
-      {isSuperAdmin && (
-        <div className="flex flex-col gap-3 mb-5">
-          {/* Campo de busca */}
-          <input
-            type="text"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder="Buscar por nome, segmento ou empresa-mãe…"
-            className="w-full bg-[#0f1623] border border-[#1e2d45] text-white text-sm rounded-lg px-3 py-2 placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50"
-          />
+      {/* Busca (todos) + Filtros por tipo (apenas SUPER_ADMIN) */}
+      <div className="flex flex-col gap-3 mb-5">
+        <input
+          type="text"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          placeholder={isSuperAdmin
+            ? "Buscar por nome, segmento ou empresa-mãe…"
+            : "Buscar por nome ou segmento…"}
+          className="w-full bg-[#0f1623] border border-[#1e2d45] text-white text-sm rounded-lg px-3 py-2 placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50"
+        />
 
-          {/* Filtros por tipo */}
+        {isSuperAdmin && (
           <div className="flex flex-wrap gap-2">
             {([
               ["all",    `Todas (${companies.length})`],
@@ -180,8 +180,8 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
               </button>
             ))}
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {sorted.length === 0 ? (
         <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-12 text-center">
