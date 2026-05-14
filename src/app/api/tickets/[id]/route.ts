@@ -28,7 +28,25 @@ export async function GET(
       clientCompany: { select: { id: true, name: true, phone: true, email: true } },
       assignee:      { select: { id: true, name: true } },
       setor:         { select: { id: true, name: true } },
-      messages:      { orderBy: { createdAt: "asc" } },
+      // NÃO incluir mediaBase64: blob inflava o payload e quebrava o Postgres
+      // em chamados com muitas imagens (mesmo bug do feed do WhatsApp). UI
+      // baixa sob demanda em /api/tickets/messages/[id]/media — `hasMedia`
+      // derivado de mediaType (proxy seguro: setados juntos na criação).
+      messages: {
+        orderBy: { createdAt: "asc" },
+        select: {
+          id: true,
+          body: true,
+          isInternal: true,
+          authorName: true,
+          authorRole: true,
+          mediaType: true,
+          source: true,
+          externalId: true,
+          createdAt: true,
+          ticketId: true,
+        },
+      },
       activities:    { orderBy: { createdAt: "asc" } },
     },
   });
@@ -39,7 +57,12 @@ export async function GET(
     return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
   }
 
-  return NextResponse.json(ticket);
+  const ticketWithMediaFlag = {
+    ...ticket,
+    messages: ticket.messages.map((m) => ({ ...m, hasMedia: !!m.mediaType })),
+  };
+
+  return NextResponse.json(ticketWithMediaFlag);
 }
 
 // PATCH /api/tickets/[id]

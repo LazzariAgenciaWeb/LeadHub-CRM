@@ -75,11 +75,13 @@ export async function GET(req: NextRequest) {
     const rows = await prisma.message.findMany({
       where,
       orderBy: { receivedAt: "asc" },
-      select: { ...messageSelect, mediaBase64: true },
+      select: messageSelect,
     });
-    const messages = rows.map(({ mediaBase64, ...rest }) => ({
+    // hasMedia derivado de mediaType (proxy seguro: ingestão da Evolution seta
+    // os dois juntos). UI usa /api/whatsapp/messages/[id]/media pra baixar.
+    const messages = rows.map((rest) => ({
       ...rest,
-      hasMedia: !!mediaBase64,
+      hasMedia: !!rest.mediaType,
     }));
     return NextResponse.json(messages);
   }
@@ -99,14 +101,14 @@ export async function GET(req: NextRequest) {
     where,
     orderBy: { receivedAt: "desc" },
     take: limit + 1,
-    select: { ...messageSelect, mediaBase64: true },
+    select: messageSelect,
   });
 
   const hasMore = rows.length > limit;
   const trimmed = (hasMore ? rows.slice(0, limit) : rows).reverse();
-  const messages = trimmed.map(({ mediaBase64, ...rest }) => ({
+  const messages = trimmed.map((rest) => ({
     ...rest,
-    hasMedia: !!mediaBase64,
+    hasMedia: !!rest.mediaType,
   }));
 
   return NextResponse.json({ messages, hasMore });
