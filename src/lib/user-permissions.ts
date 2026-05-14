@@ -37,15 +37,15 @@ export async function getUserPermissions(session: any): Promise<UserPermissions 
   const companyId = session?.user?.companyId as string | undefined;
   const userId    = session?.user?.id as string | undefined;
 
-  if (!companyId || !userId) return null;
+  if (!userId) return null;
 
-  // SUPER_ADMIN e ADMIN → sem nenhuma restrição de setor
-  // ADMIN é o administrador da empresa: gerencia usuários, setores e configurações.
-  // Mesmo que esteja em algum setor, deve ter acesso irrestrito.
+  // SUPER_ADMIN → dono da plataforma, sem companyId próprio.
+  // ADMIN → administrador da empresa-cliente, sempre tem companyId.
+  // Ambos passam sem restrição de setor.
   if (role === "SUPER_ADMIN" || role === "ADMIN") {
     return {
       isAdmin: true,
-      companyId,
+      companyId: companyId ?? "",
       setorIds: null,
       instanceIds: null,
       noSetor: false,
@@ -57,6 +57,9 @@ export async function getUserPermissions(session: any): Promise<UserPermissions 
       canViewConfig: true,
     };
   }
+
+  // CLIENT precisa de companyId pra carregar setores.
+  if (!companyId) return null;
 
   // Busca os setores do usuário
   const setorUsers = await prisma.setorUser.findMany({
