@@ -61,6 +61,7 @@ export async function GET() {
           direction: true,
           receivedAt: true,
           mediaType: true,
+          instanceId: true,
           instance: { select: { instanceName: true } },
           company: { select: { name: true } },
         },

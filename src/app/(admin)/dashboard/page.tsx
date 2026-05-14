@@ -211,6 +211,7 @@ export default async function DashboardPage() {
           direction: true,
           receivedAt: true,
           mediaType: true,
+          instanceId: true,
           instance: { select: { instanceName: true } },
           company: { select: { name: true } },
         },
