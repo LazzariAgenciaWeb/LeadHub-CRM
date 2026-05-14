@@ -50,10 +50,17 @@ export async function GET() {
     // na inbox, é Conversation.status que vira CLOSED. O Lead.attendanceStatus
     // é legado (sincronizado quando há Lead vinculado, mas pode ficar dessincronizado).
     const [lastMsg, lead, conversation, contact] = await Promise.all([
+      // select sem mediaBase64/rawPayload — usado so pra preview da conversa.
       prisma.message.findFirst({
         where: { phone: g.phone, companyId: g.companyId },
         orderBy: { receivedAt: "desc" },
-        include: {
+        select: {
+          id: true,
+          phone: true,
+          body: true,
+          direction: true,
+          receivedAt: true,
+          mediaType: true,
           instance: { select: { instanceName: true } },
           company: { select: { name: true } },
         },

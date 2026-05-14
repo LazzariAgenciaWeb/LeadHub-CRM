@@ -99,11 +99,21 @@ export default async function DashboardPage() {
   const dailyData = Object.entries(dayMap).map(([date, v]) => ({ date, ...v }));
 
   // Mensagens agrupadas por contato (última msg por telefone)
+  // select explicito sem mediaBase64/rawPayload — em conversas com audio/imagem
+  // o blob estourava memoria do Node (mesmo bug do feed do WhatsApp).
   const allRecentMsgs = await prisma.message.findMany({
     where: { ...where, direction: "INBOUND" },
     orderBy: { receivedAt: "desc" },
     take: 60,
-    include: {
+    select: {
+      id: true,
+      phone: true,
+      body: true,
+      direction: true,
+      receivedAt: true,
+      companyId: true,
+      leadId: true,
+      mediaType: true,
       instance: { select: { instanceName: true } },
     },
   });
@@ -190,10 +200,17 @@ export default async function DashboardPage() {
     const isGroup = g.phone.includes("@g.us");
 
     const [lastMsg, lead] = await Promise.all([
+      // select sem mediaBase64/rawPayload — usado so pra preview da conversa.
       prisma.message.findFirst({
         where: { phone: g.phone, companyId: g.companyId },
         orderBy: { receivedAt: "desc" },
-        include: {
+        select: {
+          id: true,
+          phone: true,
+          body: true,
+          direction: true,
+          receivedAt: true,
+          mediaType: true,
           instance: { select: { instanceName: true } },
           company: { select: { name: true } },
         },
