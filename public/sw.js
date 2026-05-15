@@ -21,8 +21,10 @@ self.addEventListener("push", (event) => {
   const title = payload.title || "LeadHub";
   const options = {
     body: payload.body || "",
-    icon: payload.icon || "/icon-192.png",
-    badge: "/icon-192.png",
+    // /icon-192.png nao existe no /public — usa favicon como fallback. Em
+    // alguns browsers (Brave/Chrome no macOS) icon 404 descarta a notificacao
+    // silenciosamente. badge fica fora: browser usa default se omitido.
+    icon: payload.icon || "/favicon.ico",
     tag: payload.tag,
     data: { url: payload.url || "/" },
     image: payload.image,
