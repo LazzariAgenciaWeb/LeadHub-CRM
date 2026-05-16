@@ -7,13 +7,18 @@ import {
 } from "lucide-react";
 import {
   PLANS,
-  ADDONS,
   findAddonForFeature,
   formatPriceBRL,
   type PlanTier,
   type PlanLimits,
   type PlanFeatures,
 } from "@/lib/plans";
+import {
+  moduleSyncFromTier,
+  diffModuleSync,
+  MODULE_LABELS,
+  type CompanyModuleSync,
+} from "@/lib/plans-sync";
 
 type Status = "TRIALING" | "ACTIVE" | "PAST_DUE" | "CANCELED" | "UNPAID" | "INCOMPLETE";
 
@@ -41,6 +46,8 @@ interface SubscriptionData {
     hasCustomOverrides: boolean;
   };
   plans: Record<PlanTier, { label: string; limits: PlanLimits; features: PlanFeatures }>;
+  /** Estado atual dos Company.module* — pra computar diff ao trocar plano. */
+  currentModules?: Partial<CompanyModuleSync>;
 }
 
 const PUBLIC_PLANS: PlanTier[] = ["FREE", "ESSENCIAL", "MARKETING", "PREMIUM"];
@@ -630,6 +637,61 @@ export default function CompanySubscription({
               <span className="text-slate-400">Total add-ons</span>
               <span className="text-amber-300 font-bold">{formatPriceBRL(total)}/mês</span>
             </div>
+          </div>
+        );
+      })()}
+
+      {/* Preview do sync com Company.module* — só aparece quando plano mudou */}
+      {(() => {
+        const originalPlan = data.subscription?.plan;
+        const planJustChanged = originalPlan && originalPlan !== plan;
+        if (!planJustChanged) return null;
+        const next = moduleSyncFromTier(plan);
+        const diff = diffModuleSync(data.currentModules ?? {}, next);
+        const hasDiff = diff.willEnable.length > 0 || diff.willDisable.length > 0 || diff.modoChange !== null;
+        if (!hasDiff) return null;
+        return (
+          <div className="bg-purple-500/5 border border-purple-500/30 rounded-xl p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <AlertCircle className="w-4 h-4 text-purple-400" />
+              <h3 className="text-white text-sm font-semibold">Ao salvar — módulos vão ser sincronizados</h3>
+            </div>
+            <p className="text-[11px] text-slate-400 mb-3">
+              Troca de plano (<span className="text-slate-300 font-mono">{originalPlan}</span> → <span className="text-purple-300 font-mono">{plan}</span>)
+              aplica os defaults do plano novo nos módulos da empresa. Você pode customizar depois pelos toggles no Editar Empresa.
+            </p>
+            {diff.willEnable.length > 0 && (
+              <div className="mb-2">
+                <p className="text-[10px] text-emerald-400 font-semibold uppercase tracking-wider mb-1">Vão ligar</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {diff.willEnable.map((m) => (
+                    <span key={m} className="text-[11px] bg-emerald-500/15 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-500/30">
+                      + {MODULE_LABELS[m]}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+            {diff.willDisable.length > 0 && (
+              <div className="mb-2">
+                <p className="text-[10px] text-red-400 font-semibold uppercase tracking-wider mb-1">Vão desligar</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {diff.willDisable.map((m) => (
+                    <span key={m} className="text-[11px] bg-red-500/15 text-red-300 px-2 py-0.5 rounded-full border border-red-500/30">
+                      − {MODULE_LABELS[m]}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+            {diff.modoChange && (
+              <div>
+                <p className="text-[10px] text-amber-400 font-semibold uppercase tracking-wider mb-1">Modo de atendimento</p>
+                <span className="text-[11px] bg-amber-500/15 text-amber-300 px-2 py-0.5 rounded-full border border-amber-500/30">
+                  {diff.modoChange.from} → {diff.modoChange.to}
+                </span>
+              </div>
+            )}
           </div>
         );
       })()}

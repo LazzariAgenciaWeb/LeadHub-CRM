@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { PLANS, type PlanTier } from "@/lib/plans";
 import { getCompanyPlan } from "@/lib/limits";
+import { moduleSyncFromTier } from "@/lib/plans-sync";
 
 /**
  * Admin endpoint pra super_admin gerenciar a Subscription de uma empresa.
@@ -43,7 +44,7 @@ export async function GET(
   const session = await requireReadAccess(companyId);
   if (!session) return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
 
-  const [sub, ctx] = await Promise.all([
+  const [sub, ctx, company] = await Promise.all([
     prisma.subscription.findUnique({
       where: { companyId },
       select: {
@@ -55,6 +56,15 @@ export async function GET(
       },
     }),
     getCompanyPlan(companyId),
+    prisma.company.findUnique({
+      where: { id: companyId },
+      select: {
+        moduleWhatsapp: true, moduleCrm: true, moduleTickets: true,
+        moduleAI: true, moduleClickup: true, moduleGamificacao: true,
+        moduleProjetos: true, moduleCalendario: true, moduleProspeccao: true,
+        modoAtendimento: true,
+      },
+    }),
   ]);
 
   return NextResponse.json({
@@ -67,6 +77,8 @@ export async function GET(
       hasCustomOverrides: ctx.hasCustomOverrides,
     },
     plans: PLANS,
+    /** Estado atual dos Company.module* — usado pra mostrar diff ao trocar plano. */
+    currentModules: company,
   });
 }
 
@@ -125,6 +137,9 @@ export async function PATCH(
   });
 
   // Log de mudança de plano
+  let appliedSync: ReturnType<typeof moduleSyncFromTier> | null = null;
+  const planChanged = !!(body.plan && (!existing || existing.plan !== body.plan));
+
   if (existing && body.plan && existing.plan !== body.plan) {
     await prisma.billingEvent.create({
       data: {
@@ -137,5 +152,18 @@ export async function PATCH(
     });
   }
 
-  return NextResponse.json({ subscription: sub });
+  // Sync com Company.module*: quando o plano muda OU quando syncModules=true
+  // explicitamente no body (botão "re-aplicar defaults"). Pega os defaults
+  // do plano novo — super admin pode customizar manualmente depois via
+  // toggles no EditCompanyButton.
+  const shouldSync = planChanged || body.syncModules === true;
+  if (shouldSync && body.plan) {
+    appliedSync = moduleSyncFromTier(body.plan as PlanTier);
+    await prisma.company.update({
+      where: { id: companyId },
+      data: appliedSync,
+    });
+  }
+
+  return NextResponse.json({ subscription: sub, appliedSync });
 }
