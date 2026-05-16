@@ -333,6 +333,14 @@ export const CompanyStatus: {
 export type CompanyStatus = (typeof CompanyStatus)[keyof typeof CompanyStatus]
 
 
+export const ModoAtendimento: {
+  VISAO: 'VISAO',
+  ATENDE: 'ATENDE'
+};
+
+export type ModoAtendimento = (typeof ModoAtendimento)[keyof typeof ModoAtendimento]
+
+
 export const CampaignSource: {
   WHATSAPP: 'WHATSAPP',
   INSTAGRAM: 'INSTAGRAM',
@@ -660,6 +668,10 @@ export const RankingCategory: typeof $Enums.RankingCategory
 export type CompanyStatus = $Enums.CompanyStatus
 
 export const CompanyStatus: typeof $Enums.CompanyStatus
+
+export type ModoAtendimento = $Enums.ModoAtendimento
+
+export const ModoAtendimento: typeof $Enums.ModoAtendimento
 
 export type CampaignSource = $Enums.CampaignSource
 
@@ -11809,6 +11821,7 @@ export namespace Prisma {
     moduleProspeccao: boolean | null
     serpapiKey: string | null
     moduleClickup: boolean | null
+    modoAtendimento: $Enums.ModoAtendimento | null
     parentCompanyId: string | null
     triggerOnly: boolean | null
     webhookToken: string | null
@@ -11837,6 +11850,7 @@ export namespace Prisma {
     moduleProspeccao: boolean | null
     serpapiKey: string | null
     moduleClickup: boolean | null
+    modoAtendimento: $Enums.ModoAtendimento | null
     parentCompanyId: string | null
     triggerOnly: boolean | null
     webhookToken: string | null
@@ -11865,6 +11879,7 @@ export namespace Prisma {
     moduleProspeccao: number
     serpapiKey: number
     moduleClickup: number
+    modoAtendimento: number
     parentCompanyId: number
     triggerOnly: number
     webhookToken: number
@@ -11895,6 +11910,7 @@ export namespace Prisma {
     moduleProspeccao?: true
     serpapiKey?: true
     moduleClickup?: true
+    modoAtendimento?: true
     parentCompanyId?: true
     triggerOnly?: true
     webhookToken?: true
@@ -11923,6 +11939,7 @@ export namespace Prisma {
     moduleProspeccao?: true
     serpapiKey?: true
     moduleClickup?: true
+    modoAtendimento?: true
     parentCompanyId?: true
     triggerOnly?: true
     webhookToken?: true
@@ -11951,6 +11968,7 @@ export namespace Prisma {
     moduleProspeccao?: true
     serpapiKey?: true
     moduleClickup?: true
+    modoAtendimento?: true
     parentCompanyId?: true
     triggerOnly?: true
     webhookToken?: true
@@ -12052,6 +12070,7 @@ export namespace Prisma {
     moduleProspeccao: boolean
     serpapiKey: string | null
     moduleClickup: boolean
+    modoAtendimento: $Enums.ModoAtendimento
     parentCompanyId: string | null
     triggerOnly: boolean
     webhookToken: string | null
@@ -12097,6 +12116,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: boolean
     moduleClickup?: boolean
+    modoAtendimento?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
     webhookToken?: boolean
@@ -12165,6 +12185,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: boolean
     moduleClickup?: boolean
+    modoAtendimento?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
     webhookToken?: boolean
@@ -12194,6 +12215,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: boolean
     moduleClickup?: boolean
+    modoAtendimento?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
     webhookToken?: boolean
@@ -12311,6 +12333,7 @@ export namespace Prisma {
       moduleProspeccao: boolean
       serpapiKey: string | null
       moduleClickup: boolean
+      modoAtendimento: $Enums.ModoAtendimento
       parentCompanyId: string | null
       triggerOnly: boolean
       webhookToken: string | null
@@ -12768,6 +12791,7 @@ export namespace Prisma {
     readonly moduleProspeccao: FieldRef<"Company", 'Boolean'>
     readonly serpapiKey: FieldRef<"Company", 'String'>
     readonly moduleClickup: FieldRef<"Company", 'Boolean'>
+    readonly modoAtendimento: FieldRef<"Company", 'ModoAtendimento'>
     readonly parentCompanyId: FieldRef<"Company", 'String'>
     readonly triggerOnly: FieldRef<"Company", 'Boolean'>
     readonly webhookToken: FieldRef<"Company", 'String'>
@@ -69054,6 +69078,7 @@ export namespace Prisma {
     moduleProspeccao: 'moduleProspeccao',
     serpapiKey: 'serpapiKey',
     moduleClickup: 'moduleClickup',
+    modoAtendimento: 'modoAtendimento',
     parentCompanyId: 'parentCompanyId',
     triggerOnly: 'triggerOnly',
     webhookToken: 'webhookToken'
@@ -70063,6 +70088,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ModoAtendimento'
+   */
+  export type EnumModoAtendimentoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ModoAtendimento'>
+    
+
+
+  /**
+   * Reference to a field of type 'ModoAtendimento[]'
+   */
+  export type ListEnumModoAtendimentoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ModoAtendimento[]'>
+    
+
+
+  /**
    * Reference to a field of type 'CampaignSource'
    */
   export type EnumCampaignSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CampaignSource'>
@@ -70815,6 +70854,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFilter<"Company"> | boolean
     serpapiKey?: StringNullableFilter<"Company"> | string | null
     moduleClickup?: BoolFilter<"Company"> | boolean
+    modoAtendimento?: EnumModoAtendimentoFilter<"Company"> | $Enums.ModoAtendimento
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
     webhookToken?: StringNullableFilter<"Company"> | string | null
@@ -70882,6 +70922,7 @@ export namespace Prisma {
     moduleProspeccao?: SortOrder
     serpapiKey?: SortOrderInput | SortOrder
     moduleClickup?: SortOrder
+    modoAtendimento?: SortOrder
     parentCompanyId?: SortOrderInput | SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrderInput | SortOrder
@@ -70953,6 +70994,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFilter<"Company"> | boolean
     serpapiKey?: StringNullableFilter<"Company"> | string | null
     moduleClickup?: BoolFilter<"Company"> | boolean
+    modoAtendimento?: EnumModoAtendimentoFilter<"Company"> | $Enums.ModoAtendimento
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
     parentCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
@@ -71019,6 +71061,7 @@ export namespace Prisma {
     moduleProspeccao?: SortOrder
     serpapiKey?: SortOrderInput | SortOrder
     moduleClickup?: SortOrder
+    modoAtendimento?: SortOrder
     parentCompanyId?: SortOrderInput | SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrderInput | SortOrder
@@ -71053,6 +71096,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolWithAggregatesFilter<"Company"> | boolean
     serpapiKey?: StringNullableWithAggregatesFilter<"Company"> | string | null
     moduleClickup?: BoolWithAggregatesFilter<"Company"> | boolean
+    modoAtendimento?: EnumModoAtendimentoWithAggregatesFilter<"Company"> | $Enums.ModoAtendimento
     parentCompanyId?: StringNullableWithAggregatesFilter<"Company"> | string | null
     triggerOnly?: BoolWithAggregatesFilter<"Company"> | boolean
     webhookToken?: StringNullableWithAggregatesFilter<"Company"> | string | null
@@ -76097,6 +76141,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -76163,6 +76208,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -76229,6 +76275,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -76295,6 +76342,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -76361,6 +76409,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -76389,6 +76438,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -76416,6 +76466,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -81936,6 +81987,13 @@ export namespace Prisma {
     not?: NestedEnumCompanyStatusFilter<$PrismaModel> | $Enums.CompanyStatus
   }
 
+  export type EnumModoAtendimentoFilter<$PrismaModel = never> = {
+    equals?: $Enums.ModoAtendimento | EnumModoAtendimentoFieldRefInput<$PrismaModel>
+    in?: $Enums.ModoAtendimento[] | ListEnumModoAtendimentoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ModoAtendimento[] | ListEnumModoAtendimentoFieldRefInput<$PrismaModel>
+    not?: NestedEnumModoAtendimentoFilter<$PrismaModel> | $Enums.ModoAtendimento
+  }
+
   export type CompanyListRelationFilter = {
     every?: CompanyWhereInput
     some?: CompanyWhereInput
@@ -82244,6 +82302,7 @@ export namespace Prisma {
     moduleProspeccao?: SortOrder
     serpapiKey?: SortOrder
     moduleClickup?: SortOrder
+    modoAtendimento?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrder
@@ -82272,6 +82331,7 @@ export namespace Prisma {
     moduleProspeccao?: SortOrder
     serpapiKey?: SortOrder
     moduleClickup?: SortOrder
+    modoAtendimento?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrder
@@ -82300,6 +82360,7 @@ export namespace Prisma {
     moduleProspeccao?: SortOrder
     serpapiKey?: SortOrder
     moduleClickup?: SortOrder
+    modoAtendimento?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrder
@@ -82313,6 +82374,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumCompanyStatusFilter<$PrismaModel>
     _max?: NestedEnumCompanyStatusFilter<$PrismaModel>
+  }
+
+  export type EnumModoAtendimentoWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ModoAtendimento | EnumModoAtendimentoFieldRefInput<$PrismaModel>
+    in?: $Enums.ModoAtendimento[] | ListEnumModoAtendimentoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ModoAtendimento[] | ListEnumModoAtendimentoFieldRefInput<$PrismaModel>
+    not?: NestedEnumModoAtendimentoWithAggregatesFilter<$PrismaModel> | $Enums.ModoAtendimento
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumModoAtendimentoFilter<$PrismaModel>
+    _max?: NestedEnumModoAtendimentoFilter<$PrismaModel>
   }
 
   export type EnumCampaignSourceFilter<$PrismaModel = never> = {
@@ -86997,6 +87068,10 @@ export namespace Prisma {
     set?: $Enums.CompanyStatus
   }
 
+  export type EnumModoAtendimentoFieldUpdateOperationsInput = {
+    set?: $Enums.ModoAtendimento
+  }
+
   export type CompanyUpdateOneWithoutSubCompaniesNestedInput = {
     create?: XOR<CompanyCreateWithoutSubCompaniesInput, CompanyUncheckedCreateWithoutSubCompaniesInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutSubCompaniesInput
@@ -91152,6 +91227,13 @@ export namespace Prisma {
     not?: NestedEnumCompanyStatusFilter<$PrismaModel> | $Enums.CompanyStatus
   }
 
+  export type NestedEnumModoAtendimentoFilter<$PrismaModel = never> = {
+    equals?: $Enums.ModoAtendimento | EnumModoAtendimentoFieldRefInput<$PrismaModel>
+    in?: $Enums.ModoAtendimento[] | ListEnumModoAtendimentoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ModoAtendimento[] | ListEnumModoAtendimentoFieldRefInput<$PrismaModel>
+    not?: NestedEnumModoAtendimentoFilter<$PrismaModel> | $Enums.ModoAtendimento
+  }
+
   export type NestedEnumCompanyStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.CompanyStatus | EnumCompanyStatusFieldRefInput<$PrismaModel>
     in?: $Enums.CompanyStatus[] | ListEnumCompanyStatusFieldRefInput<$PrismaModel>
@@ -91160,6 +91242,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumCompanyStatusFilter<$PrismaModel>
     _max?: NestedEnumCompanyStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumModoAtendimentoWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ModoAtendimento | EnumModoAtendimentoFieldRefInput<$PrismaModel>
+    in?: $Enums.ModoAtendimento[] | ListEnumModoAtendimentoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ModoAtendimento[] | ListEnumModoAtendimentoFieldRefInput<$PrismaModel>
+    not?: NestedEnumModoAtendimentoWithAggregatesFilter<$PrismaModel> | $Enums.ModoAtendimento
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumModoAtendimentoFilter<$PrismaModel>
+    _max?: NestedEnumModoAtendimentoFilter<$PrismaModel>
   }
 
   export type NestedEnumCampaignSourceFilter<$PrismaModel = never> = {
@@ -91718,6 +91810,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -91783,6 +91876,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -92518,6 +92612,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -92583,6 +92678,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -93631,6 +93727,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -93696,6 +93793,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -93766,6 +93864,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
@@ -93831,6 +93930,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -95452,6 +95552,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -95517,6 +95618,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -95601,6 +95703,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFilter<"Company"> | boolean
     serpapiKey?: StringNullableFilter<"Company"> | string | null
     moduleClickup?: BoolFilter<"Company"> | boolean
+    modoAtendimento?: EnumModoAtendimentoFilter<"Company"> | $Enums.ModoAtendimento
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
     webhookToken?: StringNullableFilter<"Company"> | string | null
@@ -96730,6 +96833,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -96795,6 +96899,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -97086,6 +97191,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -97151,6 +97257,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -97321,6 +97428,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -97386,6 +97494,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -97620,6 +97729,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -97685,6 +97795,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -97878,6 +97989,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -97943,6 +98055,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -98367,6 +98480,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -98432,6 +98546,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -98780,6 +98895,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -98845,6 +98961,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -98946,6 +99063,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -99011,6 +99129,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -99304,6 +99423,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -99369,6 +99489,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -99476,6 +99597,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -99541,6 +99663,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -99846,6 +99969,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -99911,6 +100035,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -100018,6 +100143,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -100083,6 +100209,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -100164,6 +100291,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -100229,6 +100357,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -100339,6 +100468,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -100404,6 +100534,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -100579,6 +100710,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -100644,6 +100776,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -100944,6 +101077,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -101009,6 +101143,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -101380,6 +101515,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -101445,6 +101581,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -101526,6 +101663,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -101591,6 +101729,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -101656,6 +101795,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -101721,6 +101861,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -101871,6 +102012,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -101936,6 +102078,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -102076,6 +102219,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -102141,6 +102285,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -102298,6 +102443,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -102363,6 +102509,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -102468,6 +102615,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -102533,6 +102681,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -102887,6 +103036,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -102952,6 +103102,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -103320,6 +103471,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -103385,6 +103537,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -103507,6 +103660,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -103572,6 +103726,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -103804,6 +103959,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -103869,6 +104025,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -104284,6 +104441,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -104349,6 +104507,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -104788,6 +104947,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -104853,6 +105013,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -105133,6 +105294,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -105198,6 +105360,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -105263,6 +105426,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -105328,6 +105492,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -105467,6 +105632,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -105532,6 +105698,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -105805,6 +105972,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -105870,6 +106038,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -106021,6 +106190,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -106086,6 +106256,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -106440,6 +106611,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -106505,6 +106677,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -106800,6 +106973,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -106865,6 +107039,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -107061,6 +107236,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -107126,6 +107302,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -107352,6 +107529,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -107417,6 +107595,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -108497,6 +108676,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -108562,6 +108742,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -108687,6 +108868,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -108752,6 +108934,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -109030,6 +109213,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -109095,6 +109279,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -109221,6 +109406,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -109286,6 +109472,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -109351,6 +109538,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -109416,6 +109604,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -109497,6 +109686,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -109562,6 +109752,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -109627,6 +109818,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -109692,6 +109884,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -109773,6 +109966,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -109838,6 +110032,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -109903,6 +110098,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -109968,6 +110164,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -110049,6 +110246,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -110114,6 +110312,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -110179,6 +110378,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -110244,6 +110444,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -110325,6 +110526,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -110390,6 +110592,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -110455,6 +110658,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -110520,6 +110724,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -110601,6 +110806,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -110666,6 +110872,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -110731,6 +110938,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -110796,6 +111004,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -110877,6 +111086,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -110942,6 +111152,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -111007,6 +111218,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -111072,6 +111284,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -111153,6 +111366,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -111218,6 +111432,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -111283,6 +111498,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -111348,6 +111564,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -111453,6 +111670,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -111518,6 +111736,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -111670,6 +111889,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -111735,6 +111955,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -111852,6 +112073,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -111917,6 +112139,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -112067,6 +112290,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -112132,6 +112356,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -112319,6 +112544,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -112384,6 +112610,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -112555,6 +112782,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -112620,6 +112848,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -112776,6 +113005,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -112841,6 +113071,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -112975,6 +113206,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -113040,6 +113272,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -113196,6 +113429,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -113261,6 +113495,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -113395,6 +113630,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -113460,6 +113696,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -113616,6 +113853,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -113681,6 +113919,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -113746,6 +113985,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -113811,6 +114051,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -113892,6 +114133,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -113957,6 +114199,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -114310,6 +114553,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -114375,6 +114619,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -114456,6 +114701,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -114521,6 +114767,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -115462,6 +115709,7 @@ export namespace Prisma {
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
     triggerOnly?: boolean
     webhookToken?: string | null
   }
@@ -115998,6 +116246,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
@@ -116063,6 +116312,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -116128,6 +116378,7 @@ export namespace Prisma {
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
   }

@@ -195,6 +195,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   moduleProspeccao: 'moduleProspeccao',
   serpapiKey: 'serpapiKey',
   moduleClickup: 'moduleClickup',
+  modoAtendimento: 'modoAtendimento',
   parentCompanyId: 'parentCompanyId',
   triggerOnly: 'triggerOnly',
   webhookToken: 'webhookToken'
@@ -943,6 +944,11 @@ exports.RankingCategory = exports.$Enums.RankingCategory = {
 exports.CompanyStatus = exports.$Enums.CompanyStatus = {
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE'
+};
+
+exports.ModoAtendimento = exports.$Enums.ModoAtendimento = {
+  VISAO: 'VISAO',
+  ATENDE: 'ATENDE'
 };
 
 exports.CampaignSource = exports.$Enums.CampaignSource = {

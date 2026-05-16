@@ -24,11 +24,23 @@ export async function POST(
   const userRole = (session.user as any).role;
   const userCompanyId = (session.user as any).companyId;
 
-  const instance = await prisma.whatsappInstance.findUnique({ where: { id } });
+  const instance = await prisma.whatsappInstance.findUnique({
+    where: { id },
+    include: { company: { select: { modoAtendimento: true } } },
+  });
   if (!instance) return NextResponse.json({ error: "Instância não encontrada" }, { status: 404 });
 
   if (userRole !== "SUPER_ADMIN" && instance.companyId !== userCompanyId) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
+  }
+
+  // Gate de modo: em VISAO a empresa não envia mensagens pelo painel.
+  // SUPER_ADMIN passa (admin do sistema fazendo manutenção/troubleshoot).
+  if (userRole !== "SUPER_ADMIN" && instance.company?.modoAtendimento === "VISAO") {
+    return NextResponse.json(
+      { error: "Empresa em modo Visão (somente leitura). Envie pelo WhatsApp do celular." },
+      { status: 403 }
+    );
   }
 
   const userId = (session.user as any).id as string | undefined;

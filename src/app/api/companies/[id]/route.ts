@@ -81,6 +81,7 @@ export async function PATCH(
     // SUPER_ADMIN only
     hasSystemAccess, moduleWhatsapp, moduleCrm, moduleTickets, moduleAI, moduleClickup,
     moduleGamificacao, moduleProjetos, moduleCalendario, moduleProspeccao, serpapiKey,
+    modoAtendimento,
     parentCompanyId,
   } = body;
 

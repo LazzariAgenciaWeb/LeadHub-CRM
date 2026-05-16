@@ -280,6 +280,7 @@ export default function WhatsappManager({
   availableAtendentes = [],
   hasCrmModule = true,
   hasTicketsModule = true,
+  modoAtendimento = "ATENDE",
 }: {
   instances: Instance[];
   isSuperAdmin: boolean;
@@ -296,6 +297,7 @@ export default function WhatsappManager({
   availableAtendentes?: { id: string; name: string; email: string; role: string; companyId?: string | null }[];
   hasCrmModule?: boolean;
   hasTicketsModule?: boolean;
+  modoAtendimento?: "VISAO" | "ATENDE";
 }) {
   // Toggle de assinatura por mensagem. Default vem da preferência do user
   // (Configurações → Meu Perfil): se ele desligou o default, começa desmarcado
@@ -2399,13 +2401,15 @@ export default function WhatsappManager({
                 <span className="text-slate-600 text-[11px]">+{instances.length - 4}</span>
               )}
             </div>
-            <button
-              onClick={() => { setShowNewConv(!showNewConv); setNewConvError(null); }}
-              title="Nova conversa"
-              className={`flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${showNewConv ? "bg-indigo-600 border-indigo-500 text-white" : "bg-[#0f1623] border-[#1e2d45] text-slate-300 hover:text-white hover:border-slate-500"}`}
-            >
-              ✉️ <span className="hidden sm:inline">Nova</span>
-            </button>
+            {modoAtendimento !== "VISAO" && (
+              <button
+                onClick={() => { setShowNewConv(!showNewConv); setNewConvError(null); }}
+                title="Nova conversa"
+                className={`flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${showNewConv ? "bg-indigo-600 border-indigo-500 text-white" : "bg-[#0f1623] border-[#1e2d45] text-slate-300 hover:text-white hover:border-slate-500"}`}
+              >
+                ✉️ <span className="hidden sm:inline">Nova</span>
+              </button>
+            )}
             <Link
               href="/configuracoes?secao=instancias"
               className="px-2.5 md:px-3 py-1.5 rounded-lg bg-[#0f1623] border border-[#1e2d45] text-slate-400 hover:text-white text-xs transition-colors"
@@ -2417,8 +2421,8 @@ export default function WhatsappManager({
         </div>
       </div>
 
-      {/* Formulário Nova Conversa */}
-      {showNewConv && (
+      {/* Formulário Nova Conversa — escondido em modo Visão */}
+      {showNewConv && modoAtendimento !== "VISAO" && (
         <div className="mx-6 mt-3 flex-shrink-0 bg-indigo-500/5 border border-indigo-500/20 rounded-xl p-4">
           <p className="text-indigo-300 text-xs font-semibold mb-3">✉️ Iniciar nova conversa</p>
           <form onSubmit={handleNewConv} className="space-y-2">
@@ -4273,7 +4277,22 @@ export default function WhatsappManager({
                 </div>
               )}
 
-              {/* Reply */}
+              {/* Reply / Modo Visão — em VISAO o form de envio é substituído
+                  por uma faixa explicativa. Equipe responde pelo celular; o
+                  webhook da Evolution captura outbound automaticamente. */}
+              {modoAtendimento === "VISAO" ? (
+                <div className="flex-shrink-0 border-t border-[#1e2d45] px-4 py-3 bg-amber-500/5">
+                  <div className="flex items-start gap-2.5">
+                    <span className="text-amber-400 text-base leading-none mt-0.5">👁️</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-amber-300 text-xs font-semibold">Modo Visão — somente leitura</p>
+                      <p className="text-amber-400/70 text-[11px] mt-0.5 leading-relaxed">
+                        Sua empresa está em <strong>modo Visão</strong>. Responda este cliente pelo WhatsApp do celular — o LeadHub registra suas respostas automaticamente e atualiza o status da conversa.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ) : (
               <div className="flex-shrink-0 border-t border-[#1e2d45] px-4 py-3">
                 {/* Seletor de instância foi movido para o menu '+ Ações → Envio → Trocar instância'.
                     A instância atual aparece no placeholder do textarea ('Escreva via ...'). */}
@@ -4763,6 +4782,7 @@ export default function WhatsappManager({
                   )}
                 </div>
               </div>
+              )}
             </>
           )}
         </div>

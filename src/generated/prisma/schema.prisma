@@ -168,6 +168,11 @@ model Company {
   // Cada empresa-cliente liga o módulo e configura a própria conta ClickUp.
   moduleClickup     Boolean @default(false)
 
+  // Define se a empresa usa WhatsApp em modo VISAO (read-only / painel de contexto)
+  // ou ATENDE (completo, envia pelo painel). Default ATENDE preserva comportamento
+  // das contas existentes — só contas novas no plano de entrada nascem como VISAO.
+  modoAtendimento ModoAtendimento @default(ATENDE)
+
   // Hierarquia: empresa-pai gerencia sub-empresas (clientes da empresa)
   parentCompanyId String?
   parentCompany   Company?  @relation("SubCompanies", fields: [parentCompanyId], references: [id])
@@ -221,6 +226,15 @@ model Company {
 enum CompanyStatus {
   ACTIVE
   INACTIVE
+}
+
+// Modo de operação do WhatsApp para a empresa.
+// VISAO  = somente leitura (espelho). Substitui o input de mensagem por
+//          painel de contexto do lead. Equipe responde pelo celular.
+// ATENDE = comportamento atual (envia, templates, transferência etc.).
+enum ModoAtendimento {
+  VISAO
+  ATENDE
 }
 
 // ─── Campanhas ────────────────────────────────────────────────────────────────

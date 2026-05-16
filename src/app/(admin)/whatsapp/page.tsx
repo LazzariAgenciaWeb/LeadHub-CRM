@@ -199,6 +199,19 @@ export default async function WhatsappPage({
       })
     : null;
 
+  // Modo de atendimento da empresa do usuário (VISAO = read-only, sem envio
+  // pelo painel). SUPER_ADMIN sempre opera em ATENDE pois é admin do sistema
+  // (não-cliente). Quando o user logado é de uma empresa-cliente em VISAO, o
+  // formulário de envio é escondido.
+  const modoAtendimento: "VISAO" | "ATENDE" = isSuperAdmin
+    ? "ATENDE"
+    : userCompanyId
+      ? ((await prisma.company.findUnique({
+          where: { id: userCompanyId },
+          select: { modoAtendimento: true },
+        }))?.modoAtendimento ?? "ATENDE")
+      : "ATENDE";
+
   return (
     <WhatsappManager
       instances={instances as any}
@@ -216,6 +229,7 @@ export default async function WhatsappPage({
       canManageGamification={isSuperAdmin || !!perms?.isAdmin || !!(session?.user as any)?.permissions?.canManageUsers}
       availableSetores={setores}
       availableAtendentes={atendentes}
+      modoAtendimento={modoAtendimento}
     />
   );
 }
