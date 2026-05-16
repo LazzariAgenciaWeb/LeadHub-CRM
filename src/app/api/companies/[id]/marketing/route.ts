@@ -29,7 +29,11 @@ export async function GET(
   const gate = await assertModule(session, "marketing");
   if (!gate.ok) return gate.response;
 
-  const auth = await authorizeVaultAccess(companyId);
+  // checkCofreModule: false — Marketing já gateou via assertModule("marketing") acima.
+  // authorizeVaultAccess é só pra validar acesso à empresa-alvo (e ler tokens das
+  // integrações do Google). Sem este flag, endpoint exigia plano com Cofre, gerando
+  // "Cofre não disponível no plano" em planos que têm Marketing mas não Cofre.
+  const auth = await authorizeVaultAccess(companyId, { checkCofreModule: false });
   if (!auth.ok) return NextResponse.json({ error: auth.error }, { status: auth.status });
 
   const url = new URL(req.url);

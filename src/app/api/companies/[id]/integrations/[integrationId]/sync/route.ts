@@ -11,7 +11,9 @@ export async function POST(
   { params }: { params: Promise<{ id: string; integrationId: string }> }
 ) {
   const { id: companyId, integrationId } = await params;
-  const auth = await authorizeVaultAccess(companyId);
+  // checkCofreModule: false — sync de integração Marketing não exige Cofre.
+  // O gate de plano correto é "marketing" (a integração já vive sob este módulo).
+  const auth = await authorizeVaultAccess(companyId, { checkCofreModule: false });
   if (!auth.ok) return NextResponse.json({ error: auth.error }, { status: auth.status });
   if (!auth.canWrite) return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
 
