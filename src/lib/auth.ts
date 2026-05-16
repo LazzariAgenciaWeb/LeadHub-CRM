@@ -138,10 +138,12 @@ export const authOptions: NextAuthOptions = {
         (session.user as any).permissions = token.permissions;
         (session.user as any).modules = token.modules;
 
-        // Para usuários CLIENT: sempre busca permissões e módulos frescos do banco.
-        // Isso garante que alterações no Setor ou nos módulos da empresa reflitam
-        // imediatamente, sem exigir logout/login do usuário.
-        if ((token.role as string) === "CLIENT" && token.sub) {
+        // Para usuários CLIENT e ADMIN: sempre busca permissões e módulos frescos
+        // do banco. Garante que alterações no plano da empresa (e nos módulos
+        // sincronizados) reflitam na próxima requisição, sem logout/login.
+        // SUPER_ADMIN é skip — modules sempre vem do ALL_MODULES (bypass).
+        const role = token.role as string;
+        if ((role === "CLIENT" || role === "ADMIN") && token.sub) {
           try {
             const dbUser = await prisma.user.findUnique({
               where: { id: token.sub as string },
@@ -183,7 +185,7 @@ export const authOptions: NextAuthOptions = {
             }
           } catch (err) {
             // Fallback gracioso: mantém os valores do JWT caso o banco falhe
-            console.warn("[Auth] Erro ao atualizar permissões do CLIENT via DB:", err);
+            console.warn("[Auth] Erro ao atualizar permissões/módulos via DB:", err);
           }
         }
       }
