@@ -5,8 +5,15 @@
  * por plano vem daqui. UI da pricing page, helpers de limite e Stripe consomem
  * este módulo.
  *
- * Estratégia comercial: vender pra cliente final (não agência). Cobra por
- * WhatsApp instances + atendentes + features (marketing, GBP, IA, etc.).
+ * Estrutura comercial (revisão 2026-05-15):
+ *  - 4 planos públicos: FREE (trial 14d), ESSENCIAL, MARKETING, PREMIUM
+ *  - ENTERPRISE: sob consulta, atribuído manualmente, fora do catálogo público
+ *  - CRESCIMENTO: legado (mantido no enum pra subscriptions existentes, fora
+ *    da pricing page)
+ *  - TRIAL: legado (enum mantido, mas FREE absorve o papel)
+ *
+ * Add-ons: features extras contratáveis em qualquer plano pago via
+ * `Subscription.customFeatures`. Preços em `ADDON_PRICES`.
  */
 
 export type PlanTier =
@@ -27,33 +34,63 @@ export interface PlanLimits {
 }
 
 export interface PlanFeatures {
-  // Inbox & CRM
-  crmBasico: boolean;
-  crmAvancado: boolean;          // pipeline custom multi
-  inboxAvancado: boolean;        // SLA, transfer, status, scheduled
-  // Marketing
+  // ── 🟢 Atendimento ──
+  /** Acesso ao módulo WhatsApp (inbox). Base do produto. */
+  whatsapp: boolean;
+  /** Mostra/oculta grupos no inbox. Algumas empresas não querem grupos misturando. */
+  whatsappGrupos: boolean;
+  /** SLA, transferência, status avançado, retorno agendado. */
+  inboxAvancado: boolean;
+  /** Módulo de tickets/chamados. */
+  tickets: boolean;
+
+  // ── 🎯 Vendas & Produtividade ──
+  /** Pipeline CRM "Prospecção" — base de busca ativa. */
+  crmPipelineProspeccao: boolean;
+  /** Pipeline CRM "Leads" — entrada padrão de novos contatos. */
+  crmPipelineLeads: boolean;
+  /** Pipeline CRM "Oportunidades" — qualificados em negociação. */
+  crmPipelineOportunidades: boolean;
+  /** Busca de prospects via Google Maps (SerpAPI). Cliente traz a própria key. */
+  prospectaIa: boolean;
+  /** Disparo de email em massa com cadência + tracking. */
+  emailMassa: boolean;
+  /** Gestão de projetos com cobrança/status. */
+  projetos: boolean;
+  /** Calendário (Dia/Semana/Mês + Google Calendar OAuth). */
+  calendario: boolean;
+  /** Gamificação (badges, ranking, prêmios). */
+  gamificacao: boolean;
+  /** Assistente IA (chat + resumos). */
+  assistenteIA: boolean;
+
+  // ── 📊 Marketing & Análise ──
   marketingDashboard: boolean;
   googleAnalytics: boolean;
   googleSearchConsole: boolean;
   googleBusinessProfile: boolean;
   googleAds: boolean;
   metaAds: boolean;
-  // Operacional
+
+  // ── 🔐 Segurança & Acesso ──
   cofreCredenciais: boolean;
   magicLink: boolean;
-  tickets: boolean;
-  assistenteIA: boolean;
-  multiUnidade: boolean;
   bannerLgpd: boolean;
-  projetos: boolean;
-  calendario: boolean;
-  // Avançado
+  multiUnidade: boolean;
+
+  // ── 🔌 Integrações ──
+  clickupSync: boolean;
+
+  // ── 🏢 Enterprise ──
   apiAccess: boolean;
   whiteLabel: boolean;
   customDomain: boolean;
   suportePrioritario: boolean;
   accountManager: boolean;
 }
+
+/** Modo de atendimento default que o plano aplica ao ser atribuído. */
+export type ModoAtendimentoDefault = "VISAO" | "ATENDE";
 
 export interface PlanDefinition {
   tier: PlanTier;
@@ -77,6 +114,8 @@ export interface PlanDefinition {
 
   limits: PlanLimits;
   features: PlanFeatures;
+  /** Modo de atendimento default aplicado à empresa ao atribuir o plano. */
+  modoAtendimentoDefault: ModoAtendimentoDefault;
 
   /** Bullets curtos pra exibir na pricing card. */
   highlights: string[];
@@ -85,9 +124,19 @@ export interface PlanDefinition {
 // ─── Helper pra construir features com defaults ──────────────────────────────
 function feat(overrides: Partial<PlanFeatures>): PlanFeatures {
   return {
-    crmBasico: false,
-    crmAvancado: false,
+    whatsapp: false,
+    whatsappGrupos: false,
     inboxAvancado: false,
+    tickets: false,
+    crmPipelineProspeccao: false,
+    crmPipelineLeads: false,
+    crmPipelineOportunidades: false,
+    prospectaIa: false,
+    emailMassa: false,
+    projetos: false,
+    calendario: false,
+    gamificacao: false,
+    assistenteIA: false,
     marketingDashboard: false,
     googleAnalytics: false,
     googleSearchConsole: false,
@@ -96,12 +145,9 @@ function feat(overrides: Partial<PlanFeatures>): PlanFeatures {
     metaAds: false,
     cofreCredenciais: false,
     magicLink: false,
-    tickets: false,
-    assistenteIA: false,
-    multiUnidade: false,
     bannerLgpd: false,
-    projetos: false,
-    calendario: false,
+    multiUnidade: false,
+    clickupSync: false,
     apiAccess: false,
     whiteLabel: false,
     customDomain: false,
@@ -114,42 +160,12 @@ function feat(overrides: Partial<PlanFeatures>): PlanFeatures {
 // ─── Catálogo de planos ──────────────────────────────────────────────────────
 
 export const PLANS: Record<PlanTier, PlanDefinition> = {
+  // ── FREE: trial 14 dias (porta de entrada pública) ──
   FREE: {
     tier: "FREE",
     label: "Free",
-    tagline: "Sob convite — limites customizáveis",
-    description: "Plano gratuito personalizado por cliente. Você (super admin) define limites e features no painel.",
-    priceMonthly: 0,
-    priceAnnualPerMonth: 0,
-    priceAnnualTotal: 0,
-    cta: "Sob convite",
-    limits: {
-      whatsappInstances: 1,
-      atendentes: 1,
-      unidades: 1,
-      leadsPerMonth: 100,
-    },
-    features: feat({
-      crmBasico: true,
-      inboxAvancado: true,
-      // Módulos de produtividade — baseline para qualquer cliente FREE poder
-      // organizar projetos/calendário/gamificação interna sem upgrade.
-      projetos: true,
-      calendario: true,
-    }),
-    highlights: [
-      "Convite manual do super admin",
-      "Limites e features ajustáveis por cliente",
-      "Defaults: 1 WhatsApp · 1 atendente · 100 leads/mês",
-      "Sem custo, sem cartão",
-    ],
-  },
-
-  TRIAL: {
-    tier: "TRIAL",
-    label: "Trial",
-    tagline: "14 dias grátis",
-    description: "Teste tudo sem cartão",
+    tagline: "14 dias para experimentar",
+    description: "Experimente o LeadHub em modo Visão (somente leitura) — organize seu WhatsApp sem risco de bloqueio.",
     priceMonthly: 0,
     priceAnnualPerMonth: 0,
     priceAnnualTotal: 0,
@@ -161,32 +177,27 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       leadsPerMonth: 200,
     },
     features: feat({
-      crmBasico: true,
-      crmAvancado: true,
+      whatsapp: true,
       inboxAvancado: true,
-      marketingDashboard: true,
-      googleAnalytics: true,
-      googleSearchConsole: true,
-      cofreCredenciais: true,
-      magicLink: true,
-      tickets: true,
-      bannerLgpd: true,
-      projetos: true,
+      crmPipelineLeads: true,
       calendario: true,
     }),
+    modoAtendimentoDefault: "VISAO",
     highlights: [
-      "14 dias completos sem cartão",
-      "Acesso a todas features Marketing",
+      "14 dias para experimentar",
       "1 WhatsApp · 2 atendentes",
-      "Suporte por chat",
+      "Modo Visão: equipe responde pelo celular",
+      "CRM Leads + Inbox + Calendário",
+      "Sem cartão de crédito",
     ],
   },
 
+  // ── ESSENCIAL: entrada paga ──
   ESSENCIAL: {
     tier: "ESSENCIAL",
     label: "Essencial",
     tagline: "Meu WhatsApp organizado",
-    description: "Pra quem está começando — inbox + CRM básico",
+    description: "Atendimento ativo pelo painel + CRM com leads e oportunidades.",
     priceMonthly: 147,
     priceAnnualPerMonth: 117,
     priceAnnualTotal: 1404,
@@ -198,25 +209,31 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       leadsPerMonth: 1000,
     },
     features: feat({
-      crmBasico: true,
+      whatsapp: true,
+      whatsappGrupos: true,
       inboxAvancado: true,
+      tickets: true,
+      crmPipelineLeads: true,
+      crmPipelineOportunidades: true,
       calendario: true,
     }),
+    modoAtendimentoDefault: "ATENDE",
     highlights: [
       "1 WhatsApp · 2 atendentes",
-      "Inbox completo (SLA, transferência)",
-      "CRM básico",
-      "Webhook de leads",
-      "Calendário",
+      "Inbox completo (SLA + transferência)",
+      "CRM com Leads e Oportunidades",
+      "Tickets/Chamados",
+      "Calendário + Google Calendar",
       "Suporte por e-mail",
     ],
   },
 
+  // ── MARKETING: meio (mais escolhido) ──
   MARKETING: {
     tier: "MARKETING",
     label: "Marketing",
     tagline: "Marketing intel sem precisar de agência",
-    description: "Veja seu marketing em tempo real — para o ⭐ plano mais escolhido",
+    description: "Veja seu marketing em tempo real — para o ⭐ plano mais escolhido.",
     priceMonthly: 397,
     priceAnnualPerMonth: 317,
     priceAnnualTotal: 3804,
@@ -229,81 +246,41 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       leadsPerMonth: 5000,
     },
     features: feat({
-      crmBasico: true,
-      crmAvancado: true,
+      whatsapp: true,
+      whatsappGrupos: true,
       inboxAvancado: true,
+      tickets: true,
+      crmPipelineProspeccao: true,
+      crmPipelineLeads: true,
+      crmPipelineOportunidades: true,
+      projetos: true,
+      calendario: true,
       marketingDashboard: true,
       googleAnalytics: true,
       googleSearchConsole: true,
-      cofreCredenciais: true,
       magicLink: true,
-      tickets: true,
-      projetos: true,
-      calendario: true,
-    }),
-    highlights: [
-      "2 WhatsApp · 5 atendentes",
-      "Dashboard Marketing completo",
-      "Mapa interativo + origens com IA",
-      "Google Analytics + Search Console",
-      "Cofre de credenciais (com 2FA)",
-      "Tickets/Chamados",
-      "Suporte por chat",
-    ],
-  },
-
-  CRESCIMENTO: {
-    tier: "CRESCIMENTO",
-    label: "Crescimento",
-    tagline: "Negócio em expansão, múltiplos canais",
-    description: "Pra empresa em escala, com várias unidades",
-    priceMonthly: 797,
-    priceAnnualPerMonth: 637,
-    priceAnnualTotal: 7644,
-    cta: "Assinar Crescimento",
-    limits: {
-      whatsappInstances: 5,
-      atendentes: 15,
-      unidades: 5,
-      leadsPerMonth: 20000,
-    },
-    features: feat({
-      crmBasico: true,
-      crmAvancado: true,
-      inboxAvancado: true,
-      marketingDashboard: true,
-      googleAnalytics: true,
-      googleSearchConsole: true,
-      googleBusinessProfile: true,
-      cofreCredenciais: true,
-      magicLink: true,
-      tickets: true,
-      assistenteIA: true,
-      multiUnidade: true,
-      bannerLgpd: true,
-      projetos: true,
-      calendario: true,
       suportePrioritario: true,
     }),
+    modoAtendimentoDefault: "ATENDE",
     highlights: [
-      "5 WhatsApp · 15 atendentes",
-      "Multi-unidade / filiais",
-      "Google Meu Negócio",
-      "Assistente IA integrado",
-      "Banner LGPD pronto",
-      "Backup automático",
-      "Suporte prioritário",
+      "2 WhatsApp · 5 atendentes",
+      "CRM completo (Prospecção + Leads + Oportunidades)",
+      "Dashboard Marketing + Analytics + Search Console",
+      "Projetos + Tickets",
+      "Magic Link de acesso",
+      "Suporte prioritário (chat)",
     ],
   },
 
+  // ── PREMIUM: tudo + ilimitado ──
   PREMIUM: {
     tier: "PREMIUM",
     label: "Premium",
-    tagline: "Performance avançada, ROAS no controle",
-    description: "Pra empresas com investimento alto em ads",
-    priceMonthly: 1997,
-    priceAnnualPerMonth: 1597,
-    priceAnnualTotal: 19164,
+    tagline: "Operação completa, ROAS no controle",
+    description: "Tudo do Marketing + Google Ads, Meta Ads, multi-unidade, API.",
+    priceMonthly: 1197,
+    priceAnnualPerMonth: 957,
+    priceAnnualTotal: 11484,
     cta: "Assinar Premium",
     limits: {
       whatsappInstances: -1,
@@ -312,43 +289,46 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       leadsPerMonth: -1,
     },
     features: feat({
-      crmBasico: true,
-      crmAvancado: true,
+      whatsapp: true,
+      whatsappGrupos: true,
       inboxAvancado: true,
+      tickets: true,
+      crmPipelineProspeccao: true,
+      crmPipelineLeads: true,
+      crmPipelineOportunidades: true,
+      projetos: true,
+      calendario: true,
       marketingDashboard: true,
       googleAnalytics: true,
       googleSearchConsole: true,
       googleBusinessProfile: true,
       googleAds: true,
       metaAds: true,
-      cofreCredenciais: true,
       magicLink: true,
-      tickets: true,
-      assistenteIA: true,
-      multiUnidade: true,
       bannerLgpd: true,
-      projetos: true,
-      calendario: true,
+      multiUnidade: true,
       apiAccess: true,
-      customDomain: true,
       suportePrioritario: true,
     }),
+    modoAtendimentoDefault: "ATENDE",
     highlights: [
       "WhatsApp e atendentes ilimitados",
-      "Google Ads + Meta Ads",
-      "ROAS cruzado (anúncio → lead → venda)",
-      "Domínio próprio (white-label)",
+      "Multi-unidade / filiais",
+      "Google Ads + Meta Ads (ROAS cruzado)",
+      "Google Meu Negócio",
       "API completa",
-      "Onboarding 1:1 (4h)",
+      "Banner LGPD pronto",
+      "Onboarding 1:1",
     ],
   },
 
+  // ── ENTERPRISE: sob consulta (não público) ──
   ENTERPRISE: {
     tier: "ENTERPRISE",
     label: "Enterprise",
     tagline: "Sob consulta",
-    description: "Demandas customizadas, holdings e grandes operações",
-    priceMonthly: 0,    // sob consulta
+    description: "Demandas customizadas, holdings e grandes operações.",
+    priceMonthly: 0,
     priceAnnualPerMonth: 0,
     priceAnnualTotal: 0,
     cta: "Falar com vendas",
@@ -359,9 +339,19 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       leadsPerMonth: -1,
     },
     features: feat({
-      crmBasico: true,
-      crmAvancado: true,
+      whatsapp: true,
+      whatsappGrupos: true,
       inboxAvancado: true,
+      tickets: true,
+      crmPipelineProspeccao: true,
+      crmPipelineLeads: true,
+      crmPipelineOportunidades: true,
+      prospectaIa: true,
+      emailMassa: true,
+      projetos: true,
+      calendario: true,
+      gamificacao: true,
+      assistenteIA: true,
       marketingDashboard: true,
       googleAnalytics: true,
       googleSearchConsole: true,
@@ -370,20 +360,19 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       metaAds: true,
       cofreCredenciais: true,
       magicLink: true,
-      tickets: true,
-      assistenteIA: true,
-      multiUnidade: true,
       bannerLgpd: true,
-      projetos: true,
-      calendario: true,
+      multiUnidade: true,
+      clickupSync: true,
       apiAccess: true,
       whiteLabel: true,
       customDomain: true,
       suportePrioritario: true,
       accountManager: true,
     }),
+    modoAtendimentoDefault: "ATENDE",
     highlights: [
       "Tudo do Premium +",
+      "Todos os add-ons inclusos",
       "White-label completo",
       "SLA contratual (99.5% uptime)",
       "Account manager dedicado",
@@ -391,10 +380,226 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       "Treinamento da equipe",
     ],
   },
+
+  // ── TRIAL: legado (FREE assume o papel) ──
+  TRIAL: {
+    tier: "TRIAL",
+    label: "Trial (legado)",
+    tagline: "Plano antigo — use FREE",
+    description: "Mantido pra subscriptions antigas. Use o plano FREE pra trial novo.",
+    priceMonthly: 0,
+    priceAnnualPerMonth: 0,
+    priceAnnualTotal: 0,
+    cta: "—",
+    limits: {
+      whatsappInstances: 1,
+      atendentes: 2,
+      unidades: 1,
+      leadsPerMonth: 200,
+    },
+    features: feat({
+      whatsapp: true,
+      inboxAvancado: true,
+      crmPipelineLeads: true,
+      calendario: true,
+    }),
+    modoAtendimentoDefault: "ATENDE",
+    highlights: ["Plano legado, não público"],
+  },
+
+  // ── CRESCIMENTO: legado (absorvido por MARKETING + add-ons) ──
+  CRESCIMENTO: {
+    tier: "CRESCIMENTO",
+    label: "Crescimento (legado)",
+    tagline: "Plano antigo — use MARKETING + add-ons",
+    description: "Mantido pra subscriptions antigas. Conteúdo migrou pra MARKETING com add-ons.",
+    priceMonthly: 797,
+    priceAnnualPerMonth: 637,
+    priceAnnualTotal: 7644,
+    cta: "—",
+    limits: {
+      whatsappInstances: 5,
+      atendentes: 15,
+      unidades: 5,
+      leadsPerMonth: 20000,
+    },
+    features: feat({
+      whatsapp: true,
+      whatsappGrupos: true,
+      inboxAvancado: true,
+      tickets: true,
+      crmPipelineProspeccao: true,
+      crmPipelineLeads: true,
+      crmPipelineOportunidades: true,
+      projetos: true,
+      calendario: true,
+      gamificacao: true,
+      assistenteIA: true,
+      marketingDashboard: true,
+      googleAnalytics: true,
+      googleSearchConsole: true,
+      googleBusinessProfile: true,
+      cofreCredenciais: true,
+      magicLink: true,
+      bannerLgpd: true,
+      multiUnidade: true,
+      suportePrioritario: true,
+    }),
+    modoAtendimentoDefault: "ATENDE",
+    highlights: ["Plano legado, não público"],
+  },
 };
 
-/** Ordem em que os planos aparecem na pricing page. */
-export const PLAN_ORDER: PlanTier[] = ["ESSENCIAL", "MARKETING", "CRESCIMENTO", "PREMIUM"];
+/** Ordem em que os planos aparecem na pricing page (público). */
+export const PLAN_ORDER: PlanTier[] = ["FREE", "ESSENCIAL", "MARKETING", "PREMIUM"];
+
+/** Planos legados/internos — não aparecem na pricing page. */
+export const LEGACY_TIERS: PlanTier[] = ["TRIAL", "CRESCIMENTO"];
+
+/** Planos não-públicos atribuídos manualmente (não aparecem na pricing page). */
+export const INTERNAL_TIERS: PlanTier[] = ["ENTERPRISE"];
+
+// ─── Add-ons (features extras contratáveis em qualquer plano pago) ───────────
+// Quando ligados via Subscription.customFeatures, cobrados separados via
+// Stripe (subscription item). Preço sugerido — Lazzari ajusta na UI.
+
+export type AddonKey =
+  | "prospectaIa"
+  | "emailMassa"
+  | "cofreCredenciais"
+  | "assistenteIA"
+  | "gamificacao"
+  | "clickupSync"
+  | "bannerLgpd"
+  | "whiteLabel"
+  | "customDomain";
+
+export interface AddonDefinition {
+  key: AddonKey;
+  label: string;
+  description: string;
+  /** Preço mensal sugerido (BRL). */
+  priceMonthly: number;
+  /** Tier mínimo a partir do qual o add-on pode ser contratado. */
+  minTier: PlanTier;
+  /** Feature flag correspondente em PlanFeatures (1:1). */
+  feature: keyof PlanFeatures;
+}
+
+export const ADDONS: Record<AddonKey, AddonDefinition> = {
+  prospectaIa: {
+    key: "prospectaIa",
+    label: "Prospecta IA",
+    description: "Busca prospects no Google Maps com sua própria SerpAPI key.",
+    priceMonthly: 49,
+    minTier: "ESSENCIAL",
+    feature: "prospectaIa",
+  },
+  emailMassa: {
+    key: "emailMassa",
+    label: "Email em massa",
+    description: "Disparo de email com cadência + tracking + compliance LGPD.",
+    priceMonthly: 99,
+    minTier: "ESSENCIAL",
+    feature: "emailMassa",
+  },
+  cofreCredenciais: {
+    key: "cofreCredenciais",
+    label: "Cofre de credenciais",
+    description: "Senhas criptografadas com 2FA por email + auditoria.",
+    priceMonthly: 49,
+    minTier: "ESSENCIAL",
+    feature: "cofreCredenciais",
+  },
+  assistenteIA: {
+    key: "assistenteIA",
+    label: "Assistente IA",
+    description: "Chat IA + resumos automáticos de conversas.",
+    priceMonthly: 79,
+    minTier: "MARKETING",
+    feature: "assistenteIA",
+  },
+  gamificacao: {
+    key: "gamificacao",
+    label: "Gamificação",
+    description: "Badges, ranking e prêmios pra equipe.",
+    priceMonthly: 49,
+    minTier: "MARKETING",
+    feature: "gamificacao",
+  },
+  clickupSync: {
+    key: "clickupSync",
+    label: "ClickUp Sync",
+    description: "Sincronização bidirecional de tarefas com ClickUp.",
+    priceMonthly: 29,
+    minTier: "MARKETING",
+    feature: "clickupSync",
+  },
+  bannerLgpd: {
+    key: "bannerLgpd",
+    label: "Banner LGPD pronto",
+    description: "Banner de consentimento configurado pro seu site.",
+    priceMonthly: 19,
+    minTier: "ESSENCIAL",
+    feature: "bannerLgpd",
+  },
+  whiteLabel: {
+    key: "whiteLabel",
+    label: "White-label",
+    description: "Sua marca no painel — sem referência ao LeadHub.",
+    priceMonthly: 199,
+    minTier: "MARKETING",
+    feature: "whiteLabel",
+  },
+  customDomain: {
+    key: "customDomain",
+    label: "Domínio próprio",
+    description: "Painel acessível pelo seu domínio (app.suamarca.com).",
+    priceMonthly: 49,
+    minTier: "MARKETING",
+    feature: "customDomain",
+  },
+};
+
+/** Add-ons unitários quantificáveis (cobrados por unidade extra). */
+export interface UnitAddon {
+  key: "whatsappExtra" | "atendenteExtra" | "unidadeExtra";
+  label: string;
+  description: string;
+  priceMonthly: number;
+  minTier: PlanTier;
+  /** Recurso em PlanLimits que esse add-on incrementa. */
+  resource: keyof PlanLimits;
+}
+
+export const UNIT_ADDONS: Record<UnitAddon["key"], UnitAddon> = {
+  whatsappExtra: {
+    key: "whatsappExtra",
+    label: "Instância WhatsApp extra",
+    description: "Um número adicional conectado no painel.",
+    priceMonthly: 79,
+    minTier: "ESSENCIAL",
+    resource: "whatsappInstances",
+  },
+  atendenteExtra: {
+    key: "atendenteExtra",
+    label: "Atendente extra",
+    description: "Um usuário CLIENT adicional na equipe.",
+    priceMonthly: 29,
+    minTier: "ESSENCIAL",
+    resource: "atendentes",
+  },
+  unidadeExtra: {
+    key: "unidadeExtra",
+    label: "Unidade/filial extra",
+    description: "Uma sub-empresa adicional gerenciada pelo grupo.",
+    priceMonthly: 49,
+    minTier: "MARKETING",
+    resource: "unidades",
+  },
+};
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
 
 /** Pretty number → "R$ 397". */
 export function formatPriceBRL(value: number): string {
@@ -414,4 +619,38 @@ export function planHasFeature(tier: PlanTier, feature: keyof PlanFeatures): boo
 /** Retorna o limite numérico (-1 = ilimitado) de um recurso pra um plano. */
 export function getPlanLimit(tier: PlanTier, resource: keyof PlanLimits): number {
   return PLANS[tier].limits[resource];
+}
+
+/** Lookup helper para add-ons booleanos (feature extra). */
+export function getAddon(key: AddonKey): AddonDefinition {
+  return ADDONS[key];
+}
+
+/**
+ * Retorna se a feature está disponível como add-on contratável.
+ * Útil pra UI: quando feature está OFF no plano, mostrar "ativar como add-on R$ X/mês".
+ */
+export function findAddonForFeature(feature: keyof PlanFeatures): AddonDefinition | null {
+  for (const addon of Object.values(ADDONS)) {
+    if (addon.feature === feature) return addon;
+  }
+  return null;
+}
+
+/**
+ * Ordem de comparação entre tiers (pra checagem de `minTier` em add-ons).
+ * Tiers legados/internos têm valor especial.
+ */
+const TIER_RANK: Record<PlanTier, number> = {
+  FREE: 0,
+  TRIAL: 0,
+  ESSENCIAL: 1,
+  MARKETING: 2,
+  CRESCIMENTO: 2,
+  PREMIUM: 3,
+  ENTERPRISE: 4,
+};
+
+export function tierAtLeast(tier: PlanTier, minTier: PlanTier): boolean {
+  return TIER_RANK[tier] >= TIER_RANK[minTier];
 }

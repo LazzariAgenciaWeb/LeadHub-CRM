@@ -46,7 +46,7 @@ export type ModuleGateResult =
 
 const FEATURE_BY_MODULE: Record<ModuleName, keyof PlanFeatures | null> = {
   whatsapp:    null,                // controlado por moduleWhatsapp + plano (Inbox base sempre)
-  crm:         "crmBasico",
+  crm:         "crmPipelineLeads",  // base do CRM — pipeline Leads é o mínimo
   tickets:     "tickets",
   ai:          "assistenteIA",
   gamificacao: null,                // por enquanto livre quando empresa habilitou

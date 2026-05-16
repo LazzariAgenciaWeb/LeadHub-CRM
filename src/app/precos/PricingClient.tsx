@@ -283,25 +283,36 @@ function ComparisonTable({ plans }: { plans: PlanDefinition[] }) {
     { label: "Atendentes", key: "atendentes", isLimit: true, format: limitFmt },
     { label: "Unidades/Filiais", key: "unidades", isLimit: true, format: limitFmt },
     { label: "Leads/mês", key: "leadsPerMonth", isLimit: true, format: limitFmt },
-    // Inbox / CRM
-    { label: "Inbox WhatsApp avançado", key: "inboxAvancado", isFeature: true },
-    { label: "CRM básico", key: "crmBasico", isFeature: true },
-    { label: "Pipeline customizável", key: "crmAvancado", isFeature: true },
+    // 🟢 Atendimento
+    { label: "WhatsApp (Inbox)", key: "whatsapp", isFeature: true },
+    { label: "Inbox avançado (SLA, transferência)", key: "inboxAvancado", isFeature: true },
+    { label: "Ver grupos no inbox", key: "whatsappGrupos", isFeature: true },
     { label: "Tickets/Chamados", key: "tickets", isFeature: true },
-    // Marketing
+    // 🎯 Vendas & Produtividade
+    { label: "CRM — Pipeline Leads", key: "crmPipelineLeads", isFeature: true },
+    { label: "CRM — Pipeline Oportunidades", key: "crmPipelineOportunidades", isFeature: true },
+    { label: "CRM — Pipeline Prospecção", key: "crmPipelineProspeccao", isFeature: true },
+    { label: "Prospecta IA (SerpAPI)", key: "prospectaIa", isFeature: true },
+    { label: "Email em massa", key: "emailMassa", isFeature: true },
+    { label: "Projetos", key: "projetos", isFeature: true },
+    { label: "Calendário", key: "calendario", isFeature: true },
+    { label: "Gamificação", key: "gamificacao", isFeature: true },
+    { label: "Assistente IA", key: "assistenteIA", isFeature: true },
+    // 📊 Marketing & Análise
     { label: "Dashboard Marketing", key: "marketingDashboard", isFeature: true },
     { label: "Google Analytics", key: "googleAnalytics", isFeature: true },
     { label: "Search Console", key: "googleSearchConsole", isFeature: true },
     { label: "Google Meu Negócio", key: "googleBusinessProfile", isFeature: true },
     { label: "Google Ads", key: "googleAds", isFeature: true },
     { label: "Meta Ads", key: "metaAds", isFeature: true },
-    // Operacional
+    // 🔐 Segurança & Acesso
     { label: "Cofre de credenciais", key: "cofreCredenciais", isFeature: true },
     { label: "Magic link (login sem senha)", key: "magicLink", isFeature: true },
-    { label: "Assistente IA", key: "assistenteIA", isFeature: true },
-    { label: "Multi-unidade", key: "multiUnidade", isFeature: true },
     { label: "Banner LGPD", key: "bannerLgpd", isFeature: true },
-    // Avançado
+    { label: "Multi-unidade", key: "multiUnidade", isFeature: true },
+    // 🔌 Integrações
+    { label: "ClickUp Sync", key: "clickupSync", isFeature: true },
+    // 🏢 Enterprise
     { label: "API completa", key: "apiAccess", isFeature: true },
     { label: "Domínio próprio", key: "customDomain", isFeature: true },
     { label: "White-label", key: "whiteLabel", isFeature: true },
