@@ -31,6 +31,11 @@ export interface UserModules {
   projetos: boolean;
   calendario: boolean;
   prospeccao: boolean;
+  // Sub-pipelines do CRM (granularidade por pipeline). Vêm de PlanFeatures
+  // efetivas (plan + customFeatures), populadas no session callback do auth.
+  crmPipelineProspeccao: boolean;
+  crmPipelineLeads: boolean;
+  crmPipelineOportunidades: boolean;
 }
 
 const ALL_PERMISSIONS: UserPermissions = {
@@ -67,11 +72,13 @@ const DEFAULT_CLIENT_PERMISSIONS: UserPermissions = {
 const ALL_MODULES: UserModules = {
   ai: true, crm: true, whatsapp: true, tickets: true, clickup: true,
   gamificacao: true, projetos: true, calendario: true, prospeccao: true,
+  crmPipelineProspeccao: true, crmPipelineLeads: true, crmPipelineOportunidades: true,
 };
 
 const DEFAULT_MODULES: UserModules = {
   ai: false, crm: true, whatsapp: false, tickets: false, clickup: false,
   gamificacao: false, projetos: false, calendario: false, prospeccao: false,
+  crmPipelineProspeccao: false, crmPipelineLeads: true, crmPipelineOportunidades: false,
 };
 
 export function isSuperAdmin(session: any): boolean {

@@ -2,6 +2,7 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "./prisma";
+import { getCompanyPlan } from "./limits";
 
 // Quando o usuário está em múltiplos setores, fazemos UNIÃO (OR) das
 // permissões — basta um setor liberar para o usuário ter a permissão.
@@ -94,6 +95,22 @@ export const authOptions: NextAuthOptions = {
         const allSetores = user.setores.map((s) => s.setor);
         const mergedPerms = mergeSetorPermissions(allSetores);
 
+        // Pipelines do CRM (granularidade): lê do plano + customFeatures.
+        // Fallback: leads ON, demais OFF (default seguro).
+        let pipelineProspeccao = false;
+        let pipelineLeads = true;
+        let pipelineOportunidades = false;
+        if (user.companyId) {
+          try {
+            const ctx = await getCompanyPlan(user.companyId);
+            pipelineProspeccao = ctx.effectiveFeatures.crmPipelineProspeccao;
+            pipelineLeads = ctx.effectiveFeatures.crmPipelineLeads;
+            pipelineOportunidades = ctx.effectiveFeatures.crmPipelineOportunidades;
+          } catch {
+            // mantém defaults caso sem subscription
+          }
+        }
+
         return {
           id: user.id,
           name: user.name,
@@ -112,6 +129,9 @@ export const authOptions: NextAuthOptions = {
             projetos:    (user.company as any)?.moduleProjetos ?? false,
             calendario:  (user.company as any)?.moduleCalendario ?? false,
             prospeccao:  (user.company as any)?.moduleProspeccao ?? false,
+            crmPipelineProspeccao:    pipelineProspeccao,
+            crmPipelineLeads:         pipelineLeads,
+            crmPipelineOportunidades: pipelineOportunidades,
           },
         };
       },
@@ -171,6 +191,22 @@ export const authOptions: NextAuthOptions = {
               const allSetores = dbUser.setores.map((s) => s.setor);
               (session.user as any).companyId = dbUser.companyId ?? (token.companyId as string | undefined);
               (session.user as any).permissions = mergeSetorPermissions(allSetores);
+
+              // Pipelines do CRM via getCompanyPlan (plan + customFeatures).
+              let pipelineProspeccao = false;
+              let pipelineLeads = true;
+              let pipelineOportunidades = false;
+              if (dbUser.companyId) {
+                try {
+                  const ctx = await getCompanyPlan(dbUser.companyId);
+                  pipelineProspeccao = ctx.effectiveFeatures.crmPipelineProspeccao;
+                  pipelineLeads = ctx.effectiveFeatures.crmPipelineLeads;
+                  pipelineOportunidades = ctx.effectiveFeatures.crmPipelineOportunidades;
+                } catch {
+                  // mantém defaults
+                }
+              }
+
               (session.user as any).modules = {
                 ai:          (dbUser.company as any)?.moduleAI          ?? false,
                 crm:         dbUser.company?.moduleCrm                  ?? true,
@@ -181,6 +217,9 @@ export const authOptions: NextAuthOptions = {
                 projetos:    (dbUser.company as any)?.moduleProjetos    ?? false,
                 calendario:  (dbUser.company as any)?.moduleCalendario  ?? false,
                 prospeccao:  (dbUser.company as any)?.moduleProspeccao  ?? false,
+                crmPipelineProspeccao:    pipelineProspeccao,
+                crmPipelineLeads:         pipelineLeads,
+                crmPipelineOportunidades: pipelineOportunidades,
               };
             }
           } catch (err) {

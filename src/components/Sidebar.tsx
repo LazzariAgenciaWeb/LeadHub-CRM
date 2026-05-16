@@ -144,11 +144,15 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
 
   const showCrm = _isSuperAdmin || (hasModule(session, "crm") && can(session, "canViewLeads"));
 
-  const crmSubItems: { href: string; Icon: LucideIcon; label: string; grad: GradientKey }[] = [
-    { href: "/crm/prospeccao",    Icon: Search,    label: "Prospecção",    grad: "prospeccao" },
-    { href: "/crm/leads",         Icon: Target,    label: "Leads",         grad: "leads" },
-    { href: "/crm/oportunidades", Icon: Lightbulb, label: "Oportunidades", grad: "oportunidades" },
-  ];
+  // CRM sub-itens gateados por pipeline individual (super_admin vê tudo).
+  // crmPipeline* vem das features efetivas do plano (plan + customFeatures).
+  const crmSubItems: { href: string; Icon: LucideIcon; label: string; grad: GradientKey }[] = ([
+    { href: "/crm/prospeccao",    Icon: Search,    label: "Prospecção",    grad: "prospeccao" as GradientKey,    show: _isSuperAdmin || hasModule(session, "crmPipelineProspeccao") },
+    { href: "/crm/leads",         Icon: Target,    label: "Leads",         grad: "leads" as GradientKey,         show: _isSuperAdmin || hasModule(session, "crmPipelineLeads") },
+    { href: "/crm/oportunidades", Icon: Lightbulb, label: "Oportunidades", grad: "oportunidades" as GradientKey, show: _isSuperAdmin || hasModule(session, "crmPipelineOportunidades") },
+  ] as Array<{ href: string; Icon: LucideIcon; label: string; grad: GradientKey; show: boolean }>)
+    .filter((i) => i.show)
+    .map(({ show: _show, ...rest }) => rest);
 
   // Configurações é visível para ADMIN/SUPER_ADMIN ou para CLIENT cujo setor
   // tem canViewConfig OU canManageUsers (sector admin que precisa gerenciar
