@@ -1,6 +1,7 @@
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
-import SettingsLayout from "./SettingsLayout";
+import { getCompanyPlan } from "@/lib/limits";
+import SettingsLayout, { type EnabledSections } from "./SettingsLayout";
 import SettingsForm from "./SettingsForm";
 import InstancesSection from "./InstancesSection";
 import PipelineSettings from "./PipelineSettings";
@@ -484,21 +485,44 @@ export default async function ConfiguracoesPage({
     content = <div className="p-6 text-slate-500 text-sm">Seção não encontrada.</div>;
   }
 
-  // Visibilidade do menu "Prospecta IA · SerpAPI": empresa do usuário precisa
-  // do módulo ligado. SUPER_ADMIN sempre vê (pra configurar de qualquer empresa).
+  // Visibilidade do menu lateral: gateia seções por módulo da empresa.
+  // SUPER_ADMIN sempre vê tudo (pra configurar de qualquer empresa).
   const layoutCompanyId = isSuperAdmin ? (qCompanyId ?? userCompanyId) : userCompanyId;
-  let prospeccaoEnabled = isSuperAdmin;
+  let enabledSections: EnabledSections = {
+    whatsapp:   true, crm: true, tickets: true, ai: true,
+    clickup:    true, gamificacao: true, projetos: true,
+    prospeccao: true, cofre: true, marketing: true,
+  };
   if (!isSuperAdmin && layoutCompanyId) {
-    const c = await prisma.company.findUnique({
-      where: { id: layoutCompanyId },
-      select: { moduleProspeccao: true },
-    });
-    prospeccaoEnabled = !!c?.moduleProspeccao;
+    const [company, ctx] = await Promise.all([
+      prisma.company.findUnique({
+        where: { id: layoutCompanyId },
+        select: {
+          moduleWhatsapp: true, moduleCrm: true, moduleTickets: true,
+          moduleAI: true, moduleClickup: true, moduleGamificacao: true,
+          moduleProjetos: true, moduleProspeccao: true,
+        },
+      }),
+      // Features que vivem em PlanFeatures (sem flag em Company): cofre, marketing
+      getCompanyPlan(layoutCompanyId).catch(() => null),
+    ]);
+    enabledSections = {
+      whatsapp:    !!company?.moduleWhatsapp,
+      crm:         !!company?.moduleCrm,
+      tickets:     !!company?.moduleTickets,
+      ai:          !!(company as any)?.moduleAI,
+      clickup:     !!(company as any)?.moduleClickup,
+      gamificacao: !!(company as any)?.moduleGamificacao,
+      projetos:    !!(company as any)?.moduleProjetos,
+      prospeccao:  !!(company as any)?.moduleProspeccao,
+      cofre:       !!ctx?.effectiveFeatures.cofreCredenciais,
+      marketing:   !!ctx?.effectiveFeatures.marketingDashboard,
+    };
   }
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
-      <SettingsLayout activeSection={secao} prospeccaoEnabled={prospeccaoEnabled}>
+      <SettingsLayout activeSection={secao} enabledSections={enabledSections}>
         {content}
       </SettingsLayout>
     </div>

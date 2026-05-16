@@ -74,27 +74,78 @@ function isMinhaEmpresaSubKey(key: string) {
     || key === "email";
 }
 
+export interface EnabledSections {
+  whatsapp: boolean;
+  crm: boolean;
+  tickets: boolean;
+  ai: boolean;
+  clickup: boolean;
+  gamificacao: boolean;
+  projetos: boolean;
+  prospeccao: boolean;
+  cofre: boolean;
+  marketing: boolean;
+}
+
+const ALL_ENABLED: EnabledSections = {
+  whatsapp: true, crm: true, tickets: true, ai: true,
+  clickup: true, gamificacao: true, projetos: true,
+  prospeccao: true, cofre: true, marketing: true,
+};
+
+// Mapeia cada chave de seção/sub-item do menu pro flag de modulo que a libera.
+// `null` = sempre visível (base que toda empresa tem).
+const SECTION_GATE: Record<string, keyof EnabledSections | null> = {
+  // Top-level
+  "meu-perfil":    null,
+  "instancias":    "whatsapp",
+  "pipeline":      "crm",
+  "custom-fields": "crm",
+  // Minha Empresa
+  "minha-empresa-dados":    null,
+  "minha-empresa-contatos": null,
+  "minha-empresa-acessos":  null,
+  "setores":                null,
+  "atendimento":            "whatsapp",
+  "gamificacao":            "gamificacao",
+  "email":                  null,
+  "minha-empresa-cofre":    "cofre",
+  "minha-empresa-plano":    null,
+  // Integrações
+  "integracoes-google":     "marketing",
+  "integracoes-evolution":  "whatsapp",
+  "integracoes-clickup":    "clickup",
+  "integracoes-openai":     "ai",
+  "integracoes-prospeccao": "prospeccao",
+  "integracoes-webhook":    "crm",
+};
+
 export default function SettingsLayout({
   activeSection,
   children,
-  prospeccaoEnabled = false,
+  enabledSections,
 }: {
   activeSection: string;
   children: React.ReactNode;
-  prospeccaoEnabled?: boolean;
+  enabledSections?: EnabledSections;
 }) {
   const router = useRouter();
+  const en = enabledSections ?? ALL_ENABLED;
 
-  // Filtra subitems de Integrações que dependem de módulos por empresa.
-  const visibleSections = SECTIONS.map((s) => {
-    if (s.type !== "group" || s.key !== "integracoes") return s;
-    return {
-      ...s,
-      children: s.children.filter((c) =>
-        c.key === "integracoes-prospeccao" ? prospeccaoEnabled : true
-      ),
-    };
-  });
+  function isVisible(key: string): boolean {
+    const gate = SECTION_GATE[key];
+    return gate === null || gate === undefined ? true : en[gate];
+  }
+
+  // Filtra sub-itens e remove grupos que ficaram vazios.
+  const visibleSections = SECTIONS
+    .map((s) => {
+      if (s.type === "item") return isVisible(s.key) ? s : null;
+      const visibleChildren = s.children.filter((c) => isVisible(c.key));
+      if (visibleChildren.length === 0) return null;
+      return { ...s, children: visibleChildren };
+    })
+    .filter((s): s is NonNullable<typeof s> => s !== null);
 
   // Estado de colapso por grupo. Inicia aberto se a seção ativa pertence
   // ao grupo (pra usuário não precisar abrir manualmente toda vez).
