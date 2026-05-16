@@ -103,11 +103,15 @@ export const authOptions: NextAuthOptions = {
           setorId: allSetores[0]?.id ?? undefined,
           permissions: mergedPerms,
           modules: {
-            ai:       (user.company as any)?.moduleAI ?? false,
-            crm:      user.company?.moduleCrm ?? true,
-            whatsapp: user.company?.moduleWhatsapp ?? false,
-            tickets:  user.company?.moduleTickets ?? false,
-            clickup:  (user.company as any)?.moduleClickup ?? false,
+            ai:          (user.company as any)?.moduleAI ?? false,
+            crm:         user.company?.moduleCrm ?? true,
+            whatsapp:    user.company?.moduleWhatsapp ?? false,
+            tickets:     user.company?.moduleTickets ?? false,
+            clickup:     (user.company as any)?.moduleClickup ?? false,
+            gamificacao: (user.company as any)?.moduleGamificacao ?? false,
+            projetos:    (user.company as any)?.moduleProjetos ?? false,
+            calendario:  (user.company as any)?.moduleCalendario ?? false,
+            prospeccao:  (user.company as any)?.moduleProspeccao ?? false,
           },
         };
       },
@@ -150,6 +154,10 @@ export const authOptions: NextAuthOptions = {
                     moduleWhatsapp: true,
                     moduleTickets: true,
                     moduleClickup: true,
+                    moduleGamificacao: true,
+                    moduleProjetos: true,
+                    moduleCalendario: true,
+                    moduleProspeccao: true,
                   },
                 },
                 setores: {
@@ -162,11 +170,15 @@ export const authOptions: NextAuthOptions = {
               (session.user as any).companyId = dbUser.companyId ?? (token.companyId as string | undefined);
               (session.user as any).permissions = mergeSetorPermissions(allSetores);
               (session.user as any).modules = {
-                ai:       (dbUser.company as any)?.moduleAI       ?? false,
-                crm:      dbUser.company?.moduleCrm   ?? true,
-                whatsapp: dbUser.company?.moduleWhatsapp ?? false,
-                tickets:  dbUser.company?.moduleTickets  ?? false,
-                clickup:  (dbUser.company as any)?.moduleClickup  ?? false,
+                ai:          (dbUser.company as any)?.moduleAI          ?? false,
+                crm:         dbUser.company?.moduleCrm                  ?? true,
+                whatsapp:    dbUser.company?.moduleWhatsapp             ?? false,
+                tickets:     dbUser.company?.moduleTickets              ?? false,
+                clickup:     (dbUser.company as any)?.moduleClickup     ?? false,
+                gamificacao: (dbUser.company as any)?.moduleGamificacao ?? false,
+                projetos:    (dbUser.company as any)?.moduleProjetos    ?? false,
+                calendario:  (dbUser.company as any)?.moduleCalendario  ?? false,
+                prospeccao:  (dbUser.company as any)?.moduleProspeccao  ?? false,
               };
             }
           } catch (err) {

@@ -27,6 +27,10 @@ export interface UserModules {
   whatsapp: boolean;
   tickets: boolean;
   clickup: boolean;
+  gamificacao: boolean;
+  projetos: boolean;
+  calendario: boolean;
+  prospeccao: boolean;
 }
 
 const ALL_PERMISSIONS: UserPermissions = {
@@ -60,7 +64,15 @@ const DEFAULT_CLIENT_PERMISSIONS: UserPermissions = {
   canCreateCompanies: false,
 };
 
-const ALL_MODULES: UserModules = { ai: true, crm: true, whatsapp: true, tickets: true, clickup: true };
+const ALL_MODULES: UserModules = {
+  ai: true, crm: true, whatsapp: true, tickets: true, clickup: true,
+  gamificacao: true, projetos: true, calendario: true, prospeccao: true,
+};
+
+const DEFAULT_MODULES: UserModules = {
+  ai: false, crm: true, whatsapp: false, tickets: false, clickup: false,
+  gamificacao: false, projetos: false, calendario: false, prospeccao: false,
+};
 
 export function isSuperAdmin(session: any): boolean {
   return session?.user?.role === "SUPER_ADMIN";
@@ -78,7 +90,7 @@ export function getPermissions(session: any): UserPermissions {
 
 export function getModules(session: any): UserModules {
   if (isSuperAdmin(session)) return ALL_MODULES;
-  return (session?.user?.modules as UserModules) ?? { ai: false, crm: true, whatsapp: false, tickets: false, clickup: false };
+  return (session?.user?.modules as UserModules) ?? DEFAULT_MODULES;
 }
 
 /** Verifica se a sessão tem acesso a uma permissão específica do setor */

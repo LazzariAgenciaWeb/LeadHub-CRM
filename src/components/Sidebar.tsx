@@ -125,9 +125,12 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
     "Agente";
 
   type SidebarLink = { href: string; Icon: LucideIcon; label: string; grad: GradientKey; show: boolean };
+  // IMPORTANTE: gates de modulo respeitam o plano da empresa. SUPER_ADMIN bypassa
+  // tudo (admin do sistema); ADMIN da empresa-cliente VE apenas o que o plano libera.
+  // Antes era _isAdmin || X (qualquer admin via tudo) — bug que vazava menu inteiro.
   const topLinks: SidebarLink[] = ([
-    { href: "/whatsapp",   Icon: MessageSquare, label: "Mensagens",     grad: "whatsapp",  show: _isAdmin || (hasModule(session, "whatsapp") && can(session, "canViewInbox")) },
-    { href: "/assistente", Icon: Sparkles,      label: "Assistente IA", grad: "ai",        show: _isAdmin || (hasModule(session, "ai") && can(session, "canUseAI")) },
+    { href: "/whatsapp",   Icon: MessageSquare, label: "Mensagens",     grad: "whatsapp",  show: _isSuperAdmin || (hasModule(session, "whatsapp") && can(session, "canViewInbox")) },
+    { href: "/assistente", Icon: Sparkles,      label: "Assistente IA", grad: "ai",        show: _isSuperAdmin || (hasModule(session, "ai") && can(session, "canUseAI")) },
     { href: "/empresas",   Icon: Building2,     label: "Empresas",      grad: "empresas",  show: _isAdmin || can(session, "canViewCompanies") },
   ] satisfies SidebarLink[]).filter((l) => l.show);
 
@@ -135,11 +138,11 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
   type DashSubItem = { href: string; Icon: LucideIcon; label: string; grad: GradientKey; show: boolean };
   const dashSubItems: DashSubItem[] = ([
     { href: "/dashboard",                       Icon: Home,         label: "Visão Geral", grad: "dashboard",  show: true },
-    { href: "/relatorios?secao=marketing",      Icon: BarChart3,    label: "Marketing",   grad: "marketing",  show: _isAdmin || can(session, "canViewLeads") },
-    { href: "/calendario",                      Icon: CalendarDays, label: "Calendário",  grad: "calendario", show: true },
+    { href: "/relatorios?secao=marketing",      Icon: BarChart3,    label: "Marketing",   grad: "marketing",  show: _isSuperAdmin || can(session, "canViewLeads") },
+    { href: "/calendario",                      Icon: CalendarDays, label: "Calendário",  grad: "calendario", show: _isSuperAdmin || hasModule(session, "calendario") },
   ] satisfies DashSubItem[]).filter((i) => i.show);
 
-  const showCrm = _isAdmin || (hasModule(session, "crm") && can(session, "canViewLeads"));
+  const showCrm = _isSuperAdmin || (hasModule(session, "crm") && can(session, "canViewLeads"));
 
   const crmSubItems: { href: string; Icon: LucideIcon; label: string; grad: GradientKey }[] = [
     { href: "/crm/prospeccao",    Icon: Search,    label: "Prospecção",    grad: "prospeccao" },
@@ -153,10 +156,10 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
   const showConfig = _isAdmin || can(session, "canViewConfig") || can(session, "canManageUsers");
 
   const bottomLinks: SidebarLink[] = ([
-    { href: "/campanhas",     Icon: Megaphone,    label: "Campanhas",     grad: "campanhas",     show: _isAdmin },
-    { href: "/chamados",      Icon: LifeBuoy,     label: "Chamados",      grad: "chamados",      show: _isAdmin || (hasModule(session, "tickets") && can(session, "canViewTickets")) },
-    { href: "/projetos",      Icon: FolderKanban, label: "Projetos",      grad: "pipeline",      show: true },
-    { href: "/gamificacao",   Icon: Trophy,       label: "Ranking",       grad: "gamificacao",   show: true },
+    { href: "/campanhas",     Icon: Megaphone,    label: "Campanhas",     grad: "campanhas",     show: _isSuperAdmin || (_isAdmin && hasModule(session, "whatsapp")) },
+    { href: "/chamados",      Icon: LifeBuoy,     label: "Chamados",      grad: "chamados",      show: _isSuperAdmin || (hasModule(session, "tickets") && can(session, "canViewTickets")) },
+    { href: "/projetos",      Icon: FolderKanban, label: "Projetos",      grad: "pipeline",      show: _isSuperAdmin || hasModule(session, "projetos") },
+    { href: "/gamificacao",   Icon: Trophy,       label: "Ranking",       grad: "gamificacao",   show: _isSuperAdmin || hasModule(session, "gamificacao") },
     { href: "/links",         Icon: Link2,        label: "Links",         grad: "links",         show: _isAdmin },
     { href: "/configuracoes", Icon: Settings,     label: "Configurações", grad: "configuracoes", show: showConfig },
   ] satisfies SidebarLink[]).filter((l) => l.show);
