@@ -3,28 +3,19 @@
 import { useEffect, useState } from "react";
 import {
   CreditCard, AlertCircle, Check, Save, Sparkles, Loader2,
-  Settings2, Info,
+  Settings2, Info, ChevronDown, ChevronRight, Tag,
 } from "lucide-react";
+import {
+  PLANS,
+  ADDONS,
+  findAddonForFeature,
+  formatPriceBRL,
+  type PlanTier,
+  type PlanLimits,
+  type PlanFeatures,
+} from "@/lib/plans";
 
-type PlanTier = "FREE" | "TRIAL" | "ESSENCIAL" | "MARKETING" | "CRESCIMENTO" | "PREMIUM" | "ENTERPRISE";
 type Status = "TRIALING" | "ACTIVE" | "PAST_DUE" | "CANCELED" | "UNPAID" | "INCOMPLETE";
-
-interface PlanLimits {
-  whatsappInstances: number;
-  atendentes: number;
-  unidades: number;
-  leadsPerMonth: number;
-}
-
-interface PlanFeatures {
-  crmBasico: boolean; crmAvancado: boolean; inboxAvancado: boolean;
-  marketingDashboard: boolean; googleAnalytics: boolean; googleSearchConsole: boolean;
-  googleBusinessProfile: boolean; googleAds: boolean; metaAds: boolean;
-  cofreCredenciais: boolean; magicLink: boolean; tickets: boolean;
-  assistenteIA: boolean; multiUnidade: boolean; bannerLgpd: boolean;
-  apiAccess: boolean; whiteLabel: boolean; customDomain: boolean;
-  suportePrioritario: boolean; accountManager: boolean;
-}
 
 interface SubscriptionData {
   subscription: {
@@ -52,31 +43,10 @@ interface SubscriptionData {
   plans: Record<PlanTier, { label: string; limits: PlanLimits; features: PlanFeatures }>;
 }
 
-const ALL_PLANS: PlanTier[] = ["FREE", "TRIAL", "ESSENCIAL", "MARKETING", "CRESCIMENTO", "PREMIUM", "ENTERPRISE"];
+const PUBLIC_PLANS: PlanTier[] = ["FREE", "ESSENCIAL", "MARKETING", "PREMIUM"];
+const INTERNAL_PLANS: PlanTier[] = ["ENTERPRISE"];
+const LEGACY_PLANS: PlanTier[] = ["TRIAL", "CRESCIMENTO"];
 const STATUSES: Status[] = ["TRIALING", "ACTIVE", "PAST_DUE", "CANCELED", "UNPAID", "INCOMPLETE"];
-
-const FEATURE_LABELS: Record<keyof PlanFeatures, string> = {
-  crmBasico: "CRM básico",
-  crmAvancado: "CRM avançado",
-  inboxAvancado: "Inbox avançado",
-  marketingDashboard: "Dashboard Marketing",
-  googleAnalytics: "Google Analytics",
-  googleSearchConsole: "Search Console",
-  googleBusinessProfile: "Google Meu Negócio",
-  googleAds: "Google Ads",
-  metaAds: "Meta Ads",
-  cofreCredenciais: "Cofre",
-  magicLink: "Magic Link",
-  tickets: "Tickets",
-  assistenteIA: "Assistente IA",
-  multiUnidade: "Multi-unidade",
-  bannerLgpd: "Banner LGPD",
-  apiAccess: "API",
-  whiteLabel: "White-label",
-  customDomain: "Domínio próprio",
-  suportePrioritario: "Suporte prioritário",
-  accountManager: "Account manager",
-};
 
 const LIMIT_LABELS: Record<keyof PlanLimits, string> = {
   whatsappInstances: "WhatsApp instâncias",
@@ -84,6 +54,92 @@ const LIMIT_LABELS: Record<keyof PlanLimits, string> = {
   unidades: "Unidades / Filiais",
   leadsPerMonth: "Leads / mês",
 };
+
+// ─── Features agrupadas por categoria (5 acordeões) ─────────────────────────
+interface FeatureRow {
+  key: keyof PlanFeatures;
+  label: string;
+}
+interface FeatureGroup {
+  id: string;
+  title: string;
+  icon: string;
+  features: FeatureRow[];
+}
+
+const FEATURE_GROUPS: FeatureGroup[] = [
+  {
+    id: "atendimento",
+    title: "Atendimento",
+    icon: "🟢",
+    features: [
+      { key: "whatsapp",         label: "WhatsApp (Inbox)" },
+      { key: "whatsappGrupos",   label: "Ver grupos no inbox" },
+      { key: "inboxAvancado",    label: "Inbox avançado (SLA, transferência)" },
+      { key: "tickets",          label: "Tickets / Chamados" },
+    ],
+  },
+  {
+    id: "vendas",
+    title: "Vendas & Produtividade",
+    icon: "🎯",
+    features: [
+      { key: "crmPipelineLeads",         label: "CRM — Pipeline Leads" },
+      { key: "crmPipelineOportunidades", label: "CRM — Pipeline Oportunidades" },
+      { key: "crmPipelineProspeccao",    label: "CRM — Pipeline Prospecção" },
+      { key: "prospectaIa",              label: "Prospecta IA (SerpAPI)" },
+      { key: "emailMassa",               label: "Email em massa" },
+      { key: "projetos",                 label: "Projetos" },
+      { key: "calendario",               label: "Calendário" },
+      { key: "gamificacao",              label: "Gamificação" },
+      { key: "assistenteIA",             label: "Assistente IA" },
+    ],
+  },
+  {
+    id: "marketing",
+    title: "Marketing & Análise",
+    icon: "📊",
+    features: [
+      { key: "marketingDashboard",   label: "Dashboard Marketing" },
+      { key: "googleAnalytics",      label: "Google Analytics" },
+      { key: "googleSearchConsole",  label: "Search Console" },
+      { key: "googleBusinessProfile", label: "Google Meu Negócio" },
+      { key: "googleAds",            label: "Google Ads" },
+      { key: "metaAds",              label: "Meta Ads" },
+    ],
+  },
+  {
+    id: "seguranca",
+    title: "Segurança & Acesso",
+    icon: "🔐",
+    features: [
+      { key: "cofreCredenciais", label: "Cofre de credenciais" },
+      { key: "magicLink",        label: "Magic Link (login sem senha)" },
+      { key: "bannerLgpd",       label: "Banner LGPD" },
+      { key: "multiUnidade",     label: "Multi-unidade / filiais" },
+    ],
+  },
+  {
+    id: "integracoes",
+    title: "Integrações",
+    icon: "🔌",
+    features: [
+      { key: "clickupSync", label: "ClickUp Sync" },
+    ],
+  },
+  {
+    id: "enterprise",
+    title: "Enterprise",
+    icon: "🏢",
+    features: [
+      { key: "apiAccess",          label: "API completa" },
+      { key: "whiteLabel",         label: "White-label" },
+      { key: "customDomain",       label: "Domínio próprio" },
+      { key: "suportePrioritario", label: "Suporte prioritário" },
+      { key: "accountManager",     label: "Account manager" },
+    ],
+  },
+];
 
 export default function CompanySubscription({
   companyId,
@@ -108,6 +164,11 @@ export default function CompanySubscription({
   const [customLimits, setCustomLimits] = useState<Partial<Record<keyof PlanLimits, string>>>({});
   const [customFeatures, setCustomFeatures] = useState<Partial<PlanFeatures>>({});
 
+  // Acordeão das categorias — começa tudo aberto
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(
+    Object.fromEntries(FEATURE_GROUPS.map((g) => [g.id, true]))
+  );
+
   useEffect(() => {
     void load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -124,7 +185,6 @@ export default function CompanySubscription({
       if (j.subscription) {
         setPlan(j.subscription.plan);
         setStatus(j.subscription.status);
-        // new Date(x).toISOString() é robusto contra valor vir como Date.
         setTrialEndsAt(j.subscription.trialEndsAt ? new Date(j.subscription.trialEndsAt).toISOString().slice(0, 10) : "");
         setCustomNotes(j.subscription.customNotes ?? "");
         const cl: Partial<Record<keyof PlanLimits, string>> = {};
@@ -145,20 +205,19 @@ export default function CompanySubscription({
     setSaving(true);
     setFlash(null);
     try {
-      // Limpa overrides vazios — se valor for igual ao default do plano, não salva
       const planDefault = data?.plans[plan];
       const limitsToSave: Partial<PlanLimits> = {};
       for (const [k, v] of Object.entries(customLimits)) {
         if (v === "" || v === null || v === undefined) continue;
         const n = parseInt(v, 10);
         if (isNaN(n)) continue;
-        if (planDefault && n === (planDefault.limits as any)[k]) continue; // == default → não salva
+        if (planDefault && n === (planDefault.limits as any)[k]) continue;
         (limitsToSave as any)[k] = n;
       }
       const featuresToSave: Partial<PlanFeatures> = {};
       for (const [k, v] of Object.entries(customFeatures)) {
         if (v === undefined || v === null) continue;
-        if (planDefault && v === (planDefault.features as any)[k]) continue; // == default → não salva
+        if (planDefault && v === (planDefault.features as any)[k]) continue;
         (featuresToSave as any)[k] = v;
       }
 
@@ -185,6 +244,10 @@ export default function CompanySubscription({
     }
   }
 
+  function toggleGroup(id: string) {
+    setOpenGroups((g) => ({ ...g, [id]: !g[id] }));
+  }
+
   if (loading) {
     return (
       <div className="p-10 text-center text-slate-500 text-sm">
@@ -199,7 +262,6 @@ export default function CompanySubscription({
   const planDefault = data.plans[plan];
 
   // ── Modo somente leitura: ADMIN vê o plano sem poder editar ─────────────
-  // Mudanças passam por solicitação ao suporte (CTA WhatsApp).
   if (readOnly) {
     const eff = data.effective;
     const currentLabel = data.plans[eff.tier]?.label ?? eff.tier;
@@ -253,24 +315,28 @@ export default function CompanySubscription({
           </div>
         </div>
 
-        {/* Features ativas */}
-        <div className="bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
-          <h3 className="text-white text-sm font-semibold mb-3 flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-emerald-400" /> Features incluídas
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
-            {(Object.keys(FEATURE_LABELS) as (keyof PlanFeatures)[]).map((key) => {
-              const on = eff.features[key];
-              return (
-                <div key={key} className="flex items-center gap-2 px-2 py-1 text-xs">
-                  <span className={on ? "text-emerald-400" : "text-slate-700"}>
-                    {on ? "✓" : "·"}
-                  </span>
-                  <span className={on ? "text-slate-200" : "text-slate-600"}>{FEATURE_LABELS[key]}</span>
+        {/* Features ativas — agrupadas */}
+        <div className="space-y-3">
+          {FEATURE_GROUPS.map((group) => {
+            const enabledInGroup = group.features.filter((f) => eff.features[f.key]);
+            if (enabledInGroup.length === 0) return null;
+            return (
+              <div key={group.id} className="bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
+                <h3 className="text-white text-sm font-semibold mb-2 flex items-center gap-2">
+                  <span>{group.icon}</span> {group.title}
+                  <span className="text-[10px] text-slate-600">({enabledInGroup.length})</span>
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
+                  {enabledInGroup.map((f) => (
+                    <div key={f.key} className="flex items-center gap-2 px-2 py-1 text-xs">
+                      <span className="text-emerald-400">✓</span>
+                      <span className="text-slate-200">{f.label}</span>
+                    </div>
+                  ))}
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
 
         {/* CTA solicitar mudança */}
@@ -293,6 +359,7 @@ export default function CompanySubscription({
     );
   }
 
+  // ── Modo SUPER_ADMIN: edição completa ────────────────────────────────────
   return (
     <div className="p-5 space-y-5 max-w-4xl">
       {/* Header */}
@@ -327,10 +394,28 @@ export default function CompanySubscription({
               onChange={(e) => setPlan(e.target.value as PlanTier)}
               className="w-full bg-[#070b14] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white"
             >
-              {ALL_PLANS.map((p) => (
-                <option key={p} value={p}>{data.plans[p].label}</option>
-              ))}
+              <optgroup label="Públicos">
+                {PUBLIC_PLANS.map((p) => (
+                  <option key={p} value={p}>
+                    {data.plans[p].label}
+                    {PLANS[p].priceMonthly > 0 ? ` — ${formatPriceBRL(PLANS[p].priceMonthly)}/mês` : " — grátis"}
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="Interno (atribuição manual)">
+                {INTERNAL_PLANS.map((p) => (
+                  <option key={p} value={p}>{data.plans[p].label}</option>
+                ))}
+              </optgroup>
+              <optgroup label="Legado">
+                {LEGACY_PLANS.map((p) => (
+                  <option key={p} value={p}>{data.plans[p].label}</option>
+                ))}
+              </optgroup>
             </select>
+            <p className="text-[10px] text-slate-600 mt-1">
+              Modo atendimento default: <span className="text-slate-400 font-mono">{PLANS[plan].modoAtendimentoDefault}</span>
+            </p>
           </div>
           <div>
             <label className="block text-slate-400 text-[11px] font-semibold mb-1">Status</label>
@@ -402,68 +487,152 @@ export default function CompanySubscription({
         </div>
       </div>
 
-      {/* Overrides de features */}
+      {/* Overrides de features — agrupadas em accordion */}
       <div className="bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
         <div className="flex items-center gap-2 mb-3">
           <Sparkles className="w-4 h-4 text-emerald-400" strokeWidth={2.25} />
           <h3 className="text-white text-sm font-semibold">Features personalizadas</h3>
           <span className="text-[10px] text-slate-600 bg-white/5 px-1.5 py-0.5 rounded">
-            Toggle só se quiser sobrescrever o default
+            Toggle só se quiser sobrescrever o default · 🧩 = add-on (cobrança extra)
           </span>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5">
-          {(Object.keys(FEATURE_LABELS) as (keyof PlanFeatures)[]).map((key) => {
-            const def = (planDefault?.features as any)[key];
-            const override = customFeatures[key];
-            const isOverridden = override !== undefined;
-            const effective = isOverridden ? override : def;
+
+        <div className="space-y-2">
+          {FEATURE_GROUPS.map((group) => {
+            const isOpen = !!openGroups[group.id];
+            const enabledCount = group.features.filter((f) => {
+              const def = (planDefault?.features as any)[f.key];
+              const override = customFeatures[f.key];
+              const effective = override !== undefined ? override : def;
+              return effective === true;
+            }).length;
+
             return (
-              <div key={key} className="flex items-center justify-between gap-2 px-2 py-1.5 rounded hover:bg-white/[0.02]">
-                <div className="flex-1 min-w-0">
-                  <p className="text-white text-xs">{FEATURE_LABELS[key]}</p>
-                  <p className="text-[10px] text-slate-600">
-                    Default: <span className={def ? "text-emerald-500" : "text-slate-600"}>{def ? "ON" : "OFF"}</span>
-                    {isOverridden && (
-                      <span className="ml-1 text-amber-400">· OVERRIDE: {override ? "ON" : "OFF"}</span>
+              <div key={group.id} className="border border-[#1e2d45] rounded-lg bg-[#070b14]">
+                <button
+                  type="button"
+                  onClick={() => toggleGroup(group.id)}
+                  className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.02]"
+                >
+                  <div className="flex items-center gap-2 text-xs">
+                    {isOpen ? (
+                      <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
+                    ) : (
+                      <ChevronRight className="w-3.5 h-3.5 text-slate-500" />
                     )}
-                  </p>
-                </div>
-                <div className="flex items-center gap-1">
-                  <button
-                    onClick={() => {
-                      const next = { ...customFeatures };
-                      if (effective === true) {
-                        next[key] = false;
-                      } else {
-                        next[key] = true;
-                      }
-                      setCustomFeatures(next);
-                    }}
-                    className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                      effective ? "bg-emerald-500/20 text-emerald-300" : "bg-white/5 text-slate-500"
-                    }`}
-                  >
-                    {effective ? "ON" : "OFF"}
-                  </button>
-                  {isOverridden && (
-                    <button
-                      onClick={() => {
-                        const next = { ...customFeatures };
-                        delete next[key];
-                        setCustomFeatures(next);
-                      }}
-                      className="text-[10px] text-slate-600 hover:text-slate-400"
-                      title="Remover override (volta ao default do plano)"
-                    >
-                      ↺
-                    </button>
-                  )}
-                </div>
+                    <span>{group.icon}</span>
+                    <span className="text-white font-semibold">{group.title}</span>
+                    <span className="text-[10px] text-slate-600">
+                      {enabledCount}/{group.features.length} ativas
+                    </span>
+                  </div>
+                </button>
+
+                {isOpen && (
+                  <div className="border-t border-[#1e2d45] px-3 py-2 grid grid-cols-1 md:grid-cols-2 gap-1.5">
+                    {group.features.map((f) => {
+                      const def = (planDefault?.features as any)[f.key] ?? false;
+                      const override = customFeatures[f.key];
+                      const isOverridden = override !== undefined;
+                      const effective = isOverridden ? override : def;
+                      const addon = findAddonForFeature(f.key);
+                      const isAddonOverride = isOverridden && override === true && def === false && addon;
+
+                      return (
+                        <div key={f.key} className="flex items-center justify-between gap-2 px-2 py-1.5 rounded hover:bg-white/[0.02]">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <p className="text-white text-xs">{f.label}</p>
+                              {addon && def === false && (
+                                <span
+                                  className="inline-flex items-center gap-0.5 text-[9px] bg-amber-500/15 text-amber-300 px-1.5 py-0.5 rounded-full border border-amber-500/30"
+                                  title={`Add-on: ${addon.description}`}
+                                >
+                                  🧩 {formatPriceBRL(addon.priceMonthly)}/mês
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[10px] text-slate-600">
+                              Default: <span className={def ? "text-emerald-500" : "text-slate-600"}>{def ? "ON" : "OFF"}</span>
+                              {isOverridden && (
+                                <span className="ml-1 text-amber-400">
+                                  · OVERRIDE: {override ? "ON" : "OFF"}
+                                  {isAddonOverride && " (cobrar add-on)"}
+                                </span>
+                              )}
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <button
+                              onClick={() => {
+                                const next = { ...customFeatures };
+                                next[f.key] = effective === true ? false : true;
+                                setCustomFeatures(next);
+                              }}
+                              className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                                effective ? "bg-emerald-500/20 text-emerald-300" : "bg-white/5 text-slate-500"
+                              }`}
+                            >
+                              {effective ? "ON" : "OFF"}
+                            </button>
+                            {isOverridden && (
+                              <button
+                                onClick={() => {
+                                  const next = { ...customFeatures };
+                                  delete next[f.key];
+                                  setCustomFeatures(next);
+                                }}
+                                className="text-[10px] text-slate-600 hover:text-slate-400"
+                                title="Remover override (volta ao default do plano)"
+                              >
+                                ↺
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             );
           })}
         </div>
       </div>
+
+      {/* Resumo de add-ons ativados como override */}
+      {(() => {
+        const activeAddons: { label: string; priceMonthly: number }[] = [];
+        for (const [k, v] of Object.entries(customFeatures)) {
+          if (v !== true) continue;
+          const def = (planDefault?.features as any)[k];
+          if (def === true) continue; // não é override pra ligar — já vem no plano
+          const addon = findAddonForFeature(k as keyof PlanFeatures);
+          if (addon) activeAddons.push({ label: addon.label, priceMonthly: addon.priceMonthly });
+        }
+        if (activeAddons.length === 0) return null;
+        const total = activeAddons.reduce((sum, a) => sum + a.priceMonthly, 0);
+        return (
+          <div className="bg-amber-500/5 border border-amber-500/30 rounded-xl p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Tag className="w-4 h-4 text-amber-400" />
+              <h3 className="text-white text-sm font-semibold">Add-ons ativos (cobrança extra)</h3>
+            </div>
+            <ul className="text-xs text-slate-300 space-y-1 mb-2">
+              {activeAddons.map((a) => (
+                <li key={a.label} className="flex justify-between">
+                  <span>🧩 {a.label}</span>
+                  <span className="text-amber-300 font-mono">{formatPriceBRL(a.priceMonthly)}/mês</span>
+                </li>
+              ))}
+            </ul>
+            <div className="flex justify-between text-xs border-t border-amber-500/20 pt-2 mt-2">
+              <span className="text-slate-400">Total add-ons</span>
+              <span className="text-amber-300 font-bold">{formatPriceBRL(total)}/mês</span>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Resumo do efetivo */}
       <div className="bg-indigo-500/5 border border-indigo-500/30 rounded-xl p-4">
