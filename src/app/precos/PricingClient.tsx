@@ -3,19 +3,25 @@
 import { useState } from "react";
 import Link from "next/link";
 import {
-  Zap, Check, Star, MessageSquare, BarChart3, Globe,
-  ShieldCheck, Sparkles, ArrowRight, X,
+  Zap, Check, Star, Sparkles, ArrowRight, X, Plus, Package,
 } from "lucide-react";
-import { formatPriceBRL, type PlanDefinition } from "@/lib/plans";
+import {
+  formatPriceBRL,
+  type PlanDefinition,
+  type AddonDefinition,
+  type UnitAddon,
+} from "@/lib/plans";
 
 export default function PricingClient({
   plans,
   enterprise,
-  free,
+  addons,
+  unitAddons,
 }: {
   plans: PlanDefinition[];
   enterprise: PlanDefinition;
-  free?: PlanDefinition;
+  addons: AddonDefinition[];
+  unitAddons: UnitAddon[];
 }) {
   const [cycle, setCycle] = useState<"monthly" | "annual">("monthly");
 
@@ -119,36 +125,61 @@ export default function PricingClient({
         </div>
       </section>
 
-      {/* Free / Sob convite */}
-      {free && (
-        <section className="max-w-7xl mx-auto px-5 pb-12">
-          <div className="bg-[#0a1220] border border-emerald-500/20 rounded-2xl p-5 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-5">
-            <div className="w-10 h-10 rounded-lg bg-emerald-500/15 flex items-center justify-center flex-shrink-0">
-              <Sparkles className="w-5 h-5 text-emerald-400" strokeWidth={2.5} />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 flex-wrap">
-                <h3 className="text-white font-bold text-base">{free.label}</h3>
-                <span className="text-[10px] text-emerald-300 bg-emerald-500/15 px-1.5 py-0.5 rounded uppercase font-bold">
-                  Sob convite
-                </span>
-              </div>
-              <p className="text-slate-400 text-xs mt-1">{free.description}</p>
-            </div>
-            <a
-              href="mailto:contato@lazzariweb.com.br?subject=LeadHub%20Free%20-%20convite"
-              className="bg-white/5 hover:bg-white/10 text-emerald-300 border border-emerald-500/30 font-semibold text-xs px-4 py-2 rounded-lg transition-colors flex-shrink-0"
-            >
-              Solicitar convite
-            </a>
-          </div>
-        </section>
-      )}
-
       {/* Tabela comparativa */}
       <section className="max-w-7xl mx-auto px-5 py-12 border-t border-[#1e2d45]">
-        <h2 className="text-2xl font-bold text-center mb-8">Compare os planos</h2>
+        <h2 className="text-2xl font-bold text-center mb-2">Compare os planos</h2>
+        <p className="text-center text-slate-500 text-sm mb-8">
+          Cada feature liberada por plano. Algumas podem ser ativadas como add-on em qualquer plano pago.
+        </p>
         <ComparisonTable plans={plans} />
+      </section>
+
+      {/* Add-ons section */}
+      <section className="max-w-7xl mx-auto px-5 py-12 border-t border-[#1e2d45]">
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/30 rounded-full px-3 py-1 text-amber-300 text-xs font-medium mb-3">
+            <Plus className="w-3.5 h-3.5" />
+            Add-ons
+          </div>
+          <h2 className="text-2xl font-bold mb-2">Adicione só o que você precisa</h2>
+          <p className="text-slate-400 text-sm max-w-2xl mx-auto">
+            Em vez de pular pro plano de cima por causa de UMA feature, contrate ela
+            como add-on no seu plano atual. Ativa quando quiser, cancela quando não usar mais.
+          </p>
+        </div>
+
+        <h3 className="text-white font-semibold text-base mb-3">Features extras</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-8">
+          {addons.map((a) => (
+            <AddonCard
+              key={a.key}
+              icon={<Package className="w-4 h-4 text-amber-400" strokeWidth={2.5} />}
+              label={a.label}
+              description={a.description}
+              price={a.priceMonthly}
+              minTier={a.minTier}
+            />
+          ))}
+        </div>
+
+        <h3 className="text-white font-semibold text-base mb-3">Capacidade extra (por unidade)</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {unitAddons.map((a) => (
+            <AddonCard
+              key={a.key}
+              icon={<Plus className="w-4 h-4 text-cyan-400" strokeWidth={2.5} />}
+              label={a.label}
+              description={a.description}
+              price={a.priceMonthly}
+              minTier={a.minTier}
+              unit
+            />
+          ))}
+        </div>
+
+        <p className="text-center text-slate-600 text-xs mt-6">
+          Preços por add-on, cobrados separadamente. Cancele a qualquer momento.
+        </p>
       </section>
 
       {/* FAQ rápido */}
@@ -168,6 +199,12 @@ export default function PricingClient({
             Sim. Você conecta sua conta Google em 1 clique (OAuth). LeadHub puxa os
             dados todos os dias automaticamente. Sem GA4, mostramos apenas o que
             captamos via WhatsApp e webhook.
+          </Faq>
+          <Faq q="Como funcionam os add-ons?">
+            Add-ons são features extras que você pode ativar em qualquer plano pago,
+            sem precisar fazer upgrade pro plano superior. Exemplo: você está no
+            Essencial e quer só Gamificação — ativa o add-on e paga R$ 49/mês a mais,
+            sem trocar de plano. Pode cancelar quando quiser.
           </Faq>
           <Faq q="Posso mudar de plano depois?">
             Pode subir ou descer a qualquer momento. Diferença de valor é cobrada/creditada
@@ -366,6 +403,51 @@ function ComparisonTable({ plans }: { plans: PlanDefinition[] }) {
           ))}
         </tbody>
       </table>
+    </div>
+  );
+}
+
+// ─── Card de add-on ──────────────────────────────────────────────────────────
+
+function AddonCard({
+  icon,
+  label,
+  description,
+  price,
+  minTier,
+  unit = false,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  description: string;
+  price: number;
+  minTier: string;
+  unit?: boolean;
+}) {
+  return (
+    <div className="bg-[#0d1525] border border-[#1e2d45] rounded-xl p-4 hover:border-amber-500/40 transition-colors">
+      <div className="flex items-start gap-2.5 mb-2">
+        <div className="w-7 h-7 rounded-md bg-white/5 flex items-center justify-center flex-shrink-0 mt-0.5">
+          {icon}
+        </div>
+        <div className="flex-1 min-w-0">
+          <h4 className="text-white font-semibold text-sm leading-snug">{label}</h4>
+          <p className="text-slate-500 text-[11px] mt-0.5 leading-snug">{description}</p>
+        </div>
+      </div>
+      <div className="flex items-end justify-between gap-2 mt-3 pt-3 border-t border-[#1e2d45]">
+        <div>
+          <p className="text-white font-bold text-lg leading-none">
+            {formatPriceBRL(price)}
+            <span className="text-slate-500 text-[11px] font-normal ml-1">
+              /mês{unit ? " · cada" : ""}
+            </span>
+          </p>
+          <p className="text-slate-600 text-[10px] mt-1.5">
+            Disponível a partir do <span className="text-slate-400 font-semibold">{minTier}</span>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
