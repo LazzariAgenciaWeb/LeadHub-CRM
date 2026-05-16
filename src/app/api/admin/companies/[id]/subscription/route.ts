@@ -4,7 +4,6 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { PLANS, type PlanTier } from "@/lib/plans";
 import { getCompanyPlan } from "@/lib/limits";
-import { moduleSyncFromTier } from "@/lib/plans-sync";
 
 /**
  * Admin endpoint pra super_admin gerenciar a Subscription de uma empresa.
@@ -137,7 +136,6 @@ export async function PATCH(
   });
 
   // Log de mudança de plano
-  let appliedSync: ReturnType<typeof moduleSyncFromTier> | null = null;
   const planChanged = !!(body.plan && (!existing || existing.plan !== body.plan));
 
   if (existing && body.plan && existing.plan !== body.plan) {
@@ -152,18 +150,41 @@ export async function PATCH(
     });
   }
 
-  // Sync com Company.module*: quando o plano muda OU quando syncModules=true
-  // explicitamente no body (botão "re-aplicar defaults"). Pega os defaults
-  // do plano novo — super admin pode customizar manualmente depois via
-  // toggles no EditCompanyButton.
-  const shouldSync = planChanged || body.syncModules === true;
-  if (shouldSync && body.plan) {
-    appliedSync = moduleSyncFromTier(body.plan as PlanTier);
-    await prisma.company.update({
-      where: { id: companyId },
-      data: appliedSync,
-    });
+  // Sync com Company.module*: SEMPRE roda após salvar, pra garantir que
+  // os módulos efetivos da empresa refletem o plano + customFeatures.
+  // Antes só rodava quando plano mudava — bug: ativar feature via override
+  // não propagava pro Sidebar/gates. Agora qualquer save recalcula.
+  //
+  // Estratégia: usa getCompanyPlan() pra pegar features EFETIVAS (plan
+  // defaults + customFeatures merged), e converte pra Company.module*.
+  // Modo de atendimento só muda quando o plano muda (preserva escolha
+  // manual no resto dos cenários).
+  const ctx = await getCompanyPlan(companyId);
+  const modoAtendimentoToApply = planChanged
+    ? PLANS[ctx.tier].modoAtendimentoDefault
+    : undefined;
+
+  const modulesUpdate: Record<string, unknown> = {
+    moduleWhatsapp:    ctx.effectiveFeatures.whatsapp,
+    moduleCrm:         ctx.effectiveFeatures.crmPipelineLeads
+                       || ctx.effectiveFeatures.crmPipelineOportunidades
+                       || ctx.effectiveFeatures.crmPipelineProspeccao,
+    moduleTickets:     ctx.effectiveFeatures.tickets,
+    moduleAI:          ctx.effectiveFeatures.assistenteIA,
+    moduleClickup:     ctx.effectiveFeatures.clickupSync,
+    moduleGamificacao: ctx.effectiveFeatures.gamificacao,
+    moduleProjetos:    ctx.effectiveFeatures.projetos,
+    moduleCalendario:  ctx.effectiveFeatures.calendario,
+    moduleProspeccao:  ctx.effectiveFeatures.prospectaIa,
+  };
+  if (modoAtendimentoToApply !== undefined) {
+    modulesUpdate.modoAtendimento = modoAtendimentoToApply;
   }
 
-  return NextResponse.json({ subscription: sub, appliedSync });
+  await prisma.company.update({
+    where: { id: companyId },
+    data: modulesUpdate,
+  });
+
+  return NextResponse.json({ subscription: sub, appliedSync: modulesUpdate });
 }
