@@ -60,21 +60,32 @@ function mergeFeatures(base: PlanFeatures, overrides: any): PlanFeatures {
 }
 
 /**
- * Carrega contexto de plano para uma Company. Resolve herança (sub → pai),
- * aplica defaults se não houver Subscription registrada (legado).
+ * Carrega contexto de plano para uma Company.
+ *
+ * Regras de herança (sub-empresa → pai):
+ *  1. Se a sub-empresa tem Subscription PRÓPRIA → usa ela. Counts (instâncias,
+ *     atendentes) são independentes do pai.
+ *  2. Se a sub-empresa NÃO tem Subscription própria → herda do pai. Counts
+ *     agregam com o pai (modelo agência).
+ *  3. Quando a sub tem subscription própria E tem pai com subscription, as
+ *     features/limites efetivos são limitados pelo PAI (teto):
+ *       feature ON = ON na sub AND ON no pai
+ *       limite     = min(sub, pai) — com -1 (ilimitado) tratado especialmente
+ *     Isso garante que a sub-empresa nunca tenha mais que o que o pai pagou.
+ *
+ * Sem subscription nem na sub nem no pai → fallback TRIAL legado (libera
+ * defaults amplos, comportamento histórico pra migração).
  */
 export async function getCompanyPlan(companyId: string): Promise<CompanyPlanContext> {
-  // Primeiro, resolver se é sub-company (herda plano do pai)
   const company = await prisma.company.findUnique({
     where: { id: companyId },
     select: { id: true, parentCompanyId: true },
   });
   if (!company) throw new Error("Company não encontrada");
 
-  const effectiveId = company.parentCompanyId ?? company.id;
-
-  const sub = await prisma.subscription.findUnique({
-    where: { companyId: effectiveId },
+  // Tenta primeiro a Subscription PRÓPRIA da empresa
+  const ownSub = await prisma.subscription.findUnique({
+    where: { companyId: company.id },
     select: {
       plan: true,
       status: true,
@@ -85,13 +96,26 @@ export async function getCompanyPlan(companyId: string): Promise<CompanyPlanCont
     },
   });
 
-  // Sem subscription registrada — trata como TRIAL legado (gracinha: libera
-  // tudo até a gente migrar/preencher manualmente). Usa defaults amplos.
-  if (!sub) {
+  // Carrega contexto do pai recursivamente (se houver pai). Usado como TETO
+  // ou como FALLBACK dependendo se a sub tem subscription própria.
+  const parentCtx = company.parentCompanyId
+    ? await getCompanyPlan(company.parentCompanyId)
+    : null;
+
+  // Decide qual Subscription usar e qual companyId rastreia o uso
+  let sub = ownSub;
+  let effectiveCompanyId = company.id;
+  if (!sub && parentCtx) {
+    // Herda — sem subscription própria, usa a hierarquia do pai pra contar tudo
+    effectiveCompanyId = parentCtx.effectiveCompanyId;
+  }
+
+  // Nem na sub, nem no pai → TRIAL legado
+  if (!sub && !parentCtx) {
     const trialPlan = PLANS.TRIAL;
     return {
       companyId,
-      effectiveCompanyId: effectiveId,
+      effectiveCompanyId,
       tier: "TRIAL",
       status: "NO_SUBSCRIPTION",
       trialEndsAt: null,
@@ -105,30 +129,51 @@ export async function getCompanyPlan(companyId: string): Promise<CompanyPlanCont
     };
   }
 
-  const now = new Date();
-  const isTrialing = sub.status === "TRIALING" && (!sub.trialEndsAt || sub.trialEndsAt > now);
-  const isCanceledButActive = sub.status === "CANCELED" && sub.currentPeriodEnd != null && sub.currentPeriodEnd > now;
-  const isActive = sub.status === "ACTIVE" || isTrialing || isCanceledButActive;
-  const isBlocked = sub.status === "UNPAID" || (sub.status === "TRIALING" && sub.trialEndsAt != null && sub.trialEndsAt <= now);
+  // Sub sem subscription mas com pai → retorna o contexto do pai com o
+  // effectiveCompanyId apontando pra ele (counts agregam).
+  if (!sub && parentCtx) {
+    return {
+      ...parentCtx,
+      companyId,
+      effectiveCompanyId,
+    };
+  }
 
-  const daysUntilTrialEnd = sub.trialEndsAt
-    ? Math.max(0, Math.ceil((sub.trialEndsAt.getTime() - now.getTime()) / (24 * 60 * 60 * 1000)))
+  // A partir daqui, sub é não-null (subscription própria existe)
+  const subNN = sub!;
+  const now = new Date();
+  const isTrialing = subNN.status === "TRIALING" && (!subNN.trialEndsAt || subNN.trialEndsAt > now);
+  const isCanceledButActive = subNN.status === "CANCELED" && subNN.currentPeriodEnd != null && subNN.currentPeriodEnd > now;
+  const isActive = subNN.status === "ACTIVE" || isTrialing || isCanceledButActive;
+  const isBlocked = subNN.status === "UNPAID" || (subNN.status === "TRIALING" && subNN.trialEndsAt != null && subNN.trialEndsAt <= now);
+
+  const daysUntilTrialEnd = subNN.trialEndsAt
+    ? Math.max(0, Math.ceil((subNN.trialEndsAt.getTime() - now.getTime()) / (24 * 60 * 60 * 1000)))
     : null;
 
-  // Defaults do plano + overrides customizados por cliente
-  const planDef = PLANS[sub.plan];
-  const effectiveLimits = mergeLimits(planDef.limits, sub.customLimits);
-  const effectiveFeatures = mergeFeatures(planDef.features, sub.customFeatures);
+  // Plano próprio + overrides
+  const planDef = PLANS[subNN.plan];
+  let effectiveLimits = mergeLimits(planDef.limits, subNN.customLimits);
+  let effectiveFeatures = mergeFeatures(planDef.features, subNN.customFeatures);
+
+  // Aplica TETO do pai (se houver). Sub nunca tem mais que o pai —
+  // protege a comercialização (cliente da agência não consegue overrider
+  // pra cima do plano da agência).
+  if (parentCtx) {
+    effectiveFeatures = applyParentFeatureCeiling(effectiveFeatures, parentCtx.effectiveFeatures);
+    effectiveLimits   = applyParentLimitCeiling(effectiveLimits, parentCtx.effectiveLimits);
+  }
+
   const hasCustomOverrides =
-    (sub.customLimits != null && Object.keys(sub.customLimits as any).length > 0) ||
-    (sub.customFeatures != null && Object.keys(sub.customFeatures as any).length > 0);
+    (subNN.customLimits != null && Object.keys(subNN.customLimits as any).length > 0) ||
+    (subNN.customFeatures != null && Object.keys(subNN.customFeatures as any).length > 0);
 
   return {
     companyId,
-    effectiveCompanyId: effectiveId,
-    tier: sub.plan,
-    status: sub.status,
-    trialEndsAt: sub.trialEndsAt,
+    effectiveCompanyId,
+    tier: subNN.plan,
+    status: subNN.status,
+    trialEndsAt: subNN.trialEndsAt,
     isTrialing,
     isActive,
     isBlocked,
@@ -137,6 +182,36 @@ export async function getCompanyPlan(companyId: string): Promise<CompanyPlanCont
     effectiveFeatures,
     hasCustomOverrides,
   };
+}
+
+/**
+ * Aplica AND lógico entre features da sub e do pai. Feature está ON na sub
+ * apenas se está ON tanto na própria sub quanto no pai (pai = teto).
+ */
+function applyParentFeatureCeiling(sub: PlanFeatures, parent: PlanFeatures): PlanFeatures {
+  const out: PlanFeatures = { ...sub };
+  for (const k of Object.keys(out) as (keyof PlanFeatures)[]) {
+    out[k] = out[k] === true && parent[k] === true;
+  }
+  return out;
+}
+
+/**
+ * Limite efetivo da sub = min(sub, pai), com -1 (ilimitado) tratado:
+ *  - Pai ilimitado: respeita o limite da sub
+ *  - Sub ilimitada mas pai limitado: cai pro limite do pai
+ *  - Ambos limitados: min dos dois
+ */
+function applyParentLimitCeiling(sub: PlanLimits, parent: PlanLimits): PlanLimits {
+  const out: PlanLimits = { ...sub };
+  for (const k of Object.keys(out) as (keyof PlanLimits)[]) {
+    const s = out[k];
+    const p = parent[k];
+    if (p === -1) continue;            // pai ilimitado → sub mantém o que tem
+    if (s === -1) { out[k] = p; continue; } // sub ilimitada mas pai limitado → cai pro pai
+    out[k] = Math.min(s, p);
+  }
+  return out;
 }
 
 /** Verifica se a empresa tem acesso a uma feature (considerando overrides). */
