@@ -657,7 +657,12 @@ model CompanyContact {
 
 model WhatsappInstance {
   id            String         @id @default(cuid())
+  // Slug técnico usado na Evolution API (auto-gerado, único, sem acento/espaço).
+  // É a chave que casa mensagem↔instância em todo o sistema — não editar à mão.
   instanceName  String
+  // Nome amigável que o usuário digita e vê na tela de gestão.
+  // Fallback para instanceName quando ausente (instâncias antigas).
+  label         String?
   phone         String?
   status        InstanceStatus @default(DISCONNECTED)
   webhookUrl    String?

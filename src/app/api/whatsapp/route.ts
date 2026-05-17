@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
+import { buildInstanceSlug, evolutionCreateInstance } from "@/lib/evolution";
+import { buildWhatsappWebhookUrl } from "@/lib/webhook-auth";
 
 // GET /api/whatsapp?companyId=
 export async function GET(req: NextRequest) {
@@ -45,10 +47,11 @@ export async function POST(req: NextRequest) {
   const userCompanyId = (session.user as any).companyId;
 
   const body = await req.json();
-  const { instanceName, phone, webhookUrl, companyId } = body;
+  const { label, phone, companyId } = body;
 
-  if (!instanceName) {
-    return NextResponse.json({ error: "Nome da instância é obrigatório" }, { status: 400 });
+  const friendlyLabel = String(label ?? "").trim();
+  if (!friendlyLabel) {
+    return NextResponse.json({ error: "Dê um nome para a instância" }, { status: 400 });
   }
 
   const effectiveCompanyId =
@@ -58,11 +61,53 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Empresa não informada" }, { status: 400 });
   }
 
-  const instance = await prisma.whatsappInstance.create({
+  const company = await prisma.company.findUnique({
+    where: { id: effectiveCompanyId },
+    select: { name: true },
+  });
+  if (!company) {
+    return NextResponse.json({ error: "Empresa não encontrada" }, { status: 404 });
+  }
+
+  // Slug técnico único pra Evolution. O sufixo aleatório torna colisão
+  // improvável; ainda assim regeneramos se já existir no banco.
+  let slug = buildInstanceSlug(company.name);
+  for (let i = 0; i < 5; i++) {
+    const clash = await prisma.whatsappInstance.findFirst({
+      where: { instanceName: slug },
+      select: { id: true },
+    });
+    if (!clash) break;
+    slug = buildInstanceSlug(company.name);
+  }
+
+  const origin = req.headers.get("origin") ?? req.nextUrl.origin;
+  const webhookUrl = buildWhatsappWebhookUrl(origin);
+
+  // Cria na Evolution AGORA (passo explícito). Se falhar, não criamos a
+  // linha no banco — sem instância "pela metade". O erro real sobe pra UI.
+  let instanceToken: string | null = null;
+  try {
+    const createResult = await evolutionCreateInstance(slug, webhookUrl);
+    instanceToken =
+      createResult?.hash?.apikey ??
+      createResult?.instance?.token ??
+      createResult?.token ??
+      null;
+  } catch (err: any) {
+    return NextResponse.json(
+      { error: `Não foi possível criar a instância na Evolution API: ${err?.message ?? err}` },
+      { status: 502 },
+    );
+  }
+
+  const instance = await (prisma.whatsappInstance.create as any)({
     data: {
-      instanceName,
-      phone,
+      instanceName: slug,
+      label: friendlyLabel,
+      phone: phone || null,
       webhookUrl,
+      instanceToken,
       companyId: effectiveCompanyId,
       status: "DISCONNECTED",
     },

@@ -33,8 +33,11 @@ export async function GET(
   const webhookUrl = buildWhatsappWebhookUrl(origin);
 
   try {
-    // Tenta criar a instância na Evolution (idempotente — ignora 400/409 se já existe)
-    // Captura o token retornado para salvar no banco
+    // A instância já foi criada na Evolution no POST /api/whatsapp. Aqui só
+    // re-criamos como AUTO-CURA — caso ela tenha sido apagada do lado da
+    // Evolution (limpeza manual, reset do servidor). Se já existe, a Evolution
+    // devolve 400/409 e seguimos com o token salvo. Não engolimos o erro em
+    // silêncio: logamos pra rastrear quando a recriação falha de verdade.
     let savedToken: string | null = (instance as any).instanceToken ?? null;
     try {
       const createResult = await evolutionCreateInstance(instance.instanceName, webhookUrl);
@@ -51,7 +54,11 @@ export async function GET(
           data: { instanceToken: newToken },
         });
       }
-    } catch {}
+    } catch (recreateErr: any) {
+      console.warn(
+        `[WA QR] Recriação (auto-cura) de "${instance.instanceName}" não aplicada (provável "já existe"): ${recreateErr?.message ?? recreateErr}`,
+      );
+    }
 
     const qrData = await evolutionGetQR(instance.instanceName, savedToken);
 

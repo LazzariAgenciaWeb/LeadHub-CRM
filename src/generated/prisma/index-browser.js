@@ -382,6 +382,7 @@ exports.Prisma.CompanyContactScalarFieldEnum = {
 exports.Prisma.WhatsappInstanceScalarFieldEnum = {
   id: 'id',
   instanceName: 'instanceName',
+  label: 'label',
   phone: 'phone',
   status: 'status',
   webhookUrl: 'webhookUrl',

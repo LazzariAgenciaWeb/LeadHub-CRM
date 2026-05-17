@@ -28552,6 +28552,7 @@ export namespace Prisma {
   export type WhatsappInstanceMinAggregateOutputType = {
     id: string | null
     instanceName: string | null
+    label: string | null
     phone: string | null
     status: $Enums.InstanceStatus | null
     webhookUrl: string | null
@@ -28565,6 +28566,7 @@ export namespace Prisma {
   export type WhatsappInstanceMaxAggregateOutputType = {
     id: string | null
     instanceName: string | null
+    label: string | null
     phone: string | null
     status: $Enums.InstanceStatus | null
     webhookUrl: string | null
@@ -28578,6 +28580,7 @@ export namespace Prisma {
   export type WhatsappInstanceCountAggregateOutputType = {
     id: number
     instanceName: number
+    label: number
     phone: number
     status: number
     webhookUrl: number
@@ -28593,6 +28596,7 @@ export namespace Prisma {
   export type WhatsappInstanceMinAggregateInputType = {
     id?: true
     instanceName?: true
+    label?: true
     phone?: true
     status?: true
     webhookUrl?: true
@@ -28606,6 +28610,7 @@ export namespace Prisma {
   export type WhatsappInstanceMaxAggregateInputType = {
     id?: true
     instanceName?: true
+    label?: true
     phone?: true
     status?: true
     webhookUrl?: true
@@ -28619,6 +28624,7 @@ export namespace Prisma {
   export type WhatsappInstanceCountAggregateInputType = {
     id?: true
     instanceName?: true
+    label?: true
     phone?: true
     status?: true
     webhookUrl?: true
@@ -28705,6 +28711,7 @@ export namespace Prisma {
   export type WhatsappInstanceGroupByOutputType = {
     id: string
     instanceName: string
+    label: string | null
     phone: string | null
     status: $Enums.InstanceStatus
     webhookUrl: string | null
@@ -28735,6 +28742,7 @@ export namespace Prisma {
   export type WhatsappInstanceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     instanceName?: boolean
+    label?: boolean
     phone?: boolean
     status?: boolean
     webhookUrl?: boolean
@@ -28752,6 +28760,7 @@ export namespace Prisma {
   export type WhatsappInstanceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     instanceName?: boolean
+    label?: boolean
     phone?: boolean
     status?: boolean
     webhookUrl?: boolean
@@ -28766,6 +28775,7 @@ export namespace Prisma {
   export type WhatsappInstanceSelectScalar = {
     id?: boolean
     instanceName?: boolean
+    label?: boolean
     phone?: boolean
     status?: boolean
     webhookUrl?: boolean
@@ -28796,6 +28806,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       instanceName: string
+      label: string | null
       phone: string | null
       status: $Enums.InstanceStatus
       webhookUrl: string | null
@@ -29202,6 +29213,7 @@ export namespace Prisma {
   interface WhatsappInstanceFieldRefs {
     readonly id: FieldRef<"WhatsappInstance", 'String'>
     readonly instanceName: FieldRef<"WhatsappInstance", 'String'>
+    readonly label: FieldRef<"WhatsappInstance", 'String'>
     readonly phone: FieldRef<"WhatsappInstance", 'String'>
     readonly status: FieldRef<"WhatsappInstance", 'InstanceStatus'>
     readonly webhookUrl: FieldRef<"WhatsappInstance", 'String'>
@@ -69310,6 +69322,7 @@ export namespace Prisma {
   export const WhatsappInstanceScalarFieldEnum: {
     id: 'id',
     instanceName: 'instanceName',
+    label: 'label',
     phone: 'phone',
     status: 'status',
     webhookUrl: 'webhookUrl',
@@ -72308,6 +72321,7 @@ export namespace Prisma {
     NOT?: WhatsappInstanceWhereInput | WhatsappInstanceWhereInput[]
     id?: StringFilter<"WhatsappInstance"> | string
     instanceName?: StringFilter<"WhatsappInstance"> | string
+    label?: StringNullableFilter<"WhatsappInstance"> | string | null
     phone?: StringNullableFilter<"WhatsappInstance"> | string | null
     status?: EnumInstanceStatusFilter<"WhatsappInstance"> | $Enums.InstanceStatus
     webhookUrl?: StringNullableFilter<"WhatsappInstance"> | string | null
@@ -72324,6 +72338,7 @@ export namespace Prisma {
   export type WhatsappInstanceOrderByWithRelationInput = {
     id?: SortOrder
     instanceName?: SortOrder
+    label?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
     status?: SortOrder
     webhookUrl?: SortOrderInput | SortOrder
@@ -72343,6 +72358,7 @@ export namespace Prisma {
     OR?: WhatsappInstanceWhereInput[]
     NOT?: WhatsappInstanceWhereInput | WhatsappInstanceWhereInput[]
     instanceName?: StringFilter<"WhatsappInstance"> | string
+    label?: StringNullableFilter<"WhatsappInstance"> | string | null
     phone?: StringNullableFilter<"WhatsappInstance"> | string | null
     status?: EnumInstanceStatusFilter<"WhatsappInstance"> | $Enums.InstanceStatus
     webhookUrl?: StringNullableFilter<"WhatsappInstance"> | string | null
@@ -72359,6 +72375,7 @@ export namespace Prisma {
   export type WhatsappInstanceOrderByWithAggregationInput = {
     id?: SortOrder
     instanceName?: SortOrder
+    label?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
     status?: SortOrder
     webhookUrl?: SortOrderInput | SortOrder
@@ -72378,6 +72395,7 @@ export namespace Prisma {
     NOT?: WhatsappInstanceScalarWhereWithAggregatesInput | WhatsappInstanceScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"WhatsappInstance"> | string
     instanceName?: StringWithAggregatesFilter<"WhatsappInstance"> | string
+    label?: StringNullableWithAggregatesFilter<"WhatsappInstance"> | string | null
     phone?: StringNullableWithAggregatesFilter<"WhatsappInstance"> | string | null
     status?: EnumInstanceStatusWithAggregatesFilter<"WhatsappInstance"> | $Enums.InstanceStatus
     webhookUrl?: StringNullableWithAggregatesFilter<"WhatsappInstance"> | string | null
@@ -77756,6 +77774,7 @@ export namespace Prisma {
   export type WhatsappInstanceCreateInput = {
     id?: string
     instanceName: string
+    label?: string | null
     phone?: string | null
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
@@ -77771,6 +77790,7 @@ export namespace Prisma {
   export type WhatsappInstanceUncheckedCreateInput = {
     id?: string
     instanceName: string
+    label?: string | null
     phone?: string | null
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
@@ -77786,6 +77806,7 @@ export namespace Prisma {
   export type WhatsappInstanceUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     instanceName?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -77801,6 +77822,7 @@ export namespace Prisma {
   export type WhatsappInstanceUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     instanceName?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -77816,6 +77838,7 @@ export namespace Prisma {
   export type WhatsappInstanceCreateManyInput = {
     id?: string
     instanceName: string
+    label?: string | null
     phone?: string | null
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
@@ -77829,6 +77852,7 @@ export namespace Prisma {
   export type WhatsappInstanceUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     instanceName?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -77841,6 +77865,7 @@ export namespace Prisma {
   export type WhatsappInstanceUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     instanceName?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -83298,6 +83323,7 @@ export namespace Prisma {
   export type WhatsappInstanceCountOrderByAggregateInput = {
     id?: SortOrder
     instanceName?: SortOrder
+    label?: SortOrder
     phone?: SortOrder
     status?: SortOrder
     webhookUrl?: SortOrder
@@ -83311,6 +83337,7 @@ export namespace Prisma {
   export type WhatsappInstanceMaxOrderByAggregateInput = {
     id?: SortOrder
     instanceName?: SortOrder
+    label?: SortOrder
     phone?: SortOrder
     status?: SortOrder
     webhookUrl?: SortOrder
@@ -83324,6 +83351,7 @@ export namespace Prisma {
   export type WhatsappInstanceMinOrderByAggregateInput = {
     id?: SortOrder
     instanceName?: SortOrder
+    label?: SortOrder
     phone?: SortOrder
     status?: SortOrder
     webhookUrl?: SortOrder
@@ -94640,6 +94668,7 @@ export namespace Prisma {
   export type WhatsappInstanceCreateWithoutCompanyInput = {
     id?: string
     instanceName: string
+    label?: string | null
     phone?: string | null
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
@@ -94654,6 +94683,7 @@ export namespace Prisma {
   export type WhatsappInstanceUncheckedCreateWithoutCompanyInput = {
     id?: string
     instanceName: string
+    label?: string | null
     phone?: string | null
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
@@ -96182,6 +96212,7 @@ export namespace Prisma {
     NOT?: WhatsappInstanceScalarWhereInput | WhatsappInstanceScalarWhereInput[]
     id?: StringFilter<"WhatsappInstance"> | string
     instanceName?: StringFilter<"WhatsappInstance"> | string
+    label?: StringNullableFilter<"WhatsappInstance"> | string | null
     phone?: StringNullableFilter<"WhatsappInstance"> | string | null
     status?: EnumInstanceStatusFilter<"WhatsappInstance"> | $Enums.InstanceStatus
     webhookUrl?: StringNullableFilter<"WhatsappInstance"> | string | null
@@ -102732,6 +102763,7 @@ export namespace Prisma {
   export type WhatsappInstanceCreateWithoutMessagesInput = {
     id?: string
     instanceName: string
+    label?: string | null
     phone?: string | null
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
@@ -102746,6 +102778,7 @@ export namespace Prisma {
   export type WhatsappInstanceUncheckedCreateWithoutMessagesInput = {
     id?: string
     instanceName: string
+    label?: string | null
     phone?: string | null
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
@@ -103159,6 +103192,7 @@ export namespace Prisma {
   export type WhatsappInstanceUpdateWithoutMessagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     instanceName?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -103173,6 +103207,7 @@ export namespace Prisma {
   export type WhatsappInstanceUncheckedUpdateWithoutMessagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     instanceName?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -108527,6 +108562,7 @@ export namespace Prisma {
   export type WhatsappInstanceCreateWithoutSetoresInput = {
     id?: string
     instanceName: string
+    label?: string | null
     phone?: string | null
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
@@ -108541,6 +108577,7 @@ export namespace Prisma {
   export type WhatsappInstanceUncheckedCreateWithoutSetoresInput = {
     id?: string
     instanceName: string
+    label?: string | null
     phone?: string | null
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
@@ -108628,6 +108665,7 @@ export namespace Prisma {
   export type WhatsappInstanceUpdateWithoutSetoresInput = {
     id?: StringFieldUpdateOperationsInput | string
     instanceName?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -108642,6 +108680,7 @@ export namespace Prisma {
   export type WhatsappInstanceUncheckedUpdateWithoutSetoresInput = {
     id?: StringFieldUpdateOperationsInput | string
     instanceName?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -115928,6 +115967,7 @@ export namespace Prisma {
   export type WhatsappInstanceCreateManyCompanyInput = {
     id?: string
     instanceName: string
+    label?: string | null
     phone?: string | null
     status?: $Enums.InstanceStatus
     webhookUrl?: string | null
@@ -117091,6 +117131,7 @@ export namespace Prisma {
   export type WhatsappInstanceUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     instanceName?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -117105,6 +117146,7 @@ export namespace Prisma {
   export type WhatsappInstanceUncheckedUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     instanceName?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -117119,6 +117161,7 @@ export namespace Prisma {
   export type WhatsappInstanceUncheckedUpdateManyWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     instanceName?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
     webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null

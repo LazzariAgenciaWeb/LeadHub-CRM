@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 interface Instance {
   id: string;
   instanceName: string;
+  label: string | null;
   phone: string | null;
   status: "CONNECTED" | "DISCONNECTED" | "CONNECTING";
   webhookUrl: string | null;
@@ -55,7 +56,8 @@ export default function InstancesSection({
   // Toggle "aceita grupos" — id da instância em transição (UI desabilitada)
   const [togglingGroups, setTogglingGroups] = useState<string | null>(null);
   const [groupsToggleResult, setGroupsToggleResult] = useState<string | null>(null);
-  const [form, setForm] = useState({ instanceName: "", phone: "", companyId: defaultCompanyId });
+  const [form, setForm] = useState({ label: "", phone: "", companyId: defaultCompanyId });
+  const [createError, setCreateError] = useState<string | null>(null);
 
   // QR Modal
   const [qrModal, setQrModal] = useState<{ instanceId: string; instanceName: string } | null>(null);
@@ -112,16 +114,25 @@ export default function InstancesSection({
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
-    const res = await fetch("/api/whatsapp", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...form, webhookUrl }),
-    });
-    setSaving(false);
-    if (res.ok) {
-      setShowForm(false);
-      setForm({ instanceName: "", phone: "", companyId: defaultCompanyId });
-      router.refresh();
+    setCreateError(null);
+    try {
+      const res = await fetch("/api/whatsapp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setShowForm(false);
+        setForm({ label: "", phone: "", companyId: defaultCompanyId });
+        router.refresh();
+      } else {
+        setCreateError(data.error ?? `Erro ${res.status} ao criar instância`);
+      }
+    } catch {
+      setCreateError("Erro de conexão ao criar a instância");
+    } finally {
+      setSaving(false);
     }
   }
 
@@ -414,17 +425,22 @@ export default function InstancesSection({
             <button onClick={() => setShowForm(false)} className="text-slate-500 hover:text-white text-xl leading-none">×</button>
           </div>
           <form onSubmit={handleCreate} className="grid grid-cols-2 gap-4">
+            {createError && (
+              <div className="col-span-2 bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-2 text-red-400 text-xs">
+                ❌ {createError}
+              </div>
+            )}
             <div>
-              <label className="block text-slate-400 text-xs font-medium mb-1.5">Nome da Instância *</label>
+              <label className="block text-slate-400 text-xs font-medium mb-1.5">Nome (rótulo) *</label>
               <input
                 type="text"
                 required
-                value={form.instanceName}
-                onChange={(e) => setForm({ ...form, instanceName: e.target.value })}
-                placeholder="ex: bella-vida-whatsapp"
+                value={form.label}
+                onChange={(e) => setForm({ ...form, label: e.target.value })}
+                placeholder="ex: WhatsApp Vendas"
                 className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
               />
-              <p className="text-slate-600 text-[10px] mt-1">Será criado automaticamente na Evolution API</p>
+              <p className="text-slate-600 text-[10px] mt-1">Só pra você identificar. A instância é criada automaticamente na Evolution API com um nome técnico único.</p>
             </div>
             <div>
               <label className="block text-slate-400 text-xs font-medium mb-1.5">Telefone (opcional)</label>
@@ -483,7 +499,7 @@ export default function InstancesSection({
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap mb-0.5">
-                      <span className="text-white font-semibold">{inst.instanceName}</span>
+                      <span className="text-white font-semibold">{inst.label ?? inst.instanceName}</span>
                       <span className={`flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full ${sc.color}`}>
                         <span className={`w-1.5 h-1.5 rounded-full ${sc.dot}`} />
                         {sc.label}
@@ -529,7 +545,7 @@ export default function InstancesSection({
                       onClick={() => copyToClipboard(inst.instanceName, inst.id)}
                       className="px-3 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white text-xs transition-colors"
                     >
-                      {copied === inst.id ? "✓ Copiado" : "📋 Copiar nome"}
+                      {copied === inst.id ? "✓ Copiado" : "📋 Copiar slug"}
                     </button>
 
                     {/* Token da instância */}
@@ -654,7 +670,7 @@ export default function InstancesSection({
       <div className="mt-6 bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5">
         <h3 className="text-white font-semibold text-sm mb-3">🚀 Como conectar um número</h3>
         <ol className="space-y-2 text-slate-400 text-sm">
-          <li className="flex gap-2"><span className="text-indigo-400 font-bold flex-shrink-0">1.</span>Clique em <strong className="text-slate-300">+ Nova Instância</strong> e dê um nome único para o número.</li>
+          <li className="flex gap-2"><span className="text-indigo-400 font-bold flex-shrink-0">1.</span>Clique em <strong className="text-slate-300">+ Nova Instância</strong> e dê um nome (rótulo) — a instância é criada na Evolution API automaticamente.</li>
           <li className="flex gap-2"><span className="text-indigo-400 font-bold flex-shrink-0">2.</span>Clique em <strong className="text-slate-300">📱 Conectar</strong> — o QR code será gerado automaticamente.</li>
           <li className="flex gap-2"><span className="text-indigo-400 font-bold flex-shrink-0">3.</span>No celular: WhatsApp → <em>Dispositivos conectados</em> → <em>Conectar dispositivo</em> → escaneie.</li>
           <li className="flex gap-2"><span className="text-indigo-400 font-bold flex-shrink-0">4.</span>Clique em <strong className="text-slate-300">✓ Já escaneei</strong> para confirmar. O status mudará para <span className="text-green-400">Conectado</span>.</li>

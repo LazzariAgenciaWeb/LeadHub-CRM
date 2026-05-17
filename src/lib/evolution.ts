@@ -22,6 +22,53 @@ function headers(apiKey: string) {
   };
 }
 
+/**
+ * Gera um slug técnico seguro para o instanceName da Evolution a partir do
+ * nome da empresa. Sem acento/espaço/maiúscula + sufixo aleatório de 6 chars
+ * pra garantir unicidade (a Evolution rejeita nomes duplicados). O caller
+ * ainda deve checar colisão no banco e regenerar no caso raro de empate.
+ */
+export function buildInstanceSlug(companyName: string): string {
+  const base = (companyName || "instancia")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // remove acentos
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")        // não-alfanumérico → hífen
+    .replace(/^-+|-+$/g, "")            // tira hífen das pontas
+    .slice(0, 24)
+    || "instancia";
+  const suffix = Math.random().toString(36).slice(2, 8);
+  return `${base}-${suffix}`;
+}
+
+/**
+ * Lê o número de telefone real conectado na instância via fetchInstances
+ * (campo ownerJid / number). Retorna só os dígitos, ou null se não houver
+ * número conectado ainda (instância criada mas QR não escaneado).
+ */
+export async function evolutionGetInstanceNumber(
+  instanceName: string,
+): Promise<string | null> {
+  const { baseUrl, apiKey } = await getConfig();
+  try {
+    const res = await fetch(`${baseUrl}/instance/fetchInstances`, {
+      headers: headers(apiKey),
+    });
+    if (!res.ok) return null;
+    const list: any[] = await res.json();
+    const found = list.find(
+      (i: any) => i.name === instanceName || i.instanceName === instanceName,
+    );
+    const raw: string | undefined =
+      found?.ownerJid ?? found?.owner ?? found?.number ?? undefined;
+    if (!raw) return null;
+    const digits = String(raw).replace(/\D/g, "");
+    return digits || null;
+  } catch {
+    return null;
+  }
+}
+
 /** Cria a instância na Evolution API */
 export async function evolutionCreateInstance(instanceName: string, webhookUrl: string) {
   const { baseUrl, apiKey } = await getConfig();

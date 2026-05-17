@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { evolutionGetStatus } from "@/lib/evolution";
+import { evolutionGetStatus, evolutionGetInstanceNumber } from "@/lib/evolution";
 import { assertModule } from "@/lib/billing";
 
 // POST /api/whatsapp/[id]/sync
@@ -50,12 +50,25 @@ export async function POST(
     };
     const newStatus = statusMap[state] ?? "DISCONNECTED";
 
+    // Puxa o número real conectado da Evolution e preenche phone sozinho.
+    // Best-effort: se a Evolution não devolver número (QR não escaneado
+    // ainda), mantém o phone atual.
+    const data: Record<string, unknown> = {
+      status: newStatus as "CONNECTED" | "DISCONNECTED" | "CONNECTING",
+    };
+    try {
+      const number = await evolutionGetInstanceNumber(instance.instanceName);
+      if (number && number !== instance.phone) {
+        data.phone = number;
+      }
+    } catch { /* número é bônus — não falha o sync por isso */ }
+
     const updated = await prisma.whatsappInstance.update({
       where: { id },
-      data: { status: newStatus as "CONNECTED" | "DISCONNECTED" | "CONNECTING" },
+      data,
     });
 
-    return NextResponse.json({ status: updated.status, raw: rawData });
+    return NextResponse.json({ status: updated.status, phone: updated.phone, raw: rawData });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 502 });
   }
