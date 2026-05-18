@@ -6,6 +6,7 @@ import {
   Share2, BarChart3, Cloud, Box, Lock, Eye, EyeOff, Copy,
   Plus, Trash2, Pencil, ExternalLink, AlertTriangle, Check,
   KeyRound, ShieldCheck, Info, ChevronDown, ChevronRight,
+  Archive, RotateCcw,
 } from "lucide-react";
 import VaultVerifyModal from "./VaultVerifyModal";
 
@@ -27,6 +28,8 @@ interface Credential {
   sharedAt: string | null;
   createdAt: string;
   updatedAt: string;
+  archivedAt: string | null;
+  archivedByName: string | null;
 }
 
 interface Asset {
@@ -74,6 +77,8 @@ function daysUntil(dateStr: string | null): number | null {
 export default function CompanyVault({ companyId }: { companyId: string }) {
   const [assets, setAssets] = useState<Asset[]>([]);
   const [canWrite, setCanWrite] = useState(false);
+  const [canDelete, setCanDelete] = useState(false);
+  const [showArchived, setShowArchived] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -92,17 +97,19 @@ export default function CompanyVault({ companyId }: { companyId: string }) {
   useEffect(() => {
     void loadAssets();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [companyId]);
+  }, [companyId, showArchived]);
 
   async function loadAssets() {
     setLoading(true);
     setError(null);
     try {
-      const r = await fetch(`/api/companies/${companyId}/vault/assets`);
+      const qs = showArchived ? "?includeArchived=1" : "";
+      const r = await fetch(`/api/companies/${companyId}/vault/assets${qs}`);
       if (!r.ok) throw new Error((await r.json()).error || "Erro ao carregar cofre");
       const j = await r.json();
       setAssets(j.assets);
       setCanWrite(j.canWrite);
+      setCanDelete(!!j.canDelete);
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -145,16 +152,42 @@ export default function CompanyVault({ companyId }: { companyId: string }) {
   }
 
   async function handleDeleteAsset(assetId: string) {
-    if (!confirm("Excluir este ativo e todas as credenciais vinculadas?")) return;
+    const msg = canDelete
+      ? "Excluir este ativo e todas as credenciais vinculadas? Esta ação não pode ser desfeita."
+      : "Arquivar este ativo? Ele sai da lista; um admin pode restaurá-lo depois.";
+    if (!confirm(msg)) return;
     const r = await fetch(`/api/companies/${companyId}/vault/assets/${assetId}`, { method: "DELETE" });
     if (!r.ok) { alert((await r.json()).error || "Falha"); return; }
     void loadAssets();
   }
 
   async function handleDeleteCred(credId: string) {
-    if (!confirm("Excluir esta credencial?")) return;
+    const msg = canDelete
+      ? "Excluir esta credencial? Esta ação não pode ser desfeita."
+      : "Arquivar esta credencial? Ela sai da lista; um admin pode restaurá-la depois.";
+    if (!confirm(msg)) return;
     const r = await fetch(`/api/companies/${companyId}/vault/credentials/${credId}`, { method: "DELETE" });
     if (!r.ok) { alert((await r.json()).error || "Falha"); return; }
+    void loadAssets();
+  }
+
+  async function handleRestoreCred(credId: string) {
+    const r = await fetch(`/api/companies/${companyId}/vault/credentials/${credId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ restore: true }),
+    });
+    if (!r.ok) { alert((await r.json()).error || "Falha ao restaurar"); return; }
+    void loadAssets();
+  }
+
+  async function handleRestoreAsset(assetId: string) {
+    const r = await fetch(`/api/companies/${companyId}/vault/assets/${assetId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "ACTIVE" }),
+    });
+    if (!r.ok) { alert((await r.json()).error || "Falha ao restaurar"); return; }
     void loadAssets();
   }
 
@@ -196,14 +229,30 @@ export default function CompanyVault({ companyId }: { companyId: string }) {
             </p>
           </div>
         </div>
-        {canWrite && (
-          <button
-            onClick={() => setShowAssetModal({ asset: null })}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors"
-          >
-            <Plus className="w-3.5 h-3.5" /> Novo ativo
-          </button>
-        )}
+        <div className="flex items-center gap-2">
+          {canDelete && (
+            <button
+              onClick={() => setShowArchived((s) => !s)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors border ${
+                showArchived
+                  ? "bg-amber-500/15 border-amber-500/40 text-amber-300"
+                  : "bg-[#0a1220] border-[#1e2d45] text-slate-400 hover:text-slate-200"
+              }`}
+              title="Inclui credenciais e ativos arquivados"
+            >
+              <Archive className="w-3.5 h-3.5" />
+              {showArchived ? "Ocultar arquivados" : "Mostrar arquivados"}
+            </button>
+          )}
+          {canWrite && (
+            <button
+              onClick={() => setShowAssetModal({ asset: null })}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors"
+            >
+              <Plus className="w-3.5 h-3.5" /> Novo ativo
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Painel de orientação de segurança — só pra quem cadastra senha */}
@@ -317,14 +366,17 @@ export default function CompanyVault({ companyId }: { companyId: string }) {
                       key={asset.id}
                       asset={asset}
                       canWrite={canWrite}
+                      canDelete={canDelete}
                       revealed={revealed}
                       copiedId={copiedId}
                       onReveal={handleReveal}
                       onAddCred={() => setShowCredModal({ assetId: asset.id, credential: null })}
                       onEditAsset={() => setShowAssetModal({ asset })}
                       onDeleteAsset={() => handleDeleteAsset(asset.id)}
+                      onRestoreAsset={() => handleRestoreAsset(asset.id)}
                       onEditCred={(cred) => setShowCredModal({ assetId: asset.id, credential: cred })}
                       onDeleteCred={handleDeleteCred}
+                      onRestoreCred={handleRestoreCred}
                     />
                   ))}
                 </div>
@@ -375,24 +427,28 @@ export default function CompanyVault({ companyId }: { companyId: string }) {
 // ─── Card de ativo ────────────────────────────────────────────────────────────
 
 function AssetCard({
-  asset, canWrite, revealed, copiedId,
-  onReveal, onAddCred, onEditAsset, onDeleteAsset, onEditCred, onDeleteCred,
+  asset, canWrite, canDelete, revealed, copiedId,
+  onReveal, onAddCred, onEditAsset, onDeleteAsset, onRestoreAsset, onEditCred, onDeleteCred, onRestoreCred,
 }: {
   asset: Asset;
   canWrite: boolean;
+  canDelete: boolean;
   revealed: Record<string, string>;
   copiedId: string | null;
   onReveal: (credId: string, action?: "REVEAL" | "COPY" | "SHARE") => void;
   onAddCred: () => void;
   onEditAsset: () => void;
   onDeleteAsset: () => void;
+  onRestoreAsset: () => void;
   onEditCred: (c: Credential) => void;
   onDeleteCred: (id: string) => void;
+  onRestoreCred: (id: string) => void;
 }) {
   const meta = TYPE_META[asset.type];
   const expDays = daysUntil(asset.expiresAt);
   const isExpired = expDays !== null && expDays <= 0;
   const isWarning = expDays !== null && expDays > 0 && expDays <= 30;
+  const assetArchived = asset.status === "ARCHIVED";
 
   return (
     <div className="bg-[#0a1220] border border-[#1e2d45] rounded-xl overflow-hidden">
@@ -443,20 +499,45 @@ function AssetCard({
         </div>
         {canWrite && (
           <div className="flex items-center gap-1 flex-shrink-0">
-            <button
-              onClick={onEditAsset}
-              className="p-1.5 text-slate-500 hover:text-slate-300 hover:bg-white/5 rounded transition-colors"
-              title="Editar ativo"
-            >
-              <Pencil className="w-3.5 h-3.5" />
-            </button>
-            <button
-              onClick={onDeleteAsset}
-              className="p-1.5 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded transition-colors"
-              title="Excluir ativo"
-            >
-              <Trash2 className="w-3.5 h-3.5" />
-            </button>
+            {assetArchived ? (
+              <>
+                <button
+                  onClick={onRestoreAsset}
+                  className="p-1.5 text-slate-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded transition-colors"
+                  title="Restaurar ativo"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                </button>
+                {canDelete && (
+                  <button
+                    onClick={onDeleteAsset}
+                    className="p-1.5 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded transition-colors"
+                    title="Excluir definitivamente"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={onEditAsset}
+                  className="p-1.5 text-slate-500 hover:text-slate-300 hover:bg-white/5 rounded transition-colors"
+                  title="Editar ativo"
+                >
+                  <Pencil className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  onClick={onDeleteAsset}
+                  className="p-1.5 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded transition-colors"
+                  title={canDelete ? "Excluir ativo" : "Arquivar ativo"}
+                >
+                  {canDelete
+                    ? <Trash2 className="w-3.5 h-3.5" />
+                    : <Archive className="w-3.5 h-3.5" />}
+                </button>
+              </>
+            )}
           </div>
         )}
       </div>
@@ -490,24 +571,55 @@ function AssetCard({
                         <Check className="w-2.5 h-2.5" /> compartilhada
                       </span>
                     )}
+                    {cred.archivedAt && (
+                      <span
+                        className="text-[9px] text-amber-300 bg-amber-500/10 px-1.5 py-0.5 rounded uppercase font-bold flex items-center gap-0.5"
+                        title={cred.archivedByName ? `Arquivada por ${cred.archivedByName}` : "Arquivada"}
+                      >
+                        <Archive className="w-2.5 h-2.5" /> arquivada
+                      </span>
+                    )}
                     <div className="flex-1" />
                     {canWrite && (
-                      <>
-                        <button
-                          onClick={() => onEditCred(cred)}
-                          className="p-1 text-slate-600 hover:text-slate-300 rounded"
-                          title="Editar"
-                        >
-                          <Pencil className="w-3 h-3" />
-                        </button>
-                        <button
-                          onClick={() => onDeleteCred(cred.id)}
-                          className="p-1 text-slate-600 hover:text-red-400 rounded"
-                          title="Excluir"
-                        >
-                          <Trash2 className="w-3 h-3" />
-                        </button>
-                      </>
+                      cred.archivedAt ? (
+                        <>
+                          <button
+                            onClick={() => onRestoreCred(cred.id)}
+                            className="p-1 text-slate-600 hover:text-emerald-400 rounded"
+                            title="Restaurar"
+                          >
+                            <RotateCcw className="w-3 h-3" />
+                          </button>
+                          {canDelete && (
+                            <button
+                              onClick={() => onDeleteCred(cred.id)}
+                              className="p-1 text-slate-600 hover:text-red-400 rounded"
+                              title="Excluir definitivamente"
+                            >
+                              <Trash2 className="w-3 h-3" />
+                            </button>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            onClick={() => onEditCred(cred)}
+                            className="p-1 text-slate-600 hover:text-slate-300 rounded"
+                            title="Editar"
+                          >
+                            <Pencil className="w-3 h-3" />
+                          </button>
+                          <button
+                            onClick={() => onDeleteCred(cred.id)}
+                            className="p-1 text-slate-600 hover:text-red-400 rounded"
+                            title={canDelete ? "Excluir" : "Arquivar"}
+                          >
+                            {canDelete
+                              ? <Trash2 className="w-3 h-3" />
+                              : <Archive className="w-3 h-3" />}
+                          </button>
+                        </>
+                      )
                     )}
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-2 text-xs ml-5">

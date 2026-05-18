@@ -639,6 +639,9 @@ exports.Prisma.CompanyCredentialScalarFieldEnum = {
   lastRotatedAt: 'lastRotatedAt',
   sharedWithClient: 'sharedWithClient',
   sharedAt: 'sharedAt',
+  archivedAt: 'archivedAt',
+  archivedById: 'archivedById',
+  archivedByName: 'archivedByName',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   createdById: 'createdById'
@@ -1079,7 +1082,9 @@ exports.CredentialAction = exports.$Enums.CredentialAction = {
   SHARE: 'SHARE',
   EDIT: 'EDIT',
   CREATE: 'CREATE',
-  DELETE: 'DELETE'
+  DELETE: 'DELETE',
+  ARCHIVE: 'ARCHIVE',
+  RESTORE: 'RESTORE'
 };
 
 exports.IntegrationProvider = exports.$Enums.IntegrationProvider = {

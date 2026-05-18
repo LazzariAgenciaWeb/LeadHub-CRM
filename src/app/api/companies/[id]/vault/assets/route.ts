@@ -9,23 +9,35 @@ const ALLOWED_TYPES: AssetType[] = [
 ];
 
 // GET /api/companies/[id]/vault/assets — lista ativos + credenciais (sem senha)
+//
+// Por padrão esconde o que está arquivado (credencial com archivedAt, ou ativo
+// com status ARCHIVED). Admin pode pedir ?includeArchived=1 para também ver os
+// arquivados (CLIENT ignora esse parâmetro).
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id: companyId } = await params;
   const auth = await authorizeVaultAccess(companyId);
   if (!auth.ok) return NextResponse.json({ error: auth.error }, { status: auth.status });
 
+  const includeArchived =
+    auth.canDelete && req.nextUrl.searchParams.get("includeArchived") === "1";
+
   const assets = await prisma.companyAsset.findMany({
-    where: { companyId },
+    where: {
+      companyId,
+      ...(includeArchived ? {} : { status: { not: "ARCHIVED" } }),
+    },
     orderBy: [{ type: "asc" }, { name: "asc" }],
     include: {
       credentials: {
+        where: includeArchived ? {} : { archivedAt: null },
         select: {
           id: true, label: true, username: true, url: true,
           notes: true, lastRotatedAt: true, sharedWithClient: true,
           sharedAt: true, createdAt: true, updatedAt: true,
+          archivedAt: true, archivedByName: true,
           // passwordEncrypted nunca é enviado na listagem
         },
         orderBy: { createdAt: "asc" },
@@ -33,7 +45,12 @@ export async function GET(
     },
   });
 
-  return NextResponse.json({ assets, canWrite: auth.canWrite });
+  return NextResponse.json({
+    assets,
+    canWrite: auth.canWrite,
+    canDelete: auth.canDelete,
+    includeArchived,
+  });
 }
 
 // POST /api/companies/[id]/vault/assets — cria asset

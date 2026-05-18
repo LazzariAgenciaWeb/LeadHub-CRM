@@ -36,6 +36,8 @@ export async function PATCH(
 }
 
 // DELETE /api/companies/[id]/vault/assets/[assetId]
+// Admin (canDelete): exclui o ativo e todas as credenciais (cascade).
+// CLIENT: arquiva (status ARCHIVED) — sai da lista padrão, admin ainda vê.
 export async function DELETE(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string; assetId: string }> }
@@ -48,6 +50,11 @@ export async function DELETE(
   const existing = await prisma.companyAsset.findUnique({ where: { id: assetId }, select: { companyId: true } });
   if (!existing || existing.companyId !== companyId) {
     return NextResponse.json({ error: "Asset não encontrado" }, { status: 404 });
+  }
+
+  if (!auth.canDelete) {
+    await prisma.companyAsset.update({ where: { id: assetId }, data: { status: "ARCHIVED" } });
+    return NextResponse.json({ ok: true, archived: true });
   }
 
   await prisma.companyAsset.delete({ where: { id: assetId } });

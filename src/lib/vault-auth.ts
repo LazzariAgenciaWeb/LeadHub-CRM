@@ -7,7 +7,7 @@ import { assertModule } from "./billing";
  *  - SUPER_ADMIN: acesso a qualquer empresa.
  *  - ADMIN da empresa-pai: acesso a sub-empresas que ele gerencia (parentCompanyId match).
  *  - ADMIN da própria empresa: acesso ao cofre da empresa dele.
- *  - CLIENT (cliente final): acesso somente leitura ao cofre da própria empresa.
+ *  - CLIENT (cliente final): acesso de escrita total ao cofre da própria empresa.
  *  - Demais: negado.
  *
  * fix A3 — quando `checkCofreModule=true` (default), valida que o plano da
@@ -16,7 +16,17 @@ import { assertModule } from "./billing";
  */
 
 export type VaultAccess =
-  | { ok: true; companyId: string; userId: string; userName: string; userRole: string; canWrite: boolean }
+  | {
+      ok: true;
+      companyId: string;
+      userId: string;
+      userName: string;
+      userRole: string;
+      canWrite: boolean;
+      // canDelete=true só para ADMIN/SUPER_ADMIN. CLIENT tem canWrite mas
+      // não apaga: a rota de DELETE arquiva (soft-delete) quando !canDelete.
+      canDelete: boolean;
+    }
   | { ok: false; status: number; error: string };
 
 export async function authorizeVaultAccess(
@@ -42,17 +52,17 @@ export async function authorizeVaultAccess(
 
   // SUPER_ADMIN passa direto
   if (role === "SUPER_ADMIN") {
-    return { ok: true, companyId: targetCompanyId, userId, userName: u.name ?? u.email ?? "?", userRole: role, canWrite: true };
+    return { ok: true, companyId: targetCompanyId, userId, userName: u.name ?? u.email ?? "?", userRole: role, canWrite: true, canDelete: true };
   }
 
   // Mesma empresa do usuário
   if (userCompanyId === targetCompanyId) {
     if (role === "ADMIN") {
-      return { ok: true, companyId: targetCompanyId, userId, userName: u.name ?? u.email ?? "?", userRole: role, canWrite: true };
+      return { ok: true, companyId: targetCompanyId, userId, userName: u.name ?? u.email ?? "?", userRole: role, canWrite: true, canDelete: true };
     }
     if (role === "CLIENT") {
-      // Cliente final lê o cofre da empresa dele, sem escrever
-      return { ok: true, companyId: targetCompanyId, userId, userName: u.name ?? u.email ?? "?", userRole: role, canWrite: false };
+      // Cliente final tem escrita total, mas não apaga: DELETE vira arquivamento
+      return { ok: true, companyId: targetCompanyId, userId, userName: u.name ?? u.email ?? "?", userRole: role, canWrite: true, canDelete: false };
     }
     return { ok: false, status: 403, error: "Sem permissão para o cofre" };
   }
@@ -64,7 +74,7 @@ export async function authorizeVaultAccess(
       select: { parentCompanyId: true },
     });
     if (sub?.parentCompanyId === userCompanyId) {
-      return { ok: true, companyId: targetCompanyId, userId, userName: u.name ?? u.email ?? "?", userRole: role, canWrite: true };
+      return { ok: true, companyId: targetCompanyId, userId, userName: u.name ?? u.email ?? "?", userRole: role, canWrite: true, canDelete: true };
     }
   }
 

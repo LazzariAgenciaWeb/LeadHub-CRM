@@ -513,7 +513,9 @@ export const CredentialAction: {
   SHARE: 'SHARE',
   EDIT: 'EDIT',
   CREATE: 'CREATE',
-  DELETE: 'DELETE'
+  DELETE: 'DELETE',
+  ARCHIVE: 'ARCHIVE',
+  RESTORE: 'RESTORE'
 };
 
 export type CredentialAction = (typeof CredentialAction)[keyof typeof CredentialAction]
@@ -47490,6 +47492,9 @@ export namespace Prisma {
     lastRotatedAt: Date | null
     sharedWithClient: boolean | null
     sharedAt: Date | null
+    archivedAt: Date | null
+    archivedById: string | null
+    archivedByName: string | null
     createdAt: Date | null
     updatedAt: Date | null
     createdById: string | null
@@ -47507,6 +47512,9 @@ export namespace Prisma {
     lastRotatedAt: Date | null
     sharedWithClient: boolean | null
     sharedAt: Date | null
+    archivedAt: Date | null
+    archivedById: string | null
+    archivedByName: string | null
     createdAt: Date | null
     updatedAt: Date | null
     createdById: string | null
@@ -47524,6 +47532,9 @@ export namespace Prisma {
     lastRotatedAt: number
     sharedWithClient: number
     sharedAt: number
+    archivedAt: number
+    archivedById: number
+    archivedByName: number
     createdAt: number
     updatedAt: number
     createdById: number
@@ -47543,6 +47554,9 @@ export namespace Prisma {
     lastRotatedAt?: true
     sharedWithClient?: true
     sharedAt?: true
+    archivedAt?: true
+    archivedById?: true
+    archivedByName?: true
     createdAt?: true
     updatedAt?: true
     createdById?: true
@@ -47560,6 +47574,9 @@ export namespace Prisma {
     lastRotatedAt?: true
     sharedWithClient?: true
     sharedAt?: true
+    archivedAt?: true
+    archivedById?: true
+    archivedByName?: true
     createdAt?: true
     updatedAt?: true
     createdById?: true
@@ -47577,6 +47594,9 @@ export namespace Prisma {
     lastRotatedAt?: true
     sharedWithClient?: true
     sharedAt?: true
+    archivedAt?: true
+    archivedById?: true
+    archivedByName?: true
     createdAt?: true
     updatedAt?: true
     createdById?: true
@@ -47667,6 +47687,9 @@ export namespace Prisma {
     lastRotatedAt: Date | null
     sharedWithClient: boolean
     sharedAt: Date | null
+    archivedAt: Date | null
+    archivedById: string | null
+    archivedByName: string | null
     createdAt: Date
     updatedAt: Date
     createdById: string | null
@@ -47701,6 +47724,9 @@ export namespace Prisma {
     lastRotatedAt?: boolean
     sharedWithClient?: boolean
     sharedAt?: boolean
+    archivedAt?: boolean
+    archivedById?: boolean
+    archivedByName?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     createdById?: boolean
@@ -47721,6 +47747,9 @@ export namespace Prisma {
     lastRotatedAt?: boolean
     sharedWithClient?: boolean
     sharedAt?: boolean
+    archivedAt?: boolean
+    archivedById?: boolean
+    archivedByName?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     createdById?: boolean
@@ -47739,6 +47768,9 @@ export namespace Prisma {
     lastRotatedAt?: boolean
     sharedWithClient?: boolean
     sharedAt?: boolean
+    archivedAt?: boolean
+    archivedById?: boolean
+    archivedByName?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     createdById?: boolean
@@ -47771,6 +47803,9 @@ export namespace Prisma {
       lastRotatedAt: Date | null
       sharedWithClient: boolean
       sharedAt: Date | null
+      archivedAt: Date | null
+      archivedById: string | null
+      archivedByName: string | null
       createdAt: Date
       updatedAt: Date
       createdById: string | null
@@ -48180,6 +48215,9 @@ export namespace Prisma {
     readonly lastRotatedAt: FieldRef<"CompanyCredential", 'DateTime'>
     readonly sharedWithClient: FieldRef<"CompanyCredential", 'Boolean'>
     readonly sharedAt: FieldRef<"CompanyCredential", 'DateTime'>
+    readonly archivedAt: FieldRef<"CompanyCredential", 'DateTime'>
+    readonly archivedById: FieldRef<"CompanyCredential", 'String'>
+    readonly archivedByName: FieldRef<"CompanyCredential", 'String'>
     readonly createdAt: FieldRef<"CompanyCredential", 'DateTime'>
     readonly updatedAt: FieldRef<"CompanyCredential", 'DateTime'>
     readonly createdById: FieldRef<"CompanyCredential", 'String'>
@@ -69633,6 +69671,9 @@ export namespace Prisma {
     lastRotatedAt: 'lastRotatedAt',
     sharedWithClient: 'sharedWithClient',
     sharedAt: 'sharedAt',
+    archivedAt: 'archivedAt',
+    archivedById: 'archivedById',
+    archivedByName: 'archivedByName',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     createdById: 'createdById'
@@ -73961,6 +74002,9 @@ export namespace Prisma {
     lastRotatedAt?: DateTimeNullableFilter<"CompanyCredential"> | Date | string | null
     sharedWithClient?: BoolFilter<"CompanyCredential"> | boolean
     sharedAt?: DateTimeNullableFilter<"CompanyCredential"> | Date | string | null
+    archivedAt?: DateTimeNullableFilter<"CompanyCredential"> | Date | string | null
+    archivedById?: StringNullableFilter<"CompanyCredential"> | string | null
+    archivedByName?: StringNullableFilter<"CompanyCredential"> | string | null
     createdAt?: DateTimeFilter<"CompanyCredential"> | Date | string
     updatedAt?: DateTimeFilter<"CompanyCredential"> | Date | string
     createdById?: StringNullableFilter<"CompanyCredential"> | string | null
@@ -73980,6 +74024,9 @@ export namespace Prisma {
     lastRotatedAt?: SortOrderInput | SortOrder
     sharedWithClient?: SortOrder
     sharedAt?: SortOrderInput | SortOrder
+    archivedAt?: SortOrderInput | SortOrder
+    archivedById?: SortOrderInput | SortOrder
+    archivedByName?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdById?: SortOrderInput | SortOrder
@@ -74002,6 +74049,9 @@ export namespace Prisma {
     lastRotatedAt?: DateTimeNullableFilter<"CompanyCredential"> | Date | string | null
     sharedWithClient?: BoolFilter<"CompanyCredential"> | boolean
     sharedAt?: DateTimeNullableFilter<"CompanyCredential"> | Date | string | null
+    archivedAt?: DateTimeNullableFilter<"CompanyCredential"> | Date | string | null
+    archivedById?: StringNullableFilter<"CompanyCredential"> | string | null
+    archivedByName?: StringNullableFilter<"CompanyCredential"> | string | null
     createdAt?: DateTimeFilter<"CompanyCredential"> | Date | string
     updatedAt?: DateTimeFilter<"CompanyCredential"> | Date | string
     createdById?: StringNullableFilter<"CompanyCredential"> | string | null
@@ -74021,6 +74071,9 @@ export namespace Prisma {
     lastRotatedAt?: SortOrderInput | SortOrder
     sharedWithClient?: SortOrder
     sharedAt?: SortOrderInput | SortOrder
+    archivedAt?: SortOrderInput | SortOrder
+    archivedById?: SortOrderInput | SortOrder
+    archivedByName?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdById?: SortOrderInput | SortOrder
@@ -74044,6 +74097,9 @@ export namespace Prisma {
     lastRotatedAt?: DateTimeNullableWithAggregatesFilter<"CompanyCredential"> | Date | string | null
     sharedWithClient?: BoolWithAggregatesFilter<"CompanyCredential"> | boolean
     sharedAt?: DateTimeNullableWithAggregatesFilter<"CompanyCredential"> | Date | string | null
+    archivedAt?: DateTimeNullableWithAggregatesFilter<"CompanyCredential"> | Date | string | null
+    archivedById?: StringNullableWithAggregatesFilter<"CompanyCredential"> | string | null
+    archivedByName?: StringNullableWithAggregatesFilter<"CompanyCredential"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"CompanyCredential"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"CompanyCredential"> | Date | string
     createdById?: StringNullableWithAggregatesFilter<"CompanyCredential"> | string | null
@@ -79553,6 +79609,9 @@ export namespace Prisma {
     lastRotatedAt?: Date | string | null
     sharedWithClient?: boolean
     sharedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    archivedById?: string | null
+    archivedByName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById?: string | null
@@ -79572,6 +79631,9 @@ export namespace Prisma {
     lastRotatedAt?: Date | string | null
     sharedWithClient?: boolean
     sharedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    archivedById?: string | null
+    archivedByName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById?: string | null
@@ -79589,6 +79651,9 @@ export namespace Prisma {
     lastRotatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sharedWithClient?: BoolFieldUpdateOperationsInput | boolean
     sharedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedById?: NullableStringFieldUpdateOperationsInput | string | null
+    archivedByName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -79608,6 +79673,9 @@ export namespace Prisma {
     lastRotatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sharedWithClient?: BoolFieldUpdateOperationsInput | boolean
     sharedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedById?: NullableStringFieldUpdateOperationsInput | string | null
+    archivedByName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -79626,6 +79694,9 @@ export namespace Prisma {
     lastRotatedAt?: Date | string | null
     sharedWithClient?: boolean
     sharedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    archivedById?: string | null
+    archivedByName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById?: string | null
@@ -79642,6 +79713,9 @@ export namespace Prisma {
     lastRotatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sharedWithClient?: BoolFieldUpdateOperationsInput | boolean
     sharedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedById?: NullableStringFieldUpdateOperationsInput | string | null
+    archivedByName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -79659,6 +79733,9 @@ export namespace Prisma {
     lastRotatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sharedWithClient?: BoolFieldUpdateOperationsInput | boolean
     sharedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedById?: NullableStringFieldUpdateOperationsInput | string | null
+    archivedByName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -84495,6 +84572,9 @@ export namespace Prisma {
     lastRotatedAt?: SortOrder
     sharedWithClient?: SortOrder
     sharedAt?: SortOrder
+    archivedAt?: SortOrder
+    archivedById?: SortOrder
+    archivedByName?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdById?: SortOrder
@@ -84512,6 +84592,9 @@ export namespace Prisma {
     lastRotatedAt?: SortOrder
     sharedWithClient?: SortOrder
     sharedAt?: SortOrder
+    archivedAt?: SortOrder
+    archivedById?: SortOrder
+    archivedByName?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdById?: SortOrder
@@ -84529,6 +84612,9 @@ export namespace Prisma {
     lastRotatedAt?: SortOrder
     sharedWithClient?: SortOrder
     sharedAt?: SortOrder
+    archivedAt?: SortOrder
+    archivedById?: SortOrder
+    archivedByName?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdById?: SortOrder
@@ -108840,6 +108926,9 @@ export namespace Prisma {
     lastRotatedAt?: Date | string | null
     sharedWithClient?: boolean
     sharedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    archivedById?: string | null
+    archivedByName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById?: string | null
@@ -108857,6 +108946,9 @@ export namespace Prisma {
     lastRotatedAt?: Date | string | null
     sharedWithClient?: boolean
     sharedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    archivedById?: string | null
+    archivedByName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById?: string | null
@@ -109047,6 +109139,9 @@ export namespace Prisma {
     lastRotatedAt?: DateTimeNullableFilter<"CompanyCredential"> | Date | string | null
     sharedWithClient?: BoolFilter<"CompanyCredential"> | boolean
     sharedAt?: DateTimeNullableFilter<"CompanyCredential"> | Date | string | null
+    archivedAt?: DateTimeNullableFilter<"CompanyCredential"> | Date | string | null
+    archivedById?: StringNullableFilter<"CompanyCredential"> | string | null
+    archivedByName?: StringNullableFilter<"CompanyCredential"> | string | null
     createdAt?: DateTimeFilter<"CompanyCredential"> | Date | string
     updatedAt?: DateTimeFilter<"CompanyCredential"> | Date | string
     createdById?: StringNullableFilter<"CompanyCredential"> | string | null
@@ -109201,6 +109296,9 @@ export namespace Prisma {
     lastRotatedAt?: Date | string | null
     sharedWithClient?: boolean
     sharedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    archivedById?: string | null
+    archivedByName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById?: string | null
@@ -109219,6 +109317,9 @@ export namespace Prisma {
     lastRotatedAt?: Date | string | null
     sharedWithClient?: boolean
     sharedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    archivedById?: string | null
+    archivedByName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById?: string | null
@@ -109388,6 +109489,9 @@ export namespace Prisma {
     lastRotatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sharedWithClient?: BoolFieldUpdateOperationsInput | boolean
     sharedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedById?: NullableStringFieldUpdateOperationsInput | string | null
+    archivedByName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -109406,6 +109510,9 @@ export namespace Prisma {
     lastRotatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sharedWithClient?: BoolFieldUpdateOperationsInput | boolean
     sharedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedById?: NullableStringFieldUpdateOperationsInput | string | null
+    archivedByName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -119890,6 +119997,9 @@ export namespace Prisma {
     lastRotatedAt?: Date | string | null
     sharedWithClient?: boolean
     sharedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    archivedById?: string | null
+    archivedByName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById?: string | null
@@ -119906,6 +120016,9 @@ export namespace Prisma {
     lastRotatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sharedWithClient?: BoolFieldUpdateOperationsInput | boolean
     sharedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedById?: NullableStringFieldUpdateOperationsInput | string | null
+    archivedByName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -119923,6 +120036,9 @@ export namespace Prisma {
     lastRotatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sharedWithClient?: BoolFieldUpdateOperationsInput | boolean
     sharedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedById?: NullableStringFieldUpdateOperationsInput | string | null
+    archivedByName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -119940,6 +120056,9 @@ export namespace Prisma {
     lastRotatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sharedWithClient?: BoolFieldUpdateOperationsInput | boolean
     sharedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedById?: NullableStringFieldUpdateOperationsInput | string | null
+    archivedByName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null

@@ -1261,6 +1261,12 @@ model CompanyCredential {
   sharedWithClient Boolean   @default(false) // já foi compartilhada com o cliente?
   sharedAt         DateTime?
 
+  // Soft-delete (arquivamento). CLIENT não apaga credencial — arquiva.
+  // Admin/SUPER_ADMIN veem arquivadas, podem restaurar ou apagar de vez.
+  archivedAt     DateTime?
+  archivedById   String?
+  archivedByName String?
+
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   createdById String?
@@ -1268,6 +1274,7 @@ model CompanyCredential {
   accessLogs  CredentialAccessLog[]
 
   @@index([assetId])
+  @@index([assetId, archivedAt])
 }
 
 model CredentialAccessLog {
@@ -1298,6 +1305,8 @@ enum CredentialAction {
   EDIT      // editou o registro
   CREATE
   DELETE
+  ARCHIVE   // arquivou (soft-delete por CLIENT)
+  RESTORE   // admin restaurou um registro arquivado
 }
 
 // ─── Integrações de Marketing ─────────────────────────────────────────────────
