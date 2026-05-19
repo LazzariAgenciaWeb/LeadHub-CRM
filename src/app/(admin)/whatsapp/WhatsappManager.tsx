@@ -313,7 +313,18 @@ export default function WhatsappManager({
   // (keyed pelo phone). Antes era um valor único global: ao trocar de
   // conversa o override vazava e o usuário respondia do número errado,
   // colocando 2 números mandando no mesmo grupo.
-  const [sendInstanceByConv, setSendInstanceByConv] = useState<Map<string, string>>(new Map());
+  // Persistido em localStorage → naturalmente POR USUÁRIO (cada atendente
+  // tem seu navegador/sessão). Sobrevive a reload. Só usado em grupos
+  // (conversa pessoal trava a instância).
+  const SEND_INST_LS_KEY = "send_instance_by_conv";
+  const [sendInstanceByConv, setSendInstanceByConv] = useState<Map<string, string>>(() => {
+    if (typeof window === "undefined") return new Map();
+    try {
+      const raw = localStorage.getItem(SEND_INST_LS_KEY);
+      if (raw) return new Map(Object.entries(JSON.parse(raw) as Record<string, string>));
+    } catch { /* corrompido — começa vazio */ }
+    return new Map();
+  });
   // sendInstanceOverride (derivado) e o setter são declarados após selectedConv.
   // Nota: o useMemo `currentSendInstance` é declarado mais abaixo (precisa de
   // selectedConv + convMessages + groupInstanceId que são declarados depois).
@@ -338,6 +349,9 @@ export default function WhatsappManager({
       const m = new Map(prev);
       if (id) m.set(phone, id);
       else    m.delete(phone);
+      if (typeof window !== "undefined") {
+        try { localStorage.setItem(SEND_INST_LS_KEY, JSON.stringify(Object.fromEntries(m))); } catch { /* quota — ignora */ }
+      }
       return m;
     });
   }
@@ -522,9 +536,35 @@ export default function WhatsappManager({
   const currentSendInstance = useMemo(() => {
     if (!selectedConv) return null;
     const isGroup = selectedConv.phone.includes("@g.us");
-    // Última instância usada NESTA conversa = instância da última mensagem
-    // OUTBOUND. Funciona pra grupo e individual e é o que o usuário espera
-    // ao voltar numa conversa ("continua do número que eu estava usando aqui").
+
+    // ── Conversa PESSOAL (1:1) ──────────────────────────────────────────
+    // O cliente escreveu para UM número específico. Responder por outra
+    // instância abre uma conversa nova no WhatsApp do cliente (outro
+    // número falando com ele). Então em 1:1 a instância é TRAVADA na que
+    // recebeu as mensagens do cliente (último INBOUND). Override é ignorado.
+    if (!isGroup) {
+      const lastInbound = [...convMessages].reverse().find(
+        (m) => m.direction === "INBOUND" && m.instance?.instanceName,
+      );
+      const inboundInst = lastInbound?.instance?.instanceName
+        ? instances.find((i) => i.instanceName === lastInbound.instance!.instanceName)
+        : null;
+      const lastOutboundName = [...convMessages].reverse().find(
+        (m) => m.direction === "OUTBOUND" && m.instance?.instanceName,
+      )?.instance?.instanceName;
+      return (
+        inboundInst ??
+        // Sem INBOUND identificável (ex: conversa iniciada por nós): cai na
+        // última OUTBOUND, depois conectada da empresa.
+        (lastOutboundName ? instances.find((i) => i.instanceName === lastOutboundName) : null) ??
+        instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId) ??
+        instances.find((i) => i.company?.id === selectedConv.companyId) ??
+        null
+      );
+    }
+
+    // ── Conversa de GRUPO ───────────────────────────────────────────────
+    // Aqui faz sentido escolher a instância (várias podem estar no grupo).
     const lastOutbound = [...convMessages].reverse().find(
       (m) => m.direction === "OUTBOUND" && m.instance?.instanceName,
     );
@@ -535,18 +575,17 @@ export default function WhatsappManager({
       ? instances.find((i) => i.instanceName === lastInstanceName)
       : null;
     return (
-      // 1. Override explícito desta conversa (menu + Ações)
       (sendInstanceOverride ? instances.find((i) => i.id === sendInstanceOverride) : null) ??
-      // 2. Última instância que ESTA conversa usou pra enviar
       lastUsedInThisConv ??
-      // 3. Grupo: preferência global do usuário (localStorage) como fallback
-      (isGroup ? instances.find((i) => i.id === groupInstanceId) : null) ??
-      // 4. Qualquer conectada da empresa, depois qualquer da empresa
+      instances.find((i) => i.id === groupInstanceId) ??
       instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId) ??
       instances.find((i) => i.company?.id === selectedConv.companyId) ??
       null
     );
   }, [selectedConv, convMessages, instances, sendInstanceOverride, groupInstanceId]);
+
+  // Em conversa pessoal a instância é travada (não dá pra escolher outra).
+  const sendInstanceLocked = !!selectedConv && !selectedConv.phone.includes("@g.us");
 
   // Chamado aberto + menu de ações
   const [openTicket, setOpenTicket] = useState<{ id: string; title: string; status: string } | null>(null);
@@ -674,11 +713,17 @@ export default function WhatsappManager({
     }
 
     if (force) {
-      // Ao abrir conversa: aguarda o browser completar o layout antes de scrollar
-      requestAnimationFrame(() => {
+      // Ao abrir conversa: imagens/áudios carregam DEPOIS do 1º layout e
+      // mudam scrollHeight — um único rAF deixava a conversa "quase" no fim.
+      // Reaplica o scroll algumas vezes nos ms seguintes pra garantir o fundo.
+      const pin = () => {
         const el = messagesContainerRef.current;
         if (el) el.scrollTop = el.scrollHeight;
-      });
+      };
+      requestAnimationFrame(pin);
+      const timers = [60, 150, 350, 700].map((ms) => setTimeout(pin, ms));
+      // Cancela se trocar de conversa nesse meio tempo
+      return () => timers.forEach(clearTimeout);
     } else {
       scrollToBottom(false);
     }
@@ -1783,30 +1828,11 @@ export default function WhatsappManager({
     if (!selectedConv) return;
     if (!pendingMedia && !replyText.trim()) return;
 
-    const isGroup = selectedConv.phone.includes("@g.us");
-
-    // Resolução de instância — DEVE bater com o useMemo currentSendInstance
-    // (preview no placeholder). Prioridade:
-    //  1. Override desta conversa (menu + Ações)
-    //  2. Última instância que ESTA conversa usou pra enviar (OUTBOUND)
-    //  3. Grupo: preferência global (localStorage)
-    //  4. Qualquer conectada da empresa → qualquer da empresa
-    const lastOutbound = [...convMessages].reverse().find(
-      (m) => m.direction === "OUTBOUND" && m.instance?.instanceName,
-    );
-    const lastInstanceName =
-      lastOutbound?.instance?.instanceName ??
-      (convMessages.length > 0 ? convMessages[convMessages.length - 1].instance?.instanceName : null);
-    const lastUsedInThisConv = lastInstanceName
-      ? instances.find((i) => i.instanceName === lastInstanceName)
-      : null;
-
-    const inst =
-      (sendInstanceOverride ? instances.find((i) => i.id === sendInstanceOverride) : null) ??
-      lastUsedInThisConv ??
-      (isGroup ? instances.find((i) => i.id === groupInstanceId) : null) ??
-      instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId) ??
-      instances.find((i) => i.company?.id === selectedConv.companyId);
+    // Usa exatamente a instância resolvida pelo useMemo currentSendInstance
+    // (mesma lógica do preview): em 1:1 trava na que o cliente contatou;
+    // em grupo respeita override/última usada. Garante que o que aparece
+    // "Escreva via X" é o que realmente envia.
+    const inst = currentSendInstance;
 
     if (!inst) {
       setReplyError("Nenhuma instância conectada. Configure em Configurações → Instâncias WhatsApp.");
@@ -1874,6 +1900,13 @@ export default function WhatsappManager({
       setPendingMedia(null);
       setMediaError(null);
       if (mediaInputRef.current) mediaInputRef.current.value = "";
+      // Mantém o foco no campo de texto pra digitar a próxima sem reclicar.
+      // setTimeout pra rodar depois do re-render que reabilita a textarea
+      // (disabled={sendingReply} a desabilita durante o envio e blura).
+      setTimeout(() => {
+        const ta = replyTextareaRef.current;
+        if (ta) { ta.style.height = "auto"; ta.focus(); }
+      }, 0);
     }
   }
 
@@ -3203,7 +3236,6 @@ export default function WhatsappManager({
                     : conv.assignee;
                   const isMine = assignee?.id === currentUserId;
                   const isClosed = currentStatus === "CLOSED";
-                  const canTransfer = !isClosed && (scopedSetores.length + scopedAtendentes.length) > 0;
 
                   return (
                     <div className="flex items-center gap-1.5 flex-shrink-0">
@@ -4443,6 +4475,25 @@ export default function WhatsappManager({
                               const eligibleInstances = instances.filter(
                                 (i) => !selectedConv?.companyId || i.company?.id === selectedConv.companyId
                               );
+                              // Em conversa pessoal a instância é travada (o
+                              // cliente falou com UM número; trocar abre outra
+                              // conversa pra ele). Mostra qual é, sem permitir
+                              // troca. Selector só editável em grupo.
+                              if (sendInstanceLocked) {
+                                return (
+                                  <>
+                                    <div className="px-3 pt-2.5 pb-1.5">
+                                      <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2 flex items-center gap-1.5"><Send className="w-3 h-3" strokeWidth={2.5} /> Envio</p>
+                                      <div className="flex items-center gap-1.5 text-xs text-slate-400 bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2 py-1.5">
+                                        <span className="text-slate-500">Via</span>
+                                        <span className="text-slate-200 font-medium">{currentSendInstance?.instanceName ?? "—"}</span>
+                                        <span className="ml-auto text-[9px] text-slate-600">🔒 fixo nesta conversa</span>
+                                      </div>
+                                    </div>
+                                    <div className="border-t border-[#1e2d45] my-1" />
+                                  </>
+                                );
+                              }
                               const showInstancePicker = eligibleInstances.length > 1;
                               if (!showInstancePicker) return null;
                               return (
