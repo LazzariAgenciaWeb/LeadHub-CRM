@@ -332,17 +332,21 @@ export async function POST(request: NextRequest) {
         // 1. Verificar se o registro já existe pelo externalId real.
         const existing = await prisma.message.findUnique({ where: { externalId: key.id } });
 
-        // Correção de direção: em grupos com várias instâncias nossas, o "eco"
-        // que outra instância ouve chega via webhook com fromMe=false e pode
-        // ser gravado como INBOUND ANTES deste webhook autoritativo (fromMe=
-        // true) chegar. Sem isso, a mensagem que NÓS enviamos fica como se
-        // fosse do cliente. Aqui forçamos OUTBOUND no registro existente.
-        if (existing && existing.direction !== "OUTBOUND") {
+        // Correção de registro existente: em grupos com várias instâncias
+        // nossas, quando enviamos pelo celular de UMA instância, as OUTRAS
+        // ouvem o "eco" e disparam webhook com fromMe=false. Esse eco pode
+        // gravar a mensagem ANTES deste webhook autoritativo (fromMe=true)
+        // com:
+        //   - direction errada (INBOUND, como se fosse o cliente), e/ou
+        //   - instanceId errado (a instância que ouviu, não a que enviou)
+        // Este webhook (fromMe=true) é a fonte da verdade: a instância que
+        // recebe ele (waInstance) é a que REALMENTE enviou. Corrige os dois.
+        if (existing && (existing.direction !== "OUTBOUND" || existing.instanceId !== waInstance.id)) {
           await prisma.message.update({
             where: { id: existing.id },
-            data:  { direction: "OUTBOUND" },
+            data:  { direction: "OUTBOUND", instanceId: waInstance.id },
           }).catch(() => { /* não crítico */ });
-          console.log(`[WA fromMe] corrigiu direção INBOUND→OUTBOUND msg=${existing.id} ext=${key.id}`);
+          console.log(`[WA fromMe] corrigiu msg=${existing.id} ext=${key.id} dir=${existing.direction}→OUTBOUND inst=${existing.instanceId}→${waInstance.id}`);
           return NextResponse.json({ ok: true, saved: "outbound-corrected" });
         }
 
