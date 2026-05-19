@@ -213,6 +213,20 @@ export async function getCalendarData(input: CalendarDataInput) {
         ...cf,
         expectedReturnAt: { lte: todayEnd },
         status: { notIn: ["CLOSED", "LOST"] },
+        // Robustez: alguns leads viram "Oportunidade · Fechado" só no
+        // pipelineStage, sem o status sincronizar pra CLOSED (fechado por
+        // path legado / kanban antigo). Excluímos também:
+        //  - etapas finais por nome (Fechado/Ganho/Perdido/Vendido)
+        //  - conversa já finalizada (status CLOSED) — não há o que retornar
+        NOT: {
+          OR: [
+            { pipelineStage: { contains: "echado",  mode: "insensitive" } }, // Fechado
+            { pipelineStage: { contains: "ganho",   mode: "insensitive" } },
+            { pipelineStage: { contains: "perdid",  mode: "insensitive" } }, // Perdido/Perdida
+            { pipelineStage: { contains: "vendid",  mode: "insensitive" } }, // Vendido/Vendida
+            { conversation: { is: { status: "CLOSED" } } },
+          ],
+        },
         OR: [
           { conversation: { is: { assigneeId: userId } } },
           isManager
@@ -243,6 +257,16 @@ export async function getCalendarData(input: CalendarDataInput) {
         ...cf,
         expectedReturnAt: null,
         status: { notIn: ["CLOSED", "LOST"] },
+        // Mesma blindagem do bucket 6: oportunidade fechada não esfria.
+        NOT: {
+          OR: [
+            { pipelineStage: { contains: "echado",  mode: "insensitive" } },
+            { pipelineStage: { contains: "ganho",   mode: "insensitive" } },
+            { pipelineStage: { contains: "perdid",  mode: "insensitive" } },
+            { pipelineStage: { contains: "vendid",  mode: "insensitive" } },
+            { conversation: { is: { status: "CLOSED" } } },
+          ],
+        },
         AND: [
           // Scope: meus + sem responsável (com filtro de setor pra CLIENT)
           {
