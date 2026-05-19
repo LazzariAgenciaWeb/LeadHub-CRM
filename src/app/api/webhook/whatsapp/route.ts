@@ -329,8 +329,22 @@ export async function POST(request: NextRequest) {
         where: { instanceName: instance },
       });
       if (waInstance && key?.id) {
-        // 1. Verificar se o registro já existe pelo externalId real → não fazer nada
+        // 1. Verificar se o registro já existe pelo externalId real.
         const existing = await prisma.message.findUnique({ where: { externalId: key.id } });
+
+        // Correção de direção: em grupos com várias instâncias nossas, o "eco"
+        // que outra instância ouve chega via webhook com fromMe=false e pode
+        // ser gravado como INBOUND ANTES deste webhook autoritativo (fromMe=
+        // true) chegar. Sem isso, a mensagem que NÓS enviamos fica como se
+        // fosse do cliente. Aqui forçamos OUTBOUND no registro existente.
+        if (existing && existing.direction !== "OUTBOUND") {
+          await prisma.message.update({
+            where: { id: existing.id },
+            data:  { direction: "OUTBOUND" },
+          }).catch(() => { /* não crítico */ });
+          console.log(`[WA fromMe] corrigiu direção INBOUND→OUTBOUND msg=${existing.id} ext=${key.id}`);
+          return NextResponse.json({ ok: true, saved: "outbound-corrected" });
+        }
 
         if (!existing) {
           // Resolver alias @lid → número real (ocorre quando Evolution devolve remoteJid=@lid
@@ -418,6 +432,7 @@ export async function POST(request: NextRequest) {
       quotedBody,
       mediaBase64,
       mediaType,
+      fromMe,
     });
 
     return NextResponse.json({

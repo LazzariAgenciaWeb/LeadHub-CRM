@@ -418,7 +418,16 @@ function phoneVariants(raw: string): string[] {
  * nosso, ouvido pelas demais instâncias do grupo).
  */
 async function isPhoneOurInstance(phone: string, companyId: string): Promise<boolean> {
-  const variants = phoneVariants(phone);
+  // @lid (WhatsApp Business — identidade anonimizada): o "número" não bate
+  // com o telefone real da instância. Resolve via phone_alias se já mesclado.
+  let resolved = phone;
+  if (phone.includes("@lid")) {
+    const alias = await prisma.setting.findUnique({
+      where: { key: `phone_alias:${companyId}:${phone}` },
+    }).catch(() => null);
+    if (alias?.value) resolved = alias.value;
+  }
+  const variants = phoneVariants(resolved);
   if (variants.length === 0) return false;
   const found = await prisma.whatsappInstance.findFirst({
     where: {
@@ -427,6 +436,28 @@ async function isPhoneOurInstance(phone: string, companyId: string): Promise<boo
     },
     select: { id: true },
   });
+  return !!found;
+}
+
+/**
+ * Retorna true se o pushName do participante bate com o nome de exibição
+ * de alguma instância da empresa. Fallback pra quando o participantPhone
+ * vem em formato que não casa (@lid sem alias, etc.) — o pushName de quem
+ * envia é o nome configurado no WhatsApp da própria instância.
+ */
+async function isNameOurInstance(name: string | null | undefined, companyId: string): Promise<boolean> {
+  const trimmed = (name ?? "").trim();
+  if (!trimmed) return false;
+  const found = await prisma.whatsappInstance.findFirst({
+    where: {
+      companyId,
+      OR: [
+        { instanceName: { equals: trimmed, mode: "insensitive" } },
+        { label:        { equals: trimmed, mode: "insensitive" } },
+      ],
+    },
+    select: { id: true },
+  }).catch(() => null);
   return !!found;
 }
 
@@ -529,8 +560,11 @@ export async function processInboundMessage(payload: {
   quotedBody?: string | null;
   mediaBase64?: string | null;
   mediaType?: string | null;
+  // Autoritativo: Evolution marcou key.fromMe. Quando true, a mensagem é
+  // nossa mesmo que a detecção por participantPhone/nome falhe (ex: @lid).
+  fromMe?: boolean;
 }) {
-  const { instanceName, phone, body, externalId, rawPayload, contactName, participantPhone, participantName, receivedAt, quotedId, quotedBody, mediaBase64, mediaType } = payload;
+  const { instanceName, phone, body, externalId, rawPayload, contactName, participantPhone, participantName, receivedAt, quotedId, quotedBody, mediaBase64, mediaType, fromMe } = payload;
 
   // Log de entrada — visível nos logs do servidor (Railway/Vercel)
   console.log(`[WA inbound] instance=${instanceName} phone=${phone} externalId=${externalId ?? "?"} body="${body.slice(0, 60)}"`);
@@ -556,9 +590,17 @@ export async function processInboundMessage(payload: {
     // Em grupo, descobre se quem ENVIOU é uma das nossas instâncias.
     // Se for, trata como OUTBOUND (não devolve a conversa para OPEN só porque
     // outra instância nossa ouviu o eco do envio).
-    const isOurParticipant = participantPhone
-      ? await isPhoneOurInstance(participantPhone, instance.companyId)
-      : false;
+    //
+    // Sinais, em ordem de confiança:
+    //  1) fromMe — Evolution confirmou que a mensagem é nossa (autoritativo)
+    //  2) participantPhone bate com WhatsappInstance.phone (resolve @lid via alias)
+    //  3) participantName (pushName) bate com instanceName/label da instância
+    //     — fallback pra quando o telefone não casa (instância sem phone
+    //     salvo, @lid sem alias, formato divergente).
+    const isOurParticipant =
+      fromMe === true ||
+      (participantPhone ? await isPhoneOurInstance(participantPhone, instance.companyId) : false) ||
+      (await isNameOurInstance(participantName, instance.companyId));
     const groupDirection: "INBOUND" | "OUTBOUND" = isOurParticipant ? "OUTBOUND" : "INBOUND";
 
     // Upsert da conversa (grupo) — herda setor da instância na criação
