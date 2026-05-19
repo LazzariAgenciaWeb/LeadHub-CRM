@@ -309,8 +309,12 @@ export default function WhatsappManager({
   const [convActionLoading, setConvActionLoading] = useState(false);
   // Toggle do painel de participantes do grupo (header limpo)
   const [showParticipants, setShowParticipants] = useState(false);
-  // Override de instância de envio (escolhida pelo usuário no menu + Ações)
-  const [sendInstanceOverride, setSendInstanceOverride] = useState<string>("");
+  // Override de instância de envio escolhida no menu + Ações — POR CONVERSA
+  // (keyed pelo phone). Antes era um valor único global: ao trocar de
+  // conversa o override vazava e o usuário respondia do número errado,
+  // colocando 2 números mandando no mesmo grupo.
+  const [sendInstanceByConv, setSendInstanceByConv] = useState<Map<string, string>>(new Map());
+  // sendInstanceOverride (derivado) e o setter são declarados após selectedConv.
   // Nota: o useMemo `currentSendInstance` é declarado mais abaixo (precisa de
   // selectedConv + convMessages + groupInstanceId que são declarados depois).
   // Modal de transferência (Sprint 4) — pode transferir para setor OU atendente
@@ -324,6 +328,20 @@ export default function WhatsappManager({
   const router = useRouter();
 
   const [selectedConv, setSelectedConv] = useState<Conversation | null>(null);
+
+  // Override de instância de envio — POR CONVERSA (derivado do Map acima).
+  const sendInstanceOverride = selectedConv ? (sendInstanceByConv.get(selectedConv.phone) ?? "") : "";
+  function setSendInstanceOverride(id: string) {
+    if (!selectedConv) return;
+    const phone = selectedConv.phone;
+    setSendInstanceByConv((prev) => {
+      const m = new Map(prev);
+      if (id) m.set(phone, id);
+      else    m.delete(phone);
+      return m;
+    });
+  }
+
   const [convMessages, setConvMessages] = useState<WaMessage[]>([]);
   const [loadingMsgs, setLoadingMsgs] = useState(false);
 
@@ -504,18 +522,30 @@ export default function WhatsappManager({
   const currentSendInstance = useMemo(() => {
     if (!selectedConv) return null;
     const isGroup = selectedConv.phone.includes("@g.us");
+    // Última instância usada NESTA conversa = instância da última mensagem
+    // OUTBOUND. Funciona pra grupo e individual e é o que o usuário espera
+    // ao voltar numa conversa ("continua do número que eu estava usando aqui").
+    const lastOutbound = [...convMessages].reverse().find(
+      (m) => m.direction === "OUTBOUND" && m.instance?.instanceName,
+    );
     const lastInstanceName =
-      convMessages.length > 0 ? convMessages[convMessages.length - 1].instance?.instanceName : null;
+      lastOutbound?.instance?.instanceName ??
+      (convMessages.length > 0 ? convMessages[convMessages.length - 1].instance?.instanceName : null);
+    const lastUsedInThisConv = lastInstanceName
+      ? instances.find((i) => i.instanceName === lastInstanceName)
+      : null;
     return (
+      // 1. Override explícito desta conversa (menu + Ações)
       (sendInstanceOverride ? instances.find((i) => i.id === sendInstanceOverride) : null) ??
-      (isGroup
-        ? (instances.find((i) => i.id === groupInstanceId) ??
-           instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId) ??
-           instances.find((i) => i.company?.id === selectedConv.companyId))
-        : ((lastInstanceName ? instances.find((i) => i.instanceName === lastInstanceName) : null) ??
-           instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId) ??
-           instances.find((i) => i.company?.id === selectedConv.companyId)))
-    ) ?? null;
+      // 2. Última instância que ESTA conversa usou pra enviar
+      lastUsedInThisConv ??
+      // 3. Grupo: preferência global do usuário (localStorage) como fallback
+      (isGroup ? instances.find((i) => i.id === groupInstanceId) : null) ??
+      // 4. Qualquer conectada da empresa, depois qualquer da empresa
+      instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId) ??
+      instances.find((i) => i.company?.id === selectedConv.companyId) ??
+      null
+    );
   }, [selectedConv, convMessages, instances, sendInstanceOverride, groupInstanceId]);
 
   // Chamado aberto + menu de ações
@@ -1755,20 +1785,28 @@ export default function WhatsappManager({
 
     const isGroup = selectedConv.phone.includes("@g.us");
 
-    // Resolução de instância: override do usuário (menu + Ações) > grupo (groupInstanceId) >
-    // última mensagem da conversa > qualquer conectada da empresa
+    // Resolução de instância — DEVE bater com o useMemo currentSendInstance
+    // (preview no placeholder). Prioridade:
+    //  1. Override desta conversa (menu + Ações)
+    //  2. Última instância que ESTA conversa usou pra enviar (OUTBOUND)
+    //  3. Grupo: preferência global (localStorage)
+    //  4. Qualquer conectada da empresa → qualquer da empresa
+    const lastOutbound = [...convMessages].reverse().find(
+      (m) => m.direction === "OUTBOUND" && m.instance?.instanceName,
+    );
     const lastInstanceName =
-      convMessages.length > 0 ? convMessages[convMessages.length - 1].instance?.instanceName : null;
+      lastOutbound?.instance?.instanceName ??
+      (convMessages.length > 0 ? convMessages[convMessages.length - 1].instance?.instanceName : null);
+    const lastUsedInThisConv = lastInstanceName
+      ? instances.find((i) => i.instanceName === lastInstanceName)
+      : null;
 
     const inst =
       (sendInstanceOverride ? instances.find((i) => i.id === sendInstanceOverride) : null) ??
-      (isGroup
-        ? (instances.find((i) => i.id === groupInstanceId) ??
-           instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId) ??
-           instances.find((i) => i.company?.id === selectedConv.companyId))
-        : ((lastInstanceName ? instances.find((i) => i.instanceName === lastInstanceName) : null) ??
-           instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId) ??
-           instances.find((i) => i.company?.id === selectedConv.companyId)));
+      lastUsedInThisConv ??
+      (isGroup ? instances.find((i) => i.id === groupInstanceId) : null) ??
+      instances.find((i) => i.status === "CONNECTED" && i.company?.id === selectedConv.companyId) ??
+      instances.find((i) => i.company?.id === selectedConv.companyId);
 
     if (!inst) {
       setReplyError("Nenhuma instância conectada. Configure em Configurações → Instâncias WhatsApp.");
