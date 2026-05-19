@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { startOfTodayInSystemTZ, endOfTodayInSystemTZ } from "@/lib/datetime";
 
 // GET /api/tasks/me?scope=today|overdue|upcoming|all
 // Tarefas do usuário logado. Default: hoje + atrasadas (em aberto).
@@ -13,11 +14,17 @@ export async function GET(req: NextRequest) {
   const userCompanyId = (session.user as any).companyId as string | undefined;
   const scope = req.nextUrl.searchParams.get("scope") ?? "today";
 
+  // Janela "hoje" ancorada no TZ do sistema (BRT). setHours UTC puxava
+  // o fim de ontem como se fosse hoje.
   const now = new Date();
-  const startOfDay = new Date(now); startOfDay.setHours(0, 0, 0, 0);
-  const endOfDay = new Date(now); endOfDay.setHours(23, 59, 59, 999);
+  const startOfDay = startOfTodayInSystemTZ(now);
+  const endOfDay   = endOfTodayInSystemTZ(now);
 
-  const baseWhere: any = { assigneeId: userId };
+  // Painel mostra MINHAS tarefas + as SEM RESPONSÁVEL da empresa (qualquer
+  // um pode pegar). Sinais quentes (AUTO_LINK_OPEN: "cliente abriu o link")
+  // nascem sem responsável — antes ficavam invisíveis e o painel mentia
+  // "tudo em dia". Mesma lógica do "Meu Dia": meu + sem dono = minha fila.
+  const baseWhere: any = { OR: [{ assigneeId: userId }, { assigneeId: null }] };
   if (role !== "SUPER_ADMIN" && userCompanyId) baseWhere.companyId = userCompanyId;
 
   let where: any;
