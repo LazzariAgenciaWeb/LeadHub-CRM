@@ -3621,8 +3621,11 @@ export default function WhatsappManager({
                 </div>
               )}
 
-              {/* Form: Criar Lead */}
-              {showConvertForm && !selectedConv.lead && (
+              {/* Form: Criar Lead. Gate igual ao do botão no menu + Ações
+                  (sem lead ATIVO) — antes era !selectedConv.lead, então um
+                  lead em estado final/perdido ou com pipeline=null fazia o
+                  menu oferecer "Criar Lead" mas o form não renderizava. */}
+              {showConvertForm && !isActiveLead && !isActiveOportunidade && (
                 <div className="px-5 py-3.5 border-b border-[#1e2d45] bg-indigo-500/5 flex-shrink-0">
                   <p className="text-indigo-400 text-xs font-semibold mb-3">🎯 Converter em Lead</p>
                   <form onSubmit={handleConvertLead} className="flex flex-wrap gap-3 items-end">
