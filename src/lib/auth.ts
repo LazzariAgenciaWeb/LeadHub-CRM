@@ -108,7 +108,16 @@ export const authOptions: NextAuthOptions = {
             pipelineLeads = ctx.effectiveFeatures.crmPipelineLeads;
             pipelineOportunidades = ctx.effectiveFeatures.crmPipelineOportunidades;
             cofreEnabled = ctx.effectiveFeatures.cofreCredenciais;
-          } catch {
+            console.log("[AUTH DEBUG]", {
+              email: user.email,
+              companyId: user.companyId,
+              cofreCredenciais: ctx.effectiveFeatures.cofreCredenciais,
+              cofreEnabledResolved: cofreEnabled,
+              hasCofreKey: "cofreCredenciais" in ctx.effectiveFeatures,
+              effectiveFeaturesKeys: Object.keys(ctx.effectiveFeatures).length,
+            });
+          } catch (err) {
+            console.log("[AUTH DEBUG] getCompanyPlan ERRO", { email: user.email, error: String(err) });
             // mantém defaults caso sem subscription
           }
         }
