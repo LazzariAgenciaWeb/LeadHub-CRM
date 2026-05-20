@@ -417,6 +417,14 @@ export const MessageDir: {
 export type MessageDir = (typeof MessageDir)[keyof typeof MessageDir]
 
 
+export const KeywordMatchMode: {
+  CONTAINS: 'CONTAINS',
+  EXACT: 'EXACT'
+};
+
+export type KeywordMatchMode = (typeof KeywordMatchMode)[keyof typeof KeywordMatchMode]
+
+
 export const ConversationStatus: {
   OPEN: 'OPEN',
   PENDING: 'PENDING',
@@ -706,6 +714,10 @@ export const InstanceStatus: typeof $Enums.InstanceStatus
 export type MessageDir = $Enums.MessageDir
 
 export const MessageDir: typeof $Enums.MessageDir
+
+export type KeywordMatchMode = $Enums.KeywordMatchMode
+
+export const KeywordMatchMode: typeof $Enums.KeywordMatchMode
 
 export type ConversationStatus = $Enums.ConversationStatus
 
@@ -30892,6 +30904,7 @@ export namespace Prisma {
     id: string | null
     keyword: string | null
     mapTo: $Enums.LeadStatus | null
+    matchMode: $Enums.KeywordMatchMode | null
     priority: number | null
     createdAt: Date | null
     companyId: string | null
@@ -30902,6 +30915,7 @@ export namespace Prisma {
     id: string | null
     keyword: string | null
     mapTo: $Enums.LeadStatus | null
+    matchMode: $Enums.KeywordMatchMode | null
     priority: number | null
     createdAt: Date | null
     companyId: string | null
@@ -30912,6 +30926,7 @@ export namespace Prisma {
     id: number
     keyword: number
     mapTo: number
+    matchMode: number
     priority: number
     createdAt: number
     companyId: number
@@ -30932,6 +30947,7 @@ export namespace Prisma {
     id?: true
     keyword?: true
     mapTo?: true
+    matchMode?: true
     priority?: true
     createdAt?: true
     companyId?: true
@@ -30942,6 +30958,7 @@ export namespace Prisma {
     id?: true
     keyword?: true
     mapTo?: true
+    matchMode?: true
     priority?: true
     createdAt?: true
     companyId?: true
@@ -30952,6 +30969,7 @@ export namespace Prisma {
     id?: true
     keyword?: true
     mapTo?: true
+    matchMode?: true
     priority?: true
     createdAt?: true
     companyId?: true
@@ -31049,6 +31067,7 @@ export namespace Prisma {
     id: string
     keyword: string
     mapTo: $Enums.LeadStatus
+    matchMode: $Enums.KeywordMatchMode
     priority: number
     createdAt: Date
     companyId: string | null
@@ -31078,6 +31097,7 @@ export namespace Prisma {
     id?: boolean
     keyword?: boolean
     mapTo?: boolean
+    matchMode?: boolean
     priority?: boolean
     createdAt?: boolean
     companyId?: boolean
@@ -31090,6 +31110,7 @@ export namespace Prisma {
     id?: boolean
     keyword?: boolean
     mapTo?: boolean
+    matchMode?: boolean
     priority?: boolean
     createdAt?: boolean
     companyId?: boolean
@@ -31102,6 +31123,7 @@ export namespace Prisma {
     id?: boolean
     keyword?: boolean
     mapTo?: boolean
+    matchMode?: boolean
     priority?: boolean
     createdAt?: boolean
     companyId?: boolean
@@ -31127,6 +31149,7 @@ export namespace Prisma {
       id: string
       keyword: string
       mapTo: $Enums.LeadStatus
+      matchMode: $Enums.KeywordMatchMode
       priority: number
       createdAt: Date
       companyId: string | null
@@ -31529,6 +31552,7 @@ export namespace Prisma {
     readonly id: FieldRef<"KeywordRule", 'String'>
     readonly keyword: FieldRef<"KeywordRule", 'String'>
     readonly mapTo: FieldRef<"KeywordRule", 'LeadStatus'>
+    readonly matchMode: FieldRef<"KeywordRule", 'KeywordMatchMode'>
     readonly priority: FieldRef<"KeywordRule", 'Int'>
     readonly createdAt: FieldRef<"KeywordRule", 'DateTime'>
     readonly companyId: FieldRef<"KeywordRule", 'String'>
@@ -69406,6 +69430,7 @@ export namespace Prisma {
     id: 'id',
     keyword: 'keyword',
     mapTo: 'mapTo',
+    matchMode: 'matchMode',
     priority: 'priority',
     createdAt: 'createdAt',
     companyId: 'companyId',
@@ -70285,6 +70310,20 @@ export namespace Prisma {
    * Reference to a field of type 'MessageDir[]'
    */
   export type ListEnumMessageDirFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MessageDir[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'KeywordMatchMode'
+   */
+  export type EnumKeywordMatchModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KeywordMatchMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'KeywordMatchMode[]'
+   */
+  export type ListEnumKeywordMatchModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KeywordMatchMode[]'>
     
 
 
@@ -72611,6 +72650,7 @@ export namespace Prisma {
     id?: StringFilter<"KeywordRule"> | string
     keyword?: StringFilter<"KeywordRule"> | string
     mapTo?: EnumLeadStatusFilter<"KeywordRule"> | $Enums.LeadStatus
+    matchMode?: EnumKeywordMatchModeFilter<"KeywordRule"> | $Enums.KeywordMatchMode
     priority?: IntFilter<"KeywordRule"> | number
     createdAt?: DateTimeFilter<"KeywordRule"> | Date | string
     companyId?: StringNullableFilter<"KeywordRule"> | string | null
@@ -72623,6 +72663,7 @@ export namespace Prisma {
     id?: SortOrder
     keyword?: SortOrder
     mapTo?: SortOrder
+    matchMode?: SortOrder
     priority?: SortOrder
     createdAt?: SortOrder
     companyId?: SortOrderInput | SortOrder
@@ -72638,6 +72679,7 @@ export namespace Prisma {
     NOT?: KeywordRuleWhereInput | KeywordRuleWhereInput[]
     keyword?: StringFilter<"KeywordRule"> | string
     mapTo?: EnumLeadStatusFilter<"KeywordRule"> | $Enums.LeadStatus
+    matchMode?: EnumKeywordMatchModeFilter<"KeywordRule"> | $Enums.KeywordMatchMode
     priority?: IntFilter<"KeywordRule"> | number
     createdAt?: DateTimeFilter<"KeywordRule"> | Date | string
     companyId?: StringNullableFilter<"KeywordRule"> | string | null
@@ -72650,6 +72692,7 @@ export namespace Prisma {
     id?: SortOrder
     keyword?: SortOrder
     mapTo?: SortOrder
+    matchMode?: SortOrder
     priority?: SortOrder
     createdAt?: SortOrder
     companyId?: SortOrderInput | SortOrder
@@ -72668,6 +72711,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"KeywordRule"> | string
     keyword?: StringWithAggregatesFilter<"KeywordRule"> | string
     mapTo?: EnumLeadStatusWithAggregatesFilter<"KeywordRule"> | $Enums.LeadStatus
+    matchMode?: EnumKeywordMatchModeWithAggregatesFilter<"KeywordRule"> | $Enums.KeywordMatchMode
     priority?: IntWithAggregatesFilter<"KeywordRule"> | number
     createdAt?: DateTimeWithAggregatesFilter<"KeywordRule"> | Date | string
     companyId?: StringNullableWithAggregatesFilter<"KeywordRule"> | string | null
@@ -78105,6 +78149,7 @@ export namespace Prisma {
     id?: string
     keyword: string
     mapTo: $Enums.LeadStatus
+    matchMode?: $Enums.KeywordMatchMode
     priority?: number
     createdAt?: Date | string
     company?: CompanyCreateNestedOneWithoutKeywordRulesInput
@@ -78115,6 +78160,7 @@ export namespace Prisma {
     id?: string
     keyword: string
     mapTo: $Enums.LeadStatus
+    matchMode?: $Enums.KeywordMatchMode
     priority?: number
     createdAt?: Date | string
     companyId?: string | null
@@ -78125,6 +78171,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     keyword?: StringFieldUpdateOperationsInput | string
     mapTo?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    matchMode?: EnumKeywordMatchModeFieldUpdateOperationsInput | $Enums.KeywordMatchMode
     priority?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneWithoutKeywordRulesNestedInput
@@ -78135,6 +78182,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     keyword?: StringFieldUpdateOperationsInput | string
     mapTo?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    matchMode?: EnumKeywordMatchModeFieldUpdateOperationsInput | $Enums.KeywordMatchMode
     priority?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -78145,6 +78193,7 @@ export namespace Prisma {
     id?: string
     keyword: string
     mapTo: $Enums.LeadStatus
+    matchMode?: $Enums.KeywordMatchMode
     priority?: number
     createdAt?: Date | string
     companyId?: string | null
@@ -78155,6 +78204,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     keyword?: StringFieldUpdateOperationsInput | string
     mapTo?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    matchMode?: EnumKeywordMatchModeFieldUpdateOperationsInput | $Enums.KeywordMatchMode
     priority?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -78163,6 +78213,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     keyword?: StringFieldUpdateOperationsInput | string
     mapTo?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    matchMode?: EnumKeywordMatchModeFieldUpdateOperationsInput | $Enums.KeywordMatchMode
     priority?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -83601,10 +83652,18 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
+  export type EnumKeywordMatchModeFilter<$PrismaModel = never> = {
+    equals?: $Enums.KeywordMatchMode | EnumKeywordMatchModeFieldRefInput<$PrismaModel>
+    in?: $Enums.KeywordMatchMode[] | ListEnumKeywordMatchModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.KeywordMatchMode[] | ListEnumKeywordMatchModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumKeywordMatchModeFilter<$PrismaModel> | $Enums.KeywordMatchMode
+  }
+
   export type KeywordRuleCountOrderByAggregateInput = {
     id?: SortOrder
     keyword?: SortOrder
     mapTo?: SortOrder
+    matchMode?: SortOrder
     priority?: SortOrder
     createdAt?: SortOrder
     companyId?: SortOrder
@@ -83619,6 +83678,7 @@ export namespace Prisma {
     id?: SortOrder
     keyword?: SortOrder
     mapTo?: SortOrder
+    matchMode?: SortOrder
     priority?: SortOrder
     createdAt?: SortOrder
     companyId?: SortOrder
@@ -83629,6 +83689,7 @@ export namespace Prisma {
     id?: SortOrder
     keyword?: SortOrder
     mapTo?: SortOrder
+    matchMode?: SortOrder
     priority?: SortOrder
     createdAt?: SortOrder
     companyId?: SortOrder
@@ -83637,6 +83698,16 @@ export namespace Prisma {
 
   export type KeywordRuleSumOrderByAggregateInput = {
     priority?: SortOrder
+  }
+
+  export type EnumKeywordMatchModeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.KeywordMatchMode | EnumKeywordMatchModeFieldRefInput<$PrismaModel>
+    in?: $Enums.KeywordMatchMode[] | ListEnumKeywordMatchModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.KeywordMatchMode[] | ListEnumKeywordMatchModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumKeywordMatchModeWithAggregatesFilter<$PrismaModel> | $Enums.KeywordMatchMode
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumKeywordMatchModeFilter<$PrismaModel>
+    _max?: NestedEnumKeywordMatchModeFilter<$PrismaModel>
   }
 
   export type SettingCountOrderByAggregateInput = {
@@ -89504,6 +89575,10 @@ export namespace Prisma {
     connect?: CampaignWhereUniqueInput
   }
 
+  export type EnumKeywordMatchModeFieldUpdateOperationsInput = {
+    set?: $Enums.KeywordMatchMode
+  }
+
   export type CompanyUpdateOneWithoutKeywordRulesNestedInput = {
     create?: XOR<CompanyCreateWithoutKeywordRulesInput, CompanyUncheckedCreateWithoutKeywordRulesInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutKeywordRulesInput
@@ -91584,6 +91659,23 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumKeywordMatchModeFilter<$PrismaModel = never> = {
+    equals?: $Enums.KeywordMatchMode | EnumKeywordMatchModeFieldRefInput<$PrismaModel>
+    in?: $Enums.KeywordMatchMode[] | ListEnumKeywordMatchModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.KeywordMatchMode[] | ListEnumKeywordMatchModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumKeywordMatchModeFilter<$PrismaModel> | $Enums.KeywordMatchMode
+  }
+
+  export type NestedEnumKeywordMatchModeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.KeywordMatchMode | EnumKeywordMatchModeFieldRefInput<$PrismaModel>
+    in?: $Enums.KeywordMatchMode[] | ListEnumKeywordMatchModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.KeywordMatchMode[] | ListEnumKeywordMatchModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumKeywordMatchModeWithAggregatesFilter<$PrismaModel> | $Enums.KeywordMatchMode
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumKeywordMatchModeFilter<$PrismaModel>
+    _max?: NestedEnumKeywordMatchModeFilter<$PrismaModel>
   }
 
   export type NestedEnumConversationStatusFilter<$PrismaModel = never> = {
@@ -94853,6 +94945,7 @@ export namespace Prisma {
     id?: string
     keyword: string
     mapTo: $Enums.LeadStatus
+    matchMode?: $Enums.KeywordMatchMode
     priority?: number
     createdAt?: Date | string
     campaign?: CampaignCreateNestedOneWithoutKeywordRulesInput
@@ -94862,6 +94955,7 @@ export namespace Prisma {
     id?: string
     keyword: string
     mapTo: $Enums.LeadStatus
+    matchMode?: $Enums.KeywordMatchMode
     priority?: number
     createdAt?: Date | string
     campaignId?: string | null
@@ -96348,6 +96442,7 @@ export namespace Prisma {
     id?: StringFilter<"KeywordRule"> | string
     keyword?: StringFilter<"KeywordRule"> | string
     mapTo?: EnumLeadStatusFilter<"KeywordRule"> | $Enums.LeadStatus
+    matchMode?: EnumKeywordMatchModeFilter<"KeywordRule"> | $Enums.KeywordMatchMode
     priority?: IntFilter<"KeywordRule"> | number
     createdAt?: DateTimeFilter<"KeywordRule"> | Date | string
     companyId?: StringNullableFilter<"KeywordRule"> | string | null
@@ -97250,6 +97345,7 @@ export namespace Prisma {
     id?: string
     keyword: string
     mapTo: $Enums.LeadStatus
+    matchMode?: $Enums.KeywordMatchMode
     priority?: number
     createdAt?: Date | string
     company?: CompanyCreateNestedOneWithoutKeywordRulesInput
@@ -97259,6 +97355,7 @@ export namespace Prisma {
     id?: string
     keyword: string
     mapTo: $Enums.LeadStatus
+    matchMode?: $Enums.KeywordMatchMode
     priority?: number
     createdAt?: Date | string
     companyId?: string | null
@@ -116112,6 +116209,7 @@ export namespace Prisma {
     id?: string
     keyword: string
     mapTo: $Enums.LeadStatus
+    matchMode?: $Enums.KeywordMatchMode
     priority?: number
     createdAt?: Date | string
     campaignId?: string | null
@@ -117354,6 +117452,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     keyword?: StringFieldUpdateOperationsInput | string
     mapTo?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    matchMode?: EnumKeywordMatchModeFieldUpdateOperationsInput | $Enums.KeywordMatchMode
     priority?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaign?: CampaignUpdateOneWithoutKeywordRulesNestedInput
@@ -117363,6 +117462,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     keyword?: StringFieldUpdateOperationsInput | string
     mapTo?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    matchMode?: EnumKeywordMatchModeFieldUpdateOperationsInput | $Enums.KeywordMatchMode
     priority?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -117372,6 +117472,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     keyword?: StringFieldUpdateOperationsInput | string
     mapTo?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    matchMode?: EnumKeywordMatchModeFieldUpdateOperationsInput | $Enums.KeywordMatchMode
     priority?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -118240,6 +118341,7 @@ export namespace Prisma {
     id?: string
     keyword: string
     mapTo: $Enums.LeadStatus
+    matchMode?: $Enums.KeywordMatchMode
     priority?: number
     createdAt?: Date | string
     companyId?: string | null
@@ -118469,6 +118571,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     keyword?: StringFieldUpdateOperationsInput | string
     mapTo?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    matchMode?: EnumKeywordMatchModeFieldUpdateOperationsInput | $Enums.KeywordMatchMode
     priority?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneWithoutKeywordRulesNestedInput
@@ -118478,6 +118581,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     keyword?: StringFieldUpdateOperationsInput | string
     mapTo?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    matchMode?: EnumKeywordMatchModeFieldUpdateOperationsInput | $Enums.KeywordMatchMode
     priority?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -118487,6 +118591,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     keyword?: StringFieldUpdateOperationsInput | string
     mapTo?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    matchMode?: EnumKeywordMatchModeFieldUpdateOperationsInput | $Enums.KeywordMatchMode
     priority?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: NullableStringFieldUpdateOperationsInput | string | null

@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
   const userCompanyId = (session.user as any).companyId;
 
   const body = await req.json();
-  const { keyword, mapTo, priority, companyId, campaignId } = body;
+  const { keyword, mapTo, matchMode, priority, companyId, campaignId } = body;
 
   if (!keyword || !mapTo) {
     return NextResponse.json({ error: "keyword e mapTo são obrigatórios" }, { status: 400 });
@@ -50,6 +50,7 @@ export async function POST(req: NextRequest) {
     data: {
       keyword: keyword.trim().toLowerCase(),
       mapTo,
+      matchMode: matchMode === "EXACT" ? "EXACT" : "CONTAINS",
       priority: priority ?? 0,
       companyId: effectiveCompanyId ?? undefined,
       campaignId: campaignId || null,

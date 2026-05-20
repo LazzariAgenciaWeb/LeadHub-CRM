@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { getCompanyPlan } from "@/lib/limits";
@@ -19,7 +20,6 @@ import EmailSettings from "./EmailSettings";
 import MeuPerfilSettings from "./MeuPerfilSettings";
 import ProspectaApiSettings from "./ProspectaApiSettings";
 import CompanyContacts from "../empresas/[id]/CompanyContacts";
-import CompanyVault from "../empresas/[id]/CompanyVault";
 import CompanySubscription from "../empresas/[id]/CompanySubscription";
 
 export default async function ConfiguracoesPage({
@@ -173,15 +173,8 @@ export default async function ConfiguracoesPage({
       );
     }
   } else if (secao === "minha-empresa-cofre") {
-    if (!userCompanyId) {
-      content = <div className="p-6 text-slate-500 text-sm">Sua conta não está vinculada a nenhuma empresa.</div>;
-    } else {
-      content = (
-        <div className="p-6 max-w-5xl">
-          <CompanyVault companyId={userCompanyId} />
-        </div>
-      );
-    }
+    // Cofre virou item de topo (/cofre). Redireciona pra preservar bookmarks antigos.
+    redirect("/cofre");
   } else if (secao === "minha-empresa-plano") {
     if (!userCompanyId) {
       content = <div className="p-6 text-slate-500 text-sm">Sua conta não está vinculada a nenhuma empresa.</div>;
@@ -491,7 +484,7 @@ export default async function ConfiguracoesPage({
   let enabledSections: EnabledSections = {
     whatsapp:   true, crm: true, tickets: true, ai: true,
     clickup:    true, gamificacao: true, projetos: true,
-    prospeccao: true, cofre: true, marketing: true,
+    prospeccao: true, marketing: true,
   };
   if (!isSuperAdmin && layoutCompanyId) {
     const [company, ctx] = await Promise.all([
@@ -503,7 +496,8 @@ export default async function ConfiguracoesPage({
           moduleProjetos: true, moduleProspeccao: true,
         },
       }),
-      // Features que vivem em PlanFeatures (sem flag em Company): cofre, marketing
+      // Features que vivem em PlanFeatures (sem flag em Company): marketing.
+      // Cofre virou rota top-level /cofre — gateamento feito lá.
       getCompanyPlan(layoutCompanyId).catch(() => null),
     ]);
     enabledSections = {
@@ -515,7 +509,6 @@ export default async function ConfiguracoesPage({
       gamificacao: !!(company as any)?.moduleGamificacao,
       projetos:    !!(company as any)?.moduleProjetos,
       prospeccao:  !!(company as any)?.moduleProspeccao,
-      cofre:       !!ctx?.effectiveFeatures.cofreCredenciais,
       marketing:   !!ctx?.effectiveFeatures.marketingDashboard,
     };
   }

@@ -422,6 +422,7 @@ exports.Prisma.KeywordRuleScalarFieldEnum = {
   id: 'id',
   keyword: 'keyword',
   mapTo: 'mapTo',
+  matchMode: 'matchMode',
   priority: 'priority',
   createdAt: 'createdAt',
   companyId: 'companyId',
@@ -1005,6 +1006,11 @@ exports.InstanceStatus = exports.$Enums.InstanceStatus = {
 exports.MessageDir = exports.$Enums.MessageDir = {
   INBOUND: 'INBOUND',
   OUTBOUND: 'OUTBOUND'
+};
+
+exports.KeywordMatchMode = exports.$Enums.KeywordMatchMode = {
+  CONTAINS: 'CONTAINS',
+  EXACT: 'EXACT'
 };
 
 exports.ConversationStatus = exports.$Enums.ConversationStatus = {

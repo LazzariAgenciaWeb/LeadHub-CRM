@@ -3,10 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+type MatchMode = "CONTAINS" | "EXACT";
+
 interface Rule {
   id: string;
   keyword: string;
   mapTo: string;
+  matchMode: MatchMode;
   priority: number;
 }
 
@@ -33,6 +36,7 @@ export default function CampaignTriggers({
   const [deleting, setDeleting] = useState<string | null>(null);
   const [keyword, setKeyword] = useState("");
   const [mapTo, setMapTo] = useState("NEW");
+  const [matchMode, setMatchMode] = useState<MatchMode>("CONTAINS");
   const [priority, setPriority] = useState("0");
 
   async function handleAdd(e: React.FormEvent) {
@@ -46,6 +50,7 @@ export default function CampaignTriggers({
       body: JSON.stringify({
         keyword: keyword.trim().toLowerCase(),
         mapTo,
+        matchMode,
         priority: parseInt(priority) || 0,
         companyId,
         campaignId,
@@ -57,10 +62,27 @@ export default function CampaignTriggers({
       setRules((prev) => [...prev, rule]);
       setKeyword("");
       setMapTo("NEW");
+      setMatchMode("CONTAINS");
       setPriority("0");
       router.refresh();
     }
     setSaving(false);
+  }
+
+  async function handleMatchModeChange(ruleId: string, newMode: MatchMode) {
+    // Atualização otimista — reverte se falhar.
+    const prev = rules;
+    setRules((rs) => rs.map((r) => (r.id === ruleId ? { ...r, matchMode: newMode } : r)));
+    const res = await fetch(`/api/keyword-rules/${ruleId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ matchMode: newMode }),
+    });
+    if (!res.ok) {
+      setRules(prev);
+    } else {
+      router.refresh();
+    }
   }
 
   async function handleDelete(id: string) {
@@ -112,6 +134,15 @@ export default function CampaignTriggers({
             />
           </div>
           <select
+            value={matchMode}
+            onChange={(e) => setMatchMode(e.target.value as MatchMode)}
+            title="Modo de matching"
+            className="bg-[#161f30] border border-[#1e2d45] rounded-lg px-2 py-2 text-xs text-slate-300 focus:outline-none focus:border-indigo-500"
+          >
+            <option value="CONTAINS">Contém</option>
+            <option value="EXACT">Exato</option>
+          </select>
+          <select
             value={mapTo}
             onChange={(e) => setMapTo(e.target.value)}
             className="bg-[#161f30] border border-[#1e2d45] rounded-lg px-2 py-2 text-xs text-slate-300 focus:outline-none focus:border-indigo-500"
@@ -138,7 +169,8 @@ export default function CampaignTriggers({
           </button>
         </div>
         <div className="flex gap-4 text-[10px] text-slate-600">
-          <span>Palavra-chave (busca parcial)</span>
+          <span>Expressão</span>
+          <span>Contém / Exato</span>
           <span>Status do lead</span>
           <span>Prioridade (0–100)</span>
         </div>
@@ -164,6 +196,17 @@ export default function CampaignTriggers({
               <code className="flex-1 text-indigo-300 bg-indigo-500/10 px-2.5 py-1 rounded-lg text-[13px] font-mono">
                 {rule.keyword}
               </code>
+
+              {/* Match mode */}
+              <select
+                value={rule.matchMode ?? "CONTAINS"}
+                onChange={(e) => handleMatchModeChange(rule.id, e.target.value as MatchMode)}
+                title="Modo de matching"
+                className="bg-[#161f30] border border-[#1e2d45] rounded-md px-1.5 py-0.5 text-[11px] text-slate-300 focus:outline-none focus:border-indigo-500 flex-shrink-0"
+              >
+                <option value="CONTAINS">Contém</option>
+                <option value="EXACT">Exato</option>
+              </select>
 
               {/* Arrow */}
               <span className="text-slate-600 text-xs flex-shrink-0">→</span>
@@ -195,7 +238,7 @@ export default function CampaignTriggers({
       {rules.length > 0 && (
         <div className="px-4 py-3 bg-indigo-500/5 border-t border-indigo-500/10">
           <p className="text-indigo-400/70 text-[10px]">
-            💡 Regras de maior prioridade são verificadas primeiro. Quando uma mensagem bate, o lead é criado com o status definido e vinculado a esta campanha.
+            💡 Regras de maior prioridade são verificadas primeiro. <b>Contém</b> casa busca parcial (case-insensitive); <b>Exato</b> exige a mensagem inteira igual à expressão — use quando uma expressão é prefixo de outra (ex.: <code>.com</code> vs <code>.com.br</code>).
           </p>
         </div>
       )}

@@ -8,7 +8,7 @@ import { Session } from "next-auth";
 import { isAdmin, isSuperAdmin, can, hasModule } from "@/lib/permissions";
 import {
   Zap, X, Home, MessageSquare, Sparkles, Building2, Briefcase,
-  Search, Target, Lightbulb, Megaphone, LifeBuoy, Link2,
+  Search, Target, Lightbulb, Megaphone, LifeBuoy, Link2, Shield,
   Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, CalendarDays,
   BarChart3, Trophy, FolderKanban, UserCircle, type LucideIcon,
 } from "lucide-react";
@@ -165,6 +165,7 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
     { href: "/projetos",      Icon: FolderKanban, label: "Projetos",      grad: "pipeline",      show: _isSuperAdmin || hasModule(session, "projetos") },
     { href: "/gamificacao",   Icon: Trophy,       label: "Ranking",       grad: "gamificacao",   show: _isSuperAdmin || hasModule(session, "gamificacao") },
     { href: "/links",         Icon: Link2,        label: "Links",         grad: "links",         show: _isAdmin },
+    { href: "/cofre",         Icon: Shield,       label: "Cofre",         grad: "cofre",         show: _isSuperAdmin || (_isAdmin && hasModule(session, "cofre")) },
     { href: "/configuracoes", Icon: Settings,     label: "Configurações", grad: "configuracoes", show: showConfig },
   ] satisfies SidebarLink[]).filter((l) => l.show);
 

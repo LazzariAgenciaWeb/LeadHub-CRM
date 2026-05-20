@@ -31,6 +31,9 @@ export interface UserModules {
   projetos: boolean;
   calendario: boolean;
   prospeccao: boolean;
+  // Cofre é gateado por PlanFeatures.cofreCredenciais (não tem flag em Company).
+  // Populado no session callback a partir do plano efetivo da empresa.
+  cofre: boolean;
   // Sub-pipelines do CRM (granularidade por pipeline). Vêm de PlanFeatures
   // efetivas (plan + customFeatures), populadas no session callback do auth.
   crmPipelineProspeccao: boolean;
@@ -72,12 +75,14 @@ const DEFAULT_CLIENT_PERMISSIONS: UserPermissions = {
 const ALL_MODULES: UserModules = {
   ai: true, crm: true, whatsapp: true, tickets: true, clickup: true,
   gamificacao: true, projetos: true, calendario: true, prospeccao: true,
+  cofre: true,
   crmPipelineProspeccao: true, crmPipelineLeads: true, crmPipelineOportunidades: true,
 };
 
 const DEFAULT_MODULES: UserModules = {
   ai: false, crm: true, whatsapp: false, tickets: false, clickup: false,
   gamificacao: false, projetos: false, calendario: false, prospeccao: false,
+  cofre: false,
   crmPipelineProspeccao: false, crmPipelineLeads: true, crmPipelineOportunidades: false,
 };
 

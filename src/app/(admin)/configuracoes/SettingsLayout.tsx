@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   MessageSquare, Building2, Plug, Zap, CheckSquare, Sparkles, Webhook,
-  Workflow, Tag, Clock, Globe, Mail, FileText, Users, KeyRound, Shield, CreditCard, Trophy,
+  Workflow, Tag, Clock, Globe, Mail, FileText, Users, KeyRound, CreditCard, Trophy,
   UserCircle, Search,
   ChevronDown, ChevronRight,
   type LucideIcon,
@@ -39,7 +39,6 @@ const SECTIONS: SectionItem[] = [
       { key: "atendimento",             Icon: Clock,     grad: "atendimento",   label: "Atendimento", desc: "SLA, fila e regras de inbox" },
       { key: "gamificacao",             Icon: Trophy,    grad: "gamificacao",   label: "Gamificação", desc: "Regras de pontos e ranking" },
       { key: "email",                   Icon: Mail,      grad: "email",         label: "E-mail (SMTP)", desc: "Servidor de e-mail" },
-      { key: "minha-empresa-cofre",     Icon: Shield,    grad: "cofre",         label: "Cofre",       desc: "Senhas e credenciais" },
       { key: "minha-empresa-plano",     Icon: CreditCard,grad: "oportunidades", label: "Plano atual", desc: "Assinatura e mudança de plano" },
     ],
   },
@@ -83,14 +82,13 @@ export interface EnabledSections {
   gamificacao: boolean;
   projetos: boolean;
   prospeccao: boolean;
-  cofre: boolean;
   marketing: boolean;
 }
 
 const ALL_ENABLED: EnabledSections = {
   whatsapp: true, crm: true, tickets: true, ai: true,
   clickup: true, gamificacao: true, projetos: true,
-  prospeccao: true, cofre: true, marketing: true,
+  prospeccao: true, marketing: true,
 };
 
 // Mapeia cada chave de seção/sub-item do menu pro flag de modulo que a libera.
@@ -109,7 +107,6 @@ const SECTION_GATE: Record<string, keyof EnabledSections | null> = {
   "atendimento":            "whatsapp",
   "gamificacao":            "gamificacao",
   "email":                  null,
-  "minha-empresa-cofre":    "cofre",
   "minha-empresa-plano":    null,
   // Integrações
   "integracoes-google":     "marketing",

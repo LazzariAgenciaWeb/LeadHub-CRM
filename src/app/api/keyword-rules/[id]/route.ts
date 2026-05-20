@@ -13,13 +13,14 @@ export async function PATCH(
 
   const { id } = await params;
   const body = await req.json();
-  const { keyword, mapTo, priority, campaignId } = body;
+  const { keyword, mapTo, matchMode, priority, campaignId } = body;
 
   const rule = await prisma.keywordRule.update({
     where: { id },
     data: {
       keyword: keyword ? keyword.trim().toLowerCase() : undefined,
       mapTo,
+      matchMode: matchMode === "CONTAINS" || matchMode === "EXACT" ? matchMode : undefined,
       priority,
       campaignId: campaignId !== undefined ? (campaignId || null) : undefined,
     },

@@ -753,11 +753,14 @@ enum MessageDir {
 // ─── Regras de Identificação ──────────────────────────────────────────────────
 
 model KeywordRule {
-  id        String     @id @default(cuid())
+  id        String           @id @default(cuid())
   keyword   String
   mapTo     LeadStatus
-  priority  Int        @default(0)
-  createdAt DateTime   @default(now())
+  // CONTAINS: dispara quando a mensagem contém a expressão (busca parcial, padrão antigo).
+  // EXACT: dispara apenas quando a mensagem (após trim/lower) é igual à expressão.
+  matchMode KeywordMatchMode @default(CONTAINS)
+  priority  Int              @default(0)
+  createdAt DateTime         @default(now())
 
   company   Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String?
@@ -767,6 +770,11 @@ model KeywordRule {
 
   @@index([companyId])
   @@index([campaignId])
+}
+
+enum KeywordMatchMode {
+  CONTAINS
+  EXACT
 }
 
 // ─── Configurações Globais ────────────────────────────────────────────────────

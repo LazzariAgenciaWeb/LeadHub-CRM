@@ -518,6 +518,7 @@ async function matchKeywordRules(
   companyId: string
 ): Promise<MatchResult | null> {
   const lower = message.toLowerCase();
+  const lowerTrimmed = lower.trim();
 
   const rules = await prisma.keywordRule.findMany({
     where: { companyId },
@@ -525,7 +526,11 @@ async function matchKeywordRules(
   });
 
   for (const rule of rules) {
-    if (lower.includes(rule.keyword.toLowerCase())) {
+    const needle = rule.keyword.toLowerCase();
+    const hit = rule.matchMode === "EXACT"
+      ? lowerTrimmed === needle
+      : lower.includes(needle);
+    if (hit) {
       return {
         status: rule.mapTo,
         campaignId: rule.campaignId ?? null,

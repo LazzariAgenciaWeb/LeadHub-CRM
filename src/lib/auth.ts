@@ -100,12 +100,14 @@ export const authOptions: NextAuthOptions = {
         let pipelineProspeccao = false;
         let pipelineLeads = true;
         let pipelineOportunidades = false;
+        let cofreEnabled = false;
         if (user.companyId) {
           try {
             const ctx = await getCompanyPlan(user.companyId);
             pipelineProspeccao = ctx.effectiveFeatures.crmPipelineProspeccao;
             pipelineLeads = ctx.effectiveFeatures.crmPipelineLeads;
             pipelineOportunidades = ctx.effectiveFeatures.crmPipelineOportunidades;
+            cofreEnabled = ctx.effectiveFeatures.cofreCredenciais;
           } catch {
             // mantém defaults caso sem subscription
           }
@@ -129,6 +131,7 @@ export const authOptions: NextAuthOptions = {
             projetos:    (user.company as any)?.moduleProjetos ?? false,
             calendario:  (user.company as any)?.moduleCalendario ?? false,
             prospeccao:  (user.company as any)?.moduleProspeccao ?? false,
+            cofre:       cofreEnabled,
             crmPipelineProspeccao:    pipelineProspeccao,
             crmPipelineLeads:         pipelineLeads,
             crmPipelineOportunidades: pipelineOportunidades,

@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "./auth";
 import { cookies } from "next/headers";
 import { prisma } from "./prisma";
+import { getCompanyPlan } from "./limits";
 
 export const IMPERSONATE_COOKIE = "x-impersonate";
 
@@ -36,6 +37,15 @@ export async function getEffectiveSession() {
   });
   if (!company) return session;
 
+  // Cofre é gateado por PlanFeatures (não por flag em Company), igual ao auth.ts.
+  let cofreEnabled = false;
+  try {
+    const ctx = await getCompanyPlan(companyId);
+    cofreEnabled = ctx.effectiveFeatures.cofreCredenciais;
+  } catch {
+    // mantém default false se a empresa não tiver subscription
+  }
+
   // Impersonate as ADMIN of that company so the sidebar shows all enabled modules.
   // Using "ADMIN" (not SUPER_ADMIN) means SUPER_ADMIN-only API checks still block
   // privileged operations, but module-gated menus (WhatsApp, CRM, etc.) render correctly.
@@ -52,6 +62,7 @@ export async function getEffectiveSession() {
         tickets:  company.moduleTickets,
         ai:       company.moduleAI,
         clickup:  (company as any).moduleClickup ?? false,
+        cofre:    cofreEnabled,
       },
       // Admin has all permissions
       permissions: {
