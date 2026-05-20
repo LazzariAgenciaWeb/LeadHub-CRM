@@ -108,16 +108,7 @@ export const authOptions: NextAuthOptions = {
             pipelineLeads = ctx.effectiveFeatures.crmPipelineLeads;
             pipelineOportunidades = ctx.effectiveFeatures.crmPipelineOportunidades;
             cofreEnabled = ctx.effectiveFeatures.cofreCredenciais;
-            console.log("[AUTH DEBUG]", {
-              email: user.email,
-              companyId: user.companyId,
-              cofreCredenciais: ctx.effectiveFeatures.cofreCredenciais,
-              cofreEnabledResolved: cofreEnabled,
-              hasCofreKey: "cofreCredenciais" in ctx.effectiveFeatures,
-              effectiveFeaturesKeys: Object.keys(ctx.effectiveFeatures).length,
-            });
-          } catch (err) {
-            console.log("[AUTH DEBUG] getCompanyPlan ERRO", { email: user.email, error: String(err) });
+          } catch {
             // mantém defaults caso sem subscription
           }
         }
@@ -204,16 +195,18 @@ export const authOptions: NextAuthOptions = {
               (session.user as any).companyId = dbUser.companyId ?? (token.companyId as string | undefined);
               (session.user as any).permissions = mergeSetorPermissions(allSetores);
 
-              // Pipelines do CRM via getCompanyPlan (plan + customFeatures).
+              // Features via getCompanyPlan (plan + customFeatures): pipelines + cofre.
               let pipelineProspeccao = false;
               let pipelineLeads = true;
               let pipelineOportunidades = false;
+              let cofreEnabled = false;
               if (dbUser.companyId) {
                 try {
                   const ctx = await getCompanyPlan(dbUser.companyId);
                   pipelineProspeccao = ctx.effectiveFeatures.crmPipelineProspeccao;
                   pipelineLeads = ctx.effectiveFeatures.crmPipelineLeads;
                   pipelineOportunidades = ctx.effectiveFeatures.crmPipelineOportunidades;
+                  cofreEnabled = ctx.effectiveFeatures.cofreCredenciais;
                 } catch {
                   // mantém defaults
                 }
@@ -229,6 +222,7 @@ export const authOptions: NextAuthOptions = {
                 projetos:    (dbUser.company as any)?.moduleProjetos    ?? false,
                 calendario:  (dbUser.company as any)?.moduleCalendario  ?? false,
                 prospeccao:  (dbUser.company as any)?.moduleProspeccao  ?? false,
+                cofre:       cofreEnabled,
                 crmPipelineProspeccao:    pipelineProspeccao,
                 crmPipelineLeads:         pipelineLeads,
                 crmPipelineOportunidades: pipelineOportunidades,
