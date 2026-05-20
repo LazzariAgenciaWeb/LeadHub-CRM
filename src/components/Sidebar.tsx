@@ -165,7 +165,7 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
     { href: "/projetos",      Icon: FolderKanban, label: "Projetos",      grad: "pipeline",      show: _isSuperAdmin || hasModule(session, "projetos") },
     { href: "/gamificacao",   Icon: Trophy,       label: "Ranking",       grad: "gamificacao",   show: _isSuperAdmin || hasModule(session, "gamificacao") },
     { href: "/links",         Icon: Link2,        label: "Links",         grad: "links",         show: _isAdmin },
-    { href: "/cofre",         Icon: Shield,       label: "Cofre",         grad: "cofre",         show: _isSuperAdmin || (_isAdmin && hasModule(session, "cofre")) },
+    { href: "/cofre",         Icon: Shield,       label: "Cofre",         grad: "cofre",         show: _isSuperAdmin || hasModule(session, "cofre") },
     { href: "/configuracoes", Icon: Settings,     label: "Configurações", grad: "configuracoes", show: showConfig },
   ] satisfies SidebarLink[]).filter((l) => l.show);
 
