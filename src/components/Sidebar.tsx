@@ -161,10 +161,10 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
 
   const bottomLinks: SidebarLink[] = ([
     { href: "/campanhas",     Icon: Megaphone,    label: "Campanhas",     grad: "campanhas",     show: _isSuperAdmin || (hasModule(session, "whatsapp") && (_isAdmin || can(session, "canViewCampanhas"))) },
+    { href: "/links",         Icon: Link2,        label: "Links",         grad: "links",         show: _isSuperAdmin || _isAdmin || can(session, "canViewLinks") },
     { href: "/chamados",      Icon: LifeBuoy,     label: "Chamados",      grad: "chamados",      show: _isSuperAdmin || (hasModule(session, "tickets") && can(session, "canViewTickets")) },
     { href: "/projetos",      Icon: FolderKanban, label: "Projetos",      grad: "pipeline",      show: _isSuperAdmin || (hasModule(session, "projetos") && (_isAdmin || can(session, "canViewProjetos"))) },
     { href: "/gamificacao",   Icon: Trophy,       label: "Ranking",       grad: "gamificacao",   show: _isSuperAdmin || (hasModule(session, "gamificacao") && (_isAdmin || can(session, "canViewRanking"))) },
-    { href: "/links",         Icon: Link2,        label: "Links",         grad: "links",         show: _isSuperAdmin || _isAdmin || can(session, "canViewLinks") },
     { href: "/cofre",         Icon: Shield,       label: "Cofre",         grad: "cofre",         show: _isSuperAdmin || (hasModule(session, "cofre") && (_isAdmin || can(session, "canViewCofre"))) },
     { href: "/configuracoes", Icon: Settings,     label: "Configurações", grad: "configuracoes", show: showConfig },
   ] satisfies SidebarLink[]).filter((l) => l.show);
