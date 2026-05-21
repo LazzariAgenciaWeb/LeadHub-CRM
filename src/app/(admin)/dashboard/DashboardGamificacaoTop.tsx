@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getRanking } from "@/lib/gamification";
 import { ScoreReason, BadgeType } from "@/generated/prisma";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Lock, Sparkles } from "lucide-react";
 import BadgeMedallion from "../gamificacao/BadgeMedallion";
 import { BADGE_TIERS, ALL_BADGES, BADGE_REASON, shouldShowBadge } from "../gamificacao/labels";
 import LiveRankingMini from "./LiveRankingMini";
@@ -22,11 +22,12 @@ export default async function DashboardGamificacaoTop() {
 
   if (!companyId) return null;
 
-  // Módulo não contratado → seção fica oculta aqui. O upsell agora vive
-  // num grid unificado no rodapé do dashboard (<ModuleUpsell />) que cobre
-  // gamificação + outros add-ons. Antes esse arquivo renderizava um card
-  // lock-only — virou redundância e foi removido.
-  if (!gamificacaoEnabled) return null;
+  // Módulo não contratado → renderiza a UI real BORRADA com overlay de
+  // contratação centralizado. Cliente vê uma prévia do que vai ter, com
+  // CTA "Contratar módulo" no meio. Padrão paywall comum (Spotify, Notion).
+  if (!gamificacaoEnabled) {
+    return <GamificacaoLockedPreview companyId={companyId} />;
+  }
 
   const now   = new Date();
   const month = now.getMonth() + 1;
@@ -147,3 +148,95 @@ export default async function DashboardGamificacaoTop() {
   );
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Preview borrado da Gamificação pra empresas sem o módulo. Renderiza um
+// clone visual do card real com dados-fake, aplica blur + saturate-0 em
+// cima, e centraliza um botão "Contratar módulo" — padrão paywall.
+// ─────────────────────────────────────────────────────────────────────────────
+function GamificacaoLockedPreview({ companyId }: { companyId: string }) {
+  const supportPhone = "5544999015088";
+  const msg = encodeURIComponent(
+    `Olá! Gostaria de ativar o módulo de Gamificação no LeadHub. Empresa ID: ${companyId}`,
+  );
+  const requestUrl = `https://wa.me/${supportPhone}?text=${msg}`;
+  // Nomes fake só pro visual do ranking — não vaza dado real.
+  const fakeRanking = [
+    { medal: "🥇", name: "Ana Silva",     pts: 1240 },
+    { medal: "🥈", name: "Bruno Costa",   pts: 980  },
+    { medal: "🥉", name: "Cosmo",         pts: 720  },
+    { medal: "#4", name: "Diego",         pts: 510  },
+    { medal: "#5", name: "Mariana",       pts: 320  },
+  ];
+
+  return (
+    <div className="relative">
+      {/* Conteúdo real-look BORRADO embaixo. pointer-events-none impede
+          interação. aria-hidden some pra leitores de tela. */}
+      <div
+        className="grid grid-cols-1 lg:grid-cols-3 gap-4 blur-sm saturate-50 opacity-70 pointer-events-none select-none"
+        aria-hidden="true"
+      >
+        {/* Coluna principal — medalhões */}
+        <div className="lg:col-span-2 bg-gradient-to-br from-[#0a0f1a] to-[#0f1623] border border-[#1e2d45] rounded-2xl p-5">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h3 className="text-white font-semibold text-sm">🎖️ Suas conquistas</h3>
+              <p className="text-slate-500 text-xs mt-0.5">
+                12 de 27 desbloqueadas · 847 pts no mês
+              </p>
+            </div>
+          </div>
+          <div className="grid grid-cols-5 sm:grid-cols-7 gap-2">
+            {ALL_BADGES.slice(0, 14).map((badge) => (
+              <BadgeMedallion key={badge} badge={badge} count={Math.floor(Math.random() * 30)} size={56} />
+            ))}
+          </div>
+        </div>
+
+        {/* Coluna lateral — ranking */}
+        <div className="bg-[#0f1623] border border-[#1e2d45] rounded-2xl p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <h3 className="text-white font-semibold text-sm">🏆 Ranking</h3>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+          </div>
+          <p className="text-slate-500 text-[10px] mb-3">Ranking do mês — atualiza a cada 30s</p>
+          <div className="space-y-1.5">
+            {fakeRanking.map((r, i) => (
+              <div key={i} className="flex items-center gap-2 px-2 py-1.5 rounded bg-white/5">
+                <span className="text-sm w-6">{r.medal}</span>
+                <span className="flex-1 text-slate-200 text-[12px] truncate">{r.name}</span>
+                <span className="text-amber-300 text-[11px] font-mono font-bold">{r.pts}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Overlay com CTA centralizado */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="bg-[#0a0f1a]/85 backdrop-blur-sm border border-amber-500/30 rounded-2xl px-6 py-5 max-w-md text-center shadow-2xl shadow-amber-500/10">
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <Lock className="w-4 h-4 text-amber-400" strokeWidth={2.5} />
+            <span className="text-[11px] uppercase tracking-wider font-bold text-amber-400">
+              Módulo não contratado
+            </span>
+          </div>
+          <h3 className="text-white font-bold text-lg mb-1.5">Gamificação</h3>
+          <p className="text-slate-400 text-xs leading-relaxed mb-4 max-w-sm">
+            Pontue cada ação dos atendentes, libere medalhas por desempenho e veja
+            o ranking ao vivo. Aumenta engajamento e ajuda a identificar top performers.
+          </p>
+          <a
+            href={requestUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-[#0a0f1a] font-bold text-sm transition-all shadow-lg shadow-amber-500/30"
+          >
+            <Sparkles className="w-4 h-4" />
+            Contratar módulo
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
