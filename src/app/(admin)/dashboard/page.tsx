@@ -8,6 +8,7 @@ import AtendimentoStats from "./AtendimentoStats";
 import PerformanceTeaser from "./PerformanceTeaser";
 import DashboardGamificacaoTop from "./DashboardGamificacaoTop";
 import MyTasksToday from "./MyTasksToday";
+import ModuleUpsell from "./ModuleUpsell";
 
 // Sem cache — ranking, conquistas e progresso atualizam imediatamente
 // quando alguém pontua em outras páginas.
@@ -474,6 +475,11 @@ export default async function DashboardPage() {
           </div>
         )}
       </div>
+
+      {/* Upsell de módulos opcionais não contratados — fica no rodapé pra
+          não competir com painéis operacionais. Some quando empresa já tem
+          todos os add-ons ativos. */}
+      <ModuleUpsell />
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getRanking } from "@/lib/gamification";
 import { ScoreReason, BadgeType } from "@/generated/prisma";
 import Link from "next/link";
-import { ArrowRight, Lock, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import BadgeMedallion from "../gamificacao/BadgeMedallion";
 import { BADGE_TIERS, ALL_BADGES, BADGE_REASON, shouldShowBadge } from "../gamificacao/labels";
 import LiveRankingMini from "./LiveRankingMini";
@@ -22,11 +22,11 @@ export default async function DashboardGamificacaoTop() {
 
   if (!companyId) return null;
 
-  // Módulo não contratado → renderiza card preview com CTA pra solicitar.
-  // Antes a seção sumia totalmente; cliente nem sabia que existia.
-  if (!gamificacaoEnabled) {
-    return <GamificacaoLockedCard companyId={companyId} />;
-  }
+  // Módulo não contratado → seção fica oculta aqui. O upsell agora vive
+  // num grid unificado no rodapé do dashboard (<ModuleUpsell />) que cobre
+  // gamificação + outros add-ons. Antes esse arquivo renderizava um card
+  // lock-only — virou redundância e foi removido.
+  if (!gamificacaoEnabled) return null;
 
   const now   = new Date();
   const month = now.getMonth() + 1;
@@ -147,87 +147,3 @@ export default async function DashboardGamificacaoTop() {
   );
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Card de preview pra empresas SEM o módulo Gamificação contratado.
-// Mostra os medalhões em silhueta + CTA pra solicitar via WhatsApp.
-// ─────────────────────────────────────────────────────────────────────────────
-function GamificacaoLockedCard({ companyId }: { companyId: string }) {
-  const supportPhone = "5544999015088";
-  const msg = encodeURIComponent(
-    `Olá! Gostaria de ativar o módulo de Gamificação no LeadHub. Empresa ID: ${companyId}`,
-  );
-  const requestUrl = `https://wa.me/${supportPhone}?text=${msg}`;
-  // Mostra um subset de badges pra dar sensação do que existe sem revelar tudo
-  const previewBadges = ALL_BADGES.slice(0, 7);
-
-  return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      {/* Card principal — medalhões em silhueta */}
-      <div className="lg:col-span-2 relative bg-gradient-to-br from-[#0a0f1a] to-[#0f1623] border border-[#1e2d45] rounded-2xl p-5 overflow-hidden">
-        <div className="flex items-center justify-between mb-4 gap-3">
-          <div className="flex-1 min-w-0">
-            <h3 className="text-white font-semibold text-sm flex items-center gap-2">
-              <Lock className="w-3.5 h-3.5 text-amber-400" strokeWidth={2} />
-              Gamificação
-              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 font-bold uppercase tracking-wider">
-                Não contratado
-              </span>
-            </h3>
-            <p className="text-slate-500 text-xs mt-1 leading-relaxed">
-              Pontue cada ação dos atendentes, libere medalhas por desempenho e veja o
-              ranking ao vivo. Aumenta o engajamento da equipe e ajuda a identificar
-              top performers.
-            </p>
-          </div>
-          <a
-            href={requestUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-600 hover:bg-green-500 text-white text-xs font-semibold transition-colors"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            Solicitar
-          </a>
-        </div>
-
-        {/* Medalhões em silhueta — visual do que tem */}
-        <div className="grid grid-cols-5 sm:grid-cols-7 gap-2 opacity-40 grayscale pointer-events-none">
-          {previewBadges.map((badge) => (
-            <BadgeMedallion key={badge} badge={badge} count={0} size={56} />
-          ))}
-        </div>
-
-        {/* Overlay sutil reforçando estado bloqueado */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1a]/40 to-transparent pointer-events-none" />
-      </div>
-
-      {/* Card lateral — ranking placeholder */}
-      <div className="relative bg-[#0f1623] border border-[#1e2d45] rounded-2xl p-5 overflow-hidden">
-        <h3 className="text-white font-semibold text-sm flex items-center gap-2 mb-2">
-          <Lock className="w-3.5 h-3.5 text-amber-400" strokeWidth={2} />
-          Ranking
-        </h3>
-        <p className="text-slate-500 text-xs leading-relaxed mb-4">
-          Ranking mensal da equipe — quem mais converteu, atendeu rápido, fechou negócios.
-        </p>
-        <div className="space-y-2 opacity-40 pointer-events-none">
-          {["🥇", "🥈", "🥉"].map((medal, i) => (
-            <div key={i} className="flex items-center gap-2 px-2 py-1.5 rounded bg-white/5">
-              <span className="text-base">{medal}</span>
-              <span className="flex-1 h-3 rounded bg-white/10" />
-              <span className="text-[10px] text-slate-600 font-mono">— pts</span>
-            </div>
-          ))}
-        </div>
-        <a
-          href={requestUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 block text-center text-[11px] text-amber-300 hover:text-amber-200 font-semibold"
-        >
-          Solicitar contratação →
-        </a>
-      </div>
-    </div>
-  );
-}
