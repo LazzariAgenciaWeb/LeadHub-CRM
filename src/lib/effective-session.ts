@@ -33,17 +33,29 @@ export async function getEffectiveSession() {
       moduleTickets: true,
       moduleAI: true,
       moduleClickup: true,
+      moduleGamificacao: true,
+      moduleProjetos: true,
+      moduleCalendario: true,
+      moduleProspeccao: true,
     },
   });
   if (!company) return session;
 
-  // Cofre é gateado por PlanFeatures (não por flag em Company), igual ao auth.ts.
+  // Cofre + pipelines do CRM vêm de PlanFeatures (não de flags em Company),
+  // igual o auth.ts faz no login real. Sem isso a sidebar impersonada esconde
+  // os sub-itens do CRM mesmo quando o plano libera.
   let cofreEnabled = false;
+  let pipelineProspeccao = false;
+  let pipelineLeads = true;
+  let pipelineOportunidades = false;
   try {
     const ctx = await getCompanyPlan(companyId);
     cofreEnabled = ctx.effectiveFeatures.cofreCredenciais;
+    pipelineProspeccao = ctx.effectiveFeatures.crmPipelineProspeccao;
+    pipelineLeads = ctx.effectiveFeatures.crmPipelineLeads;
+    pipelineOportunidades = ctx.effectiveFeatures.crmPipelineOportunidades;
   } catch {
-    // mantém default false se a empresa não tiver subscription
+    // mantém defaults se a empresa não tiver subscription
   }
 
   // Impersonate as ADMIN of that company so the sidebar shows all enabled modules.
@@ -55,14 +67,23 @@ export async function getEffectiveSession() {
       ...session.user,
       role: "ADMIN",
       companyId,
-      // Reflect the company's actual enabled modules
+      // Reflect the company's actual enabled modules. Espelha o auth.ts real:
+      // top-level + sub-pipelines do CRM. Faltando qualquer chave aqui faz a
+      // sidebar esconder o item correspondente durante impersonação.
       modules: {
-        whatsapp: company.moduleWhatsapp,
-        crm:      company.moduleCrm,
-        tickets:  company.moduleTickets,
-        ai:       company.moduleAI,
-        clickup:  (company as any).moduleClickup ?? false,
-        cofre:    cofreEnabled,
+        ai:          company.moduleAI,
+        crm:         company.moduleCrm,
+        whatsapp:    company.moduleWhatsapp,
+        tickets:     company.moduleTickets,
+        clickup:     (company as any).moduleClickup ?? false,
+        gamificacao: (company as any).moduleGamificacao ?? false,
+        projetos:    (company as any).moduleProjetos ?? false,
+        calendario:  (company as any).moduleCalendario ?? false,
+        prospeccao:  (company as any).moduleProspeccao ?? false,
+        cofre:       cofreEnabled,
+        crmPipelineProspeccao:    pipelineProspeccao,
+        crmPipelineLeads:         pipelineLeads,
+        crmPipelineOportunidades: pipelineOportunidades,
       },
       // Admin has all permissions
       permissions: {
