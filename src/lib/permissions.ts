@@ -19,6 +19,15 @@ export interface UserPermissions {
   canSendMessages: boolean;
   canViewCompanies: boolean;
   canCreateCompanies: boolean;
+  // Permissões granulares por módulo — gate de Sidebar combinado com hasModule().
+  // Setor admin (canManageUsers) escolhe quem vê o quê na empresa.
+  canViewCalendario: boolean;
+  canViewMarketing: boolean;
+  canViewCampanhas: boolean;
+  canViewProjetos: boolean;
+  canViewRanking: boolean;
+  canViewLinks: boolean;
+  canViewCofre: boolean;
 }
 
 export interface UserModules {
@@ -53,6 +62,13 @@ const ALL_PERMISSIONS: UserPermissions = {
   canSendMessages: true,
   canViewCompanies: true,
   canCreateCompanies: true,
+  canViewCalendario: true,
+  canViewMarketing: true,
+  canViewCampanhas: true,
+  canViewProjetos: true,
+  canViewRanking: true,
+  canViewLinks: true,
+  canViewCofre: true,
 };
 
 // Deny-by-default: CLIENT sem setor não enxerga nada até receber atribuição
@@ -70,6 +86,13 @@ const DEFAULT_CLIENT_PERMISSIONS: UserPermissions = {
   canSendMessages: false,
   canViewCompanies: false,
   canCreateCompanies: false,
+  canViewCalendario: false,
+  canViewMarketing: false,
+  canViewCampanhas: false,
+  canViewProjetos: false,
+  canViewRanking: false,
+  canViewLinks: false,
+  canViewCofre: false,
 };
 
 const ALL_MODULES: UserModules = {

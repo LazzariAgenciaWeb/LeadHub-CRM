@@ -39248,6 +39248,13 @@ export namespace Prisma {
     canSendMessages: boolean | null
     canViewCompanies: boolean | null
     canCreateCompanies: boolean | null
+    canViewCalendario: boolean | null
+    canViewMarketing: boolean | null
+    canViewCampanhas: boolean | null
+    canViewProjetos: boolean | null
+    canViewRanking: boolean | null
+    canViewLinks: boolean | null
+    canViewCofre: boolean | null
   }
 
   export type SetorMaxAggregateOutputType = {
@@ -39267,6 +39274,13 @@ export namespace Prisma {
     canSendMessages: boolean | null
     canViewCompanies: boolean | null
     canCreateCompanies: boolean | null
+    canViewCalendario: boolean | null
+    canViewMarketing: boolean | null
+    canViewCampanhas: boolean | null
+    canViewProjetos: boolean | null
+    canViewRanking: boolean | null
+    canViewLinks: boolean | null
+    canViewCofre: boolean | null
   }
 
   export type SetorCountAggregateOutputType = {
@@ -39286,6 +39300,13 @@ export namespace Prisma {
     canSendMessages: number
     canViewCompanies: number
     canCreateCompanies: number
+    canViewCalendario: number
+    canViewMarketing: number
+    canViewCampanhas: number
+    canViewProjetos: number
+    canViewRanking: number
+    canViewLinks: number
+    canViewCofre: number
     _all: number
   }
 
@@ -39307,6 +39328,13 @@ export namespace Prisma {
     canSendMessages?: true
     canViewCompanies?: true
     canCreateCompanies?: true
+    canViewCalendario?: true
+    canViewMarketing?: true
+    canViewCampanhas?: true
+    canViewProjetos?: true
+    canViewRanking?: true
+    canViewLinks?: true
+    canViewCofre?: true
   }
 
   export type SetorMaxAggregateInputType = {
@@ -39326,6 +39354,13 @@ export namespace Prisma {
     canSendMessages?: true
     canViewCompanies?: true
     canCreateCompanies?: true
+    canViewCalendario?: true
+    canViewMarketing?: true
+    canViewCampanhas?: true
+    canViewProjetos?: true
+    canViewRanking?: true
+    canViewLinks?: true
+    canViewCofre?: true
   }
 
   export type SetorCountAggregateInputType = {
@@ -39345,6 +39380,13 @@ export namespace Prisma {
     canSendMessages?: true
     canViewCompanies?: true
     canCreateCompanies?: true
+    canViewCalendario?: true
+    canViewMarketing?: true
+    canViewCampanhas?: true
+    canViewProjetos?: true
+    canViewRanking?: true
+    canViewLinks?: true
+    canViewCofre?: true
     _all?: true
   }
 
@@ -39437,6 +39479,13 @@ export namespace Prisma {
     canSendMessages: boolean
     canViewCompanies: boolean
     canCreateCompanies: boolean
+    canViewCalendario: boolean
+    canViewMarketing: boolean
+    canViewCampanhas: boolean
+    canViewProjetos: boolean
+    canViewRanking: boolean
+    canViewLinks: boolean
+    canViewCofre: boolean
     _count: SetorCountAggregateOutputType | null
     _min: SetorMinAggregateOutputType | null
     _max: SetorMaxAggregateOutputType | null
@@ -39473,6 +39522,13 @@ export namespace Prisma {
     canSendMessages?: boolean
     canViewCompanies?: boolean
     canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     users?: boolean | Setor$usersArgs<ExtArgs>
     instances?: boolean | Setor$instancesArgs<ExtArgs>
@@ -39499,6 +39555,13 @@ export namespace Prisma {
     canSendMessages?: boolean
     canViewCompanies?: boolean
     canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["setor"]>
 
@@ -39519,6 +39582,13 @@ export namespace Prisma {
     canSendMessages?: boolean
     canViewCompanies?: boolean
     canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
   }
 
   export type SetorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -39561,6 +39631,13 @@ export namespace Prisma {
       canSendMessages: boolean
       canViewCompanies: boolean
       canCreateCompanies: boolean
+      canViewCalendario: boolean
+      canViewMarketing: boolean
+      canViewCampanhas: boolean
+      canViewProjetos: boolean
+      canViewRanking: boolean
+      canViewLinks: boolean
+      canViewCofre: boolean
     }, ExtArgs["result"]["setor"]>
     composites: {}
   }
@@ -39976,6 +40053,13 @@ export namespace Prisma {
     readonly canSendMessages: FieldRef<"Setor", 'Boolean'>
     readonly canViewCompanies: FieldRef<"Setor", 'Boolean'>
     readonly canCreateCompanies: FieldRef<"Setor", 'Boolean'>
+    readonly canViewCalendario: FieldRef<"Setor", 'Boolean'>
+    readonly canViewMarketing: FieldRef<"Setor", 'Boolean'>
+    readonly canViewCampanhas: FieldRef<"Setor", 'Boolean'>
+    readonly canViewProjetos: FieldRef<"Setor", 'Boolean'>
+    readonly canViewRanking: FieldRef<"Setor", 'Boolean'>
+    readonly canViewLinks: FieldRef<"Setor", 'Boolean'>
+    readonly canViewCofre: FieldRef<"Setor", 'Boolean'>
   }
     
 
@@ -69573,7 +69657,14 @@ export namespace Prisma {
     canViewInbox: 'canViewInbox',
     canSendMessages: 'canSendMessages',
     canViewCompanies: 'canViewCompanies',
-    canCreateCompanies: 'canCreateCompanies'
+    canCreateCompanies: 'canCreateCompanies',
+    canViewCalendario: 'canViewCalendario',
+    canViewMarketing: 'canViewMarketing',
+    canViewCampanhas: 'canViewCampanhas',
+    canViewProjetos: 'canViewProjetos',
+    canViewRanking: 'canViewRanking',
+    canViewLinks: 'canViewLinks',
+    canViewCofre: 'canViewCofre'
   };
 
   export type SetorScalarFieldEnum = (typeof SetorScalarFieldEnum)[keyof typeof SetorScalarFieldEnum]
@@ -73368,6 +73459,13 @@ export namespace Prisma {
     canSendMessages?: BoolFilter<"Setor"> | boolean
     canViewCompanies?: BoolFilter<"Setor"> | boolean
     canCreateCompanies?: BoolFilter<"Setor"> | boolean
+    canViewCalendario?: BoolFilter<"Setor"> | boolean
+    canViewMarketing?: BoolFilter<"Setor"> | boolean
+    canViewCampanhas?: BoolFilter<"Setor"> | boolean
+    canViewProjetos?: BoolFilter<"Setor"> | boolean
+    canViewRanking?: BoolFilter<"Setor"> | boolean
+    canViewLinks?: BoolFilter<"Setor"> | boolean
+    canViewCofre?: BoolFilter<"Setor"> | boolean
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     users?: SetorUserListRelationFilter
     instances?: SetorInstanceListRelationFilter
@@ -73393,6 +73491,13 @@ export namespace Prisma {
     canSendMessages?: SortOrder
     canViewCompanies?: SortOrder
     canCreateCompanies?: SortOrder
+    canViewCalendario?: SortOrder
+    canViewMarketing?: SortOrder
+    canViewCampanhas?: SortOrder
+    canViewProjetos?: SortOrder
+    canViewRanking?: SortOrder
+    canViewLinks?: SortOrder
+    canViewCofre?: SortOrder
     company?: CompanyOrderByWithRelationInput
     users?: SetorUserOrderByRelationAggregateInput
     instances?: SetorInstanceOrderByRelationAggregateInput
@@ -73421,6 +73526,13 @@ export namespace Prisma {
     canSendMessages?: BoolFilter<"Setor"> | boolean
     canViewCompanies?: BoolFilter<"Setor"> | boolean
     canCreateCompanies?: BoolFilter<"Setor"> | boolean
+    canViewCalendario?: BoolFilter<"Setor"> | boolean
+    canViewMarketing?: BoolFilter<"Setor"> | boolean
+    canViewCampanhas?: BoolFilter<"Setor"> | boolean
+    canViewProjetos?: BoolFilter<"Setor"> | boolean
+    canViewRanking?: BoolFilter<"Setor"> | boolean
+    canViewLinks?: BoolFilter<"Setor"> | boolean
+    canViewCofre?: BoolFilter<"Setor"> | boolean
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     users?: SetorUserListRelationFilter
     instances?: SetorInstanceListRelationFilter
@@ -73446,6 +73558,13 @@ export namespace Prisma {
     canSendMessages?: SortOrder
     canViewCompanies?: SortOrder
     canCreateCompanies?: SortOrder
+    canViewCalendario?: SortOrder
+    canViewMarketing?: SortOrder
+    canViewCampanhas?: SortOrder
+    canViewProjetos?: SortOrder
+    canViewRanking?: SortOrder
+    canViewLinks?: SortOrder
+    canViewCofre?: SortOrder
     _count?: SetorCountOrderByAggregateInput
     _max?: SetorMaxOrderByAggregateInput
     _min?: SetorMinOrderByAggregateInput
@@ -73471,6 +73590,13 @@ export namespace Prisma {
     canSendMessages?: BoolWithAggregatesFilter<"Setor"> | boolean
     canViewCompanies?: BoolWithAggregatesFilter<"Setor"> | boolean
     canCreateCompanies?: BoolWithAggregatesFilter<"Setor"> | boolean
+    canViewCalendario?: BoolWithAggregatesFilter<"Setor"> | boolean
+    canViewMarketing?: BoolWithAggregatesFilter<"Setor"> | boolean
+    canViewCampanhas?: BoolWithAggregatesFilter<"Setor"> | boolean
+    canViewProjetos?: BoolWithAggregatesFilter<"Setor"> | boolean
+    canViewRanking?: BoolWithAggregatesFilter<"Setor"> | boolean
+    canViewLinks?: BoolWithAggregatesFilter<"Setor"> | boolean
+    canViewCofre?: BoolWithAggregatesFilter<"Setor"> | boolean
   }
 
   export type SetorClickupListWhereInput = {
@@ -78918,6 +79044,13 @@ export namespace Prisma {
     canSendMessages?: boolean
     canViewCompanies?: boolean
     canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
     company: CompanyCreateNestedOneWithoutSetoresInput
     users?: SetorUserCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
@@ -78943,6 +79076,13 @@ export namespace Prisma {
     canSendMessages?: boolean
     canViewCompanies?: boolean
     canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
@@ -78966,6 +79106,13 @@ export namespace Prisma {
     canSendMessages?: BoolFieldUpdateOperationsInput | boolean
     canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
@@ -78991,6 +79138,13 @@ export namespace Prisma {
     canSendMessages?: BoolFieldUpdateOperationsInput | boolean
     canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
@@ -79015,6 +79169,13 @@ export namespace Prisma {
     canSendMessages?: boolean
     canViewCompanies?: boolean
     canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
   }
 
   export type SetorUpdateManyMutationInput = {
@@ -79033,6 +79194,13 @@ export namespace Prisma {
     canSendMessages?: BoolFieldUpdateOperationsInput | boolean
     canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type SetorUncheckedUpdateManyInput = {
@@ -79052,6 +79220,13 @@ export namespace Prisma {
     canSendMessages?: BoolFieldUpdateOperationsInput | boolean
     canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type SetorClickupListCreateInput = {
@@ -84164,6 +84339,13 @@ export namespace Prisma {
     canSendMessages?: SortOrder
     canViewCompanies?: SortOrder
     canCreateCompanies?: SortOrder
+    canViewCalendario?: SortOrder
+    canViewMarketing?: SortOrder
+    canViewCampanhas?: SortOrder
+    canViewProjetos?: SortOrder
+    canViewRanking?: SortOrder
+    canViewLinks?: SortOrder
+    canViewCofre?: SortOrder
   }
 
   export type SetorMaxOrderByAggregateInput = {
@@ -84183,6 +84365,13 @@ export namespace Prisma {
     canSendMessages?: SortOrder
     canViewCompanies?: SortOrder
     canCreateCompanies?: SortOrder
+    canViewCalendario?: SortOrder
+    canViewMarketing?: SortOrder
+    canViewCampanhas?: SortOrder
+    canViewProjetos?: SortOrder
+    canViewRanking?: SortOrder
+    canViewLinks?: SortOrder
+    canViewCofre?: SortOrder
   }
 
   export type SetorMinOrderByAggregateInput = {
@@ -84202,6 +84391,13 @@ export namespace Prisma {
     canSendMessages?: SortOrder
     canViewCompanies?: SortOrder
     canCreateCompanies?: SortOrder
+    canViewCalendario?: SortOrder
+    canViewMarketing?: SortOrder
+    canViewCampanhas?: SortOrder
+    canViewProjetos?: SortOrder
+    canViewRanking?: SortOrder
+    canViewLinks?: SortOrder
+    canViewCofre?: SortOrder
   }
 
   export type EnumProjectStatusFilter<$PrismaModel = never> = {
@@ -95205,6 +95401,13 @@ export namespace Prisma {
     canSendMessages?: boolean
     canViewCompanies?: boolean
     canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
     users?: SetorUserCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
@@ -95228,6 +95431,13 @@ export namespace Prisma {
     canSendMessages?: boolean
     canViewCompanies?: boolean
     canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
@@ -96613,6 +96823,13 @@ export namespace Prisma {
     canSendMessages?: BoolFilter<"Setor"> | boolean
     canViewCompanies?: BoolFilter<"Setor"> | boolean
     canCreateCompanies?: BoolFilter<"Setor"> | boolean
+    canViewCalendario?: BoolFilter<"Setor"> | boolean
+    canViewMarketing?: BoolFilter<"Setor"> | boolean
+    canViewCampanhas?: BoolFilter<"Setor"> | boolean
+    canViewProjetos?: BoolFilter<"Setor"> | boolean
+    canViewRanking?: BoolFilter<"Setor"> | boolean
+    canViewLinks?: BoolFilter<"Setor"> | boolean
+    canViewCofre?: BoolFilter<"Setor"> | boolean
   }
 
   export type ConversationUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -104119,6 +104336,13 @@ export namespace Prisma {
     canSendMessages?: boolean
     canViewCompanies?: boolean
     canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
     company: CompanyCreateNestedOneWithoutSetoresInput
     users?: SetorUserCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
@@ -104143,6 +104367,13 @@ export namespace Prisma {
     canSendMessages?: boolean
     canViewCompanies?: boolean
     canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
@@ -104595,6 +104826,13 @@ export namespace Prisma {
     canSendMessages?: BoolFieldUpdateOperationsInput | boolean
     canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
@@ -104619,6 +104857,13 @@ export namespace Prisma {
     canSendMessages?: BoolFieldUpdateOperationsInput | boolean
     canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
@@ -106049,6 +106294,13 @@ export namespace Prisma {
     canSendMessages?: boolean
     canViewCompanies?: boolean
     canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
     company: CompanyCreateNestedOneWithoutSetoresInput
     users?: SetorUserCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
@@ -106073,6 +106325,13 @@ export namespace Prisma {
     canSendMessages?: boolean
     canViewCompanies?: boolean
     canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
@@ -106619,6 +106878,13 @@ export namespace Prisma {
     canSendMessages?: BoolFieldUpdateOperationsInput | boolean
     canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
@@ -106643,6 +106909,13 @@ export namespace Prisma {
     canSendMessages?: BoolFieldUpdateOperationsInput | boolean
     canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
@@ -107396,6 +107669,13 @@ export namespace Prisma {
     canSendMessages?: boolean
     canViewCompanies?: boolean
     canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
     company: CompanyCreateNestedOneWithoutSetoresInput
     users?: SetorUserCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
@@ -107420,6 +107700,13 @@ export namespace Prisma {
     canSendMessages?: boolean
     canViewCompanies?: boolean
     canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
@@ -107683,6 +107970,13 @@ export namespace Prisma {
     canSendMessages?: BoolFieldUpdateOperationsInput | boolean
     canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
@@ -107707,6 +108001,13 @@ export namespace Prisma {
     canSendMessages?: BoolFieldUpdateOperationsInput | boolean
     canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
@@ -108455,6 +108756,13 @@ export namespace Prisma {
     canSendMessages?: boolean
     canViewCompanies?: boolean
     canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
     company: CompanyCreateNestedOneWithoutSetoresInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
@@ -108479,6 +108787,13 @@ export namespace Prisma {
     canSendMessages?: boolean
     canViewCompanies?: boolean
     canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
@@ -108586,6 +108901,13 @@ export namespace Prisma {
     canSendMessages?: BoolFieldUpdateOperationsInput | boolean
     canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
@@ -108610,6 +108932,13 @@ export namespace Prisma {
     canSendMessages?: BoolFieldUpdateOperationsInput | boolean
     canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
@@ -108707,6 +109036,13 @@ export namespace Prisma {
     canSendMessages?: boolean
     canViewCompanies?: boolean
     canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
     company: CompanyCreateNestedOneWithoutSetoresInput
     users?: SetorUserCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
@@ -108731,6 +109067,13 @@ export namespace Prisma {
     canSendMessages?: boolean
     canViewCompanies?: boolean
     canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
@@ -108804,6 +109147,13 @@ export namespace Prisma {
     canSendMessages?: BoolFieldUpdateOperationsInput | boolean
     canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
@@ -108828,6 +109178,13 @@ export namespace Prisma {
     canSendMessages?: BoolFieldUpdateOperationsInput | boolean
     canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
@@ -116309,6 +116666,13 @@ export namespace Prisma {
     canSendMessages?: boolean
     canViewCompanies?: boolean
     canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
   }
 
   export type ConversationCreateManyCompanyInput = {
@@ -117740,6 +118104,13 @@ export namespace Prisma {
     canSendMessages?: BoolFieldUpdateOperationsInput | boolean
     canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
@@ -117763,6 +118134,13 @@ export namespace Prisma {
     canSendMessages?: BoolFieldUpdateOperationsInput | boolean
     canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
@@ -117786,6 +118164,13 @@ export namespace Prisma {
     canSendMessages?: BoolFieldUpdateOperationsInput | boolean
     canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
     canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ConversationUpdateWithoutCompanyInput = {

@@ -21,6 +21,13 @@ type SetorPerms = {
   canSendMessages:    boolean;
   canViewCompanies:   boolean;
   canCreateCompanies: boolean;
+  canViewCalendario:  boolean;
+  canViewMarketing:   boolean;
+  canViewCampanhas:   boolean;
+  canViewProjetos:    boolean;
+  canViewRanking:     boolean;
+  canViewLinks:       boolean;
+  canViewCofre:       boolean;
 };
 
 function mergeSetorPermissions(setores: any[]): SetorPerms | null {
@@ -37,6 +44,13 @@ function mergeSetorPermissions(setores: any[]): SetorPerms | null {
     canSendMessages:    false,
     canViewCompanies:   false,
     canCreateCompanies: false,
+    canViewCalendario:  false,
+    canViewMarketing:   false,
+    canViewCampanhas:   false,
+    canViewProjetos:    false,
+    canViewRanking:     false,
+    canViewLinks:       false,
+    canViewCofre:       false,
   };
   for (const s of setores) {
     merged.canManageUsers     ||= !!s.canManageUsers;
@@ -50,6 +64,16 @@ function mergeSetorPermissions(setores: any[]): SetorPerms | null {
     merged.canSendMessages    ||= !!(s.canSendMessages ?? true);
     merged.canViewCompanies   ||= !!s.canViewCompanies;
     merged.canCreateCompanies ||= !!s.canCreateCompanies;
+    // Permissões de módulo — default true (?? true) pra setores legados criados
+    // antes desses campos existirem no DB. Migration coloca default true mas
+    // setores em cache/JWT antigo podem ainda não ter o campo.
+    merged.canViewCalendario  ||= !!(s.canViewCalendario ?? true);
+    merged.canViewMarketing   ||= !!(s.canViewMarketing ?? true);
+    merged.canViewCampanhas   ||= !!(s.canViewCampanhas ?? true);
+    merged.canViewProjetos    ||= !!(s.canViewProjetos ?? true);
+    merged.canViewRanking     ||= !!(s.canViewRanking ?? true);
+    merged.canViewLinks       ||= !!(s.canViewLinks ?? true);
+    merged.canViewCofre       ||= !!(s.canViewCofre ?? true);
   }
   return merged;
 }

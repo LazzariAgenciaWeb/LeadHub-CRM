@@ -58,6 +58,13 @@ export async function PATCH(
     canSendMessages,
     canViewCompanies,
     canCreateCompanies,
+    canViewCalendario,
+    canViewMarketing,
+    canViewCampanhas,
+    canViewProjetos,
+    canViewRanking,
+    canViewLinks,
+    canViewCofre,
     userIds,     // string[] | undefined — substitui lista completa se fornecido
     instanceIds, // string[] | undefined — substitui lista completa se fornecido
   } = body;
@@ -78,6 +85,13 @@ export async function PATCH(
       ...(canSendMessages !== undefined    && { canSendMessages }),
       ...(canViewCompanies !== undefined   && { canViewCompanies }),
       ...(canCreateCompanies !== undefined && { canCreateCompanies }),
+      ...(canViewCalendario !== undefined  && { canViewCalendario }),
+      ...(canViewMarketing !== undefined   && { canViewMarketing }),
+      ...(canViewCampanhas !== undefined   && { canViewCampanhas }),
+      ...(canViewProjetos !== undefined    && { canViewProjetos }),
+      ...(canViewRanking !== undefined     && { canViewRanking }),
+      ...(canViewLinks !== undefined       && { canViewLinks }),
+      ...(canViewCofre !== undefined       && { canViewCofre }),
     },
   });
 

@@ -24,6 +24,13 @@ interface Setor {
   canSendMessages: boolean;
   canViewCompanies: boolean;
   canCreateCompanies: boolean;
+  canViewCalendario: boolean;
+  canViewMarketing: boolean;
+  canViewCampanhas: boolean;
+  canViewProjetos: boolean;
+  canViewRanking: boolean;
+  canViewLinks: boolean;
+  canViewCofre: boolean;
   users: SetorUser[];
   instances: SetorInstance[];
   _count: { tickets: number };
@@ -36,7 +43,9 @@ type PermKey =
   | "canManageUsers" | "canViewLeads" | "canCreateLeads"
   | "canViewTickets" | "canCreateTickets" | "canViewConfig"
   | "canUseAI" | "canViewInbox" | "canSendMessages"
-  | "canViewCompanies" | "canCreateCompanies";
+  | "canViewCompanies" | "canCreateCompanies"
+  | "canViewCalendario" | "canViewMarketing" | "canViewCampanhas"
+  | "canViewProjetos" | "canViewRanking" | "canViewLinks" | "canViewCofre";
 
 interface PermGroup {
   label: string;
@@ -76,6 +85,18 @@ const PERM_GROUPS: PermGroup[] = [
     perms: [
       { key: "canViewCompanies",  label: "Ver Empresas",       desc: "Lista de clientes/empresas" },
       { key: "canCreateCompanies",label: "Criar Empresas",     desc: "Cadastrar novas empresas" },
+    ],
+  },
+  {
+    label: "Outros módulos",
+    perms: [
+      { key: "canViewCalendario", label: "Calendário",         desc: "Ver agenda e tarefas" },
+      { key: "canViewMarketing",  label: "Marketing",          desc: "Dashboard de marketing" },
+      { key: "canViewCampanhas",  label: "Campanhas",          desc: "Campanhas e gatilhos" },
+      { key: "canViewProjetos",   label: "Projetos",           desc: "Projetos e entregáveis" },
+      { key: "canViewRanking",    label: "Ranking",            desc: "Gamificação e ranking" },
+      { key: "canViewLinks",      label: "Links",              desc: "Links de rastreamento" },
+      { key: "canViewCofre",      label: "Cofre",              desc: "Cofre de credenciais (2FA por senha continua)" },
     ],
   },
   {
@@ -121,6 +142,13 @@ const EMPTY_FORM = {
   canSendMessages:   true,
   canViewCompanies:  false,
   canCreateCompanies:false,
+  canViewCalendario: true,
+  canViewMarketing:  true,
+  canViewCampanhas:  true,
+  canViewProjetos:   true,
+  canViewRanking:    true,
+  canViewLinks:      true,
+  canViewCofre:      true,
   userIds:           [] as string[],
   instanceIds:       [] as string[],
 };
@@ -165,6 +193,13 @@ export default function SetoresSection({
       canSendMessages:    s.canSendMessages,
       canViewCompanies:   s.canViewCompanies,
       canCreateCompanies: s.canCreateCompanies,
+      canViewCalendario:  s.canViewCalendario,
+      canViewMarketing:   s.canViewMarketing,
+      canViewCampanhas:   s.canViewCampanhas,
+      canViewProjetos:    s.canViewProjetos,
+      canViewRanking:     s.canViewRanking,
+      canViewLinks:       s.canViewLinks,
+      canViewCofre:       s.canViewCofre,
       userIds:            s.users.map((u) => u.userId),
       instanceIds:        s.instances.map((i) => i.instanceId),
     });

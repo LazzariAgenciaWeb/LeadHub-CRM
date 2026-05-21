@@ -1058,6 +1058,16 @@ model Setor {
   canSendMessages    Boolean @default(true)  // enviar mensagens WhatsApp
   canViewCompanies   Boolean @default(false) // ver lista de empresas/clientes
   canCreateCompanies Boolean @default(false) // cadastrar novas empresas
+  // Permissões de módulo (gate da Sidebar, gateadas pelos módulos da empresa).
+  // Default true mantém compat — empresas que ligam módulo já distribuíam acesso
+  // a todos os usuários. Admin pode restringir setor a setor.
+  canViewCalendario  Boolean @default(true)  // ver Calendário
+  canViewMarketing   Boolean @default(true)  // ver Dashboard de Marketing
+  canViewCampanhas   Boolean @default(true)  // ver Campanhas
+  canViewProjetos    Boolean @default(true)  // ver Projetos
+  canViewRanking     Boolean @default(true)  // ver Ranking de gamificação
+  canViewLinks       Boolean @default(true)  // ver Links de rastreamento
+  canViewCofre       Boolean @default(true)  // ver Cofre (2FA continua valendo por credencial)
 
   users         SetorUser[]
   instances     SetorInstance[]
