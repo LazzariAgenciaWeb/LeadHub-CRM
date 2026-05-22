@@ -103,6 +103,15 @@ const FEATURE_GROUPS: FeatureGroup[] = [
     ],
   },
   {
+    id: "marketing-captacao",
+    title: "Marketing & Captação",
+    icon: "📣",
+    features: [
+      { key: "campanhas", label: "Campanhas" },
+      { key: "links",     label: "Links de rastreio (pixel)" },
+    ],
+  },
+  {
     id: "marketing",
     title: "Marketing & Análise",
     icon: "📊",

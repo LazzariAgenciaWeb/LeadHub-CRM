@@ -64,6 +64,12 @@ export interface PlanFeatures {
   /** Assistente IA (chat + resumos). */
   assistenteIA: boolean;
 
+  // ── 📣 Marketing & Captação ──
+  /** Módulo Campanhas (cria/gerencia campanhas, vincula a leads + UTMs). */
+  campanhas: boolean;
+  /** Módulo Links de rastreio (gera tracking links com pixel). */
+  links: boolean;
+
   // ── 📊 Marketing & Análise ──
   marketingDashboard: boolean;
   googleAnalytics: boolean;
@@ -137,6 +143,8 @@ function feat(overrides: Partial<PlanFeatures>): PlanFeatures {
     calendario: false,
     gamificacao: false,
     assistenteIA: false,
+    campanhas: false,
+    links: false,
     marketingDashboard: false,
     googleAnalytics: false,
     googleSearchConsole: false,
@@ -216,6 +224,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       crmPipelineLeads: true,
       crmPipelineOportunidades: true,
       calendario: true,
+      links: true,
     }),
     modoAtendimentoDefault: "ATENDE",
     highlights: [
@@ -223,6 +232,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       "Inbox completo (SLA + transferência)",
       "CRM com Leads e Oportunidades",
       "Tickets/Chamados",
+      "Links de rastreio",
       "Calendário + Google Calendar",
       "Suporte por e-mail",
     ],
@@ -255,6 +265,8 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       crmPipelineOportunidades: true,
       projetos: true,
       calendario: true,
+      campanhas: true,
+      links: true,
       marketingDashboard: true,
       googleAnalytics: true,
       googleSearchConsole: true,
@@ -265,6 +277,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
     highlights: [
       "2 WhatsApp · 5 atendentes",
       "CRM completo (Prospecção + Leads + Oportunidades)",
+      "Campanhas + Links de rastreio",
       "Dashboard Marketing + Analytics + Search Console",
       "Projetos + Tickets",
       "Magic Link de acesso",
@@ -298,6 +311,8 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       crmPipelineOportunidades: true,
       projetos: true,
       calendario: true,
+      campanhas: true,
+      links: true,
       marketingDashboard: true,
       googleAnalytics: true,
       googleSearchConsole: true,
@@ -352,6 +367,8 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       calendario: true,
       gamificacao: true,
       assistenteIA: true,
+      campanhas: true,
+      links: true,
       marketingDashboard: true,
       googleAnalytics: true,
       googleSearchConsole: true,
@@ -435,6 +452,8 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       calendario: true,
       gamificacao: true,
       assistenteIA: true,
+      campanhas: true,
+      links: true,
       marketingDashboard: true,
       googleAnalytics: true,
       googleSearchConsole: true,
