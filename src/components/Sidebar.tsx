@@ -160,8 +160,8 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
   const showConfig = _isAdmin || can(session, "canViewConfig") || can(session, "canManageUsers");
 
   const bottomLinks: SidebarLink[] = ([
-    { href: "/campanhas",     Icon: Megaphone,    label: "Campanhas",     grad: "campanhas",     show: _isSuperAdmin || (hasModule(session, "whatsapp") && (_isAdmin || can(session, "canViewCampanhas"))) },
-    { href: "/links",         Icon: Link2,        label: "Links",         grad: "links",         show: _isSuperAdmin || _isAdmin || can(session, "canViewLinks") },
+    { href: "/campanhas",     Icon: Megaphone,    label: "Campanhas",     grad: "campanhas",     show: _isSuperAdmin || (hasModule(session, "campanhas") && (_isAdmin || can(session, "canViewCampanhas"))) },
+    { href: "/links",         Icon: Link2,        label: "Links",         grad: "links",         show: _isSuperAdmin || (hasModule(session, "links") && (_isAdmin || can(session, "canViewLinks"))) },
     { href: "/chamados",      Icon: LifeBuoy,     label: "Chamados",      grad: "chamados",      show: _isSuperAdmin || (hasModule(session, "tickets") && can(session, "canViewTickets")) },
     { href: "/projetos",      Icon: FolderKanban, label: "Projetos",      grad: "pipeline",      show: _isSuperAdmin || (hasModule(session, "projetos") && (_isAdmin || can(session, "canViewProjetos"))) },
     { href: "/gamificacao",   Icon: Trophy,       label: "Ranking",       grad: "gamificacao",   show: _isSuperAdmin || (hasModule(session, "gamificacao") && (_isAdmin || can(session, "canViewRanking"))) },

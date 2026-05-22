@@ -167,6 +167,10 @@ model Company {
   // de configuração e a sincronização (push + webhook) ficam desligadas.
   // Cada empresa-cliente liga o módulo e configura a própria conta ClickUp.
   moduleClickup      Boolean @default(false)
+  // Módulo Campanhas (gerenciar campanhas + UTMs vinculadas a leads)
+  moduleCampanhas    Boolean @default(false)
+  // Módulo Links de rastreio (gera tracking links com pixel)
+  moduleLinks        Boolean @default(false)
 
   // Define se a empresa usa WhatsApp em modo VISAO (read-only / painel de contexto)
   // ou ATENDE (completo, envia pelo painel). Default ATENDE preserva comportamento

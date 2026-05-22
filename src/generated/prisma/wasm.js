@@ -195,6 +195,8 @@ exports.Prisma.CompanyScalarFieldEnum = {
   moduleProspeccao: 'moduleProspeccao',
   serpapiKey: 'serpapiKey',
   moduleClickup: 'moduleClickup',
+  moduleCampanhas: 'moduleCampanhas',
+  moduleLinks: 'moduleLinks',
   modoAtendimento: 'modoAtendimento',
   parentCompanyId: 'parentCompanyId',
   triggerOnly: 'triggerOnly',
