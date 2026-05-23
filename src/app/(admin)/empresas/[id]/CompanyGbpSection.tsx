@@ -197,12 +197,19 @@ export default function CompanyGbpSection({ companyId, days = 30 }: { companyId:
         </button>
       </div>
 
-      {/* Aviso de erro do último sync */}
-      {integration?.lastSyncStatus === "error" && integration.lastError && (
-        <div className="bg-amber-500/5 border border-amber-500/30 rounded-lg p-3 flex items-start gap-2">
-          <AlertCircle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-          <div className="text-amber-300 text-xs">
-            Último sync falhou: <span className="font-mono">{integration.lastError}</span>
+      {/* Aviso de erro / warning do último sync */}
+      {(integration?.lastSyncStatus === "error" || integration?.lastSyncStatus === "warning") && integration.lastError && (
+        <div className={`rounded-lg p-3 flex items-start gap-2 ${
+          integration.lastSyncStatus === "error"
+            ? "bg-red-500/5 border border-red-500/30"
+            : "bg-amber-500/5 border border-amber-500/30"
+        }`}>
+          <AlertCircle className={`w-4 h-4 flex-shrink-0 mt-0.5 ${
+            integration.lastSyncStatus === "error" ? "text-red-400" : "text-amber-400"
+          }`} />
+          <div className={`text-xs ${integration.lastSyncStatus === "error" ? "text-red-300" : "text-amber-300"}`}>
+            {integration.lastSyncStatus === "error" ? "Último sync falhou:" : "Sync parcial — algumas etapas falharam:"}{" "}
+            <span className="font-mono">{integration.lastError}</span>
           </div>
         </div>
       )}

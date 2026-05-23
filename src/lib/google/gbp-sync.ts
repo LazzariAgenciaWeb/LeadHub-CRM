@@ -109,40 +109,61 @@ export async function syncGbp(integrationId: string, daysBack = 35): Promise<Syn
   let reviewsCount = 0;
   let keywordsCount = 0;
   let profileSynced = false;
+  const partialErrors: string[] = [];
+
+  // Cada etapa roda em try/catch próprio — uma falhar não derruba as outras.
+  // Erros parciais são acumulados e expostos em lastError pra UI mostrar.
 
   try {
-    // ─── 1. Profile snapshot ────────────────────────────────────────────────
     profileSynced = await syncProfile(integrationId, integ.companyId, locationName);
+  } catch (e: any) {
+    partialErrors.push(`profile: ${e.message?.slice(0, 200) ?? e}`);
+  }
 
-    // ─── 2. Insights diários ────────────────────────────────────────────────
+  try {
     insightsCount = await syncInsights(integrationId, integ.companyId, locationName, daysBack);
+  } catch (e: any) {
+    partialErrors.push(`insights: ${e.message?.slice(0, 200) ?? e}`);
+  }
 
-    // ─── 3. Reviews (precisa descobrir accountName parent) ──────────────────
+  try {
     const accountName = await findParentAccountName(integrationId, locationName);
-    if (accountName) {
+    if (!accountName) {
+      partialErrors.push("reviews: não foi possível descobrir a conta-mãe da location");
+    } else {
       reviewsCount = await syncReviews(integrationId, integ.companyId, accountName, locationName);
     }
-
-    // ─── 4. Search keywords (mês corrente + 2 anteriores) ───────────────────
-    keywordsCount = await syncKeywords(integrationId, integ.companyId, locationName);
-
-    await prisma.marketingIntegration.update({
-      where: { id: integrationId },
-      data: { lastSyncAt: new Date(), lastSyncStatus: "ok", lastError: null, status: "ACTIVE" },
-    });
-
-    return { insights: insightsCount, reviews: reviewsCount, keywords: keywordsCount, profileSynced };
   } catch (e: any) {
-    await prisma.marketingIntegration.update({
-      where: { id: integrationId },
-      data: {
-        lastSyncAt: new Date(),
-        lastSyncStatus: "error",
-        lastError: e.message?.slice(0, 1000) ?? "erro desconhecido",
-      },
-    });
-    throw e;
+    partialErrors.push(`reviews: ${e.message?.slice(0, 200) ?? e}`);
   }
+
+  try {
+    keywordsCount = await syncKeywords(integrationId, integ.companyId, locationName);
+  } catch (e: any) {
+    partialErrors.push(`keywords: ${e.message?.slice(0, 200) ?? e}`);
+  }
+
+  // Status final: ok se nada falhou, warning se alguma etapa falhou mas outras
+  // funcionaram, error só se TUDO falhou (nenhum dado novo).
+  const allFailed = partialErrors.length >= 4;
+  const status = partialErrors.length === 0 ? "ok" : allFailed ? "error" : "warning";
+  const lastError = partialErrors.length > 0 ? partialErrors.join(" | ") : null;
+
+  await prisma.marketingIntegration.update({
+    where: { id: integrationId },
+    data: {
+      lastSyncAt: new Date(),
+      lastSyncStatus: status,
+      lastError: lastError?.slice(0, 1000) ?? null,
+      status: allFailed ? "EXPIRED" : "ACTIVE",
+    },
+  });
+
+  if (allFailed) {
+    throw new Error(`Todas as etapas do sync GBP falharam: ${lastError}`);
+  }
+
+  return { insights: insightsCount, reviews: reviewsCount, keywords: keywordsCount, profileSynced };
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -314,10 +335,10 @@ async function syncReviews(integrationId: string, companyId: string, accountName
 
     const r = await googleFetch(integrationId, `${REVIEWS_API}/${basePath}?${params}`);
     if (!r.ok) {
-      // Se reviews API caiu (Google pode descontinuar), não derruba o sync inteiro
       const txt = await r.text();
-      console.warn(`GBP reviews falhou (${r.status}): ${txt.slice(0, 200)}`);
-      break;
+      // Lança erro pro catch externo registrar em lastError visível na UI.
+      // Antes era console.warn silencioso, escondia falha (rating ficava "—" sem motivo).
+      throw new Error(`reviews API ${r.status}: ${txt.slice(0, 200)}`);
     }
     const data = await r.json();
 
@@ -400,8 +421,7 @@ async function syncKeywords(integrationId: string, companyId: string, locationNa
   const r = await googleFetch(integrationId, url);
   if (!r.ok) {
     const txt = await r.text();
-    console.warn(`GBP keywords falhou (${r.status}): ${txt.slice(0, 200)}`);
-    return 0;
+    throw new Error(`keywords API ${r.status}: ${txt.slice(0, 200)}`);
   }
   const data = await r.json();
 
