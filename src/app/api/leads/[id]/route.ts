@@ -323,6 +323,7 @@ export async function PATCH(
     const clickupSettings = await getClickupSettings(existing.companyId);
     if (clickupSettings?.oportunidadesListId) {
       const effectiveClickupId = lead.clickupTaskId ?? null;
+      const trackingLink = (lead as any).trackingLink;
       const newTaskId = await syncOportunidadeToClickup({
         settings: clickupSettings,
         leadId: id,
@@ -331,6 +332,8 @@ export async function PATCH(
         notes: lead.notes,
         value: lead.value,
         pipelineStage: lead.pipelineStage,
+        linkUrl: trackingLink?.destination ?? null,
+        linkLabel: trackingLink?.label ?? null,
       });
       // Persist the new task ID if it was just created
       if (newTaskId && !effectiveClickupId) {

@@ -278,6 +278,8 @@ export async function syncOportunidadeToClickup({
   notes,
   value,
   pipelineStage,
+  linkUrl,
+  linkLabel,
   priority = "MEDIUM",
 }: {
   settings: ClickupSettings;
@@ -287,12 +289,19 @@ export async function syncOportunidadeToClickup({
   notes?: string | null;
   value?: number | null;
   pipelineStage?: string | null;
+  linkUrl?: string | null;   // URL de destino do link de rastreio (orçamento, proposta, etc.)
+  linkLabel?: string | null; // Rótulo do link para exibição
   priority?: string;
 }): Promise<string | null> {
+  const linkLine = linkUrl
+    ? `🔗 ${linkLabel ? `${linkLabel}: ` : ""}${linkUrl}`
+    : null;
+
   const description = [
     notes,
-    value != null ? `Valor: R$ ${value.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}` : null,
-    `ID LeadHub: ${leadId}`,
+    value != null ? `💰 Valor: R$ ${value.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}` : null,
+    linkLine,
+    `🔖 ID LeadHub: ${leadId}`,
   ].filter(Boolean).join("\n\n");
 
   if (existingClickupTaskId) {
