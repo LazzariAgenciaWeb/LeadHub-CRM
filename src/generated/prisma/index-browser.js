@@ -760,6 +760,65 @@ exports.Prisma.SearchConsoleQueryScalarFieldEnum = {
   position: 'position'
 };
 
+exports.Prisma.GbpInsightScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  date: 'date',
+  impressionsSearchDesktop: 'impressionsSearchDesktop',
+  impressionsSearchMobile: 'impressionsSearchMobile',
+  impressionsMapsDesktop: 'impressionsMapsDesktop',
+  impressionsMapsMobile: 'impressionsMapsMobile',
+  callClicks: 'callClicks',
+  websiteClicks: 'websiteClicks',
+  directionRequests: 'directionRequests',
+  conversations: 'conversations',
+  bookings: 'bookings',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GbpReviewScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  googleReviewId: 'googleReviewId',
+  reviewerName: 'reviewerName',
+  reviewerPhotoUrl: 'reviewerPhotoUrl',
+  starRating: 'starRating',
+  comment: 'comment',
+  createTime: 'createTime',
+  updateTime: 'updateTime',
+  replyComment: 'replyComment',
+  replyUpdateTime: 'replyUpdateTime',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GbpSearchKeywordScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  keyword: 'keyword',
+  year: 'year',
+  month: 'month',
+  impressions: 'impressions',
+  isThreshold: 'isThreshold',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.GbpProfileSnapshotScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  title: 'title',
+  primaryCategory: 'primaryCategory',
+  storefrontAddress: 'storefrontAddress',
+  primaryPhone: 'primaryPhone',
+  websiteUri: 'websiteUri',
+  regularHours: 'regularHours',
+  description: 'description',
+  photoCount: 'photoCount',
+  completenessScore: 'completenessScore',
+  syncedAt: 'syncedAt'
+};
+
 exports.Prisma.SubscriptionScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
@@ -1264,6 +1323,10 @@ exports.Prisma.ModelName = {
   AnalyticsTrafficSource: 'AnalyticsTrafficSource',
   AnalyticsGeoData: 'AnalyticsGeoData',
   SearchConsoleQuery: 'SearchConsoleQuery',
+  GbpInsight: 'GbpInsight',
+  GbpReview: 'GbpReview',
+  GbpSearchKeyword: 'GbpSearchKeyword',
+  GbpProfileSnapshot: 'GbpProfileSnapshot',
   Subscription: 'Subscription',
   BusinessHoursConfig: 'BusinessHoursConfig',
   BusinessHoursInterval: 'BusinessHoursInterval',

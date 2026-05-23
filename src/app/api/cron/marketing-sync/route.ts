@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { syncGA4 } from "@/lib/google/ga4-sync";
 import { syncSearchConsole } from "@/lib/google/search-console-sync";
+import { syncGbp } from "@/lib/google/gbp-sync";
 
 // GET /api/cron/marketing-sync
 //
@@ -26,7 +27,7 @@ export async function GET(req: NextRequest) {
     where: {
       status: "ACTIVE",
       accountId: { not: null },
-      provider: { in: ["GA4", "SEARCH_CONSOLE"] },
+      provider: { in: ["GA4", "SEARCH_CONSOLE", "BUSINESS_PROFILE"] },
     },
     select: { id: true, companyId: true, provider: true, accountLabel: true },
   });
@@ -38,6 +39,7 @@ export async function GET(req: NextRequest) {
       let r: any;
       if (integ.provider === "GA4") r = await syncGA4(integ.id);
       else if (integ.provider === "SEARCH_CONSOLE") r = await syncSearchConsole(integ.id);
+      else if (integ.provider === "BUSINESS_PROFILE") r = await syncGbp(integ.id);
       results.push({ id: integ.id, provider: integ.provider, ok: true, details: r });
     } catch (e: any) {
       results.push({ id: integ.id, provider: integ.provider, ok: false, error: e.message ?? "erro" });

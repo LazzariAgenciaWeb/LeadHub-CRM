@@ -22,7 +22,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   // Assinatura exibida no início das mensagens WhatsApp enviadas pelo usuário
-  whatsappSignature String?
+  whatsappSignature        String?
   // Se true (default), o checkbox "Assinar como X" no compositor de mensagem
   // do WhatsApp começa marcado. Usuário pode desligar pra ter de marcar manual
   // a cada envio.
@@ -31,27 +31,27 @@ model User {
   company   Company? @relation(fields: [companyId], references: [id])
   companyId String?
 
-  ticketsCreated      Ticket[]       @relation("TicketCreatedBy")
-  ticketsAssigned     Ticket[]       @relation("TicketAssignee")
-  companyContact      CompanyContact? @relation("ContactUser")
-  setores             SetorUser[]
-  conversationsAssigned Conversation[] @relation("ConversationAssignee")
-  googleConnections   UserGoogleConnection[]
-  vaultChallenges     VaultEmailChallenge[]
-  vaultTrustedSessions VaultTrustedSession[]
-  userScores          UserScore[]
-  userBadges          UserBadge[]
-  scoreEvents         ScoreEvent[]
-  projectMemberships  ProjectMember[]
-  rankingCategory     RankingCategory @default(PRODUCAO)
+  ticketsCreated        Ticket[]               @relation("TicketCreatedBy")
+  ticketsAssigned       Ticket[]               @relation("TicketAssignee")
+  companyContact        CompanyContact?        @relation("ContactUser")
+  setores               SetorUser[]
+  conversationsAssigned Conversation[]         @relation("ConversationAssignee")
+  googleConnections     UserGoogleConnection[]
+  vaultChallenges       VaultEmailChallenge[]
+  vaultTrustedSessions  VaultTrustedSession[]
+  userScores            UserScore[]
+  userBadges            UserBadge[]
+  scoreEvents           ScoreEvent[]
+  projectMemberships    ProjectMember[]
+  rankingCategory       RankingCategory        @default(PRODUCAO)
   // Timestamp da última vez que o user "viu" os badges — pra toast de novidades
-  lastBadgeSeenAt     DateTime?
-  rewardRedemptions   RewardRedemption[]
-  messagesSent        Message[]            @relation("MessageSentBy")
-  tasksAssigned       Task[]               @relation("TaskAssignee")
-  tasksCreated        Task[]               @relation("TaskCreatedBy")
-  pushSubscriptions   PushSubscription[]
-  notifPreferences    UserNotifPreferences?
+  lastBadgeSeenAt       DateTime?
+  rewardRedemptions     RewardRedemption[]
+  messagesSent          Message[]              @relation("MessageSentBy")
+  tasksAssigned         Task[]                 @relation("TaskAssignee")
+  tasksCreated          Task[]                 @relation("TaskCreatedBy")
+  pushSubscriptions     PushSubscription[]
+  notifPreferences      UserNotifPreferences?
 
   @@index([companyId])
 }
@@ -63,25 +63,25 @@ model User {
 // novos códigos no intervalo.
 
 model VaultEmailChallenge {
-  id           String   @id @default(cuid())
-  userId       String
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  codeHash     String   // SHA-256 do código (não guardamos o texto claro)
-  credentialId String?  // credencial alvo (auditoria; não restringe a verify)
+  codeHash     String // SHA-256 do código (não guardamos o texto claro)
+  credentialId String? // credencial alvo (auditoria; não restringe a verify)
 
-  attempts     Int      @default(0)  // máx 5 tentativas por challenge
-  used         Boolean  @default(false)
-  expiresAt    DateTime
-  createdAt    DateTime @default(now())
+  attempts  Int      @default(0) // máx 5 tentativas por challenge
+  used      Boolean  @default(false)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
 
   @@index([userId, expiresAt])
 }
 
 model VaultTrustedSession {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   expiresAt DateTime
   createdAt DateTime @default(now())
@@ -95,23 +95,23 @@ model VaultTrustedSession {
 // para que o calendário pessoal apareça na vista "Meu Dia".
 
 model UserGoogleConnection {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  service   String   // "calendar" — extensível pra outros serviços pessoais
+  service     String // "calendar" — extensível pra outros serviços pessoais
   googleEmail String?
   googleName  String?
 
   // OAuth tokens (criptografados via src/lib/crypto.ts — AES-256-GCM)
-  accessTokenEnc  String?  @db.Text
-  refreshTokenEnc String?  @db.Text
+  accessTokenEnc  String?   @db.Text
+  refreshTokenEnc String?   @db.Text
   tokenExpiresAt  DateTime?
-  scopes          String[] @default([])
+  scopes          String[]  @default([])
 
-  status        String   @default("ACTIVE") // ACTIVE | EXPIRED | DISCONNECTED | ERROR
-  lastError     String?  @db.Text
-  lastSyncAt    DateTime?
+  status     String    @default("ACTIVE") // ACTIVE | EXPIRED | DISCONNECTED | ERROR
+  lastError  String?   @db.Text
+  lastSyncAt DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -122,8 +122,8 @@ model UserGoogleConnection {
 
 enum UserRole {
   SUPER_ADMIN
-  ADMIN   // admin da empresa (gerencia usuários, setores, config)
-  CLIENT  // agente/atendente — permissões controladas pelo setor
+  ADMIN // admin da empresa (gerencia usuários, setores, config)
+  CLIENT // agente/atendente — permissões controladas pelo setor
 }
 
 // Categoria do ranking — separa Produção (atendentes/operação) de Gestão
@@ -149,80 +149,84 @@ model Company {
   updatedAt DateTime      @updatedAt
 
   // Acesso ao sistema e módulos habilitados
-  hasSystemAccess Boolean @default(false) // pode fazer login no portal?
-  moduleWhatsapp     Boolean @default(false)
-  moduleCrm          Boolean @default(true)
-  moduleTickets      Boolean @default(false)
-  moduleAI           Boolean @default(false)
-  moduleGamificacao  Boolean @default(false)
-  moduleProjetos     Boolean @default(false)
-  moduleCalendario   Boolean @default(false)
+  hasSystemAccess   Boolean @default(false) // pode fazer login no portal?
+  moduleWhatsapp    Boolean @default(false)
+  moduleCrm         Boolean @default(true)
+  moduleTickets     Boolean @default(false)
+  moduleAI          Boolean @default(false)
+  moduleGamificacao Boolean @default(false)
+  moduleProjetos    Boolean @default(false)
+  moduleCalendario  Boolean @default(false)
   // Habilita busca de prospects via SerpAPI (Google Maps + scraper inline)
   // na página /crm/prospeccao. Cada empresa traz a própria `serpapiKey`.
-  moduleProspeccao   Boolean @default(false)
+  moduleProspeccao  Boolean @default(false)
   // API key SerpAPI da empresa (texto plano, mesmo padrão dos tokens de
   // integração atuais). Sem key, o botão "Buscar prospects" não aparece.
-  serpapiKey         String?
+  serpapiKey        String?
   // Habilita a integração com ClickUp pra esta empresa. Quando false, a UI
   // de configuração e a sincronização (push + webhook) ficam desligadas.
   // Cada empresa-cliente liga o módulo e configura a própria conta ClickUp.
-  moduleClickup      Boolean @default(false)
+  moduleClickup     Boolean @default(false)
   // Módulo Campanhas (gerenciar campanhas + UTMs vinculadas a leads)
-  moduleCampanhas    Boolean @default(false)
+  moduleCampanhas   Boolean @default(false)
   // Módulo Links de rastreio (gera tracking links com pixel)
-  moduleLinks        Boolean @default(false)
+  moduleLinks       Boolean @default(false)
 
   // Define se a empresa usa WhatsApp em modo VISAO (read-only / painel de contexto)
   // ou ATENDE (completo, envia pelo painel). Default ATENDE preserva comportamento
   // das contas existentes — só contas novas no plano de entrada nascem como VISAO.
-  modoAtendimento    ModoAtendimento @default(ATENDE)
+  modoAtendimento ModoAtendimento @default(ATENDE)
 
   // Hierarquia: empresa-pai gerencia sub-empresas (clientes da empresa)
   parentCompanyId String?
   parentCompany   Company?  @relation("SubCompanies", fields: [parentCompanyId], references: [id])
   subCompanies    Company[] @relation("SubCompanies")
 
-  users             User[]
-  userScores        UserScore[]
-  userBadges        UserBadge[]
-  scoreEvents       ScoreEvent[]
-  scoreRuleConfigs  ScoreRuleConfig[]
-  setorClickupListsAsClient SetorClickupList[] @relation("SetorClickupListClient")
-  rewards           Reward[]
-  rewardRedemptions RewardRedemption[]
-  businessHours     BusinessHoursConfig[]
-  campaigns         Campaign[]
-  leads             Lead[]
-  tasks             Task[]
-  tags              Tag[]
-  customFieldDefs   CustomFieldDef[]
+  users                     User[]
+  userScores                UserScore[]
+  userBadges                UserBadge[]
+  scoreEvents               ScoreEvent[]
+  scoreRuleConfigs          ScoreRuleConfig[]
+  setorClickupListsAsClient SetorClickupList[]       @relation("SetorClickupListClient")
+  rewards                   Reward[]
+  rewardRedemptions         RewardRedemption[]
+  businessHours             BusinessHoursConfig[]
+  campaigns                 Campaign[]
+  leads                     Lead[]
+  tasks                     Task[]
+  tags                      Tag[]
+  customFieldDefs           CustomFieldDef[]
   // Campos personalizados definidos por este tenant — aplicam-se às próprias
   // empresas-cliente (sub-empresas) e à própria empresa.
-  companyFieldDefs        CompanyCustomFieldDef[] @relation("CompanyFieldDefOwner")
-  companyCustomValues     CompanyCustomValue[]
-  whatsappInstances WhatsappInstance[]
-  messages          Message[]
-  keywordRules      KeywordRule[]
-  tickets           Ticket[]
-  ticketsAsClient   Ticket[]              @relation("TicketClientCompany")
-  trackingLinks     TrackingLink[]
-  pipelineStages    PipelineStageConfig[]
-  contacts          CompanyContact[]
-  setores           Setor[]
-  conversations     Conversation[]
-  activities        Activity[]
-  assets            CompanyAsset[]
-  credentialAccessLogs CredentialAccessLog[]
-  marketingIntegrations MarketingIntegration[]
-  analyticsSnapshots    AnalyticsSnapshot[]
-  analyticsTopPages     AnalyticsTopPage[]
-  analyticsTrafficSources AnalyticsTrafficSource[]
-  analyticsGeoData      AnalyticsGeoData[]
-  searchConsoleQueries  SearchConsoleQuery[]
-  subscription          Subscription?
-  billingEvents         BillingEvent[]
-  triggerOnly       Boolean               @default(false)
-  webhookToken      String?               @unique // token público para receber leads via webhook
+  companyFieldDefs          CompanyCustomFieldDef[]  @relation("CompanyFieldDefOwner")
+  companyCustomValues       CompanyCustomValue[]
+  whatsappInstances         WhatsappInstance[]
+  messages                  Message[]
+  keywordRules              KeywordRule[]
+  tickets                   Ticket[]
+  ticketsAsClient           Ticket[]                 @relation("TicketClientCompany")
+  trackingLinks             TrackingLink[]
+  pipelineStages            PipelineStageConfig[]
+  contacts                  CompanyContact[]
+  setores                   Setor[]
+  conversations             Conversation[]
+  activities                Activity[]
+  assets                    CompanyAsset[]
+  credentialAccessLogs      CredentialAccessLog[]
+  marketingIntegrations     MarketingIntegration[]
+  analyticsSnapshots        AnalyticsSnapshot[]
+  analyticsTopPages         AnalyticsTopPage[]
+  analyticsTrafficSources   AnalyticsTrafficSource[]
+  analyticsGeoData          AnalyticsGeoData[]
+  searchConsoleQueries      SearchConsoleQuery[]
+  gbpInsights               GbpInsight[]
+  gbpReviews                GbpReview[]
+  gbpSearchKeywords         GbpSearchKeyword[]
+  gbpProfileSnapshots       GbpProfileSnapshot[]
+  subscription              Subscription?
+  billingEvents             BillingEvent[]
+  triggerOnly               Boolean                  @default(false)
+  webhookToken              String?                  @unique // token público para receber leads via webhook
 
   @@index([parentCompanyId])
 }
@@ -315,15 +319,15 @@ model TrackingLink {
 }
 
 model ClickEvent {
-  id             String       @id @default(cuid())
-  trackingLink   TrackingLink @relation(fields: [trackingLinkId], references: [id], onDelete: Cascade)
+  id             String         @id @default(cuid())
+  trackingLink   TrackingLink   @relation(fields: [trackingLinkId], references: [id], onDelete: Cascade)
   trackingLinkId String
-  targetUrl      String       @db.Text
+  targetUrl      String         @db.Text
   targetLabel    String?
   // OPEN  = cliente abriu o shortlink /r/CODE (entrou na proposta/landing)
   // INTERNAL = clicou em algum link/CTA DENTRO da página de destino (pixel script)
   kind           ClickEventKind @default(INTERNAL)
-  createdAt      DateTime     @default(now())
+  createdAt      DateTime       @default(now())
 
   @@index([trackingLinkId])
   @@index([trackingLinkId, kind])
@@ -404,17 +408,17 @@ model Lead {
 // Tag colorida atribuível a leads. Configurada por empresa (cada empresa
 // monta as próprias categorias: "VIP", "Quente", "Aguardando docs"…).
 model Tag {
-  id        String   @id @default(cuid())
-  name      String
+  id    String @id @default(cuid())
+  name  String
   // Hex color usada nas chips. Default: indigo (combina com o tema).
-  color     String   @default("#6366f1")
+  color String @default("#6366f1")
   // Ordem de exibição. Default 0 — usuário pode arrastar pra reordenar depois.
-  order     Int      @default(0)
+  order Int    @default(0)
 
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
 
-  leads     LeadTag[]
+  leads LeadTag[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -426,7 +430,7 @@ model Tag {
 
 // Pivot N:N Lead↔Tag. Composta como PK pra evitar duplicatas naturalmente.
 model LeadTag {
-  lead   Lead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  lead   Lead   @relation(fields: [leadId], references: [id], onDelete: Cascade)
   leadId String
 
   tag   Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
@@ -444,23 +448,23 @@ model LeadTag {
 // CustomFieldDef é a definição (metadata); LeadCustomValue guarda o valor por lead.
 
 model CustomFieldDef {
-  id        String           @id @default(cuid())
+  id       String          @id @default(cuid())
   // Nome legível ("Convênio", "Tipo do imóvel"). Pode mudar sem quebrar nada.
-  name      String
+  name     String
   // Identificador estável usado na URL/API. Slug do nome no momento da criação.
   // Não duplicar na mesma empresa.
-  key       String
-  type      CustomFieldType  @default(TEXT)
+  key      String
+  type     CustomFieldType @default(TEXT)
   // Pra type=SELECT: array JSON de strings. Ex: ["Unimed","Bradesco","Particular"].
-  options   Json?
-  required  Boolean          @default(false)
+  options  Json?
+  required Boolean         @default(false)
   // Ordem de exibição no drawer. Menor primeiro.
-  order     Int              @default(0)
+  order    Int             @default(0)
 
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
 
-  values    LeadCustomValue[]
+  values LeadCustomValue[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -478,7 +482,7 @@ enum CustomFieldType {
 }
 
 model LeadCustomValue {
-  id      String @id @default(cuid())
+  id String @id @default(cuid())
 
   lead   Lead   @relation(fields: [leadId], references: [id], onDelete: Cascade)
   leadId String
@@ -489,7 +493,7 @@ model LeadCustomValue {
   // Valor sempre como texto — interpretação fica a cargo do `field.type`.
   // Pra DATE guarda ISO string; pra NUMBER guarda string numérica; SELECT
   // guarda o valor escolhido (uma das `options`). Simplifica muito o schema.
-  value   String @db.Text
+  value String @db.Text
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -507,19 +511,19 @@ model LeadCustomValue {
 // (ex.: "Plano contratado", "Data de renovação", "Driver Stripe").
 
 model CompanyCustomFieldDef {
-  id        String          @id @default(cuid())
-  name      String
-  key       String
-  type      CustomFieldType @default(TEXT)
-  options   Json?
-  order     Int             @default(0)
+  id      String          @id @default(cuid())
+  name    String
+  key     String
+  type    CustomFieldType @default(TEXT)
+  options Json?
+  order   Int             @default(0)
 
   // Tenant que definiu o campo (a agência). Os campos visíveis em uma empresa
   // são os do parentCompanyId dela (ou os dela mesma se for top-level).
   ownerCompany   Company @relation("CompanyFieldDefOwner", fields: [ownerCompanyId], references: [id], onDelete: Cascade)
   ownerCompanyId String
 
-  values    CompanyCustomValue[]
+  values CompanyCustomValue[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -550,22 +554,22 @@ model CompanyCustomValue {
 // Modelo simples e propositalmente enxuto — vendedor abre o sistema, vê
 // "minhas tarefas de hoje", marca como feita e segue. Sem recorrência por agora.
 model Task {
-  id        String   @id @default(cuid())
-  title     String
-  dueAt     DateTime
-  done      Boolean  @default(false)
-  doneAt    DateTime?
-  notes     String?  @db.Text
+  id     String    @id @default(cuid())
+  title  String
+  dueAt  DateTime
+  done   Boolean   @default(false)
+  doneAt DateTime?
+  notes  String?   @db.Text
 
   // Origem da tarefa: criada por humano ou disparada automaticamente
   // (ex: cliente abriu o link rastreado). Usado pra UI marcar "🔥 sinal quente"
   // e pra cooldowns de auto-criação.
-  source    TaskSource @default(MANUAL)
+  source TaskSource @default(MANUAL)
 
-  lead      Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
-  leadId    String
+  lead   Lead   @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  leadId String
 
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
 
   // Quem deve executar. Opcional — null = "qualquer um do setor pode pegar".
@@ -573,7 +577,7 @@ model Task {
   assigneeId String?
 
   // Quem criou (auditoria, gamificação). Null = sistema.
-  createdBy   User?  @relation("TaskCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  createdBy   User?   @relation("TaskCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
   createdById String?
 
   createdAt DateTime @default(now())
@@ -587,7 +591,7 @@ model Task {
 
 enum TaskSource {
   MANUAL
-  AUTO_LINK_OPEN   // disparada quando cliente abriu o shortlink (proposta etc.)
+  AUTO_LINK_OPEN // disparada quando cliente abriu o shortlink (proposta etc.)
 }
 
 enum LeadStatus {
@@ -608,8 +612,8 @@ model LeadComment {
 
   // Origem do comentário (pra dedup quando vem do ClickUp via webhook).
   // "LEADHUB" (default) | "CLICKUP"
-  source     String   @default("LEADHUB")
-  externalId String?  // ID do comentário no ClickUp (evita criar duplicado em sync)
+  source     String  @default("LEADHUB")
+  externalId String? // ID do comentário no ClickUp (evita criar duplicado em sync)
 
   lead   Lead   @relation(fields: [leadId], references: [id], onDelete: Cascade)
   leadId String
@@ -709,11 +713,11 @@ model Message {
   processed        Boolean     @default(false)
   rawPayload       Json?
   receivedAt       DateTime    @default(now())
-  ack              Int?        // ACK: 0=pending 1=server 2=delivered 3=read 4=played
-  quotedId         String?     // externalId da mensagem citada
+  ack              Int? // ACK: 0=pending 1=server 2=delivered 3=read 4=played
+  quotedId         String? // externalId da mensagem citada
   quotedBody       String?     @db.Text // snapshot do corpo da mensagem citada
   mediaBase64      String?     @db.Text // base64 da mídia (imagem/áudio) — vídeo/doc ignorados por tamanho
-  mediaType        String?              // MIME type: "image/jpeg", "audio/ogg; codecs=opus", etc.
+  mediaType        String? // MIME type: "image/jpeg", "audio/ogg; codecs=opus", etc.
 
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
@@ -792,13 +796,13 @@ model Setting {
 // banimento por uso de bot detectado pelo WhatsApp. Reseta naturalmente
 // porque cada (instanceId, day) é uma linha nova.
 model WhatsappQuota {
-  id         String   @id @default(cuid())
+  id         String @id @default(cuid())
   instanceId String
-  day        String   // YYYY-MM-DD
-  count      Int      @default(0)
+  day        String // YYYY-MM-DD
+  count      Int    @default(0)
 
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([instanceId, day])
   @@index([day])
@@ -810,7 +814,7 @@ model WhatsappQuota {
 // vivem aqui — não mais em Lead.attendanceStatus.
 
 model Conversation {
-  id      String  @id @default(cuid())
+  id String @id @default(cuid())
 
   // Identificação (telefone individual ou JID do grupo)
   phone   String
@@ -834,7 +838,7 @@ model Conversation {
 
   // Retorno agendado
   scheduledReturnAt DateTime? // data/hora do retorno agendado (usado quando status=SCHEDULED)
-  returnNote        String?   // nota/motivo do agendamento
+  returnNote        String? // nota/motivo do agendamento
 
   // Gamificação — admin pode desligar pontos pra conversas internas (grupos
   // do time, testes etc). Default false = pontua normal.
@@ -866,12 +870,12 @@ model Conversation {
 }
 
 enum ConversationStatus {
-  OPEN              // 🆕 nova, aguardando ação (cyan)
-  PENDING           // 🔴 sem atendimento (passou SLA)
-  IN_PROGRESS       // 🟡 atendente atribuído e ativo
-  WAITING_CUSTOMER  // 🔵 respondemos, esperando cliente
-  SCHEDULED         // 🟣 standby — retorno agendado (usa Lead.expectedReturnAt como prazo)
-  CLOSED            // ⚪ finalizada
+  OPEN // 🆕 nova, aguardando ação (cyan)
+  PENDING // 🔴 sem atendimento (passou SLA)
+  IN_PROGRESS // 🟡 atendente atribuído e ativo
+  WAITING_CUSTOMER // 🔵 respondemos, esperando cliente
+  SCHEDULED // 🟣 standby — retorno agendado (usa Lead.expectedReturnAt como prazo)
+  CLOSED // ⚪ finalizada
 }
 
 model ConversationNote {
@@ -959,11 +963,11 @@ model Ticket {
   // Tipo do registro:
   //   SUPPORT  — chamado de cliente externo (default, fluxo tradicional)
   //   INTERNAL — tarefa interna / afazer pessoal (sem cliente vinculado, fora do ClickUp)
-  type          String         @default("SUPPORT")
+  type String @default("SUPPORT")
 
   // Prazo previsto pra dar retorno/encerrar. Obrigatório no novo fluxo (validado
   // no API), mas mantido nullable no banco pra não quebrar registros antigos.
-  dueDate       DateTime?
+  dueDate DateTime?
 
   // Empresa-cliente do chamado (FOR quem é o atendimento). Diferente de
   // companyId, que é a empresa-dona do ticket (a agência). Para INTERNAL, null.
@@ -974,8 +978,8 @@ model Ticket {
   assignee   User?   @relation("TicketAssignee", fields: [assigneeId], references: [id])
   assigneeId String?
 
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
@@ -999,11 +1003,11 @@ model Ticket {
 }
 
 model TicketMessage {
-  id         String   @id @default(cuid())
-  body       String   @db.Text
-  isInternal Boolean  @default(false)
+  id         String  @id @default(cuid())
+  body       String  @db.Text
+  isInternal Boolean @default(false)
   authorName String
-  authorRole String   @default("CLIENT")
+  authorRole String  @default("CLIENT")
 
   // Anexos de imagem em base64 — mesmo padrão de Message do WhatsApp.
   // Mantemos no DB pra simplificar (sem storage externo). Vídeos/docs grandes
@@ -1013,10 +1017,10 @@ model TicketMessage {
 
   // Origem da mensagem (pra audit + dedup quando vem do ClickUp).
   // "LEADHUB" (default) | "CLICKUP" | "CLIENT_PORTAL"
-  source     String   @default("LEADHUB")
-  externalId String?  // ID do comentário no ClickUp (evita criar duplicado em sync)
+  source     String  @default("LEADHUB")
+  externalId String? // ID do comentário no ClickUp (evita criar duplicado em sync)
 
-  createdAt  DateTime @default(now())
+  createdAt DateTime @default(now())
 
   ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
   ticketId String
@@ -1052,26 +1056,26 @@ model Setor {
 
   // Permissões do setor
   canManageUsers     Boolean @default(false) // cadastrar/editar usuários
-  canViewLeads       Boolean @default(true)  // ver prospects/leads/oportunidades
+  canViewLeads       Boolean @default(true) // ver prospects/leads/oportunidades
   canCreateLeads     Boolean @default(false) // cadastrar/mover leads
-  canViewTickets     Boolean @default(true)  // ver chamados do setor
-  canCreateTickets   Boolean @default(true)  // abrir chamados
+  canViewTickets     Boolean @default(true) // ver chamados do setor
+  canCreateTickets   Boolean @default(true) // abrir chamados
   canViewConfig      Boolean @default(false) // acessar configurações
   canUseAI           Boolean @default(false) // usar Assistente IA e sugestões
-  canViewInbox       Boolean @default(true)  // acessar caixa de entrada WhatsApp
-  canSendMessages    Boolean @default(true)  // enviar mensagens WhatsApp
+  canViewInbox       Boolean @default(true) // acessar caixa de entrada WhatsApp
+  canSendMessages    Boolean @default(true) // enviar mensagens WhatsApp
   canViewCompanies   Boolean @default(false) // ver lista de empresas/clientes
   canCreateCompanies Boolean @default(false) // cadastrar novas empresas
   // Permissões de módulo (gate da Sidebar, gateadas pelos módulos da empresa).
   // Default true mantém compat — empresas que ligam módulo já distribuíam acesso
   // a todos os usuários. Admin pode restringir setor a setor.
-  canViewCalendario  Boolean @default(true)  // ver Calendário
-  canViewMarketing   Boolean @default(true)  // ver Dashboard de Marketing
-  canViewCampanhas   Boolean @default(true)  // ver Campanhas
-  canViewProjetos    Boolean @default(true)  // ver Projetos
-  canViewRanking     Boolean @default(true)  // ver Ranking de gamificação
-  canViewLinks       Boolean @default(true)  // ver Links de rastreamento
-  canViewCofre       Boolean @default(true)  // ver Cofre (2FA continua valendo por credencial)
+  canViewCalendario  Boolean @default(true) // ver Calendário
+  canViewMarketing   Boolean @default(true) // ver Dashboard de Marketing
+  canViewCampanhas   Boolean @default(true) // ver Campanhas
+  canViewProjetos    Boolean @default(true) // ver Projetos
+  canViewRanking     Boolean @default(true) // ver Ranking de gamificação
+  canViewLinks       Boolean @default(true) // ver Links de rastreamento
+  canViewCofre       Boolean @default(true) // ver Cofre (2FA continua valendo por credencial)
 
   users         SetorUser[]
   instances     SetorInstance[]
@@ -1089,41 +1093,41 @@ model Setor {
 // Mantém o nome SetorClickupList por compatibilidade com a migration anterior;
 // representa um Project completo.
 model SetorClickupList {
-  id              String        @id @default(cuid())
-  setorId         String
-  setor           Setor         @relation(fields: [setorId], references: [id], onDelete: Cascade)
+  id      String @id @default(cuid())
+  setorId String
+  setor   Setor  @relation(fields: [setorId], references: [id], onDelete: Cascade)
 
   clickupListId   String
   name            String
-  description     String?       @db.Text
-  type            String?       // "SITE" | "MIDIA" | "CAMPANHA" | etc.
+  description     String?  @db.Text
+  type            String? // "SITE" | "MIDIA" | "CAMPANHA" | etc.
   clientCompanyId String?
-  clientCompany   Company?      @relation("SetorClickupListClient", fields: [clientCompanyId], references: [id], onDelete: SetNull)
+  clientCompany   Company? @relation("SetorClickupListClient", fields: [clientCompanyId], references: [id], onDelete: SetNull)
 
   // Gestão de projeto
-  status          ProjectStatus @default(PLANEJAMENTO)
-  startDate       DateTime?
-  dueDate         DateTime?
-  deliveredAt     DateTime?
+  status      ProjectStatus @default(PLANEJAMENTO)
+  startDate   DateTime?
+  dueDate     DateTime?
+  deliveredAt DateTime?
 
   // Cache de sync vindo do ClickUp via cron
-  taskCount       Int           @default(0)
-  taskCompleted   Int           @default(0)
-  taskOverdue     Int           @default(0)
-  taskNoDueDate   Int           @default(0)  // tarefas sem due_date
-  taskNoAssignee  Int           @default(0)  // tarefas sem responsável
-  lastSyncedAt    DateTime?
+  taskCount      Int       @default(0)
+  taskCompleted  Int       @default(0)
+  taskOverdue    Int       @default(0)
+  taskNoDueDate  Int       @default(0) // tarefas sem due_date
+  taskNoAssignee Int       @default(0) // tarefas sem responsável
+  lastSyncedAt   DateTime?
 
   // Acompanhamento de cobrança ao cliente (quando AGUARDANDO_CLIENTE)
-  clientExpectedAt    DateTime?  // próxima vez que se espera retorno
-  clientLastContactAt DateTime?  // última cobrança registrada
+  clientExpectedAt    DateTime? // próxima vez que se espera retorno
+  clientLastContactAt DateTime? // última cobrança registrada
 
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  members         ProjectMember[]
-  taskStates      ProjectTaskState[]
-  activities      ProjectActivity[]
+  members    ProjectMember[]
+  taskStates ProjectTaskState[]
+  activities ProjectActivity[]
 
   @@unique([setorId, clickupListId])
   @@index([setorId])
@@ -1138,12 +1142,12 @@ model ProjectTaskState {
   id            String           @id @default(cuid())
   projectId     String
   project       SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  taskId        String           // ID no ClickUp
+  taskId        String // ID no ClickUp
   name          String
   statusName    String?
   isCompleted   Boolean          @default(false)
   hasNoAssignee Boolean          @default(false)
-  dateUpdated   BigInt?          // epoch ms
+  dateUpdated   BigInt? // epoch ms
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt
 
@@ -1156,10 +1160,10 @@ model ProjectActivity {
   id          String           @id @default(cuid())
   projectId   String
   project     SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  type        String           // "TASK_CREATED" | "TASK_UPDATED" | "TASK_COMPLETED" | "CLIENT_FOLLOWUP"
-  taskName    String           // nome da tarefa (ou "Cobrança ao cliente" pra followup)
-  taskId      String           // ID da task ou string vazia pra followup
-  description String?          @db.Text  // texto livre (mensagem da cobrança, ex)
+  type        String // "TASK_CREATED" | "TASK_UPDATED" | "TASK_COMPLETED" | "CLIENT_FOLLOWUP"
+  taskName    String // nome da tarefa (ou "Cobrança ao cliente" pra followup)
+  taskId      String // ID da task ou string vazia pra followup
+  description String?          @db.Text // texto livre (mensagem da cobrança, ex)
   authorId    String?
   authorName  String?
   createdAt   DateTime         @default(now())
@@ -1170,7 +1174,7 @@ model ProjectActivity {
 enum ProjectStatus {
   PLANEJAMENTO
   EM_ANDAMENTO
-  AGUARDANDO_CLIENTE  // pausa penalidades de prazo (a culpa não é da equipe)
+  AGUARDANDO_CLIENTE // pausa penalidades de prazo (a culpa não é da equipe)
   PAUSADO
   ENTREGUE
   CANCELADO
@@ -1181,7 +1185,7 @@ model ProjectMember {
   project   SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
   userId    String
   user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  role      String           @default("MEMBER")  // "LEAD" | "MEMBER"
+  role      String           @default("MEMBER") // "LEAD" | "MEMBER"
   createdAt DateTime         @default(now())
 
   @@id([projectId, userId])
@@ -1219,23 +1223,23 @@ model SetorInstance {
 // CredentialAccessLog audita quem visualizou cada credencial.
 
 model CompanyAsset {
-  id          String       @id @default(cuid())
-  companyId   String
-  company     Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  id        String  @id @default(cuid())
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
-  type        AssetType
-  name        String
-  url         String?
-  host        String?       // ex: "ftp.cliente.com.br", "mysql.cliente.com.br:3306"
-  identifier  String?       // ex: nome do domínio "cliente.com.br", e-mail "vendas@x"
-  provider    String?       // ex: "Hostinger", "Cloudflare", "Google Workspace"
-  status      AssetStatus  @default(ACTIVE)
-  expiresAt   DateTime?     // renovação de domínio, validade de SSL, etc.
-  notes       String?       @db.Text
-  tags        String[]      @default([])
+  type       AssetType
+  name       String
+  url        String?
+  host       String? // ex: "ftp.cliente.com.br", "mysql.cliente.com.br:3306"
+  identifier String? // ex: nome do domínio "cliente.com.br", e-mail "vendas@x"
+  provider   String? // ex: "Hostinger", "Cloudflare", "Google Workspace"
+  status     AssetStatus @default(ACTIVE)
+  expiresAt  DateTime? // renovação de domínio, validade de SSL, etc.
+  notes      String?     @db.Text
+  tags       String[]    @default([])
 
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   createdById String?
 
   credentials CompanyCredential[]
@@ -1266,20 +1270,20 @@ enum AssetStatus {
 }
 
 model CompanyCredential {
-  id          String       @id @default(cuid())
-  assetId     String
-  asset       CompanyAsset @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  id      String       @id @default(cuid())
+  assetId String
+  asset   CompanyAsset @relation(fields: [assetId], references: [id], onDelete: Cascade)
 
-  label       String                  // ex: "Admin WordPress", "FTP root", "cPanel"
-  username    String?
+  label             String // ex: "Admin WordPress", "FTP root", "cPanel"
+  username          String?
   // Segredo criptografado (AES-256-GCM). Nunca armazenado em texto claro.
   // Formato no banco: base64(iv|authTag|ciphertext)
   passwordEncrypted String?
-  url         String?                 // link de login direto
-  totpSecret  String?                 // (opcional, criptografado tb) — backlog Fase 2
-  notes       String?       @db.Text
+  url               String? // link de login direto
+  totpSecret        String? // (opcional, criptografado tb) — backlog Fase 2
+  notes             String? @db.Text
 
-  lastRotatedAt    DateTime?          // alerta para trocar senhas a cada N meses
+  lastRotatedAt    DateTime? // alerta para trocar senhas a cada N meses
   sharedWithClient Boolean   @default(false) // já foi compartilhada com o cliente?
   sharedAt         DateTime?
 
@@ -1289,46 +1293,46 @@ model CompanyCredential {
   archivedById   String?
   archivedByName String?
 
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   createdById String?
 
-  accessLogs  CredentialAccessLog[]
+  accessLogs CredentialAccessLog[]
 
   @@index([assetId])
   @@index([assetId, archivedAt])
 }
 
 model CredentialAccessLog {
-  id           String    @id @default(cuid())
+  id           String            @id @default(cuid())
   credentialId String
   credential   CompanyCredential @relation(fields: [credentialId], references: [id], onDelete: Cascade)
 
   // Denormalizado: facilita filtro "tudo que fulano viu na empresa X"
-  companyId    String
-  company      Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
-  userId       String?
-  userName     String?   // snapshot (caso o user seja deletado)
-  userRole     String?
-  action       CredentialAction
-  ipAddress    String?
-  userAgent    String?
-  createdAt    DateTime  @default(now())
+  userId    String?
+  userName  String? // snapshot (caso o user seja deletado)
+  userRole  String?
+  action    CredentialAction
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime         @default(now())
 
   @@index([credentialId, createdAt])
   @@index([companyId, createdAt])
 }
 
 enum CredentialAction {
-  REVEAL    // visualizou a senha
-  COPY      // copiou para o clipboard
-  SHARE     // compartilhou com o cliente (WhatsApp/email)
-  EDIT      // editou o registro
+  REVEAL // visualizou a senha
+  COPY // copiou para o clipboard
+  SHARE // compartilhou com o cliente (WhatsApp/email)
+  EDIT // editou o registro
   CREATE
   DELETE
-  ARCHIVE   // arquivou (soft-delete por CLIENT)
-  RESTORE   // admin restaurou um registro arquivado
+  ARCHIVE // arquivou (soft-delete por CLIENT)
+  RESTORE // admin restaurou um registro arquivado
 }
 
 // ─── Integrações de Marketing ─────────────────────────────────────────────────
@@ -1342,33 +1346,33 @@ enum CredentialAction {
 // SearchConsoleQuery — top queries por dia
 
 model MarketingIntegration {
-  id            String       @id @default(cuid())
-  companyId     String
-  company       Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  id        String  @id @default(cuid())
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
-  provider      IntegrationProvider
+  provider     IntegrationProvider
   // Conta/propriedade conectada (ex: "properties/123456" pra GA4, "sc-domain:x.com" pra SC)
-  accountId     String?
-  accountLabel  String?      // nome amigável (ex: "azz.com.br")
+  accountId    String?
+  accountLabel String? // nome amigável (ex: "azz.com.br")
 
   // OAuth tokens (criptografados)
-  accessTokenEnc  String?     @db.Text
-  refreshTokenEnc String?     @db.Text
+  accessTokenEnc  String?   @db.Text
+  refreshTokenEnc String?   @db.Text
   tokenExpiresAt  DateTime?
-  scopes          String[]    @default([])
+  scopes          String[]  @default([])
 
   // Identidade do usuário Google que autorizou
-  googleEmail     String?
-  googleName      String?
+  googleEmail String?
+  googleName  String?
 
-  status        IntegrationStatus @default(ACTIVE)
-  lastSyncAt    DateTime?
-  lastSyncStatus String?      // "ok" | "error: ..."
-  lastError     String?       @db.Text
+  status         IntegrationStatus @default(ACTIVE)
+  lastSyncAt     DateTime?
+  lastSyncStatus String? // "ok" | "error: ..."
+  lastError      String?           @db.Text
 
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  createdById   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdById String?
 
   @@unique([companyId, provider, accountId])
   @@index([companyId])
@@ -1376,120 +1380,225 @@ model MarketingIntegration {
 }
 
 enum IntegrationProvider {
-  GA4               // Google Analytics 4
-  SEARCH_CONSOLE    // Google Search Console
-  BUSINESS_PROFILE  // Google Meu Negócio (GBP)
+  GA4 // Google Analytics 4
+  SEARCH_CONSOLE // Google Search Console
+  BUSINESS_PROFILE // Google Meu Negócio (GBP)
   GOOGLE_ADS
   META_ADS
 }
 
 enum IntegrationStatus {
   ACTIVE
-  EXPIRED       // refresh token inválido / revogado
-  ERROR         // falha repetida no sync
-  DISCONNECTED  // usuário desconectou manualmente
+  EXPIRED // refresh token inválido / revogado
+  ERROR // falha repetida no sync
+  DISCONNECTED // usuário desconectou manualmente
 }
 
 model AnalyticsSnapshot {
-  id          String   @id @default(cuid())
-  companyId   String
-  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  date        DateTime @db.Date
-  source      String   // "ga4" | "pixel" (futuramente)
+  id        String   @id @default(cuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  date      DateTime @db.Date
+  source    String // "ga4" | "pixel" (futuramente)
 
-  sessions     Int     @default(0)
-  users        Int     @default(0)
-  newUsers     Int     @default(0)
-  pageviews    Int     @default(0)
-  conversions  Int     @default(0)
-  bounceRate   Float?  // 0..1
-  avgSessionSec Float?
-  engagedSessions Int? @default(0)
+  sessions        Int    @default(0)
+  users           Int    @default(0)
+  newUsers        Int    @default(0)
+  pageviews       Int    @default(0)
+  conversions     Int    @default(0)
+  bounceRate      Float? // 0..1
+  avgSessionSec   Float?
+  engagedSessions Int?   @default(0)
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([companyId, date, source])
   @@index([companyId, date])
 }
 
 model AnalyticsTopPage {
-  id          String   @id @default(cuid())
-  companyId   String
-  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  date        DateTime @db.Date
-  source      String   // "ga4"
+  id        String   @id @default(cuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  date      DateTime @db.Date
+  source    String // "ga4"
 
-  pagePath    String
-  pageTitle   String?
-  views       Int      @default(0)
-  users       Int      @default(0)
-  avgTimeSec  Float?
+  pagePath   String
+  pageTitle  String?
+  views      Int     @default(0)
+  users      Int     @default(0)
+  avgTimeSec Float?
 
   @@unique([companyId, date, source, pagePath])
   @@index([companyId, date])
 }
 
 model AnalyticsTrafficSource {
-  id          String   @id @default(cuid())
-  companyId   String
-  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  date        DateTime @db.Date
-  source      String   // "ga4"
+  id        String   @id @default(cuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  date      DateTime @db.Date
+  source    String // "ga4"
 
   // Dados brutos do GA4
-  rawSource   String   // ex: "google", "instagram.com", "chatgpt.com"
-  rawMedium   String   // ex: "organic", "referral", "cpc"
+  rawSource String // ex: "google", "instagram.com", "chatgpt.com"
+  rawMedium String // ex: "organic", "referral", "cpc"
 
   // Categoria classificada pela nossa lógica (src/lib/traffic-classifier.ts)
-  bucket      String   // "AI" | "ORGANIC_SEARCH" | "PAID_SEARCH" | "INSTAGRAM" | ...
+  bucket String // "AI" | "ORGANIC_SEARCH" | "PAID_SEARCH" | "INSTAGRAM" | ...
 
-  sessions    Int      @default(0)
-  users       Int      @default(0)
-  conversions Int      @default(0)
+  sessions    Int @default(0)
+  users       Int @default(0)
+  conversions Int @default(0)
 
   @@unique([companyId, date, source, rawSource, rawMedium])
   @@index([companyId, date, bucket])
 }
 
 model AnalyticsGeoData {
-  id          String   @id @default(cuid())
-  companyId   String
-  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  date        DateTime @db.Date
-  source      String   // "ga4"
+  id        String   @id @default(cuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  date      DateTime @db.Date
+  source    String // "ga4"
 
-  countryCode String?  // "BR", "US"
+  countryCode String? // "BR", "US"
   countryName String?
-  region      String?  // estado / província
+  region      String? // estado / província
   city        String?
 
-  sessions    Int      @default(0)
-  users       Int      @default(0)
+  sessions Int @default(0)
+  users    Int @default(0)
 
   @@unique([companyId, date, source, countryCode, region, city])
   @@index([companyId, date])
 }
 
 model SearchConsoleQuery {
-  id          String   @id @default(cuid())
-  companyId   String
-  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  date        DateTime @db.Date
+  id        String   @id @default(cuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  date      DateTime @db.Date
 
-  query       String
-  page        String?
-  country     String?  // "bra"
-  device      String?  // "MOBILE" | "DESKTOP" | "TABLET"
+  query   String
+  page    String?
+  country String? // "bra"
+  device  String? // "MOBILE" | "DESKTOP" | "TABLET"
 
   clicks      Int
   impressions Int
-  ctr         Float    // 0..1
-  position    Float    // posição média
+  ctr         Float // 0..1
+  position    Float // posição média
 
   @@unique([companyId, date, query, page, country, device])
   @@index([companyId, date])
   @@index([companyId, query])
+}
+
+// ─── Google Business Profile (GBP / "Meu Negócio") ────────────────────────────
+//
+// Espelha o padrão do GA4 / Search Console: 1 MarketingIntegration (provider=
+// BUSINESS_PROFILE) representa 1 location escolhida. Cron diário roda syncGbp
+// que popula as tabelas abaixo. Range padrão 30 dias.
+//
+// Dados origem (4 APIs):
+//   - businessprofileperformance.googleapis.com → insights (views, actions) + keywords
+//   - mybusiness.googleapis.com/v4 (legacy)     → reviews
+//   - mybusinessbusinessinformation.googleapis.com → profile
+
+// 1 linha/dia/empresa — KPIs operacionais do perfil
+model GbpInsight {
+  id        String   @id @default(cuid())
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+  date      DateTime @db.Date
+
+  // Impressões (views do perfil)
+  impressionsSearchDesktop Int @default(0)
+  impressionsSearchMobile  Int @default(0)
+  impressionsMapsDesktop   Int @default(0)
+  impressionsMapsMobile    Int @default(0)
+
+  // Ações
+  callClicks        Int @default(0)
+  websiteClicks     Int @default(0)
+  directionRequests Int @default(0)
+  conversations     Int @default(0)
+  bookings          Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, date])
+  @@index([companyId, date])
+}
+
+// 1 linha/review — usada em card "últimas reviews" + KPI rating médio
+model GbpReview {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  // ID externo do Google (accounts/X/locations/Y/reviews/Z)
+  googleReviewId String @unique
+
+  reviewerName     String?
+  reviewerPhotoUrl String?
+  starRating       Int // 1-5
+  comment          String?   @db.Text
+  createTime       DateTime
+  updateTime       DateTime?
+
+  // Resposta do dono (se houver)
+  replyComment    String?   @db.Text
+  replyUpdateTime DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId, createTime])
+  @@index([companyId, starRating])
+}
+
+// Termo de busca → impressões mensais (granularidade que a API entrega)
+model GbpSearchKeyword {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  keyword     String
+  year        Int
+  month       Int // 1-12
+  impressions Int // pode ser threshold ("<15")
+  isThreshold Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@unique([companyId, year, month, keyword])
+  @@index([companyId, year, month])
+}
+
+// Snapshot do perfil — espelho dos campos + completenessScore calculado
+model GbpProfileSnapshot {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  title             String?
+  primaryCategory   String?
+  storefrontAddress Json?
+  primaryPhone      String?
+  websiteUri        String?
+  regularHours      Json?
+  description       String? @db.Text
+  photoCount        Int?
+  // 0-100 — quanto está preenchido. Card "Profile Health" mostra checks faltando.
+  completenessScore Int
+
+  syncedAt DateTime @default(now())
+
+  @@index([companyId, syncedAt])
 }
 
 // ─── Cobrança / Assinaturas ───────────────────────────────────────────────────
@@ -1507,16 +1616,16 @@ model SearchConsoleQuery {
 //  INCOMPLETE → checkout iniciado mas não finalizado
 
 model Subscription {
-  id        String   @id @default(cuid())
-  companyId String   @unique
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  id        String  @id @default(cuid())
+  companyId String  @unique
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
-  plan          PlanTier         @default(TRIAL)
-  status        SubscriptionStatus @default(TRIALING)
-  billingCycle  String           @default("monthly")   // "monthly" | "annual"
+  plan         PlanTier           @default(TRIAL)
+  status       SubscriptionStatus @default(TRIALING)
+  billingCycle String             @default("monthly") // "monthly" | "annual"
 
   // Trial
-  trialEndsAt   DateTime?
+  trialEndsAt DateTime?
 
   // Período corrente (válido pra ACTIVE/CANCELED)
   currentPeriodStart DateTime?
@@ -1525,8 +1634,8 @@ model Subscription {
   canceledAt         DateTime?
 
   // Stripe
-  stripeCustomerId     String?  @unique
-  stripeSubscriptionId String?  @unique
+  stripeCustomerId     String? @unique
+  stripeSubscriptionId String? @unique
   stripePriceId        String?
 
   // Cache de cartão (last4, brand) só pra mostrar na UI — sem dado sensível
@@ -1579,10 +1688,10 @@ model BusinessHoursConfig {
   id        String   @id @default(cuid())
   companyId String
   company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  dayOfWeek Int                          // 0=dom … 6=sáb
+  dayOfWeek Int // 0=dom … 6=sáb
   isOpen    Boolean  @default(true)
-  openTime  String   @default("09:00")   // "HH:MM"
-  closeTime String   @default("18:00")   // "HH:MM"
+  openTime  String   @default("09:00") // "HH:MM"
+  closeTime String   @default("18:00") // "HH:MM"
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -1596,9 +1705,9 @@ model BusinessHoursInterval {
   id        String              @id @default(cuid())
   configId  String
   config    BusinessHoursConfig @relation(fields: [configId], references: [id], onDelete: Cascade)
-  startTime String              // "HH:MM"
-  endTime   String              // "HH:MM"
-  label     String?             // "Almoço", "Reunião de equipe", etc.
+  startTime String // "HH:MM"
+  endTime   String // "HH:MM"
+  label     String? // "Almoço", "Reunião de equipe", etc.
 
   @@index([configId])
 }
@@ -1617,7 +1726,7 @@ model Reward {
   cost        Int
   available   Boolean  @default(true)
   imageUrl    String?
-  stock       Int?     // null = ilimitado
+  stock       Int? // null = ilimitado
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -1634,10 +1743,10 @@ model RewardRedemption {
   company    Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
   rewardId   String
   reward     Reward           @relation(fields: [rewardId], references: [id], onDelete: Restrict)
-  rewardName String           // snapshot
+  rewardName String // snapshot
   cost       Int
   status     RedemptionStatus @default(PENDING)
-  notes      String?          // admin note (motivo de rejeição, etc.)
+  notes      String? // admin note (motivo de rejeição, etc.)
   createdAt  DateTime         @default(now())
   updatedAt  DateTime         @updatedAt
   resolvedAt DateTime?
@@ -1647,10 +1756,10 @@ model RewardRedemption {
 }
 
 enum RedemptionStatus {
-  PENDING     // aguardando aprovação do admin
-  APPROVED    // aprovado, em trânsito
-  DELIVERED   // entregue
-  REJECTED    // recusado (pontos devolvidos)
+  PENDING // aguardando aprovação do admin
+  APPROVED // aprovado, em trânsito
+  DELIVERED // entregue
+  REJECTED // recusado (pontos devolvidos)
 }
 
 // ─── Gamificação ──────────────────────────────────────────────────────────────
@@ -1658,18 +1767,18 @@ enum RedemptionStatus {
 // cada mês via cron. totalPoints nunca zera (histórico vitalício).
 
 model UserScore {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  companyId   String
-  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  totalPoints Int      @default(0)   // histórico vitalício (nunca decrementa via resgate)
-  monthPoints Int      @default(0)   // do mês corrente (reseta dia 1)
-  redeemablePoints Int @default(0)   // disponíveis pra trocar por prêmios
-  month       Int
-  year        Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id               String   @id @default(cuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyId        String
+  company          Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  totalPoints      Int      @default(0) // histórico vitalício (nunca decrementa via resgate)
+  monthPoints      Int      @default(0) // do mês corrente (reseta dia 1)
+  redeemablePoints Int      @default(0) // disponíveis pra trocar por prêmios
+  month            Int
+  year             Int
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   @@unique([userId, month, year])
   @@index([companyId, month, year])
@@ -1677,14 +1786,14 @@ model UserScore {
 }
 
 model UserBadge {
-  id        String     @id @default(cuid())
+  id        String    @id @default(cuid())
   userId    String
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   companyId String
-  company   Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company   Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
   badge     BadgeType
-  tier      Int        @default(1) // 1-6, definição em src/app/(admin)/gamificacao/labels.ts
-  earnedAt  DateTime   @default(now())
+  tier      Int       @default(1) // 1-6, definição em src/app/(admin)/gamificacao/labels.ts
+  earnedAt  DateTime  @default(now())
 
   @@unique([userId, badge, tier])
   @@index([userId])
@@ -1701,9 +1810,9 @@ model ScoreEvent {
   reason      ScoreReason
   referenceId String?
   // Para incidentes manuais (reason=INCIDENTE) e bônus customizados:
-  description String?     @db.Text  // o que aconteceu / contexto
-  authorId    String?                // quem registrou
-  authorName  String?                // snapshot (caso author seja deletado)
+  description String?     @db.Text // o que aconteceu / contexto
+  authorId    String? // quem registrou
+  authorName  String? // snapshot (caso author seja deletado)
   createdAt   DateTime    @default(now())
 
   @@index([userId, createdAt])
@@ -1729,37 +1838,37 @@ model ScoreRuleConfig {
 }
 
 enum BadgeType {
-  RAIO_VELOZ        // 50 respostas em <5min no mês
-  SPRINT_MASTER     // 7 dias sem atraso
-  PRIMEIRO_DO_DIA   // 1a resposta do dia 3x seguidas
-  RESOLVEDOR        // 20 tickets resolvidos
-  ZERO_PENDENCIA    // semana sem conversa aberta
-  ANTECIPADOR       // 10 retornos cumpridos antes do prazo
-  CLOSER            // 5 conversões de lead no mês
-  FUNIL_COMPLETO    // lead avançou todas as etapas em <7 dias
-  REI_DO_MES        // 1o lugar no ranking mensal
-  PONTUAL           // dias terminados sem nada atrasado
-  ENTREGADOR        // projetos entregues no prazo
-  CONSTRUTOR        // tarefas concluídas no ClickUp
-  ENGAJADO          // tarefas atualizadas no ClickUp
-  GERADOR           // tarefas criadas no ClickUp
+  RAIO_VELOZ // 50 respostas em <5min no mês
+  SPRINT_MASTER // 7 dias sem atraso
+  PRIMEIRO_DO_DIA // 1a resposta do dia 3x seguidas
+  RESOLVEDOR // 20 tickets resolvidos
+  ZERO_PENDENCIA // semana sem conversa aberta
+  ANTECIPADOR // 10 retornos cumpridos antes do prazo
+  CLOSER // 5 conversões de lead no mês
+  FUNIL_COMPLETO // lead avançou todas as etapas em <7 dias
+  REI_DO_MES // 1o lugar no ranking mensal
+  PONTUAL // dias terminados sem nada atrasado
+  ENTREGADOR // projetos entregues no prazo
+  CONSTRUTOR // tarefas concluídas no ClickUp
+  ENGAJADO // tarefas atualizadas no ClickUp
+  GERADOR // tarefas criadas no ClickUp
   // Easter eggs — escondidas pra não-admin até desbloquearem
-  CORUJA            // respostas após o expediente (após 22h, dia útil)
-  MADRUGADOR        // respostas antes das 7h
-  SORTUDO           // lead criado e fechado no mesmo dia
-  FENIX             // lead que estava LOST e voltou pra CLOSED
+  CORUJA // respostas após o expediente (após 22h, dia útil)
+  MADRUGADOR // respostas antes das 7h
+  SORTUDO // lead criado e fechado no mesmo dia
+  FENIX // lead que estava LOST e voltou pra CLOSED
   // Colaboração / ajuda mútua entre atendentes
-  EXERCITO          // responde conversa de outro responsável quando cliente espera
-  LIDER             // encaminha conversa pra colega adequado (muda assignee/setor)
-  GUARDIAO          // primeiro a responder em conversa nova sem responsável
+  EXERCITO // responde conversa de outro responsável quando cliente espera
+  LIDER // encaminha conversa pra colega adequado (muda assignee/setor)
+  GUARDIAO // primeiro a responder em conversa nova sem responsável
   // Mestres do Ofício — chamados próprios (gamificação de tickets)
-  ALQUIMISTA        // atualiza/comenta no próprio chamado (constância)
-  SNIPER            // resolveu chamado antes do dueDate (precisão)
-  TROVAO            // chamado criado e resolvido no mesmo dia (velocidade)
+  ALQUIMISTA // atualiza/comenta no próprio chamado (constância)
+  SNIPER // resolveu chamado antes do dueDate (precisão)
+  TROVAO // chamado criado e resolvido no mesmo dia (velocidade)
   // Atendimento em grupos — clientes que conversam em grupo do WhatsApp
-  DIPLOMATA         // primeira resposta em grupo novo (variedade de relacionamentos)
-  PRECISO           // resposta rápida em grupo (≤5min úteis após cliente)
-  NETWORK           // dia em que respondeu em 3+ grupos diferentes
+  DIPLOMATA // primeira resposta em grupo novo (variedade de relacionamentos)
+  PRECISO // resposta rápida em grupo (≤5min úteis após cliente)
+  NETWORK // dia em que respondeu em 3+ grupos diferentes
 }
 
 enum ScoreReason {
@@ -1769,41 +1878,41 @@ enum ScoreReason {
   LEAD_AVANCADO
   LEAD_CONVERTIDO
   DIA_SEM_PENDENCIA
-  DIA_SEM_ATRASO          // dia terminado sem dueDate/scheduledReturnAt vencidos
+  DIA_SEM_ATRASO // dia terminado sem dueDate/scheduledReturnAt vencidos
   RETORNO_ANTECIPADO
   ATENDIMENTO_MESMO_DIA
   NOTA_REGISTRADA
-  PRIMEIRO_CONTATO        // triagem / "estamos encaminhando" em conversa de outro
-  PROJETO_ENTREGUE        // projeto marcado como ENTREGUE
+  PRIMEIRO_CONTATO // triagem / "estamos encaminhando" em conversa de outro
+  PROJETO_ENTREGUE // projeto marcado como ENTREGUE
   PROJETO_ENTREGUE_NO_PRAZO // bônus quando deliveredAt <= dueDate
   SLA_VENCIDO
   CONVERSA_SEM_RESPOSTA
-  PRAZO_PRORROGADO        // empurrar prazo depois de já vencido
-  PROJETO_ATRASADO        // projeto entregue depois do dueDate
-  TAREFA_SEM_PRAZO        // tarefas no ClickUp sem due_date (cron diário)
-  TAREFA_CRIADA           // tarefa criada no ClickUp (sync)
-  TAREFA_ATUALIZADA       // tarefa atualizada no ClickUp (sync)
-  TAREFA_CONCLUIDA        // tarefa concluída no ClickUp (sync)
-  TAREFA_ATRASADA         // tarefa overdue no ClickUp (cron diário)
-  TAREFA_SEM_RESPONSAVEL  // tarefa sem assignee no ClickUp (cron diário)
-  STREAK_DIA              // dia consecutivo sem atraso (alimenta SPRINT_MASTER)
-  BONUS_NOITE             // mensagem fora do horário comercial (Coruja)
-  BONUS_MADRUGADA         // mensagem antes das 7h (Madrugador)
-  BONUS_VENDA_RAPIDA      // lead criado e fechado mesmo dia (Sortudo)
-  BONUS_RECUPERACAO       // lead LOST → CLOSED (Fênix)
-  BONUS_SUPEROU_MES       // mês corrente > mês anterior em pontos
-  INCIDENTE               // penalidade manual registrada por admin (ex: descuido com cliente)
-  AJUDA_EXERCITO          // respondeu cliente em conversa de outro responsável (Exército)
-  ENCAMINHAMENTO          // encaminhou conversa pra colega adequado (Líder)
-  PRIMEIRA_RESPOSTA       // primeiro a responder em conversa sem responsável (Guardião)
-  TICKET_ATUALIZADO       // atualização/comentário no próprio chamado (Alquimista)
-  TICKET_NO_PRAZO         // chamado resolvido antes do dueDate (Sniper)
+  PRAZO_PRORROGADO // empurrar prazo depois de já vencido
+  PROJETO_ATRASADO // projeto entregue depois do dueDate
+  TAREFA_SEM_PRAZO // tarefas no ClickUp sem due_date (cron diário)
+  TAREFA_CRIADA // tarefa criada no ClickUp (sync)
+  TAREFA_ATUALIZADA // tarefa atualizada no ClickUp (sync)
+  TAREFA_CONCLUIDA // tarefa concluída no ClickUp (sync)
+  TAREFA_ATRASADA // tarefa overdue no ClickUp (cron diário)
+  TAREFA_SEM_RESPONSAVEL // tarefa sem assignee no ClickUp (cron diário)
+  STREAK_DIA // dia consecutivo sem atraso (alimenta SPRINT_MASTER)
+  BONUS_NOITE // mensagem fora do horário comercial (Coruja)
+  BONUS_MADRUGADA // mensagem antes das 7h (Madrugador)
+  BONUS_VENDA_RAPIDA // lead criado e fechado mesmo dia (Sortudo)
+  BONUS_RECUPERACAO // lead LOST → CLOSED (Fênix)
+  BONUS_SUPEROU_MES // mês corrente > mês anterior em pontos
+  INCIDENTE // penalidade manual registrada por admin (ex: descuido com cliente)
+  AJUDA_EXERCITO // respondeu cliente em conversa de outro responsável (Exército)
+  ENCAMINHAMENTO // encaminhou conversa pra colega adequado (Líder)
+  PRIMEIRA_RESPOSTA // primeiro a responder em conversa sem responsável (Guardião)
+  TICKET_ATUALIZADO // atualização/comentário no próprio chamado (Alquimista)
+  TICKET_NO_PRAZO // chamado resolvido antes do dueDate (Sniper)
   TICKET_RESOLVIDO_MESMO_DIA // chamado criado e resolvido no mesmo dia (Trovão)
-  ATENDIMENTO_GRUPO_NOVO  // primeira resposta num grupo novo (Diplomata)
-  RESPOSTA_RAPIDA_GRUPO   // resposta em grupo em ≤5min úteis (Preciso)
-  DIA_NETWORK             // dia em que respondeu em 3+ grupos diferentes (Network)
+  ATENDIMENTO_GRUPO_NOVO // primeira resposta num grupo novo (Diplomata)
+  RESPOSTA_RAPIDA_GRUPO // resposta em grupo em ≤5min úteis (Preciso)
+  DIA_NETWORK // dia em que respondeu em 3+ grupos diferentes (Network)
   LEAD_VIROU_OPORTUNIDADE // lead promovido pra oportunidade (cliente pediu orcamento)
-  TAREFA_LEADHUB_FEITA    // marcou tarefa do LeadHub como feita (não confundir com TAREFA_CONCLUIDA do ClickUp)
+  TAREFA_LEADHUB_FEITA // marcou tarefa do LeadHub como feita (não confundir com TAREFA_CONCLUIDA do ClickUp)
   SINAL_QUENTE_RESPONDIDO // marcou tarefa AUTO_LINK_OPEN feita (cliente abriu proposta → vendedor agiu rápido)
 }
 
@@ -1814,18 +1923,18 @@ enum ScoreReason {
 // do destinatário e disparam.
 
 model PushSubscription {
-  id        String   @id @default(cuid())
-  endpoint  String   @unique          // URL única do push service do browser
-  p256dh    String                    // chave pública (criptografia VAPID)
-  auth      String                    // segredo compartilhado
-  userAgent String?                   // pra UI mostrar "Chrome no Mac" etc.
+  id        String  @id @default(cuid())
+  endpoint  String  @unique // URL única do push service do browser
+  p256dh    String // chave pública (criptografia VAPID)
+  auth      String // segredo compartilhado
+  userAgent String? // pra UI mostrar "Chrome no Mac" etc.
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
   // Quando uma notificação retorna 410 Gone, a sub é apagada.
   lastFailedAt DateTime?
-  failCount    Int @default(0)
+  failCount    Int       @default(0)
 
   createdAt DateTime @default(now())
 
@@ -1837,24 +1946,24 @@ model UserNotifPreferences {
   userId String @unique
 
   // Liga/desliga categorias específicas
-  newMessage    Boolean @default(true)  // chegou mensagem WhatsApp em conversa que é minha
-  hotSignal     Boolean @default(true)  // tarefa AUTO_LINK_OPEN criada
-  taskOverdue   Boolean @default(false) // ainda não tem cron, deixa off
+  newMessage  Boolean @default(true) // chegou mensagem WhatsApp em conversa que é minha
+  hotSignal   Boolean @default(true) // tarefa AUTO_LINK_OPEN criada
+  taskOverdue Boolean @default(false) // ainda não tem cron, deixa off
 
   updatedAt DateTime @updatedAt
 }
 
 // Trilha de auditoria de eventos de cobrança — útil pra suporte e debug.
 model BillingEvent {
-  id        String   @id @default(cuid())
+  id        String  @id @default(cuid())
   companyId String
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
-  type      String   // "trial_started" | "subscribed" | "upgraded" | "downgraded" | "canceled" | "payment_succeeded" | "payment_failed" | "trial_ended"
-  fromPlan  String?
-  toPlan    String?
-  amount    Float?   // BRL
-  metadata  Json?
+  type     String // "trial_started" | "subscribed" | "upgraded" | "downgraded" | "canceled" | "payment_succeeded" | "payment_failed" | "trial_ended"
+  fromPlan String?
+  toPlan   String?
+  amount   Float? // BRL
+  metadata Json?
 
   createdAt DateTime @default(now())
 
@@ -1870,21 +1979,21 @@ model BillingEvent {
 // Estrutura propositalmente solta (sem FK para User/Company) pra não bloquear
 // retenção: queremos manter o log mesmo se o usuário/empresa for excluído.
 model AdminAuditLog {
-  id              String   @id @default(cuid())
+  id String @id @default(cuid())
 
-  adminUserId     String   // quem executou (SUPER_ADMIN ou ADMIN)
-  adminUserName   String?
-  adminUserEmail  String?
+  adminUserId    String // quem executou (SUPER_ADMIN ou ADMIN)
+  adminUserName  String?
+  adminUserEmail String?
 
-  action          String   // "IMPERSONATE_START" | "IMPERSONATE_END" | "PLAN_OVERRIDE" | "MODULE_TOGGLE" | etc.
-  targetCompanyId String?  // empresa-alvo (null se ação não é em empresa específica)
-  targetUserId    String?  // usuário-alvo (ex.: reset de senha)
+  action          String // "IMPERSONATE_START" | "IMPERSONATE_END" | "PLAN_OVERRIDE" | "MODULE_TOGGLE" | etc.
+  targetCompanyId String? // empresa-alvo (null se ação não é em empresa específica)
+  targetUserId    String? // usuário-alvo (ex.: reset de senha)
 
-  ip              String?
-  userAgent       String?  @db.Text
-  metadata        Json?    // payload extra: motivo, valores antes/depois, etc.
+  ip        String?
+  userAgent String? @db.Text
+  metadata  Json? // payload extra: motivo, valores antes/depois, etc.
 
-  createdAt       DateTime @default(now())
+  createdAt DateTime @default(now())
 
   @@index([adminUserId, createdAt])
   @@index([targetCompanyId, createdAt])

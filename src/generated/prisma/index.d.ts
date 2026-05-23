@@ -239,6 +239,26 @@ export type AnalyticsGeoData = $Result.DefaultSelection<Prisma.$AnalyticsGeoData
  */
 export type SearchConsoleQuery = $Result.DefaultSelection<Prisma.$SearchConsoleQueryPayload>
 /**
+ * Model GbpInsight
+ * 
+ */
+export type GbpInsight = $Result.DefaultSelection<Prisma.$GbpInsightPayload>
+/**
+ * Model GbpReview
+ * 
+ */
+export type GbpReview = $Result.DefaultSelection<Prisma.$GbpReviewPayload>
+/**
+ * Model GbpSearchKeyword
+ * 
+ */
+export type GbpSearchKeyword = $Result.DefaultSelection<Prisma.$GbpSearchKeywordPayload>
+/**
+ * Model GbpProfileSnapshot
+ * 
+ */
+export type GbpProfileSnapshot = $Result.DefaultSelection<Prisma.$GbpProfileSnapshotPayload>
+/**
  * Model Subscription
  * 
  */
@@ -1353,6 +1373,46 @@ export class PrismaClient<
   get searchConsoleQuery(): Prisma.SearchConsoleQueryDelegate<ExtArgs>;
 
   /**
+   * `prisma.gbpInsight`: Exposes CRUD operations for the **GbpInsight** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GbpInsights
+    * const gbpInsights = await prisma.gbpInsight.findMany()
+    * ```
+    */
+  get gbpInsight(): Prisma.GbpInsightDelegate<ExtArgs>;
+
+  /**
+   * `prisma.gbpReview`: Exposes CRUD operations for the **GbpReview** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GbpReviews
+    * const gbpReviews = await prisma.gbpReview.findMany()
+    * ```
+    */
+  get gbpReview(): Prisma.GbpReviewDelegate<ExtArgs>;
+
+  /**
+   * `prisma.gbpSearchKeyword`: Exposes CRUD operations for the **GbpSearchKeyword** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GbpSearchKeywords
+    * const gbpSearchKeywords = await prisma.gbpSearchKeyword.findMany()
+    * ```
+    */
+  get gbpSearchKeyword(): Prisma.GbpSearchKeywordDelegate<ExtArgs>;
+
+  /**
+   * `prisma.gbpProfileSnapshot`: Exposes CRUD operations for the **GbpProfileSnapshot** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GbpProfileSnapshots
+    * const gbpProfileSnapshots = await prisma.gbpProfileSnapshot.findMany()
+    * ```
+    */
+  get gbpProfileSnapshot(): Prisma.GbpProfileSnapshotDelegate<ExtArgs>;
+
+  /**
    * `prisma.subscription`: Exposes CRUD operations for the **Subscription** model.
     * Example usage:
     * ```ts
@@ -1967,6 +2027,10 @@ export namespace Prisma {
     AnalyticsTrafficSource: 'AnalyticsTrafficSource',
     AnalyticsGeoData: 'AnalyticsGeoData',
     SearchConsoleQuery: 'SearchConsoleQuery',
+    GbpInsight: 'GbpInsight',
+    GbpReview: 'GbpReview',
+    GbpSearchKeyword: 'GbpSearchKeyword',
+    GbpProfileSnapshot: 'GbpProfileSnapshot',
     Subscription: 'Subscription',
     BusinessHoursConfig: 'BusinessHoursConfig',
     BusinessHoursInterval: 'BusinessHoursInterval',
@@ -1995,7 +2059,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "billingEvent" | "adminAuditLog"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "billingEvent" | "adminAuditLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5149,6 +5213,286 @@ export namespace Prisma {
           }
         }
       }
+      GbpInsight: {
+        payload: Prisma.$GbpInsightPayload<ExtArgs>
+        fields: Prisma.GbpInsightFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GbpInsightFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpInsightPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GbpInsightFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpInsightPayload>
+          }
+          findFirst: {
+            args: Prisma.GbpInsightFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpInsightPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GbpInsightFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpInsightPayload>
+          }
+          findMany: {
+            args: Prisma.GbpInsightFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpInsightPayload>[]
+          }
+          create: {
+            args: Prisma.GbpInsightCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpInsightPayload>
+          }
+          createMany: {
+            args: Prisma.GbpInsightCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GbpInsightCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpInsightPayload>[]
+          }
+          delete: {
+            args: Prisma.GbpInsightDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpInsightPayload>
+          }
+          update: {
+            args: Prisma.GbpInsightUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpInsightPayload>
+          }
+          deleteMany: {
+            args: Prisma.GbpInsightDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GbpInsightUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.GbpInsightUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpInsightPayload>
+          }
+          aggregate: {
+            args: Prisma.GbpInsightAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGbpInsight>
+          }
+          groupBy: {
+            args: Prisma.GbpInsightGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GbpInsightGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GbpInsightCountArgs<ExtArgs>
+            result: $Utils.Optional<GbpInsightCountAggregateOutputType> | number
+          }
+        }
+      }
+      GbpReview: {
+        payload: Prisma.$GbpReviewPayload<ExtArgs>
+        fields: Prisma.GbpReviewFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GbpReviewFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpReviewPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GbpReviewFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpReviewPayload>
+          }
+          findFirst: {
+            args: Prisma.GbpReviewFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpReviewPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GbpReviewFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpReviewPayload>
+          }
+          findMany: {
+            args: Prisma.GbpReviewFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpReviewPayload>[]
+          }
+          create: {
+            args: Prisma.GbpReviewCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpReviewPayload>
+          }
+          createMany: {
+            args: Prisma.GbpReviewCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GbpReviewCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpReviewPayload>[]
+          }
+          delete: {
+            args: Prisma.GbpReviewDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpReviewPayload>
+          }
+          update: {
+            args: Prisma.GbpReviewUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpReviewPayload>
+          }
+          deleteMany: {
+            args: Prisma.GbpReviewDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GbpReviewUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.GbpReviewUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpReviewPayload>
+          }
+          aggregate: {
+            args: Prisma.GbpReviewAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGbpReview>
+          }
+          groupBy: {
+            args: Prisma.GbpReviewGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GbpReviewGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GbpReviewCountArgs<ExtArgs>
+            result: $Utils.Optional<GbpReviewCountAggregateOutputType> | number
+          }
+        }
+      }
+      GbpSearchKeyword: {
+        payload: Prisma.$GbpSearchKeywordPayload<ExtArgs>
+        fields: Prisma.GbpSearchKeywordFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GbpSearchKeywordFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpSearchKeywordPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GbpSearchKeywordFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpSearchKeywordPayload>
+          }
+          findFirst: {
+            args: Prisma.GbpSearchKeywordFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpSearchKeywordPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GbpSearchKeywordFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpSearchKeywordPayload>
+          }
+          findMany: {
+            args: Prisma.GbpSearchKeywordFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpSearchKeywordPayload>[]
+          }
+          create: {
+            args: Prisma.GbpSearchKeywordCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpSearchKeywordPayload>
+          }
+          createMany: {
+            args: Prisma.GbpSearchKeywordCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GbpSearchKeywordCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpSearchKeywordPayload>[]
+          }
+          delete: {
+            args: Prisma.GbpSearchKeywordDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpSearchKeywordPayload>
+          }
+          update: {
+            args: Prisma.GbpSearchKeywordUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpSearchKeywordPayload>
+          }
+          deleteMany: {
+            args: Prisma.GbpSearchKeywordDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GbpSearchKeywordUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.GbpSearchKeywordUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpSearchKeywordPayload>
+          }
+          aggregate: {
+            args: Prisma.GbpSearchKeywordAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGbpSearchKeyword>
+          }
+          groupBy: {
+            args: Prisma.GbpSearchKeywordGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GbpSearchKeywordGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GbpSearchKeywordCountArgs<ExtArgs>
+            result: $Utils.Optional<GbpSearchKeywordCountAggregateOutputType> | number
+          }
+        }
+      }
+      GbpProfileSnapshot: {
+        payload: Prisma.$GbpProfileSnapshotPayload<ExtArgs>
+        fields: Prisma.GbpProfileSnapshotFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GbpProfileSnapshotFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpProfileSnapshotPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GbpProfileSnapshotFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpProfileSnapshotPayload>
+          }
+          findFirst: {
+            args: Prisma.GbpProfileSnapshotFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpProfileSnapshotPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GbpProfileSnapshotFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpProfileSnapshotPayload>
+          }
+          findMany: {
+            args: Prisma.GbpProfileSnapshotFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpProfileSnapshotPayload>[]
+          }
+          create: {
+            args: Prisma.GbpProfileSnapshotCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpProfileSnapshotPayload>
+          }
+          createMany: {
+            args: Prisma.GbpProfileSnapshotCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GbpProfileSnapshotCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpProfileSnapshotPayload>[]
+          }
+          delete: {
+            args: Prisma.GbpProfileSnapshotDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpProfileSnapshotPayload>
+          }
+          update: {
+            args: Prisma.GbpProfileSnapshotUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpProfileSnapshotPayload>
+          }
+          deleteMany: {
+            args: Prisma.GbpProfileSnapshotDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GbpProfileSnapshotUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.GbpProfileSnapshotUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GbpProfileSnapshotPayload>
+          }
+          aggregate: {
+            args: Prisma.GbpProfileSnapshotAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGbpProfileSnapshot>
+          }
+          groupBy: {
+            args: Prisma.GbpProfileSnapshotGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GbpProfileSnapshotGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GbpProfileSnapshotCountArgs<ExtArgs>
+            result: $Utils.Optional<GbpProfileSnapshotCountAggregateOutputType> | number
+          }
+        }
+      }
       Subscription: {
         payload: Prisma.$SubscriptionPayload<ExtArgs>
         fields: Prisma.SubscriptionFieldRefs
@@ -6422,6 +6766,10 @@ export namespace Prisma {
     analyticsTrafficSources: number
     analyticsGeoData: number
     searchConsoleQueries: number
+    gbpInsights: number
+    gbpReviews: number
+    gbpSearchKeywords: number
+    gbpProfileSnapshots: number
     billingEvents: number
   }
 
@@ -6462,6 +6810,10 @@ export namespace Prisma {
     analyticsTrafficSources?: boolean | CompanyCountOutputTypeCountAnalyticsTrafficSourcesArgs
     analyticsGeoData?: boolean | CompanyCountOutputTypeCountAnalyticsGeoDataArgs
     searchConsoleQueries?: boolean | CompanyCountOutputTypeCountSearchConsoleQueriesArgs
+    gbpInsights?: boolean | CompanyCountOutputTypeCountGbpInsightsArgs
+    gbpReviews?: boolean | CompanyCountOutputTypeCountGbpReviewsArgs
+    gbpSearchKeywords?: boolean | CompanyCountOutputTypeCountGbpSearchKeywordsArgs
+    gbpProfileSnapshots?: boolean | CompanyCountOutputTypeCountGbpProfileSnapshotsArgs
     billingEvents?: boolean | CompanyCountOutputTypeCountBillingEventsArgs
   }
 
@@ -6726,6 +7078,34 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountSearchConsoleQueriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SearchConsoleQueryWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountGbpInsightsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GbpInsightWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountGbpReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GbpReviewWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountGbpSearchKeywordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GbpSearchKeywordWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountGbpProfileSnapshotsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GbpProfileSnapshotWhereInput
   }
 
   /**
@@ -12187,6 +12567,10 @@ export namespace Prisma {
     analyticsTrafficSources?: boolean | Company$analyticsTrafficSourcesArgs<ExtArgs>
     analyticsGeoData?: boolean | Company$analyticsGeoDataArgs<ExtArgs>
     searchConsoleQueries?: boolean | Company$searchConsoleQueriesArgs<ExtArgs>
+    gbpInsights?: boolean | Company$gbpInsightsArgs<ExtArgs>
+    gbpReviews?: boolean | Company$gbpReviewsArgs<ExtArgs>
+    gbpSearchKeywords?: boolean | Company$gbpSearchKeywordsArgs<ExtArgs>
+    gbpProfileSnapshots?: boolean | Company$gbpProfileSnapshotsArgs<ExtArgs>
     subscription?: boolean | Company$subscriptionArgs<ExtArgs>
     billingEvents?: boolean | Company$billingEventsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
@@ -12293,6 +12677,10 @@ export namespace Prisma {
     analyticsTrafficSources?: boolean | Company$analyticsTrafficSourcesArgs<ExtArgs>
     analyticsGeoData?: boolean | Company$analyticsGeoDataArgs<ExtArgs>
     searchConsoleQueries?: boolean | Company$searchConsoleQueriesArgs<ExtArgs>
+    gbpInsights?: boolean | Company$gbpInsightsArgs<ExtArgs>
+    gbpReviews?: boolean | Company$gbpReviewsArgs<ExtArgs>
+    gbpSearchKeywords?: boolean | Company$gbpSearchKeywordsArgs<ExtArgs>
+    gbpProfileSnapshots?: boolean | Company$gbpProfileSnapshotsArgs<ExtArgs>
     subscription?: boolean | Company$subscriptionArgs<ExtArgs>
     billingEvents?: boolean | Company$billingEventsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
@@ -12341,6 +12729,10 @@ export namespace Prisma {
       analyticsTrafficSources: Prisma.$AnalyticsTrafficSourcePayload<ExtArgs>[]
       analyticsGeoData: Prisma.$AnalyticsGeoDataPayload<ExtArgs>[]
       searchConsoleQueries: Prisma.$SearchConsoleQueryPayload<ExtArgs>[]
+      gbpInsights: Prisma.$GbpInsightPayload<ExtArgs>[]
+      gbpReviews: Prisma.$GbpReviewPayload<ExtArgs>[]
+      gbpSearchKeywords: Prisma.$GbpSearchKeywordPayload<ExtArgs>[]
+      gbpProfileSnapshots: Prisma.$GbpProfileSnapshotPayload<ExtArgs>[]
       subscription: Prisma.$SubscriptionPayload<ExtArgs> | null
       billingEvents: Prisma.$BillingEventPayload<ExtArgs>[]
     }
@@ -12774,6 +13166,10 @@ export namespace Prisma {
     analyticsTrafficSources<T extends Company$analyticsTrafficSourcesArgs<ExtArgs> = {}>(args?: Subset<T, Company$analyticsTrafficSourcesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsTrafficSourcePayload<ExtArgs>, T, "findMany"> | Null>
     analyticsGeoData<T extends Company$analyticsGeoDataArgs<ExtArgs> = {}>(args?: Subset<T, Company$analyticsGeoDataArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsGeoDataPayload<ExtArgs>, T, "findMany"> | Null>
     searchConsoleQueries<T extends Company$searchConsoleQueriesArgs<ExtArgs> = {}>(args?: Subset<T, Company$searchConsoleQueriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SearchConsoleQueryPayload<ExtArgs>, T, "findMany"> | Null>
+    gbpInsights<T extends Company$gbpInsightsArgs<ExtArgs> = {}>(args?: Subset<T, Company$gbpInsightsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GbpInsightPayload<ExtArgs>, T, "findMany"> | Null>
+    gbpReviews<T extends Company$gbpReviewsArgs<ExtArgs> = {}>(args?: Subset<T, Company$gbpReviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GbpReviewPayload<ExtArgs>, T, "findMany"> | Null>
+    gbpSearchKeywords<T extends Company$gbpSearchKeywordsArgs<ExtArgs> = {}>(args?: Subset<T, Company$gbpSearchKeywordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GbpSearchKeywordPayload<ExtArgs>, T, "findMany"> | Null>
+    gbpProfileSnapshots<T extends Company$gbpProfileSnapshotsArgs<ExtArgs> = {}>(args?: Subset<T, Company$gbpProfileSnapshotsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GbpProfileSnapshotPayload<ExtArgs>, T, "findMany"> | Null>
     subscription<T extends Company$subscriptionArgs<ExtArgs> = {}>(args?: Subset<T, Company$subscriptionArgs<ExtArgs>>): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     billingEvents<T extends Company$billingEventsArgs<ExtArgs> = {}>(args?: Subset<T, Company$billingEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BillingEventPayload<ExtArgs>, T, "findMany"> | Null>
     /**
@@ -13883,6 +14279,86 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SearchConsoleQueryScalarFieldEnum | SearchConsoleQueryScalarFieldEnum[]
+  }
+
+  /**
+   * Company.gbpInsights
+   */
+  export type Company$gbpInsightsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpInsight
+     */
+    select?: GbpInsightSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpInsightInclude<ExtArgs> | null
+    where?: GbpInsightWhereInput
+    orderBy?: GbpInsightOrderByWithRelationInput | GbpInsightOrderByWithRelationInput[]
+    cursor?: GbpInsightWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GbpInsightScalarFieldEnum | GbpInsightScalarFieldEnum[]
+  }
+
+  /**
+   * Company.gbpReviews
+   */
+  export type Company$gbpReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpReview
+     */
+    select?: GbpReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpReviewInclude<ExtArgs> | null
+    where?: GbpReviewWhereInput
+    orderBy?: GbpReviewOrderByWithRelationInput | GbpReviewOrderByWithRelationInput[]
+    cursor?: GbpReviewWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GbpReviewScalarFieldEnum | GbpReviewScalarFieldEnum[]
+  }
+
+  /**
+   * Company.gbpSearchKeywords
+   */
+  export type Company$gbpSearchKeywordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpSearchKeyword
+     */
+    select?: GbpSearchKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpSearchKeywordInclude<ExtArgs> | null
+    where?: GbpSearchKeywordWhereInput
+    orderBy?: GbpSearchKeywordOrderByWithRelationInput | GbpSearchKeywordOrderByWithRelationInput[]
+    cursor?: GbpSearchKeywordWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GbpSearchKeywordScalarFieldEnum | GbpSearchKeywordScalarFieldEnum[]
+  }
+
+  /**
+   * Company.gbpProfileSnapshots
+   */
+  export type Company$gbpProfileSnapshotsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpProfileSnapshot
+     */
+    select?: GbpProfileSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpProfileSnapshotInclude<ExtArgs> | null
+    where?: GbpProfileSnapshotWhereInput
+    orderBy?: GbpProfileSnapshotOrderByWithRelationInput | GbpProfileSnapshotOrderByWithRelationInput[]
+    cursor?: GbpProfileSnapshotWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GbpProfileSnapshotScalarFieldEnum | GbpProfileSnapshotScalarFieldEnum[]
   }
 
   /**
@@ -56033,6 +56509,4234 @@ export namespace Prisma {
 
 
   /**
+   * Model GbpInsight
+   */
+
+  export type AggregateGbpInsight = {
+    _count: GbpInsightCountAggregateOutputType | null
+    _avg: GbpInsightAvgAggregateOutputType | null
+    _sum: GbpInsightSumAggregateOutputType | null
+    _min: GbpInsightMinAggregateOutputType | null
+    _max: GbpInsightMaxAggregateOutputType | null
+  }
+
+  export type GbpInsightAvgAggregateOutputType = {
+    impressionsSearchDesktop: number | null
+    impressionsSearchMobile: number | null
+    impressionsMapsDesktop: number | null
+    impressionsMapsMobile: number | null
+    callClicks: number | null
+    websiteClicks: number | null
+    directionRequests: number | null
+    conversations: number | null
+    bookings: number | null
+  }
+
+  export type GbpInsightSumAggregateOutputType = {
+    impressionsSearchDesktop: number | null
+    impressionsSearchMobile: number | null
+    impressionsMapsDesktop: number | null
+    impressionsMapsMobile: number | null
+    callClicks: number | null
+    websiteClicks: number | null
+    directionRequests: number | null
+    conversations: number | null
+    bookings: number | null
+  }
+
+  export type GbpInsightMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    date: Date | null
+    impressionsSearchDesktop: number | null
+    impressionsSearchMobile: number | null
+    impressionsMapsDesktop: number | null
+    impressionsMapsMobile: number | null
+    callClicks: number | null
+    websiteClicks: number | null
+    directionRequests: number | null
+    conversations: number | null
+    bookings: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GbpInsightMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    date: Date | null
+    impressionsSearchDesktop: number | null
+    impressionsSearchMobile: number | null
+    impressionsMapsDesktop: number | null
+    impressionsMapsMobile: number | null
+    callClicks: number | null
+    websiteClicks: number | null
+    directionRequests: number | null
+    conversations: number | null
+    bookings: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GbpInsightCountAggregateOutputType = {
+    id: number
+    companyId: number
+    date: number
+    impressionsSearchDesktop: number
+    impressionsSearchMobile: number
+    impressionsMapsDesktop: number
+    impressionsMapsMobile: number
+    callClicks: number
+    websiteClicks: number
+    directionRequests: number
+    conversations: number
+    bookings: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type GbpInsightAvgAggregateInputType = {
+    impressionsSearchDesktop?: true
+    impressionsSearchMobile?: true
+    impressionsMapsDesktop?: true
+    impressionsMapsMobile?: true
+    callClicks?: true
+    websiteClicks?: true
+    directionRequests?: true
+    conversations?: true
+    bookings?: true
+  }
+
+  export type GbpInsightSumAggregateInputType = {
+    impressionsSearchDesktop?: true
+    impressionsSearchMobile?: true
+    impressionsMapsDesktop?: true
+    impressionsMapsMobile?: true
+    callClicks?: true
+    websiteClicks?: true
+    directionRequests?: true
+    conversations?: true
+    bookings?: true
+  }
+
+  export type GbpInsightMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    impressionsSearchDesktop?: true
+    impressionsSearchMobile?: true
+    impressionsMapsDesktop?: true
+    impressionsMapsMobile?: true
+    callClicks?: true
+    websiteClicks?: true
+    directionRequests?: true
+    conversations?: true
+    bookings?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GbpInsightMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    impressionsSearchDesktop?: true
+    impressionsSearchMobile?: true
+    impressionsMapsDesktop?: true
+    impressionsMapsMobile?: true
+    callClicks?: true
+    websiteClicks?: true
+    directionRequests?: true
+    conversations?: true
+    bookings?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GbpInsightCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    impressionsSearchDesktop?: true
+    impressionsSearchMobile?: true
+    impressionsMapsDesktop?: true
+    impressionsMapsMobile?: true
+    callClicks?: true
+    websiteClicks?: true
+    directionRequests?: true
+    conversations?: true
+    bookings?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type GbpInsightAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GbpInsight to aggregate.
+     */
+    where?: GbpInsightWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GbpInsights to fetch.
+     */
+    orderBy?: GbpInsightOrderByWithRelationInput | GbpInsightOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GbpInsightWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GbpInsights from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GbpInsights.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GbpInsights
+    **/
+    _count?: true | GbpInsightCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GbpInsightAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GbpInsightSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GbpInsightMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GbpInsightMaxAggregateInputType
+  }
+
+  export type GetGbpInsightAggregateType<T extends GbpInsightAggregateArgs> = {
+        [P in keyof T & keyof AggregateGbpInsight]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGbpInsight[P]>
+      : GetScalarType<T[P], AggregateGbpInsight[P]>
+  }
+
+
+
+
+  export type GbpInsightGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GbpInsightWhereInput
+    orderBy?: GbpInsightOrderByWithAggregationInput | GbpInsightOrderByWithAggregationInput[]
+    by: GbpInsightScalarFieldEnum[] | GbpInsightScalarFieldEnum
+    having?: GbpInsightScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GbpInsightCountAggregateInputType | true
+    _avg?: GbpInsightAvgAggregateInputType
+    _sum?: GbpInsightSumAggregateInputType
+    _min?: GbpInsightMinAggregateInputType
+    _max?: GbpInsightMaxAggregateInputType
+  }
+
+  export type GbpInsightGroupByOutputType = {
+    id: string
+    companyId: string
+    date: Date
+    impressionsSearchDesktop: number
+    impressionsSearchMobile: number
+    impressionsMapsDesktop: number
+    impressionsMapsMobile: number
+    callClicks: number
+    websiteClicks: number
+    directionRequests: number
+    conversations: number
+    bookings: number
+    createdAt: Date
+    updatedAt: Date
+    _count: GbpInsightCountAggregateOutputType | null
+    _avg: GbpInsightAvgAggregateOutputType | null
+    _sum: GbpInsightSumAggregateOutputType | null
+    _min: GbpInsightMinAggregateOutputType | null
+    _max: GbpInsightMaxAggregateOutputType | null
+  }
+
+  type GetGbpInsightGroupByPayload<T extends GbpInsightGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GbpInsightGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GbpInsightGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GbpInsightGroupByOutputType[P]>
+            : GetScalarType<T[P], GbpInsightGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GbpInsightSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    impressionsSearchDesktop?: boolean
+    impressionsSearchMobile?: boolean
+    impressionsMapsDesktop?: boolean
+    impressionsMapsMobile?: boolean
+    callClicks?: boolean
+    websiteClicks?: boolean
+    directionRequests?: boolean
+    conversations?: boolean
+    bookings?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gbpInsight"]>
+
+  export type GbpInsightSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    impressionsSearchDesktop?: boolean
+    impressionsSearchMobile?: boolean
+    impressionsMapsDesktop?: boolean
+    impressionsMapsMobile?: boolean
+    callClicks?: boolean
+    websiteClicks?: boolean
+    directionRequests?: boolean
+    conversations?: boolean
+    bookings?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gbpInsight"]>
+
+  export type GbpInsightSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    impressionsSearchDesktop?: boolean
+    impressionsSearchMobile?: boolean
+    impressionsMapsDesktop?: boolean
+    impressionsMapsMobile?: boolean
+    callClicks?: boolean
+    websiteClicks?: boolean
+    directionRequests?: boolean
+    conversations?: boolean
+    bookings?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type GbpInsightInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type GbpInsightIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $GbpInsightPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GbpInsight"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      date: Date
+      impressionsSearchDesktop: number
+      impressionsSearchMobile: number
+      impressionsMapsDesktop: number
+      impressionsMapsMobile: number
+      callClicks: number
+      websiteClicks: number
+      directionRequests: number
+      conversations: number
+      bookings: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["gbpInsight"]>
+    composites: {}
+  }
+
+  type GbpInsightGetPayload<S extends boolean | null | undefined | GbpInsightDefaultArgs> = $Result.GetResult<Prisma.$GbpInsightPayload, S>
+
+  type GbpInsightCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<GbpInsightFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: GbpInsightCountAggregateInputType | true
+    }
+
+  export interface GbpInsightDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GbpInsight'], meta: { name: 'GbpInsight' } }
+    /**
+     * Find zero or one GbpInsight that matches the filter.
+     * @param {GbpInsightFindUniqueArgs} args - Arguments to find a GbpInsight
+     * @example
+     * // Get one GbpInsight
+     * const gbpInsight = await prisma.gbpInsight.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GbpInsightFindUniqueArgs>(args: SelectSubset<T, GbpInsightFindUniqueArgs<ExtArgs>>): Prisma__GbpInsightClient<$Result.GetResult<Prisma.$GbpInsightPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one GbpInsight that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {GbpInsightFindUniqueOrThrowArgs} args - Arguments to find a GbpInsight
+     * @example
+     * // Get one GbpInsight
+     * const gbpInsight = await prisma.gbpInsight.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GbpInsightFindUniqueOrThrowArgs>(args: SelectSubset<T, GbpInsightFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GbpInsightClient<$Result.GetResult<Prisma.$GbpInsightPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first GbpInsight that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpInsightFindFirstArgs} args - Arguments to find a GbpInsight
+     * @example
+     * // Get one GbpInsight
+     * const gbpInsight = await prisma.gbpInsight.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GbpInsightFindFirstArgs>(args?: SelectSubset<T, GbpInsightFindFirstArgs<ExtArgs>>): Prisma__GbpInsightClient<$Result.GetResult<Prisma.$GbpInsightPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first GbpInsight that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpInsightFindFirstOrThrowArgs} args - Arguments to find a GbpInsight
+     * @example
+     * // Get one GbpInsight
+     * const gbpInsight = await prisma.gbpInsight.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GbpInsightFindFirstOrThrowArgs>(args?: SelectSubset<T, GbpInsightFindFirstOrThrowArgs<ExtArgs>>): Prisma__GbpInsightClient<$Result.GetResult<Prisma.$GbpInsightPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more GbpInsights that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpInsightFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GbpInsights
+     * const gbpInsights = await prisma.gbpInsight.findMany()
+     * 
+     * // Get first 10 GbpInsights
+     * const gbpInsights = await prisma.gbpInsight.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const gbpInsightWithIdOnly = await prisma.gbpInsight.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GbpInsightFindManyArgs>(args?: SelectSubset<T, GbpInsightFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GbpInsightPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a GbpInsight.
+     * @param {GbpInsightCreateArgs} args - Arguments to create a GbpInsight.
+     * @example
+     * // Create one GbpInsight
+     * const GbpInsight = await prisma.gbpInsight.create({
+     *   data: {
+     *     // ... data to create a GbpInsight
+     *   }
+     * })
+     * 
+     */
+    create<T extends GbpInsightCreateArgs>(args: SelectSubset<T, GbpInsightCreateArgs<ExtArgs>>): Prisma__GbpInsightClient<$Result.GetResult<Prisma.$GbpInsightPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many GbpInsights.
+     * @param {GbpInsightCreateManyArgs} args - Arguments to create many GbpInsights.
+     * @example
+     * // Create many GbpInsights
+     * const gbpInsight = await prisma.gbpInsight.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GbpInsightCreateManyArgs>(args?: SelectSubset<T, GbpInsightCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GbpInsights and returns the data saved in the database.
+     * @param {GbpInsightCreateManyAndReturnArgs} args - Arguments to create many GbpInsights.
+     * @example
+     * // Create many GbpInsights
+     * const gbpInsight = await prisma.gbpInsight.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GbpInsights and only return the `id`
+     * const gbpInsightWithIdOnly = await prisma.gbpInsight.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GbpInsightCreateManyAndReturnArgs>(args?: SelectSubset<T, GbpInsightCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GbpInsightPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a GbpInsight.
+     * @param {GbpInsightDeleteArgs} args - Arguments to delete one GbpInsight.
+     * @example
+     * // Delete one GbpInsight
+     * const GbpInsight = await prisma.gbpInsight.delete({
+     *   where: {
+     *     // ... filter to delete one GbpInsight
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GbpInsightDeleteArgs>(args: SelectSubset<T, GbpInsightDeleteArgs<ExtArgs>>): Prisma__GbpInsightClient<$Result.GetResult<Prisma.$GbpInsightPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one GbpInsight.
+     * @param {GbpInsightUpdateArgs} args - Arguments to update one GbpInsight.
+     * @example
+     * // Update one GbpInsight
+     * const gbpInsight = await prisma.gbpInsight.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GbpInsightUpdateArgs>(args: SelectSubset<T, GbpInsightUpdateArgs<ExtArgs>>): Prisma__GbpInsightClient<$Result.GetResult<Prisma.$GbpInsightPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more GbpInsights.
+     * @param {GbpInsightDeleteManyArgs} args - Arguments to filter GbpInsights to delete.
+     * @example
+     * // Delete a few GbpInsights
+     * const { count } = await prisma.gbpInsight.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GbpInsightDeleteManyArgs>(args?: SelectSubset<T, GbpInsightDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GbpInsights.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpInsightUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GbpInsights
+     * const gbpInsight = await prisma.gbpInsight.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GbpInsightUpdateManyArgs>(args: SelectSubset<T, GbpInsightUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one GbpInsight.
+     * @param {GbpInsightUpsertArgs} args - Arguments to update or create a GbpInsight.
+     * @example
+     * // Update or create a GbpInsight
+     * const gbpInsight = await prisma.gbpInsight.upsert({
+     *   create: {
+     *     // ... data to create a GbpInsight
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GbpInsight we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GbpInsightUpsertArgs>(args: SelectSubset<T, GbpInsightUpsertArgs<ExtArgs>>): Prisma__GbpInsightClient<$Result.GetResult<Prisma.$GbpInsightPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of GbpInsights.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpInsightCountArgs} args - Arguments to filter GbpInsights to count.
+     * @example
+     * // Count the number of GbpInsights
+     * const count = await prisma.gbpInsight.count({
+     *   where: {
+     *     // ... the filter for the GbpInsights we want to count
+     *   }
+     * })
+    **/
+    count<T extends GbpInsightCountArgs>(
+      args?: Subset<T, GbpInsightCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GbpInsightCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GbpInsight.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpInsightAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GbpInsightAggregateArgs>(args: Subset<T, GbpInsightAggregateArgs>): Prisma.PrismaPromise<GetGbpInsightAggregateType<T>>
+
+    /**
+     * Group by GbpInsight.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpInsightGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GbpInsightGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GbpInsightGroupByArgs['orderBy'] }
+        : { orderBy?: GbpInsightGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GbpInsightGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGbpInsightGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GbpInsight model
+   */
+  readonly fields: GbpInsightFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GbpInsight.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GbpInsightClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GbpInsight model
+   */ 
+  interface GbpInsightFieldRefs {
+    readonly id: FieldRef<"GbpInsight", 'String'>
+    readonly companyId: FieldRef<"GbpInsight", 'String'>
+    readonly date: FieldRef<"GbpInsight", 'DateTime'>
+    readonly impressionsSearchDesktop: FieldRef<"GbpInsight", 'Int'>
+    readonly impressionsSearchMobile: FieldRef<"GbpInsight", 'Int'>
+    readonly impressionsMapsDesktop: FieldRef<"GbpInsight", 'Int'>
+    readonly impressionsMapsMobile: FieldRef<"GbpInsight", 'Int'>
+    readonly callClicks: FieldRef<"GbpInsight", 'Int'>
+    readonly websiteClicks: FieldRef<"GbpInsight", 'Int'>
+    readonly directionRequests: FieldRef<"GbpInsight", 'Int'>
+    readonly conversations: FieldRef<"GbpInsight", 'Int'>
+    readonly bookings: FieldRef<"GbpInsight", 'Int'>
+    readonly createdAt: FieldRef<"GbpInsight", 'DateTime'>
+    readonly updatedAt: FieldRef<"GbpInsight", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GbpInsight findUnique
+   */
+  export type GbpInsightFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpInsight
+     */
+    select?: GbpInsightSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpInsightInclude<ExtArgs> | null
+    /**
+     * Filter, which GbpInsight to fetch.
+     */
+    where: GbpInsightWhereUniqueInput
+  }
+
+  /**
+   * GbpInsight findUniqueOrThrow
+   */
+  export type GbpInsightFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpInsight
+     */
+    select?: GbpInsightSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpInsightInclude<ExtArgs> | null
+    /**
+     * Filter, which GbpInsight to fetch.
+     */
+    where: GbpInsightWhereUniqueInput
+  }
+
+  /**
+   * GbpInsight findFirst
+   */
+  export type GbpInsightFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpInsight
+     */
+    select?: GbpInsightSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpInsightInclude<ExtArgs> | null
+    /**
+     * Filter, which GbpInsight to fetch.
+     */
+    where?: GbpInsightWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GbpInsights to fetch.
+     */
+    orderBy?: GbpInsightOrderByWithRelationInput | GbpInsightOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GbpInsights.
+     */
+    cursor?: GbpInsightWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GbpInsights from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GbpInsights.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GbpInsights.
+     */
+    distinct?: GbpInsightScalarFieldEnum | GbpInsightScalarFieldEnum[]
+  }
+
+  /**
+   * GbpInsight findFirstOrThrow
+   */
+  export type GbpInsightFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpInsight
+     */
+    select?: GbpInsightSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpInsightInclude<ExtArgs> | null
+    /**
+     * Filter, which GbpInsight to fetch.
+     */
+    where?: GbpInsightWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GbpInsights to fetch.
+     */
+    orderBy?: GbpInsightOrderByWithRelationInput | GbpInsightOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GbpInsights.
+     */
+    cursor?: GbpInsightWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GbpInsights from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GbpInsights.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GbpInsights.
+     */
+    distinct?: GbpInsightScalarFieldEnum | GbpInsightScalarFieldEnum[]
+  }
+
+  /**
+   * GbpInsight findMany
+   */
+  export type GbpInsightFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpInsight
+     */
+    select?: GbpInsightSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpInsightInclude<ExtArgs> | null
+    /**
+     * Filter, which GbpInsights to fetch.
+     */
+    where?: GbpInsightWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GbpInsights to fetch.
+     */
+    orderBy?: GbpInsightOrderByWithRelationInput | GbpInsightOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GbpInsights.
+     */
+    cursor?: GbpInsightWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GbpInsights from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GbpInsights.
+     */
+    skip?: number
+    distinct?: GbpInsightScalarFieldEnum | GbpInsightScalarFieldEnum[]
+  }
+
+  /**
+   * GbpInsight create
+   */
+  export type GbpInsightCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpInsight
+     */
+    select?: GbpInsightSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpInsightInclude<ExtArgs> | null
+    /**
+     * The data needed to create a GbpInsight.
+     */
+    data: XOR<GbpInsightCreateInput, GbpInsightUncheckedCreateInput>
+  }
+
+  /**
+   * GbpInsight createMany
+   */
+  export type GbpInsightCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GbpInsights.
+     */
+    data: GbpInsightCreateManyInput | GbpInsightCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GbpInsight createManyAndReturn
+   */
+  export type GbpInsightCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpInsight
+     */
+    select?: GbpInsightSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many GbpInsights.
+     */
+    data: GbpInsightCreateManyInput | GbpInsightCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpInsightIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GbpInsight update
+   */
+  export type GbpInsightUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpInsight
+     */
+    select?: GbpInsightSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpInsightInclude<ExtArgs> | null
+    /**
+     * The data needed to update a GbpInsight.
+     */
+    data: XOR<GbpInsightUpdateInput, GbpInsightUncheckedUpdateInput>
+    /**
+     * Choose, which GbpInsight to update.
+     */
+    where: GbpInsightWhereUniqueInput
+  }
+
+  /**
+   * GbpInsight updateMany
+   */
+  export type GbpInsightUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GbpInsights.
+     */
+    data: XOR<GbpInsightUpdateManyMutationInput, GbpInsightUncheckedUpdateManyInput>
+    /**
+     * Filter which GbpInsights to update
+     */
+    where?: GbpInsightWhereInput
+  }
+
+  /**
+   * GbpInsight upsert
+   */
+  export type GbpInsightUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpInsight
+     */
+    select?: GbpInsightSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpInsightInclude<ExtArgs> | null
+    /**
+     * The filter to search for the GbpInsight to update in case it exists.
+     */
+    where: GbpInsightWhereUniqueInput
+    /**
+     * In case the GbpInsight found by the `where` argument doesn't exist, create a new GbpInsight with this data.
+     */
+    create: XOR<GbpInsightCreateInput, GbpInsightUncheckedCreateInput>
+    /**
+     * In case the GbpInsight was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GbpInsightUpdateInput, GbpInsightUncheckedUpdateInput>
+  }
+
+  /**
+   * GbpInsight delete
+   */
+  export type GbpInsightDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpInsight
+     */
+    select?: GbpInsightSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpInsightInclude<ExtArgs> | null
+    /**
+     * Filter which GbpInsight to delete.
+     */
+    where: GbpInsightWhereUniqueInput
+  }
+
+  /**
+   * GbpInsight deleteMany
+   */
+  export type GbpInsightDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GbpInsights to delete
+     */
+    where?: GbpInsightWhereInput
+  }
+
+  /**
+   * GbpInsight without action
+   */
+  export type GbpInsightDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpInsight
+     */
+    select?: GbpInsightSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpInsightInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model GbpReview
+   */
+
+  export type AggregateGbpReview = {
+    _count: GbpReviewCountAggregateOutputType | null
+    _avg: GbpReviewAvgAggregateOutputType | null
+    _sum: GbpReviewSumAggregateOutputType | null
+    _min: GbpReviewMinAggregateOutputType | null
+    _max: GbpReviewMaxAggregateOutputType | null
+  }
+
+  export type GbpReviewAvgAggregateOutputType = {
+    starRating: number | null
+  }
+
+  export type GbpReviewSumAggregateOutputType = {
+    starRating: number | null
+  }
+
+  export type GbpReviewMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    googleReviewId: string | null
+    reviewerName: string | null
+    reviewerPhotoUrl: string | null
+    starRating: number | null
+    comment: string | null
+    createTime: Date | null
+    updateTime: Date | null
+    replyComment: string | null
+    replyUpdateTime: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GbpReviewMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    googleReviewId: string | null
+    reviewerName: string | null
+    reviewerPhotoUrl: string | null
+    starRating: number | null
+    comment: string | null
+    createTime: Date | null
+    updateTime: Date | null
+    replyComment: string | null
+    replyUpdateTime: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GbpReviewCountAggregateOutputType = {
+    id: number
+    companyId: number
+    googleReviewId: number
+    reviewerName: number
+    reviewerPhotoUrl: number
+    starRating: number
+    comment: number
+    createTime: number
+    updateTime: number
+    replyComment: number
+    replyUpdateTime: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type GbpReviewAvgAggregateInputType = {
+    starRating?: true
+  }
+
+  export type GbpReviewSumAggregateInputType = {
+    starRating?: true
+  }
+
+  export type GbpReviewMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    googleReviewId?: true
+    reviewerName?: true
+    reviewerPhotoUrl?: true
+    starRating?: true
+    comment?: true
+    createTime?: true
+    updateTime?: true
+    replyComment?: true
+    replyUpdateTime?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GbpReviewMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    googleReviewId?: true
+    reviewerName?: true
+    reviewerPhotoUrl?: true
+    starRating?: true
+    comment?: true
+    createTime?: true
+    updateTime?: true
+    replyComment?: true
+    replyUpdateTime?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GbpReviewCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    googleReviewId?: true
+    reviewerName?: true
+    reviewerPhotoUrl?: true
+    starRating?: true
+    comment?: true
+    createTime?: true
+    updateTime?: true
+    replyComment?: true
+    replyUpdateTime?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type GbpReviewAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GbpReview to aggregate.
+     */
+    where?: GbpReviewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GbpReviews to fetch.
+     */
+    orderBy?: GbpReviewOrderByWithRelationInput | GbpReviewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GbpReviewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GbpReviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GbpReviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GbpReviews
+    **/
+    _count?: true | GbpReviewCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GbpReviewAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GbpReviewSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GbpReviewMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GbpReviewMaxAggregateInputType
+  }
+
+  export type GetGbpReviewAggregateType<T extends GbpReviewAggregateArgs> = {
+        [P in keyof T & keyof AggregateGbpReview]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGbpReview[P]>
+      : GetScalarType<T[P], AggregateGbpReview[P]>
+  }
+
+
+
+
+  export type GbpReviewGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GbpReviewWhereInput
+    orderBy?: GbpReviewOrderByWithAggregationInput | GbpReviewOrderByWithAggregationInput[]
+    by: GbpReviewScalarFieldEnum[] | GbpReviewScalarFieldEnum
+    having?: GbpReviewScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GbpReviewCountAggregateInputType | true
+    _avg?: GbpReviewAvgAggregateInputType
+    _sum?: GbpReviewSumAggregateInputType
+    _min?: GbpReviewMinAggregateInputType
+    _max?: GbpReviewMaxAggregateInputType
+  }
+
+  export type GbpReviewGroupByOutputType = {
+    id: string
+    companyId: string
+    googleReviewId: string
+    reviewerName: string | null
+    reviewerPhotoUrl: string | null
+    starRating: number
+    comment: string | null
+    createTime: Date
+    updateTime: Date | null
+    replyComment: string | null
+    replyUpdateTime: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: GbpReviewCountAggregateOutputType | null
+    _avg: GbpReviewAvgAggregateOutputType | null
+    _sum: GbpReviewSumAggregateOutputType | null
+    _min: GbpReviewMinAggregateOutputType | null
+    _max: GbpReviewMaxAggregateOutputType | null
+  }
+
+  type GetGbpReviewGroupByPayload<T extends GbpReviewGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GbpReviewGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GbpReviewGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GbpReviewGroupByOutputType[P]>
+            : GetScalarType<T[P], GbpReviewGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GbpReviewSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    googleReviewId?: boolean
+    reviewerName?: boolean
+    reviewerPhotoUrl?: boolean
+    starRating?: boolean
+    comment?: boolean
+    createTime?: boolean
+    updateTime?: boolean
+    replyComment?: boolean
+    replyUpdateTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gbpReview"]>
+
+  export type GbpReviewSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    googleReviewId?: boolean
+    reviewerName?: boolean
+    reviewerPhotoUrl?: boolean
+    starRating?: boolean
+    comment?: boolean
+    createTime?: boolean
+    updateTime?: boolean
+    replyComment?: boolean
+    replyUpdateTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gbpReview"]>
+
+  export type GbpReviewSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    googleReviewId?: boolean
+    reviewerName?: boolean
+    reviewerPhotoUrl?: boolean
+    starRating?: boolean
+    comment?: boolean
+    createTime?: boolean
+    updateTime?: boolean
+    replyComment?: boolean
+    replyUpdateTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type GbpReviewInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type GbpReviewIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $GbpReviewPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GbpReview"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      googleReviewId: string
+      reviewerName: string | null
+      reviewerPhotoUrl: string | null
+      starRating: number
+      comment: string | null
+      createTime: Date
+      updateTime: Date | null
+      replyComment: string | null
+      replyUpdateTime: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["gbpReview"]>
+    composites: {}
+  }
+
+  type GbpReviewGetPayload<S extends boolean | null | undefined | GbpReviewDefaultArgs> = $Result.GetResult<Prisma.$GbpReviewPayload, S>
+
+  type GbpReviewCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<GbpReviewFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: GbpReviewCountAggregateInputType | true
+    }
+
+  export interface GbpReviewDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GbpReview'], meta: { name: 'GbpReview' } }
+    /**
+     * Find zero or one GbpReview that matches the filter.
+     * @param {GbpReviewFindUniqueArgs} args - Arguments to find a GbpReview
+     * @example
+     * // Get one GbpReview
+     * const gbpReview = await prisma.gbpReview.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GbpReviewFindUniqueArgs>(args: SelectSubset<T, GbpReviewFindUniqueArgs<ExtArgs>>): Prisma__GbpReviewClient<$Result.GetResult<Prisma.$GbpReviewPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one GbpReview that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {GbpReviewFindUniqueOrThrowArgs} args - Arguments to find a GbpReview
+     * @example
+     * // Get one GbpReview
+     * const gbpReview = await prisma.gbpReview.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GbpReviewFindUniqueOrThrowArgs>(args: SelectSubset<T, GbpReviewFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GbpReviewClient<$Result.GetResult<Prisma.$GbpReviewPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first GbpReview that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpReviewFindFirstArgs} args - Arguments to find a GbpReview
+     * @example
+     * // Get one GbpReview
+     * const gbpReview = await prisma.gbpReview.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GbpReviewFindFirstArgs>(args?: SelectSubset<T, GbpReviewFindFirstArgs<ExtArgs>>): Prisma__GbpReviewClient<$Result.GetResult<Prisma.$GbpReviewPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first GbpReview that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpReviewFindFirstOrThrowArgs} args - Arguments to find a GbpReview
+     * @example
+     * // Get one GbpReview
+     * const gbpReview = await prisma.gbpReview.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GbpReviewFindFirstOrThrowArgs>(args?: SelectSubset<T, GbpReviewFindFirstOrThrowArgs<ExtArgs>>): Prisma__GbpReviewClient<$Result.GetResult<Prisma.$GbpReviewPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more GbpReviews that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpReviewFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GbpReviews
+     * const gbpReviews = await prisma.gbpReview.findMany()
+     * 
+     * // Get first 10 GbpReviews
+     * const gbpReviews = await prisma.gbpReview.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const gbpReviewWithIdOnly = await prisma.gbpReview.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GbpReviewFindManyArgs>(args?: SelectSubset<T, GbpReviewFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GbpReviewPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a GbpReview.
+     * @param {GbpReviewCreateArgs} args - Arguments to create a GbpReview.
+     * @example
+     * // Create one GbpReview
+     * const GbpReview = await prisma.gbpReview.create({
+     *   data: {
+     *     // ... data to create a GbpReview
+     *   }
+     * })
+     * 
+     */
+    create<T extends GbpReviewCreateArgs>(args: SelectSubset<T, GbpReviewCreateArgs<ExtArgs>>): Prisma__GbpReviewClient<$Result.GetResult<Prisma.$GbpReviewPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many GbpReviews.
+     * @param {GbpReviewCreateManyArgs} args - Arguments to create many GbpReviews.
+     * @example
+     * // Create many GbpReviews
+     * const gbpReview = await prisma.gbpReview.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GbpReviewCreateManyArgs>(args?: SelectSubset<T, GbpReviewCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GbpReviews and returns the data saved in the database.
+     * @param {GbpReviewCreateManyAndReturnArgs} args - Arguments to create many GbpReviews.
+     * @example
+     * // Create many GbpReviews
+     * const gbpReview = await prisma.gbpReview.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GbpReviews and only return the `id`
+     * const gbpReviewWithIdOnly = await prisma.gbpReview.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GbpReviewCreateManyAndReturnArgs>(args?: SelectSubset<T, GbpReviewCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GbpReviewPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a GbpReview.
+     * @param {GbpReviewDeleteArgs} args - Arguments to delete one GbpReview.
+     * @example
+     * // Delete one GbpReview
+     * const GbpReview = await prisma.gbpReview.delete({
+     *   where: {
+     *     // ... filter to delete one GbpReview
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GbpReviewDeleteArgs>(args: SelectSubset<T, GbpReviewDeleteArgs<ExtArgs>>): Prisma__GbpReviewClient<$Result.GetResult<Prisma.$GbpReviewPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one GbpReview.
+     * @param {GbpReviewUpdateArgs} args - Arguments to update one GbpReview.
+     * @example
+     * // Update one GbpReview
+     * const gbpReview = await prisma.gbpReview.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GbpReviewUpdateArgs>(args: SelectSubset<T, GbpReviewUpdateArgs<ExtArgs>>): Prisma__GbpReviewClient<$Result.GetResult<Prisma.$GbpReviewPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more GbpReviews.
+     * @param {GbpReviewDeleteManyArgs} args - Arguments to filter GbpReviews to delete.
+     * @example
+     * // Delete a few GbpReviews
+     * const { count } = await prisma.gbpReview.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GbpReviewDeleteManyArgs>(args?: SelectSubset<T, GbpReviewDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GbpReviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpReviewUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GbpReviews
+     * const gbpReview = await prisma.gbpReview.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GbpReviewUpdateManyArgs>(args: SelectSubset<T, GbpReviewUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one GbpReview.
+     * @param {GbpReviewUpsertArgs} args - Arguments to update or create a GbpReview.
+     * @example
+     * // Update or create a GbpReview
+     * const gbpReview = await prisma.gbpReview.upsert({
+     *   create: {
+     *     // ... data to create a GbpReview
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GbpReview we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GbpReviewUpsertArgs>(args: SelectSubset<T, GbpReviewUpsertArgs<ExtArgs>>): Prisma__GbpReviewClient<$Result.GetResult<Prisma.$GbpReviewPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of GbpReviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpReviewCountArgs} args - Arguments to filter GbpReviews to count.
+     * @example
+     * // Count the number of GbpReviews
+     * const count = await prisma.gbpReview.count({
+     *   where: {
+     *     // ... the filter for the GbpReviews we want to count
+     *   }
+     * })
+    **/
+    count<T extends GbpReviewCountArgs>(
+      args?: Subset<T, GbpReviewCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GbpReviewCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GbpReview.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpReviewAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GbpReviewAggregateArgs>(args: Subset<T, GbpReviewAggregateArgs>): Prisma.PrismaPromise<GetGbpReviewAggregateType<T>>
+
+    /**
+     * Group by GbpReview.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpReviewGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GbpReviewGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GbpReviewGroupByArgs['orderBy'] }
+        : { orderBy?: GbpReviewGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GbpReviewGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGbpReviewGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GbpReview model
+   */
+  readonly fields: GbpReviewFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GbpReview.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GbpReviewClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GbpReview model
+   */ 
+  interface GbpReviewFieldRefs {
+    readonly id: FieldRef<"GbpReview", 'String'>
+    readonly companyId: FieldRef<"GbpReview", 'String'>
+    readonly googleReviewId: FieldRef<"GbpReview", 'String'>
+    readonly reviewerName: FieldRef<"GbpReview", 'String'>
+    readonly reviewerPhotoUrl: FieldRef<"GbpReview", 'String'>
+    readonly starRating: FieldRef<"GbpReview", 'Int'>
+    readonly comment: FieldRef<"GbpReview", 'String'>
+    readonly createTime: FieldRef<"GbpReview", 'DateTime'>
+    readonly updateTime: FieldRef<"GbpReview", 'DateTime'>
+    readonly replyComment: FieldRef<"GbpReview", 'String'>
+    readonly replyUpdateTime: FieldRef<"GbpReview", 'DateTime'>
+    readonly createdAt: FieldRef<"GbpReview", 'DateTime'>
+    readonly updatedAt: FieldRef<"GbpReview", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GbpReview findUnique
+   */
+  export type GbpReviewFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpReview
+     */
+    select?: GbpReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpReviewInclude<ExtArgs> | null
+    /**
+     * Filter, which GbpReview to fetch.
+     */
+    where: GbpReviewWhereUniqueInput
+  }
+
+  /**
+   * GbpReview findUniqueOrThrow
+   */
+  export type GbpReviewFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpReview
+     */
+    select?: GbpReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpReviewInclude<ExtArgs> | null
+    /**
+     * Filter, which GbpReview to fetch.
+     */
+    where: GbpReviewWhereUniqueInput
+  }
+
+  /**
+   * GbpReview findFirst
+   */
+  export type GbpReviewFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpReview
+     */
+    select?: GbpReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpReviewInclude<ExtArgs> | null
+    /**
+     * Filter, which GbpReview to fetch.
+     */
+    where?: GbpReviewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GbpReviews to fetch.
+     */
+    orderBy?: GbpReviewOrderByWithRelationInput | GbpReviewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GbpReviews.
+     */
+    cursor?: GbpReviewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GbpReviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GbpReviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GbpReviews.
+     */
+    distinct?: GbpReviewScalarFieldEnum | GbpReviewScalarFieldEnum[]
+  }
+
+  /**
+   * GbpReview findFirstOrThrow
+   */
+  export type GbpReviewFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpReview
+     */
+    select?: GbpReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpReviewInclude<ExtArgs> | null
+    /**
+     * Filter, which GbpReview to fetch.
+     */
+    where?: GbpReviewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GbpReviews to fetch.
+     */
+    orderBy?: GbpReviewOrderByWithRelationInput | GbpReviewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GbpReviews.
+     */
+    cursor?: GbpReviewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GbpReviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GbpReviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GbpReviews.
+     */
+    distinct?: GbpReviewScalarFieldEnum | GbpReviewScalarFieldEnum[]
+  }
+
+  /**
+   * GbpReview findMany
+   */
+  export type GbpReviewFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpReview
+     */
+    select?: GbpReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpReviewInclude<ExtArgs> | null
+    /**
+     * Filter, which GbpReviews to fetch.
+     */
+    where?: GbpReviewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GbpReviews to fetch.
+     */
+    orderBy?: GbpReviewOrderByWithRelationInput | GbpReviewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GbpReviews.
+     */
+    cursor?: GbpReviewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GbpReviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GbpReviews.
+     */
+    skip?: number
+    distinct?: GbpReviewScalarFieldEnum | GbpReviewScalarFieldEnum[]
+  }
+
+  /**
+   * GbpReview create
+   */
+  export type GbpReviewCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpReview
+     */
+    select?: GbpReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpReviewInclude<ExtArgs> | null
+    /**
+     * The data needed to create a GbpReview.
+     */
+    data: XOR<GbpReviewCreateInput, GbpReviewUncheckedCreateInput>
+  }
+
+  /**
+   * GbpReview createMany
+   */
+  export type GbpReviewCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GbpReviews.
+     */
+    data: GbpReviewCreateManyInput | GbpReviewCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GbpReview createManyAndReturn
+   */
+  export type GbpReviewCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpReview
+     */
+    select?: GbpReviewSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many GbpReviews.
+     */
+    data: GbpReviewCreateManyInput | GbpReviewCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpReviewIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GbpReview update
+   */
+  export type GbpReviewUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpReview
+     */
+    select?: GbpReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpReviewInclude<ExtArgs> | null
+    /**
+     * The data needed to update a GbpReview.
+     */
+    data: XOR<GbpReviewUpdateInput, GbpReviewUncheckedUpdateInput>
+    /**
+     * Choose, which GbpReview to update.
+     */
+    where: GbpReviewWhereUniqueInput
+  }
+
+  /**
+   * GbpReview updateMany
+   */
+  export type GbpReviewUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GbpReviews.
+     */
+    data: XOR<GbpReviewUpdateManyMutationInput, GbpReviewUncheckedUpdateManyInput>
+    /**
+     * Filter which GbpReviews to update
+     */
+    where?: GbpReviewWhereInput
+  }
+
+  /**
+   * GbpReview upsert
+   */
+  export type GbpReviewUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpReview
+     */
+    select?: GbpReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpReviewInclude<ExtArgs> | null
+    /**
+     * The filter to search for the GbpReview to update in case it exists.
+     */
+    where: GbpReviewWhereUniqueInput
+    /**
+     * In case the GbpReview found by the `where` argument doesn't exist, create a new GbpReview with this data.
+     */
+    create: XOR<GbpReviewCreateInput, GbpReviewUncheckedCreateInput>
+    /**
+     * In case the GbpReview was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GbpReviewUpdateInput, GbpReviewUncheckedUpdateInput>
+  }
+
+  /**
+   * GbpReview delete
+   */
+  export type GbpReviewDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpReview
+     */
+    select?: GbpReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpReviewInclude<ExtArgs> | null
+    /**
+     * Filter which GbpReview to delete.
+     */
+    where: GbpReviewWhereUniqueInput
+  }
+
+  /**
+   * GbpReview deleteMany
+   */
+  export type GbpReviewDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GbpReviews to delete
+     */
+    where?: GbpReviewWhereInput
+  }
+
+  /**
+   * GbpReview without action
+   */
+  export type GbpReviewDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpReview
+     */
+    select?: GbpReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpReviewInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model GbpSearchKeyword
+   */
+
+  export type AggregateGbpSearchKeyword = {
+    _count: GbpSearchKeywordCountAggregateOutputType | null
+    _avg: GbpSearchKeywordAvgAggregateOutputType | null
+    _sum: GbpSearchKeywordSumAggregateOutputType | null
+    _min: GbpSearchKeywordMinAggregateOutputType | null
+    _max: GbpSearchKeywordMaxAggregateOutputType | null
+  }
+
+  export type GbpSearchKeywordAvgAggregateOutputType = {
+    year: number | null
+    month: number | null
+    impressions: number | null
+  }
+
+  export type GbpSearchKeywordSumAggregateOutputType = {
+    year: number | null
+    month: number | null
+    impressions: number | null
+  }
+
+  export type GbpSearchKeywordMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    keyword: string | null
+    year: number | null
+    month: number | null
+    impressions: number | null
+    isThreshold: boolean | null
+    createdAt: Date | null
+  }
+
+  export type GbpSearchKeywordMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    keyword: string | null
+    year: number | null
+    month: number | null
+    impressions: number | null
+    isThreshold: boolean | null
+    createdAt: Date | null
+  }
+
+  export type GbpSearchKeywordCountAggregateOutputType = {
+    id: number
+    companyId: number
+    keyword: number
+    year: number
+    month: number
+    impressions: number
+    isThreshold: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type GbpSearchKeywordAvgAggregateInputType = {
+    year?: true
+    month?: true
+    impressions?: true
+  }
+
+  export type GbpSearchKeywordSumAggregateInputType = {
+    year?: true
+    month?: true
+    impressions?: true
+  }
+
+  export type GbpSearchKeywordMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    keyword?: true
+    year?: true
+    month?: true
+    impressions?: true
+    isThreshold?: true
+    createdAt?: true
+  }
+
+  export type GbpSearchKeywordMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    keyword?: true
+    year?: true
+    month?: true
+    impressions?: true
+    isThreshold?: true
+    createdAt?: true
+  }
+
+  export type GbpSearchKeywordCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    keyword?: true
+    year?: true
+    month?: true
+    impressions?: true
+    isThreshold?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type GbpSearchKeywordAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GbpSearchKeyword to aggregate.
+     */
+    where?: GbpSearchKeywordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GbpSearchKeywords to fetch.
+     */
+    orderBy?: GbpSearchKeywordOrderByWithRelationInput | GbpSearchKeywordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GbpSearchKeywordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GbpSearchKeywords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GbpSearchKeywords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GbpSearchKeywords
+    **/
+    _count?: true | GbpSearchKeywordCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GbpSearchKeywordAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GbpSearchKeywordSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GbpSearchKeywordMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GbpSearchKeywordMaxAggregateInputType
+  }
+
+  export type GetGbpSearchKeywordAggregateType<T extends GbpSearchKeywordAggregateArgs> = {
+        [P in keyof T & keyof AggregateGbpSearchKeyword]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGbpSearchKeyword[P]>
+      : GetScalarType<T[P], AggregateGbpSearchKeyword[P]>
+  }
+
+
+
+
+  export type GbpSearchKeywordGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GbpSearchKeywordWhereInput
+    orderBy?: GbpSearchKeywordOrderByWithAggregationInput | GbpSearchKeywordOrderByWithAggregationInput[]
+    by: GbpSearchKeywordScalarFieldEnum[] | GbpSearchKeywordScalarFieldEnum
+    having?: GbpSearchKeywordScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GbpSearchKeywordCountAggregateInputType | true
+    _avg?: GbpSearchKeywordAvgAggregateInputType
+    _sum?: GbpSearchKeywordSumAggregateInputType
+    _min?: GbpSearchKeywordMinAggregateInputType
+    _max?: GbpSearchKeywordMaxAggregateInputType
+  }
+
+  export type GbpSearchKeywordGroupByOutputType = {
+    id: string
+    companyId: string
+    keyword: string
+    year: number
+    month: number
+    impressions: number
+    isThreshold: boolean
+    createdAt: Date
+    _count: GbpSearchKeywordCountAggregateOutputType | null
+    _avg: GbpSearchKeywordAvgAggregateOutputType | null
+    _sum: GbpSearchKeywordSumAggregateOutputType | null
+    _min: GbpSearchKeywordMinAggregateOutputType | null
+    _max: GbpSearchKeywordMaxAggregateOutputType | null
+  }
+
+  type GetGbpSearchKeywordGroupByPayload<T extends GbpSearchKeywordGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GbpSearchKeywordGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GbpSearchKeywordGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GbpSearchKeywordGroupByOutputType[P]>
+            : GetScalarType<T[P], GbpSearchKeywordGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GbpSearchKeywordSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    keyword?: boolean
+    year?: boolean
+    month?: boolean
+    impressions?: boolean
+    isThreshold?: boolean
+    createdAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gbpSearchKeyword"]>
+
+  export type GbpSearchKeywordSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    keyword?: boolean
+    year?: boolean
+    month?: boolean
+    impressions?: boolean
+    isThreshold?: boolean
+    createdAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gbpSearchKeyword"]>
+
+  export type GbpSearchKeywordSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    keyword?: boolean
+    year?: boolean
+    month?: boolean
+    impressions?: boolean
+    isThreshold?: boolean
+    createdAt?: boolean
+  }
+
+  export type GbpSearchKeywordInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type GbpSearchKeywordIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $GbpSearchKeywordPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GbpSearchKeyword"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      keyword: string
+      year: number
+      month: number
+      impressions: number
+      isThreshold: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["gbpSearchKeyword"]>
+    composites: {}
+  }
+
+  type GbpSearchKeywordGetPayload<S extends boolean | null | undefined | GbpSearchKeywordDefaultArgs> = $Result.GetResult<Prisma.$GbpSearchKeywordPayload, S>
+
+  type GbpSearchKeywordCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<GbpSearchKeywordFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: GbpSearchKeywordCountAggregateInputType | true
+    }
+
+  export interface GbpSearchKeywordDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GbpSearchKeyword'], meta: { name: 'GbpSearchKeyword' } }
+    /**
+     * Find zero or one GbpSearchKeyword that matches the filter.
+     * @param {GbpSearchKeywordFindUniqueArgs} args - Arguments to find a GbpSearchKeyword
+     * @example
+     * // Get one GbpSearchKeyword
+     * const gbpSearchKeyword = await prisma.gbpSearchKeyword.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GbpSearchKeywordFindUniqueArgs>(args: SelectSubset<T, GbpSearchKeywordFindUniqueArgs<ExtArgs>>): Prisma__GbpSearchKeywordClient<$Result.GetResult<Prisma.$GbpSearchKeywordPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one GbpSearchKeyword that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {GbpSearchKeywordFindUniqueOrThrowArgs} args - Arguments to find a GbpSearchKeyword
+     * @example
+     * // Get one GbpSearchKeyword
+     * const gbpSearchKeyword = await prisma.gbpSearchKeyword.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GbpSearchKeywordFindUniqueOrThrowArgs>(args: SelectSubset<T, GbpSearchKeywordFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GbpSearchKeywordClient<$Result.GetResult<Prisma.$GbpSearchKeywordPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first GbpSearchKeyword that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpSearchKeywordFindFirstArgs} args - Arguments to find a GbpSearchKeyword
+     * @example
+     * // Get one GbpSearchKeyword
+     * const gbpSearchKeyword = await prisma.gbpSearchKeyword.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GbpSearchKeywordFindFirstArgs>(args?: SelectSubset<T, GbpSearchKeywordFindFirstArgs<ExtArgs>>): Prisma__GbpSearchKeywordClient<$Result.GetResult<Prisma.$GbpSearchKeywordPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first GbpSearchKeyword that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpSearchKeywordFindFirstOrThrowArgs} args - Arguments to find a GbpSearchKeyword
+     * @example
+     * // Get one GbpSearchKeyword
+     * const gbpSearchKeyword = await prisma.gbpSearchKeyword.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GbpSearchKeywordFindFirstOrThrowArgs>(args?: SelectSubset<T, GbpSearchKeywordFindFirstOrThrowArgs<ExtArgs>>): Prisma__GbpSearchKeywordClient<$Result.GetResult<Prisma.$GbpSearchKeywordPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more GbpSearchKeywords that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpSearchKeywordFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GbpSearchKeywords
+     * const gbpSearchKeywords = await prisma.gbpSearchKeyword.findMany()
+     * 
+     * // Get first 10 GbpSearchKeywords
+     * const gbpSearchKeywords = await prisma.gbpSearchKeyword.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const gbpSearchKeywordWithIdOnly = await prisma.gbpSearchKeyword.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GbpSearchKeywordFindManyArgs>(args?: SelectSubset<T, GbpSearchKeywordFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GbpSearchKeywordPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a GbpSearchKeyword.
+     * @param {GbpSearchKeywordCreateArgs} args - Arguments to create a GbpSearchKeyword.
+     * @example
+     * // Create one GbpSearchKeyword
+     * const GbpSearchKeyword = await prisma.gbpSearchKeyword.create({
+     *   data: {
+     *     // ... data to create a GbpSearchKeyword
+     *   }
+     * })
+     * 
+     */
+    create<T extends GbpSearchKeywordCreateArgs>(args: SelectSubset<T, GbpSearchKeywordCreateArgs<ExtArgs>>): Prisma__GbpSearchKeywordClient<$Result.GetResult<Prisma.$GbpSearchKeywordPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many GbpSearchKeywords.
+     * @param {GbpSearchKeywordCreateManyArgs} args - Arguments to create many GbpSearchKeywords.
+     * @example
+     * // Create many GbpSearchKeywords
+     * const gbpSearchKeyword = await prisma.gbpSearchKeyword.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GbpSearchKeywordCreateManyArgs>(args?: SelectSubset<T, GbpSearchKeywordCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GbpSearchKeywords and returns the data saved in the database.
+     * @param {GbpSearchKeywordCreateManyAndReturnArgs} args - Arguments to create many GbpSearchKeywords.
+     * @example
+     * // Create many GbpSearchKeywords
+     * const gbpSearchKeyword = await prisma.gbpSearchKeyword.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GbpSearchKeywords and only return the `id`
+     * const gbpSearchKeywordWithIdOnly = await prisma.gbpSearchKeyword.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GbpSearchKeywordCreateManyAndReturnArgs>(args?: SelectSubset<T, GbpSearchKeywordCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GbpSearchKeywordPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a GbpSearchKeyword.
+     * @param {GbpSearchKeywordDeleteArgs} args - Arguments to delete one GbpSearchKeyword.
+     * @example
+     * // Delete one GbpSearchKeyword
+     * const GbpSearchKeyword = await prisma.gbpSearchKeyword.delete({
+     *   where: {
+     *     // ... filter to delete one GbpSearchKeyword
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GbpSearchKeywordDeleteArgs>(args: SelectSubset<T, GbpSearchKeywordDeleteArgs<ExtArgs>>): Prisma__GbpSearchKeywordClient<$Result.GetResult<Prisma.$GbpSearchKeywordPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one GbpSearchKeyword.
+     * @param {GbpSearchKeywordUpdateArgs} args - Arguments to update one GbpSearchKeyword.
+     * @example
+     * // Update one GbpSearchKeyword
+     * const gbpSearchKeyword = await prisma.gbpSearchKeyword.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GbpSearchKeywordUpdateArgs>(args: SelectSubset<T, GbpSearchKeywordUpdateArgs<ExtArgs>>): Prisma__GbpSearchKeywordClient<$Result.GetResult<Prisma.$GbpSearchKeywordPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more GbpSearchKeywords.
+     * @param {GbpSearchKeywordDeleteManyArgs} args - Arguments to filter GbpSearchKeywords to delete.
+     * @example
+     * // Delete a few GbpSearchKeywords
+     * const { count } = await prisma.gbpSearchKeyword.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GbpSearchKeywordDeleteManyArgs>(args?: SelectSubset<T, GbpSearchKeywordDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GbpSearchKeywords.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpSearchKeywordUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GbpSearchKeywords
+     * const gbpSearchKeyword = await prisma.gbpSearchKeyword.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GbpSearchKeywordUpdateManyArgs>(args: SelectSubset<T, GbpSearchKeywordUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one GbpSearchKeyword.
+     * @param {GbpSearchKeywordUpsertArgs} args - Arguments to update or create a GbpSearchKeyword.
+     * @example
+     * // Update or create a GbpSearchKeyword
+     * const gbpSearchKeyword = await prisma.gbpSearchKeyword.upsert({
+     *   create: {
+     *     // ... data to create a GbpSearchKeyword
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GbpSearchKeyword we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GbpSearchKeywordUpsertArgs>(args: SelectSubset<T, GbpSearchKeywordUpsertArgs<ExtArgs>>): Prisma__GbpSearchKeywordClient<$Result.GetResult<Prisma.$GbpSearchKeywordPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of GbpSearchKeywords.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpSearchKeywordCountArgs} args - Arguments to filter GbpSearchKeywords to count.
+     * @example
+     * // Count the number of GbpSearchKeywords
+     * const count = await prisma.gbpSearchKeyword.count({
+     *   where: {
+     *     // ... the filter for the GbpSearchKeywords we want to count
+     *   }
+     * })
+    **/
+    count<T extends GbpSearchKeywordCountArgs>(
+      args?: Subset<T, GbpSearchKeywordCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GbpSearchKeywordCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GbpSearchKeyword.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpSearchKeywordAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GbpSearchKeywordAggregateArgs>(args: Subset<T, GbpSearchKeywordAggregateArgs>): Prisma.PrismaPromise<GetGbpSearchKeywordAggregateType<T>>
+
+    /**
+     * Group by GbpSearchKeyword.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpSearchKeywordGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GbpSearchKeywordGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GbpSearchKeywordGroupByArgs['orderBy'] }
+        : { orderBy?: GbpSearchKeywordGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GbpSearchKeywordGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGbpSearchKeywordGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GbpSearchKeyword model
+   */
+  readonly fields: GbpSearchKeywordFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GbpSearchKeyword.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GbpSearchKeywordClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GbpSearchKeyword model
+   */ 
+  interface GbpSearchKeywordFieldRefs {
+    readonly id: FieldRef<"GbpSearchKeyword", 'String'>
+    readonly companyId: FieldRef<"GbpSearchKeyword", 'String'>
+    readonly keyword: FieldRef<"GbpSearchKeyword", 'String'>
+    readonly year: FieldRef<"GbpSearchKeyword", 'Int'>
+    readonly month: FieldRef<"GbpSearchKeyword", 'Int'>
+    readonly impressions: FieldRef<"GbpSearchKeyword", 'Int'>
+    readonly isThreshold: FieldRef<"GbpSearchKeyword", 'Boolean'>
+    readonly createdAt: FieldRef<"GbpSearchKeyword", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GbpSearchKeyword findUnique
+   */
+  export type GbpSearchKeywordFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpSearchKeyword
+     */
+    select?: GbpSearchKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpSearchKeywordInclude<ExtArgs> | null
+    /**
+     * Filter, which GbpSearchKeyword to fetch.
+     */
+    where: GbpSearchKeywordWhereUniqueInput
+  }
+
+  /**
+   * GbpSearchKeyword findUniqueOrThrow
+   */
+  export type GbpSearchKeywordFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpSearchKeyword
+     */
+    select?: GbpSearchKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpSearchKeywordInclude<ExtArgs> | null
+    /**
+     * Filter, which GbpSearchKeyword to fetch.
+     */
+    where: GbpSearchKeywordWhereUniqueInput
+  }
+
+  /**
+   * GbpSearchKeyword findFirst
+   */
+  export type GbpSearchKeywordFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpSearchKeyword
+     */
+    select?: GbpSearchKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpSearchKeywordInclude<ExtArgs> | null
+    /**
+     * Filter, which GbpSearchKeyword to fetch.
+     */
+    where?: GbpSearchKeywordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GbpSearchKeywords to fetch.
+     */
+    orderBy?: GbpSearchKeywordOrderByWithRelationInput | GbpSearchKeywordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GbpSearchKeywords.
+     */
+    cursor?: GbpSearchKeywordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GbpSearchKeywords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GbpSearchKeywords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GbpSearchKeywords.
+     */
+    distinct?: GbpSearchKeywordScalarFieldEnum | GbpSearchKeywordScalarFieldEnum[]
+  }
+
+  /**
+   * GbpSearchKeyword findFirstOrThrow
+   */
+  export type GbpSearchKeywordFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpSearchKeyword
+     */
+    select?: GbpSearchKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpSearchKeywordInclude<ExtArgs> | null
+    /**
+     * Filter, which GbpSearchKeyword to fetch.
+     */
+    where?: GbpSearchKeywordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GbpSearchKeywords to fetch.
+     */
+    orderBy?: GbpSearchKeywordOrderByWithRelationInput | GbpSearchKeywordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GbpSearchKeywords.
+     */
+    cursor?: GbpSearchKeywordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GbpSearchKeywords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GbpSearchKeywords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GbpSearchKeywords.
+     */
+    distinct?: GbpSearchKeywordScalarFieldEnum | GbpSearchKeywordScalarFieldEnum[]
+  }
+
+  /**
+   * GbpSearchKeyword findMany
+   */
+  export type GbpSearchKeywordFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpSearchKeyword
+     */
+    select?: GbpSearchKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpSearchKeywordInclude<ExtArgs> | null
+    /**
+     * Filter, which GbpSearchKeywords to fetch.
+     */
+    where?: GbpSearchKeywordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GbpSearchKeywords to fetch.
+     */
+    orderBy?: GbpSearchKeywordOrderByWithRelationInput | GbpSearchKeywordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GbpSearchKeywords.
+     */
+    cursor?: GbpSearchKeywordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GbpSearchKeywords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GbpSearchKeywords.
+     */
+    skip?: number
+    distinct?: GbpSearchKeywordScalarFieldEnum | GbpSearchKeywordScalarFieldEnum[]
+  }
+
+  /**
+   * GbpSearchKeyword create
+   */
+  export type GbpSearchKeywordCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpSearchKeyword
+     */
+    select?: GbpSearchKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpSearchKeywordInclude<ExtArgs> | null
+    /**
+     * The data needed to create a GbpSearchKeyword.
+     */
+    data: XOR<GbpSearchKeywordCreateInput, GbpSearchKeywordUncheckedCreateInput>
+  }
+
+  /**
+   * GbpSearchKeyword createMany
+   */
+  export type GbpSearchKeywordCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GbpSearchKeywords.
+     */
+    data: GbpSearchKeywordCreateManyInput | GbpSearchKeywordCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GbpSearchKeyword createManyAndReturn
+   */
+  export type GbpSearchKeywordCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpSearchKeyword
+     */
+    select?: GbpSearchKeywordSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many GbpSearchKeywords.
+     */
+    data: GbpSearchKeywordCreateManyInput | GbpSearchKeywordCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpSearchKeywordIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GbpSearchKeyword update
+   */
+  export type GbpSearchKeywordUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpSearchKeyword
+     */
+    select?: GbpSearchKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpSearchKeywordInclude<ExtArgs> | null
+    /**
+     * The data needed to update a GbpSearchKeyword.
+     */
+    data: XOR<GbpSearchKeywordUpdateInput, GbpSearchKeywordUncheckedUpdateInput>
+    /**
+     * Choose, which GbpSearchKeyword to update.
+     */
+    where: GbpSearchKeywordWhereUniqueInput
+  }
+
+  /**
+   * GbpSearchKeyword updateMany
+   */
+  export type GbpSearchKeywordUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GbpSearchKeywords.
+     */
+    data: XOR<GbpSearchKeywordUpdateManyMutationInput, GbpSearchKeywordUncheckedUpdateManyInput>
+    /**
+     * Filter which GbpSearchKeywords to update
+     */
+    where?: GbpSearchKeywordWhereInput
+  }
+
+  /**
+   * GbpSearchKeyword upsert
+   */
+  export type GbpSearchKeywordUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpSearchKeyword
+     */
+    select?: GbpSearchKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpSearchKeywordInclude<ExtArgs> | null
+    /**
+     * The filter to search for the GbpSearchKeyword to update in case it exists.
+     */
+    where: GbpSearchKeywordWhereUniqueInput
+    /**
+     * In case the GbpSearchKeyword found by the `where` argument doesn't exist, create a new GbpSearchKeyword with this data.
+     */
+    create: XOR<GbpSearchKeywordCreateInput, GbpSearchKeywordUncheckedCreateInput>
+    /**
+     * In case the GbpSearchKeyword was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GbpSearchKeywordUpdateInput, GbpSearchKeywordUncheckedUpdateInput>
+  }
+
+  /**
+   * GbpSearchKeyword delete
+   */
+  export type GbpSearchKeywordDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpSearchKeyword
+     */
+    select?: GbpSearchKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpSearchKeywordInclude<ExtArgs> | null
+    /**
+     * Filter which GbpSearchKeyword to delete.
+     */
+    where: GbpSearchKeywordWhereUniqueInput
+  }
+
+  /**
+   * GbpSearchKeyword deleteMany
+   */
+  export type GbpSearchKeywordDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GbpSearchKeywords to delete
+     */
+    where?: GbpSearchKeywordWhereInput
+  }
+
+  /**
+   * GbpSearchKeyword without action
+   */
+  export type GbpSearchKeywordDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpSearchKeyword
+     */
+    select?: GbpSearchKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpSearchKeywordInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model GbpProfileSnapshot
+   */
+
+  export type AggregateGbpProfileSnapshot = {
+    _count: GbpProfileSnapshotCountAggregateOutputType | null
+    _avg: GbpProfileSnapshotAvgAggregateOutputType | null
+    _sum: GbpProfileSnapshotSumAggregateOutputType | null
+    _min: GbpProfileSnapshotMinAggregateOutputType | null
+    _max: GbpProfileSnapshotMaxAggregateOutputType | null
+  }
+
+  export type GbpProfileSnapshotAvgAggregateOutputType = {
+    photoCount: number | null
+    completenessScore: number | null
+  }
+
+  export type GbpProfileSnapshotSumAggregateOutputType = {
+    photoCount: number | null
+    completenessScore: number | null
+  }
+
+  export type GbpProfileSnapshotMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    title: string | null
+    primaryCategory: string | null
+    primaryPhone: string | null
+    websiteUri: string | null
+    description: string | null
+    photoCount: number | null
+    completenessScore: number | null
+    syncedAt: Date | null
+  }
+
+  export type GbpProfileSnapshotMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    title: string | null
+    primaryCategory: string | null
+    primaryPhone: string | null
+    websiteUri: string | null
+    description: string | null
+    photoCount: number | null
+    completenessScore: number | null
+    syncedAt: Date | null
+  }
+
+  export type GbpProfileSnapshotCountAggregateOutputType = {
+    id: number
+    companyId: number
+    title: number
+    primaryCategory: number
+    storefrontAddress: number
+    primaryPhone: number
+    websiteUri: number
+    regularHours: number
+    description: number
+    photoCount: number
+    completenessScore: number
+    syncedAt: number
+    _all: number
+  }
+
+
+  export type GbpProfileSnapshotAvgAggregateInputType = {
+    photoCount?: true
+    completenessScore?: true
+  }
+
+  export type GbpProfileSnapshotSumAggregateInputType = {
+    photoCount?: true
+    completenessScore?: true
+  }
+
+  export type GbpProfileSnapshotMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    title?: true
+    primaryCategory?: true
+    primaryPhone?: true
+    websiteUri?: true
+    description?: true
+    photoCount?: true
+    completenessScore?: true
+    syncedAt?: true
+  }
+
+  export type GbpProfileSnapshotMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    title?: true
+    primaryCategory?: true
+    primaryPhone?: true
+    websiteUri?: true
+    description?: true
+    photoCount?: true
+    completenessScore?: true
+    syncedAt?: true
+  }
+
+  export type GbpProfileSnapshotCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    title?: true
+    primaryCategory?: true
+    storefrontAddress?: true
+    primaryPhone?: true
+    websiteUri?: true
+    regularHours?: true
+    description?: true
+    photoCount?: true
+    completenessScore?: true
+    syncedAt?: true
+    _all?: true
+  }
+
+  export type GbpProfileSnapshotAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GbpProfileSnapshot to aggregate.
+     */
+    where?: GbpProfileSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GbpProfileSnapshots to fetch.
+     */
+    orderBy?: GbpProfileSnapshotOrderByWithRelationInput | GbpProfileSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GbpProfileSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GbpProfileSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GbpProfileSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GbpProfileSnapshots
+    **/
+    _count?: true | GbpProfileSnapshotCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GbpProfileSnapshotAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GbpProfileSnapshotSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GbpProfileSnapshotMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GbpProfileSnapshotMaxAggregateInputType
+  }
+
+  export type GetGbpProfileSnapshotAggregateType<T extends GbpProfileSnapshotAggregateArgs> = {
+        [P in keyof T & keyof AggregateGbpProfileSnapshot]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGbpProfileSnapshot[P]>
+      : GetScalarType<T[P], AggregateGbpProfileSnapshot[P]>
+  }
+
+
+
+
+  export type GbpProfileSnapshotGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GbpProfileSnapshotWhereInput
+    orderBy?: GbpProfileSnapshotOrderByWithAggregationInput | GbpProfileSnapshotOrderByWithAggregationInput[]
+    by: GbpProfileSnapshotScalarFieldEnum[] | GbpProfileSnapshotScalarFieldEnum
+    having?: GbpProfileSnapshotScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GbpProfileSnapshotCountAggregateInputType | true
+    _avg?: GbpProfileSnapshotAvgAggregateInputType
+    _sum?: GbpProfileSnapshotSumAggregateInputType
+    _min?: GbpProfileSnapshotMinAggregateInputType
+    _max?: GbpProfileSnapshotMaxAggregateInputType
+  }
+
+  export type GbpProfileSnapshotGroupByOutputType = {
+    id: string
+    companyId: string
+    title: string | null
+    primaryCategory: string | null
+    storefrontAddress: JsonValue | null
+    primaryPhone: string | null
+    websiteUri: string | null
+    regularHours: JsonValue | null
+    description: string | null
+    photoCount: number | null
+    completenessScore: number
+    syncedAt: Date
+    _count: GbpProfileSnapshotCountAggregateOutputType | null
+    _avg: GbpProfileSnapshotAvgAggregateOutputType | null
+    _sum: GbpProfileSnapshotSumAggregateOutputType | null
+    _min: GbpProfileSnapshotMinAggregateOutputType | null
+    _max: GbpProfileSnapshotMaxAggregateOutputType | null
+  }
+
+  type GetGbpProfileSnapshotGroupByPayload<T extends GbpProfileSnapshotGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GbpProfileSnapshotGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GbpProfileSnapshotGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GbpProfileSnapshotGroupByOutputType[P]>
+            : GetScalarType<T[P], GbpProfileSnapshotGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GbpProfileSnapshotSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    title?: boolean
+    primaryCategory?: boolean
+    storefrontAddress?: boolean
+    primaryPhone?: boolean
+    websiteUri?: boolean
+    regularHours?: boolean
+    description?: boolean
+    photoCount?: boolean
+    completenessScore?: boolean
+    syncedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gbpProfileSnapshot"]>
+
+  export type GbpProfileSnapshotSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    title?: boolean
+    primaryCategory?: boolean
+    storefrontAddress?: boolean
+    primaryPhone?: boolean
+    websiteUri?: boolean
+    regularHours?: boolean
+    description?: boolean
+    photoCount?: boolean
+    completenessScore?: boolean
+    syncedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gbpProfileSnapshot"]>
+
+  export type GbpProfileSnapshotSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    title?: boolean
+    primaryCategory?: boolean
+    storefrontAddress?: boolean
+    primaryPhone?: boolean
+    websiteUri?: boolean
+    regularHours?: boolean
+    description?: boolean
+    photoCount?: boolean
+    completenessScore?: boolean
+    syncedAt?: boolean
+  }
+
+  export type GbpProfileSnapshotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type GbpProfileSnapshotIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $GbpProfileSnapshotPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GbpProfileSnapshot"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      title: string | null
+      primaryCategory: string | null
+      storefrontAddress: Prisma.JsonValue | null
+      primaryPhone: string | null
+      websiteUri: string | null
+      regularHours: Prisma.JsonValue | null
+      description: string | null
+      photoCount: number | null
+      completenessScore: number
+      syncedAt: Date
+    }, ExtArgs["result"]["gbpProfileSnapshot"]>
+    composites: {}
+  }
+
+  type GbpProfileSnapshotGetPayload<S extends boolean | null | undefined | GbpProfileSnapshotDefaultArgs> = $Result.GetResult<Prisma.$GbpProfileSnapshotPayload, S>
+
+  type GbpProfileSnapshotCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<GbpProfileSnapshotFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: GbpProfileSnapshotCountAggregateInputType | true
+    }
+
+  export interface GbpProfileSnapshotDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GbpProfileSnapshot'], meta: { name: 'GbpProfileSnapshot' } }
+    /**
+     * Find zero or one GbpProfileSnapshot that matches the filter.
+     * @param {GbpProfileSnapshotFindUniqueArgs} args - Arguments to find a GbpProfileSnapshot
+     * @example
+     * // Get one GbpProfileSnapshot
+     * const gbpProfileSnapshot = await prisma.gbpProfileSnapshot.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GbpProfileSnapshotFindUniqueArgs>(args: SelectSubset<T, GbpProfileSnapshotFindUniqueArgs<ExtArgs>>): Prisma__GbpProfileSnapshotClient<$Result.GetResult<Prisma.$GbpProfileSnapshotPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one GbpProfileSnapshot that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {GbpProfileSnapshotFindUniqueOrThrowArgs} args - Arguments to find a GbpProfileSnapshot
+     * @example
+     * // Get one GbpProfileSnapshot
+     * const gbpProfileSnapshot = await prisma.gbpProfileSnapshot.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GbpProfileSnapshotFindUniqueOrThrowArgs>(args: SelectSubset<T, GbpProfileSnapshotFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GbpProfileSnapshotClient<$Result.GetResult<Prisma.$GbpProfileSnapshotPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first GbpProfileSnapshot that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpProfileSnapshotFindFirstArgs} args - Arguments to find a GbpProfileSnapshot
+     * @example
+     * // Get one GbpProfileSnapshot
+     * const gbpProfileSnapshot = await prisma.gbpProfileSnapshot.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GbpProfileSnapshotFindFirstArgs>(args?: SelectSubset<T, GbpProfileSnapshotFindFirstArgs<ExtArgs>>): Prisma__GbpProfileSnapshotClient<$Result.GetResult<Prisma.$GbpProfileSnapshotPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first GbpProfileSnapshot that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpProfileSnapshotFindFirstOrThrowArgs} args - Arguments to find a GbpProfileSnapshot
+     * @example
+     * // Get one GbpProfileSnapshot
+     * const gbpProfileSnapshot = await prisma.gbpProfileSnapshot.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GbpProfileSnapshotFindFirstOrThrowArgs>(args?: SelectSubset<T, GbpProfileSnapshotFindFirstOrThrowArgs<ExtArgs>>): Prisma__GbpProfileSnapshotClient<$Result.GetResult<Prisma.$GbpProfileSnapshotPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more GbpProfileSnapshots that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpProfileSnapshotFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GbpProfileSnapshots
+     * const gbpProfileSnapshots = await prisma.gbpProfileSnapshot.findMany()
+     * 
+     * // Get first 10 GbpProfileSnapshots
+     * const gbpProfileSnapshots = await prisma.gbpProfileSnapshot.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const gbpProfileSnapshotWithIdOnly = await prisma.gbpProfileSnapshot.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GbpProfileSnapshotFindManyArgs>(args?: SelectSubset<T, GbpProfileSnapshotFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GbpProfileSnapshotPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a GbpProfileSnapshot.
+     * @param {GbpProfileSnapshotCreateArgs} args - Arguments to create a GbpProfileSnapshot.
+     * @example
+     * // Create one GbpProfileSnapshot
+     * const GbpProfileSnapshot = await prisma.gbpProfileSnapshot.create({
+     *   data: {
+     *     // ... data to create a GbpProfileSnapshot
+     *   }
+     * })
+     * 
+     */
+    create<T extends GbpProfileSnapshotCreateArgs>(args: SelectSubset<T, GbpProfileSnapshotCreateArgs<ExtArgs>>): Prisma__GbpProfileSnapshotClient<$Result.GetResult<Prisma.$GbpProfileSnapshotPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many GbpProfileSnapshots.
+     * @param {GbpProfileSnapshotCreateManyArgs} args - Arguments to create many GbpProfileSnapshots.
+     * @example
+     * // Create many GbpProfileSnapshots
+     * const gbpProfileSnapshot = await prisma.gbpProfileSnapshot.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GbpProfileSnapshotCreateManyArgs>(args?: SelectSubset<T, GbpProfileSnapshotCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GbpProfileSnapshots and returns the data saved in the database.
+     * @param {GbpProfileSnapshotCreateManyAndReturnArgs} args - Arguments to create many GbpProfileSnapshots.
+     * @example
+     * // Create many GbpProfileSnapshots
+     * const gbpProfileSnapshot = await prisma.gbpProfileSnapshot.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GbpProfileSnapshots and only return the `id`
+     * const gbpProfileSnapshotWithIdOnly = await prisma.gbpProfileSnapshot.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GbpProfileSnapshotCreateManyAndReturnArgs>(args?: SelectSubset<T, GbpProfileSnapshotCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GbpProfileSnapshotPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a GbpProfileSnapshot.
+     * @param {GbpProfileSnapshotDeleteArgs} args - Arguments to delete one GbpProfileSnapshot.
+     * @example
+     * // Delete one GbpProfileSnapshot
+     * const GbpProfileSnapshot = await prisma.gbpProfileSnapshot.delete({
+     *   where: {
+     *     // ... filter to delete one GbpProfileSnapshot
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GbpProfileSnapshotDeleteArgs>(args: SelectSubset<T, GbpProfileSnapshotDeleteArgs<ExtArgs>>): Prisma__GbpProfileSnapshotClient<$Result.GetResult<Prisma.$GbpProfileSnapshotPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one GbpProfileSnapshot.
+     * @param {GbpProfileSnapshotUpdateArgs} args - Arguments to update one GbpProfileSnapshot.
+     * @example
+     * // Update one GbpProfileSnapshot
+     * const gbpProfileSnapshot = await prisma.gbpProfileSnapshot.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GbpProfileSnapshotUpdateArgs>(args: SelectSubset<T, GbpProfileSnapshotUpdateArgs<ExtArgs>>): Prisma__GbpProfileSnapshotClient<$Result.GetResult<Prisma.$GbpProfileSnapshotPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more GbpProfileSnapshots.
+     * @param {GbpProfileSnapshotDeleteManyArgs} args - Arguments to filter GbpProfileSnapshots to delete.
+     * @example
+     * // Delete a few GbpProfileSnapshots
+     * const { count } = await prisma.gbpProfileSnapshot.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GbpProfileSnapshotDeleteManyArgs>(args?: SelectSubset<T, GbpProfileSnapshotDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GbpProfileSnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpProfileSnapshotUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GbpProfileSnapshots
+     * const gbpProfileSnapshot = await prisma.gbpProfileSnapshot.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GbpProfileSnapshotUpdateManyArgs>(args: SelectSubset<T, GbpProfileSnapshotUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one GbpProfileSnapshot.
+     * @param {GbpProfileSnapshotUpsertArgs} args - Arguments to update or create a GbpProfileSnapshot.
+     * @example
+     * // Update or create a GbpProfileSnapshot
+     * const gbpProfileSnapshot = await prisma.gbpProfileSnapshot.upsert({
+     *   create: {
+     *     // ... data to create a GbpProfileSnapshot
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GbpProfileSnapshot we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GbpProfileSnapshotUpsertArgs>(args: SelectSubset<T, GbpProfileSnapshotUpsertArgs<ExtArgs>>): Prisma__GbpProfileSnapshotClient<$Result.GetResult<Prisma.$GbpProfileSnapshotPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of GbpProfileSnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpProfileSnapshotCountArgs} args - Arguments to filter GbpProfileSnapshots to count.
+     * @example
+     * // Count the number of GbpProfileSnapshots
+     * const count = await prisma.gbpProfileSnapshot.count({
+     *   where: {
+     *     // ... the filter for the GbpProfileSnapshots we want to count
+     *   }
+     * })
+    **/
+    count<T extends GbpProfileSnapshotCountArgs>(
+      args?: Subset<T, GbpProfileSnapshotCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GbpProfileSnapshotCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GbpProfileSnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpProfileSnapshotAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GbpProfileSnapshotAggregateArgs>(args: Subset<T, GbpProfileSnapshotAggregateArgs>): Prisma.PrismaPromise<GetGbpProfileSnapshotAggregateType<T>>
+
+    /**
+     * Group by GbpProfileSnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GbpProfileSnapshotGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GbpProfileSnapshotGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GbpProfileSnapshotGroupByArgs['orderBy'] }
+        : { orderBy?: GbpProfileSnapshotGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GbpProfileSnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGbpProfileSnapshotGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GbpProfileSnapshot model
+   */
+  readonly fields: GbpProfileSnapshotFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GbpProfileSnapshot.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GbpProfileSnapshotClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GbpProfileSnapshot model
+   */ 
+  interface GbpProfileSnapshotFieldRefs {
+    readonly id: FieldRef<"GbpProfileSnapshot", 'String'>
+    readonly companyId: FieldRef<"GbpProfileSnapshot", 'String'>
+    readonly title: FieldRef<"GbpProfileSnapshot", 'String'>
+    readonly primaryCategory: FieldRef<"GbpProfileSnapshot", 'String'>
+    readonly storefrontAddress: FieldRef<"GbpProfileSnapshot", 'Json'>
+    readonly primaryPhone: FieldRef<"GbpProfileSnapshot", 'String'>
+    readonly websiteUri: FieldRef<"GbpProfileSnapshot", 'String'>
+    readonly regularHours: FieldRef<"GbpProfileSnapshot", 'Json'>
+    readonly description: FieldRef<"GbpProfileSnapshot", 'String'>
+    readonly photoCount: FieldRef<"GbpProfileSnapshot", 'Int'>
+    readonly completenessScore: FieldRef<"GbpProfileSnapshot", 'Int'>
+    readonly syncedAt: FieldRef<"GbpProfileSnapshot", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GbpProfileSnapshot findUnique
+   */
+  export type GbpProfileSnapshotFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpProfileSnapshot
+     */
+    select?: GbpProfileSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpProfileSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter, which GbpProfileSnapshot to fetch.
+     */
+    where: GbpProfileSnapshotWhereUniqueInput
+  }
+
+  /**
+   * GbpProfileSnapshot findUniqueOrThrow
+   */
+  export type GbpProfileSnapshotFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpProfileSnapshot
+     */
+    select?: GbpProfileSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpProfileSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter, which GbpProfileSnapshot to fetch.
+     */
+    where: GbpProfileSnapshotWhereUniqueInput
+  }
+
+  /**
+   * GbpProfileSnapshot findFirst
+   */
+  export type GbpProfileSnapshotFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpProfileSnapshot
+     */
+    select?: GbpProfileSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpProfileSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter, which GbpProfileSnapshot to fetch.
+     */
+    where?: GbpProfileSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GbpProfileSnapshots to fetch.
+     */
+    orderBy?: GbpProfileSnapshotOrderByWithRelationInput | GbpProfileSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GbpProfileSnapshots.
+     */
+    cursor?: GbpProfileSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GbpProfileSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GbpProfileSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GbpProfileSnapshots.
+     */
+    distinct?: GbpProfileSnapshotScalarFieldEnum | GbpProfileSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * GbpProfileSnapshot findFirstOrThrow
+   */
+  export type GbpProfileSnapshotFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpProfileSnapshot
+     */
+    select?: GbpProfileSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpProfileSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter, which GbpProfileSnapshot to fetch.
+     */
+    where?: GbpProfileSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GbpProfileSnapshots to fetch.
+     */
+    orderBy?: GbpProfileSnapshotOrderByWithRelationInput | GbpProfileSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GbpProfileSnapshots.
+     */
+    cursor?: GbpProfileSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GbpProfileSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GbpProfileSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GbpProfileSnapshots.
+     */
+    distinct?: GbpProfileSnapshotScalarFieldEnum | GbpProfileSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * GbpProfileSnapshot findMany
+   */
+  export type GbpProfileSnapshotFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpProfileSnapshot
+     */
+    select?: GbpProfileSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpProfileSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter, which GbpProfileSnapshots to fetch.
+     */
+    where?: GbpProfileSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GbpProfileSnapshots to fetch.
+     */
+    orderBy?: GbpProfileSnapshotOrderByWithRelationInput | GbpProfileSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GbpProfileSnapshots.
+     */
+    cursor?: GbpProfileSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GbpProfileSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GbpProfileSnapshots.
+     */
+    skip?: number
+    distinct?: GbpProfileSnapshotScalarFieldEnum | GbpProfileSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * GbpProfileSnapshot create
+   */
+  export type GbpProfileSnapshotCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpProfileSnapshot
+     */
+    select?: GbpProfileSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpProfileSnapshotInclude<ExtArgs> | null
+    /**
+     * The data needed to create a GbpProfileSnapshot.
+     */
+    data: XOR<GbpProfileSnapshotCreateInput, GbpProfileSnapshotUncheckedCreateInput>
+  }
+
+  /**
+   * GbpProfileSnapshot createMany
+   */
+  export type GbpProfileSnapshotCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GbpProfileSnapshots.
+     */
+    data: GbpProfileSnapshotCreateManyInput | GbpProfileSnapshotCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GbpProfileSnapshot createManyAndReturn
+   */
+  export type GbpProfileSnapshotCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpProfileSnapshot
+     */
+    select?: GbpProfileSnapshotSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many GbpProfileSnapshots.
+     */
+    data: GbpProfileSnapshotCreateManyInput | GbpProfileSnapshotCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpProfileSnapshotIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GbpProfileSnapshot update
+   */
+  export type GbpProfileSnapshotUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpProfileSnapshot
+     */
+    select?: GbpProfileSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpProfileSnapshotInclude<ExtArgs> | null
+    /**
+     * The data needed to update a GbpProfileSnapshot.
+     */
+    data: XOR<GbpProfileSnapshotUpdateInput, GbpProfileSnapshotUncheckedUpdateInput>
+    /**
+     * Choose, which GbpProfileSnapshot to update.
+     */
+    where: GbpProfileSnapshotWhereUniqueInput
+  }
+
+  /**
+   * GbpProfileSnapshot updateMany
+   */
+  export type GbpProfileSnapshotUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GbpProfileSnapshots.
+     */
+    data: XOR<GbpProfileSnapshotUpdateManyMutationInput, GbpProfileSnapshotUncheckedUpdateManyInput>
+    /**
+     * Filter which GbpProfileSnapshots to update
+     */
+    where?: GbpProfileSnapshotWhereInput
+  }
+
+  /**
+   * GbpProfileSnapshot upsert
+   */
+  export type GbpProfileSnapshotUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpProfileSnapshot
+     */
+    select?: GbpProfileSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpProfileSnapshotInclude<ExtArgs> | null
+    /**
+     * The filter to search for the GbpProfileSnapshot to update in case it exists.
+     */
+    where: GbpProfileSnapshotWhereUniqueInput
+    /**
+     * In case the GbpProfileSnapshot found by the `where` argument doesn't exist, create a new GbpProfileSnapshot with this data.
+     */
+    create: XOR<GbpProfileSnapshotCreateInput, GbpProfileSnapshotUncheckedCreateInput>
+    /**
+     * In case the GbpProfileSnapshot was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GbpProfileSnapshotUpdateInput, GbpProfileSnapshotUncheckedUpdateInput>
+  }
+
+  /**
+   * GbpProfileSnapshot delete
+   */
+  export type GbpProfileSnapshotDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpProfileSnapshot
+     */
+    select?: GbpProfileSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpProfileSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter which GbpProfileSnapshot to delete.
+     */
+    where: GbpProfileSnapshotWhereUniqueInput
+  }
+
+  /**
+   * GbpProfileSnapshot deleteMany
+   */
+  export type GbpProfileSnapshotDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GbpProfileSnapshots to delete
+     */
+    where?: GbpProfileSnapshotWhereInput
+  }
+
+  /**
+   * GbpProfileSnapshot without action
+   */
+  export type GbpProfileSnapshotDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GbpProfileSnapshot
+     */
+    select?: GbpProfileSnapshotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GbpProfileSnapshotInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Subscription
    */
 
@@ -69948,6 +74652,77 @@ export namespace Prisma {
   export type SearchConsoleQueryScalarFieldEnum = (typeof SearchConsoleQueryScalarFieldEnum)[keyof typeof SearchConsoleQueryScalarFieldEnum]
 
 
+  export const GbpInsightScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    date: 'date',
+    impressionsSearchDesktop: 'impressionsSearchDesktop',
+    impressionsSearchMobile: 'impressionsSearchMobile',
+    impressionsMapsDesktop: 'impressionsMapsDesktop',
+    impressionsMapsMobile: 'impressionsMapsMobile',
+    callClicks: 'callClicks',
+    websiteClicks: 'websiteClicks',
+    directionRequests: 'directionRequests',
+    conversations: 'conversations',
+    bookings: 'bookings',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type GbpInsightScalarFieldEnum = (typeof GbpInsightScalarFieldEnum)[keyof typeof GbpInsightScalarFieldEnum]
+
+
+  export const GbpReviewScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    googleReviewId: 'googleReviewId',
+    reviewerName: 'reviewerName',
+    reviewerPhotoUrl: 'reviewerPhotoUrl',
+    starRating: 'starRating',
+    comment: 'comment',
+    createTime: 'createTime',
+    updateTime: 'updateTime',
+    replyComment: 'replyComment',
+    replyUpdateTime: 'replyUpdateTime',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type GbpReviewScalarFieldEnum = (typeof GbpReviewScalarFieldEnum)[keyof typeof GbpReviewScalarFieldEnum]
+
+
+  export const GbpSearchKeywordScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    keyword: 'keyword',
+    year: 'year',
+    month: 'month',
+    impressions: 'impressions',
+    isThreshold: 'isThreshold',
+    createdAt: 'createdAt'
+  };
+
+  export type GbpSearchKeywordScalarFieldEnum = (typeof GbpSearchKeywordScalarFieldEnum)[keyof typeof GbpSearchKeywordScalarFieldEnum]
+
+
+  export const GbpProfileSnapshotScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    title: 'title',
+    primaryCategory: 'primaryCategory',
+    storefrontAddress: 'storefrontAddress',
+    primaryPhone: 'primaryPhone',
+    websiteUri: 'websiteUri',
+    regularHours: 'regularHours',
+    description: 'description',
+    photoCount: 'photoCount',
+    completenessScore: 'completenessScore',
+    syncedAt: 'syncedAt'
+  };
+
+  export type GbpProfileSnapshotScalarFieldEnum = (typeof GbpProfileSnapshotScalarFieldEnum)[keyof typeof GbpProfileSnapshotScalarFieldEnum]
+
+
   export const SubscriptionScalarFieldEnum: {
     id: 'id',
     companyId: 'companyId',
@@ -71107,6 +75882,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceListRelationFilter
     analyticsGeoData?: AnalyticsGeoDataListRelationFilter
     searchConsoleQueries?: SearchConsoleQueryListRelationFilter
+    gbpInsights?: GbpInsightListRelationFilter
+    gbpReviews?: GbpReviewListRelationFilter
+    gbpSearchKeywords?: GbpSearchKeywordListRelationFilter
+    gbpProfileSnapshots?: GbpProfileSnapshotListRelationFilter
     subscription?: XOR<SubscriptionNullableRelationFilter, SubscriptionWhereInput> | null
     billingEvents?: BillingEventListRelationFilter
   }
@@ -71177,6 +75956,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceOrderByRelationAggregateInput
     analyticsGeoData?: AnalyticsGeoDataOrderByRelationAggregateInput
     searchConsoleQueries?: SearchConsoleQueryOrderByRelationAggregateInput
+    gbpInsights?: GbpInsightOrderByRelationAggregateInput
+    gbpReviews?: GbpReviewOrderByRelationAggregateInput
+    gbpSearchKeywords?: GbpSearchKeywordOrderByRelationAggregateInput
+    gbpProfileSnapshots?: GbpProfileSnapshotOrderByRelationAggregateInput
     subscription?: SubscriptionOrderByWithRelationInput
     billingEvents?: BillingEventOrderByRelationAggregateInput
   }
@@ -71250,6 +76033,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceListRelationFilter
     analyticsGeoData?: AnalyticsGeoDataListRelationFilter
     searchConsoleQueries?: SearchConsoleQueryListRelationFilter
+    gbpInsights?: GbpInsightListRelationFilter
+    gbpReviews?: GbpReviewListRelationFilter
+    gbpSearchKeywords?: GbpSearchKeywordListRelationFilter
+    gbpProfileSnapshots?: GbpProfileSnapshotListRelationFilter
     subscription?: XOR<SubscriptionNullableRelationFilter, SubscriptionWhereInput> | null
     billingEvents?: BillingEventListRelationFilter
   }, "id" | "slug" | "webhookToken">
@@ -74950,6 +79737,371 @@ export namespace Prisma {
     position?: FloatWithAggregatesFilter<"SearchConsoleQuery"> | number
   }
 
+  export type GbpInsightWhereInput = {
+    AND?: GbpInsightWhereInput | GbpInsightWhereInput[]
+    OR?: GbpInsightWhereInput[]
+    NOT?: GbpInsightWhereInput | GbpInsightWhereInput[]
+    id?: StringFilter<"GbpInsight"> | string
+    companyId?: StringFilter<"GbpInsight"> | string
+    date?: DateTimeFilter<"GbpInsight"> | Date | string
+    impressionsSearchDesktop?: IntFilter<"GbpInsight"> | number
+    impressionsSearchMobile?: IntFilter<"GbpInsight"> | number
+    impressionsMapsDesktop?: IntFilter<"GbpInsight"> | number
+    impressionsMapsMobile?: IntFilter<"GbpInsight"> | number
+    callClicks?: IntFilter<"GbpInsight"> | number
+    websiteClicks?: IntFilter<"GbpInsight"> | number
+    directionRequests?: IntFilter<"GbpInsight"> | number
+    conversations?: IntFilter<"GbpInsight"> | number
+    bookings?: IntFilter<"GbpInsight"> | number
+    createdAt?: DateTimeFilter<"GbpInsight"> | Date | string
+    updatedAt?: DateTimeFilter<"GbpInsight"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type GbpInsightOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    impressionsSearchDesktop?: SortOrder
+    impressionsSearchMobile?: SortOrder
+    impressionsMapsDesktop?: SortOrder
+    impressionsMapsMobile?: SortOrder
+    callClicks?: SortOrder
+    websiteClicks?: SortOrder
+    directionRequests?: SortOrder
+    conversations?: SortOrder
+    bookings?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type GbpInsightWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_date?: GbpInsightCompanyIdDateCompoundUniqueInput
+    AND?: GbpInsightWhereInput | GbpInsightWhereInput[]
+    OR?: GbpInsightWhereInput[]
+    NOT?: GbpInsightWhereInput | GbpInsightWhereInput[]
+    companyId?: StringFilter<"GbpInsight"> | string
+    date?: DateTimeFilter<"GbpInsight"> | Date | string
+    impressionsSearchDesktop?: IntFilter<"GbpInsight"> | number
+    impressionsSearchMobile?: IntFilter<"GbpInsight"> | number
+    impressionsMapsDesktop?: IntFilter<"GbpInsight"> | number
+    impressionsMapsMobile?: IntFilter<"GbpInsight"> | number
+    callClicks?: IntFilter<"GbpInsight"> | number
+    websiteClicks?: IntFilter<"GbpInsight"> | number
+    directionRequests?: IntFilter<"GbpInsight"> | number
+    conversations?: IntFilter<"GbpInsight"> | number
+    bookings?: IntFilter<"GbpInsight"> | number
+    createdAt?: DateTimeFilter<"GbpInsight"> | Date | string
+    updatedAt?: DateTimeFilter<"GbpInsight"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id" | "companyId_date">
+
+  export type GbpInsightOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    impressionsSearchDesktop?: SortOrder
+    impressionsSearchMobile?: SortOrder
+    impressionsMapsDesktop?: SortOrder
+    impressionsMapsMobile?: SortOrder
+    callClicks?: SortOrder
+    websiteClicks?: SortOrder
+    directionRequests?: SortOrder
+    conversations?: SortOrder
+    bookings?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: GbpInsightCountOrderByAggregateInput
+    _avg?: GbpInsightAvgOrderByAggregateInput
+    _max?: GbpInsightMaxOrderByAggregateInput
+    _min?: GbpInsightMinOrderByAggregateInput
+    _sum?: GbpInsightSumOrderByAggregateInput
+  }
+
+  export type GbpInsightScalarWhereWithAggregatesInput = {
+    AND?: GbpInsightScalarWhereWithAggregatesInput | GbpInsightScalarWhereWithAggregatesInput[]
+    OR?: GbpInsightScalarWhereWithAggregatesInput[]
+    NOT?: GbpInsightScalarWhereWithAggregatesInput | GbpInsightScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"GbpInsight"> | string
+    companyId?: StringWithAggregatesFilter<"GbpInsight"> | string
+    date?: DateTimeWithAggregatesFilter<"GbpInsight"> | Date | string
+    impressionsSearchDesktop?: IntWithAggregatesFilter<"GbpInsight"> | number
+    impressionsSearchMobile?: IntWithAggregatesFilter<"GbpInsight"> | number
+    impressionsMapsDesktop?: IntWithAggregatesFilter<"GbpInsight"> | number
+    impressionsMapsMobile?: IntWithAggregatesFilter<"GbpInsight"> | number
+    callClicks?: IntWithAggregatesFilter<"GbpInsight"> | number
+    websiteClicks?: IntWithAggregatesFilter<"GbpInsight"> | number
+    directionRequests?: IntWithAggregatesFilter<"GbpInsight"> | number
+    conversations?: IntWithAggregatesFilter<"GbpInsight"> | number
+    bookings?: IntWithAggregatesFilter<"GbpInsight"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"GbpInsight"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"GbpInsight"> | Date | string
+  }
+
+  export type GbpReviewWhereInput = {
+    AND?: GbpReviewWhereInput | GbpReviewWhereInput[]
+    OR?: GbpReviewWhereInput[]
+    NOT?: GbpReviewWhereInput | GbpReviewWhereInput[]
+    id?: StringFilter<"GbpReview"> | string
+    companyId?: StringFilter<"GbpReview"> | string
+    googleReviewId?: StringFilter<"GbpReview"> | string
+    reviewerName?: StringNullableFilter<"GbpReview"> | string | null
+    reviewerPhotoUrl?: StringNullableFilter<"GbpReview"> | string | null
+    starRating?: IntFilter<"GbpReview"> | number
+    comment?: StringNullableFilter<"GbpReview"> | string | null
+    createTime?: DateTimeFilter<"GbpReview"> | Date | string
+    updateTime?: DateTimeNullableFilter<"GbpReview"> | Date | string | null
+    replyComment?: StringNullableFilter<"GbpReview"> | string | null
+    replyUpdateTime?: DateTimeNullableFilter<"GbpReview"> | Date | string | null
+    createdAt?: DateTimeFilter<"GbpReview"> | Date | string
+    updatedAt?: DateTimeFilter<"GbpReview"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type GbpReviewOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    googleReviewId?: SortOrder
+    reviewerName?: SortOrderInput | SortOrder
+    reviewerPhotoUrl?: SortOrderInput | SortOrder
+    starRating?: SortOrder
+    comment?: SortOrderInput | SortOrder
+    createTime?: SortOrder
+    updateTime?: SortOrderInput | SortOrder
+    replyComment?: SortOrderInput | SortOrder
+    replyUpdateTime?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type GbpReviewWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    googleReviewId?: string
+    AND?: GbpReviewWhereInput | GbpReviewWhereInput[]
+    OR?: GbpReviewWhereInput[]
+    NOT?: GbpReviewWhereInput | GbpReviewWhereInput[]
+    companyId?: StringFilter<"GbpReview"> | string
+    reviewerName?: StringNullableFilter<"GbpReview"> | string | null
+    reviewerPhotoUrl?: StringNullableFilter<"GbpReview"> | string | null
+    starRating?: IntFilter<"GbpReview"> | number
+    comment?: StringNullableFilter<"GbpReview"> | string | null
+    createTime?: DateTimeFilter<"GbpReview"> | Date | string
+    updateTime?: DateTimeNullableFilter<"GbpReview"> | Date | string | null
+    replyComment?: StringNullableFilter<"GbpReview"> | string | null
+    replyUpdateTime?: DateTimeNullableFilter<"GbpReview"> | Date | string | null
+    createdAt?: DateTimeFilter<"GbpReview"> | Date | string
+    updatedAt?: DateTimeFilter<"GbpReview"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id" | "googleReviewId">
+
+  export type GbpReviewOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    googleReviewId?: SortOrder
+    reviewerName?: SortOrderInput | SortOrder
+    reviewerPhotoUrl?: SortOrderInput | SortOrder
+    starRating?: SortOrder
+    comment?: SortOrderInput | SortOrder
+    createTime?: SortOrder
+    updateTime?: SortOrderInput | SortOrder
+    replyComment?: SortOrderInput | SortOrder
+    replyUpdateTime?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: GbpReviewCountOrderByAggregateInput
+    _avg?: GbpReviewAvgOrderByAggregateInput
+    _max?: GbpReviewMaxOrderByAggregateInput
+    _min?: GbpReviewMinOrderByAggregateInput
+    _sum?: GbpReviewSumOrderByAggregateInput
+  }
+
+  export type GbpReviewScalarWhereWithAggregatesInput = {
+    AND?: GbpReviewScalarWhereWithAggregatesInput | GbpReviewScalarWhereWithAggregatesInput[]
+    OR?: GbpReviewScalarWhereWithAggregatesInput[]
+    NOT?: GbpReviewScalarWhereWithAggregatesInput | GbpReviewScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"GbpReview"> | string
+    companyId?: StringWithAggregatesFilter<"GbpReview"> | string
+    googleReviewId?: StringWithAggregatesFilter<"GbpReview"> | string
+    reviewerName?: StringNullableWithAggregatesFilter<"GbpReview"> | string | null
+    reviewerPhotoUrl?: StringNullableWithAggregatesFilter<"GbpReview"> | string | null
+    starRating?: IntWithAggregatesFilter<"GbpReview"> | number
+    comment?: StringNullableWithAggregatesFilter<"GbpReview"> | string | null
+    createTime?: DateTimeWithAggregatesFilter<"GbpReview"> | Date | string
+    updateTime?: DateTimeNullableWithAggregatesFilter<"GbpReview"> | Date | string | null
+    replyComment?: StringNullableWithAggregatesFilter<"GbpReview"> | string | null
+    replyUpdateTime?: DateTimeNullableWithAggregatesFilter<"GbpReview"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"GbpReview"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"GbpReview"> | Date | string
+  }
+
+  export type GbpSearchKeywordWhereInput = {
+    AND?: GbpSearchKeywordWhereInput | GbpSearchKeywordWhereInput[]
+    OR?: GbpSearchKeywordWhereInput[]
+    NOT?: GbpSearchKeywordWhereInput | GbpSearchKeywordWhereInput[]
+    id?: StringFilter<"GbpSearchKeyword"> | string
+    companyId?: StringFilter<"GbpSearchKeyword"> | string
+    keyword?: StringFilter<"GbpSearchKeyword"> | string
+    year?: IntFilter<"GbpSearchKeyword"> | number
+    month?: IntFilter<"GbpSearchKeyword"> | number
+    impressions?: IntFilter<"GbpSearchKeyword"> | number
+    isThreshold?: BoolFilter<"GbpSearchKeyword"> | boolean
+    createdAt?: DateTimeFilter<"GbpSearchKeyword"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type GbpSearchKeywordOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    keyword?: SortOrder
+    year?: SortOrder
+    month?: SortOrder
+    impressions?: SortOrder
+    isThreshold?: SortOrder
+    createdAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type GbpSearchKeywordWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_year_month_keyword?: GbpSearchKeywordCompanyIdYearMonthKeywordCompoundUniqueInput
+    AND?: GbpSearchKeywordWhereInput | GbpSearchKeywordWhereInput[]
+    OR?: GbpSearchKeywordWhereInput[]
+    NOT?: GbpSearchKeywordWhereInput | GbpSearchKeywordWhereInput[]
+    companyId?: StringFilter<"GbpSearchKeyword"> | string
+    keyword?: StringFilter<"GbpSearchKeyword"> | string
+    year?: IntFilter<"GbpSearchKeyword"> | number
+    month?: IntFilter<"GbpSearchKeyword"> | number
+    impressions?: IntFilter<"GbpSearchKeyword"> | number
+    isThreshold?: BoolFilter<"GbpSearchKeyword"> | boolean
+    createdAt?: DateTimeFilter<"GbpSearchKeyword"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id" | "companyId_year_month_keyword">
+
+  export type GbpSearchKeywordOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    keyword?: SortOrder
+    year?: SortOrder
+    month?: SortOrder
+    impressions?: SortOrder
+    isThreshold?: SortOrder
+    createdAt?: SortOrder
+    _count?: GbpSearchKeywordCountOrderByAggregateInput
+    _avg?: GbpSearchKeywordAvgOrderByAggregateInput
+    _max?: GbpSearchKeywordMaxOrderByAggregateInput
+    _min?: GbpSearchKeywordMinOrderByAggregateInput
+    _sum?: GbpSearchKeywordSumOrderByAggregateInput
+  }
+
+  export type GbpSearchKeywordScalarWhereWithAggregatesInput = {
+    AND?: GbpSearchKeywordScalarWhereWithAggregatesInput | GbpSearchKeywordScalarWhereWithAggregatesInput[]
+    OR?: GbpSearchKeywordScalarWhereWithAggregatesInput[]
+    NOT?: GbpSearchKeywordScalarWhereWithAggregatesInput | GbpSearchKeywordScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"GbpSearchKeyword"> | string
+    companyId?: StringWithAggregatesFilter<"GbpSearchKeyword"> | string
+    keyword?: StringWithAggregatesFilter<"GbpSearchKeyword"> | string
+    year?: IntWithAggregatesFilter<"GbpSearchKeyword"> | number
+    month?: IntWithAggregatesFilter<"GbpSearchKeyword"> | number
+    impressions?: IntWithAggregatesFilter<"GbpSearchKeyword"> | number
+    isThreshold?: BoolWithAggregatesFilter<"GbpSearchKeyword"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"GbpSearchKeyword"> | Date | string
+  }
+
+  export type GbpProfileSnapshotWhereInput = {
+    AND?: GbpProfileSnapshotWhereInput | GbpProfileSnapshotWhereInput[]
+    OR?: GbpProfileSnapshotWhereInput[]
+    NOT?: GbpProfileSnapshotWhereInput | GbpProfileSnapshotWhereInput[]
+    id?: StringFilter<"GbpProfileSnapshot"> | string
+    companyId?: StringFilter<"GbpProfileSnapshot"> | string
+    title?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
+    primaryCategory?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
+    storefrontAddress?: JsonNullableFilter<"GbpProfileSnapshot">
+    primaryPhone?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
+    websiteUri?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
+    regularHours?: JsonNullableFilter<"GbpProfileSnapshot">
+    description?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
+    photoCount?: IntNullableFilter<"GbpProfileSnapshot"> | number | null
+    completenessScore?: IntFilter<"GbpProfileSnapshot"> | number
+    syncedAt?: DateTimeFilter<"GbpProfileSnapshot"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type GbpProfileSnapshotOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    title?: SortOrderInput | SortOrder
+    primaryCategory?: SortOrderInput | SortOrder
+    storefrontAddress?: SortOrderInput | SortOrder
+    primaryPhone?: SortOrderInput | SortOrder
+    websiteUri?: SortOrderInput | SortOrder
+    regularHours?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    photoCount?: SortOrderInput | SortOrder
+    completenessScore?: SortOrder
+    syncedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type GbpProfileSnapshotWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: GbpProfileSnapshotWhereInput | GbpProfileSnapshotWhereInput[]
+    OR?: GbpProfileSnapshotWhereInput[]
+    NOT?: GbpProfileSnapshotWhereInput | GbpProfileSnapshotWhereInput[]
+    companyId?: StringFilter<"GbpProfileSnapshot"> | string
+    title?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
+    primaryCategory?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
+    storefrontAddress?: JsonNullableFilter<"GbpProfileSnapshot">
+    primaryPhone?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
+    websiteUri?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
+    regularHours?: JsonNullableFilter<"GbpProfileSnapshot">
+    description?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
+    photoCount?: IntNullableFilter<"GbpProfileSnapshot"> | number | null
+    completenessScore?: IntFilter<"GbpProfileSnapshot"> | number
+    syncedAt?: DateTimeFilter<"GbpProfileSnapshot"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id">
+
+  export type GbpProfileSnapshotOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    title?: SortOrderInput | SortOrder
+    primaryCategory?: SortOrderInput | SortOrder
+    storefrontAddress?: SortOrderInput | SortOrder
+    primaryPhone?: SortOrderInput | SortOrder
+    websiteUri?: SortOrderInput | SortOrder
+    regularHours?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    photoCount?: SortOrderInput | SortOrder
+    completenessScore?: SortOrder
+    syncedAt?: SortOrder
+    _count?: GbpProfileSnapshotCountOrderByAggregateInput
+    _avg?: GbpProfileSnapshotAvgOrderByAggregateInput
+    _max?: GbpProfileSnapshotMaxOrderByAggregateInput
+    _min?: GbpProfileSnapshotMinOrderByAggregateInput
+    _sum?: GbpProfileSnapshotSumOrderByAggregateInput
+  }
+
+  export type GbpProfileSnapshotScalarWhereWithAggregatesInput = {
+    AND?: GbpProfileSnapshotScalarWhereWithAggregatesInput | GbpProfileSnapshotScalarWhereWithAggregatesInput[]
+    OR?: GbpProfileSnapshotScalarWhereWithAggregatesInput[]
+    NOT?: GbpProfileSnapshotScalarWhereWithAggregatesInput | GbpProfileSnapshotScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"GbpProfileSnapshot"> | string
+    companyId?: StringWithAggregatesFilter<"GbpProfileSnapshot"> | string
+    title?: StringNullableWithAggregatesFilter<"GbpProfileSnapshot"> | string | null
+    primaryCategory?: StringNullableWithAggregatesFilter<"GbpProfileSnapshot"> | string | null
+    storefrontAddress?: JsonNullableWithAggregatesFilter<"GbpProfileSnapshot">
+    primaryPhone?: StringNullableWithAggregatesFilter<"GbpProfileSnapshot"> | string | null
+    websiteUri?: StringNullableWithAggregatesFilter<"GbpProfileSnapshot"> | string | null
+    regularHours?: JsonNullableWithAggregatesFilter<"GbpProfileSnapshot">
+    description?: StringNullableWithAggregatesFilter<"GbpProfileSnapshot"> | string | null
+    photoCount?: IntNullableWithAggregatesFilter<"GbpProfileSnapshot"> | number | null
+    completenessScore?: IntWithAggregatesFilter<"GbpProfileSnapshot"> | number
+    syncedAt?: DateTimeWithAggregatesFilter<"GbpProfileSnapshot"> | Date | string
+  }
+
   export type SubscriptionWhereInput = {
     AND?: SubscriptionWhereInput | SubscriptionWhereInput[]
     OR?: SubscriptionWhereInput[]
@@ -76463,6 +81615,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -76532,6 +81688,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -76601,6 +81761,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -76670,6 +81834,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -80730,6 +85898,415 @@ export namespace Prisma {
     position?: FloatFieldUpdateOperationsInput | number
   }
 
+  export type GbpInsightCreateInput = {
+    id?: string
+    date: Date | string
+    impressionsSearchDesktop?: number
+    impressionsSearchMobile?: number
+    impressionsMapsDesktop?: number
+    impressionsMapsMobile?: number
+    callClicks?: number
+    websiteClicks?: number
+    directionRequests?: number
+    conversations?: number
+    bookings?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutGbpInsightsInput
+  }
+
+  export type GbpInsightUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    date: Date | string
+    impressionsSearchDesktop?: number
+    impressionsSearchMobile?: number
+    impressionsMapsDesktop?: number
+    impressionsMapsMobile?: number
+    callClicks?: number
+    websiteClicks?: number
+    directionRequests?: number
+    conversations?: number
+    bookings?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GbpInsightUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressionsSearchDesktop?: IntFieldUpdateOperationsInput | number
+    impressionsSearchMobile?: IntFieldUpdateOperationsInput | number
+    impressionsMapsDesktop?: IntFieldUpdateOperationsInput | number
+    impressionsMapsMobile?: IntFieldUpdateOperationsInput | number
+    callClicks?: IntFieldUpdateOperationsInput | number
+    websiteClicks?: IntFieldUpdateOperationsInput | number
+    directionRequests?: IntFieldUpdateOperationsInput | number
+    conversations?: IntFieldUpdateOperationsInput | number
+    bookings?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutGbpInsightsNestedInput
+  }
+
+  export type GbpInsightUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressionsSearchDesktop?: IntFieldUpdateOperationsInput | number
+    impressionsSearchMobile?: IntFieldUpdateOperationsInput | number
+    impressionsMapsDesktop?: IntFieldUpdateOperationsInput | number
+    impressionsMapsMobile?: IntFieldUpdateOperationsInput | number
+    callClicks?: IntFieldUpdateOperationsInput | number
+    websiteClicks?: IntFieldUpdateOperationsInput | number
+    directionRequests?: IntFieldUpdateOperationsInput | number
+    conversations?: IntFieldUpdateOperationsInput | number
+    bookings?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpInsightCreateManyInput = {
+    id?: string
+    companyId: string
+    date: Date | string
+    impressionsSearchDesktop?: number
+    impressionsSearchMobile?: number
+    impressionsMapsDesktop?: number
+    impressionsMapsMobile?: number
+    callClicks?: number
+    websiteClicks?: number
+    directionRequests?: number
+    conversations?: number
+    bookings?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GbpInsightUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressionsSearchDesktop?: IntFieldUpdateOperationsInput | number
+    impressionsSearchMobile?: IntFieldUpdateOperationsInput | number
+    impressionsMapsDesktop?: IntFieldUpdateOperationsInput | number
+    impressionsMapsMobile?: IntFieldUpdateOperationsInput | number
+    callClicks?: IntFieldUpdateOperationsInput | number
+    websiteClicks?: IntFieldUpdateOperationsInput | number
+    directionRequests?: IntFieldUpdateOperationsInput | number
+    conversations?: IntFieldUpdateOperationsInput | number
+    bookings?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpInsightUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressionsSearchDesktop?: IntFieldUpdateOperationsInput | number
+    impressionsSearchMobile?: IntFieldUpdateOperationsInput | number
+    impressionsMapsDesktop?: IntFieldUpdateOperationsInput | number
+    impressionsMapsMobile?: IntFieldUpdateOperationsInput | number
+    callClicks?: IntFieldUpdateOperationsInput | number
+    websiteClicks?: IntFieldUpdateOperationsInput | number
+    directionRequests?: IntFieldUpdateOperationsInput | number
+    conversations?: IntFieldUpdateOperationsInput | number
+    bookings?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpReviewCreateInput = {
+    id?: string
+    googleReviewId: string
+    reviewerName?: string | null
+    reviewerPhotoUrl?: string | null
+    starRating: number
+    comment?: string | null
+    createTime: Date | string
+    updateTime?: Date | string | null
+    replyComment?: string | null
+    replyUpdateTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutGbpReviewsInput
+  }
+
+  export type GbpReviewUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    googleReviewId: string
+    reviewerName?: string | null
+    reviewerPhotoUrl?: string | null
+    starRating: number
+    comment?: string | null
+    createTime: Date | string
+    updateTime?: Date | string | null
+    replyComment?: string | null
+    replyUpdateTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GbpReviewUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    googleReviewId?: StringFieldUpdateOperationsInput | string
+    reviewerName?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    starRating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    replyComment?: NullableStringFieldUpdateOperationsInput | string | null
+    replyUpdateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutGbpReviewsNestedInput
+  }
+
+  export type GbpReviewUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    googleReviewId?: StringFieldUpdateOperationsInput | string
+    reviewerName?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    starRating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    replyComment?: NullableStringFieldUpdateOperationsInput | string | null
+    replyUpdateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpReviewCreateManyInput = {
+    id?: string
+    companyId: string
+    googleReviewId: string
+    reviewerName?: string | null
+    reviewerPhotoUrl?: string | null
+    starRating: number
+    comment?: string | null
+    createTime: Date | string
+    updateTime?: Date | string | null
+    replyComment?: string | null
+    replyUpdateTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GbpReviewUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    googleReviewId?: StringFieldUpdateOperationsInput | string
+    reviewerName?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    starRating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    replyComment?: NullableStringFieldUpdateOperationsInput | string | null
+    replyUpdateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpReviewUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    googleReviewId?: StringFieldUpdateOperationsInput | string
+    reviewerName?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    starRating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    replyComment?: NullableStringFieldUpdateOperationsInput | string | null
+    replyUpdateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpSearchKeywordCreateInput = {
+    id?: string
+    keyword: string
+    year: number
+    month: number
+    impressions: number
+    isThreshold?: boolean
+    createdAt?: Date | string
+    company: CompanyCreateNestedOneWithoutGbpSearchKeywordsInput
+  }
+
+  export type GbpSearchKeywordUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    keyword: string
+    year: number
+    month: number
+    impressions: number
+    isThreshold?: boolean
+    createdAt?: Date | string
+  }
+
+  export type GbpSearchKeywordUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    keyword?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    impressions?: IntFieldUpdateOperationsInput | number
+    isThreshold?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutGbpSearchKeywordsNestedInput
+  }
+
+  export type GbpSearchKeywordUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    keyword?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    impressions?: IntFieldUpdateOperationsInput | number
+    isThreshold?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpSearchKeywordCreateManyInput = {
+    id?: string
+    companyId: string
+    keyword: string
+    year: number
+    month: number
+    impressions: number
+    isThreshold?: boolean
+    createdAt?: Date | string
+  }
+
+  export type GbpSearchKeywordUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    keyword?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    impressions?: IntFieldUpdateOperationsInput | number
+    isThreshold?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpSearchKeywordUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    keyword?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    impressions?: IntFieldUpdateOperationsInput | number
+    isThreshold?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpProfileSnapshotCreateInput = {
+    id?: string
+    title?: string | null
+    primaryCategory?: string | null
+    storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
+    primaryPhone?: string | null
+    websiteUri?: string | null
+    regularHours?: NullableJsonNullValueInput | InputJsonValue
+    description?: string | null
+    photoCount?: number | null
+    completenessScore: number
+    syncedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutGbpProfileSnapshotsInput
+  }
+
+  export type GbpProfileSnapshotUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    title?: string | null
+    primaryCategory?: string | null
+    storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
+    primaryPhone?: string | null
+    websiteUri?: string | null
+    regularHours?: NullableJsonNullValueInput | InputJsonValue
+    description?: string | null
+    photoCount?: number | null
+    completenessScore: number
+    syncedAt?: Date | string
+  }
+
+  export type GbpProfileSnapshotUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
+    primaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    websiteUri?: NullableStringFieldUpdateOperationsInput | string | null
+    regularHours?: NullableJsonNullValueInput | InputJsonValue
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    photoCount?: NullableIntFieldUpdateOperationsInput | number | null
+    completenessScore?: IntFieldUpdateOperationsInput | number
+    syncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutGbpProfileSnapshotsNestedInput
+  }
+
+  export type GbpProfileSnapshotUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
+    primaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    websiteUri?: NullableStringFieldUpdateOperationsInput | string | null
+    regularHours?: NullableJsonNullValueInput | InputJsonValue
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    photoCount?: NullableIntFieldUpdateOperationsInput | number | null
+    completenessScore?: IntFieldUpdateOperationsInput | number
+    syncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpProfileSnapshotCreateManyInput = {
+    id?: string
+    companyId: string
+    title?: string | null
+    primaryCategory?: string | null
+    storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
+    primaryPhone?: string | null
+    websiteUri?: string | null
+    regularHours?: NullableJsonNullValueInput | InputJsonValue
+    description?: string | null
+    photoCount?: number | null
+    completenessScore: number
+    syncedAt?: Date | string
+  }
+
+  export type GbpProfileSnapshotUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
+    primaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    websiteUri?: NullableStringFieldUpdateOperationsInput | string | null
+    regularHours?: NullableJsonNullValueInput | InputJsonValue
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    photoCount?: NullableIntFieldUpdateOperationsInput | number | null
+    completenessScore?: IntFieldUpdateOperationsInput | number
+    syncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpProfileSnapshotUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
+    primaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    websiteUri?: NullableStringFieldUpdateOperationsInput | string | null
+    regularHours?: NullableJsonNullValueInput | InputJsonValue
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    photoCount?: NullableIntFieldUpdateOperationsInput | number | null
+    completenessScore?: IntFieldUpdateOperationsInput | number
+    syncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type SubscriptionCreateInput = {
     id?: string
     plan?: $Enums.PlanTier
@@ -82534,6 +88111,30 @@ export namespace Prisma {
     none?: SearchConsoleQueryWhereInput
   }
 
+  export type GbpInsightListRelationFilter = {
+    every?: GbpInsightWhereInput
+    some?: GbpInsightWhereInput
+    none?: GbpInsightWhereInput
+  }
+
+  export type GbpReviewListRelationFilter = {
+    every?: GbpReviewWhereInput
+    some?: GbpReviewWhereInput
+    none?: GbpReviewWhereInput
+  }
+
+  export type GbpSearchKeywordListRelationFilter = {
+    every?: GbpSearchKeywordWhereInput
+    some?: GbpSearchKeywordWhereInput
+    none?: GbpSearchKeywordWhereInput
+  }
+
+  export type GbpProfileSnapshotListRelationFilter = {
+    every?: GbpProfileSnapshotWhereInput
+    some?: GbpProfileSnapshotWhereInput
+    none?: GbpProfileSnapshotWhereInput
+  }
+
   export type SubscriptionNullableRelationFilter = {
     is?: SubscriptionWhereInput | null
     isNot?: SubscriptionWhereInput | null
@@ -82650,6 +88251,22 @@ export namespace Prisma {
   }
 
   export type SearchConsoleQueryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type GbpInsightOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type GbpReviewOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type GbpSearchKeywordOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type GbpProfileSnapshotOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -85448,6 +91065,245 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type GbpInsightCompanyIdDateCompoundUniqueInput = {
+    companyId: string
+    date: Date | string
+  }
+
+  export type GbpInsightCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    impressionsSearchDesktop?: SortOrder
+    impressionsSearchMobile?: SortOrder
+    impressionsMapsDesktop?: SortOrder
+    impressionsMapsMobile?: SortOrder
+    callClicks?: SortOrder
+    websiteClicks?: SortOrder
+    directionRequests?: SortOrder
+    conversations?: SortOrder
+    bookings?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GbpInsightAvgOrderByAggregateInput = {
+    impressionsSearchDesktop?: SortOrder
+    impressionsSearchMobile?: SortOrder
+    impressionsMapsDesktop?: SortOrder
+    impressionsMapsMobile?: SortOrder
+    callClicks?: SortOrder
+    websiteClicks?: SortOrder
+    directionRequests?: SortOrder
+    conversations?: SortOrder
+    bookings?: SortOrder
+  }
+
+  export type GbpInsightMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    impressionsSearchDesktop?: SortOrder
+    impressionsSearchMobile?: SortOrder
+    impressionsMapsDesktop?: SortOrder
+    impressionsMapsMobile?: SortOrder
+    callClicks?: SortOrder
+    websiteClicks?: SortOrder
+    directionRequests?: SortOrder
+    conversations?: SortOrder
+    bookings?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GbpInsightMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    impressionsSearchDesktop?: SortOrder
+    impressionsSearchMobile?: SortOrder
+    impressionsMapsDesktop?: SortOrder
+    impressionsMapsMobile?: SortOrder
+    callClicks?: SortOrder
+    websiteClicks?: SortOrder
+    directionRequests?: SortOrder
+    conversations?: SortOrder
+    bookings?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GbpInsightSumOrderByAggregateInput = {
+    impressionsSearchDesktop?: SortOrder
+    impressionsSearchMobile?: SortOrder
+    impressionsMapsDesktop?: SortOrder
+    impressionsMapsMobile?: SortOrder
+    callClicks?: SortOrder
+    websiteClicks?: SortOrder
+    directionRequests?: SortOrder
+    conversations?: SortOrder
+    bookings?: SortOrder
+  }
+
+  export type GbpReviewCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    googleReviewId?: SortOrder
+    reviewerName?: SortOrder
+    reviewerPhotoUrl?: SortOrder
+    starRating?: SortOrder
+    comment?: SortOrder
+    createTime?: SortOrder
+    updateTime?: SortOrder
+    replyComment?: SortOrder
+    replyUpdateTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GbpReviewAvgOrderByAggregateInput = {
+    starRating?: SortOrder
+  }
+
+  export type GbpReviewMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    googleReviewId?: SortOrder
+    reviewerName?: SortOrder
+    reviewerPhotoUrl?: SortOrder
+    starRating?: SortOrder
+    comment?: SortOrder
+    createTime?: SortOrder
+    updateTime?: SortOrder
+    replyComment?: SortOrder
+    replyUpdateTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GbpReviewMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    googleReviewId?: SortOrder
+    reviewerName?: SortOrder
+    reviewerPhotoUrl?: SortOrder
+    starRating?: SortOrder
+    comment?: SortOrder
+    createTime?: SortOrder
+    updateTime?: SortOrder
+    replyComment?: SortOrder
+    replyUpdateTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GbpReviewSumOrderByAggregateInput = {
+    starRating?: SortOrder
+  }
+
+  export type GbpSearchKeywordCompanyIdYearMonthKeywordCompoundUniqueInput = {
+    companyId: string
+    year: number
+    month: number
+    keyword: string
+  }
+
+  export type GbpSearchKeywordCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    keyword?: SortOrder
+    year?: SortOrder
+    month?: SortOrder
+    impressions?: SortOrder
+    isThreshold?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type GbpSearchKeywordAvgOrderByAggregateInput = {
+    year?: SortOrder
+    month?: SortOrder
+    impressions?: SortOrder
+  }
+
+  export type GbpSearchKeywordMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    keyword?: SortOrder
+    year?: SortOrder
+    month?: SortOrder
+    impressions?: SortOrder
+    isThreshold?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type GbpSearchKeywordMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    keyword?: SortOrder
+    year?: SortOrder
+    month?: SortOrder
+    impressions?: SortOrder
+    isThreshold?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type GbpSearchKeywordSumOrderByAggregateInput = {
+    year?: SortOrder
+    month?: SortOrder
+    impressions?: SortOrder
+  }
+
+  export type GbpProfileSnapshotCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    title?: SortOrder
+    primaryCategory?: SortOrder
+    storefrontAddress?: SortOrder
+    primaryPhone?: SortOrder
+    websiteUri?: SortOrder
+    regularHours?: SortOrder
+    description?: SortOrder
+    photoCount?: SortOrder
+    completenessScore?: SortOrder
+    syncedAt?: SortOrder
+  }
+
+  export type GbpProfileSnapshotAvgOrderByAggregateInput = {
+    photoCount?: SortOrder
+    completenessScore?: SortOrder
+  }
+
+  export type GbpProfileSnapshotMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    title?: SortOrder
+    primaryCategory?: SortOrder
+    primaryPhone?: SortOrder
+    websiteUri?: SortOrder
+    description?: SortOrder
+    photoCount?: SortOrder
+    completenessScore?: SortOrder
+    syncedAt?: SortOrder
+  }
+
+  export type GbpProfileSnapshotMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    title?: SortOrder
+    primaryCategory?: SortOrder
+    primaryPhone?: SortOrder
+    websiteUri?: SortOrder
+    description?: SortOrder
+    photoCount?: SortOrder
+    completenessScore?: SortOrder
+    syncedAt?: SortOrder
+  }
+
+  export type GbpProfileSnapshotSumOrderByAggregateInput = {
+    photoCount?: SortOrder
+    completenessScore?: SortOrder
+  }
+
   export type EnumPlanTierFilter<$PrismaModel = never> = {
     equals?: $Enums.PlanTier | EnumPlanTierFieldRefInput<$PrismaModel>
     in?: $Enums.PlanTier[] | ListEnumPlanTierFieldRefInput<$PrismaModel>
@@ -87223,6 +93079,34 @@ export namespace Prisma {
     connect?: SearchConsoleQueryWhereUniqueInput | SearchConsoleQueryWhereUniqueInput[]
   }
 
+  export type GbpInsightCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<GbpInsightCreateWithoutCompanyInput, GbpInsightUncheckedCreateWithoutCompanyInput> | GbpInsightCreateWithoutCompanyInput[] | GbpInsightUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GbpInsightCreateOrConnectWithoutCompanyInput | GbpInsightCreateOrConnectWithoutCompanyInput[]
+    createMany?: GbpInsightCreateManyCompanyInputEnvelope
+    connect?: GbpInsightWhereUniqueInput | GbpInsightWhereUniqueInput[]
+  }
+
+  export type GbpReviewCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<GbpReviewCreateWithoutCompanyInput, GbpReviewUncheckedCreateWithoutCompanyInput> | GbpReviewCreateWithoutCompanyInput[] | GbpReviewUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GbpReviewCreateOrConnectWithoutCompanyInput | GbpReviewCreateOrConnectWithoutCompanyInput[]
+    createMany?: GbpReviewCreateManyCompanyInputEnvelope
+    connect?: GbpReviewWhereUniqueInput | GbpReviewWhereUniqueInput[]
+  }
+
+  export type GbpSearchKeywordCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<GbpSearchKeywordCreateWithoutCompanyInput, GbpSearchKeywordUncheckedCreateWithoutCompanyInput> | GbpSearchKeywordCreateWithoutCompanyInput[] | GbpSearchKeywordUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GbpSearchKeywordCreateOrConnectWithoutCompanyInput | GbpSearchKeywordCreateOrConnectWithoutCompanyInput[]
+    createMany?: GbpSearchKeywordCreateManyCompanyInputEnvelope
+    connect?: GbpSearchKeywordWhereUniqueInput | GbpSearchKeywordWhereUniqueInput[]
+  }
+
+  export type GbpProfileSnapshotCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<GbpProfileSnapshotCreateWithoutCompanyInput, GbpProfileSnapshotUncheckedCreateWithoutCompanyInput> | GbpProfileSnapshotCreateWithoutCompanyInput[] | GbpProfileSnapshotUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GbpProfileSnapshotCreateOrConnectWithoutCompanyInput | GbpProfileSnapshotCreateOrConnectWithoutCompanyInput[]
+    createMany?: GbpProfileSnapshotCreateManyCompanyInputEnvelope
+    connect?: GbpProfileSnapshotWhereUniqueInput | GbpProfileSnapshotWhereUniqueInput[]
+  }
+
   export type SubscriptionCreateNestedOneWithoutCompanyInput = {
     create?: XOR<SubscriptionCreateWithoutCompanyInput, SubscriptionUncheckedCreateWithoutCompanyInput>
     connectOrCreate?: SubscriptionCreateOrConnectWithoutCompanyInput
@@ -87486,6 +93370,34 @@ export namespace Prisma {
     connectOrCreate?: SearchConsoleQueryCreateOrConnectWithoutCompanyInput | SearchConsoleQueryCreateOrConnectWithoutCompanyInput[]
     createMany?: SearchConsoleQueryCreateManyCompanyInputEnvelope
     connect?: SearchConsoleQueryWhereUniqueInput | SearchConsoleQueryWhereUniqueInput[]
+  }
+
+  export type GbpInsightUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<GbpInsightCreateWithoutCompanyInput, GbpInsightUncheckedCreateWithoutCompanyInput> | GbpInsightCreateWithoutCompanyInput[] | GbpInsightUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GbpInsightCreateOrConnectWithoutCompanyInput | GbpInsightCreateOrConnectWithoutCompanyInput[]
+    createMany?: GbpInsightCreateManyCompanyInputEnvelope
+    connect?: GbpInsightWhereUniqueInput | GbpInsightWhereUniqueInput[]
+  }
+
+  export type GbpReviewUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<GbpReviewCreateWithoutCompanyInput, GbpReviewUncheckedCreateWithoutCompanyInput> | GbpReviewCreateWithoutCompanyInput[] | GbpReviewUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GbpReviewCreateOrConnectWithoutCompanyInput | GbpReviewCreateOrConnectWithoutCompanyInput[]
+    createMany?: GbpReviewCreateManyCompanyInputEnvelope
+    connect?: GbpReviewWhereUniqueInput | GbpReviewWhereUniqueInput[]
+  }
+
+  export type GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<GbpSearchKeywordCreateWithoutCompanyInput, GbpSearchKeywordUncheckedCreateWithoutCompanyInput> | GbpSearchKeywordCreateWithoutCompanyInput[] | GbpSearchKeywordUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GbpSearchKeywordCreateOrConnectWithoutCompanyInput | GbpSearchKeywordCreateOrConnectWithoutCompanyInput[]
+    createMany?: GbpSearchKeywordCreateManyCompanyInputEnvelope
+    connect?: GbpSearchKeywordWhereUniqueInput | GbpSearchKeywordWhereUniqueInput[]
+  }
+
+  export type GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<GbpProfileSnapshotCreateWithoutCompanyInput, GbpProfileSnapshotUncheckedCreateWithoutCompanyInput> | GbpProfileSnapshotCreateWithoutCompanyInput[] | GbpProfileSnapshotUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GbpProfileSnapshotCreateOrConnectWithoutCompanyInput | GbpProfileSnapshotCreateOrConnectWithoutCompanyInput[]
+    createMany?: GbpProfileSnapshotCreateManyCompanyInputEnvelope
+    connect?: GbpProfileSnapshotWhereUniqueInput | GbpProfileSnapshotWhereUniqueInput[]
   }
 
   export type SubscriptionUncheckedCreateNestedOneWithoutCompanyInput = {
@@ -88023,6 +93935,62 @@ export namespace Prisma {
     deleteMany?: SearchConsoleQueryScalarWhereInput | SearchConsoleQueryScalarWhereInput[]
   }
 
+  export type GbpInsightUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<GbpInsightCreateWithoutCompanyInput, GbpInsightUncheckedCreateWithoutCompanyInput> | GbpInsightCreateWithoutCompanyInput[] | GbpInsightUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GbpInsightCreateOrConnectWithoutCompanyInput | GbpInsightCreateOrConnectWithoutCompanyInput[]
+    upsert?: GbpInsightUpsertWithWhereUniqueWithoutCompanyInput | GbpInsightUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: GbpInsightCreateManyCompanyInputEnvelope
+    set?: GbpInsightWhereUniqueInput | GbpInsightWhereUniqueInput[]
+    disconnect?: GbpInsightWhereUniqueInput | GbpInsightWhereUniqueInput[]
+    delete?: GbpInsightWhereUniqueInput | GbpInsightWhereUniqueInput[]
+    connect?: GbpInsightWhereUniqueInput | GbpInsightWhereUniqueInput[]
+    update?: GbpInsightUpdateWithWhereUniqueWithoutCompanyInput | GbpInsightUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: GbpInsightUpdateManyWithWhereWithoutCompanyInput | GbpInsightUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: GbpInsightScalarWhereInput | GbpInsightScalarWhereInput[]
+  }
+
+  export type GbpReviewUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<GbpReviewCreateWithoutCompanyInput, GbpReviewUncheckedCreateWithoutCompanyInput> | GbpReviewCreateWithoutCompanyInput[] | GbpReviewUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GbpReviewCreateOrConnectWithoutCompanyInput | GbpReviewCreateOrConnectWithoutCompanyInput[]
+    upsert?: GbpReviewUpsertWithWhereUniqueWithoutCompanyInput | GbpReviewUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: GbpReviewCreateManyCompanyInputEnvelope
+    set?: GbpReviewWhereUniqueInput | GbpReviewWhereUniqueInput[]
+    disconnect?: GbpReviewWhereUniqueInput | GbpReviewWhereUniqueInput[]
+    delete?: GbpReviewWhereUniqueInput | GbpReviewWhereUniqueInput[]
+    connect?: GbpReviewWhereUniqueInput | GbpReviewWhereUniqueInput[]
+    update?: GbpReviewUpdateWithWhereUniqueWithoutCompanyInput | GbpReviewUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: GbpReviewUpdateManyWithWhereWithoutCompanyInput | GbpReviewUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: GbpReviewScalarWhereInput | GbpReviewScalarWhereInput[]
+  }
+
+  export type GbpSearchKeywordUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<GbpSearchKeywordCreateWithoutCompanyInput, GbpSearchKeywordUncheckedCreateWithoutCompanyInput> | GbpSearchKeywordCreateWithoutCompanyInput[] | GbpSearchKeywordUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GbpSearchKeywordCreateOrConnectWithoutCompanyInput | GbpSearchKeywordCreateOrConnectWithoutCompanyInput[]
+    upsert?: GbpSearchKeywordUpsertWithWhereUniqueWithoutCompanyInput | GbpSearchKeywordUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: GbpSearchKeywordCreateManyCompanyInputEnvelope
+    set?: GbpSearchKeywordWhereUniqueInput | GbpSearchKeywordWhereUniqueInput[]
+    disconnect?: GbpSearchKeywordWhereUniqueInput | GbpSearchKeywordWhereUniqueInput[]
+    delete?: GbpSearchKeywordWhereUniqueInput | GbpSearchKeywordWhereUniqueInput[]
+    connect?: GbpSearchKeywordWhereUniqueInput | GbpSearchKeywordWhereUniqueInput[]
+    update?: GbpSearchKeywordUpdateWithWhereUniqueWithoutCompanyInput | GbpSearchKeywordUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: GbpSearchKeywordUpdateManyWithWhereWithoutCompanyInput | GbpSearchKeywordUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: GbpSearchKeywordScalarWhereInput | GbpSearchKeywordScalarWhereInput[]
+  }
+
+  export type GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<GbpProfileSnapshotCreateWithoutCompanyInput, GbpProfileSnapshotUncheckedCreateWithoutCompanyInput> | GbpProfileSnapshotCreateWithoutCompanyInput[] | GbpProfileSnapshotUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GbpProfileSnapshotCreateOrConnectWithoutCompanyInput | GbpProfileSnapshotCreateOrConnectWithoutCompanyInput[]
+    upsert?: GbpProfileSnapshotUpsertWithWhereUniqueWithoutCompanyInput | GbpProfileSnapshotUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: GbpProfileSnapshotCreateManyCompanyInputEnvelope
+    set?: GbpProfileSnapshotWhereUniqueInput | GbpProfileSnapshotWhereUniqueInput[]
+    disconnect?: GbpProfileSnapshotWhereUniqueInput | GbpProfileSnapshotWhereUniqueInput[]
+    delete?: GbpProfileSnapshotWhereUniqueInput | GbpProfileSnapshotWhereUniqueInput[]
+    connect?: GbpProfileSnapshotWhereUniqueInput | GbpProfileSnapshotWhereUniqueInput[]
+    update?: GbpProfileSnapshotUpdateWithWhereUniqueWithoutCompanyInput | GbpProfileSnapshotUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: GbpProfileSnapshotUpdateManyWithWhereWithoutCompanyInput | GbpProfileSnapshotUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: GbpProfileSnapshotScalarWhereInput | GbpProfileSnapshotScalarWhereInput[]
+  }
+
   export type SubscriptionUpdateOneWithoutCompanyNestedInput = {
     create?: XOR<SubscriptionCreateWithoutCompanyInput, SubscriptionUncheckedCreateWithoutCompanyInput>
     connectOrCreate?: SubscriptionCreateOrConnectWithoutCompanyInput
@@ -88549,6 +94517,62 @@ export namespace Prisma {
     update?: SearchConsoleQueryUpdateWithWhereUniqueWithoutCompanyInput | SearchConsoleQueryUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: SearchConsoleQueryUpdateManyWithWhereWithoutCompanyInput | SearchConsoleQueryUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: SearchConsoleQueryScalarWhereInput | SearchConsoleQueryScalarWhereInput[]
+  }
+
+  export type GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<GbpInsightCreateWithoutCompanyInput, GbpInsightUncheckedCreateWithoutCompanyInput> | GbpInsightCreateWithoutCompanyInput[] | GbpInsightUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GbpInsightCreateOrConnectWithoutCompanyInput | GbpInsightCreateOrConnectWithoutCompanyInput[]
+    upsert?: GbpInsightUpsertWithWhereUniqueWithoutCompanyInput | GbpInsightUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: GbpInsightCreateManyCompanyInputEnvelope
+    set?: GbpInsightWhereUniqueInput | GbpInsightWhereUniqueInput[]
+    disconnect?: GbpInsightWhereUniqueInput | GbpInsightWhereUniqueInput[]
+    delete?: GbpInsightWhereUniqueInput | GbpInsightWhereUniqueInput[]
+    connect?: GbpInsightWhereUniqueInput | GbpInsightWhereUniqueInput[]
+    update?: GbpInsightUpdateWithWhereUniqueWithoutCompanyInput | GbpInsightUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: GbpInsightUpdateManyWithWhereWithoutCompanyInput | GbpInsightUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: GbpInsightScalarWhereInput | GbpInsightScalarWhereInput[]
+  }
+
+  export type GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<GbpReviewCreateWithoutCompanyInput, GbpReviewUncheckedCreateWithoutCompanyInput> | GbpReviewCreateWithoutCompanyInput[] | GbpReviewUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GbpReviewCreateOrConnectWithoutCompanyInput | GbpReviewCreateOrConnectWithoutCompanyInput[]
+    upsert?: GbpReviewUpsertWithWhereUniqueWithoutCompanyInput | GbpReviewUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: GbpReviewCreateManyCompanyInputEnvelope
+    set?: GbpReviewWhereUniqueInput | GbpReviewWhereUniqueInput[]
+    disconnect?: GbpReviewWhereUniqueInput | GbpReviewWhereUniqueInput[]
+    delete?: GbpReviewWhereUniqueInput | GbpReviewWhereUniqueInput[]
+    connect?: GbpReviewWhereUniqueInput | GbpReviewWhereUniqueInput[]
+    update?: GbpReviewUpdateWithWhereUniqueWithoutCompanyInput | GbpReviewUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: GbpReviewUpdateManyWithWhereWithoutCompanyInput | GbpReviewUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: GbpReviewScalarWhereInput | GbpReviewScalarWhereInput[]
+  }
+
+  export type GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<GbpSearchKeywordCreateWithoutCompanyInput, GbpSearchKeywordUncheckedCreateWithoutCompanyInput> | GbpSearchKeywordCreateWithoutCompanyInput[] | GbpSearchKeywordUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GbpSearchKeywordCreateOrConnectWithoutCompanyInput | GbpSearchKeywordCreateOrConnectWithoutCompanyInput[]
+    upsert?: GbpSearchKeywordUpsertWithWhereUniqueWithoutCompanyInput | GbpSearchKeywordUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: GbpSearchKeywordCreateManyCompanyInputEnvelope
+    set?: GbpSearchKeywordWhereUniqueInput | GbpSearchKeywordWhereUniqueInput[]
+    disconnect?: GbpSearchKeywordWhereUniqueInput | GbpSearchKeywordWhereUniqueInput[]
+    delete?: GbpSearchKeywordWhereUniqueInput | GbpSearchKeywordWhereUniqueInput[]
+    connect?: GbpSearchKeywordWhereUniqueInput | GbpSearchKeywordWhereUniqueInput[]
+    update?: GbpSearchKeywordUpdateWithWhereUniqueWithoutCompanyInput | GbpSearchKeywordUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: GbpSearchKeywordUpdateManyWithWhereWithoutCompanyInput | GbpSearchKeywordUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: GbpSearchKeywordScalarWhereInput | GbpSearchKeywordScalarWhereInput[]
+  }
+
+  export type GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<GbpProfileSnapshotCreateWithoutCompanyInput, GbpProfileSnapshotUncheckedCreateWithoutCompanyInput> | GbpProfileSnapshotCreateWithoutCompanyInput[] | GbpProfileSnapshotUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GbpProfileSnapshotCreateOrConnectWithoutCompanyInput | GbpProfileSnapshotCreateOrConnectWithoutCompanyInput[]
+    upsert?: GbpProfileSnapshotUpsertWithWhereUniqueWithoutCompanyInput | GbpProfileSnapshotUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: GbpProfileSnapshotCreateManyCompanyInputEnvelope
+    set?: GbpProfileSnapshotWhereUniqueInput | GbpProfileSnapshotWhereUniqueInput[]
+    disconnect?: GbpProfileSnapshotWhereUniqueInput | GbpProfileSnapshotWhereUniqueInput[]
+    delete?: GbpProfileSnapshotWhereUniqueInput | GbpProfileSnapshotWhereUniqueInput[]
+    connect?: GbpProfileSnapshotWhereUniqueInput | GbpProfileSnapshotWhereUniqueInput[]
+    update?: GbpProfileSnapshotUpdateWithWhereUniqueWithoutCompanyInput | GbpProfileSnapshotUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: GbpProfileSnapshotUpdateManyWithWhereWithoutCompanyInput | GbpProfileSnapshotUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: GbpProfileSnapshotScalarWhereInput | GbpProfileSnapshotScalarWhereInput[]
   }
 
   export type SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput = {
@@ -91111,6 +97135,62 @@ export namespace Prisma {
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutSearchConsoleQueriesInput, CompanyUpdateWithoutSearchConsoleQueriesInput>, CompanyUncheckedUpdateWithoutSearchConsoleQueriesInput>
   }
 
+  export type CompanyCreateNestedOneWithoutGbpInsightsInput = {
+    create?: XOR<CompanyCreateWithoutGbpInsightsInput, CompanyUncheckedCreateWithoutGbpInsightsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutGbpInsightsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutGbpInsightsNestedInput = {
+    create?: XOR<CompanyCreateWithoutGbpInsightsInput, CompanyUncheckedCreateWithoutGbpInsightsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutGbpInsightsInput
+    upsert?: CompanyUpsertWithoutGbpInsightsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutGbpInsightsInput, CompanyUpdateWithoutGbpInsightsInput>, CompanyUncheckedUpdateWithoutGbpInsightsInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutGbpReviewsInput = {
+    create?: XOR<CompanyCreateWithoutGbpReviewsInput, CompanyUncheckedCreateWithoutGbpReviewsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutGbpReviewsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutGbpReviewsNestedInput = {
+    create?: XOR<CompanyCreateWithoutGbpReviewsInput, CompanyUncheckedCreateWithoutGbpReviewsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutGbpReviewsInput
+    upsert?: CompanyUpsertWithoutGbpReviewsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutGbpReviewsInput, CompanyUpdateWithoutGbpReviewsInput>, CompanyUncheckedUpdateWithoutGbpReviewsInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutGbpSearchKeywordsInput = {
+    create?: XOR<CompanyCreateWithoutGbpSearchKeywordsInput, CompanyUncheckedCreateWithoutGbpSearchKeywordsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutGbpSearchKeywordsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutGbpSearchKeywordsNestedInput = {
+    create?: XOR<CompanyCreateWithoutGbpSearchKeywordsInput, CompanyUncheckedCreateWithoutGbpSearchKeywordsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutGbpSearchKeywordsInput
+    upsert?: CompanyUpsertWithoutGbpSearchKeywordsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutGbpSearchKeywordsInput, CompanyUpdateWithoutGbpSearchKeywordsInput>, CompanyUncheckedUpdateWithoutGbpSearchKeywordsInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutGbpProfileSnapshotsInput = {
+    create?: XOR<CompanyCreateWithoutGbpProfileSnapshotsInput, CompanyUncheckedCreateWithoutGbpProfileSnapshotsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutGbpProfileSnapshotsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutGbpProfileSnapshotsNestedInput = {
+    create?: XOR<CompanyCreateWithoutGbpProfileSnapshotsInput, CompanyUncheckedCreateWithoutGbpProfileSnapshotsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutGbpProfileSnapshotsInput
+    upsert?: CompanyUpsertWithoutGbpProfileSnapshotsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutGbpProfileSnapshotsInput, CompanyUpdateWithoutGbpProfileSnapshotsInput>, CompanyUncheckedUpdateWithoutGbpProfileSnapshotsInput>
+  }
+
   export type CompanyCreateNestedOneWithoutSubscriptionInput = {
     create?: XOR<CompanyCreateWithoutSubscriptionInput, CompanyUncheckedCreateWithoutSubscriptionInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutSubscriptionInput
@@ -92309,6 +98389,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -92377,6 +98461,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -93115,6 +99203,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -93183,6 +99275,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -94234,6 +100330,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -94302,6 +100402,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -94375,6 +100479,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -94443,6 +100551,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -95931,6 +102043,156 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type GbpInsightCreateWithoutCompanyInput = {
+    id?: string
+    date: Date | string
+    impressionsSearchDesktop?: number
+    impressionsSearchMobile?: number
+    impressionsMapsDesktop?: number
+    impressionsMapsMobile?: number
+    callClicks?: number
+    websiteClicks?: number
+    directionRequests?: number
+    conversations?: number
+    bookings?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GbpInsightUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    date: Date | string
+    impressionsSearchDesktop?: number
+    impressionsSearchMobile?: number
+    impressionsMapsDesktop?: number
+    impressionsMapsMobile?: number
+    callClicks?: number
+    websiteClicks?: number
+    directionRequests?: number
+    conversations?: number
+    bookings?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GbpInsightCreateOrConnectWithoutCompanyInput = {
+    where: GbpInsightWhereUniqueInput
+    create: XOR<GbpInsightCreateWithoutCompanyInput, GbpInsightUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type GbpInsightCreateManyCompanyInputEnvelope = {
+    data: GbpInsightCreateManyCompanyInput | GbpInsightCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type GbpReviewCreateWithoutCompanyInput = {
+    id?: string
+    googleReviewId: string
+    reviewerName?: string | null
+    reviewerPhotoUrl?: string | null
+    starRating: number
+    comment?: string | null
+    createTime: Date | string
+    updateTime?: Date | string | null
+    replyComment?: string | null
+    replyUpdateTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GbpReviewUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    googleReviewId: string
+    reviewerName?: string | null
+    reviewerPhotoUrl?: string | null
+    starRating: number
+    comment?: string | null
+    createTime: Date | string
+    updateTime?: Date | string | null
+    replyComment?: string | null
+    replyUpdateTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GbpReviewCreateOrConnectWithoutCompanyInput = {
+    where: GbpReviewWhereUniqueInput
+    create: XOR<GbpReviewCreateWithoutCompanyInput, GbpReviewUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type GbpReviewCreateManyCompanyInputEnvelope = {
+    data: GbpReviewCreateManyCompanyInput | GbpReviewCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type GbpSearchKeywordCreateWithoutCompanyInput = {
+    id?: string
+    keyword: string
+    year: number
+    month: number
+    impressions: number
+    isThreshold?: boolean
+    createdAt?: Date | string
+  }
+
+  export type GbpSearchKeywordUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    keyword: string
+    year: number
+    month: number
+    impressions: number
+    isThreshold?: boolean
+    createdAt?: Date | string
+  }
+
+  export type GbpSearchKeywordCreateOrConnectWithoutCompanyInput = {
+    where: GbpSearchKeywordWhereUniqueInput
+    create: XOR<GbpSearchKeywordCreateWithoutCompanyInput, GbpSearchKeywordUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type GbpSearchKeywordCreateManyCompanyInputEnvelope = {
+    data: GbpSearchKeywordCreateManyCompanyInput | GbpSearchKeywordCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type GbpProfileSnapshotCreateWithoutCompanyInput = {
+    id?: string
+    title?: string | null
+    primaryCategory?: string | null
+    storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
+    primaryPhone?: string | null
+    websiteUri?: string | null
+    regularHours?: NullableJsonNullValueInput | InputJsonValue
+    description?: string | null
+    photoCount?: number | null
+    completenessScore: number
+    syncedAt?: Date | string
+  }
+
+  export type GbpProfileSnapshotUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    title?: string | null
+    primaryCategory?: string | null
+    storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
+    primaryPhone?: string | null
+    websiteUri?: string | null
+    regularHours?: NullableJsonNullValueInput | InputJsonValue
+    description?: string | null
+    photoCount?: number | null
+    completenessScore: number
+    syncedAt?: Date | string
+  }
+
+  export type GbpProfileSnapshotCreateOrConnectWithoutCompanyInput = {
+    where: GbpProfileSnapshotWhereUniqueInput
+    create: XOR<GbpProfileSnapshotCreateWithoutCompanyInput, GbpProfileSnapshotUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type GbpProfileSnapshotCreateManyCompanyInputEnvelope = {
+    data: GbpProfileSnapshotCreateManyCompanyInput | GbpProfileSnapshotCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SubscriptionCreateWithoutCompanyInput = {
     id?: string
     plan?: $Enums.PlanTier
@@ -96085,6 +102347,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -96153,6 +102419,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -97232,6 +103502,141 @@ export namespace Prisma {
     position?: FloatFilter<"SearchConsoleQuery"> | number
   }
 
+  export type GbpInsightUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: GbpInsightWhereUniqueInput
+    update: XOR<GbpInsightUpdateWithoutCompanyInput, GbpInsightUncheckedUpdateWithoutCompanyInput>
+    create: XOR<GbpInsightCreateWithoutCompanyInput, GbpInsightUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type GbpInsightUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: GbpInsightWhereUniqueInput
+    data: XOR<GbpInsightUpdateWithoutCompanyInput, GbpInsightUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type GbpInsightUpdateManyWithWhereWithoutCompanyInput = {
+    where: GbpInsightScalarWhereInput
+    data: XOR<GbpInsightUpdateManyMutationInput, GbpInsightUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type GbpInsightScalarWhereInput = {
+    AND?: GbpInsightScalarWhereInput | GbpInsightScalarWhereInput[]
+    OR?: GbpInsightScalarWhereInput[]
+    NOT?: GbpInsightScalarWhereInput | GbpInsightScalarWhereInput[]
+    id?: StringFilter<"GbpInsight"> | string
+    companyId?: StringFilter<"GbpInsight"> | string
+    date?: DateTimeFilter<"GbpInsight"> | Date | string
+    impressionsSearchDesktop?: IntFilter<"GbpInsight"> | number
+    impressionsSearchMobile?: IntFilter<"GbpInsight"> | number
+    impressionsMapsDesktop?: IntFilter<"GbpInsight"> | number
+    impressionsMapsMobile?: IntFilter<"GbpInsight"> | number
+    callClicks?: IntFilter<"GbpInsight"> | number
+    websiteClicks?: IntFilter<"GbpInsight"> | number
+    directionRequests?: IntFilter<"GbpInsight"> | number
+    conversations?: IntFilter<"GbpInsight"> | number
+    bookings?: IntFilter<"GbpInsight"> | number
+    createdAt?: DateTimeFilter<"GbpInsight"> | Date | string
+    updatedAt?: DateTimeFilter<"GbpInsight"> | Date | string
+  }
+
+  export type GbpReviewUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: GbpReviewWhereUniqueInput
+    update: XOR<GbpReviewUpdateWithoutCompanyInput, GbpReviewUncheckedUpdateWithoutCompanyInput>
+    create: XOR<GbpReviewCreateWithoutCompanyInput, GbpReviewUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type GbpReviewUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: GbpReviewWhereUniqueInput
+    data: XOR<GbpReviewUpdateWithoutCompanyInput, GbpReviewUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type GbpReviewUpdateManyWithWhereWithoutCompanyInput = {
+    where: GbpReviewScalarWhereInput
+    data: XOR<GbpReviewUpdateManyMutationInput, GbpReviewUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type GbpReviewScalarWhereInput = {
+    AND?: GbpReviewScalarWhereInput | GbpReviewScalarWhereInput[]
+    OR?: GbpReviewScalarWhereInput[]
+    NOT?: GbpReviewScalarWhereInput | GbpReviewScalarWhereInput[]
+    id?: StringFilter<"GbpReview"> | string
+    companyId?: StringFilter<"GbpReview"> | string
+    googleReviewId?: StringFilter<"GbpReview"> | string
+    reviewerName?: StringNullableFilter<"GbpReview"> | string | null
+    reviewerPhotoUrl?: StringNullableFilter<"GbpReview"> | string | null
+    starRating?: IntFilter<"GbpReview"> | number
+    comment?: StringNullableFilter<"GbpReview"> | string | null
+    createTime?: DateTimeFilter<"GbpReview"> | Date | string
+    updateTime?: DateTimeNullableFilter<"GbpReview"> | Date | string | null
+    replyComment?: StringNullableFilter<"GbpReview"> | string | null
+    replyUpdateTime?: DateTimeNullableFilter<"GbpReview"> | Date | string | null
+    createdAt?: DateTimeFilter<"GbpReview"> | Date | string
+    updatedAt?: DateTimeFilter<"GbpReview"> | Date | string
+  }
+
+  export type GbpSearchKeywordUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: GbpSearchKeywordWhereUniqueInput
+    update: XOR<GbpSearchKeywordUpdateWithoutCompanyInput, GbpSearchKeywordUncheckedUpdateWithoutCompanyInput>
+    create: XOR<GbpSearchKeywordCreateWithoutCompanyInput, GbpSearchKeywordUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type GbpSearchKeywordUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: GbpSearchKeywordWhereUniqueInput
+    data: XOR<GbpSearchKeywordUpdateWithoutCompanyInput, GbpSearchKeywordUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type GbpSearchKeywordUpdateManyWithWhereWithoutCompanyInput = {
+    where: GbpSearchKeywordScalarWhereInput
+    data: XOR<GbpSearchKeywordUpdateManyMutationInput, GbpSearchKeywordUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type GbpSearchKeywordScalarWhereInput = {
+    AND?: GbpSearchKeywordScalarWhereInput | GbpSearchKeywordScalarWhereInput[]
+    OR?: GbpSearchKeywordScalarWhereInput[]
+    NOT?: GbpSearchKeywordScalarWhereInput | GbpSearchKeywordScalarWhereInput[]
+    id?: StringFilter<"GbpSearchKeyword"> | string
+    companyId?: StringFilter<"GbpSearchKeyword"> | string
+    keyword?: StringFilter<"GbpSearchKeyword"> | string
+    year?: IntFilter<"GbpSearchKeyword"> | number
+    month?: IntFilter<"GbpSearchKeyword"> | number
+    impressions?: IntFilter<"GbpSearchKeyword"> | number
+    isThreshold?: BoolFilter<"GbpSearchKeyword"> | boolean
+    createdAt?: DateTimeFilter<"GbpSearchKeyword"> | Date | string
+  }
+
+  export type GbpProfileSnapshotUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: GbpProfileSnapshotWhereUniqueInput
+    update: XOR<GbpProfileSnapshotUpdateWithoutCompanyInput, GbpProfileSnapshotUncheckedUpdateWithoutCompanyInput>
+    create: XOR<GbpProfileSnapshotCreateWithoutCompanyInput, GbpProfileSnapshotUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type GbpProfileSnapshotUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: GbpProfileSnapshotWhereUniqueInput
+    data: XOR<GbpProfileSnapshotUpdateWithoutCompanyInput, GbpProfileSnapshotUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type GbpProfileSnapshotUpdateManyWithWhereWithoutCompanyInput = {
+    where: GbpProfileSnapshotScalarWhereInput
+    data: XOR<GbpProfileSnapshotUpdateManyMutationInput, GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type GbpProfileSnapshotScalarWhereInput = {
+    AND?: GbpProfileSnapshotScalarWhereInput | GbpProfileSnapshotScalarWhereInput[]
+    OR?: GbpProfileSnapshotScalarWhereInput[]
+    NOT?: GbpProfileSnapshotScalarWhereInput | GbpProfileSnapshotScalarWhereInput[]
+    id?: StringFilter<"GbpProfileSnapshot"> | string
+    companyId?: StringFilter<"GbpProfileSnapshot"> | string
+    title?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
+    primaryCategory?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
+    storefrontAddress?: JsonNullableFilter<"GbpProfileSnapshot">
+    primaryPhone?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
+    websiteUri?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
+    regularHours?: JsonNullableFilter<"GbpProfileSnapshot">
+    description?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
+    photoCount?: IntNullableFilter<"GbpProfileSnapshot"> | number | null
+    completenessScore?: IntFilter<"GbpProfileSnapshot"> | number
+    syncedAt?: DateTimeFilter<"GbpProfileSnapshot"> | Date | string
+  }
+
   export type SubscriptionUpsertWithoutCompanyInput = {
     update: XOR<SubscriptionUpdateWithoutCompanyInput, SubscriptionUncheckedUpdateWithoutCompanyInput>
     create: XOR<SubscriptionCreateWithoutCompanyInput, SubscriptionUncheckedCreateWithoutCompanyInput>
@@ -97381,6 +103786,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -97449,6 +103858,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -97745,6 +104158,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -97813,6 +104230,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -97986,6 +104407,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -98054,6 +104479,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -98291,6 +104720,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -98359,6 +104792,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -98555,6 +104992,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -98623,6 +105064,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -99050,6 +105495,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -99118,6 +105567,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -99469,6 +105922,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -99537,6 +105994,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -99641,6 +106102,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -99709,6 +106174,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -100005,6 +106474,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -100073,6 +106546,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -100183,6 +106660,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -100251,6 +106732,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -100559,6 +107044,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -100627,6 +107116,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -100737,6 +107230,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -100805,6 +107302,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -100889,6 +107390,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -100957,6 +107462,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -101070,6 +107579,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -101138,6 +107651,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -101316,6 +107833,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -101384,6 +107905,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -101687,6 +108212,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -101755,6 +108284,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -102129,6 +108662,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -102197,6 +108734,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -102281,6 +108822,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -102349,6 +108894,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -102417,6 +108966,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -102485,6 +109038,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -102638,6 +109195,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -102706,6 +109267,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -102849,6 +109414,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -102917,6 +109486,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -103077,6 +109650,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -103145,6 +109722,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -103253,6 +109834,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -103321,6 +109906,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -103680,6 +110269,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -103748,6 +110341,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -104121,6 +110718,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -104189,6 +110790,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -104314,6 +110919,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -104382,6 +110991,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -104631,6 +111244,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -104699,6 +111316,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -105131,6 +111752,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -105199,6 +111824,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -105641,6 +112270,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -105709,6 +112342,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -105992,6 +112629,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -106060,6 +112701,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -106128,6 +112773,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -106196,6 +112845,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -106338,6 +112991,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -106406,6 +113063,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -106696,6 +113357,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -106764,6 +113429,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -106918,6 +113587,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -106986,6 +113659,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -107357,6 +114034,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -107425,6 +114106,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -107723,6 +114408,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -107791,6 +114480,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -108004,6 +114697,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -108072,6 +114769,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -108315,6 +115016,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -108383,6 +115088,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -109526,6 +116235,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -109594,6 +116307,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -109728,6 +116445,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -109796,6 +116517,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -110086,6 +116811,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -110154,6 +116883,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -110289,6 +117022,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -110357,6 +117094,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -110425,6 +117166,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -110493,6 +117238,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -110577,6 +117326,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -110645,6 +117398,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -110713,6 +117470,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -110781,6 +117542,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -110865,6 +117630,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -110933,6 +117702,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -111001,6 +117774,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -111069,6 +117846,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -111153,6 +117934,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -111221,6 +118006,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -111289,6 +118078,10 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -111357,6 +118150,10 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -111441,6 +118238,10 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -111509,6 +118310,10 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -111577,6 +118382,10 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -111645,6 +118454,10 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -111729,6 +118542,10 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -111797,6 +118614,10 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -111865,6 +118686,10 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -111933,6 +118758,10 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -112017,6 +118846,10 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -112085,6 +118918,1226 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutGbpInsightsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutGbpInsightsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutGbpInsightsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutGbpInsightsInput, CompanyUncheckedCreateWithoutGbpInsightsInput>
+  }
+
+  export type CompanyUpsertWithoutGbpInsightsInput = {
+    update: XOR<CompanyUpdateWithoutGbpInsightsInput, CompanyUncheckedUpdateWithoutGbpInsightsInput>
+    create: XOR<CompanyCreateWithoutGbpInsightsInput, CompanyUncheckedCreateWithoutGbpInsightsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutGbpInsightsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutGbpInsightsInput, CompanyUncheckedUpdateWithoutGbpInsightsInput>
+  }
+
+  export type CompanyUpdateWithoutGbpInsightsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutGbpInsightsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutGbpReviewsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutGbpReviewsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutGbpReviewsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutGbpReviewsInput, CompanyUncheckedCreateWithoutGbpReviewsInput>
+  }
+
+  export type CompanyUpsertWithoutGbpReviewsInput = {
+    update: XOR<CompanyUpdateWithoutGbpReviewsInput, CompanyUncheckedUpdateWithoutGbpReviewsInput>
+    create: XOR<CompanyCreateWithoutGbpReviewsInput, CompanyUncheckedCreateWithoutGbpReviewsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutGbpReviewsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutGbpReviewsInput, CompanyUncheckedUpdateWithoutGbpReviewsInput>
+  }
+
+  export type CompanyUpdateWithoutGbpReviewsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutGbpReviewsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutGbpSearchKeywordsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutGbpSearchKeywordsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutGbpSearchKeywordsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutGbpSearchKeywordsInput, CompanyUncheckedCreateWithoutGbpSearchKeywordsInput>
+  }
+
+  export type CompanyUpsertWithoutGbpSearchKeywordsInput = {
+    update: XOR<CompanyUpdateWithoutGbpSearchKeywordsInput, CompanyUncheckedUpdateWithoutGbpSearchKeywordsInput>
+    create: XOR<CompanyCreateWithoutGbpSearchKeywordsInput, CompanyUncheckedCreateWithoutGbpSearchKeywordsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutGbpSearchKeywordsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutGbpSearchKeywordsInput, CompanyUncheckedUpdateWithoutGbpSearchKeywordsInput>
+  }
+
+  export type CompanyUpdateWithoutGbpSearchKeywordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutGbpSearchKeywordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutGbpProfileSnapshotsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutGbpProfileSnapshotsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutGbpProfileSnapshotsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutGbpProfileSnapshotsInput, CompanyUncheckedCreateWithoutGbpProfileSnapshotsInput>
+  }
+
+  export type CompanyUpsertWithoutGbpProfileSnapshotsInput = {
+    update: XOR<CompanyUpdateWithoutGbpProfileSnapshotsInput, CompanyUncheckedUpdateWithoutGbpProfileSnapshotsInput>
+    create: XOR<CompanyCreateWithoutGbpProfileSnapshotsInput, CompanyUncheckedCreateWithoutGbpProfileSnapshotsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutGbpProfileSnapshotsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutGbpProfileSnapshotsInput, CompanyUncheckedUpdateWithoutGbpProfileSnapshotsInput>
+  }
+
+  export type CompanyUpdateWithoutGbpProfileSnapshotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutGbpProfileSnapshotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -112154,6 +120207,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
 
@@ -112222,6 +120279,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
 
@@ -112306,6 +120367,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
 
@@ -112374,6 +120439,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
@@ -112441,6 +120510,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -112509,6 +120582,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -112617,6 +120694,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -112685,6 +120766,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -112840,6 +120925,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -112908,6 +120997,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -113028,6 +121121,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -113096,6 +121193,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -113249,6 +121350,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -113317,6 +121422,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -113507,6 +121616,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -113575,6 +121688,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -113749,6 +121866,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -113817,6 +121938,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -113976,6 +122101,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -114044,6 +122173,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -114181,6 +122314,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -114249,6 +122386,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -114408,6 +122549,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -114476,6 +122621,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -114613,6 +122762,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -114681,6 +122834,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -114840,6 +122997,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -114908,6 +123069,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -114976,6 +123141,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
   }
@@ -115044,6 +123213,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
   }
@@ -115128,6 +123301,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -115196,6 +123373,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -115553,6 +123734,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
   }
 
@@ -115621,6 +123806,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
   }
 
@@ -115705,6 +123894,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
   }
 
@@ -115773,6 +123966,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
@@ -117190,6 +125387,61 @@ export namespace Prisma {
     position: number
   }
 
+  export type GbpInsightCreateManyCompanyInput = {
+    id?: string
+    date: Date | string
+    impressionsSearchDesktop?: number
+    impressionsSearchMobile?: number
+    impressionsMapsDesktop?: number
+    impressionsMapsMobile?: number
+    callClicks?: number
+    websiteClicks?: number
+    directionRequests?: number
+    conversations?: number
+    bookings?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GbpReviewCreateManyCompanyInput = {
+    id?: string
+    googleReviewId: string
+    reviewerName?: string | null
+    reviewerPhotoUrl?: string | null
+    starRating: number
+    comment?: string | null
+    createTime: Date | string
+    updateTime?: Date | string | null
+    replyComment?: string | null
+    replyUpdateTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GbpSearchKeywordCreateManyCompanyInput = {
+    id?: string
+    keyword: string
+    year: number
+    month: number
+    impressions: number
+    isThreshold?: boolean
+    createdAt?: Date | string
+  }
+
+  export type GbpProfileSnapshotCreateManyCompanyInput = {
+    id?: string
+    title?: string | null
+    primaryCategory?: string | null
+    storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
+    primaryPhone?: string | null
+    websiteUri?: string | null
+    regularHours?: NullableJsonNullValueInput | InputJsonValue
+    description?: string | null
+    photoCount?: number | null
+    completenessScore: number
+    syncedAt?: Date | string
+  }
+
   export type BillingEventCreateManyCompanyInput = {
     id?: string
     type: string
@@ -117264,6 +125516,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
   }
@@ -117332,6 +125588,10 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
@@ -118996,6 +127256,171 @@ export namespace Prisma {
     impressions?: IntFieldUpdateOperationsInput | number
     ctr?: FloatFieldUpdateOperationsInput | number
     position?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type GbpInsightUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressionsSearchDesktop?: IntFieldUpdateOperationsInput | number
+    impressionsSearchMobile?: IntFieldUpdateOperationsInput | number
+    impressionsMapsDesktop?: IntFieldUpdateOperationsInput | number
+    impressionsMapsMobile?: IntFieldUpdateOperationsInput | number
+    callClicks?: IntFieldUpdateOperationsInput | number
+    websiteClicks?: IntFieldUpdateOperationsInput | number
+    directionRequests?: IntFieldUpdateOperationsInput | number
+    conversations?: IntFieldUpdateOperationsInput | number
+    bookings?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpInsightUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressionsSearchDesktop?: IntFieldUpdateOperationsInput | number
+    impressionsSearchMobile?: IntFieldUpdateOperationsInput | number
+    impressionsMapsDesktop?: IntFieldUpdateOperationsInput | number
+    impressionsMapsMobile?: IntFieldUpdateOperationsInput | number
+    callClicks?: IntFieldUpdateOperationsInput | number
+    websiteClicks?: IntFieldUpdateOperationsInput | number
+    directionRequests?: IntFieldUpdateOperationsInput | number
+    conversations?: IntFieldUpdateOperationsInput | number
+    bookings?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpInsightUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressionsSearchDesktop?: IntFieldUpdateOperationsInput | number
+    impressionsSearchMobile?: IntFieldUpdateOperationsInput | number
+    impressionsMapsDesktop?: IntFieldUpdateOperationsInput | number
+    impressionsMapsMobile?: IntFieldUpdateOperationsInput | number
+    callClicks?: IntFieldUpdateOperationsInput | number
+    websiteClicks?: IntFieldUpdateOperationsInput | number
+    directionRequests?: IntFieldUpdateOperationsInput | number
+    conversations?: IntFieldUpdateOperationsInput | number
+    bookings?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpReviewUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    googleReviewId?: StringFieldUpdateOperationsInput | string
+    reviewerName?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    starRating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    replyComment?: NullableStringFieldUpdateOperationsInput | string | null
+    replyUpdateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpReviewUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    googleReviewId?: StringFieldUpdateOperationsInput | string
+    reviewerName?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    starRating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    replyComment?: NullableStringFieldUpdateOperationsInput | string | null
+    replyUpdateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpReviewUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    googleReviewId?: StringFieldUpdateOperationsInput | string
+    reviewerName?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    starRating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    replyComment?: NullableStringFieldUpdateOperationsInput | string | null
+    replyUpdateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpSearchKeywordUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    keyword?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    impressions?: IntFieldUpdateOperationsInput | number
+    isThreshold?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpSearchKeywordUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    keyword?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    impressions?: IntFieldUpdateOperationsInput | number
+    isThreshold?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpSearchKeywordUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    keyword?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    month?: IntFieldUpdateOperationsInput | number
+    impressions?: IntFieldUpdateOperationsInput | number
+    isThreshold?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpProfileSnapshotUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
+    primaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    websiteUri?: NullableStringFieldUpdateOperationsInput | string | null
+    regularHours?: NullableJsonNullValueInput | InputJsonValue
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    photoCount?: NullableIntFieldUpdateOperationsInput | number | null
+    completenessScore?: IntFieldUpdateOperationsInput | number
+    syncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpProfileSnapshotUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
+    primaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    websiteUri?: NullableStringFieldUpdateOperationsInput | string | null
+    regularHours?: NullableJsonNullValueInput | InputJsonValue
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    photoCount?: NullableIntFieldUpdateOperationsInput | number | null
+    completenessScore?: IntFieldUpdateOperationsInput | number
+    syncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    storefrontAddress?: NullableJsonNullValueInput | InputJsonValue
+    primaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    websiteUri?: NullableStringFieldUpdateOperationsInput | string | null
+    regularHours?: NullableJsonNullValueInput | InputJsonValue
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    photoCount?: NullableIntFieldUpdateOperationsInput | number | null
+    completenessScore?: IntFieldUpdateOperationsInput | number
+    syncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BillingEventUpdateWithoutCompanyInput = {
@@ -121309,6 +129734,22 @@ export namespace Prisma {
      * @deprecated Use SearchConsoleQueryDefaultArgs instead
      */
     export type SearchConsoleQueryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SearchConsoleQueryDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use GbpInsightDefaultArgs instead
+     */
+    export type GbpInsightArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = GbpInsightDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use GbpReviewDefaultArgs instead
+     */
+    export type GbpReviewArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = GbpReviewDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use GbpSearchKeywordDefaultArgs instead
+     */
+    export type GbpSearchKeywordArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = GbpSearchKeywordDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use GbpProfileSnapshotDefaultArgs instead
+     */
+    export type GbpProfileSnapshotArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = GbpProfileSnapshotDefaultArgs<ExtArgs>
     /**
      * @deprecated Use SubscriptionDefaultArgs instead
      */

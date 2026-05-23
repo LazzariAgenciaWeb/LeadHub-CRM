@@ -13,6 +13,7 @@ import {
 import { BUCKET_META, type TrafficBucket } from "@/lib/traffic-classifier";
 import { flagFromCountryCode, ptCountryName } from "@/lib/country-flags";
 import WorldGeoMap from "@/components/WorldGeoMap";
+import CompanyGbpSection from "./CompanyGbpSection";
 
 interface Kpi { value: number; delta?: number | null }
 interface MarketingData {
@@ -495,6 +496,9 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
           </div>
         )}
       </div>
+
+      {/* Seção Google Meu Negócio */}
+      <CompanyGbpSection companyId={companyId} days={days} />
     </div>
   );
 }

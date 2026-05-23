@@ -219,6 +219,10 @@ model Company {
   analyticsTrafficSources   AnalyticsTrafficSource[]
   analyticsGeoData          AnalyticsGeoData[]
   searchConsoleQueries      SearchConsoleQuery[]
+  gbpInsights               GbpInsight[]
+  gbpReviews                GbpReview[]
+  gbpSearchKeywords         GbpSearchKeyword[]
+  gbpProfileSnapshots       GbpProfileSnapshot[]
   subscription              Subscription?
   billingEvents             BillingEvent[]
   triggerOnly               Boolean                  @default(false)
@@ -1490,6 +1494,111 @@ model SearchConsoleQuery {
   @@unique([companyId, date, query, page, country, device])
   @@index([companyId, date])
   @@index([companyId, query])
+}
+
+// ─── Google Business Profile (GBP / "Meu Negócio") ────────────────────────────
+//
+// Espelha o padrão do GA4 / Search Console: 1 MarketingIntegration (provider=
+// BUSINESS_PROFILE) representa 1 location escolhida. Cron diário roda syncGbp
+// que popula as tabelas abaixo. Range padrão 30 dias.
+//
+// Dados origem (4 APIs):
+//   - businessprofileperformance.googleapis.com → insights (views, actions) + keywords
+//   - mybusiness.googleapis.com/v4 (legacy)     → reviews
+//   - mybusinessbusinessinformation.googleapis.com → profile
+
+// 1 linha/dia/empresa — KPIs operacionais do perfil
+model GbpInsight {
+  id        String   @id @default(cuid())
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+  date      DateTime @db.Date
+
+  // Impressões (views do perfil)
+  impressionsSearchDesktop Int @default(0)
+  impressionsSearchMobile  Int @default(0)
+  impressionsMapsDesktop   Int @default(0)
+  impressionsMapsMobile    Int @default(0)
+
+  // Ações
+  callClicks        Int @default(0)
+  websiteClicks     Int @default(0)
+  directionRequests Int @default(0)
+  conversations     Int @default(0)
+  bookings          Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, date])
+  @@index([companyId, date])
+}
+
+// 1 linha/review — usada em card "últimas reviews" + KPI rating médio
+model GbpReview {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  // ID externo do Google (accounts/X/locations/Y/reviews/Z)
+  googleReviewId String @unique
+
+  reviewerName     String?
+  reviewerPhotoUrl String?
+  starRating       Int // 1-5
+  comment          String?   @db.Text
+  createTime       DateTime
+  updateTime       DateTime?
+
+  // Resposta do dono (se houver)
+  replyComment    String?   @db.Text
+  replyUpdateTime DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId, createTime])
+  @@index([companyId, starRating])
+}
+
+// Termo de busca → impressões mensais (granularidade que a API entrega)
+model GbpSearchKeyword {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  keyword     String
+  year        Int
+  month       Int // 1-12
+  impressions Int // pode ser threshold ("<15")
+  isThreshold Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@unique([companyId, year, month, keyword])
+  @@index([companyId, year, month])
+}
+
+// Snapshot do perfil — espelho dos campos + completenessScore calculado
+model GbpProfileSnapshot {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  title             String?
+  primaryCategory   String?
+  storefrontAddress Json?
+  primaryPhone      String?
+  websiteUri        String?
+  regularHours      Json?
+  description       String? @db.Text
+  photoCount        Int?
+  // 0-100 — quanto está preenchido. Card "Profile Health" mostra checks faltando.
+  completenessScore Int
+
+  syncedAt DateTime @default(now())
+
+  @@index([companyId, syncedAt])
 }
 
 // ─── Cobrança / Assinaturas ───────────────────────────────────────────────────
