@@ -109,13 +109,18 @@ export async function syncGbp(integrationId: string, daysBack = 35): Promise<Syn
   let reviewsCount = 0;
   let keywordsCount = 0;
   let profileSynced = false;
+  let profileSnapshotId: string | null = null;
+  let googleAverageRating: number | null = null;
+  let googleReviewCount: number | null = null;
   const partialErrors: string[] = [];
 
   // Cada etapa roda em try/catch próprio — uma falhar não derruba as outras.
   // Erros parciais são acumulados e expostos em lastError pra UI mostrar.
 
   try {
-    profileSynced = await syncProfile(integrationId, integ.companyId, locationName);
+    const profileResult = await syncProfile(integrationId, integ.companyId, locationName);
+    profileSynced = profileResult.ok;
+    profileSnapshotId = profileResult.snapshotId;
   } catch (e: any) {
     partialErrors.push(`profile: ${e.message?.slice(0, 200) ?? e}`);
   }
@@ -131,10 +136,23 @@ export async function syncGbp(integrationId: string, daysBack = 35): Promise<Syn
     if (!accountName) {
       partialErrors.push("reviews: não foi possível descobrir a conta-mãe da location");
     } else {
-      reviewsCount = await syncReviews(integrationId, integ.companyId, accountName, locationName);
+      const reviewsResult = await syncReviews(integrationId, integ.companyId, accountName, locationName);
+      reviewsCount = reviewsResult.count;
+      googleAverageRating = reviewsResult.googleAverageRating;
+      googleReviewCount = reviewsResult.googleReviewCount;
     }
   } catch (e: any) {
     partialErrors.push(`reviews: ${e.message?.slice(0, 200) ?? e}`);
+  }
+
+  // Se temos snapshot novo + totais da API v4, atualiza o snapshot.
+  // Vale mesmo quando reviewsCount=0: o card ainda mostra rating + total que
+  // o Google retornou no top-level (perfil tem reviews mas paginação não trouxe).
+  if (profileSnapshotId && (googleAverageRating !== null || googleReviewCount !== null)) {
+    await prisma.gbpProfileSnapshot.update({
+      where: { id: profileSnapshotId },
+      data: { googleAverageRating, googleReviewCount },
+    });
   }
 
   try {
@@ -170,7 +188,7 @@ export async function syncGbp(integrationId: string, daysBack = 35): Promise<Syn
 // 1. PROFILE SNAPSHOT
 // ═══════════════════════════════════════════════════════════════════════════
 
-async function syncProfile(integrationId: string, companyId: string, locationName: string): Promise<boolean> {
+async function syncProfile(integrationId: string, companyId: string, locationName: string): Promise<{ ok: boolean; snapshotId: string | null }> {
   const readMask = [
     "name",
     "title",
@@ -203,7 +221,7 @@ async function syncProfile(integrationId: string, companyId: string, locationNam
     title, primaryCategory, storefrontAddress, primaryPhone, websiteUri, regularHours, description, photoCount,
   });
 
-  await prisma.gbpProfileSnapshot.create({
+  const snapshot = await prisma.gbpProfileSnapshot.create({
     data: {
       companyId,
       title,
@@ -217,7 +235,7 @@ async function syncProfile(integrationId: string, companyId: string, locationNam
       completenessScore,
     },
   });
-  return true;
+  return { ok: true, snapshotId: snapshot.id };
 }
 
 /** 0-100. Pontuação fixa por campo presente. Tolerante a categorias diferentes. */
@@ -318,12 +336,20 @@ async function syncInsights(integrationId: string, companyId: string, locationNa
 /** Star rating vem como string ("FIVE", "FOUR"...) — converte pra int 1-5. */
 const STAR_MAP: Record<string, number> = { ONE: 1, TWO: 2, THREE: 3, FOUR: 4, FIVE: 5 };
 
-async function syncReviews(integrationId: string, companyId: string, accountName: string, locationName: string): Promise<number> {
+interface ReviewsSyncResult {
+  count: number;                       // quantas reviews individuais foram gravadas
+  googleAverageRating: number | null;  // top-level do response da API v4
+  googleReviewCount: number | null;    // top-level — total na API (pode > count se paginação parou)
+}
+
+async function syncReviews(integrationId: string, companyId: string, accountName: string, locationName: string): Promise<ReviewsSyncResult> {
   // accountName = "accounts/X", locationName = "locations/Y"
   // API v4 path: accounts/X/locations/Y/reviews
   const basePath = `${accountName}/${locationName}/reviews`;
   let pageToken: string | undefined;
   let count = 0;
+  let googleAverageRating: number | null = null;
+  let googleReviewCount: number | null = null;
   const MAX_PAGES = 5;     // 5 × 50 = até 250 reviews por sync (seguro)
 
   for (let page = 0; page < MAX_PAGES; page++) {
@@ -336,11 +362,16 @@ async function syncReviews(integrationId: string, companyId: string, accountName
     const r = await googleFetch(integrationId, `${REVIEWS_API}/${basePath}?${params}`);
     if (!r.ok) {
       const txt = await r.text();
-      // Lança erro pro catch externo registrar em lastError visível na UI.
-      // Antes era console.warn silencioso, escondia falha (rating ficava "—" sem motivo).
       throw new Error(`reviews API ${r.status}: ${txt.slice(0, 200)}`);
     }
     const data = await r.json();
+
+    // Captura totais do top-level (vêm já na primeira página).
+    // Útil como fallback quando data.reviews vem vazio mas o perfil tem reviews.
+    if (page === 0) {
+      if (typeof data.averageRating === "number") googleAverageRating = data.averageRating;
+      if (typeof data.totalReviewCount === "number") googleReviewCount = data.totalReviewCount;
+    }
 
     for (const rev of data.reviews ?? []) {
       const googleReviewId = rev.reviewId
@@ -376,7 +407,7 @@ async function syncReviews(integrationId: string, companyId: string, accountName
     pageToken = data.nextPageToken;
     if (!pageToken) break;
   }
-  return count;
+  return { count, googleAverageRating, googleReviewCount };
 }
 
 /**

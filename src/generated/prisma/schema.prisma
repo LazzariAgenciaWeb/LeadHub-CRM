@@ -1596,6 +1596,12 @@ model GbpProfileSnapshot {
   // 0-100 — quanto está preenchido. Card "Profile Health" mostra checks faltando.
   completenessScore Int
 
+  // Agregados vindos do response da API v4 reviews (top-level averageRating +
+  // totalReviewCount). Fallback pro card "Avaliação média" quando reviews
+  // individuais não vêm pela paginação.
+  googleAverageRating Float?
+  googleReviewCount   Int?
+
   syncedAt DateTime @default(now())
 
   @@index([companyId, syncedAt])

@@ -179,8 +179,19 @@ export async function GET(
         },
       },
       rating: {
-        average: reviewStats._avg.starRating != null ? Number(reviewStats._avg.starRating.toFixed(2)) : null,
-        total: reviewStats._count.id,
+        // Prioridade: cálculo local (mais preciso) → fallback API v4 top-level.
+        // Quando reviews individuais não vêm pela paginação, ainda mostramos
+        // os totais que o Google retornou no header do response.
+        average: reviewStats._avg.starRating != null
+          ? Number(reviewStats._avg.starRating.toFixed(2))
+          : (profileSnapshot?.googleAverageRating != null
+              ? Number(profileSnapshot.googleAverageRating.toFixed(2))
+              : null),
+        total: reviewStats._count.id > 0
+          ? reviewStats._count.id
+          : (profileSnapshot?.googleReviewCount ?? 0),
+        // Flag pra UI distinguir: "10 reviews" (locais) vs "10 reviews no Google" (só agregado)
+        source: reviewStats._count.id > 0 ? "local" as const : "google" as const,
       },
     },
     dailySeries: dailyRaw.map((row) => ({

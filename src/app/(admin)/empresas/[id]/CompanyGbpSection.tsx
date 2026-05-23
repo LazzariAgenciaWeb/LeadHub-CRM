@@ -40,7 +40,7 @@ interface GbpResponse {
       current: number; previous: number; deltaPct: number | null;
       breakdown: { calls: number; website: number; directions: number };
     };
-    rating: { average: number | null; total: number };
+    rating: { average: number | null; total: number; source?: "local" | "google" };
   };
   dailySeries?: { date: string; search: number; maps: number }[];
   reviews?: {
@@ -295,7 +295,16 @@ export default function CompanyGbpSection({ companyId, days = 30 }: { companyId:
             value={kpis.rating.average ? `${kpis.rating.average.toFixed(1)} ★` : "—"}
             deltaPct={null}
             color="amber"
-            subtitle={`${kpis.rating.total} review${kpis.rating.total !== 1 ? "s" : ""}`}
+            subtitle={
+              <span>
+                {kpis.rating.total} review{kpis.rating.total !== 1 ? "s" : ""}
+                {kpis.rating.source === "google" && kpis.rating.total > 0 && (
+                  <span className="ml-1 text-amber-400/70" title="Vem direto do Google. Reviews individuais não puderam ser baixadas (API v4 pode ter limite).">
+                    · no Google
+                  </span>
+                )}
+              </span>
+            }
           />
         </div>
       )}

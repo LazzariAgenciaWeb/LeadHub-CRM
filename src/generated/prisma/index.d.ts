@@ -59704,11 +59704,15 @@ export namespace Prisma {
   export type GbpProfileSnapshotAvgAggregateOutputType = {
     photoCount: number | null
     completenessScore: number | null
+    googleAverageRating: number | null
+    googleReviewCount: number | null
   }
 
   export type GbpProfileSnapshotSumAggregateOutputType = {
     photoCount: number | null
     completenessScore: number | null
+    googleAverageRating: number | null
+    googleReviewCount: number | null
   }
 
   export type GbpProfileSnapshotMinAggregateOutputType = {
@@ -59721,6 +59725,8 @@ export namespace Prisma {
     description: string | null
     photoCount: number | null
     completenessScore: number | null
+    googleAverageRating: number | null
+    googleReviewCount: number | null
     syncedAt: Date | null
   }
 
@@ -59734,6 +59740,8 @@ export namespace Prisma {
     description: string | null
     photoCount: number | null
     completenessScore: number | null
+    googleAverageRating: number | null
+    googleReviewCount: number | null
     syncedAt: Date | null
   }
 
@@ -59749,6 +59757,8 @@ export namespace Prisma {
     description: number
     photoCount: number
     completenessScore: number
+    googleAverageRating: number
+    googleReviewCount: number
     syncedAt: number
     _all: number
   }
@@ -59757,11 +59767,15 @@ export namespace Prisma {
   export type GbpProfileSnapshotAvgAggregateInputType = {
     photoCount?: true
     completenessScore?: true
+    googleAverageRating?: true
+    googleReviewCount?: true
   }
 
   export type GbpProfileSnapshotSumAggregateInputType = {
     photoCount?: true
     completenessScore?: true
+    googleAverageRating?: true
+    googleReviewCount?: true
   }
 
   export type GbpProfileSnapshotMinAggregateInputType = {
@@ -59774,6 +59788,8 @@ export namespace Prisma {
     description?: true
     photoCount?: true
     completenessScore?: true
+    googleAverageRating?: true
+    googleReviewCount?: true
     syncedAt?: true
   }
 
@@ -59787,6 +59803,8 @@ export namespace Prisma {
     description?: true
     photoCount?: true
     completenessScore?: true
+    googleAverageRating?: true
+    googleReviewCount?: true
     syncedAt?: true
   }
 
@@ -59802,6 +59820,8 @@ export namespace Prisma {
     description?: true
     photoCount?: true
     completenessScore?: true
+    googleAverageRating?: true
+    googleReviewCount?: true
     syncedAt?: true
     _all?: true
   }
@@ -59904,6 +59924,8 @@ export namespace Prisma {
     description: string | null
     photoCount: number | null
     completenessScore: number
+    googleAverageRating: number | null
+    googleReviewCount: number | null
     syncedAt: Date
     _count: GbpProfileSnapshotCountAggregateOutputType | null
     _avg: GbpProfileSnapshotAvgAggregateOutputType | null
@@ -59938,6 +59960,8 @@ export namespace Prisma {
     description?: boolean
     photoCount?: boolean
     completenessScore?: boolean
+    googleAverageRating?: boolean
+    googleReviewCount?: boolean
     syncedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["gbpProfileSnapshot"]>
@@ -59954,6 +59978,8 @@ export namespace Prisma {
     description?: boolean
     photoCount?: boolean
     completenessScore?: boolean
+    googleAverageRating?: boolean
+    googleReviewCount?: boolean
     syncedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["gbpProfileSnapshot"]>
@@ -59970,6 +59996,8 @@ export namespace Prisma {
     description?: boolean
     photoCount?: boolean
     completenessScore?: boolean
+    googleAverageRating?: boolean
+    googleReviewCount?: boolean
     syncedAt?: boolean
   }
 
@@ -59997,6 +60025,8 @@ export namespace Prisma {
       description: string | null
       photoCount: number | null
       completenessScore: number
+      googleAverageRating: number | null
+      googleReviewCount: number | null
       syncedAt: Date
     }, ExtArgs["result"]["gbpProfileSnapshot"]>
     composites: {}
@@ -60403,6 +60433,8 @@ export namespace Prisma {
     readonly description: FieldRef<"GbpProfileSnapshot", 'String'>
     readonly photoCount: FieldRef<"GbpProfileSnapshot", 'Int'>
     readonly completenessScore: FieldRef<"GbpProfileSnapshot", 'Int'>
+    readonly googleAverageRating: FieldRef<"GbpProfileSnapshot", 'Float'>
+    readonly googleReviewCount: FieldRef<"GbpProfileSnapshot", 'Int'>
     readonly syncedAt: FieldRef<"GbpProfileSnapshot", 'DateTime'>
   }
     
@@ -74717,6 +74749,8 @@ export namespace Prisma {
     description: 'description',
     photoCount: 'photoCount',
     completenessScore: 'completenessScore',
+    googleAverageRating: 'googleAverageRating',
+    googleReviewCount: 'googleReviewCount',
     syncedAt: 'syncedAt'
   };
 
@@ -80025,6 +80059,8 @@ export namespace Prisma {
     description?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
     photoCount?: IntNullableFilter<"GbpProfileSnapshot"> | number | null
     completenessScore?: IntFilter<"GbpProfileSnapshot"> | number
+    googleAverageRating?: FloatNullableFilter<"GbpProfileSnapshot"> | number | null
+    googleReviewCount?: IntNullableFilter<"GbpProfileSnapshot"> | number | null
     syncedAt?: DateTimeFilter<"GbpProfileSnapshot"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
   }
@@ -80041,6 +80077,8 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     photoCount?: SortOrderInput | SortOrder
     completenessScore?: SortOrder
+    googleAverageRating?: SortOrderInput | SortOrder
+    googleReviewCount?: SortOrderInput | SortOrder
     syncedAt?: SortOrder
     company?: CompanyOrderByWithRelationInput
   }
@@ -80060,6 +80098,8 @@ export namespace Prisma {
     description?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
     photoCount?: IntNullableFilter<"GbpProfileSnapshot"> | number | null
     completenessScore?: IntFilter<"GbpProfileSnapshot"> | number
+    googleAverageRating?: FloatNullableFilter<"GbpProfileSnapshot"> | number | null
+    googleReviewCount?: IntNullableFilter<"GbpProfileSnapshot"> | number | null
     syncedAt?: DateTimeFilter<"GbpProfileSnapshot"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
   }, "id">
@@ -80076,6 +80116,8 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     photoCount?: SortOrderInput | SortOrder
     completenessScore?: SortOrder
+    googleAverageRating?: SortOrderInput | SortOrder
+    googleReviewCount?: SortOrderInput | SortOrder
     syncedAt?: SortOrder
     _count?: GbpProfileSnapshotCountOrderByAggregateInput
     _avg?: GbpProfileSnapshotAvgOrderByAggregateInput
@@ -80099,6 +80141,8 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"GbpProfileSnapshot"> | string | null
     photoCount?: IntNullableWithAggregatesFilter<"GbpProfileSnapshot"> | number | null
     completenessScore?: IntWithAggregatesFilter<"GbpProfileSnapshot"> | number
+    googleAverageRating?: FloatNullableWithAggregatesFilter<"GbpProfileSnapshot"> | number | null
+    googleReviewCount?: IntNullableWithAggregatesFilter<"GbpProfileSnapshot"> | number | null
     syncedAt?: DateTimeWithAggregatesFilter<"GbpProfileSnapshot"> | Date | string
   }
 
@@ -86214,6 +86258,8 @@ export namespace Prisma {
     description?: string | null
     photoCount?: number | null
     completenessScore: number
+    googleAverageRating?: number | null
+    googleReviewCount?: number | null
     syncedAt?: Date | string
     company: CompanyCreateNestedOneWithoutGbpProfileSnapshotsInput
   }
@@ -86230,6 +86276,8 @@ export namespace Prisma {
     description?: string | null
     photoCount?: number | null
     completenessScore: number
+    googleAverageRating?: number | null
+    googleReviewCount?: number | null
     syncedAt?: Date | string
   }
 
@@ -86244,6 +86292,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     photoCount?: NullableIntFieldUpdateOperationsInput | number | null
     completenessScore?: IntFieldUpdateOperationsInput | number
+    googleAverageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    googleReviewCount?: NullableIntFieldUpdateOperationsInput | number | null
     syncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutGbpProfileSnapshotsNestedInput
   }
@@ -86260,6 +86310,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     photoCount?: NullableIntFieldUpdateOperationsInput | number | null
     completenessScore?: IntFieldUpdateOperationsInput | number
+    googleAverageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    googleReviewCount?: NullableIntFieldUpdateOperationsInput | number | null
     syncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -86275,6 +86327,8 @@ export namespace Prisma {
     description?: string | null
     photoCount?: number | null
     completenessScore: number
+    googleAverageRating?: number | null
+    googleReviewCount?: number | null
     syncedAt?: Date | string
   }
 
@@ -86289,6 +86343,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     photoCount?: NullableIntFieldUpdateOperationsInput | number | null
     completenessScore?: IntFieldUpdateOperationsInput | number
+    googleAverageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    googleReviewCount?: NullableIntFieldUpdateOperationsInput | number | null
     syncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -86304,6 +86360,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     photoCount?: NullableIntFieldUpdateOperationsInput | number | null
     completenessScore?: IntFieldUpdateOperationsInput | number
+    googleAverageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    googleReviewCount?: NullableIntFieldUpdateOperationsInput | number | null
     syncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -91265,12 +91323,16 @@ export namespace Prisma {
     description?: SortOrder
     photoCount?: SortOrder
     completenessScore?: SortOrder
+    googleAverageRating?: SortOrder
+    googleReviewCount?: SortOrder
     syncedAt?: SortOrder
   }
 
   export type GbpProfileSnapshotAvgOrderByAggregateInput = {
     photoCount?: SortOrder
     completenessScore?: SortOrder
+    googleAverageRating?: SortOrder
+    googleReviewCount?: SortOrder
   }
 
   export type GbpProfileSnapshotMaxOrderByAggregateInput = {
@@ -91283,6 +91345,8 @@ export namespace Prisma {
     description?: SortOrder
     photoCount?: SortOrder
     completenessScore?: SortOrder
+    googleAverageRating?: SortOrder
+    googleReviewCount?: SortOrder
     syncedAt?: SortOrder
   }
 
@@ -91296,12 +91360,16 @@ export namespace Prisma {
     description?: SortOrder
     photoCount?: SortOrder
     completenessScore?: SortOrder
+    googleAverageRating?: SortOrder
+    googleReviewCount?: SortOrder
     syncedAt?: SortOrder
   }
 
   export type GbpProfileSnapshotSumOrderByAggregateInput = {
     photoCount?: SortOrder
     completenessScore?: SortOrder
+    googleAverageRating?: SortOrder
+    googleReviewCount?: SortOrder
   }
 
   export type EnumPlanTierFilter<$PrismaModel = never> = {
@@ -102166,6 +102234,8 @@ export namespace Prisma {
     description?: string | null
     photoCount?: number | null
     completenessScore: number
+    googleAverageRating?: number | null
+    googleReviewCount?: number | null
     syncedAt?: Date | string
   }
 
@@ -102180,6 +102250,8 @@ export namespace Prisma {
     description?: string | null
     photoCount?: number | null
     completenessScore: number
+    googleAverageRating?: number | null
+    googleReviewCount?: number | null
     syncedAt?: Date | string
   }
 
@@ -103634,6 +103706,8 @@ export namespace Prisma {
     description?: StringNullableFilter<"GbpProfileSnapshot"> | string | null
     photoCount?: IntNullableFilter<"GbpProfileSnapshot"> | number | null
     completenessScore?: IntFilter<"GbpProfileSnapshot"> | number
+    googleAverageRating?: FloatNullableFilter<"GbpProfileSnapshot"> | number | null
+    googleReviewCount?: IntNullableFilter<"GbpProfileSnapshot"> | number | null
     syncedAt?: DateTimeFilter<"GbpProfileSnapshot"> | Date | string
   }
 
@@ -125439,6 +125513,8 @@ export namespace Prisma {
     description?: string | null
     photoCount?: number | null
     completenessScore: number
+    googleAverageRating?: number | null
+    googleReviewCount?: number | null
     syncedAt?: Date | string
   }
 
@@ -127392,6 +127468,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     photoCount?: NullableIntFieldUpdateOperationsInput | number | null
     completenessScore?: IntFieldUpdateOperationsInput | number
+    googleAverageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    googleReviewCount?: NullableIntFieldUpdateOperationsInput | number | null
     syncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -127406,6 +127484,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     photoCount?: NullableIntFieldUpdateOperationsInput | number | null
     completenessScore?: IntFieldUpdateOperationsInput | number
+    googleAverageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    googleReviewCount?: NullableIntFieldUpdateOperationsInput | number | null
     syncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -127420,6 +127500,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     photoCount?: NullableIntFieldUpdateOperationsInput | number | null
     completenessScore?: IntFieldUpdateOperationsInput | number
+    googleAverageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    googleReviewCount?: NullableIntFieldUpdateOperationsInput | number | null
     syncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

@@ -816,6 +816,8 @@ exports.Prisma.GbpProfileSnapshotScalarFieldEnum = {
   description: 'description',
   photoCount: 'photoCount',
   completenessScore: 'completenessScore',
+  googleAverageRating: 'googleAverageRating',
+  googleReviewCount: 'googleReviewCount',
   syncedAt: 'syncedAt'
 };
 
