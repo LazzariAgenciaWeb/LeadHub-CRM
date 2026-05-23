@@ -46,6 +46,26 @@ export default async function ProjectDetailPage({
     take:    30,
   });
 
+  // Tarefas abertas (snapshot do último sync). Atrasadas primeiro, depois por
+  // dueDate ascendente; tarefas sem prazo caem no final.
+  const openTasksRaw = await prisma.projectTaskState.findMany({
+    where: { projectId: project.id, isCompleted: false },
+  });
+  const openTasks = openTasksRaw
+    .map((t) => ({
+      id:         t.id,
+      taskId:     t.taskId,
+      name:       t.name,
+      statusName: t.statusName,
+      dueDate:    t.dueDate ? Number(t.dueDate) : null,
+    }))
+    .sort((a, b) => {
+      if (a.dueDate === null && b.dueDate === null) return a.name.localeCompare(b.name);
+      if (a.dueDate === null) return 1;
+      if (b.dueDate === null) return -1;
+      return a.dueDate - b.dueDate;
+    });
+
   // Empresas disponíveis pra vincular como cliente do projeto
   const clientCompanies = role === "SUPER_ADMIN"
     ? await prisma.company.findMany({
@@ -69,6 +89,7 @@ export default async function ProjectDetailPage({
       availableUsers={setorUsers.map((su) => su.user)}
       activities={activities}
       clientCompanies={clientCompanies}
+      openTasks={openTasks}
     />
   );
 }

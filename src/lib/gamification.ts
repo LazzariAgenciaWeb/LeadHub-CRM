@@ -830,6 +830,7 @@ export async function syncProjectTasks(
         statusName:    t.statusName,
         isCompleted:   t.isCompleted,
         hasNoAssignee: t.hasNoAssignee,
+        dueDate:       t.dueDate     ? BigInt(t.dueDate)     : null,
         dateUpdated:   t.dateUpdated ? BigInt(t.dateUpdated) : null,
       },
       update: {
@@ -837,6 +838,7 @@ export async function syncProjectTasks(
         statusName:    t.statusName,
         isCompleted:   t.isCompleted,
         hasNoAssignee: t.hasNoAssignee,
+        dueDate:       t.dueDate     ? BigInt(t.dueDate)     : null,
         dateUpdated:   t.dateUpdated ? BigInt(t.dateUpdated) : null,
       },
     });

@@ -1147,6 +1147,7 @@ model ProjectTaskState {
   statusName    String?
   isCompleted   Boolean          @default(false)
   hasNoAssignee Boolean          @default(false)
+  dueDate       BigInt? // epoch ms (vindo do ClickUp; null = sem prazo)
   dateUpdated   BigInt? // epoch ms
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt

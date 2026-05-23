@@ -67,13 +67,22 @@ type Activity = {
   createdAt:   Date | string;
 };
 
+type OpenTask = {
+  id:         string;
+  taskId:     string;       // ID no ClickUp (pra deep-link)
+  name:       string;
+  statusName: string | null;
+  dueDate:    number | null; // epoch ms
+};
+
 export default function ProjectDetail({
-  project, availableUsers, activities, clientCompanies,
+  project, availableUsers, activities, clientCompanies, openTasks,
 }: {
   project: Project;
   availableUsers: { id: string; name: string }[];
   activities: Activity[];
   clientCompanies: { id: string; name: string }[];
+  openTasks: OpenTask[];
 }) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
@@ -257,6 +266,49 @@ export default function ProjectDetail({
                 {project.taskNoDueDate > 0 && (
                   <div className="text-amber-400 text-xs mt-1">
                     ⚠ {project.taskNoDueDate} tarefas sem prazo no ClickUp · -3 pts/dia por membro do projeto
+                  </div>
+                )}
+
+                {/* Lista de tarefas abertas — snapshot do último sync */}
+                {openTasks.length > 0 && (
+                  <div className="mt-3 pt-3 border-t border-[#1e2d45]">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-slate-400 text-[11px] uppercase tracking-wider">
+                        Tarefas abertas ({openTasks.length})
+                      </span>
+                      <span className="text-slate-600 text-[10px]">snapshot do último sync</span>
+                    </div>
+                    <div className="space-y-1 max-h-[260px] overflow-y-auto pr-1">
+                      {openTasks.map((t) => {
+                        const overdue = t.dueDate !== null && t.dueDate < Date.now();
+                        return (
+                          <a
+                            key={t.id}
+                            href={`https://app.clickup.com/t/${t.taskId}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-start gap-2 px-2 py-1.5 rounded hover:bg-[#080b12] group"
+                            title={t.statusName ?? undefined}
+                          >
+                            <span className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${
+                              overdue ? "bg-red-400" : t.dueDate === null ? "bg-amber-400" : "bg-slate-500"
+                            }`} />
+                            <span className="text-slate-200 text-xs flex-1 group-hover:text-white truncate">
+                              {t.name}
+                            </span>
+                            {t.dueDate !== null ? (
+                              <span className={`text-[10px] font-medium flex-shrink-0 ${
+                                overdue ? "text-red-300" : "text-slate-500"
+                              }`}>
+                                {formatBrazilDate(new Date(t.dueDate))}
+                              </span>
+                            ) : (
+                              <span className="text-[10px] text-amber-400 flex-shrink-0">sem prazo</span>
+                            )}
+                          </a>
+                        );
+                      })}
+                    </div>
                   </div>
                 )}
               </>
