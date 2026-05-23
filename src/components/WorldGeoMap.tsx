@@ -22,6 +22,7 @@ import { ptCountryName, flagFromCountryCode } from "@/lib/country-flags";
 import { lookupCity } from "@/lib/city-coords";
 
 const TOPO_URL = "/maps/world-110m.json";
+const BR_GEOJSON_URL = "/maps/brasil-estados.json";
 
 interface City {
   city: string;
@@ -38,10 +39,18 @@ interface Country {
   topCities?: City[];
 }
 
+interface BrazilState {
+  uf: string;
+  name: string;
+  sessions: number;
+  users: number;
+}
+
 interface Tooltip {
   x: number;
   y: number;
   code?: string;          // país
+  uf?: string;            // estado BR (se overlay)
   cityName?: string;      // cidade (se for marcador de cidade)
   region?: string | null;
   name: string;
@@ -51,9 +60,11 @@ interface Tooltip {
 
 export default function WorldGeoMap({
   countries,
+  brazilStates = [],
   height = 360,
 }: {
   countries: Country[];
+  brazilStates?: BrazilState[];
   height?: number;
 }) {
   const [tooltip, setTooltip] = useState<Tooltip | null>(null);
@@ -66,10 +77,41 @@ export default function WorldGeoMap({
     return m;
   }, [countries]);
 
+  /** Mapa UF → BrazilState pra lookup no choropleth dos estados. */
+  const byUf = useMemo(() => {
+    const m = new Map<string, BrazilState>();
+    for (const s of brazilStates) m.set(s.uf.toUpperCase(), s);
+    return m;
+  }, [brazilStates]);
+
+  /** Mostrar overlay dos estados quando: tem dados BR + zoom suficiente OU >70% sessões são BR. */
+  const totalSessions = useMemo(
+    () => countries.reduce((sum, c) => sum + c.sessions, 0),
+    [countries]
+  );
+  const brSessions = byCode.get("BR")?.sessions ?? 0;
+  const brShare = totalSessions > 0 ? brSessions / totalSessions : 0;
+  const showBrOverlay = brazilStates.length > 0 && (zoom >= 2 || brShare >= 0.7);
+
   const max = useMemo(
     () => Math.max(1, ...countries.map((c) => c.sessions)),
     [countries]
   );
+
+  const stateMax = useMemo(
+    () => Math.max(1, ...brazilStates.map((s) => s.sessions)),
+    [brazilStates]
+  );
+
+  /** Cor pros estados BR — gradiente verde-amarelo (distingue do choropleth azul de países). */
+  function stateColorFor(sessions: number): string {
+    if (!sessions) return "rgba(255,255,255,0.04)"; // quase invisível: estado sem dado
+    const ratio = Math.min(1, sessions / stateMax);
+    const hue = 145 - ratio * 35;   // 145 (verde) → 110 (verde-amarelo)
+    const sat = 65 + ratio * 25;
+    const light = 30 + ratio * 30;
+    return `hsl(${hue}, ${sat}%, ${light}%)`;
+  }
 
   // Coleta marcadores de cidade — combina country.code + topCities + lookup de coords
   const cityMarkers = useMemo(() => {
@@ -172,6 +214,50 @@ export default function WorldGeoMap({
             }
           </Geographies>
 
+          {/* Overlay dos estados do Brasil — choropleth verde por cima quando relevante.
+              Renderiza só quando há dados de UF e (zoom >= 2 OU >70% sessões são BR).
+              Sem dado por estado: fill quase transparente, mostra só contorno. */}
+          {showBrOverlay && (
+            <Geographies geography={BR_GEOJSON_URL}>
+              {({ geographies }) =>
+                geographies.map((geo: any) => {
+                  const uf = (geo.properties?.UF || "").toUpperCase();
+                  const stData = byUf.get(uf);
+                  return (
+                    <Geography
+                      key={`br-${geo.rsmKey}`}
+                      geography={geo}
+                      fill={stateColorFor(stData?.sessions ?? 0)}
+                      stroke="#06b6d4"
+                      strokeWidth={0.5}
+                      strokeOpacity={0.7}
+                      onMouseEnter={(e: any) => {
+                        const rect = (e.currentTarget as SVGElement).getBoundingClientRect();
+                        const containerRect = (e.currentTarget.ownerSVGElement?.parentElement as HTMLElement)?.getBoundingClientRect();
+                        if (!containerRect) return;
+                        setTooltip({
+                          x: rect.left + rect.width / 2 - containerRect.left,
+                          y: rect.top - containerRect.top,
+                          code: "BR",
+                          uf,
+                          name: stData?.name || geo.properties?.ESTADO || uf,
+                          sessions: stData?.sessions ?? 0,
+                          users: stData?.users ?? 0,
+                        });
+                      }}
+                      onMouseLeave={() => setTooltip(null)}
+                      style={{
+                        default: { outline: "none", transition: "fill 0.2s" },
+                        hover:   { outline: "none", fill: "#10b981", cursor: "pointer" },
+                        pressed: { outline: "none" },
+                      }}
+                    />
+                  );
+                })
+              }
+            </Geographies>
+          )}
+
           {/* Marcadores de cidade — bolinhas proporcionais a sessions */}
           {cityMarkers.map((m, i) => {
             const r = cityRadius(m.sessions);
@@ -219,6 +305,14 @@ export default function WorldGeoMap({
         </ZoomableGroup>
       </ComposableMap>
 
+      {/* Badge "Estados BR" — mostra que o overlay está ativo */}
+      {showBrOverlay && (
+        <div className="absolute top-2 left-2 bg-emerald-500/15 border border-emerald-500/40 backdrop-blur-sm rounded px-2 py-1 text-[10px] text-emerald-300 font-semibold z-10 flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          Brasil · {brazilStates.length} estado{brazilStates.length !== 1 ? "s" : ""}
+        </div>
+      )}
+
       {/* Controles de zoom */}
       <div className="absolute top-2 right-2 flex flex-col gap-1 bg-black/40 backdrop-blur-sm rounded-md p-1 z-10">
         <button
@@ -238,9 +332,16 @@ export default function WorldGeoMap({
         <button
           onClick={() => { setZoom(1); setCenter([0, 20]); }}
           className="w-7 h-7 flex items-center justify-center rounded text-slate-400 hover:bg-white/10 hover:text-white text-[10px] font-bold leading-none"
-          title="Centralizar"
+          title="Centralizar mundo"
         >
           ⌂
+        </button>
+        <button
+          onClick={() => { setZoom(3.5); setCenter([-52, -14]); }}
+          className="w-7 h-7 flex items-center justify-center rounded hover:bg-emerald-500/20 text-sm leading-none"
+          title="Zoom no Brasil"
+        >
+          🇧🇷
         </button>
       </div>
 
@@ -260,6 +361,9 @@ export default function WorldGeoMap({
             <span className="text-white font-semibold">
               {tooltip.cityName ? tooltip.cityName : tooltip.name}
             </span>
+            {tooltip.uf && !tooltip.cityName && (
+              <span className="text-emerald-400 text-[10px] font-mono bg-emerald-500/15 px-1 rounded">{tooltip.uf}</span>
+            )}
           </div>
           {tooltip.cityName && tooltip.region && (
             <div className="text-slate-500 text-[10px] mb-0.5 ml-5">

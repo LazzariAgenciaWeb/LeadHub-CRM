@@ -290,10 +290,10 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
 
     for (const row of geoRows) {
       const date = parseGADate(row.dimensionValues[0].value);
-      const countryName = row.dimensionValues[1].value || null;
-      const countryCode = row.dimensionValues[2].value || null; // ISO 3166-1 alpha-2
-      const region = row.dimensionValues[3].value || null;
-      const city = row.dimensionValues[4].value || null;
+      const countryName = cleanGAValue(row.dimensionValues[1].value);
+      const countryCode = cleanGAValue(row.dimensionValues[2].value); // ISO 3166-1 alpha-2
+      const region = cleanGAValue(row.dimensionValues[3].value);
+      const city = cleanGAValue(row.dimensionValues[4].value);
 
       await prisma.analyticsGeoData.upsert({
         where: {
@@ -363,4 +363,17 @@ function compactDate(d: Date): string {
   const m = String(d.getUTCMonth() + 1).padStart(2, "0");
   const day = String(d.getUTCDate()).padStart(2, "0");
   return `${y}${m}${day}`;
+}
+
+/**
+ * GA4 retorna "(not set)" ou "(not provided)" pra dimensões que não conseguiu
+ * determinar (privacidade, dados insuficientes, geo desativado etc).
+ * Tratar como null evita poluir a UI com "linhas (not set)" sem valor real.
+ */
+function cleanGAValue(v: string | null | undefined): string | null {
+  if (!v) return null;
+  const t = v.trim();
+  if (!t) return null;
+  if (t === "(not set)" || t === "(not provided)" || t === "(other)") return null;
+  return t;
 }

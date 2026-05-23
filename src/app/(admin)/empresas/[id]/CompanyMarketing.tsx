@@ -34,6 +34,10 @@ interface MarketingData {
     code: string; name: string; sessions: number; users: number;
     topCities: { city: string; sessions: number; users: number; region: string | null }[];
   }[];
+  brazilStates?: {
+    uf: string; name: string; sessions: number; users: number; cityCount: number;
+    topCities: { city: string; sessions: number; users: number }[];
+  }[];
   topQueries: {
     query: string; clicks: number; impressions: number; ctr: number;
     position: number;
@@ -351,7 +355,7 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
             </div>
             <span className="text-[10px] text-slate-600">{data.countries.length} países</span>
           </div>
-          <WorldGeoMap countries={data.countries} height={380} />
+          <WorldGeoMap countries={data.countries} brazilStates={data.brazilStates ?? []} height={380} />
         </div>
       )}
 

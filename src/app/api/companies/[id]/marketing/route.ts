@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { authorizeVaultAccess } from "@/lib/vault-auth";
 import { classifyTrafficSource, type TrafficBucket } from "@/lib/traffic-classifier";
 import { assertModule } from "@/lib/billing";
+import { resolveUf, ufName } from "@/lib/br-states";
 
 // GET /api/companies/[id]/marketing?days=30
 //
@@ -156,9 +157,24 @@ export async function GET(
     },
     select: { countryCode: true, countryName: true, region: true, city: true, sessions: true, users: true },
   });
+  // Filtros GA4: "(not set)" / "(not provided)" são lixo do GA4 quando ele
+  // não conseguiu determinar o dado. Aplicar aqui também (não só no sync)
+  // pra cobrir dados antigos já gravados antes do filtro entrar no ga4-sync.
+  const isReal = (v: string | null | undefined): v is string =>
+    !!v && v !== "(not set)" && v !== "(not provided)" && v !== "(other)";
+
+  let geoStatsTotalRows = 0;
+  let geoStatsWithCity = 0;
+  let geoStatsNotSetCount = 0;
+
+  // Agregado por UF brasileira (alimenta o overlay do mapa do Brasil).
+  // Chave: sigla UF; valor: sessões + users + lista de cidades.
+  const brStatesMap = new Map<string, { uf: string; name: string; sessions: number; users: number; cities: Map<string, { sessions: number; users: number }> }>();
+
   const countriesMap = new Map<string, { code: string; name: string; sessions: number; users: number; cities: Map<string, { sessions: number; users: number; region: string | null }> }>();
   for (const g of geoRaw) {
-    const code = g.countryCode || "??";
+    geoStatsTotalRows++;
+    const code = isReal(g.countryCode) ? g.countryCode : "??";
     const name = g.countryName || "Desconhecido";
     if (!countriesMap.has(code)) {
       countriesMap.set(code, { code, name, sessions: 0, users: 0, cities: new Map() });
@@ -166,15 +182,51 @@ export async function GET(
     const c = countriesMap.get(code)!;
     c.sessions += g.sessions;
     c.users += g.users;
-    if (g.city) {
+    if (isReal(g.city)) {
+      geoStatsWithCity++;
       if (!c.cities.has(g.city)) {
-        c.cities.set(g.city, { sessions: 0, users: 0, region: g.region });
+        c.cities.set(g.city, { sessions: 0, users: 0, region: isReal(g.region) ? g.region : null });
       }
       const ct = c.cities.get(g.city)!;
       ct.sessions += g.sessions;
       ct.users += g.users;
+    } else if (g.city) {
+      geoStatsNotSetCount++;
+    }
+
+    // Agregação por UF brasileira (independente de city ter ou não vindo)
+    if (code === "BR" && isReal(g.region)) {
+      const uf = resolveUf(g.region);
+      if (uf) {
+        if (!brStatesMap.has(uf)) {
+          brStatesMap.set(uf, { uf, name: ufName(uf), sessions: 0, users: 0, cities: new Map() });
+        }
+        const st = brStatesMap.get(uf)!;
+        st.sessions += g.sessions;
+        st.users += g.users;
+        if (isReal(g.city)) {
+          if (!st.cities.has(g.city)) st.cities.set(g.city, { sessions: 0, users: 0 });
+          const stCt = st.cities.get(g.city)!;
+          stCt.sessions += g.sessions;
+          stCt.users += g.users;
+        }
+      }
     }
   }
+
+  const brazilStates = Array.from(brStatesMap.values())
+    .map((s) => ({
+      uf: s.uf,
+      name: s.name,
+      sessions: s.sessions,
+      users: s.users,
+      cityCount: s.cities.size,
+      topCities: Array.from(s.cities.entries())
+        .map(([city, v]) => ({ city, sessions: v.sessions, users: v.users }))
+        .sort((a, b) => b.sessions - a.sessions)
+        .slice(0, 5),
+    }))
+    .sort((a, b) => b.sessions - a.sessions);
   const countries = Array.from(countriesMap.values())
     .map((c) => ({
       code: c.code,
@@ -286,6 +338,14 @@ export async function GET(
     trafficBuckets,
     topPages,
     countries,
+    brazilStates,
+    geoStats: {
+      // Diagnóstico: quantas linhas o GA4 entregou e quantas tinham cidade real.
+      // Diego pode ver se "cidades sumiram" é falta de dado vs lixo do GA4.
+      totalRows: geoStatsTotalRows,
+      withCity: geoStatsWithCity,
+      notSetCount: geoStatsNotSetCount,
+    },
     topQueries,
     searchConsole: {
       totalClicks: scTotal.clicks,
