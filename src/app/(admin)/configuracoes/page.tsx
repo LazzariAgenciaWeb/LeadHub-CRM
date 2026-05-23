@@ -235,6 +235,8 @@ export default async function ConfiguracoesPage({
         `clickup_webhook_secret:${cId}`,
         `clickup_oportunidades_list_id:${cId}`,
         `clickup_tickets_list_id:${cId}`,
+        `clickup_status_ganho:${cId}`,
+        `clickup_status_perdido:${cId}`,
       ];
       const settingsRaw = await prisma.setting.findMany({ where: { key: { in: keys } } });
       const map: Record<string, string> = {};
@@ -247,6 +249,8 @@ export default async function ConfiguracoesPage({
           webhookSecret={map[`clickup_webhook_secret:${cId}`] ?? ""}
           opListId={map[`clickup_oportunidades_list_id:${cId}`] ?? ""}
           ticketListId={map[`clickup_tickets_list_id:${cId}`] ?? ""}
+          statusGanho={map[`clickup_status_ganho:${cId}`] ?? "ganho"}
+          statusPerdido={map[`clickup_status_perdido:${cId}`] ?? "perdido"}
         />
       );
     }

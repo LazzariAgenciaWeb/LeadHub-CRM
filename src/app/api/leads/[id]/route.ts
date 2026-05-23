@@ -324,10 +324,10 @@ export async function PATCH(
     if (clickupSettings?.oportunidadesListId) {
       const effectiveClickupId = lead.clickupTaskId ?? null;
       const trackingLink = (lead as any).trackingLink;
-      // Status ClickUp: CLOSED → "ganho", LOST → "perdido", senão usa a etapa do pipeline
+      // Status ClickUp: CLOSED → configurável (default "ganho"), LOST → configurável (default "perdido")
       const clickupStatus =
-        effectiveStatus === "CLOSED" ? "ganho" :
-        effectiveStatus === "LOST"   ? "perdido" :
+        effectiveStatus === "CLOSED" ? clickupSettings.statusGanho :
+        effectiveStatus === "LOST"   ? clickupSettings.statusPerdido :
         lead.pipelineStage ?? undefined;
       const newTaskId = await syncOportunidadeToClickup({
         settings: clickupSettings,

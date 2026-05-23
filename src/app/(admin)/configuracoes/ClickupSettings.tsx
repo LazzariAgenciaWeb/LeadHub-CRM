@@ -11,6 +11,8 @@ interface Props {
   webhookSecret: string;
   opListId:      string;
   ticketListId:  string;
+  statusGanho:   string;
+  statusPerdido: string;
 }
 
 export default function ClickupSettings({
@@ -19,6 +21,8 @@ export default function ClickupSettings({
   webhookSecret: initialSecret,
   opListId: initialOp,
   ticketListId: initialTk,
+  statusGanho: initialGanho,
+  statusPerdido: initialPerdido,
 }: Props) {
   const router = useRouter();
 
@@ -26,6 +30,8 @@ export default function ClickupSettings({
   const [webhookSecret, setWebhookSecret] = useState(initialSecret);
   const [opListId, setOpListId] = useState(initialOp);
   const [ticketListId, setTicketListId] = useState(initialTk);
+  const [statusGanho, setStatusGanho] = useState(initialGanho);
+  const [statusPerdido, setStatusPerdido] = useState(initialPerdido);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [testing, setTesting] = useState(false);
@@ -38,10 +44,12 @@ export default function ClickupSettings({
     ? `${window.location.origin}/api/webhook/clickup/${companyId}`
     : "";
 
-  const tokenKey  = `clickup_api_token:${companyId}`;
-  const secretKey = `clickup_webhook_secret:${companyId}`;
-  const opKey     = `clickup_oportunidades_list_id:${companyId}`;
-  const ticketKey = `clickup_tickets_list_id:${companyId}`;
+  const tokenKey        = `clickup_api_token:${companyId}`;
+  const secretKey       = `clickup_webhook_secret:${companyId}`;
+  const opKey           = `clickup_oportunidades_list_id:${companyId}`;
+  const ticketKey       = `clickup_tickets_list_id:${companyId}`;
+  const statusGanhoKey  = `clickup_status_ganho:${companyId}`;
+  const statusPerdidoKey= `clickup_status_perdido:${companyId}`;
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
@@ -49,10 +57,12 @@ export default function ClickupSettings({
     setTestResult(null);
 
     const items: { key: string; value: string }[] = [
-      { key: tokenKey,  value: apiToken },
-      { key: secretKey, value: webhookSecret },
-      { key: opKey,     value: opListId },
-      { key: ticketKey, value: ticketListId },
+      { key: tokenKey,         value: apiToken },
+      { key: secretKey,        value: webhookSecret },
+      { key: opKey,            value: opListId },
+      { key: ticketKey,        value: ticketListId },
+      { key: statusGanhoKey,   value: statusGanho.trim() || "ganho" },
+      { key: statusPerdidoKey, value: statusPerdido.trim() || "perdido" },
     ];
 
     await fetch("/api/settings", {
@@ -242,6 +252,41 @@ export default function ClickupSettings({
             <p className="text-slate-600 text-[10px] mt-1">
               Lista onde novos chamados viram tarefas.
             </p>
+          </div>
+
+          {/* Mapeamento de status — Oportunidades */}
+          <div className="border-t border-[#1e2d45] pt-5">
+            <h3 className="text-slate-300 font-semibold text-sm mb-1">🏷️ Status de Oportunidades</h3>
+            <p className="text-slate-500 text-xs mb-4">
+              Nome exato do status no ClickUp que será definido ao fechar ou perder uma oportunidade.
+              Use o nome como aparece no ClickUp (ex: <span className="text-slate-300 font-mono">GANHO</span>).
+            </p>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                  ✅ Quando <span className="text-green-400">Ganho</span>
+                </label>
+                <input
+                  type="text"
+                  value={statusGanho}
+                  onChange={(e) => setStatusGanho(e.target.value)}
+                  placeholder="ganho"
+                  className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
+                />
+              </div>
+              <div>
+                <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                  ❌ Quando <span className="text-red-400">Perdido</span>
+                </label>
+                <input
+                  type="text"
+                  value={statusPerdido}
+                  onChange={(e) => setStatusPerdido(e.target.value)}
+                  placeholder="perdido"
+                  className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
+                />
+              </div>
+            </div>
           </div>
 
           <button

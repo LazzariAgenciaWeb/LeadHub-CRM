@@ -7,6 +7,8 @@ export interface ClickupSettings {
   apiToken: string;
   oportunidadesListId: string;
   ticketsListId: string;
+  statusGanho: string;   // nome do status ClickUp quando oportunidade é ganha (default: "ganho")
+  statusPerdido: string; // nome do status ClickUp quando oportunidade é perdida (default: "perdido")
 }
 
 // ── Config ────────────────────────────────────────────────────────────────────
@@ -56,6 +58,8 @@ export async function getClickupSettings(companyId?: string): Promise<ClickupSet
     `clickup_api_token:${companyId}`,
     `clickup_oportunidades_list_id:${companyId}`,
     `clickup_tickets_list_id:${companyId}`,
+    `clickup_status_ganho:${companyId}`,
+    `clickup_status_perdido:${companyId}`,
   ];
   const rows = await prisma.setting.findMany({ where: { key: { in: keys } } });
   const map: Record<string, string> = {};
@@ -64,9 +68,11 @@ export async function getClickupSettings(companyId?: string): Promise<ClickupSet
   const apiToken            = map[`clickup_api_token:${companyId}`]?.trim()            ?? "";
   const oportunidadesListId = map[`clickup_oportunidades_list_id:${companyId}`]?.trim() ?? "";
   const ticketsListId       = map[`clickup_tickets_list_id:${companyId}`]?.trim()      ?? "";
+  const statusGanho         = map[`clickup_status_ganho:${companyId}`]?.trim()         || "ganho";
+  const statusPerdido       = map[`clickup_status_perdido:${companyId}`]?.trim()       || "perdido";
 
   if (!apiToken) return null;
-  return { apiToken, oportunidadesListId, ticketsListId };
+  return { apiToken, oportunidadesListId, ticketsListId, statusGanho, statusPerdido };
 }
 
 /**
