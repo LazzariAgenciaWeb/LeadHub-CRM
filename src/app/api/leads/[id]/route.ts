@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { getClickupSettings, syncOportunidadeToClickup } from "@/lib/clickup";
+import { getClickupSettings, syncOportunidadeToClickup, addCommentToClickupTask } from "@/lib/clickup";
 import { formatBrazilDateTime, formatBrazilDateTimeShort } from "@/lib/datetime";
 import { addScore, addScoreOnce, revertScore } from "@/lib/gamification";
 import { getUserPermissions } from "@/lib/user-permissions";
@@ -336,6 +336,33 @@ export async function PATCH(
       if (newTaskId && !effectiveClickupId) {
         await prisma.lead.update({ where: { id }, data: { clickupTaskId: newTaskId } });
         (lead as any).clickupTaskId = newTaskId;
+      }
+
+      // Quando oportunidade é fechada (ganha), posta comentário no ClickUp
+      // com valor e autor — fica registrado na task para o time ver.
+      const taskId = (lead as any).clickupTaskId ?? newTaskId;
+      if (taskId && effectiveStatus === "CLOSED" && existing.status !== "CLOSED") {
+        const valueStr = lead.value
+          ? `R$ ${lead.value.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`
+          : null;
+        const authorLabel = session.user?.name ? ` por ${session.user.name}` : "";
+        const closedMsg = ["🎉 Oportunidade fechada" + authorLabel, valueStr]
+          .filter(Boolean).join(" — ");
+        await addCommentToClickupTask({
+          apiToken: clickupSettings.apiToken,
+          taskId,
+          comment: closedMsg,
+        }).catch(() => { /* não crítico */ });
+      }
+
+      // Quando oportunidade é perdida, posta comentário no ClickUp também
+      if (taskId && effectiveStatus === "LOST" && existing.status !== "LOST") {
+        const authorLabel = session.user?.name ? ` por ${session.user.name}` : "";
+        await addCommentToClickupTask({
+          apiToken: clickupSettings.apiToken,
+          taskId,
+          comment: `❌ Oportunidade perdida${authorLabel}`,
+        }).catch(() => { /* não crítico */ });
       }
     }
   }
