@@ -267,10 +267,25 @@ export default function CompanyGbpSection({ companyId, days = 30 }: { companyId:
             deltaPct={kpis.actions.deltaPct}
             color="blue"
             subtitle={
-              <div className="flex items-center gap-2 text-[10px] text-slate-500">
-                <span className="inline-flex items-center gap-0.5"><Phone className="w-2.5 h-2.5" /> {kpis.actions.breakdown.calls}</span>
-                <span className="inline-flex items-center gap-0.5"><Navigation className="w-2.5 h-2.5" /> {kpis.actions.breakdown.directions}</span>
-                <span className="inline-flex items-center gap-0.5"><Globe className="w-2.5 h-2.5" /> {kpis.actions.breakdown.website}</span>
+              <div className="flex flex-wrap gap-1.5 mt-1">
+                <ActionTag
+                  icon={<Phone className="w-3 h-3" strokeWidth={2.5} />}
+                  label="Ligações"
+                  value={kpis.actions.breakdown.calls}
+                  color="emerald"
+                />
+                <ActionTag
+                  icon={<Navigation className="w-3 h-3" strokeWidth={2.5} />}
+                  label="Rotas"
+                  value={kpis.actions.breakdown.directions}
+                  color="violet"
+                />
+                <ActionTag
+                  icon={<Globe className="w-3 h-3" strokeWidth={2.5} />}
+                  label="Site"
+                  value={kpis.actions.breakdown.website}
+                  color="sky"
+                />
               </div>
             }
           />
@@ -435,6 +450,28 @@ function KpiCard({
         )}
       </div>
     </div>
+  );
+}
+
+function ActionTag({
+  icon, label, value, color,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: number;
+  color: "emerald" | "violet" | "sky";
+}) {
+  const cls = {
+    emerald: "bg-emerald-500/10 border-emerald-500/30 text-emerald-300",
+    violet:  "bg-violet-500/10 border-violet-500/30 text-violet-300",
+    sky:     "bg-sky-500/10 border-sky-500/30 text-sky-300",
+  }[color];
+  return (
+    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-md border text-[11px] font-semibold ${cls}`}>
+      {icon}
+      <span className="font-mono">{value.toLocaleString("pt-BR")}</span>
+      <span className="opacity-75 font-normal">{label}</span>
+    </span>
   );
 }
 
