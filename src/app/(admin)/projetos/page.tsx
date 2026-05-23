@@ -7,26 +7,40 @@ import SyncAllButton from "./SyncAllButton";
 
 export const dynamic = "force-dynamic";
 
-export default async function ProjetosPage() {
+export default async function ProjetosPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ companyId?: string }>;
+}) {
   const session = await getEffectiveSession();
   if (!session) return null;
 
   const role          = (session.user as any).role as string;
+  const userId        = (session.user as any).id as string | undefined;
   const userCompanyId = (session.user as any).companyId as string | undefined;
+  const isSuperAdmin  = role === "SUPER_ADMIN";
 
-  const where = role === "SUPER_ADMIN"
-    ? {}
+  const sp = await searchParams;
+  const filterCompanyId = isSuperAdmin ? (sp.companyId ?? "") : (userCompanyId ?? "");
+
+  const where = isSuperAdmin
+    ? (filterCompanyId ? { setor: { companyId: filterCompanyId } } : {})
     : { setor: { companyId: userCompanyId } };
 
-  const projects = await prisma.setorClickupList.findMany({
-    where,
-    include: {
-      setor:         { select: { id: true, name: true } },
-      clientCompany: { select: { id: true, name: true } },
-      members:       { include: { user: { select: { id: true, name: true } } } },
-    },
-    orderBy: [{ dueDate: "asc" }, { createdAt: "desc" }],
-  });
+  const [projects, companies] = await Promise.all([
+    prisma.setorClickupList.findMany({
+      where,
+      include: {
+        setor:         { select: { id: true, name: true } },
+        clientCompany: { select: { id: true, name: true } },
+        members:       { include: { user: { select: { id: true, name: true } } } },
+      },
+      orderBy: [{ dueDate: "asc" }, { createdAt: "desc" }],
+    }),
+    isSuperAdmin
+      ? prisma.company.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } })
+      : Promise.resolve([] as { id: string; name: string }[]),
+  ]);
 
   return (
     <div className="p-6">
@@ -48,7 +62,13 @@ export default async function ProjetosPage() {
         </div>
       </div>
 
-      <ProjetosBoard projects={projects as any} />
+      <ProjetosBoard
+        projects={projects as any}
+        currentUserId={userId ?? ""}
+        isSuperAdmin={isSuperAdmin}
+        companies={companies}
+        filterCompanyId={filterCompanyId}
+      />
     </div>
   );
 }

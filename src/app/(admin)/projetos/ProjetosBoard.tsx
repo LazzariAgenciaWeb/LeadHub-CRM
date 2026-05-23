@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { ProjectStatus } from "@/generated/prisma";
-import { ExternalLink } from "lucide-react";
+import {
+  ExternalLink, Filter as FilterIcon, User as UserIcon, Clock, AlertCircle, CalendarOff,
+} from "lucide-react";
 
 type Project = {
   id:              string;
@@ -25,6 +27,8 @@ type Project = {
   members:         { user: { id: string; name: string } }[];
 };
 
+type QuickFilter = "all" | "mine" | "overdue" | "unassigned" | "noDueDate";
+
 const COLUMNS: { status: ProjectStatus; label: string; color: string }[] = [
   { status: "PLANEJAMENTO",       label: "Planejamento",       color: "border-slate-500/30 bg-slate-500/5" },
   { status: "EM_ANDAMENTO",       label: "Em andamento",       color: "border-blue-500/30 bg-blue-500/5" },
@@ -41,11 +45,67 @@ const TYPE_BADGE: Record<string, string> = {
   OUTRO:    "bg-slate-500/20 text-slate-300",
 };
 
-export default function ProjetosBoard({ projects }: { projects: Project[] }) {
+export default function ProjetosBoard({
+  projects,
+  currentUserId,
+  isSuperAdmin,
+  companies,
+  filterCompanyId,
+}: {
+  projects: Project[];
+  currentUserId: string;
+  isSuperAdmin: boolean;
+  companies: { id: string; name: string }[];
+  filterCompanyId: string;
+}) {
   const router = useRouter();
   const [_, startTransition] = useTransition();
   const [draggingId, setDraggingId]   = useState<string | null>(null);
   const [hoverColumn, setHoverColumn] = useState<ProjectStatus | null>(null);
+  const [search, setSearch]           = useState("");
+  const [quickFilter, setQuickFilter] = useState<QuickFilter>("all");
+
+  function isFinalized(p: Project) {
+    return p.status === "ENTREGUE" || p.status === "CANCELADO";
+  }
+
+  // Contagens dos filtros — sempre considera o universo aberto (não-finalizado)
+  const filterCounts = useMemo(() => {
+    const now = Date.now();
+    return projects.reduce(
+      (acc, p) => {
+        const open = !isFinalized(p);
+        if (open && p.members.some((m) => m.user.id === currentUserId)) acc.mine++;
+        if (open && p.dueDate && new Date(p.dueDate).getTime() < now)   acc.overdue++;
+        if (open && p.members.length === 0)                             acc.unassigned++;
+        if (open && !p.dueDate)                                         acc.noDueDate++;
+        return acc;
+      },
+      { mine: 0, overdue: 0, unassigned: 0, noDueDate: 0 }
+    );
+  }, [projects, currentUserId]);
+
+  const filteredProjects = useMemo(() => {
+    const now = Date.now();
+    const q = search.trim().toLowerCase();
+    return projects.filter((p) => {
+      if (quickFilter !== "all") {
+        const open = !isFinalized(p);
+        if (quickFilter === "mine"       && !(open && p.members.some((m) => m.user.id === currentUserId))) return false;
+        if (quickFilter === "overdue"    && !(open && p.dueDate && new Date(p.dueDate).getTime() < now))   return false;
+        if (quickFilter === "unassigned" && !(open && p.members.length === 0))                              return false;
+        if (quickFilter === "noDueDate"  && !(open && !p.dueDate))                                          return false;
+      }
+      if (!q) return true;
+      return (
+        p.name.toLowerCase().includes(q) ||
+        (p.type?.toLowerCase().includes(q) ?? false) ||
+        (p.setor?.name.toLowerCase().includes(q) ?? false) ||
+        (p.clientCompany?.name.toLowerCase().includes(q) ?? false) ||
+        p.members.some((m) => m.user.name.toLowerCase().includes(q))
+      );
+    });
+  }, [projects, quickFilter, search, currentUserId]);
 
   function onDragStart(e: React.DragEvent, projectId: string) {
     setDraggingId(projectId);
@@ -82,15 +142,75 @@ export default function ProjetosBoard({ projects }: { projects: Project[] }) {
 
   const grouped = COLUMNS.map((col) => ({
     ...col,
-    items: projects.filter((p) => p.status === col.status),
+    items: filteredProjects.filter((p) => p.status === col.status),
   }));
 
+  const quickFilterDefs: { key: QuickFilter; label: string; Icon: any; color: string; count?: number }[] = [
+    { key: "all",        label: "Todos",           Icon: FilterIcon,  color: "" },
+    { key: "mine",       label: "Meus",            Icon: UserIcon,    color: "bg-indigo-500/15 text-indigo-300 border-indigo-500/30",  count: filterCounts.mine },
+    { key: "overdue",    label: "Atrasados",       Icon: Clock,       color: "bg-red-500/15 text-red-300 border-red-500/30",          count: filterCounts.overdue },
+    { key: "unassigned", label: "Sem responsável", Icon: AlertCircle, color: "bg-slate-500/15 text-slate-300 border-slate-500/30",    count: filterCounts.unassigned },
+    { key: "noDueDate",  label: "Sem prazo",       Icon: CalendarOff, color: "bg-amber-500/15 text-amber-300 border-amber-500/30",    count: filterCounts.noDueDate },
+  ];
+
   return (
-    // Scroll horizontal em qualquer viewport: evita esmagar as 6 colunas em
-    // telas pequenas/médias. Cada coluna mantém largura mínima legível e
-    // espaçamento confortável entre cards.
-    <div className="-mx-6 px-6 overflow-x-auto pb-2">
-      <div className="flex gap-4 min-w-max">
+    <>
+      {/* Barra de filtros: empresa (super admin) + busca + atalhos */}
+      <div className="flex flex-col gap-3 mb-4">
+        <div className="flex items-center gap-2 flex-wrap">
+          {isSuperAdmin && companies.length > 0 && (
+            <select
+              value={filterCompanyId}
+              onChange={(e) => router.push(`/projetos?companyId=${e.target.value}`)}
+              className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-slate-300 focus:outline-none focus:border-indigo-500"
+            >
+              <option value="">Todas as empresas</option>
+              {companies.map((c) => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
+          )}
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Buscar projeto, setor, cliente, responsável..."
+            className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 w-64"
+          />
+          <span className="text-slate-600 text-xs ml-auto">
+            {filteredProjects.length} de {projects.length}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2 flex-wrap">
+          {quickFilterDefs.map(({ key, label, Icon, color, count }) => {
+            const isActive = quickFilter === key;
+            return (
+              <button
+                key={key}
+                onClick={() => setQuickFilter(key)}
+                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold border transition-colors ${
+                  isActive
+                    ? (color || "bg-white/10 text-white border-white/20")
+                    : "bg-[#0f1623] border-[#1e2d45] text-slate-500 hover:text-white hover:border-slate-600"
+                }`}
+              >
+                <Icon className="w-3 h-3" strokeWidth={2.5} />
+                {label}
+                {count !== undefined && count > 0 && (
+                  <span className={`text-[9px] font-bold px-1 rounded-full ${isActive ? "bg-white/15" : "bg-white/10"}`}>{count}</span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Scroll horizontal em qualquer viewport: evita esmagar as 6 colunas em
+          telas pequenas/médias. Cada coluna mantém largura mínima legível e
+          espaçamento confortável entre cards. */}
+      <div className="-mx-6 px-6 overflow-x-auto pb-2">
+        <div className="flex gap-4 min-w-max">
         {grouped.map((col) => {
           const isHover = hoverColumn === col.status;
           return (
@@ -129,8 +249,9 @@ export default function ProjetosBoard({ projects }: { projects: Project[] }) {
             </div>
           );
         })}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
