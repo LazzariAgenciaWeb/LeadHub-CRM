@@ -2,6 +2,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
+import { startOfTodayInSystemTZ, endOfTodayInSystemTZ } from "@/lib/datetime";
 import TicketDetail from "./TicketDetail";
 
 export default async function TicketPage({
@@ -64,13 +65,17 @@ export default async function TicketPage({
     })),
   };
 
-  // Janela do chamado para filtrar conversa WhatsApp:
-  //   openedAt = createdAt
-  //   closedAt = última STATUS_CHANGED para RESOLVED/CLOSED (se houver),
-  //              senão fallback updatedAt. Só preenchido se o ticket está
-  //              em status final — chamado aberto não tem corte superior.
+  // Janela do chamado para filtrar conversa WhatsApp — usa DIA-CALENDÁRIO
+  // inteiro, não o instante exato:
+  //   since = 00:00 do dia em que o chamado foi criado (TZ Brasil)
+  //   until = 23:59 do dia em que foi fechado (TZ Brasil), só se status final
+  //
+  // Por quê: o cliente manda a solicitação pelo WhatsApp ANTES da gente
+  // abrir o chamado (atendente lê, identifica, abre). Filtrar a partir do
+  // instante exato de criação esconde justamente a mensagem que originou o
+  // chamado. Pegando o dia inteiro a gente preserva o contexto.
   const isFinalStatus = ticketRaw.status === "RESOLVED" || ticketRaw.status === "CLOSED";
-  let closedAt: Date | null = null;
+  let closeRef: Date | null = null;
   if (isFinalStatus) {
     const lastClose = [...ticketRaw.activities]
       .reverse()
@@ -79,9 +84,10 @@ export default async function TicketPage({
         const to = (a.meta as any)?.to;
         return to === "RESOLVED" || to === "CLOSED";
       });
-    closedAt = lastClose?.createdAt ?? ticketRaw.updatedAt;
+    closeRef = lastClose?.createdAt ?? ticketRaw.updatedAt;
   }
-  const openedAt = ticketRaw.createdAt;
+  const whatsappSince = startOfTodayInSystemTZ(ticketRaw.createdAt);
+  const whatsappUntil = closeRef ? endOfTodayInSystemTZ(closeRef) : null;
 
   // Lookups para edição inline (cliente, atendente, setor)
   const lookupCompanyId = ticket.companyId;
@@ -158,8 +164,8 @@ export default async function TicketPage({
       clientCompanies={clientCompanies as any}
       whatsappEnabled={whatsappEnabled}
       whatsappWindow={{
-        openedAt: openedAt.toISOString(),
-        closedAt: closedAt ? closedAt.toISOString() : null,
+        openedAt: whatsappSince.toISOString(),
+        closedAt: whatsappUntil ? whatsappUntil.toISOString() : null,
       }}
     />
   );
