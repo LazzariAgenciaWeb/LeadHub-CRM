@@ -30,6 +30,10 @@ export async function GET(req: NextRequest) {
   const companyId = searchParams.get("companyId");
   const limitRaw  = searchParams.get("limit");
   const before    = searchParams.get("before");
+  // since/until: janela [gte, lte] em receivedAt. Usado pelo detalhe do
+  // chamado pra mostrar só mensagens trocadas entre abertura e fechamento.
+  const since     = searchParams.get("since");
+  const until     = searchParams.get("until");
 
   if (!phone) return NextResponse.json({ error: "phone é obrigatório" }, { status: 400 });
 
@@ -38,6 +42,19 @@ export async function GET(req: NextRequest) {
 
   const where: any = { phone };
   if (effectiveCompanyId) where.companyId = effectiveCompanyId;
+
+  const receivedAtFilter: { gte?: Date; lte?: Date } = {};
+  if (since) {
+    const d = new Date(since);
+    if (!Number.isNaN(d.getTime())) receivedAtFilter.gte = d;
+  }
+  if (until) {
+    const d = new Date(until);
+    if (!Number.isNaN(d.getTime())) receivedAtFilter.lte = d;
+  }
+  if (receivedAtFilter.gte || receivedAtFilter.lte) {
+    where.receivedAt = receivedAtFilter;
+  }
 
   // ATENÇÃO: NUNCA incluir `mediaBase64` nem `rawPayload` nesta listagem.
   // Em conversas com 50+ imagens isso vira 20MB+ de JSON por request — derruba
@@ -91,7 +108,7 @@ export async function GET(req: NextRequest) {
   if (before) {
     const beforeDate = new Date(before);
     if (!Number.isNaN(beforeDate.getTime())) {
-      where.receivedAt = { lt: beforeDate };
+      where.receivedAt = { ...(where.receivedAt ?? {}), lt: beforeDate };
     }
   }
 

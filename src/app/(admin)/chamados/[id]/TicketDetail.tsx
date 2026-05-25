@@ -89,6 +89,7 @@ export default function TicketDetail({
   setores,
   clientCompanies,
   whatsappEnabled = false,
+  whatsappWindow,
 }: {
   ticket: Ticket;
   isSuperAdmin: boolean;
@@ -98,6 +99,7 @@ export default function TicketDetail({
   canManage: boolean;
   currentUserName: string;
   stages: TicketStageOption[];
+  whatsappWindow?: { openedAt: string; closedAt: string | null };
   users?: { id: string; name: string | null; email: string | null }[];
   setores?: { id: string; name: string }[];
   clientCompanies?: { id: string; name: string }[];
@@ -131,6 +133,11 @@ export default function TicketDetail({
       limit: "100",
       companyId: ticket.company.id,
     });
+    // Filtra pela janela do chamado: abertura → fechamento. Evita listar
+    // conversa antiga não relacionada quando o mesmo telefone tem histórico
+    // longo. Se o chamado ainda está aberto, sem corte superior.
+    if (whatsappWindow?.openedAt) params.set("since", whatsappWindow.openedAt);
+    if (whatsappWindow?.closedAt) params.set("until", whatsappWindow.closedAt);
     fetch(`/api/whatsapp/messages?${params}`)
       .then(async (res) => {
         if (!res.ok) {
@@ -143,7 +150,7 @@ export default function TicketDetail({
       })
       .catch((err) => setWhatsappError(err.message ?? "Erro ao carregar conversa"))
       .finally(() => setLoadingWhatsapp(false));
-  }, [feedTab, whatsappMessages, loadingWhatsapp, ticket.phone, ticket.company.id]);
+  }, [feedTab, whatsappMessages, loadingWhatsapp, ticket.phone, ticket.company.id, whatsappWindow?.openedAt, whatsappWindow?.closedAt]);
   const [status, setStatus] = useState(ticket.status);
   const [ticketStage, setTicketStage] = useState(ticket.ticketStage ?? stages[0]?.name ?? "");
   const [priority, setPriority] = useState(ticket.priority);

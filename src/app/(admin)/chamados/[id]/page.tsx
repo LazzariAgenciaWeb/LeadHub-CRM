@@ -64,6 +64,25 @@ export default async function TicketPage({
     })),
   };
 
+  // Janela do chamado para filtrar conversa WhatsApp:
+  //   openedAt = createdAt
+  //   closedAt = última STATUS_CHANGED para RESOLVED/CLOSED (se houver),
+  //              senão fallback updatedAt. Só preenchido se o ticket está
+  //              em status final — chamado aberto não tem corte superior.
+  const isFinalStatus = ticketRaw.status === "RESOLVED" || ticketRaw.status === "CLOSED";
+  let closedAt: Date | null = null;
+  if (isFinalStatus) {
+    const lastClose = [...ticketRaw.activities]
+      .reverse()
+      .find((a) => {
+        if (a.type !== "STATUS_CHANGED") return false;
+        const to = (a.meta as any)?.to;
+        return to === "RESOLVED" || to === "CLOSED";
+      });
+    closedAt = lastClose?.createdAt ?? ticketRaw.updatedAt;
+  }
+  const openedAt = ticketRaw.createdAt;
+
   // Lookups para edição inline (cliente, atendente, setor)
   const lookupCompanyId = ticket.companyId;
   const [users, setores, clientCompanies] = await Promise.all([
@@ -138,6 +157,10 @@ export default async function TicketPage({
       setores={setores as any}
       clientCompanies={clientCompanies as any}
       whatsappEnabled={whatsappEnabled}
+      whatsappWindow={{
+        openedAt: openedAt.toISOString(),
+        closedAt: closedAt ? closedAt.toISOString() : null,
+      }}
     />
   );
 }
