@@ -4,13 +4,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 interface Props {
-  companyId:     string;
-  apiToken:      string;
-  webhookSecret: string;
-  opListId:      string;
-  ticketListId:  string;
-  statusGanho:   string;
-  statusPerdido: string;
+  companyId:              string;
+  apiToken:               string;
+  webhookSecret:          string;
+  opListId:               string;
+  ticketListId:           string;
+  statusGanho:            string;
+  statusPerdido:          string;
+  statusChamadoConcluido: string;
 }
 
 interface CUList {
@@ -65,6 +66,7 @@ export default function ClickupSettings({
   ticketListId: initialTk,
   statusGanho: initialGanho,
   statusPerdido: initialPerdido,
+  statusChamadoConcluido: initialConcluido,
 }: Props) {
   const router = useRouter();
 
@@ -74,6 +76,7 @@ export default function ClickupSettings({
   const [ticketListId, setTicketListId] = useState(initialTk);
   const [statusGanho, setStatusGanho]   = useState(initialGanho);
   const [statusPerdido, setStatusPerdido] = useState(initialPerdido);
+  const [statusChamadoConcluido, setStatusChamadoConcluido] = useState(initialConcluido);
 
   const [saving, setSaving]   = useState(false);
   const [saved, setSaved]     = useState(false);
@@ -87,17 +90,20 @@ export default function ClickupSettings({
   const [listsError, setListsError]     = useState<string | null>(null);
   const [opStatuses, setOpStatuses]     = useState<string[]>([]);
   const [loadingOpSt, setLoadingOpSt]   = useState(false);
+  const [ticketStatuses, setTicketStatuses] = useState<string[]>([]);
+  const [loadingTicketSt, setLoadingTicketSt] = useState(false);
 
   const webhookUrl = typeof window !== "undefined"
     ? `${window.location.origin}/api/webhook/clickup/${companyId}`
     : "";
 
-  const tokenKey         = `clickup_api_token:${companyId}`;
-  const secretKey        = `clickup_webhook_secret:${companyId}`;
-  const opKey            = `clickup_oportunidades_list_id:${companyId}`;
-  const ticketKey        = `clickup_tickets_list_id:${companyId}`;
-  const statusGanhoKey   = `clickup_status_ganho:${companyId}`;
-  const statusPerdidoKey = `clickup_status_perdido:${companyId}`;
+  const tokenKey            = `clickup_api_token:${companyId}`;
+  const secretKey           = `clickup_webhook_secret:${companyId}`;
+  const opKey               = `clickup_oportunidades_list_id:${companyId}`;
+  const ticketKey           = `clickup_tickets_list_id:${companyId}`;
+  const statusGanhoKey      = `clickup_status_ganho:${companyId}`;
+  const statusPerdidoKey    = `clickup_status_perdido:${companyId}`;
+  const statusConcluidoKey  = `clickup_status_chamado_concluido:${companyId}`;
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
@@ -107,12 +113,13 @@ export default function ClickupSettings({
       method:  "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify([
-        { key: tokenKey,         value: apiToken },
-        { key: secretKey,        value: webhookSecret },
-        { key: opKey,            value: opListId },
-        { key: ticketKey,        value: ticketListId },
-        { key: statusGanhoKey,   value: statusGanho.trim()   || "ganho" },
-        { key: statusPerdidoKey, value: statusPerdido.trim() || "perdido" },
+        { key: tokenKey,            value: apiToken },
+        { key: secretKey,           value: webhookSecret },
+        { key: opKey,               value: opListId },
+        { key: ticketKey,           value: ticketListId },
+        { key: statusGanhoKey,      value: statusGanho.trim()   || "ganho" },
+        { key: statusPerdidoKey,    value: statusPerdido.trim() || "perdido" },
+        { key: statusConcluidoKey,  value: statusChamadoConcluido.trim() },
       ]),
     });
     setSaving(false);
@@ -146,14 +153,19 @@ export default function ClickupSettings({
     setLoadingLists(true);
     setListsError(null);
     setOpStatuses([]);
+    setTicketStatuses([]);
     try {
       const all = await fetchAllLists(apiToken);
       setLists(all);
 
-      // Se já tem lista de oportunidades selecionada, carrega os status dela
+      // Se já tem listas selecionadas, carrega os status delas
       if (opListId) {
         const found = all.find(l => l.id === opListId);
         if (found) loadOpStatuses(opListId);
+      }
+      if (ticketListId) {
+        const found = all.find(l => l.id === ticketListId);
+        if (found) loadTicketStatuses(ticketListId);
       }
     } catch (err: any) {
       setListsError(err.message ?? "Erro ao carregar listas");
@@ -174,12 +186,31 @@ export default function ClickupSettings({
     setLoadingOpSt(false);
   }
 
+  async function loadTicketStatuses(listId: string) {
+    if (!listId || !apiToken.trim()) return;
+    setLoadingTicketSt(true);
+    try {
+      const statuses = await fetchListStatuses(apiToken, listId);
+      setTicketStatuses(statuses);
+    } catch {
+      setTicketStatuses([]);
+    }
+    setLoadingTicketSt(false);
+  }
+
   function handleOpListChange(listId: string) {
     setOpListId(listId);
     setOpStatuses([]);
     setStatusGanho("");
     setStatusPerdido("");
     if (listId) loadOpStatuses(listId);
+  }
+
+  function handleTicketListChange(listId: string) {
+    setTicketListId(listId);
+    setTicketStatuses([]);
+    setStatusChamadoConcluido("");
+    if (listId) loadTicketStatuses(listId);
   }
 
   const listsLoaded = lists.length > 0;
@@ -349,7 +380,7 @@ export default function ClickupSettings({
             {listsLoaded ? (
               <select
                 value={ticketListId}
-                onChange={(e) => setTicketListId(e.target.value)}
+                onChange={(e) => handleTicketListChange(e.target.value)}
                 className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500"
               >
                 <option value="">— Selecione uma lista —</option>
@@ -367,6 +398,47 @@ export default function ClickupSettings({
               />
             )}
             <p className="text-slate-600 text-[10px] mt-1">Novos chamados viram tarefas nesta lista.</p>
+          </div>
+
+          {/* Status de Chamados */}
+          <div className="border-t border-[#1e2d45] pt-5">
+            <h3 className="text-slate-300 font-semibold text-sm mb-1">🏷️ Status de Chamados</h3>
+            <p className="text-slate-500 text-xs mb-4">
+              {ticketStatuses.length > 0
+                ? "Selecione o status do ClickUp para marcar a tarefa como concluída quando o chamado for resolvido/fechado no LeadHub."
+                : ticketListId
+                  ? "Selecione a lista de Chamados acima para carregar os status disponíveis."
+                  : "Status disponíveis após selecionar a lista de Chamados."}
+            </p>
+            <div>
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                ✅ Quando <span className="text-green-400">Resolvido / Fechado</span>
+              </label>
+              {ticketStatuses.length > 0 ? (
+                <select
+                  value={statusChamadoConcluido}
+                  onChange={(e) => setStatusChamadoConcluido(e.target.value)}
+                  className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500"
+                >
+                  <option value="">— Não alterar status no ClickUp —</option>
+                  {ticketStatuses.map(s => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type="text"
+                  value={statusChamadoConcluido}
+                  onChange={(e) => setStatusChamadoConcluido(e.target.value)}
+                  placeholder={loadingTicketSt ? "Carregando..." : "ex: complete, concluído, done"}
+                  disabled={loadingTicketSt}
+                  className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono disabled:opacity-50"
+                />
+              )}
+              <p className="text-slate-600 text-[10px] mt-1">
+                Em branco = não força mudança de status (mantém o que está no ClickUp).
+              </p>
+            </div>
           </div>
 
           {/* Status de Oportunidades */}

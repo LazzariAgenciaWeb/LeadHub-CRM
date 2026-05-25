@@ -237,6 +237,7 @@ export default async function ConfiguracoesPage({
         `clickup_tickets_list_id:${cId}`,
         `clickup_status_ganho:${cId}`,
         `clickup_status_perdido:${cId}`,
+        `clickup_status_chamado_concluido:${cId}`,
       ];
       const settingsRaw = await prisma.setting.findMany({ where: { key: { in: keys } } });
       const map: Record<string, string> = {};
@@ -251,6 +252,7 @@ export default async function ConfiguracoesPage({
           ticketListId={map[`clickup_tickets_list_id:${cId}`] ?? ""}
           statusGanho={map[`clickup_status_ganho:${cId}`] ?? "ganho"}
           statusPerdido={map[`clickup_status_perdido:${cId}`] ?? "perdido"}
+          statusChamadoConcluido={map[`clickup_status_chamado_concluido:${cId}`] ?? ""}
         />
       );
     }

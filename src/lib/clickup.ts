@@ -7,8 +7,10 @@ export interface ClickupSettings {
   apiToken: string;
   oportunidadesListId: string;
   ticketsListId: string;
-  statusGanho: string;   // nome do status ClickUp quando oportunidade é ganha (default: "ganho")
-  statusPerdido: string; // nome do status ClickUp quando oportunidade é perdida (default: "perdido")
+  statusGanho: string;             // nome do status ClickUp quando oportunidade é ganha (default: "ganho")
+  statusPerdido: string;           // nome do status ClickUp quando oportunidade é perdida (default: "perdido")
+  statusChamadoConcluido: string;  // status ClickUp quando chamado é RESOLVED/CLOSED no LeadHub.
+                                   // Vazio = não força status no update (mantém o que está no ClickUp).
 }
 
 // ── Config ────────────────────────────────────────────────────────────────────
@@ -23,13 +25,21 @@ const PRIORITY_MAP: Record<string, number> = {
   LOW:    4,
 };
 
-// Ticket status → ClickUp status name (ClickUp statuses must exist on the list)
-const TICKET_STATUS_MAP: Record<string, string> = {
-  OPEN:        "to do",
-  IN_PROGRESS: "in progress",
-  RESOLVED:    "complete",
-  CLOSED:      "closed",
-};
+// LeadHub ticket status → ClickUp status. Só mapeamos os status FINAIS
+// (RESOLVED/CLOSED) usando o valor configurado pela empresa em
+// Configurações → ClickUp → "Status quando concluído". Para os demais
+// (OPEN/IN_PROGRESS) não tocamos no status do ClickUp — cada conta usa
+// nomenclatura diferente ("a fazer" / "to do" / "novo" / etc.) e errar o
+// nome retorna 400 e quebra o sync silenciosamente.
+function mapTicketStatus(
+  leadHubStatus: string,
+  statusChamadoConcluido: string,
+): string | undefined {
+  if (leadHubStatus === "RESOLVED" || leadHubStatus === "CLOSED") {
+    return statusChamadoConcluido?.trim() || undefined;
+  }
+  return undefined;
+}
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -60,19 +70,21 @@ export async function getClickupSettings(companyId?: string): Promise<ClickupSet
     `clickup_tickets_list_id:${companyId}`,
     `clickup_status_ganho:${companyId}`,
     `clickup_status_perdido:${companyId}`,
+    `clickup_status_chamado_concluido:${companyId}`,
   ];
   const rows = await prisma.setting.findMany({ where: { key: { in: keys } } });
   const map: Record<string, string> = {};
   for (const r of rows) map[r.key] = r.value;
 
-  const apiToken            = map[`clickup_api_token:${companyId}`]?.trim()            ?? "";
-  const oportunidadesListId = map[`clickup_oportunidades_list_id:${companyId}`]?.trim() ?? "";
-  const ticketsListId       = map[`clickup_tickets_list_id:${companyId}`]?.trim()      ?? "";
-  const statusGanho         = map[`clickup_status_ganho:${companyId}`]?.trim()         || "ganho";
-  const statusPerdido       = map[`clickup_status_perdido:${companyId}`]?.trim()       || "perdido";
+  const apiToken               = map[`clickup_api_token:${companyId}`]?.trim()                ?? "";
+  const oportunidadesListId    = map[`clickup_oportunidades_list_id:${companyId}`]?.trim()    ?? "";
+  const ticketsListId          = map[`clickup_tickets_list_id:${companyId}`]?.trim()          ?? "";
+  const statusGanho            = map[`clickup_status_ganho:${companyId}`]?.trim()             || "ganho";
+  const statusPerdido          = map[`clickup_status_perdido:${companyId}`]?.trim()           || "perdido";
+  const statusChamadoConcluido = map[`clickup_status_chamado_concluido:${companyId}`]?.trim() ?? "";
 
   if (!apiToken) return null;
-  return { apiToken, oportunidadesListId, ticketsListId, statusGanho, statusPerdido };
+  return { apiToken, oportunidadesListId, ticketsListId, statusGanho, statusPerdido, statusChamadoConcluido };
 }
 
 /**
@@ -241,7 +253,7 @@ export async function syncTicketToClickup({
   priority?: string;
   status?: string;
 }): Promise<string | null> {
-  const mappedStatus = status ? (TICKET_STATUS_MAP[status] ?? status) : undefined;
+  const mappedStatus = status ? mapTicketStatus(status, settings.statusChamadoConcluido) : undefined;
 
   if (existingClickupTaskId) {
     await updateClickupTask({

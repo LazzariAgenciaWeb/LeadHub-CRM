@@ -39,7 +39,7 @@ export async function PUT(req: NextRequest) {
   // Chaves per-empresa: clickup_*:<companyId> — liberadas pro ADMIN daquela
   // empresa (e SUPER_ADMIN sempre). Cada empresa-cliente pode ter o próprio
   // token, secret e list IDs (sincroniza com o ClickUp dela).
-  const perCompanyClickupRe = /^clickup_(api_token|webhook_secret|oportunidades_list_id|tickets_list_id):(.+)$/;
+  const perCompanyClickupRe = /^clickup_(api_token|webhook_secret|oportunidades_list_id|tickets_list_id|status_ganho|status_perdido|status_chamado_concluido):(.+)$/;
 
   // Bloqueia gravação nas chaves ClickUp globais legacy — saíram de uso.
   // Existentes ficam órfãs no banco mas não afetam (getClickupSettings ignora).
