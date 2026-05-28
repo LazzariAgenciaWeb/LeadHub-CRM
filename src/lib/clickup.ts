@@ -180,7 +180,7 @@ export async function updateClickupTask({
     if (status)      body.status      = status;
     if (archived !== undefined) body.archived = archived;
 
-    const res = await fetch(`${BASE}/task/${taskId}`, {
+    const res = await fetch(taskApiUrl(taskId, ""), {
       method: "PUT",
       headers: { Authorization: apiToken, "Content-Type": "application/json" },
       body: JSON.stringify(body),
@@ -210,7 +210,7 @@ export async function addCommentToClickupTask({
 }): Promise<string | null> {
   if (!taskId) return null;
   try {
-    const res = await fetch(`${BASE}/task/${taskId}/comment`, {
+    const res = await fetch(taskApiUrl(taskId, "/comment"), {
       method: "POST",
       headers: { Authorization: apiToken, "Content-Type": "application/json" },
       body: JSON.stringify({ comment_text: comment, notify_all: false }),
@@ -233,6 +233,36 @@ export function clickupTaskUrl(taskId: string): string {
   if (!taskId) return "";
   if (taskId.startsWith("http")) return taskId;
   return `https://app.clickup.com/t/${taskId}`;
+}
+
+/**
+ * Extrai o ID da tarefa e o teamId a partir de um valor que pode ser:
+ * - ID puro:  "abc123"
+ * - ID customizado com prefixo: "ADM-91036"
+ * - URL completa: "https://app.clickup.com/t/36994692/ADM-91036"
+ *
+ * Retorna { taskId, teamId? } para montar a URL correta da API.
+ * IDs customizados (com "-") precisam de ?custom_task_ids=true&team_id=
+ */
+function resolveTaskForApi(taskIdOrUrl: string): { taskId: string; teamId?: string } {
+  if (!taskIdOrUrl) return { taskId: taskIdOrUrl };
+
+  // URL completa: https://app.clickup.com/t/{teamId}/{customId}
+  if (taskIdOrUrl.startsWith("http")) {
+    const parts = taskIdOrUrl.replace(/\/$/, "").split("/");
+    const taskId = parts[parts.length - 1];  // "ADM-91036"
+    const teamId = parts[parts.length - 2];  // "36994692"
+    return { taskId, teamId: /^\d+$/.test(teamId) ? teamId : undefined };
+  }
+
+  return { taskId: taskIdOrUrl };
+}
+
+/** Monta a URL base da API para uma task, resolvendo custom IDs e URLs. */
+function taskApiUrl(taskIdOrUrl: string, suffix: string): string {
+  const { taskId, teamId } = resolveTaskForApi(taskIdOrUrl);
+  const qs = teamId ? `?custom_task_ids=true&team_id=${teamId}` : "";
+  return `${BASE}/task/${taskId}${suffix}${qs}`;
 }
 
 // ── High-level helpers ────────────────────────────────────────────────────────
