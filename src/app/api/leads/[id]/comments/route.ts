@@ -51,21 +51,26 @@ export async function POST(
     select: { clickupTaskId: true, companyId: true, pipeline: true },
   });
 
+  console.log(`[Comment] leadId=${id} pipeline=${lead?.pipeline} clickupTaskId=${lead?.clickupTaskId ?? "null"}`);
   if (lead?.clickupTaskId && lead.pipeline === "OPORTUNIDADES") {
     const clickupSettings = await getClickupSettings(lead.companyId);
+    console.log(`[Comment→CU] settings=${clickupSettings ? "ok" : "null"} taskId=${lead.clickupTaskId}`);
     if (clickupSettings) {
       const clickupCommentId = await addCommentToClickupTask({
         apiToken: clickupSettings.apiToken,
         taskId: lead.clickupTaskId,
         comment: `💬 ${authorName}\n\n${body.trim()}`,
       });
+      console.log(`[Comment→CU] commentId=${clickupCommentId ?? "null (falhou)"}`);
       if (clickupCommentId) {
         await prisma.leadComment.update({
           where: { id: comment.id },
           data: { externalId: clickupCommentId },
-        }).catch(() => { /* dedup só funciona se gravar; não crítico */ });
+        }).catch(() => {});
       }
     }
+  } else {
+    console.log(`[Comment] Não sincronizou: pipeline=${lead?.pipeline} taskId=${lead?.clickupTaskId ?? "ausente"}`);
   }
 
   return NextResponse.json(comment, { status: 201 });
