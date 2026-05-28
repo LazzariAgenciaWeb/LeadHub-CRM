@@ -75,14 +75,46 @@ type OpenTask = {
   dueDate:    number | null; // epoch ms
 };
 
+type InternalTask = {
+  id:           string;
+  title:        string;
+  description:  string | null;
+  done:         boolean;
+  priority:     string;
+  dueDate:      string | null; // ISO
+  assigneeName: string | null;
+};
+
+type Chamado = {
+  id:           string;
+  title:        string;
+  status:       string;
+  priority:     string;
+  dueDate:      string | null; // ISO
+  assigneeName: string | null;
+};
+
+const PRIORITY_PILL: Record<string, { label: string; cls: string }> = {
+  LOW:    { label: "🟢 Baixa",   cls: "text-emerald-300" },
+  MEDIUM: { label: "🟡 Média",   cls: "text-amber-300"   },
+  HIGH:   { label: "🟠 Alta",    cls: "text-orange-300"  },
+  URGENT: { label: "🔴 Urgente", cls: "text-red-300"     },
+};
+
+const TICKET_STATUS_LABEL: Record<string, string> = {
+  OPEN: "Aberto", IN_PROGRESS: "Em andamento", RESOLVED: "Resolvido", CLOSED: "Fechado",
+};
+
 export default function ProjectDetail({
-  project, availableUsers, activities, clientCompanies, openTasks,
+  project, availableUsers, activities, clientCompanies, openTasks, internalTasks, chamados,
 }: {
   project: Project;
   availableUsers: { id: string; name: string }[];
   activities: Activity[];
   clientCompanies: { id: string; name: string }[];
   openTasks: OpenTask[];
+  internalTasks: InternalTask[];
+  chamados: Chamado[];
 }) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
@@ -324,6 +356,55 @@ export default function ProjectDetail({
               Abrir no ClickUp <ExternalLink className="w-3 h-3" />
             </a>
           </div>
+
+          {/* Tarefas do projeto (LeadHub + ClickUp) */}
+          <ProjectTasksCard
+            projectId={project.id}
+            availableUsers={availableUsers}
+            internalTasks={internalTasks}
+            hasClickup={!!project.clickupListId}
+          />
+
+          {/* Chamados agrupados no projeto */}
+          {chamados.length > 0 && (
+            <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl overflow-hidden">
+              <div className="px-5 py-4 border-b border-[#1e2d45]">
+                <h3 className="text-white font-semibold text-sm">🎫 Chamados do projeto ({chamados.length})</h3>
+              </div>
+              <div className="divide-y divide-[#1e2d45]">
+                {chamados.map((c) => {
+                  const due = c.dueDate ? new Date(c.dueDate) : null;
+                  const overdue = due && due < new Date() && c.status !== "RESOLVED" && c.status !== "CLOSED";
+                  const done = c.status === "RESOLVED" || c.status === "CLOSED";
+                  return (
+                    <Link
+                      key={c.id}
+                      href={`/chamados/${c.id}`}
+                      className="flex items-start gap-2 px-5 py-2.5 hover:bg-[#080b12] group"
+                    >
+                      <span className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${
+                        done ? "bg-emerald-400" : overdue ? "bg-red-400" : "bg-slate-500"
+                      }`} />
+                      <div className="min-w-0 flex-1">
+                        <span className={`text-xs ${done ? "text-slate-500 line-through" : "text-slate-200 group-hover:text-white"}`}>
+                          {c.title}
+                        </span>
+                        <div className="text-[10px] text-slate-600 mt-0.5">
+                          {TICKET_STATUS_LABEL[c.status] ?? c.status}
+                          {c.assigneeName && <> · {c.assigneeName}</>}
+                        </div>
+                      </div>
+                      {due && (
+                        <span className={`text-[10px] font-medium flex-shrink-0 ${overdue ? "text-red-300" : "text-slate-500"}`}>
+                          {formatBrazilDate(due)}
+                        </span>
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Descrição */}
           <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5">
@@ -653,6 +734,211 @@ function FollowupBlock({ project }: { project: Project }) {
               Cancelar
             </button>
           </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Card de tarefas do projeto: lista as tarefas internas do LeadHub e permite
+ * criar uma nova — interna (LeadHub) ou direto no ClickUp (lista do projeto).
+ */
+function ProjectTasksCard({
+  projectId, availableUsers, internalTasks, hasClickup,
+}: {
+  projectId: string;
+  availableUsers: { id: string; name: string }[];
+  internalTasks: InternalTask[];
+  hasClickup: boolean;
+}) {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [form, setForm] = useState({
+    destino: hasClickup ? "clickup" : "interna",
+    title: "", description: "", priority: "MEDIUM", dueDate: "", assigneeId: "",
+  });
+
+  async function create() {
+    if (!form.title.trim()) { setError("Título é obrigatório."); return; }
+    setSaving(true);
+    setError(null);
+    const res = await fetch(`/api/projetos/${projectId}/tasks`, {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        destino:     form.destino,
+        title:       form.title.trim(),
+        description: form.description.trim() || null,
+        priority:    form.priority,
+        dueDate:     form.dueDate ? new Date(form.dueDate).toISOString() : null,
+        assigneeId:  form.destino === "interna" ? (form.assigneeId || null) : null,
+      }),
+    });
+    setSaving(false);
+    if (!res.ok) {
+      const d = await res.json().catch(() => ({}));
+      setError(d.error ?? "Falha ao criar tarefa");
+      return;
+    }
+    setForm({ destino: hasClickup ? "clickup" : "interna", title: "", description: "", priority: "MEDIUM", dueDate: "", assigneeId: "" });
+    setOpen(false);
+    router.refresh();
+  }
+
+  async function toggleDone(t: InternalTask) {
+    await fetch(`/api/projetos/${projectId}/tasks/${t.id}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ done: !t.done }),
+    });
+    router.refresh();
+  }
+
+  async function remove(t: InternalTask) {
+    if (!confirm(`Excluir a tarefa "${t.title}"?`)) return;
+    await fetch(`/api/projetos/${projectId}/tasks/${t.id}`, { method: "DELETE" });
+    router.refresh();
+  }
+
+  return (
+    <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl overflow-hidden">
+      <div className="px-5 py-4 border-b border-[#1e2d45] flex items-center justify-between">
+        <div>
+          <h3 className="text-white font-semibold text-sm">✅ Tarefas do projeto</h3>
+          <p className="text-slate-500 text-xs mt-0.5">Tarefas internas (LeadHub) e tarefas criadas no ClickUp.</p>
+        </div>
+        <button
+          onClick={() => setOpen((v) => !v)}
+          className="text-xs px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium"
+        >
+          {open ? "Fechar" : "+ Nova tarefa"}
+        </button>
+      </div>
+
+      {open && (
+        <div className="p-5 border-b border-[#1e2d45] bg-[#080b12] space-y-3">
+          {/* Destino */}
+          <div className="grid grid-cols-2 gap-2 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg p-1">
+            <button
+              type="button"
+              onClick={() => setForm((p) => ({ ...p, destino: "clickup" }))}
+              disabled={!hasClickup}
+              className={`py-1.5 rounded-md text-xs font-semibold transition-colors disabled:opacity-30 ${
+                form.destino === "clickup" ? "bg-[#7B68EE]/20 text-[#b9aefb] border border-[#7B68EE]/40" : "text-slate-500 hover:text-white"
+              }`}
+            >
+              ClickUp (lista do projeto)
+            </button>
+            <button
+              type="button"
+              onClick={() => setForm((p) => ({ ...p, destino: "interna" }))}
+              className={`py-1.5 rounded-md text-xs font-semibold transition-colors ${
+                form.destino === "interna" ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30" : "text-slate-500 hover:text-white"
+              }`}
+            >
+              Interna (LeadHub)
+            </button>
+          </div>
+
+          <input
+            value={form.title}
+            onChange={(e) => setForm((p) => ({ ...p, title: e.target.value }))}
+            placeholder="Título da tarefa *"
+            className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+          />
+          <textarea
+            value={form.description}
+            onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))}
+            rows={2}
+            placeholder="Descrição (opcional)"
+            className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
+          />
+          <div className="grid grid-cols-2 gap-2">
+            <select
+              value={form.priority}
+              onChange={(e) => setForm((p) => ({ ...p, priority: e.target.value }))}
+              className="bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-indigo-500"
+            >
+              <option value="LOW">🟢 Baixa</option>
+              <option value="MEDIUM">🟡 Média</option>
+              <option value="HIGH">🟠 Alta</option>
+              <option value="URGENT">🔴 Urgente</option>
+            </select>
+            <input
+              type="date"
+              value={form.dueDate}
+              onChange={(e) => setForm((p) => ({ ...p, dueDate: e.target.value }))}
+              className="bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
+            />
+          </div>
+          {form.destino === "interna" && (
+            <select
+              value={form.assigneeId}
+              onChange={(e) => setForm((p) => ({ ...p, assigneeId: e.target.value }))}
+              className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-indigo-500"
+            >
+              <option value="">— sem responsável —</option>
+              {availableUsers.map((u) => <option key={u.id} value={u.id}>{u.name}</option>)}
+            </select>
+          )}
+
+          {error && <p className="text-red-300 text-xs">{error}</p>}
+
+          <div className="flex justify-end gap-2">
+            <button onClick={() => { setOpen(false); setError(null); }} className="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white text-xs">
+              Cancelar
+            </button>
+            <button
+              onClick={create}
+              disabled={saving || !form.title.trim()}
+              className="px-4 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium disabled:opacity-50"
+            >
+              {saving ? "Criando..." : "Criar tarefa"}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {internalTasks.length === 0 ? (
+        <div className="p-5 text-slate-600 text-xs">Nenhuma tarefa interna ainda.</div>
+      ) : (
+        <div className="divide-y divide-[#1e2d45]">
+          {internalTasks.map((t) => {
+            const due = t.dueDate ? new Date(t.dueDate) : null;
+            const overdue = due && due < new Date() && !t.done;
+            const prio = PRIORITY_PILL[t.priority] ?? PRIORITY_PILL.MEDIUM;
+            return (
+              <div key={t.id} className="flex items-start gap-2 px-5 py-2.5 hover:bg-[#080b12] group">
+                <input
+                  type="checkbox"
+                  checked={t.done}
+                  onChange={() => toggleDone(t)}
+                  className="w-4 h-4 mt-0.5 rounded accent-emerald-500 cursor-pointer flex-shrink-0"
+                />
+                <div className="min-w-0 flex-1">
+                  <span className={`text-xs ${t.done ? "text-slate-500 line-through" : "text-slate-200"}`}>
+                    {t.title}
+                  </span>
+                  <div className="text-[10px] mt-0.5 flex items-center gap-2">
+                    <span className={prio.cls}>{prio.label}</span>
+                    {t.assigneeName && <span className="text-slate-600">· {t.assigneeName}</span>}
+                    {due && <span className={overdue ? "text-red-300" : "text-slate-600"}>· {formatBrazilDate(due)}</span>}
+                    <span className="text-slate-700">· interna</span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => remove(t)}
+                  className="text-slate-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
+                  title="Excluir"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

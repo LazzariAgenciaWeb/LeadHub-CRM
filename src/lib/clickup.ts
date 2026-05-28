@@ -115,6 +115,7 @@ export async function createClickupTask({
   description,
   priority,
   status,
+  dueDate,
   tags = [],
 }: {
   apiToken: string;
@@ -123,6 +124,7 @@ export async function createClickupTask({
   description?: string;
   priority?: string;   // "URGENT" | "HIGH" | "MEDIUM" | "LOW"
   status?: string;     // ClickUp status name on the target list
+  dueDate?: number;    // epoch ms
   tags?: string[];
 }): Promise<string | null> {
   if (!listId) return null;
@@ -131,6 +133,7 @@ export async function createClickupTask({
     if (description)               body.description  = description;
     if (priority && PRIORITY_MAP[priority]) body.priority = PRIORITY_MAP[priority];
     if (status)                    body.status       = status;
+    if (dueDate)                   body.due_date     = dueDate;
     if (tags.length)               body.tags         = tags;
 
     const res = await fetch(`${BASE}/list/${listId}/task`, {
@@ -158,6 +161,7 @@ export async function updateClickupTask({
   description,
   priority,
   status,
+  archived,
 }: {
   apiToken: string;
   taskId: string;
@@ -165,6 +169,7 @@ export async function updateClickupTask({
   description?: string;
   priority?: string;
   status?: string;
+  archived?: boolean;
 }): Promise<boolean> {
   if (!taskId) return false;
   try {
@@ -173,6 +178,7 @@ export async function updateClickupTask({
     if (description) body.description = description;
     if (priority && PRIORITY_MAP[priority]) body.priority = PRIORITY_MAP[priority];
     if (status)      body.status      = status;
+    if (archived !== undefined) body.archived = archived;
 
     const res = await fetch(`${BASE}/task/${taskId}`, {
       method: "PUT",
@@ -244,6 +250,7 @@ export async function syncTicketToClickup({
   description,
   priority,
   status,
+  targetListId,
 }: {
   settings: ClickupSettings;
   ticketId: string;
@@ -252,6 +259,9 @@ export async function syncTicketToClickup({
   description?: string;
   priority?: string;
   status?: string;
+  // Lista de destino ao CRIAR. Default = lista padrão de chamados. Quando o
+  // chamado é agrupado num projeto, passa o clickupListId do projeto.
+  targetListId?: string;
 }): Promise<string | null> {
   const mappedStatus = status ? mapTicketStatus(status, settings.statusChamadoConcluido) : undefined;
 
@@ -267,18 +277,76 @@ export async function syncTicketToClickup({
     return existingClickupTaskId;
   }
 
-  if (!settings.ticketsListId) return null;
+  const listId = targetListId?.trim() || settings.ticketsListId;
+  if (!listId) return null;
 
   // Ao criar, NÃO passa status — usa o padrão da lista para evitar erro 400
   // (o status do ClickUp precisa existir com nome exato na lista)
   const newId = await createClickupTask({
     apiToken: settings.apiToken,
-    listId: settings.ticketsListId,
+    listId,
     name: title,
     description,
     priority,
     tags: ["chamado"],
   });
+
+  return newId;
+}
+
+/**
+ * "Move" a task de chamado pra lista de um projeto. A API pública do ClickUp
+ * não tem mover-de-lista nativo, então recriamos: cria uma task nova na lista
+ * do projeto (com link pra task antiga no descritivo), comenta na antiga
+ * apontando pra nova e fecha/arquiva a antiga.
+ *
+ * Retorna o ID da NOVA task (que deve substituir o clickupTaskId do chamado),
+ * ou null se a criação falhar (nesse caso nada é mexido na task antiga).
+ */
+export async function recreateTicketTaskInList({
+  settings,
+  oldTaskId,
+  listId,
+  title,
+  description,
+  priority,
+}: {
+  settings: ClickupSettings;
+  oldTaskId: string;
+  listId: string;
+  title: string;
+  description?: string;
+  priority?: string;
+}): Promise<string | null> {
+  if (!listId) return null;
+
+  const oldUrl   = clickupTaskUrl(oldTaskId);
+  const backlink = `↪ Movido de tarefa anterior (fechada): ${oldUrl}`;
+  const desc     = description ? `${description}\n\n${backlink}` : backlink;
+
+  const newId = await createClickupTask({
+    apiToken: settings.apiToken,
+    listId,
+    name: title,
+    description: desc,
+    priority,
+    tags: ["chamado"],
+  });
+  if (!newId) return null;
+
+  // Aponta a antiga pra nova e fecha/arquiva. Best-effort — se falhar, a nova
+  // já existe e o chamado já aponta pra ela; a antiga fica como órfã visível.
+  await addCommentToClickupTask({
+    apiToken: settings.apiToken,
+    taskId: oldTaskId,
+    comment: `➡️ Chamado movido para um projeto. Tarefa nova: ${clickupTaskUrl(newId)}`,
+  }).catch(() => null);
+  await updateClickupTask({
+    apiToken: settings.apiToken,
+    taskId: oldTaskId,
+    status: settings.statusChamadoConcluido?.trim() || undefined,
+    archived: true,
+  }).catch(() => false);
 
   return newId;
 }

@@ -62,8 +62,10 @@ interface Ticket {
   assigneeId?: string | null;
   setorId?: string | null;
   clientCompanyId?: string | null;
+  projetoId?: string | null;
   assignee?: { id: string; name: string } | null;
   setor?: { id: string; name: string } | null;
+  projeto?: { id: string; name: string } | null;
   clientCompany?: { id: string; name: string; phone?: string | null; email?: string | null } | null;
   createdAt: string;
   updatedAt: string;
@@ -88,6 +90,7 @@ export default function TicketDetail({
   users,
   setores,
   clientCompanies,
+  projetos,
   whatsappEnabled = false,
   whatsappWindow,
 }: {
@@ -103,6 +106,7 @@ export default function TicketDetail({
   users?: { id: string; name: string | null; email: string | null }[];
   setores?: { id: string; name: string }[];
   clientCompanies?: { id: string; name: string }[];
+  projetos?: { id: string; name: string }[];
   whatsappEnabled?: boolean;
 }) {
   const router = useRouter();
@@ -162,6 +166,7 @@ export default function TicketDetail({
   const [setorName, setSetorName] = useState<string | null>(ticket.setor?.name ?? null);
   const [clientId, setClientId] = useState<string | null>(ticket.clientCompanyId ?? ticket.clientCompany?.id ?? null);
   const [clientName, setClientName] = useState<string | null>(ticket.clientCompany?.name ?? null);
+  const [projetoId, setProjetoId] = useState<string | null>(ticket.projetoId ?? ticket.projeto?.id ?? null);
   const [dueDate, setDueDate] = useState<string | null>(ticket.dueDate ?? null);
   const [title, setTitle] = useState(ticket.title);
   const [editingTitle, setEditingTitle] = useState(false);
@@ -201,6 +206,13 @@ export default function TicketDetail({
     const c = (clientCompanies ?? []).find((x) => x.id === newId);
     setClientName(c?.name ?? null);
     await patchTicket({ clientCompanyId: newId });
+  }
+
+  async function handleProjetoChange(newId: string | null) {
+    setProjetoId(newId);
+    // Mover de lista no ClickUp pode demorar (recria a task); o refresh no
+    // patchTicket reflete o novo vínculo.
+    await patchTicket({ projetoId: newId });
   }
 
   async function handleDueDateChange(value: string) {
@@ -1131,6 +1143,30 @@ export default function TicketDetail({
               <span className="text-slate-500 text-xs italic">Sem setor</span>
             )}
           </div>
+
+          {/* Projeto — agrupa o chamado num projeto. Se o projeto tiver ClickUp,
+              ao vincular, a task é movida pra lista do projeto (recriada). */}
+          {canManage && (projetos ?? []).length > 0 && (
+            <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
+              <div className="text-[10px] text-slate-500 uppercase tracking-wide mb-1.5">
+                📁 Projeto
+              </div>
+              <select
+                value={projetoId ?? ""}
+                onChange={(e) => handleProjetoChange(e.target.value || null)}
+                disabled={savingMeta}
+                className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-violet-500"
+              >
+                <option value="">— Sem projeto —</option>
+                {(projetos ?? []).map((p) => (
+                  <option key={p.id} value={p.id}>{p.name}</option>
+                ))}
+              </select>
+              <p className="text-[10px] text-slate-600 mt-1">
+                Vincular a um projeto com ClickUp move a tarefa pra lista do projeto.
+              </p>
+            </div>
+          )}
 
           {/* Empresa-agência — só super admin precisa ver/mudar */}
           {isSuperAdmin && (

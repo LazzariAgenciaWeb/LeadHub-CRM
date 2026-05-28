@@ -32,7 +32,7 @@ export default async function NewTicketPage() {
     : (userCompanyId ?? "");
 
   // Buscas paralelas pra preencher os pickers do form
-  const [users, setores, clients] = await Promise.all([
+  const [users, setores, clients, projetos] = await Promise.all([
     // Usuários da empresa-agência (atendentes)
     effectiveCompanyId
       ? prisma.user.findMany({
@@ -57,6 +57,14 @@ export default async function NewTicketPage() {
           select: { id: true, name: true },
         })
       : Promise.resolve([]),
+    // Projetos da agência (pra agrupar o chamado num projeto)
+    effectiveCompanyId
+      ? prisma.setorClickupList.findMany({
+          where: { setor: { companyId: effectiveCompanyId } },
+          orderBy: { name: "asc" },
+          select: { id: true, name: true },
+        })
+      : Promise.resolve([]),
   ]);
 
   return (
@@ -75,6 +83,7 @@ export default async function NewTicketPage() {
         users={users}
         setores={setores}
         clients={clients}
+        projetos={projetos}
       />
     </div>
   );

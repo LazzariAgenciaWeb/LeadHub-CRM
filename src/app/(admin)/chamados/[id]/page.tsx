@@ -32,6 +32,7 @@ export default async function TicketPage({
       clientCompany: { select: { id: true, name: true, phone: true, email: true } },
       assignee:      { select: { id: true, name: true } },
       setor:         { select: { id: true, name: true } },
+      projeto:       { select: { id: true, name: true } },
       // ATENÇÃO: NUNCA incluir mediaBase64 aqui. Em chamados com 10+ imagens
       // anexadas isso vira MB de base64 no SSR. UI consome `hasMedia` e busca
       // via /api/tickets/messages/[id]/media (browser cacheia).
@@ -91,7 +92,7 @@ export default async function TicketPage({
 
   // Lookups para edição inline (cliente, atendente, setor)
   const lookupCompanyId = ticket.companyId;
-  const [users, setores, clientCompanies] = await Promise.all([
+  const [users, setores, clientCompanies, projetos] = await Promise.all([
     // Atendentes: usuários da empresa-agência (ADMIN ou CLIENT-atendente).
     // SUPER_ADMIN é dono da plataforma (Lazzari) — não deve aparecer como
     // atendente da agência. Mesmo padrão do fix de gamificação (b6bef12).
@@ -110,6 +111,11 @@ export default async function TicketPage({
     }),
     prisma.company.findMany({
       where: { parentCompanyId: lookupCompanyId },
+      select: { id: true, name: true },
+      orderBy: { name: "asc" },
+    }),
+    prisma.setorClickupList.findMany({
+      where: { setor: { companyId: lookupCompanyId } },
       select: { id: true, name: true },
       orderBy: { name: "asc" },
     }),
@@ -162,6 +168,7 @@ export default async function TicketPage({
       users={users as any}
       setores={setores as any}
       clientCompanies={clientCompanies as any}
+      projetos={projetos as any}
       whatsappEnabled={whatsappEnabled}
       whatsappWindow={{
         openedAt: whatsappSince.toISOString(),

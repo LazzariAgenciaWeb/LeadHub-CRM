@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { getClickupSettings, syncTicketToClickup } from "@/lib/clickup";
+import { getClickupSettings, syncTicketToClickup, recreateTicketTaskInList } from "@/lib/clickup";
 import { addScore, addScoreOnce, revertScore } from "@/lib/gamification";
 import { ActivityType } from "@/generated/prisma";
 import { formatBrazilDateTime } from "@/lib/datetime";
@@ -77,7 +77,7 @@ export async function PATCH(
   const body = await req.json();
   const {
     status, priority, category, title, clickupTaskId, ticketStage, companyId,
-    dueDate, assigneeId, setorId, clientCompanyId,
+    dueDate, assigneeId, setorId, clientCompanyId, projetoId,
   } = body;
 
   const userId   = (session.user as any).id as string | undefined;
@@ -92,7 +92,8 @@ export async function PATCH(
       clickupTaskId: true, type: true, status: true,
       priority: true, ticketStage: true, title: true,
       assigneeId: true, setorId: true, clientCompanyId: true,
-      dueDate: true, companyId: true, createdAt: true,
+      dueDate: true, companyId: true, createdAt: true, projetoId: true,
+      description: true,
       assignee:      { select: { id: true, name: true } },
       setor:         { select: { id: true, name: true } },
       clientCompany: { select: { id: true, name: true } },
@@ -126,6 +127,7 @@ export async function PATCH(
       ...(assigneeId !== undefined && { assigneeId: assigneeId ?? null }),
       ...(setorId !== undefined && { setorId: setorId ?? null }),
       ...(clientCompanyId !== undefined && { clientCompanyId: clientCompanyId ?? null }),
+      ...(projetoId !== undefined && { projetoId: projetoId ?? null }),
     },
     include: {
       company:       { select: { id: true, name: true } },
@@ -235,6 +237,61 @@ export async function PATCH(
           companyId: existing.companyId,
         })),
       }).catch(() => { /* não crítico */ });
+    }
+  }
+
+  // ── Mover chamado pra lista do projeto (ClickUp) ─────────────────────────
+  // Ao agrupar o chamado num projeto com ClickUp, a task precisa viver na lista
+  // do projeto. A API do ClickUp não move de lista → recriamos: cria na lista
+  // do projeto (com backlink) e fecha/arquiva a antiga. O clickupTaskId do
+  // chamado passa a apontar pra task nova.
+  const projetoChanged = projetoId !== undefined && (projetoId ?? null) !== (existing.projetoId ?? null);
+  if (projetoChanged && projetoId) {
+    const project = await prisma.setorClickupList.findUnique({
+      where:  { id: projetoId },
+      select: { id: true, clickupListId: true, setor: { select: { companyId: true } } },
+    });
+    if (project?.clickupListId && project.setor.companyId === existing.companyId) {
+      const clickupSettings = await getClickupSettings(existing.companyId);
+      if (clickupSettings) {
+        const oldTaskId = ticket.clickupTaskId ?? existing.clickupTaskId ?? null;
+        let newTaskId: string | null = null;
+        if (oldTaskId) {
+          newTaskId = await recreateTicketTaskInList({
+            settings:    clickupSettings,
+            oldTaskId,
+            listId:      project.clickupListId,
+            title:       ticket.title,
+            description: existing.description ?? undefined,
+            priority:    ticket.priority,
+          });
+        } else if (existing.type === "SUPPORT") {
+          newTaskId = await syncTicketToClickup({
+            settings:     clickupSettings,
+            ticketId:     id,
+            title:        ticket.title,
+            description:  existing.description ?? undefined,
+            priority:     ticket.priority,
+            status:       ticket.status,
+            targetListId: project.clickupListId,
+          });
+        }
+        if (newTaskId && newTaskId !== oldTaskId) {
+          await prisma.ticket.update({ where: { id }, data: { clickupTaskId: newTaskId } });
+          (ticket as any).clickupTaskId = newTaskId;
+        }
+        await prisma.projectActivity.create({
+          data: {
+            projectId:   project.id,
+            type:        "TASK_CREATED",
+            taskName:    ticket.title,
+            taskId:      newTaskId ?? "",
+            authorId:    userId ?? null,
+            authorName:  userName ?? "Sistema",
+            description: `Chamado #${id.slice(-6)} movido para o projeto`,
+          },
+        }).catch(() => {});
+      }
     }
   }
 

@@ -510,7 +510,8 @@ exports.Prisma.TicketScalarFieldEnum = {
   updatedAt: 'updatedAt',
   companyId: 'companyId',
   createdById: 'createdById',
-  setorId: 'setorId'
+  setorId: 'setorId',
+  projetoId: 'projetoId'
 };
 
 exports.Prisma.TicketMessageScalarFieldEnum = {
@@ -573,6 +574,21 @@ exports.Prisma.SetorClickupListScalarFieldEnum = {
   lastSyncedAt: 'lastSyncedAt',
   clientExpectedAt: 'clientExpectedAt',
   clientLastContactAt: 'clientLastContactAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProjectTaskScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  title: 'title',
+  description: 'description',
+  done: 'done',
+  priority: 'priority',
+  dueDate: 'dueDate',
+  assigneeId: 'assigneeId',
+  createdById: 'createdById',
+  completedAt: 'completedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -1312,6 +1328,7 @@ exports.Prisma.ModelName = {
   TicketMessage: 'TicketMessage',
   Setor: 'Setor',
   SetorClickupList: 'SetorClickupList',
+  ProjectTask: 'ProjectTask',
   ProjectTaskState: 'ProjectTaskState',
   ProjectActivity: 'ProjectActivity',
   ProjectMember: 'ProjectMember',

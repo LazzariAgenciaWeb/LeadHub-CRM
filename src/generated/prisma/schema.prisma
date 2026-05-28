@@ -50,6 +50,8 @@ model User {
   messagesSent          Message[]              @relation("MessageSentBy")
   tasksAssigned         Task[]                 @relation("TaskAssignee")
   tasksCreated          Task[]                 @relation("TaskCreatedBy")
+  projectTasksAssigned  ProjectTask[]          @relation("ProjectTaskAssignee")
+  projectTasksCreated   ProjectTask[]          @relation("ProjectTaskCreatedBy")
   pushSubscriptions     PushSubscription[]
   notifPreferences      UserNotifPreferences?
 
@@ -991,6 +993,11 @@ model Ticket {
   setor   Setor?  @relation(fields: [setorId], references: [id])
   setorId String?
 
+  // Projeto ao qual o chamado foi agrupado. Quando vinculado a um projeto com
+  // ClickUp, a task do chamado vive na lista do projeto (não na lista padrão).
+  projeto   SetorClickupList? @relation("TicketProjeto", fields: [projetoId], references: [id], onDelete: SetNull)
+  projetoId String?
+
   messages   TicketMessage[]
   activities Activity[]
 
@@ -1000,6 +1007,7 @@ model Ticket {
   @@index([assigneeId])
   @@index([clientCompanyId])
   @@index([dueDate])
+  @@index([projetoId])
 }
 
 model TicketMessage {
@@ -1125,15 +1133,45 @@ model SetorClickupList {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  members    ProjectMember[]
-  taskStates ProjectTaskState[]
-  activities ProjectActivity[]
+  members       ProjectMember[]
+  taskStates    ProjectTaskState[]
+  activities    ProjectActivity[]
+  tickets       Ticket[]           @relation("TicketProjeto")
+  internalTasks ProjectTask[]
 
   @@unique([setorId, clickupListId])
   @@index([setorId])
   @@index([clientCompanyId])
   @@index([status])
   @@index([dueDate])
+}
+
+// Tarefa NATIVA do LeadHub dentro de um projeto — não vive no ClickUp.
+// É o que permite usar Projetos sem depender do ClickUp. Tarefas que devem
+// ir pro ClickUp NÃO usam este modelo: são criadas direto na lista do projeto
+// e aparecem via ProjectTaskState (snapshot do sync).
+model ProjectTask {
+  id          String           @id @default(cuid())
+  projectId   String
+  project     SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title       String
+  description String?          @db.Text
+  done        Boolean          @default(false)
+  priority    TicketPriority   @default(MEDIUM)
+  dueDate     DateTime?
+
+  assignee   User?   @relation("ProjectTaskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  assigneeId String?
+
+  createdBy   User?   @relation("ProjectTaskCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  createdById String?
+
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([projectId, done])
+  @@index([assigneeId])
 }
 
 // Snapshot do estado das tarefas do ClickUp — usado pra comparar entre syncs
@@ -1769,7 +1807,7 @@ enum RedemptionStatus {
   REJECTED // recusado (pontos devolvidos)
 }
 
-// ─── Gamificação ────────────────────────────────────────────────────────��─────
+// ─── Gamificação ──────────────────────────────────────────────────────────────
 // Pontuação mensal e histórica por usuário. monthPoints reseta no dia 1 de
 // cada mês via cron. totalPoints nunca zera (histórico vitalício).
 

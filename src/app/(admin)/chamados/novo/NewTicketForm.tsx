@@ -7,6 +7,7 @@ import { Briefcase, ListChecks, Calendar, Image as ImageIcon, X, AlertCircle } f
 interface UserOption { id: string; name: string }
 interface SetorOption { id: string; name: string }
 interface ClientOption { id: string; name: string }
+interface ProjetoOption { id: string; name: string }
 
 export default function NewTicketForm({
   isSuperAdmin,
@@ -16,6 +17,7 @@ export default function NewTicketForm({
   users,
   setores,
   clients,
+  projetos,
 }: {
   isSuperAdmin: boolean;
   companies: { id: string; name: string }[];
@@ -24,6 +26,7 @@ export default function NewTicketForm({
   users: UserOption[];
   setores: SetorOption[];
   clients: ClientOption[];
+  projetos: ProjetoOption[];
 }) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
@@ -55,6 +58,7 @@ export default function NewTicketForm({
     clientCompanyName: "",
     clientCompanyPhone: "",
     clientCompanyEmail: "",
+    projetoId: "",
   });
 
   // Modo "novo cliente": quando o usuário não acha o cliente na lista
@@ -130,6 +134,7 @@ export default function NewTicketForm({
         dueDate: new Date(form.dueDate).toISOString(),
         assigneeId: form.assigneeId || null,
         setorId: form.setorId || null,
+        projetoId: form.projetoId || null,
       };
 
       // Cliente só faz sentido em SUPPORT
@@ -379,6 +384,25 @@ export default function NewTicketForm({
           </select>
         </div>
       </div>
+
+      {projetos.length > 0 && (
+        <div>
+          <label className="block text-slate-400 text-xs font-medium mb-1.5">Projeto</label>
+          <select
+            value={form.projetoId}
+            onChange={(e) => setForm({ ...form, projetoId: e.target.value })}
+            className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-indigo-500"
+          >
+            <option value="">— sem projeto —</option>
+            {projetos.map((p) => (
+              <option key={p.id} value={p.id}>{p.name}</option>
+            ))}
+          </select>
+          <p className="text-[11px] text-slate-600 mt-1">
+            Se o projeto tiver ClickUp, a tarefa do chamado é criada na lista do projeto.
+          </p>
+        </div>
+      )}
 
       <div>
         <label className="block text-slate-400 text-xs font-medium mb-1.5">

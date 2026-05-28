@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const {
     title, description, priority, category, companyId, phone, isInternal,
-    type, dueDate, assigneeId, setorId,
+    type, dueDate, assigneeId, setorId, projetoId,
     clientCompanyId, clientCompanyName, clientCompanyPhone, clientCompanyEmail,
   } = body;
 
@@ -140,6 +140,19 @@ export async function POST(req: NextRequest) {
     // Se não veio nem id nem nome, ticket fica sem cliente (válido pra retrocompat)
   }
 
+  // Projeto opcional: valida que pertence à mesma empresa-agência. Quando o
+  // projeto tem ClickUp, a task do chamado será criada na lista do projeto.
+  let project: { id: string; clickupListId: string } | null = null;
+  if (projetoId) {
+    const p = await prisma.setorClickupList.findUnique({
+      where:   { id: projetoId },
+      select:  { id: true, clickupListId: true, setor: { select: { companyId: true } } },
+    });
+    if (p && p.setor.companyId === effectiveCompanyId) {
+      project = { id: p.id, clickupListId: p.clickupListId };
+    }
+  }
+
   const ticket = await prisma.ticket.create({
     data: {
       title,
@@ -155,6 +168,7 @@ export async function POST(req: NextRequest) {
       clientCompanyId: resolvedClientId,
       assigneeId: assigneeId || null,
       setorId: setorId || null,
+      projetoId: project?.id ?? null,
       messages: {
         create: {
           body: description,
@@ -175,9 +189,12 @@ export async function POST(req: NextRequest) {
   });
 
   // ── ClickUp auto-sync (só SUPPORT — INTERNAL fica fora) ──────────────────
+  // Quando o chamado é agrupado num projeto com ClickUp, a task nasce na lista
+  // do projeto; senão, vai pra lista padrão de chamados.
   if (ticket.type === "SUPPORT") {
     const clickupSettings = await getClickupSettings(ticket.companyId);
-    if (clickupSettings?.ticketsListId) {
+    const targetListId = project?.clickupListId?.trim() || clickupSettings?.ticketsListId;
+    if (clickupSettings && targetListId) {
       const baseUrl = process.env.NEXTAUTH_URL ?? "";
       const leadhubUrl = `${baseUrl}/chamados/${ticket.id}`;
       const descWithLink = `${ticket.description}\n\n🔗 Ver no LeadHub: ${leadhubUrl}`;
@@ -188,6 +205,7 @@ export async function POST(req: NextRequest) {
         description: descWithLink,
         priority: ticket.priority,
         status: ticket.status,
+        targetListId,
       });
       if (newTaskId) {
         await prisma.ticket.update({
@@ -195,6 +213,21 @@ export async function POST(req: NextRequest) {
           data: { clickupTaskId: newTaskId },
         });
         (ticket as any).clickupTaskId = newTaskId;
+
+        // Se foi pra lista do projeto, registra no histórico do projeto.
+        if (project) {
+          await prisma.projectActivity.create({
+            data: {
+              projectId:  project.id,
+              type:       "TASK_CREATED",
+              taskName:   ticket.title,
+              taskId:     newTaskId,
+              authorId:   userId ?? null,
+              authorName: session.user?.name ?? "Sistema",
+              description: `Chamado #${ticket.id.slice(-6)} criado no projeto`,
+            },
+          }).catch(() => {});
+        }
       }
     }
   }

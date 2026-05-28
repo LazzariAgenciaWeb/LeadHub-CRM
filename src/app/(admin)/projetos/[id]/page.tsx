@@ -46,11 +46,40 @@ export default async function ProjectDetailPage({
     take:    30,
   });
 
-  // Tarefas abertas (snapshot do último sync). Atrasadas primeiro, depois por
-  // dueDate ascendente; tarefas sem prazo caem no final.
-  const openTasksRaw = await prisma.projectTaskState.findMany({
-    where: { projectId: project.id, isCompleted: false },
+  // Chamados agrupados neste projeto.
+  const chamados = await prisma.ticket.findMany({
+    where:   { projetoId: project.id },
+    orderBy: [{ status: "asc" }, { dueDate: "asc" }],
+    select: {
+      id: true, title: true, status: true, priority: true, dueDate: true,
+      clickupTaskId: true,
+      assignee: { select: { id: true, name: true } },
+    },
   });
+
+  // Tarefas internas do LeadHub (fora do ClickUp).
+  const internalTasksRaw = await prisma.projectTask.findMany({
+    where:   { projectId: project.id },
+    orderBy: [{ done: "asc" }, { dueDate: "asc" }, { createdAt: "desc" }],
+    include: { assignee: { select: { id: true, name: true } } },
+  });
+  const internalTasks = internalTasksRaw.map((t) => ({
+    id:           t.id,
+    title:        t.title,
+    description:  t.description,
+    done:         t.done,
+    priority:     t.priority as string,
+    dueDate:      t.dueDate ? t.dueDate.toISOString() : null,
+    assigneeName: t.assignee?.name ?? null,
+  }));
+
+  // Tarefas abertas (snapshot do último sync). Atrasadas primeiro, depois por
+  // dueDate ascendente; tarefas sem prazo caem no final. Dedup: tasks que já
+  // são de um chamado deste projeto aparecem na seção de Chamados, não aqui.
+  const chamadoTaskIds = new Set(chamados.map((c) => c.clickupTaskId).filter(Boolean) as string[]);
+  const openTasksRaw = (await prisma.projectTaskState.findMany({
+    where: { projectId: project.id, isCompleted: false },
+  })).filter((t) => !chamadoTaskIds.has(t.taskId));
   const openTasks = openTasksRaw
     .map((t) => ({
       id:         t.id,
@@ -90,6 +119,15 @@ export default async function ProjectDetailPage({
       activities={activities}
       clientCompanies={clientCompanies}
       openTasks={openTasks}
+      internalTasks={internalTasks}
+      chamados={chamados.map((c) => ({
+        id:           c.id,
+        title:        c.title,
+        status:       c.status,
+        priority:     c.priority as string,
+        dueDate:      c.dueDate ? c.dueDate.toISOString() : null,
+        assigneeName: c.assignee?.name ?? null,
+      }))}
     />
   );
 }
